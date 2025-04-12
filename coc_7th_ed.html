@@ -2923,7 +2923,7 @@
 			<table style="width: 100%">
 				<tr>
 					<th>T</th>				
-					<th>Science</th>
+					<th>Science/Knowledge</th>
 					<th>SP</th>
 					<th>Val</th>
 					<th>Roll</th>
@@ -2998,6 +2998,13 @@
                     <td><input class="skill-input" type="text" name="attr_history_mdr" value="5" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{history_txt}}} {{success=[[@{history_mdr}]]}} {{hard=[[floor(@{history_mdr}/2)]]}} {{extreme=[[floor(@{history_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_history_mdr_check' /></td>
                 </tr>
+                <tr data-i18n-list-item="investigation">
+                    <td><input type="checkbox" name="attr_investigation_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="investigation-u">Investigation(10%)</td>
+                    <td><input class="skill-input" type="text" name="attr_investigation_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_investigation_mdr" value="10" readonly/></td>
+					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{investigation_txt}}} {{success=[[@{investigation_mdr}]]}} {{hard=[[floor(@{investigation_mdr}/2)]]}} {{extreme=[[floor(@{investigation_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_investigation_mdr_check' /></td>
+                </tr>				
                 <tr data-i18n-list-item="law">
                     <td><input type="checkbox" name="attr_law_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="law-u">Law(05%)</td>
@@ -5850,6 +5857,7 @@
 <input type="hidden" name="attr_instrument_txt" value="Instrument Roll"/>
 <input type="hidden" name="attr_intimidate_txt" value="Intimidate Roll"/>
 <input type="hidden" name="attr_insight_txt" value="Insight Roll"/>
+<input type="hidden" name="attr_investigation_txt" value="Investigation Roll"/>
 <input type="hidden" name="attr_jump_txt" value="Jump Roll"/>
 <input type="hidden" name="attr_language_own_txt" value="Language(Own) Roll"/>
 <input type="hidden" name="attr_language_caltheran_txt" value="Language(Caltheran) Roll"/>
@@ -11190,7 +11198,10 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
         setAttrs({intimidate_txt: getTranslationByKey('intimidate-r-txt')});
     }}); getAttrs(['insight_txt'], v => {
       if (v.insight_txt !== getTranslationByKey('insight-r-txt')) {
-        setAttrs({insight_txt: getTranslationByKey('insight-r-txt')});		
+        setAttrs({insight_txt: getTranslationByKey('insight-r-txt')});
+    }}); getAttrs(['investigation_txt'], v => {
+      if (v.investigation_txt !== getTranslationByKey('investigation-r-txt')) {
+        setAttrs({investigation_txt: getTranslationByKey('investigation-r-txt')});		
     }}); getAttrs(['jump_txt'], v => {
       if (v.jump_txt !== getTranslationByKey('jump-r-txt')) {
         setAttrs({jump_txt: getTranslationByKey('jump-r-txt')});

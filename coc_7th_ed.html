@@ -3300,13 +3300,6 @@
                     <td><input class="skill-input" type="text" name="attr_electronics_mdr" value="10" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{electronics_txt}}} {{success=[[@{electronics_mdr}]]}} {{hard=[[floor(@{electronics_mdr}/2)]]}} {{extreme=[[floor(@{electronics_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_electronics_mdr_check' /></td>
                 </tr>			
-                <tr data-i18n-list-item="locksmith">
-                    <td><input type="checkbox" name="attr_locksmith_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="locksmith-u">Locksmith(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_locksmith_mdr" value="1"/></td>
-                    <td><input class="skill-input" type="text" name="attr_locksmith_mdr" value="1" readonly/></td>
-				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{locksmith_txt}}} {{success=[[@{locksmith_mdr}]]}} {{hard=[[floor(@{locksmith_mdr}/2)]]}} {{extreme=[[floor(@{locksmith_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_locksmith_mdr_check' /></td>
-                </tr>
                 <tr data-i18n-list-item="mechanics"> 
                     <td><input type="checkbox" name="attr_mechanics_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="mechanics-u">Mechanics(10%)</td>
@@ -3314,13 +3307,20 @@
                     <td><input class="skill-input" type="text" name="attr_mechanics_mdr" value="10" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{mechanics_txt}}} {{success=[[@{mechanics_mdr}]]}} {{hard=[[floor(@{mechanics_mdr}/2)]]}} {{extreme=[[floor(@{mechanics_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_mechanics_mdr_check' /></td>
                 </tr>
+                <tr data-i18n-list-item="security">
+                    <td><input type="checkbox" name="attr_security_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="security-u">Security(01%)</td>
+                    <td><input class="skill-input" type="text" name="attr_security_mdr" value="1"/></td>
+                    <td><input class="skill-input" type="text" name="attr_security_mdr" value="1" readonly/></td>
+				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{security_txt}}} {{success=[[@{security_mdr}]]}} {{hard=[[floor(@{security_mdr}/2)]]}} {{extreme=[[floor(@{security_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_security_mdr_check' /></td>
+                </tr>
                 <tr data-i18n-list-item="slicing">
                     <td><input type="checkbox" name="attr_slicing_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="slicing-u">Slicing(05%)</td>
                     <td><input class="skill-input" type="text" name="attr_slicing_skill_mdr" value="5"/></td>
                     <td><input class="skill-input" type="text" name="attr_slicing_mdr" value="@{slicing_mdr}" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{slicing_txt}}} {{success=[[@{slicing_mdr}]]}} {{hard=[[floor(@{slicing_mdr}/2)]]}} {{extreme=[[floor(@{slicing_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_slicing_mdr_check' /></td>
-                </tr>				
+                </tr>
 			</table>
             <table style="width:100%">
                 <tr>
@@ -5890,6 +5890,7 @@
 <input type="hidden" name="attr_psychology_txt" value="Psychology Roll"/>
 <input type="hidden" name="attr_psychoanalysis_txt" value="Psychoanalysis Roll"/>
 <input type="hidden" name="attr_ride_txt" value="Ride Roll"/>
+<input type="hidden" name="attr_security_txt" value="Security System Roll"/>
 <input type="hidden" name="attr_singing_txt" value="Singing Roll"/>
 <input type="hidden" name="attr_sleightofhand_txt" value="Sleight of Hand Roll"/>
 <input type="hidden" name="attr_slicing_txt" value="Slicing Roll"/>
@@ -11319,6 +11320,9 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
     }}); getAttrs(['ride_txt'], v => {
       if (v.ride_txt !== getTranslationByKey('ride-r-txt')) {
         setAttrs({ride_txt: getTranslationByKey('ride-r-txt')});
+    }}); getAttrs(['security_txt'], v => {
+      if (v.security_txt !== getTranslationByKey('security-r-txt')) {
+        setAttrs({security_txt: getTranslationByKey('security-r-txt')});		
     }}); getAttrs(['singing_txt'], v => {
       if (v.singing_txt !== getTranslationByKey('singing-r-txt')) {
         setAttrs({singing_txt: getTranslationByKey('singing-r-txt')});		

@@ -3124,6 +3124,13 @@
                     <td><input class="skill-input" type="text" name="attr_ettiquette_other_mdr" value="10" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{ettiquette_other_txt}}} {{success=[[@{ettiquette_other_mdr}]]}} {{hard=[[floor(@{ettiquette_other_mdr}/2)]]}} {{extreme=[[floor(@{ettiquette_other_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_ettiquette_other_mdr_check' /></td>
                 </tr>
+                <tr data-i18n-list-item="forgery">
+                    <td><input type="checkbox" name="attr_forgery_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="forgery-u">Forgery(01%)</td>
+                    <td><input class="skill-input" type="text" name="attr_forgery_mdr" value="1"/></td>
+                    <td><input class="skill-input" type="text" name="attr_forgery_mdr" value="1" readonly/></td>
+					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{forgery_txt}}} {{success=[[@{forgery_mdr}]]}} {{hard=[[floor(@{forgery_mdr}/2)]]}} {{extreme=[[floor(@{forgery_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_forgery_mdr_check' /></td>
+                </tr>				
                 <tr data-i18n-list-item="impersonation">
                     <td><input type="checkbox" name="attr_impersonation_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="impersonation-u">Impersonation(05%)</td>
@@ -11204,6 +11211,9 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
 	}}); getAttrs(['forbidden_lore_txt'], v => {
       if (v.forbidden_lore_txt !== getTranslationByKey('forbidden_lore-r-txt')) {
         setAttrs({forbidden_lore_txt: getTranslationByKey('forbidden_lore-r-txt')});
+    }}); getAttrs(['forgery_txt'], v => {
+      if (v.forgery_txt !== getTranslationByKey('forgery-r-txt')) {
+        setAttrs({forgery_txt: getTranslationByKey('forgery-r-txt')});			
     }}); getAttrs(['gunnery_txt'], v => {
       if (v.gunnery_txt !== getTranslationByKey('gunnery-r-txt')) {
         setAttrs({gunnery_txt: getTranslationByKey('gunnery-r-txt')});

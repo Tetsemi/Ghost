@@ -3088,6 +3088,13 @@
                     <td><input class="skill-input" type="text" name="attr_dance_mdr" value="5" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{dance_txt}}} {{success=[[@{dance_mdr}]]}} {{hard=[[floor(@{dance_mdr}/2)]]}} {{extreme=[[floor(@{dance_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_dance_mdr_check' /></td>
                 </tr>
+                <tr data-i18n-list-item="deception">
+                    <td><input type="checkbox" name="attr_deception_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="deception-u">Deception(05%)</td>
+                    <td><input class="skill-input" type="text" name="attr_deception_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_deception_mdr" value="5" readonly/></td>
+				   	<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{deception_txt}}} {{success=[[@{deception_mdr}]]}} {{hard=[[floor(@{deception_mdr}/2)]]}} {{extreme=[[floor(@{deception_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_deception_mdr_check' /></td>
+                </tr>
 				<tr data-i18n-list-item="disguise">
                     <td><input type="checkbox" name="attr_disguise_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="disguise-u">Disguise(05%)</td>
@@ -3108,13 +3115,6 @@
                     <td><input class="skill-input" type="text" name="attr_ettiquette_other_mdr" value="10"/></td>
                     <td><input class="skill-input" type="text" name="attr_ettiquette_other_mdr" value="10" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{ettiquette_other_txt}}} {{success=[[@{ettiquette_other_mdr}]]}} {{hard=[[floor(@{ettiquette_other_mdr}/2)]]}} {{extreme=[[floor(@{ettiquette_other_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_ettiquette_other_mdr_check' /></td>
-                </tr>
-                <tr data-i18n-list-item="fasttalk">
-                    <td><input type="checkbox" name="attr_fast_talk_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="fasttalk-u">Fast Talk(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_fast_talk_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_fast_talk_mdr" value="5" readonly/></td>
-				   	<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{fasttalk_txt}}} {{success=[[@{fast_talk_mdr}]]}} {{hard=[[floor(@{fast_talk_mdr}/2)]]}} {{extreme=[[floor(@{fast_talk_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_fast_talk_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="impersonation">
                     <td><input type="checkbox" name="attr_impersonation_mdr_checkbox"></td>
@@ -5841,8 +5841,9 @@
 <input type="hidden" name="attr_cybernetics_txt" value="Cybernetics Roll"/>
 <input type="hidden" name="attr_cybertech_txt" value="Cybertech Roll"/>
 <input type="hidden" name="attr_dance_txt" value="Dance Roll"/>	
-<input type="hidden" name="attr_disguise_txt" value="Disguise Roll"/>
+<input type="hidden" name="attr_deception_txt" value="Deception Roll"/>
 <input type="hidden" name="attr_demolitions_txt" value="Demolitions Roll"/>
+<input type="hidden" name="attr_disguise_txt" value="Disguise Roll"/>
 <input type="hidden" name="attr_dodge_txt" value="Dodge Roll"/>
 <input type="hidden" name="attr_driveauto_txt" value="Drive Auto"/>
 <input type="hidden" name="attr_drone_operation_txt" value="Drone Operation Roll"/>
@@ -11140,15 +11141,18 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
     }}); getAttrs(['cybernetics_txt'], v => {
       if (v.cybernetics_txt !== getTranslationByKey('cybernetics-r-txt')) {
         setAttrs({cybernetics_txt: getTranslationByKey('cybernetics-r-txt')});
-    }}); getAttrs(['demolitions_txt'], v => {
+    }}); getAttrs(['dance_txt'], v => {
+      if (v.dance_txt !== getTranslationByKey('dance-r-txt')) {
+        setAttrs({dance_txt: getTranslationByKey('dance-r-txt')});	
+	}}); getAttrs(['demolitions_txt'], v => {
       if (v.demolitions_txt !== getTranslationByKey('demolitions-r-txt')) {
         setAttrs({demolitions_txt: getTranslationByKey('demolitions-r-txt')});		
     }}); getAttrs(['disguise_txt'], v => {
       if (v.disguise_txt !== getTranslationByKey('disguise-r-txt')) {
         setAttrs({disguise_txt: getTranslationByKey('disguise-r-txt')});
-    }}); getAttrs(['dance_txt'], v => {
-      if (v.dance_txt !== getTranslationByKey('dance-r-txt')) {
-        setAttrs({dance_txt: getTranslationByKey('dance-r-txt')});		
+    }}); getAttrs(['deception_txt'], v => {
+      if (v.deception_txt !== getTranslationByKey('deception-r-txt')) {
+        setAttrs({deception_txt: getTranslationByKey('deception-r-txt')});		
     }}); getAttrs(['dodge_txt'], v => {
       if (v.dodge_txt !== getTranslationByKey('dodge-r-txt')) {
         setAttrs({dodge_txt: getTranslationByKey('dodge-r-txt')});

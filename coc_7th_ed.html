@@ -3051,7 +3051,7 @@
                 <tr data-i18n-list-item="veil_lore">
                     <td><input type="checkbox" name="attr_veil_lore_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="veil_lore-u">Veil Lore(5%)</td>
-                    <td><input class="skill-input" type="text" name="attr_veil_lore_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_veil_lore_skill_mdr" value="5"/></td>
                     <td><input class="skill-input" type="text" name="attr_veil_lore_mdr" value="5" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{veil_lore_txt}}} {{success=[[@{veil_lore_mdr}]]}} {{hard=[[floor(@{veil_lore_mdr}/2)]]}} {{extreme=[[floor(@{veil_lore_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_veil_lore_mdr_check' /></td>
                 </tr>
@@ -3201,7 +3201,7 @@
                 <tr data-i18n-list-item="animalhandling">
                     <td><input type="checkbox" name="attr_animalhandling_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="animalhandling_mdr-u">Animal Handling(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_animalhandling_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_animalhandling_mdr" value="5"/></td>
                     <td><input class="skill-input" type="text" name="attr_animalhandling_mdr" value="5" readonly/></td>
                     <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{animalhandling_txt}}} {{success=[[@{animalhandling_mdr}]]}} {{hard=[[floor(@{animalhandling_mdr}/2)]]}} {{extreme=[[floor(@{animalhandling_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_animalhandling_mdr_check' /></td>
                 </tr>
@@ -4282,17 +4282,17 @@
 							<th style="width:50%">Description</th>
 							<th style="width:5%">Val</th>
 						</tr>
-						<tr data-i18n-list-item="draevi_animalhandling">
-							<td><input type="checkbox" name="attr_draevi_mdr_checkbox" value="animalhandling"></td>
-							<td class="racial-label" data-i18n="draevi_animalhandling-u">Animal Hand + 5%</td>
-							<td>Gain +5% Animal Handling Skill</td>
-							<td><input class="skill-input" type="text" name="attr_draevi_animalhandling_bonus_mdr" value="@{draevi_animalhandling_bonus_mdr}" readonly/></td>
-						</tr>
 						<tr data-i18n-list-item="draevi_occult">
 							<td><input type="checkbox" name="attr_draevi_mdr_checkbox" value="occult"></td>
 							<td class="racial-label" data-i18n="draevi_occult-u">Occult Lore + 5%</td>
 							<td>Gain +5% Occult Lore Skill</td>
 							<td><input class="skill-input" type="text" name="attr_draevi_occult_bonus_mdr" value="@{draevi_occult_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="draevi_veil_lore">
+							<td><input type="checkbox" name="attr_draevi_mdr_checkbox" value="veil_lore"></td>
+							<td class="racial-label" data-i18n="draevi_veil_lore-u">Veil Lore + 5%</td>
+							<td>Gain +5% Veil Lore Skill</td>
+							<td><input class="skill-input" type="text" name="attr_draevi_veil_lore_bonus_mdr" value="@{draevi_veil_lore_bonus_mdr}" readonly/></td>
 						</tr>
 					</table>
 				</td>
@@ -10852,10 +10852,10 @@ Bout of Madness-Summary---------------------------------------------------------
 <script type="text/worker">
  // Draevi Racial Talent Values
   on("sheet:opened", function() {
-	getAttrs(["draevi_animalhandling_bonus_mdr", "draevi_athletics_bonus_mdr", "draevi_mech_repair_bonus_mdr", "draevi_navigate_bonus_mdr",  "draevi_occult_bonus_mdr", "draevi_slicing_bonus_mdr", "draevi_spirit_lore_bonus_mdr", "draevi_streetwise_bonus_mdr", "draevi_survival_bonus_mdr"], function(values) {
+	getAttrs(["draevi_veil_lore_bonus_mdr", "draevi_athletics_bonus_mdr", "draevi_mech_repair_bonus_mdr", "draevi_navigate_bonus_mdr",  "draevi_occult_bonus_mdr", "draevi_slicing_bonus_mdr", "draevi_spirit_lore_bonus_mdr", "draevi_streetwise_bonus_mdr", "draevi_survival_bonus_mdr"], function(values) {
 
 		const setObj = {
-			draevi_animalhandling_bonus_mdr: parseInt(values.draevi_animalhandling_bonus_mdr) || 5,
+
 			draevi_athletics_bonus_mdr: parseInt(values.draevi_athletics_bonus_mdr) || 5,
 			draevi_electronics_bonus_mdr: parseInt(values.draevi_electronics_bonus_mdr) || 5,
 			draevi_mechanics_bonus_mdr: parseInt(values.draevi_mechanics_bonus_mdr) || 5,
@@ -10864,7 +10864,8 @@ Bout of Madness-Summary---------------------------------------------------------
 			draevi_slicing_bonus_mdr: parseInt(values.draevi_slicing_bonus_mdr) || 5,
 			draevi_spirit_lore_bonus_mdr: parseInt(values.draevi_spirit_lore_bonus_mdr) || 5,
 			draevi_streetwise_bonus_mdr: parseInt(values.draevi_streetwise_bonus_mdr) || 5,
-			draevi_survival_bonus_mdr: parseInt(values.draevi_survival_bonus_mdr) || 5
+			draevi_survival_bonus_mdr: parseInt(values.draevi_survival_bonus_mdr) || 5,
+			draevi_veil_lore_bonus_mdr: parseInt(values.draevi_veil_lore_bonus_mdr) || 5
 		};
 		setAttrs (setObj);
 	});
@@ -10914,11 +10915,11 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
   });
 
 // Background - Tradition-Keeper
- on("sheet:opened add:animalhandling_skill_mdr change:animalhandling_skill_mdr add:occult_skill_mdr change:occult_skill_mdr change:draevi_mdr_checkbox", function() {
-	getAttrs(["animalhandling_mdr", "occult_mdr", "animalhandling_skill_mdr", "draevi_animalhandling_bonus_mdr", "occult_skill_mdr", "draevi_occult_bonus_mdr", "draevi_mdr_checkbox"], function(values) {
+ on("sheet:opened add:veil_lore_skill_mdr change:veil_lore_skill_mdr add:occult_skill_mdr change:occult_skill_mdr change:draevi_mdr_checkbox", function() {
+	getAttrs(["veil_lore_mdr", "occult_mdr", "veil_lore_skill_mdr", "draevi_veil_lore_bonus_mdr", "occult_skill_mdr", "draevi_occult_bonus_mdr", "draevi_mdr_checkbox"], function(values) {
 
 		const setObj = {
-			animalhandling_mdr: values.draevi_mdr_checkbox == "animalhandling" ? ( ( parseInt(values.animalhandling_skill_mdr) || 5 ) + ( parseInt(values.draevi_animalhandling_bonus_mdr) || 5 ) ) : parseInt(values.animalhandling_skill_mdr) || 5,
+			veil_lore_mdr: values.draevi_mdr_checkbox == "veil_lore" ? ( ( parseInt(values.veil_lore_skill_mdr) || 5 ) + ( parseInt(values.draevi_veil_lore_bonus_mdr) || 5 ) ) : parseInt(values.veil_lore_skill_mdr) || 5,
 			occult_mdr: values.draevi_mdr_checkbox == "occult" ? ( ( parseInt(values.occult_skill_mdr) || 5 ) + ( parseInt(values.draevi_occult_bonus_mdr) || 5 ) ) : parseInt(values.occult_skill_mdr) || 5
 		};
 

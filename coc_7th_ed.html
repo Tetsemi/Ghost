@@ -3295,7 +3295,7 @@
                 <tr data-i18n-list-item="electronics">
                     <td><input type="checkbox" name="attr_electronics_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="electronics-u">Electronics(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_electronics_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_electronics_skill_mdr" value="10"/></td>
                     <td><input class="skill-input" type="text" name="attr_electronics_mdr" value="10" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{electronics_txt}}} {{success=[[@{electronics_mdr}]]}} {{hard=[[floor(@{electronics_mdr}/2)]]}} {{extreme=[[floor(@{electronics_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_electronics_mdr_check' /></td>
                 </tr>			
@@ -3306,12 +3306,12 @@
                     <td><input class="skill-input" type="text" name="attr_locksmith_mdr" value="1" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{locksmith_txt}}} {{success=[[@{locksmith_mdr}]]}} {{hard=[[floor(@{locksmith_mdr}/2)]]}} {{extreme=[[floor(@{locksmith_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_locksmith_mdr_check' /></td>
                 </tr>
-                <tr data-i18n-list-item="mechrepair"> 
-                    <td><input type="checkbox" name="attr_mech_repair_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="mechrepair-u">Mech Repair(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_mech_repair_skill_mdr" value="10"/></td>
-                    <td><input class="skill-input" type="text" name="attr_mech_repair_mdr" value="10" readonly/></td>
-					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{mechrepair_txt}}} {{success=[[@{mech_repair_mdr}]]}} {{hard=[[floor(@{mech_repair_mdr}/2)]]}} {{extreme=[[floor(@{mech_repair_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_mech_repair_mdr_check' /></td>
+                <tr data-i18n-list-item="mechanics"> 
+                    <td><input type="checkbox" name="attr_mechanics_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="mechanics-u">Mechanics(10%)</td>
+                    <td><input class="skill-input" type="text" name="attr_mechanics_skill_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_mechanics_mdr" value="10" readonly/></td>
+					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{mechanics_txt}}} {{success=[[@{mechanics_mdr}]]}} {{hard=[[floor(@{mechanics_mdr}/2)]]}} {{extreme=[[floor(@{mechanics_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_mechanics_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="slicing">
                     <td><input type="checkbox" name="attr_slicing_mdr_checkbox"></td>
@@ -4194,17 +4194,17 @@
 							<th style="width:50%">Description</th>
 							<th style="width:5%">Val</th>
 						</tr>
+						<tr data-i18n-list-item="draevi_electronics">
+							<td><input type="checkbox" name="attr_draevi_mdr_checkbox" value="electronics"></td>
+							<td class="racial-label" data-i18n="draevi_electronics-u">Electronics + 5%</td>
+							<td>Gain +5% Electronics Skill</td>
+							<td><input class="skill-input" type="text" name="attr_draevi_electronics_bonus_mdr" value="@{draevi_electronics_bonus_mdr}" readonly/></td>
+						</tr>
 						<tr data-i18n-list-item="draevi_mechanics">
 							<td><input type="checkbox" name="attr_draevi_mdr_checkbox" value="mechanics"></td>
-							<td class="racial-label" data-i18n="draevi_mechanics-u">mechanics + 5%</td>
-							<td>Gain +5% mechanics Skill</td>
+							<td class="racial-label" data-i18n="draevi_mechanics-u">Mechanics + 5%</td>
+							<td>Gain +5% Mechanics Skill</td>
 							<td><input class="skill-input" type="text" name="attr_draevi_mechanics_bonus_mdr" value="@{draevi_mechanics_bonus_mdr}" readonly/></td>
-						</tr>
-						<tr data-i18n-list-item="draevi_mech_repair">
-							<td><input type="checkbox" name="attr_draevi_mdr_checkbox" value="mech_repair"></td>
-							<td class="racial-label" data-i18n="draevi_mech_repair-u">Mech Repair + 5%</td>
-							<td>Gain +5% Mech Repair Skill</td>
-							<td><input class="skill-input" type="text" name="attr_draevi_mech_repair_bonus_mdr" value="@{draevi_mech_repair_bonus_mdr}" readonly/></td>
 						</tr>
 					</table>				
 				</td>
@@ -5873,6 +5873,7 @@
 <input type="hidden" name="attr_listen_txt" value="Listen Roll"/>
 <input type="hidden" name="attr_locksmith_txt" value="Locksmith Roll"/>
 <input type="hidden" name="attr_mechrepair_txt" value="Mech. Repair Roll"/>
+<input type="hidden" name="attr_mechanics_txt" value="Mech. Repair Roll"/>
 <input type="hidden" name="attr_medicine_txt" value="Medicine Roll"/>
 <input type="hidden" name="attr_melee_weapons_txt" value="Melee Weapons Roll"/>
 <input type="hidden" name="attr_naturalworld_txt" value="Natural World Roll"/>
@@ -10839,7 +10840,8 @@ Bout of Madness-Summary---------------------------------------------------------
 		const setObj = {
 			draevi_animalhandling_bonus_mdr: parseInt(values.draevi_animalhandling_bonus_mdr) || 5,
 			draevi_athletics_bonus_mdr: parseInt(values.draevi_athletics_bonus_mdr) || 5,
-			draevi_mech_repair_bonus_mdr: parseInt(values.draevi_mech_repair_bonus_mdr) || 5,
+			draevi_electronics_bonus_mdr: parseInt(values.draevi_electronics_bonus_mdr) || 5,
+			draevi_mechanics_bonus_mdr: parseInt(values.draevi_mechanics_bonus_mdr) || 5,
 			draevi_navigate_bonus_mdr: parseInt(values.draevi_navigate_bonus_mdr) || 5,
 			draevi_occult_bonus_mdr: parseInt(values.draevi_occult_bonus_mdr) || 5,
 			draevi_slicing_bonus_mdr: parseInt(values.draevi_slicing_bonus_mdr) || 5,
@@ -10854,11 +10856,11 @@ Bout of Madness-Summary---------------------------------------------------------
 // Talent Calculations
 // Draevi Talent Calculations
 // Background - Forgeblood Scavenger
- on("sheet:opened add:mech_repair_skill_mdr change:mech_repair_skill_mdr add:mechanics_skill_mdr change:mechanics_skill_mdr change:draevi_mdr_checkbox", function() {
-	getAttrs(["mech_repair_mdr", "mechanics_mdr", "mech_repair_skill_mdr", "draevi_mech_repair_bonus_mdr", "mechanics_skill_mdr", "draevi_mechanics_bonus_mdr", "draevi_mdr_checkbox"], function(values) {
+ on("sheet:opened add:electronics_skill_mdr change:electronics_skill_mdr add:mechanics_skill_mdr change:mechanics_skill_mdr change:draevi_mdr_checkbox", function() {
+	getAttrs(["electronics_mdr", "mechanics_mdr", "electronics_skill_mdr", "draevi_electronics_bonus_mdr", "mechanics_skill_mdr", "draevi_mechanics_bonus_mdr", "draevi_mdr_checkbox"], function(values) {
 	
 		const setObj = {
-			mech_repair_mdr: values.draevi_mdr_checkbox == "mech_repair" ? ( ( parseInt(values.mech_repair_skill_mdr) || 5 ) + ( parseInt(values.draevi_mech_repair_bonus_mdr) || 5 ) ) : parseInt(values.mech_repair_skill_mdr) || 5,
+			electronics_mdr: values.draevi_mdr_checkbox == "electronics" ? ( ( parseInt(values.electronics_skill_mdr) || 5 ) + ( parseInt(values.draevi_electronics_bonus_mdr) || 5 ) ) : parseInt(values.electronics_skill_mdr) || 5,
 			mechanics_mdr: values.draevi_mdr_checkbox == "mechanics" ? ( ( parseInt(values.mechanics_skill_mdr) || 5 ) + ( parseInt(values.draevi_mechanics_bonus_mdr) || 5 ) ) : parseInt(values.mechanics_skill_mdr) || 5
 		};
 	
@@ -11267,6 +11269,9 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
     }}); getAttrs(['mechrepair_txt'], v => {
       if (v.mechrepair_txt !== getTranslationByKey('mechrepair-r-txt')) {
         setAttrs({mechrepair_txt: getTranslationByKey('mechrepair-r-txt')});
+    }}); getAttrs(['mechanics_txt'], v => {
+      if (v.mechanics_txt !== getTranslationByKey('mechanics-r-txt')) {
+        setAttrs({mechanics_txt: getTranslationByKey('mechanics-r-txt')});		
     }}); getAttrs(['medicine_txt'], v => {
       if (v.medicine_txt !== getTranslationByKey('medicine-r-txt')) {
         setAttrs({medicine_txt: getTranslationByKey('medicine-r-txt')});

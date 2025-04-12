@@ -3046,6 +3046,13 @@
                     <td><input class="skill-input" type="text" name="attr_spirit_lore_skill_mdr" value="5"/></td>
                     <td><input class="skill-input" type="text" name="attr_spirit_lore_mdr" value="5" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{spirit_lore_txt}}} {{success=[[@{spirit_lore_mdr}]]}} {{hard=[[floor(@{spirit_lore_mdr}/2)]]}} {{extreme=[[floor(@{spirit_lore_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_spirit_lore_mdr_check' /></td>
+                </tr>
+                <tr data-i18n-list-item="veil_lore">
+                    <td><input type="checkbox" name="attr_veil_lore_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="veil_lore-u">Veil Lore(5%)</td>
+                    <td><input class="skill-input" type="text" name="attr_veil_lore_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_veil_lore_mdr" value="5" readonly/></td>
+					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{veil_lore_txt}}} {{success=[[@{veil_lore_mdr}]]}} {{hard=[[floor(@{veil_lore_mdr}/2)]]}} {{extreme=[[floor(@{veil_lore_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_veil_lore_mdr_check' /></td>
                 </tr>				
 			</table>
             <table style="width:100%">
@@ -5891,6 +5898,7 @@
 <input type="hidden" name="attr_swim_txt" value="Swim Roll"/>
 <input type="hidden" name="attr_throw_txt" value="Throw Roll"/>
 <input type="hidden" name="attr_track_txt" value="Track Roll"/>
+<input type="hidden" name="attr_veil_lore_txt" value="Veil Lore Roll"/>
 
 <input type="hidden" name="attr_unarmed_txt" value="Unarmed Attack"/>
 
@@ -11343,6 +11351,9 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
     }}); getAttrs(['unarmed_txt'], v => {
       if (v.unarmed_txt !== getTranslationByKey('unarmed-z')) {
         setAttrs({unarmed_txt: getTranslationByKey('unarmed-z')});
+    }}); getAttrs(['veil_lore_txt'], v => {
+      if (v.veil_lore_txt !== getTranslationByKey('veil_lore-r-txt')) {
+        setAttrs({veil_lore_txt: getTranslationByKey('veil_lore-r-txt')});			
     }});
 
   });

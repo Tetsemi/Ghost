@@ -1,0 +1,39 @@
+In file "coc_7th_ed.html" 
+Note: We're just updating the Modern parts, leaving all the others alone.  You'll know if you're in the right section if you see _mdr as part of the values of name.
+
+1) Clone existing skill
+
+                <tr data-i18n-list-item="arcana">
+                    <td><input type="checkbox" name="attr_arcana_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="arcana-u">Arcana(05%)</td>
+                    <td><input class="skill-input" type="text" name="attr_arcana_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_arcana_mdr" value="5" readonly/></td>
+					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{arcana_txt}}} {{success=[[@{arcana_mdr}]]}} {{hard=[[floor(@{arcana_mdr}/2)]]}} {{extreme=[[floor(@{arcana_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_arcana_mdr_check' /></td>
+                </tr>
+2a) Search and replace (use case sensativity) to replace old skill with new skill. (Do this twice, once for upper case and once for lower case)
+2b) Update percentage, if needed
+2c) Update value="5", if needed (both lines)
+3a) Search for input type="hidden" and clone existing line
+	<input type="hidden" name="attr_arcana_txt" value="Arcana Roll"/>
+3b) Search and replace (use case sensativity) to replace old skill with new skill. (Do this twice, once for upper case and once for lower case)
+4a) Search for getAttrs and close existing lines (3)
+	}}); getAttrs(['arcana_txt'], v => {
+      if (v.arcana_txt !== getTranslationByKey('arcana-r-txt')) {
+        setAttrs({arcana_txt: getTranslationByKey('arcana-r-txt')});
+4b) Search and replace (use case sensativity) to replace old skill with new skill.	
+
+	
+In file "transition.json"
+
+1) Find Modern line
+	"modern-skill-list":"archery,fighting(brawl),dodge,gunnery,heavy_weapons,melee_weapons,firearms(hg),firearms(r/s),firearms_s_m_g,throw,magic(alteration),magic(elemental),magic(enchantment),magic(illusion),magic(necromancy),magic(restoration),magic(summoning),magic(technomancy),magic(warding),magic(universal),language(own),language(caltheran),language(other),athletics,coordination,swim,driveauto,drone_operation,pilotaircraft,pilotboat,anthropology,arcana,charm,climb,computeruse,creditrating,cthulhumythos,disguise,elecrepair,electronics,fasttalk,firstaid,history,intimidate,jump,law,libraryuse,listen,locksmith,mechrepair,medicine,naturalworld,navigate,occult,ophvmachine,persuade,psychoanalysis,psychology,ride,sleightofhand,spothidden,stealth,track,accounting,appraise,archaeology",
+2) Order is important, search for the skill previous to the new skill you've created, and insert after, don't forget the comma.
+3a) Find and clone existing skill
+	"arcana-u": "Arcana(05%)",
+	"arcana-r-txt": "Arcana Roll",	
+3b) Search and replace (use case sensativity) to replace old skill with new skill. (Do this twice, once for upper case and once for lower case)
+3c) Update percentage, if needed.
+	"arcana-u": "Arcana(05%)",
+	
+Save both files and upload to sandbox to test.
+If you get a 'false' in the roll output in chat, reload your sandbox, sometimes it doesn't always work without reloading the environment

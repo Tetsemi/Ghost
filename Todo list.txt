@@ -15,6 +15,19 @@ Remove Sanity
 
 Update colors
 
+Fix this shit, I mean it works, and the logic is sound, but it just seems like fragile code and not easy to clone/maintain.
+
+x = ( values.draevi_mdr_checkbox == "survival" );
+y = ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" );
+
+a = ( parseInt(values.survival_wilderness_skill_mdr) || 10 );
+b = ( parseInt(values.draevi_survival_bonus_mdr) || 5 );
+c = ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 );
+
+( x && y ) ? ( a + b + c ) : ( ( x && (!y) ) ? ( a + b ) : ( ( (!x) && y ) ? ( a + c ) : ( a ) ) )
+
+( ( values.draevi_mdr_checkbox == "survival" ) && ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" ) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_survival_bonus_mdr) || 5 ) + ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 ) ) : ( ( ( values.draevi_mdr_checkbox == "survival" ) && (!( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" )) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_survival_bonus_mdr) || 5 ) ) : ( ( (!( values.draevi_mdr_checkbox == "survival" )) && ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" ) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 ) ) : ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) ) ) )
+
 
 
 					

@@ -11241,18 +11241,37 @@ on("sheet:opened add:navigate_skill_mdr change:navigate_skill_mdr add:survival_s
 });
 
 // Background - Spritbound Techshaper
- on("sheet:opened add:slicing_skill_mdr change:slicing_skill_mdr add:spirit_lore_skill_mdr change:spirit_lore_skill_mdr change:draevi_mdr_checkbox", function() {
-	getAttrs(["slicing_mdr", "spirit_lore_mdr", "slicing_skill_mdr", "draevi_slicing_bonus_mdr", "spirit_lore_skill_mdr", "draevi_spirit_lore_bonus_mdr", "draevi_mdr_checkbox"], function(values) {
+on("sheet:opened add:slicing_skill_mdr change:slicing_skill_mdr add:spirit_lore_skill_mdr change:spirit_lore_skill_mdr change:draevi_mdr_checkbox", function() {
+  getAttrs([
+    "slicing_mdr", "spirit_lore_mdr",
+    "slicing_skill_mdr", "draevi_slicing_bonus_mdr", "draevi_talent_slicing_bonus_mdr",
+    "spirit_lore_skill_mdr", "draevi_spirit_lore_bonus_mdr", "draevi_talent_spirit_lore_bonus_mdr",
+    "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
+  ], function(values) {
 
-		const setObj = {
-			slicing_mdr: values.draevi_mdr_checkbox === "slicing" ? ( ( parseInt(values.slicing_skill_mdr) || 5 ) + ( parseInt(values.draevi_slicing_bonus_mdr) || 5 ) ) : parseInt(values.slicing_skill_mdr) || 5,
-			spirit_lore_mdr: values.draevi_mdr_checkbox === "spirit_lore" ? ( ( parseInt(values.spirit_lore_skill_mdr) || 5 ) + ( parseInt(values.draevi_spirit_lore_bonus_mdr) || 5 ) ) : parseInt(values.spirit_lore_skill_mdr) || 5
-		};
+    const skills = [
+      {
+        name: "slicing",
+        skill: values.slicing_skill_mdr,
+        bonus: values.draevi_slicing_bonus_mdr,
+        talentBonus: values.draevi_talent_slicing_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "slicing",
+        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_slicing"
+      },
+      {
+        name: "spirit_lore",
+        skill: values.spirit_lore_skill_mdr,
+        bonus: values.draevi_spirit_lore_bonus_mdr,
+        talentBonus: values.draevi_talent_spirit_lore_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "spirit_lore",
+        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_spirit_lore"
+      }
+    ];
 
-	  setAttrs (setObj);
-
-	});
+    const setObj = buildSkillObject(skills);
+    setAttrs(setObj);
   });
+});
 
 // Background - Tradition-Keeper
 on("sheet:opened add:occult_skill_mdr change:occult_skill_mdr add:veil_lore_skill_mdr change:veil_lore_skill_mdr change:draevi_mdr_checkbox", function() {

@@ -11201,9 +11201,16 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
  on("sheet:opened add:intimidate_skill_mdr change:intimidate_skill_mdr add:survival_wilderness_skill_mdr change:survival_wilderness_skill_mdr add:track_skill_mdr change:track_skill_mdr change:draevi_clan_blooded_mdr_checkbox draevi_mdr_checkbox", function() {
 	getAttrs(["intimidate_mdr", "survival_wilderness_mdr", "track_mdr", "intimidate_skill_mdr", "draevi_intimidate_bonus_mdr", "draevi_talent_intimidate_bonus_mdr", "survival_wilderness_skill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr", "track_skill_mdr", "draevi_talent_track_bonus_mdr", "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"], function(values) {
 
+isurvival = ( values.draevi_mdr_checkbox == "survival" );
+italent_survival = ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" );
+
+isurvival_skill = ( parseInt(values.survival_wilderness_skill_mdr) || 10 );
+isurvival_bonus = ( parseInt(values.draevi_survival_bonus_mdr) || 5 );
+italent_survival_bonus = ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 );
+
 		const setObj = {
 			intimidate_mdr: values.draevi_clan_blooded_mdr_checkbox == "talent_intimidate" ? ( ( parseInt(values.intimidate_skill_mdr) || 15 ) + ( parseInt(values.draevi_talent_intimidate_bonus_mdr) || 10 ) ) : parseInt(values.intimidate_skill_mdr) || 15,
-			survival_wilderness_mdr: ( ( values.draevi_mdr_checkbox == "survival" ) && ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" ) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_survival_bonus_mdr) || 5 ) + ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 ) ) : ( ( ( values.draevi_mdr_checkbox == "survival" ) && (!( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" )) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_survival_bonus_mdr) || 5 ) ) : ( ( (!( values.draevi_mdr_checkbox == "survival" )) && ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" ) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 ) ) : ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) ) ) ),
+			survival_wilderness_mdr: ( ( isurvival_skill ) + ( ( isurvival && italent_survival ) ? ( isurvival_bonus + italent_survival_bonus ) : ( ( isurvival && (!italent_survival) ) ? isurvival_bonus : italent_survival_bonus ) ) ),
 			track_mdr: values.draevi_clan_blooded_mdr_checkbox == "talent_track" ? ( ( parseInt(values.track_skill_mdr) || 10 ) + ( parseInt(values.draevi_talent_track_bonus_mdr) || 10 ) ) : parseInt(values.track_skill_mdr) || 10
 		};
 

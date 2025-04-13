@@ -3155,7 +3155,7 @@
                 <tr data-i18n-list-item="intimidate">
                     <td><input type="checkbox" name="attr_intimidate_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="intimidate-u">Intimidate(15%)</td>
-                    <td><input class="skill-input" type="text" name="attr_intimidate_mdr" value="15"/></td>
+                    <td><input class="skill-input" type="text" name="attr_intimidate_skill_mdr" value="15"/></td>
                     <td><input class="skill-input" type="text" name="attr_intimidate_mdr" value="15" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{intimidate_txt}}} {{success=[[@{intimidate_mdr}]]}} {{hard=[[floor(@{intimidate_mdr}/2)]]}} {{extreme=[[floor(@{intimidate_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_intimidate_mdr_check' /></td>
                 </tr>
@@ -3257,7 +3257,7 @@
                 <tr data-i18n-list-item="track">
                     <td><input type="checkbox" name="attr_track_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="track-u">Track (10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_track_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_track_skill_mdr" value="10"/></td>
                     <td><input class="skill-input" type="text" name="attr_track_mdr" value="10" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{track_txt}}} {{success=[[@{track_mdr}]]}} {{hard=[[floor(@{track_mdr}/2)]]}} {{extreme=[[floor(@{track_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_track_mdr_check' /></td>
                 </tr>
@@ -4454,7 +4454,34 @@
 		<div class="sheet-section" style="width: 97.7%">
 			<table style="width:100%">
 				<table>
-				<h3 class="section-head" data-il8n="tier1-u">Tier 1 - 10 xp</h3>
+					<h3 class="section-head" data-il8n="tier1-u">Tier 1 - 10 xp</h3>
+					<table style="width:50%">
+						<h3>Clan-Blooded</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="draevi_talent_intimidate">
+							<td><input type="checkbox" name="attr_draevi_clan_blooded_mdr_checkbox" value="talent_intimidate"></td>
+							<td class="racial-label" data-i18n="draevi_talent_intimidate-u">Intimidate + 10%</td>
+							<td>Gain +10% Intimidate Skill</td>
+							<td><input class="skill-input" type="text" name="attr_draevi_talent_intimidate_bonus_mdr" value="@{draevi_talent_intimidate_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="draevi_talent_survival">
+							<td><input type="checkbox" name="attr_draevi_clan_blooded_mdr_checkbox" value="talent_survival"></td>
+							<td class="racial-label" data-i18n="draevi_talent_survival-u">Survival + 10%</td>
+							<td>Gain +10% Survival Skill</td>
+							<td><input class="skill-input" type="text" name="attr_draevi_talent_survival_bonus_mdr" value="@{draevi_talent_survival_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="draevi_talent_track">
+							<td><input type="checkbox" name="attr_draevi_clan_blooded_mdr_checkbox" value="talent_track"></td>
+							<td class="racial-label" data-i18n="draevi_talent_track-u">Track + 10%</td>
+							<td>Gain +10% Track Skill</td>
+							<td><input class="skill-input" type="text" name="attr_draevi_talent_track_bonus_mdr" value="@{draevi_talent_track_bonus_mdr}" readonly/></td>
+						</tr>						
+					</table>				
 				</table>
 				<table>
 				<h3 class="section-head" data-il8n="tier2-u">Tier 2 - 20 xp</h3>
@@ -11064,12 +11091,11 @@ Bout of Madness-Summary---------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
- // Draevi Racial Talent Values
+ // Draevi Racial Background Values
   on("sheet:opened", function() {
 	getAttrs(["draevi_veil_lore_bonus_mdr", "draevi_athletics_bonus_mdr", "draevi_mech_repair_bonus_mdr", "draevi_navigate_bonus_mdr",  "draevi_occult_bonus_mdr", "draevi_slicing_bonus_mdr", "draevi_spirit_lore_bonus_mdr", "draevi_streetwise_bonus_mdr", "draevi_survival_bonus_mdr"], function(values) {
 
 		const setObj = {
-
 			draevi_athletics_bonus_mdr: parseInt(values.draevi_athletics_bonus_mdr) || 5,
 			draevi_electronics_bonus_mdr: parseInt(values.draevi_electronics_bonus_mdr) || 5,
 			draevi_mechanics_bonus_mdr: parseInt(values.draevi_mechanics_bonus_mdr) || 5,
@@ -11085,28 +11111,30 @@ Bout of Madness-Summary---------------------------------------------------------
 	});
   });
 
-// Talent Calculations
-// Draevi Talent Calculations
+// Background Calculations
+
+// Draevi Background Calculations
 // Background - Forgeblood Scavenger
  on("sheet:opened add:electronics_skill_mdr change:electronics_skill_mdr add:mechanics_skill_mdr change:mechanics_skill_mdr change:draevi_mdr_checkbox", function() {
 	getAttrs(["electronics_mdr", "mechanics_mdr", "electronics_skill_mdr", "draevi_electronics_bonus_mdr", "mechanics_skill_mdr", "draevi_mechanics_bonus_mdr", "draevi_mdr_checkbox"], function(values) {
 
 		const setObj = {
-			electronics_mdr: values.draevi_mdr_checkbox == "electronics" ? ( ( parseInt(values.electronics_skill_mdr) || 5 ) + ( parseInt(values.draevi_electronics_bonus_mdr) || 5 ) ) : parseInt(values.electronics_skill_mdr) || 5,
-			mechanics_mdr: values.draevi_mdr_checkbox == "mechanics" ? ( ( parseInt(values.mechanics_skill_mdr) || 5 ) + ( parseInt(values.draevi_mechanics_bonus_mdr) || 5 ) ) : parseInt(values.mechanics_skill_mdr) || 5
+			electronics_mdr: values.draevi_mdr_checkbox == "electronics" ? ( ( parseInt(values.electronics_skill_mdr) || 10 ) + ( parseInt(values.draevi_electronics_bonus_mdr) || 5 ) ) : parseInt(values.electronics_skill_mdr) || 10,
+			mechanics_mdr: values.draevi_mdr_checkbox == "mechanics" ? ( ( parseInt(values.mechanics_skill_mdr) || 10 ) + ( parseInt(values.draevi_mechanics_bonus_mdr) || 5 ) ) : parseInt(values.mechanics_skill_mdr) || 10
 		};
 
 	  setAttrs (setObj);
 
 	});
   });
+  
 // Background - Horn-Carved Wanderer
 on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_skill_mdr add:navigate_skill_mdr change:navigate_skill_mdr change:draevi_mdr_checkbox", function() {
 	getAttrs(["survival_wilderness_mdr", "navigate_mdr", "survival_wilderness_skill_mdr", "navigate_skill_mdr", "draevi_survival_bonus_mdr", "draevi_navigate_bonus_mdr", "draevi_mdr_checkbox"], function(values) {
 
 		const setObj = {
-			navigate_mdr: values.draevi_mdr_checkbox == "navigate" ? ( ( parseInt(values.navigate_skill_mdr) || 5 ) + ( parseInt(values.draevi_navigate_bonus_mdr) || 5 ) ) : parseInt(values.navigate_skill_mdr) || 5,
-			survival_wilderness_mdr: values.draevi_mdr_checkbox == "survival" ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 5 ) + ( parseInt(values.draevi_survival_bonus_mdr) || 5 ) ) : parseInt(values.survival_wilderness_skill_mdr) || 5
+			navigate_mdr: values.draevi_mdr_checkbox == "navigate" ? ( ( parseInt(values.navigate_skill_mdr) || 10 ) + ( parseInt(values.draevi_navigate_bonus_mdr) || 5 ) ) : parseInt(values.navigate_skill_mdr) || 10,
+			survival_wilderness_mdr: values.draevi_mdr_checkbox == "survival" ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_survival_bonus_mdr) || 5 ) ) : parseInt(values.survival_wilderness_skill_mdr) || 10
 		};
 
 		setAttrs (setObj);
@@ -11147,8 +11175,8 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
 	getAttrs(["streetwise_mdr", "athletics_mdr", "streetwise_skill_mdr", "draevi_streetwise_bonus_mdr", "athletics_skill_mdr", "draevi_athletics_bonus_mdr", "draevi_mdr_checkbox"], function(values) {
 
 		const setObj = {
-			streetwise_mdr: values.draevi_mdr_checkbox == "streetwise" ? ( ( parseInt(values.streetwise_skill_mdr) || 5 ) + ( parseInt(values.draevi_streetwise_bonus_mdr) || 5 ) ) : parseInt(values.streetwise_skill_mdr) || 5,
-			athletics_mdr: values.draevi_mdr_checkbox == "athletics" ? ( ( parseInt(values.athletics_skill_mdr) || 5 ) + ( parseInt(values.draevi_athletics_bonus_mdr) || 5 ) ) : parseInt(values.athletics_skill_mdr) || 5
+			streetwise_mdr: values.draevi_mdr_checkbox == "streetwise" ? ( ( parseInt(values.streetwise_skill_mdr) || 10 ) + ( parseInt(values.draevi_streetwise_bonus_mdr) || 5 ) ) : parseInt(values.streetwise_skill_mdr) || 10,
+			athletics_mdr: values.draevi_mdr_checkbox == "athletics" ? ( ( parseInt(values.athletics_skill_mdr) || 20 ) + ( parseInt(values.draevi_athletics_bonus_mdr) || 5 ) ) : parseInt(values.athletics_skill_mdr) || 20
 		};
 
 	  setAttrs (setObj);
@@ -11156,7 +11184,33 @@ on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_sk
 	});
   });
 
+ // Draevi Racial Background Values
+  on("sheet:opened", function() {
+	getAttrs(["draevi_talent_intimidate_bonus_mdr", "draevi_talent_survival_bonus_mdr", "draevi_talent_track_bonus_mdr"], function(values) {
 
+		const setObj = {
+			draevi_talent_intimidate_bonus_mdr: parseInt(values.draevi_talent_intimidate_bonus_mdr) || 10,			
+			draevi_talent_survival_bonus_mdr: parseInt(values.draevi_talent_survival_bonus_mdr) || 10,
+			draevi_talent_track_bonus_mdr: parseInt(values.draevi_talent_track_bonus_mdr) || 10
+		};
+		setAttrs (setObj);
+	});
+  });
+  
+// Talent - Clan-Blooded
+ on("sheet:opened add:intimidate_skill_mdr change:intimidate_skill_mdr add:survival_wilderness_skill_mdr change:survival_wilderness_skill_mdr add:track_skill_mdr change:track_skill_mdr change:draevi_clan_blooded_mdr_checkbox draevi_mdr_checkbox", function() {
+	getAttrs(["intimidate_mdr", "survival_wilderness_mdr", "track_mdr", "intimidate_skill_mdr", "draevi_intimidate_bonus_mdr", "draevi_talent_intimidate_bonus_mdr", "survival_wilderness_skill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr", "track_skill_mdr", "draevi_talent_track_bonus_mdr", "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"], function(values) {
+
+		const setObj = {
+			intimidate_mdr: values.draevi_clan_blooded_mdr_checkbox == "talent_intimidate" ? ( ( parseInt(values.intimidate_skill_mdr) || 15 ) + ( parseInt(values.draevi_talent_intimidate_bonus_mdr) || 10 ) ) : parseInt(values.intimidate_skill_mdr) || 15,
+			survival_wilderness_mdr: values.draevi_clan_blooded_mdr_checkbox == "talent_survival" ? ( ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 ) + ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) ) : parseInt(values.survival_wilderness_skill_mdr) || 10,
+			track_mdr: values.draevi_clan_blooded_mdr_checkbox == "talent_track" ? ( ( parseInt(values.track_skill_mdr) || 10 ) + ( parseInt(values.draevi_talent_track_bonus_mdr) || 10 ) ) : parseInt(values.track_skill_mdr) || 10
+		};
+
+	  setAttrs (setObj);
+
+	});
+  });  
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill", "edu", "language_caltheran_mdr_skill"], function(values) {

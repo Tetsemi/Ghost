@@ -15,23 +15,62 @@ Remove Sanity
 
 Update colors
 
-Update for below - Your default is always to add the skill points, so you don't need to include that in the equation, just add the skill points to the outcome of the equation.
 
-( a ) + ( ( x && y ) ? ( b + c ) : ( ( x && (!y) ) ? ( b ) : c ) )
+Change this into functions
 
-Fix this shit, I mean it works, and the logic is sound, but it just seems like fragile code and not easy to clone/maintain.
-
-x = ( values.draevi_mdr_checkbox == "survival" );
-y = ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" );
-
-a = ( parseInt(values.survival_wilderness_skill_mdr) || 10 );
-b = ( parseInt(values.draevi_survival_bonus_mdr) || 5 );
-c = ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 );
-
-( x && y ) ? ( a + b + c ) : ( ( x && (!y) ) ? ( a + b ) : ( ( (!x) && y ) ? ( a + c ) : ( a ) ) )
-
-( ( values.draevi_mdr_checkbox == "survival" ) && ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" ) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_survival_bonus_mdr) || 5 ) + ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 ) ) : ( ( ( values.draevi_mdr_checkbox == "survival" ) && (!( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" )) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_survival_bonus_mdr) || 5 ) ) : ( ( (!( values.draevi_mdr_checkbox == "survival" )) && ( values.draevi_clan_blooded_mdr_checkbox == "talent_survival" ) ) ? ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) + ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 ) ) : ( ( parseInt(values.survival_wilderness_skill_mdr) || 10 ) ) ) )
-
-
-
+			streetwise_mdr: istreetwise && italent_streetwise ? istreetwise_skill + istreetwise_bonus + italent_streetwise_bonus : istreetwise ? istreetwise_skill + istreetwise_bonus : italent_streetwise ? istreetwise_skill + italent_streetwise_bonus : istreetwise_skill
 					
+function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
+	return hasBonus && hasTalent
+		? skill + bonus + talentBonus
+		: hasBonus
+		? skill + bonus
+		: hasTalent
+		? skill + talentBonus
+		: skill;
+}
+
+function buildSkillObject(skills) {
+	const obj = {};
+	skills.forEach(skill => {
+		const skillVal = parseInt(skill.skill) || 0;
+		const bonusVal = parseInt(skill.bonus) || 0;
+		const talentVal = parseInt(skill.talentBonus) || 0;
+		obj[`${skill.name}_mdr`] = calcSkillWithBonuses(
+			skillVal,
+			bonusVal,
+			talentVal,
+			skill.hasBonus,
+			skill.hasTalent
+		);
+	});
+	return obj;
+}
+
+getAttrs([
+  "streetwise_skill_mdr", "draevi_streetwise_bonus_mdr", "draevi_talent_streetwise_bonus_mdr",
+  "athletics_skill_mdr", "draevi_athletics_bonus_mdr",
+  "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
+], function(values) {
+	const skills = [
+		{
+			name: "streetwise",
+			skill: values.streetwise_skill_mdr,
+			bonus: values.draevi_streetwise_bonus_mdr,
+			talentBonus: values.draevi_talent_streetwise_bonus_mdr,
+			hasBonus: values.draevi_mdr_checkbox === "streetwise",
+			hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_streetwise"
+		},
+		{
+			name: "athletics",
+			skill: values.athletics_skill_mdr,
+			bonus: values.draevi_athletics_bonus_mdr,
+			talentBonus: 0, // no talent
+			hasBonus: values.draevi_mdr_checkbox === "athletics",
+			hasTalent: false
+		}
+	];
+
+	const setObj = buildSkillObject(skills);
+	setAttrs(setObj);
+});

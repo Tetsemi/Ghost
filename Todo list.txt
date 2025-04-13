@@ -3,6 +3,9 @@ Populate Racial Backgrounds and maodifiers - Framework in place
 
 Populate Racial Talents and modifiers - Framework in place
 
+Add Vitality (Equal to POW at creation)
+
+
 Modify skills to use dice modifier
 <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{archery_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{archery_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{archery_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{archery_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_archery_mdr_check' /></td>
 
@@ -15,62 +18,68 @@ Remove Sanity
 
 Update colors
 
+Template
 
-Change this into functions
+on("sheet:opened add:{{skill1}}_skill_mdr change:{{skill1}}_skill_mdr add:{{skill2}}_skill_mdr change:{{skill2}}_skill_mdr change:draevi_mdr_checkbox", function() {
+  getAttrs([
+    "{{skill1}}_mdr", "{{skill2}}_mdr",
+    "{{skill1}}_skill_mdr", "draevi_{{skill1}}_bonus_mdr", "draevi_talent_{{skill1}}_bonus_mdr",
+    "{{skill2}}_skill_mdr", "draevi_{{skill2}}_bonus_mdr", "draevi_talent_{{skill2}}_bonus_mdr",
+    "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
+  ], function(values) {
 
-			streetwise_mdr: istreetwise && italent_streetwise ? istreetwise_skill + istreetwise_bonus + italent_streetwise_bonus : istreetwise ? istreetwise_skill + istreetwise_bonus : italent_streetwise ? istreetwise_skill + italent_streetwise_bonus : istreetwise_skill
-					
-function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
-	return hasBonus && hasTalent
-		? skill + bonus + talentBonus
-		: hasBonus
-		? skill + bonus
-		: hasTalent
-		? skill + talentBonus
-		: skill;
-}
+    const skills = [
+      {
+        name: "{{skill1}}",
+        skill: values.{{skill1}}_skill_mdr,
+        bonus: values.draevi_{{skill1}}_bonus_mdr,
+        talentBonus: values.draevi_talent_{{skill1}}_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "{{skill1}}",
+        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_{{skill1}}"
+      },
+      {
+        name: "{{skill2}}",
+        skill: values.{{skill2}}_skill_mdr,
+        bonus: values.draevi_{{skill2}}_bonus_mdr,
+        talentBonus: values.draevi_talent_{{skill2}}_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "{{skill2}}",
+        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_{{skill2}}"
+      }
+    ];
 
-function buildSkillObject(skills) {
-	const obj = {};
-	skills.forEach(skill => {
-		const skillVal = parseInt(skill.skill) || 0;
-		const bonusVal = parseInt(skill.bonus) || 0;
-		const talentVal = parseInt(skill.talentBonus) || 0;
-		obj[`${skill.name}_mdr`] = calcSkillWithBonuses(
-			skillVal,
-			bonusVal,
-			talentVal,
-			skill.hasBonus,
-			skill.hasTalent
-		);
-	});
-	return obj;
-}
+    const setObj = buildSkillObject(skills);
+    setAttrs(setObj);
+  });
+});
 
-getAttrs([
-  "streetwise_skill_mdr", "draevi_streetwise_bonus_mdr", "draevi_talent_streetwise_bonus_mdr",
-  "athletics_skill_mdr", "draevi_athletics_bonus_mdr",
-  "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
-], function(values) {
-	const skills = [
-		{
-			name: "streetwise",
-			skill: values.streetwise_skill_mdr,
-			bonus: values.draevi_streetwise_bonus_mdr,
-			talentBonus: values.draevi_talent_streetwise_bonus_mdr,
-			hasBonus: values.draevi_mdr_checkbox === "streetwise",
-			hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_streetwise"
-		},
-		{
-			name: "athletics",
-			skill: values.athletics_skill_mdr,
-			bonus: values.draevi_athletics_bonus_mdr,
-			talentBonus: 0, // no talent
-			hasBonus: values.draevi_mdr_checkbox === "athletics",
-			hasTalent: false
-		}
-	];
+on("sheet:opened add:{{skill1}}_skill_mdr change:{{skill1}}_skill_mdr add:{{skill2}}_skill_mdr change:{{skill2}}_skill_mdr change:draevi_mdr_checkbox", function() {
+  getAttrs([
+    "{{skill1}}_mdr", "{{skill2}}_mdr",
+    "{{skill1}}_skill_mdr", "draevi_{{skill1}}_bonus_mdr", "draevi_talent_{{skill1}}_bonus_mdr",
+    "{{skill2}}_skill_mdr", "draevi_{{skill2}}_bonus_mdr", "draevi_talent_{{skill2}}_bonus_mdr",
+    "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
+  ], function(values) {
 
-	const setObj = buildSkillObject(skills);
-	setAttrs(setObj);
+    const skills = [
+      {
+        name: "{{skill1}}",
+        skill: values.{{skill1}}_skill_mdr,
+        bonus: values.draevi_{{skill1}}_bonus_mdr,
+        talentBonus: 0,
+        hasBonus: values.draevi_mdr_checkbox === "{{skill1}}",
+        hasTalent: false
+      },
+      {
+        name: "{{skill2}}",
+        skill: values.{{skill2}}_skill_mdr,
+        bonus: values.draevi_{{skill2}}_bonus_mdr,
+        talentBonus: 0,
+        hasBonus: values.draevi_mdr_checkbox === "{{skill2}}",
+        hasTalent: false
+      }
+    ];
+
+    const setObj = buildSkillObject(skills);
+    setAttrs(setObj);
+  });
 });

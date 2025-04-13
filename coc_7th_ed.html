@@ -3247,12 +3247,12 @@
                     <td><input class="skill-input" type="text" name="attr_stealth_mdr" value="20" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{stealth_txt}}} {{success=[[@{stealth_mdr}]]}} {{hard=[[floor(@{stealth_mdr}/2)]]}} {{extreme=[[floor(@{stealth_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_stealth_mdr_check' /></td>
                 </tr>
-                <tr data-i18n-list-item="survival_wilderness">
-                    <td><input type="checkbox" name="attr_survival_wilderness_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="survival_wilderness-u">Survival(Wild)(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_survival_wilderness_skill_mdr" value="10"/></td>
-                    <td><input class="skill-input" type="text" name="attr_survival_wilderness_mdr" value="@{survival_wilderness_mdr}" readonly/></td>
-				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{survival_wilderness_txt}}} {{success=[[@{survival_wilderness_mdr}]]}} {{hard=[[floor(@{survival_wilderness_mdr}/2)]]}} {{extreme=[[floor(@{survival_wilderness_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_survival_wilderness_mdr_check' /></td>
+                <tr data-i18n-list-item="survival">
+                    <td><input type="checkbox" name="attr_survival_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="survival-u">Survival(Wild)(10%)</td>
+                    <td><input class="skill-input" type="text" name="attr_survival_skill_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_survival_mdr" value="@{survival_mdr}" readonly/></td>
+				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{survivaltxt}}} {{success=[[@{survival_mdr}]]}} {{hard=[[floor(@{survival_mdr}/2)]]}} {{extreme=[[floor(@{survival_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_survival_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="track">
                     <td><input type="checkbox" name="attr_track_mdr_checkbox"></td>
@@ -6189,7 +6189,7 @@
 <input type="hidden" name="attr_spothidden_txt" value="Spot Hidden Roll"/>
 <input type="hidden" name="attr_stealth_txt" value="Stealth Roll"/>
 <input type="hidden" name="attr_streetwise_txt" value="Streetwise Roll"/>
-<input type="hidden" name="attr_survival_wilderness_txt" value="Survival(Wilderness) Roll"/>
+<input type="hidden" name="attr_survivaltxt" value="Survival(Wilderness) Roll"/>
 <input type="hidden" name="attr_swim_txt" value="Swim Roll"/>
 <input type="hidden" name="attr_throw_txt" value="Throw Roll"/>
 <input type="hidden" name="attr_track_txt" value="Track Roll"/>
@@ -11208,24 +11208,37 @@ function buildSkillObject(skills) {
   });
   
 // Background - Horn-Carved Wanderer
-on("sheet:opened add:survival_wilderness_skill_mdr change:survival_wilderness_skill_mdr add:navigate_skill_mdr change:navigate_skill_mdr change:draevi_mdr_checkbox", function() {
-	getAttrs(["survival_wilderness_mdr", "navigate_mdr", "survival_wilderness_skill_mdr", "navigate_skill_mdr", "draevi_survival_bonus_mdr", "draevi_navigate_bonus_mdr", "draevi_talent_survival_bonus_mdr", "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"], function(values) {
+on("sheet:opened add:navigate_skill_mdr change:navigate_skill_mdr add:survival_skill_mdr change:survival_skill_mdr change:draevi_mdr_checkbox", function() {
+  getAttrs([
+    "navigate_mdr", "survival_mdr",
+    "navigate_skill_mdr", "draevi_navigate_bonus_mdr", "draevi_talent_navigate_bonus_mdr",
+    "survival_skill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr",
+    "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"
+  ], function(values) {
 
-		let isurvival = ( values.draevi_mdr_checkbox === "survival" );
-		let italent_survival = ( values.draevi_clan_blooded_mdr_checkbox === "talent_survival" );
-		let isurvival_skill = ( parseInt(values.survival_wilderness_skill_mdr) || 10 );
-		let isurvival_bonus = ( parseInt(values.draevi_survival_bonus_mdr) || 5 );
-		let italent_survival_bonus = ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 );
+    const skills = [
+      {
+        name: "navigate",
+        skill: values.navigate_skill_mdr,
+        bonus: values.draevi_navigate_bonus_mdr,
+        talentBonus: 0,
+        hasBonus: values.draevi_mdr_checkbox === "navigate",
+        hasTalent: false
+      },
+	  {
+        name: "survival",
+        skill: values.survival_skill_mdr,
+        bonus: values.draevi_survival_bonus_mdr,
+        talentBonus: values.draevi_talent_survival_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "survival",
+        hasTalent: values.draevi_clan_blooded_mdr_checkbox === "talent_survival"
+      }
+    ];
 
-		const setObj = {
-			navigate_mdr: values.draevi_mdr_checkbox === "navigate" ? ( ( parseInt(values.navigate_skill_mdr) || 10 ) + ( parseInt(values.draevi_navigate_bonus_mdr) || 5 ) ) : parseInt(values.navigate_skill_mdr) || 10,
-			survival_wilderness_mdr: isurvival && italent_survival ? isurvival_skill + isurvival_bonus + italent_survival_bonus : isurvival ? isurvival_skill + isurvival_bonus : italent_survival ? isurvival_skill + italent_survival_bonus : isurvival_skill
-		};
-
-		setAttrs (setObj);
-
-	});
+    const setObj = buildSkillObject(skills);
+    setAttrs(setObj);
   });
+});
 
 // Background - Spritbound Techshaper
  on("sheet:opened add:slicing_skill_mdr change:slicing_skill_mdr add:spirit_lore_skill_mdr change:spirit_lore_skill_mdr change:draevi_mdr_checkbox", function() {
@@ -11321,18 +11334,18 @@ on("sheet:opened add:occult_skill_mdr change:occult_skill_mdr add:veil_lore_skil
   });
   
 // Talent - Clan-Blooded
- on("sheet:opened add:intimidate_skill_mdr change:intimidate_skill_mdr add:survival_wilderness_skill_mdr change:survival_wilderness_skill_mdr add:track_skill_mdr change:track_skill_mdr change:draevi_clan_blooded_mdr_checkbox", function() {
-	getAttrs(["intimidate_mdr", "survival_wilderness_mdr", "track_mdr", "intimidate_skill_mdr", "draevi_intimidate_bonus_mdr", "draevi_talent_intimidate_bonus_mdr", "survival_wilderness_skill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr", "track_skill_mdr", "draevi_track_bonus_mdr", "draevi_talent_track_bonus_mdr", "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"], function(values) {
+ on("sheet:opened add:intimidate_skill_mdr change:intimidate_skill_mdr add:survivalskill_mdr change:survivalskill_mdr add:track_skill_mdr change:track_skill_mdr change:draevi_clan_blooded_mdr_checkbox", function() {
+	getAttrs(["intimidate_mdr", "survival_mdr", "track_mdr", "intimidate_skill_mdr", "draevi_intimidate_bonus_mdr", "draevi_talent_intimidate_bonus_mdr", "survivalskill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr", "track_skill_mdr", "draevi_track_bonus_mdr", "draevi_talent_track_bonus_mdr", "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"], function(values) {
 
 		let isurvival = ( values.draevi_mdr_checkbox === "survival" );
 		let italent_survival = ( values.draevi_clan_blooded_mdr_checkbox === "talent_survival" );
-		let isurvival_skill = ( parseInt(values.survival_wilderness_skill_mdr) || 10 );
+		let isurvival_skill = ( parseInt(values.survivalskill_mdr) || 10 );
 		let isurvival_bonus = ( parseInt(values.draevi_survival_bonus_mdr) || 5 );
 		let italent_survival_bonus = ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 );
 
 		const setObj = {
 			intimidate_mdr: values.draevi_clan_blooded_mdr_checkbox === "talent_intimidate" ? ( ( parseInt(values.intimidate_skill_mdr) || 15 ) + ( parseInt(values.draevi_talent_intimidate_bonus_mdr) || 10 ) ) : parseInt(values.intimidate_skill_mdr) || 15,
-			survival_wilderness_mdr: isurvival && italent_survival ? isurvival_skill + isurvival_bonus + italent_survival_bonus : isurvival ? isurvival_skill + isurvival_bonus : italent_survival ? isurvival_skill + italent_survival_bonus : isurvival_skill,
+			survival_mdr: isurvival && italent_survival ? isurvival_skill + isurvival_bonus + italent_survival_bonus : isurvival ? isurvival_skill + isurvival_bonus : italent_survival ? isurvival_skill + italent_survival_bonus : isurvival_skill,
 			track_mdr: values.draevi_clan_blooded_mdr_checkbox === "talent_track" ? ( ( parseInt(values.track_skill_mdr) || 10 ) + ( parseInt(values.draevi_talent_track_bonus_mdr) || 10 ) ) : parseInt(values.track_skill_mdr) || 10
 		};
 
@@ -11795,9 +11808,9 @@ on("sheet:opened add:occult_skill_mdr change:occult_skill_mdr add:veil_lore_skil
     }}); getAttrs(['streetwise_txt'], v => {
       if (v.streetwise_txt !== getTranslationByKey('streetwise-r-txt')) {
         setAttrs({streetwise_txt: getTranslationByKey('streetwise-r-txt')});
-    }}); getAttrs(['survival_wilderness_txt'], v => {
-      if (v.survival_wilderness_txt !== getTranslationByKey('survival_wilderness-r-txt')) {
-        setAttrs({survival_wilderness_txt: getTranslationByKey('survival_wilderness-r-txt')});
+    }}); getAttrs(['survivaltxt'], v => {
+      if (v.survivaltxt !== getTranslationByKey('survival-r-txt')) {
+        setAttrs({survivaltxt: getTranslationByKey('survival-r-txt')});
     }}); getAttrs(['athletics_txt'], v => {
       if (v.athletics_txt !== getTranslationByKey('athletics-r-txt')) {
         setAttrs({athletics_txt: getTranslationByKey('athletics-r-txt')});

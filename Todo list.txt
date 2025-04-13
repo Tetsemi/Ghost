@@ -83,3 +83,35 @@ on("sheet:opened add:{{skill1}}_skill_mdr change:{{skill1}}_skill_mdr add:{{skil
     setAttrs(setObj);
   });
 });
+
+on("sheet:opened add:{{skill1}}_skill_mdr change:{{skill1}}_skill_mdr add:{{skill2}}_skill_mdr change:{{skill2}}_skill_mdr change:draevi_mdr_checkbox", function() {
+  getAttrs([
+    "{{skill1}}_mdr", "{{skill2}}_mdr",
+    "{{skill1}}_skill_mdr", "draevi_{{skill1}}_bonus_mdr", "draevi_talent_{{skill1}}_bonus_mdr",
+    "{{skill2}}_skill_mdr", "draevi_{{skill2}}_bonus_mdr", "draevi_talent_{{skill2}}_bonus_mdr",
+    "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
+  ], function(values) {
+
+    const skills = [
+      {
+        name: "{{skill1}}",
+        skill: values.{{skill1}}_skill_mdr,
+        bonus: values.draevi_{{skill1}}_bonus_mdr,
+        talentBonus: 0,
+        hasBonus: values.draevi_mdr_checkbox === "{{skill1}}",
+        hasTalent: false
+      },
+	  {
+        name: "{{skill2}}",
+        skill: values.{{skill2}}_skill_mdr,
+        bonus: values.draevi_{{skill2}}_bonus_mdr,
+        talentBonus: values.draevi_talent_{{skill2}}_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "{{skill2}}",
+        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_{{skill2}}"
+      }
+    ];
+
+    const setObj = buildSkillObject(skills);
+    setAttrs(setObj);
+  });
+});

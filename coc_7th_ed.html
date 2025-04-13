@@ -11353,58 +11353,90 @@ on("sheet:opened add:occult_skill_mdr change:occult_skill_mdr add:veil_lore_skil
   });
   
 // Talent - Clan-Blooded
- on("sheet:opened add:intimidate_skill_mdr change:intimidate_skill_mdr add:survivalskill_mdr change:survivalskill_mdr add:track_skill_mdr change:track_skill_mdr change:draevi_clan_blooded_mdr_checkbox", function() {
-	getAttrs(["intimidate_mdr", "survival_mdr", "track_mdr", "intimidate_skill_mdr", "draevi_intimidate_bonus_mdr", "draevi_talent_intimidate_bonus_mdr", "survivalskill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr", "track_skill_mdr", "draevi_track_bonus_mdr", "draevi_talent_track_bonus_mdr", "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"], function(values) {
+on("sheet:opened add:intimidate_skill_mdr change:intimidate_skill_mdr add:survival_skill_mdr change:survival_skill_mdr add:track_skill_mdr change:track_skill_mdr change:draevi_clan_blooded_mdr_checkbox", function() {
+  getAttrs([
+    "intimidate_mdr", "survival_mdr", "track_mdr",
+    "intimidate_skill_mdr", "draevi_intimidate_bonus_mdr", "draevi_talent_intimidate_bonus_mdr",
+    "survival_skill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr",
+    "track_skill_mdr", "draevi_track_bonus_mdr", "draevi_talent_track_bonus_mdr",
+    "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"
+  ], function(values) {
 
-		let isurvival = ( values.draevi_mdr_checkbox === "survival" );
-		let italent_survival = ( values.draevi_clan_blooded_mdr_checkbox === "talent_survival" );
-		let isurvival_skill = ( parseInt(values.survivalskill_mdr) || 10 );
-		let isurvival_bonus = ( parseInt(values.draevi_survival_bonus_mdr) || 5 );
-		let italent_survival_bonus = ( parseInt(values.draevi_talent_survival_bonus_mdr) || 10 );
+    const skills = [
+      {
+        name: "intimidate",
+        skill: values.intimidate_skill_mdr,
+        bonus: 0,
+        talentBonus: values.draevi_talent_intimidate_bonus_mdr,
+        hasBonus: false,
+        hasTalent: values.draevi_clan_blooded_mdr_checkbox === "talent_intimidate"
+      },
+      {
+        name: "survival",
+        skill: values.survival_skill_mdr,
+        bonus: values.draevi_survival_bonus_mdr,
+        talentBonus: values.draevi_talent_survival_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "survival",
+        hasTalent: values.draevi_clan_blooded_mdr_checkbox === "talent_survival"
+      },
+      {
+        name: "track",
+        skill: values.track_skill_mdr,
+        bonus: 0,
+        talentBonus: values.draevi_talent_track_bonus_mdr,
+        hasBonus: false,
+        hasTalent: values.draevi_clan_blooded_mdr_checkbox === "talent_track"
+      }
+    ];
 
-		const setObj = {
-			intimidate_mdr: values.draevi_clan_blooded_mdr_checkbox === "talent_intimidate" ? ( ( parseInt(values.intimidate_skill_mdr) || 15 ) + ( parseInt(values.draevi_talent_intimidate_bonus_mdr) || 10 ) ) : parseInt(values.intimidate_skill_mdr) || 15,
-			survival_mdr: isurvival && italent_survival ? isurvival_skill + isurvival_bonus + italent_survival_bonus : isurvival ? isurvival_skill + isurvival_bonus : italent_survival ? isurvival_skill + italent_survival_bonus : isurvival_skill,
-			track_mdr: values.draevi_clan_blooded_mdr_checkbox === "talent_track" ? ( ( parseInt(values.track_skill_mdr) || 10 ) + ( parseInt(values.draevi_talent_track_bonus_mdr) || 10 ) ) : parseInt(values.track_skill_mdr) || 10
-		};
+    const setObj = buildSkillObject(skills);
+    setAttrs(setObj);
+  });
+});
 
-	  setAttrs (setObj);
-
-	});
-  });  
   
 // Talent - Scavenger's Edge
- on("sheet:opened add:electronics_skill_mdr change:electronics_skill_mdr add:mechanics_skill_mdr change:mechanics_skill_mdr add:streetwise_skill_mdr change:streetwise_skill_mdr change:draevi_scavengers_edge_mdr_checkbox", function() {
-	getAttrs(["electronics_mdr", "mechanics_mdr", "streetwise_mdr", "electronics_skill_mdr", "draevi_electronics_bonus_mdr", "draevi_talent_electronics_bonus_mdr", "mechanics_skill_mdr", "draevi_mechanics_bonus_mdr", "draevi_talent_mechanics_bonus_mdr", "streetwise_skill_mdr", "draevi_streetwise_bonus_mdr", "draevi_talent_streetwise_bonus_mdr", "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"], function(values) {
+on("sheet:opened add:electronics_skill_mdr change:electronics_skill_mdr add:mechanics_skill_mdr change:mechanics_skill_mdr add:streetwise_skill_mdr change:streetwise_skill_mdr change:draevi_scavengers_edge_mdr_checkbox", function() {
+  getAttrs([
+    "electronics_mdr", "mechanics_mdr", "streetwise_mdr",
+    "electronics_skill_mdr", "draevi_electronics_bonus_mdr", "draevi_talent_electronics_bonus_mdr",
+    "mechanics_skill_mdr", "draevi_mechanics_bonus_mdr", "draevi_talent_mechanics_bonus_mdr",
+    "streetwise_skill_mdr", "draevi_streetwise_bonus_mdr", "draevi_talent_streetwise_bonus_mdr",
+    "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
+  ], function(values) {
 
-		let ielectronics = ( values.draevi_mdr_checkbox === "electronics" );
-		let italent_electronics = ( values.draevi_scavengers_edge_mdr_checkbox === "talent_electronics" );
-		let ielectronics_skill = ( parseInt(values.electronics_skill_mdr) || 10 );
-		let ielectronics_bonus = ( parseInt(values.draevi_electronics_bonus_mdr) || 5 );
-		let italent_electronics_bonus = ( parseInt(values.draevi_talent_electronics_bonus_mdr) || 10 );
+    const skills = [
+      {
+        name: "electronics",
+        skill: values.electronics_skill_mdr,
+        bonus: values.draevi_electronics_bonus_mdr,
+        talentBonus: values.draevi_talent_electronics_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "electronics",
+        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_electronics"
+      },
+      {
+        name: "mechanics",
+        skill: values.mechanics_skill_mdr,
+        bonus: values.draevi_mechanics_bonus_mdr,
+        talentBonus: values.draevi_talent_mechanics_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "mechanics",
+        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_mechanics"
+      },
+      {
+        name: "streetwise",
+        skill: values.streetwise_skill_mdr,
+        bonus: values.draevi_streetwise_bonus_mdr,
+        talentBonus: values.draevi_talent_streetwise_bonus_mdr,
+        hasBonus: values.draevi_mdr_checkbox === "streetwise",
+        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_streetwise"
+      }
+    ];
 
-		let imechanics = ( values.draevi_mdr_checkbox === "mechanics" );
-		let italent_mechanics = ( values.draevi_scavengers_edge_mdr_checkbox === "talent_mechanics" );
-		let imechanics_skill = ( parseInt(values.mechanics_skill_mdr) || 10 );
-		let imechanics_bonus = ( parseInt(values.draevi_mechanics_bonus_mdr) || 5 );
-		let italent_mechanics_bonus = ( parseInt(values.draevi_talent_mechanics_bonus_mdr) || 10 );
-
-		let istreetwise = ( values.draevi_mdr_checkbox === "streetwise");
-		let italent_streetwise = ( values.draevi_scavengers_edge_mdr_checkbox === "talent_streetwise");
-		let istreetwise_skill = ( parseInt(values.streetwise_skill_mdr) || 10 );
-		let istreetwise_bonus = ( parseInt(values.draevi_streetwise_bonus_mdr) || 5 );
-		let italent_streetwise_bonus = ( parseInt(values.draevi_talent_streetwise_bonus_mdr) || 10 );
-
-		const setObj = {
-			electronics_mdr: ielectronics && italent_electronics ? ielectronics_skill + ielectronics_bonus + italent_electronics_bonus : ielectronics ? ielectronics_skill + ielectronics_bonus : italent_electronics ? ielectronics_skill + italent_electronics_bonus : ielectronics_skill,
-			mechanics_mdr: imechanics && italent_mechanics ? imechanics_skill + imechanics_bonus + italent_mechanics_bonus : imechanics ? imechanics_skill + imechanics_bonus : italent_mechanics ? imechanics_skill + italent_mechanics_bonus : imechanics_skill,
-			streetwise_mdr: istreetwise && italent_streetwise ? istreetwise_skill + istreetwise_bonus + italent_streetwise_bonus : istreetwise ? istreetwise_skill + istreetwise_bonus : italent_streetwise ? istreetwise_skill + italent_streetwise_bonus : istreetwise_skill
-		};
-
-	  setAttrs (setObj);
-
-	});
-  });  
+    const setObj = buildSkillObject(skills);
+    setAttrs(setObj);
+  });
+});
+  
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill", "edu", "language_caltheran_mdr_skill"], function(values) {

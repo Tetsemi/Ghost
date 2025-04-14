@@ -58,8 +58,6 @@
     </div>
 </div>
 
-<input type="checkbox" style="display:none" class="sheet-hide" name="attr_sheet-hide">
-
 <!------------------------- Downtime ------------------------->
 
 <div class='sheet-colrow'>
@@ -11140,20 +11138,6 @@ function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = fals
          (hasTalent ? (parseInt(talentBonus) || 0) : 0);
 }
 
-function buildSkillObject(skills) {
-  const obj = {};
-  skills.forEach(skill => {
-    obj[`${skill.name}_mdr`] = calcSkillWithBonuses(
-      skill.skill,
-      skill.bonus,
-      skill.talentBonus,
-      skill.hasBonus,
-      skill.hasTalent
-    );
-  });
-  return obj;
-}
-
 // -- Object Builder --
 function buildSkillObject(skills) {
   const obj = {};
@@ -11172,65 +11156,69 @@ function buildSkillObject(skills) {
   return obj;
 }
 
-function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSource = "" }) {
+// -- Register Auto-Update Events --
+function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSources = [] }) {
   const watchFields = triggerSkills.flatMap(skill => [
     `add:${skill}_skill_mdr`,
     `change:${skill}_skill_mdr`
-  ]).concat([
+  ])
+  .concat([
     `change:${racePrefix}_mdr_checkbox`
-  ]);
+  ])
+  .concat(
+    talentSources.map(talent => `change:${racePrefix}_${talent}_mdr_checkbox`)
+  );
 
-  // Watch the talent checkbox only if it exists
-  if (talentSource) {
-    watchFields.push(`change:${racePrefix}_${talentSource}_mdr_checkbox`);
-  }
-
-  const getKeys = triggerSkills.flatMap(skill => [
-    `${skill}_mdr`,
-    `${skill}_skill_mdr`,
-    `${racePrefix}_${skill}_bonus_mdr`,
-    `${racePrefix}_talent_${skill}_bonus_mdr`
-  ]).concat([
-    `${racePrefix}_mdr_checkbox`,
-    `${racePrefix}_${talentSource}_mdr_checkbox`,
-    "debug_output" // For logging
+  const getKeys = triggerSkills.flatMap(skill => {
+    const keys = [
+      `${skill}_skill_mdr`,
+      `${racePrefix}_${skill}_bonus_mdr`,
+      `${racePrefix}_talent_${skill}_bonus_mdr`
+    ];
+    talentSources.forEach(talent => {
+      keys.push(`${racePrefix}_${talent}_mdr_checkbox`);
+    });
+    return keys;
+  }).concat([
+    `${racePrefix}_mdr_checkbox`
   ]);
 
   on(`sheet:opened ${watchFields.join(" ")}`, () => {
     getAttrs([...new Set(getKeys)], values => {
-      const debugLogs = [];
-
       const skills = triggerSkills.map(skill => {
-        const skillBase = parseInt(values[`${skill}_skill_mdr`]) || 0;
-        const bgBonus = parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0;
-        const talentBonus = parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
+        const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
+        const hasBonus = values[`${racePrefix}_mdr_checkbox`] === skill;
+        const bonus = hasBonus ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0 : 0;
 
-        const hasBG = values[`${racePrefix}_mdr_checkbox`] === skill;
-        const hasTalent = values[`${racePrefix}_${talentSource}_mdr_checkbox`] === `talent_${skill}`;
+        let hasTalent = false;
+        let talentBonus = 0;
 
-        const finalVal = calcSkillWithBonuses(skillBase, bgBonus, talentBonus, hasBG, hasTalent);
-        debugLogs.push(`${skill}: base=${skillBase} +${hasBG ? bgBonus : 0} +${hasTalent ? talentBonus : 0} => ${finalVal}`);
+        talentSources.forEach(talent => {
+          if (values[`${racePrefix}_${talent}_mdr_checkbox`] === `talent_${skill}`) {
+            hasTalent = true;
+            talentBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
+          }
+        });
+
+        const total = base + bonus + talentBonus;
+
+        console.log(`${skill}: base=${base} +${bonus} +${talentBonus} => ${total}`);
 
         return {
           name: skill,
-          skill: skillBase,
-          bonus: bgBonus,
-          talentBonus: talentBonus,
-          hasBonus: hasBG,
-          hasTalent: hasTalent
+          skill: base,
+          bonus,
+          talentBonus,
+          hasBonus,
+          hasTalent
         };
       });
 
       const setObj = buildSkillObject(skills);
-      setObj.debug_output = debugLogs.join(" | ");
-
       setAttrs(setObj);
     });
   });
 }
-
-
-
 
 // -- Default Bonus Setter --
 function setDefaultSkillBonuses(prefix, skills, defaultBonus = 5) {
@@ -11260,22 +11248,92 @@ function setDefaultTalentBonuses(prefix, skills, defaultBonus = 10) {
 
 // -- One-Time Initialization on Sheet Open --
 on("sheet:opened", function () {
-  getAttrs(["draevi_bonuses_initialized"], values => {
-    if (values.draevi_bonuses_initialized !== "1") {
-      setDefaultSkillBonuses("draevi", [
+  const races = [
+    {
+      name: "draevi",
+      skills: [
         "athletics", "electronics", "mechanics", "navigate", "occult",
         "slicing", "spirit_lore", "streetwise", "survival", "veil_lore"
-      ]);
-
-      setDefaultTalentBonuses("draevi", [
+      ],
+      talents: [
         "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
-      ]);
-
-      setAttrs({ draevi_bonuses_initialized: "1" });
+      ]
+    },
+    {
+      name: "alteri",
+      skills: [
+        "arcana", "deception", "disguise", "history", "insight",
+        "impersonation", "persuade", "stealth", "streetwise"
+      ],
+      talents: [
+        "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
+      ]
     }
+  ];
+
+  const initKeys = races.map(r => `${r.name}_bonuses_initialized`);
+
+  getAttrs(initKeys, values => {
+    races.forEach(race => {
+      if (values[`${race.name}_bonuses_initialized`] !== "1") {
+        setDefaultSkillBonuses(race.name, race.skills);
+        setDefaultTalentBonuses(race.name, race.talents);
+        setAttrs({ [`${race.name}_bonuses_initialized`]: "1" });
+      }
+    });
   });
 });
 
+// ===== Backgrounds and Talents Alter Race ===== //
+
+
+// Background: Break-Faced Radical
+registerSkillHandler({
+  triggerSkills: ["deception", "persuade"],
+  racePrefix: "alteri",
+  talentSources: []
+});
+
+// Background: Ghostline Runner
+registerSkillHandler({
+  triggerSkills: ["slicing", "streetwise"],
+  racePrefix: "alteri",
+  talentSources: []
+});
+
+// Background: Legacy-Bearer
+registerSkillHandler({
+  triggerSkills: ["impersonation", "history"],
+  racePrefix: "alteri",
+  talentSources: ["maskwrights_grace"]
+});
+
+// Background: Soft-Year Drifter
+registerSkillHandler({
+  triggerSkills: ["insight", "stealth"],
+  racePrefix: "alteri",
+  talentSources: ["maskwrights_grace"]
+});
+
+// Background: Veilhaven Attendant
+registerSkillHandler({
+  triggerSkills: ["arcana", "disguise"],
+  racePrefix: "alteri",
+  talentSources: ["maskwrights_grace"]
+});
+
+// Talent: Maskwright’s Grace
+registerSkillHandler({
+  triggerSkills: ["disquise", "impersonation", "insight"],
+  racePrefix: "alteri",
+  talentSources: ["maskwrights_grace"]
+});
+// Talent: Shaped for Subtlety
+registerSkillHandler({
+  triggerSkills: ["insight", "slicing", "stealth"],
+  racePrefix: "alteri",
+  talentSources: ["shaped_for_subtlety"]
+});
 
 // ===== Backgrounds and Talents for Draevi Race =====
 
@@ -11283,51 +11341,50 @@ on("sheet:opened", function () {
 registerSkillHandler({
   triggerSkills: ["electronics", "mechanics"],
   racePrefix: "draevi",
-  talentSource: "scavengers_edge"
+  talentSources: ["scavengers_edge"]
 });
 
 // Background: Horn-Carved Wanderer
 registerSkillHandler({
   triggerSkills: ["navigate", "survival"],
   racePrefix: "draevi",
-  talentSource: "clan_blooded"
+  talentSources: ["clan_blooded"]
 });
 
 // Background: Spiritbound Techshaper
 registerSkillHandler({
   triggerSkills: ["slicing", "spirit_lore"],
   racePrefix: "draevi",
-  talentSource: "scavengers_edge"
+  talentSources: ["scavengers_edge"]
 });
 
 // Background: Tradition-Keeper (no talents)
 registerSkillHandler({
   triggerSkills: ["occult", "veil_lore"],
-  racePrefix: "draevi"
+  racePrefix: "draevi",
+  talentSources: []
 });
 
 // Background: Urban Tread
 registerSkillHandler({
   triggerSkills: ["streetwise", "athletics"],
   racePrefix: "draevi",
-  talentSource: "scavengers_edge"
+  talentSources: ["scavengers_edge"]
 });
 
 // Talent: Clan-Blooded
 registerSkillHandler({
   triggerSkills: ["intimidate", "survival", "track"],
   racePrefix: "draevi",
-  talentSource: "clan_blooded"
+  talentSources: ["clan_blooded"]
 });
 
 // Talent: Scavenger's Edge
 registerSkillHandler({
   triggerSkills: ["electronics", "mechanics", "streetwise"],
   racePrefix: "draevi",
-  talentSource: "scavengers_edge"
+  talentSources: ["scavengers_edge"]
 });
-
-
 
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {

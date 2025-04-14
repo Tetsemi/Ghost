@@ -3113,19 +3113,19 @@
                     <td><input class="skill-input" type="text" name="attr_disguise_mdr" value="@{disguise_mdr}" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{disguise_txt}}} {{success=[[@{disguise_mdr}]]}} {{hard=[[floor(@{disguise_mdr}/2)]]}} {{extreme=[[floor(@{disguise_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_disguise_mdr_check' /></td>
                 </tr>
-				<tr data-i18n-list-item="ettiquette_high_society">
-                    <td><input type="checkbox" name="attr_ettiquette_high_society_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="ettiquette_high_society-u">Ettiquette(H. Soc.)(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_ettiquette_high_society_mdr" value="10"/></td>
-                    <td><input class="skill-input" type="text" name="attr_ettiquette_high_society_mdr" value="10" readonly/></td>
-				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{ettiquette_high_society_txt}}} {{success=[[@{ettiquette_high_society_mdr}]]}} {{hard=[[floor(@{ettiquette_high_society_mdr}/2)]]}} {{extreme=[[floor(@{ettiquette_high_society_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_ettiquette_high_society_mdr_check' /></td>
+				<tr data-i18n-list-item="etiquette_high_society">
+                    <td><input type="checkbox" name="attr_etiquette_high_society_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="etiquette_high_society-u">Etiquette(H. Soc.)(10%)</td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_high_society_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_high_society_mdr" value="10" readonly/></td>
+				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{etiquette_high_society_txt}}} {{success=[[@{etiquette_high_society_mdr}]]}} {{hard=[[floor(@{etiquette_high_society_mdr}/2)]]}} {{extreme=[[floor(@{etiquette_high_society_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_etiquette_high_society_mdr_check' /></td>
                 </tr>
-				<tr data-i18n-list-item="ettiquette_other">
-                    <td><input type="checkbox" name="attr_ettiquette_other_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="ettiquette_other-u">Ettiquette(Other)(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_ettiquette_other_mdr" value="10"/></td>
-                    <td><input class="skill-input" type="text" name="attr_ettiquette_other_mdr" value="10" readonly/></td>
-				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{ettiquette_other_txt}}} {{success=[[@{ettiquette_other_mdr}]]}} {{hard=[[floor(@{ettiquette_other_mdr}/2)]]}} {{extreme=[[floor(@{ettiquette_other_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_ettiquette_other_mdr_check' /></td>
+				<tr data-i18n-list-item="etiquette_other">
+                    <td><input type="checkbox" name="attr_etiquette_other_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="etiquette_other-u">Etiquette(Other)(10%)</td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_other_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_other_mdr" value="10" readonly/></td>
+				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{etiquette_other_txt}}} {{success=[[@{etiquette_other_mdr}]]}} {{hard=[[floor(@{etiquette_other_mdr}/2)]]}} {{extreme=[[floor(@{etiquette_other_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_etiquette_other_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="forgery">
                     <td><input type="checkbox" name="attr_forgery_mdr_checkbox"></td>
@@ -6331,8 +6331,8 @@
 <input type="hidden" name="attr_elecrepair_txt" value="Elec. Repair Roll"/>
 <input type="hidden" name="attr_electronics_txt" value="Electronics Roll"/>
 <input type="hidden" name="attr_engineering_txt" value="Engineering Roll"/>
-<input type="hidden" name="attr_ettiquette_high_society_txt" value="Ettiquette(High Society) Roll"/>
-<input type="hidden" name="attr_ettiquette_other_txt" value="Ettiquette(Other) Roll"/>
+<input type="hidden" name="attr_etiquette_high_society_txt" value="Etiquette(High Society) Roll"/>
+<input type="hidden" name="attr_etiquette_other_txt" value="Etiquette(Other) Roll"/>
 <input type="hidden" name="attr_fasttalk_txt" value="Fast Talk Roll"/>
 <input type="hidden" name="attr_fighting_brawl_txt" value="Brawl Roll"/>
 <input type="hidden" name="attr_firearms_hg_txt" value="Pistol Roll"/>
@@ -11462,7 +11462,19 @@ on("sheet:opened", function () {
       talents: [
         "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
       ]
-    }
+    },
+	{
+      name: "human",
+      skills: [
+		"alchemy", "anthropology", "archaeology", "architecture", "biology",
+		"chemistry", "electronics", "engineering", "etiquette_high_society", "firearms_rifle_mdr",
+		"first_aid", "insight", "mechanics", "medicine", "persuade",
+		"physics", "slicing", "stealth", "streetwise", "survival"
+		],
+      talents: [
+        "electronics", "mechanics", "slicing"
+      ]
+    },
   ];
 
   const initKeys = races.map(r => `${r.name}_bonuses_initialized`);
@@ -11580,6 +11592,63 @@ registerSkillHandler({
   talentSources: ["scavengers_edge"]
 });
 
+// ===== Backgrounds and Talents for Human Race =====
+
+// Background: Ash War Refugee
+registerSkillHandler({
+  triggerSkills: ["first_aid", "insight"],
+  racePrefix: "human",
+  talentSources: []
+});
+
+// Background: Data-Hatched
+registerSkillHandler({
+  triggerSkills: ["alchemy", "anthropology", "archaeology", "architecture", "biology",
+	"chemistry", "engineering", "medicine", "physics", "slicing"],
+  racePrefix: "human",
+  talentSources: ["quick_fixer"]
+});
+
+// Background: Enclave Born
+registerSkillHandler({
+  triggerSkills: ["etiquette_high_society", "persuade"],
+  racePrefix: "human",
+  talentSources: []
+});
+
+// Background: Gutterfire Youth
+registerSkillHandler({
+  triggerSkills: ["stealth", "streetwise"],
+  racePrefix: "human",
+  talentSources: []
+});
+
+// Background: Outpost Raised
+registerSkillHandler({
+  triggerSkills: ["firearms_rifle_mdr", "survival"],
+  racePrefix: "human",
+  talentSources: []
+});
+
+// Background: Scavsteel Whelp
+registerSkillHandler({
+  triggerSkills: ["electronics", "mechanics"],
+  racePrefix: "human",
+  talentSources: ["quick_fixer"]
+});
+
+// Talent: Quick Fixer
+registerSkillHandler({
+  triggerSkills: ["electronics", "mechanics", "slicing"],
+  racePrefix: "human",
+  talentSources: ["quick_fixer"]
+});
+// Talent: Shaped for Subtlety
+registerSkillHandler({
+  triggerSkills: ["insight", "slicing", "stealth"],
+  racePrefix: "human",
+  talentSources: ["shaped_for_subtlety"]
+});
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill", "edu", "language_caltheran_mdr_skill"], function(values) {
@@ -11825,9 +11894,9 @@ registerSkillHandler({
 	}}); getAttrs(['engineering_txt'], v => {
       if (v.engineering_txt !== getTranslationByKey('engineering-r-txt')) {
         setAttrs({engineering_txt: getTranslationByKey('engineering-r-txt')});
-	}}); getAttrs(['ettiquette_high_society_txt'], v => {
-      if (v.ettiquette_high_society_txt !== getTranslationByKey('ettiquette_high_society-r-txt')) {
-        setAttrs({ettiquette_high_society_txt: getTranslationByKey('ettiquette_high_society-r-txt')});
+	}}); getAttrs(['etiquette_high_society_txt'], v => {
+      if (v.etiquette_high_society_txt !== getTranslationByKey('etiquette_high_society-r-txt')) {
+        setAttrs({etiquette_high_society_txt: getTranslationByKey('etiquette_high_society-r-txt')});
 	}}); getAttrs(['engineering_txt'], v => {
       if (v.engineering_txt !== getTranslationByKey('engineering-r-txt')) {
         setAttrs({engineering_txt: getTranslationByKey('engineering-r-txt')});

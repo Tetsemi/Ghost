@@ -190,7 +190,7 @@
 					<option value="2">Draevi</option>
 					<option value="3">Feran</option>
 					<option value="4">Humans</option>
-					<option value="5">Khadra (Stoneborn)</option>
+					<option value="5">Khadra</option>
 					<option value="6">Kitsu</option>
 					<option value="7">Lyranni</option>
 					<option value="8">Veyra</option>
@@ -198,10 +198,6 @@
 		    </div>
         </div>
     </div>
-
-<div>
-<input type="text" name="attr_debug_output" style="width: 100%;" readonly />
-</div>
 
     <div class='sheet-col'>
         <input type="checkbox" style="display:none" class="sheet-showpulp" name="attr_showpulp" value="1">
@@ -2948,8 +2944,8 @@
                 <tr data-i18n-list-item="arcana">
                     <td><input type="checkbox" name="attr_arcana_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="arcana-u">Arcana(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_arcana_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_arcana_mdr" value="5" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_arcana_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_arcana_mdr" value="@{arcana_mdr}" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{arcana_txt}}} {{success=[[@{arcana_mdr}]]}} {{hard=[[floor(@{arcana_mdr}/2)]]}} {{extreme=[[floor(@{arcana_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_arcana_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="archaeology">
@@ -2997,8 +2993,8 @@
                 <tr data-i18n-list-item="history">
                     <td><input type="checkbox" name="attr_history_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="history-u">History(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_history_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_history_mdr" value="5" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_history_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_history_mdr" value="@{history_mdr}" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{history_txt}}} {{success=[[@{history_mdr}]]}} {{hard=[[floor(@{history_mdr}/2)]]}} {{extreme=[[floor(@{history_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_history_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="investigation">
@@ -3101,15 +3097,15 @@
                 <tr data-i18n-list-item="deception">
                     <td><input type="checkbox" name="attr_deception_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="deception-u">Deception(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_deception_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_deception_mdr" value="5" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_deception_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_deception_mdr" value="@{deception_mdr}" readonly/></td>
 				   	<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{deception_txt}}} {{success=[[@{deception_mdr}]]}} {{hard=[[floor(@{deception_mdr}/2)]]}} {{extreme=[[floor(@{deception_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_deception_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="disguise">
                     <td><input type="checkbox" name="attr_disguise_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="disguise-u">Disguise(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_disguise_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_disguise_mdr" value="5" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_disguise_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_disguise_mdr" value="@{disguise_mdr}" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{disguise_txt}}} {{success=[[@{disguise_mdr}]]}} {{hard=[[floor(@{disguise_mdr}/2)]]}} {{extreme=[[floor(@{disguise_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_disguise_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="ettiquette_high_society">
@@ -3136,15 +3132,15 @@
                 <tr data-i18n-list-item="impersonation">
                     <td><input type="checkbox" name="attr_impersonation_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="impersonation-u">Impersonation(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_impersonation_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_impersonation_mdr" value="5" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_impersonation_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_impersonation_mdr" value="@{impersonation_mdr}" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{impersonation_txt}}} {{success=[[@{impersonation_mdr}]]}} {{hard=[[floor(@{impersonation_mdr}/2)]]}} {{extreme=[[floor(@{impersonation_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_impersonation_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="insight">
                     <td><input type="checkbox" name="attr_insight_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="insight-u">Insight(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_insight_mdr" value="10"/></td>
-                    <td><input class="skill-input" type="text" name="attr_insight_mdr" value="10" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_insight_skill_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_insight_mdr" value="@{insight_mdr}" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=Insight Roll}} {{success=[[@{insight_mdr}]]}} {{hard=[[floor(@{insight_mdr}/2)]]}} {{extreme=[[floor(@{insight_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_insight_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="instrument">
@@ -3164,8 +3160,8 @@
                 <tr data-i18n-list-item="persuade">
                     <td><input type="checkbox" name="attr_persuade_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="persuade-u">Persuade(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_persuade_mdr" value="10"/></td>
-                    <td><input class="skill-input" type="text" name="attr_persuade_mdr" value="10" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_persuade_skill_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_persuade_mdr" value="@{persuade_mdr}" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{persuade_txt}}} {{success=[[@{persuade_mdr}]]}} {{hard=[[floor(@{persuade_mdr}/2)]]}} {{extreme=[[floor(@{persuade_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_persuade_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="singing">
@@ -3245,8 +3241,8 @@
                 <tr data-i18n-list-item="stealth">
                     <td><input type="checkbox" name="attr_stealth_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="stealth-u">Stealth(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_stealth_mdr" value="20"/></td>
-                    <td><input class="skill-input" type="text" name="attr_stealth_mdr" value="20" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_stealth_skill_mdr" value="20"/></td>
+                    <td><input class="skill-input" type="text" name="attr_stealth_mdr" value="@{stealth_mdr}" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{stealth_txt}}} {{success=[[@{stealth_mdr}]]}} {{hard=[[floor(@{stealth_mdr}/2)]]}} {{extreme=[[floor(@{stealth_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_stealth_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="survival">
@@ -4187,11 +4183,60 @@
 	<div class="sheet-racials1">
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials">
 		<div class="sheet-section" style="width: 97.7%">
-			<table style="width:100%">
-			</table>
-			<fieldset class="repeating_racials">
-				<textarea name="attr_racial1" style="width:99%;height:38px;font-size:90%"></textarea>
-			</fieldset>
+		<table style="width:100%">
+			<tr>
+				<td>
+					<table style="width:100%">
+						<h3>Break-Faced Radical</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="alteri_deception">
+							<td><input type="checkbox" name="attr_alteri_mdr_checkbox" value="deception"></td>
+							<td class="racial-label" data-i18n="alteri_deception-u">Deception + 5%</td>
+							<td>Gain +5% Deception Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_deception_bonus_mdr" value="@{alteri_deception_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="alteri_persuade">
+							<td><input type="checkbox" name="attr_alteri_mdr_checkbox" value="persuade"></td>
+							<td class="racial-label" data-i18n="alteri_persuade-u">Persuade + 5%</td>
+							<td>Gain +5% Persuade Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_persuade_bonus_mdr" value="@{alteri_persuade_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+				</td>
+				<td style="width:25px"></td>
+				<td>
+					<table style="width:100%">
+						<h3>Ghostline Runner</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="alteri_slicing">
+							<td><input type="checkbox" name="attr_alteri_mdr_checkbox" value="slicing"></td>
+							<td class="racial-label" data-i18n="alteri_slicing-u">Slicing + 5%</td>
+							<td>Gain +5% Slicing Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_slicing_bonus_mdr" value="@{alteri_slicing_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="alteri_streetwise">
+							<td><input type="checkbox" name="attr_alteri_mdr_checkbox" value="streetwise"></td>
+							<td class="racial-label" data-i18n="alteri_streetwise-u">Streetwise + 5%</td>
+							<td>Gain +5% Streetwise Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_streetwise_bonus_mdr" value="@{alteri_streetwise_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<fieldset class="repeating_racials">
+			<textarea name="attr_racial1" style="width:99%;height:38px;font-size:90%"></textarea>
+		</fieldset>
 		</div>
     </div>
 
@@ -4358,7 +4403,7 @@
 		</div>
     </div>
 
-<!-- Start of Khadra (Stoneborn) Backgrounds -->
+<!-- Start of Khadra Backgrounds -->
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" value="5">
 	<div class="sheet-racials5">
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials">
@@ -4587,7 +4632,7 @@
 		</div>
     </div>
 
-<!-- Start of Khadra (Stoneborn) Talents -->
+<!-- Start of Khadra Talents -->
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" value="5">
 	<div class="sheet-racials5">
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials">
@@ -11158,17 +11203,21 @@ function buildSkillObject(skills) {
 
 // -- Register Auto-Update Events --
 function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSources = [] }) {
+  // Build list of fields to watch
   const watchFields = triggerSkills.flatMap(skill => [
     `add:${skill}_skill_mdr`,
     `change:${skill}_skill_mdr`
   ])
   .concat([
-    `change:${racePrefix}_mdr_checkbox`
+    `change:${racePrefix}_mdr_checkbox`,
+    `change:showracials`,     // ✅ watch race selection dropdown
+    `sheet:opened`            // ✅ run this on every sheet open
   ])
   .concat(
     talentSources.map(talent => `change:${racePrefix}_${talent}_mdr_checkbox`)
   );
 
+  // Build list of attribute keys to fetch
   const getKeys = triggerSkills.flatMap(skill => {
     const keys = [
       `${skill}_skill_mdr`,
@@ -11180,45 +11229,56 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
     });
     return keys;
   }).concat([
-    `${racePrefix}_mdr_checkbox`
+    `${racePrefix}_mdr_checkbox`,
+    "showracials" // ✅ included to ensure race-specific logic
   ]);
 
-  on(`sheet:opened ${watchFields.join(" ")}`, () => {
+  // Register the handler
+  on(watchFields.join(" "), () => {
     getAttrs([...new Set(getKeys)], values => {
+      const activeRaceValue = values["showracials"];
+      const raceValueMap = {
+        "1": "alteri",
+        "2": "draevi",
+        "3": "feran",
+        "4": "human",
+        "5": "khadra",
+        "6": "kitsu",
+        "7": "lyranni",
+        "8": "veyra"
+      };
+
+      const activeRace = raceValueMap[activeRaceValue];
+
+      // ✅ Only proceed if the current handler's race matches the selected race
+      if (activeRace !== racePrefix) return;
+
       const skills = triggerSkills.map(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
-        const hasBonus = values[`${racePrefix}_mdr_checkbox`] === skill;
-        const bonus = hasBonus ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0 : 0;
+        const backgroundBonus = values[`${racePrefix}_mdr_checkbox`] === skill
+          ? (parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
+          : 0;
 
-        let hasTalent = false;
-        let talentBonus = 0;
+        const talentBonuses = talentSources.reduce((sum, talent) => {
+          const isChecked = values[`${racePrefix}_${talent}_mdr_checkbox`] === `talent_${skill}`;
+          const bonus = isChecked ? (parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0) : 0;
+          return sum + bonus;
+        }, 0);
 
-        talentSources.forEach(talent => {
-          if (values[`${racePrefix}_${talent}_mdr_checkbox`] === `talent_${skill}`) {
-            hasTalent = true;
-            talentBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
-          }
-        });
-
-        const total = base + bonus + talentBonus;
-
-        console.log(`${skill}: base=${base} +${bonus} +${talentBonus} => ${total}`);
+        const total = base + backgroundBonus + talentBonuses;
 
         return {
-          name: skill,
-          skill: base,
-          bonus,
-          talentBonus,
-          hasBonus,
-          hasTalent
+          [`${skill}_mdr`]: total
         };
       });
 
-      const setObj = buildSkillObject(skills);
+      const setObj = Object.assign({}, ...skills);
       setAttrs(setObj);
     });
   });
 }
+
+
 
 // -- Default Bonus Setter --
 function setDefaultSkillBonuses(prefix, skills, defaultBonus = 5) {
@@ -11250,20 +11310,20 @@ function setDefaultTalentBonuses(prefix, skills, defaultBonus = 10) {
 on("sheet:opened", function () {
   const races = [
     {
+      name: "alteri",
+      skills: [
+        "arcana", "deception", "disguise", "history", "insight",
+        "impersonation", "persuade", "slicing", "stealth", "streetwise"
+      ],
+      talents: [
+        "disguise", "impersonation", "insight", "slicing", "stealth"
+      ]
+    },
+    {
       name: "draevi",
       skills: [
         "athletics", "electronics", "mechanics", "navigate", "occult",
         "slicing", "spirit_lore", "streetwise", "survival", "veil_lore"
-      ],
-      talents: [
-        "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
-      ]
-    },
-    {
-      name: "alteri",
-      skills: [
-        "arcana", "deception", "disguise", "history", "insight",
-        "impersonation", "persuade", "stealth", "streetwise"
       ],
       talents: [
         "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
@@ -11324,7 +11384,7 @@ registerSkillHandler({
 
 // Talent: Maskwright’s Grace
 registerSkillHandler({
-  triggerSkills: ["disquise", "impersonation", "insight"],
+  triggerSkills: ["disguise", "impersonation", "insight"],
   racePrefix: "alteri",
   talentSources: ["maskwrights_grace"]
 });

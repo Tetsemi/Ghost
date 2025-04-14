@@ -201,6 +201,10 @@
         </div>
     </div>
 
+<div>
+<input type="text" name="attr_debug_output" style="width: 100%;" readonly />
+</div>
+
     <div class='sheet-col'>
         <input type="checkbox" style="display:none" class="sheet-showpulp" name="attr_showpulp" value="1">
         <input type="checkbox" style="display:none" class="sheet-showpulp" name="attr_showpulp" value="1">
@@ -11127,17 +11131,27 @@ Bout of Madness-Summary---------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-/ ===== Roll20 Reusable Skill Modifier Module ===== //
+// ===== Roll20 Reusable Skill Modifier Module ===== //
 
 // -- Core Calculation --
 function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
-  return hasBonus && hasTalent
-    ? skill + bonus + talentBonus
-    : hasBonus
-    ? skill + bonus
-    : hasTalent
-    ? skill + talentBonus
-    : skill;
+  return (parseInt(skill) || 0) +
+         (hasBonus ? (parseInt(bonus) || 0) : 0) +
+         (hasTalent ? (parseInt(talentBonus) || 0) : 0);
+}
+
+function buildSkillObject(skills) {
+  const obj = {};
+  skills.forEach(skill => {
+    obj[`${skill.name}_mdr`] = calcSkillWithBonuses(
+      skill.skill,
+      skill.bonus,
+      skill.talentBonus,
+      skill.hasBonus,
+      skill.hasTalent
+    );
+  });
+  return obj;
 }
 
 // -- Object Builder --
@@ -11158,36 +11172,65 @@ function buildSkillObject(skills) {
   return obj;
 }
 
-// -- Register Auto-Update Events --
-function registerSkillHandler({ triggerSkills = [], checkboxKeys = [], racePrefix = "", talentSource = "" }) {
-  const watchFields = triggerSkills.flatMap(skill => [`add:${skill}_skill_mdr`, `change:${skill}_skill_mdr`])
-    .concat([`change:${racePrefix}_mdr_checkbox`]);
+function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSource = "" }) {
+  const watchFields = triggerSkills.flatMap(skill => [
+    `add:${skill}_skill_mdr`,
+    `change:${skill}_skill_mdr`
+  ]).concat([
+    `change:${racePrefix}_mdr_checkbox`
+  ]);
 
-  if (talentSource) watchFields.push(`change:${racePrefix}_${talentSource}_checkbox`);
+  // Watch the talent checkbox only if it exists
+  if (talentSource) {
+    watchFields.push(`change:${racePrefix}_${talentSource}_mdr_checkbox`);
+  }
 
   const getKeys = triggerSkills.flatMap(skill => [
     `${skill}_mdr`,
     `${skill}_skill_mdr`,
     `${racePrefix}_${skill}_bonus_mdr`,
     `${racePrefix}_talent_${skill}_bonus_mdr`
+  ]).concat([
+    `${racePrefix}_mdr_checkbox`,
+    `${racePrefix}_${talentSource}_mdr_checkbox`,
+    "debug_output" // For logging
   ]);
-  getKeys.push(`${racePrefix}_mdr_checkbox`);
-  if (talentSource) getKeys.push(`${racePrefix}_${talentSource}_checkbox`);
 
   on(`sheet:opened ${watchFields.join(" ")}`, () => {
     getAttrs([...new Set(getKeys)], values => {
-      const skills = triggerSkills.map(skill => ({
-        name: skill,
-        skill: values[`${skill}_skill_mdr`],
-        bonus: values[`${racePrefix}_${skill}_bonus_mdr`],
-        talentBonus: values[`${racePrefix}_talent_${skill}_bonus_mdr`] || 0,
-        hasBonus: values[`${racePrefix}_mdr_checkbox`] === skill,
-        hasTalent: talentSource ? values[`${racePrefix}_${talentSource}_checkbox`] === `talent_${skill}` : false
-      }));
-      setAttrs(buildSkillObject(skills));
+      const debugLogs = [];
+
+      const skills = triggerSkills.map(skill => {
+        const skillBase = parseInt(values[`${skill}_skill_mdr`]) || 0;
+        const bgBonus = parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0;
+        const talentBonus = parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
+
+        const hasBG = values[`${racePrefix}_mdr_checkbox`] === skill;
+        const hasTalent = values[`${racePrefix}_${talentSource}_mdr_checkbox`] === `talent_${skill}`;
+
+        const finalVal = calcSkillWithBonuses(skillBase, bgBonus, talentBonus, hasBG, hasTalent);
+        debugLogs.push(`${skill}: base=${skillBase} +${hasBG ? bgBonus : 0} +${hasTalent ? talentBonus : 0} => ${finalVal}`);
+
+        return {
+          name: skill,
+          skill: skillBase,
+          bonus: bgBonus,
+          talentBonus: talentBonus,
+          hasBonus: hasBG,
+          hasTalent: hasTalent
+        };
+      });
+
+      const setObj = buildSkillObject(skills);
+      setObj.debug_output = debugLogs.join(" | ");
+
+      setAttrs(setObj);
     });
   });
 }
+
+
+
 
 // -- Default Bonus Setter --
 function setDefaultSkillBonuses(prefix, skills, defaultBonus = 5) {
@@ -11215,16 +11258,26 @@ function setDefaultTalentBonuses(prefix, skills, defaultBonus = 10) {
   });
 }
 
-// ===== Example Usage: Draevi Race ===== //
+// -- One-Time Initialization on Sheet Open --
+on("sheet:opened", function () {
+  getAttrs(["draevi_bonuses_initialized"], values => {
+    if (values.draevi_bonuses_initialized !== "1") {
+      setDefaultSkillBonuses("draevi", [
+        "athletics", "electronics", "mechanics", "navigate", "occult",
+        "slicing", "spirit_lore", "streetwise", "survival", "veil_lore"
+      ]);
 
-setDefaultSkillBonuses("draevi", [
-  "athletics", "electronics", "mechanics", "navigate", "occult",
-  "slicing", "spirit_lore", "streetwise", "survival", "veil_lore"
-]);
+      setDefaultTalentBonuses("draevi", [
+        "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
+      ]);
 
-setDefaultTalentBonuses("draevi", [
-  "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
-]);
+      setAttrs({ draevi_bonuses_initialized: "1" });
+    }
+  });
+});
+
+
+// ===== Backgrounds and Talents for Draevi Race =====
 
 // Background: Forgeblood Scavenger
 registerSkillHandler({
@@ -11266,12 +11319,16 @@ registerSkillHandler({
   racePrefix: "draevi",
   talentSource: "clan_blooded"
 });
+
 // Talent: Scavenger's Edge
 registerSkillHandler({
   triggerSkills: ["electronics", "mechanics", "streetwise"],
   racePrefix: "draevi",
   talentSource: "scavengers_edge"
-}); 
+});
+
+
+
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill", "edu", "language_caltheran_mdr_skill"], function(values) {

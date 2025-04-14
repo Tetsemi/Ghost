@@ -11127,316 +11127,151 @@ Bout of Madness-Summary---------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-// Skill Bonus Calculations
-function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
-	return hasBonus && hasTalent
-		? skill + bonus + talentBonus
-		: hasBonus
-		? skill + bonus
-		: hasTalent
-		? skill + talentBonus
-		: skill;
-		}
+/ ===== Roll20 Reusable Skill Modifier Module ===== //
 
-function buildSkillObject(skills) {
-	const obj = {};
-	skills.forEach(skill => {
-		const skillVal = parseInt(skill.skill) || 0;
-		const bonusVal = parseInt(skill.bonus) || 0;
-		const talentVal = parseInt(skill.talentBonus) || 0;
-		obj[`${skill.name}_mdr`] = calcSkillWithBonuses(
-			skillVal,
-			bonusVal,
-			talentVal,
-			skill.hasBonus,
-			skill.hasTalent
-		);
-	});
-	return obj;
+// -- Core Calculation --
+function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
+  return hasBonus && hasTalent
+    ? skill + bonus + talentBonus
+    : hasBonus
+    ? skill + bonus
+    : hasTalent
+    ? skill + talentBonus
+    : skill;
 }
 
- // Draevi Racial Background Values
-  on("sheet:opened", function() {
-	getAttrs(["draevi_veil_lore_bonus_mdr", "draevi_athletics_bonus_mdr", "draevi_mech_repair_bonus_mdr", "draevi_navigate_bonus_mdr",  "draevi_occult_bonus_mdr", "draevi_slicing_bonus_mdr", "draevi_spirit_lore_bonus_mdr", "draevi_streetwise_bonus_mdr", "draevi_survival_bonus_mdr"], function(values) {
-
-		const setObj = {
-			draevi_athletics_bonus_mdr: parseInt(values.draevi_athletics_bonus_mdr) || 5,
-			draevi_electronics_bonus_mdr: parseInt(values.draevi_electronics_bonus_mdr) || 5,
-			draevi_mechanics_bonus_mdr: parseInt(values.draevi_mechanics_bonus_mdr) || 5,
-			draevi_navigate_bonus_mdr: parseInt(values.draevi_navigate_bonus_mdr) || 5,
-			draevi_occult_bonus_mdr: parseInt(values.draevi_occult_bonus_mdr) || 5,
-			draevi_slicing_bonus_mdr: parseInt(values.draevi_slicing_bonus_mdr) || 5,
-			draevi_spirit_lore_bonus_mdr: parseInt(values.draevi_spirit_lore_bonus_mdr) || 5,
-			draevi_streetwise_bonus_mdr: parseInt(values.draevi_streetwise_bonus_mdr) || 5,
-			draevi_survival_bonus_mdr: parseInt(values.draevi_survival_bonus_mdr) || 5,
-			draevi_veil_lore_bonus_mdr: parseInt(values.draevi_veil_lore_bonus_mdr) || 5
-		};
-		setAttrs (setObj);
-	});
+// -- Object Builder --
+function buildSkillObject(skills) {
+  const obj = {};
+  skills.forEach(skill => {
+    const skillVal = parseInt(skill.skill) || 0;
+    const bonusVal = parseInt(skill.bonus) || 0;
+    const talentVal = parseInt(skill.talentBonus) || 0;
+    obj[`${skill.name}_mdr`] = calcSkillWithBonuses(
+      skillVal,
+      bonusVal,
+      talentVal,
+      skill.hasBonus,
+      skill.hasTalent
+    );
   });
+  return obj;
+}
 
-// Background Calculations
+// -- Register Auto-Update Events --
+function registerSkillHandler({ triggerSkills = [], checkboxKeys = [], racePrefix = "", talentSource = "" }) {
+  const watchFields = triggerSkills.flatMap(skill => [`add:${skill}_skill_mdr`, `change:${skill}_skill_mdr`])
+    .concat([`change:${racePrefix}_mdr_checkbox`]);
 
-// Draevi Background Calculations
-// Background - Forgeblood Scavenger
- on("sheet:opened add:electronics_skill_mdr change:electronics_skill_mdr add:mechanics_skill_mdr change:mechanics_skill_mdr change:draevi_mdr_checkbox", function() {
-	getAttrs(["electronics_mdr", "mechanics_mdr", "electronics_skill_mdr", "draevi_electronics_bonus_mdr", "draevi_talent_electronics_bonus_mdr", "mechanics_skill_mdr", "draevi_mechanics_bonus_mdr", "draevi_talent_mechanics_bonus_mdr", "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"], function(values) {
+  if (talentSource) watchFields.push(`change:${racePrefix}_${talentSource}_checkbox`);
 
-	const skills = [
-		{
-			name: "electronics",
-			skill: values.electronics_skill_mdr,
-			bonus: values.draevi_electronics_bonus_mdr,
-			talentBonus: values.draevi_talent_electronics_bonus_mdr,
-			hasBonus: values.draevi_mdr_checkbox === "electronics",
-			hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_electronics"
-		},
-		{
-			name: "mechanics",
-			skill: values.mechanics_skill_mdr,
-			bonus: values.draevi_mechanics_bonus_mdr,
-			talentBonus: values.draevi_talent_mechanics_bonus_mdr,
-			hasBonus: values.draevi_mdr_checkbox === "mechanics",
-			hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_mechanics"
-		}
-	];
+  const getKeys = triggerSkills.flatMap(skill => [
+    `${skill}_mdr`,
+    `${skill}_skill_mdr`,
+    `${racePrefix}_${skill}_bonus_mdr`,
+    `${racePrefix}_talent_${skill}_bonus_mdr`
+  ]);
+  getKeys.push(`${racePrefix}_mdr_checkbox`);
+  if (talentSource) getKeys.push(`${racePrefix}_${talentSource}_checkbox`);
 
-	const setObj = buildSkillObject(skills);
-	setAttrs(setObj);	
-
-	});
+  on(`sheet:opened ${watchFields.join(" ")}`, () => {
+    getAttrs([...new Set(getKeys)], values => {
+      const skills = triggerSkills.map(skill => ({
+        name: skill,
+        skill: values[`${skill}_skill_mdr`],
+        bonus: values[`${racePrefix}_${skill}_bonus_mdr`],
+        talentBonus: values[`${racePrefix}_talent_${skill}_bonus_mdr`] || 0,
+        hasBonus: values[`${racePrefix}_mdr_checkbox`] === skill,
+        hasTalent: talentSource ? values[`${racePrefix}_${talentSource}_checkbox`] === `talent_${skill}` : false
+      }));
+      setAttrs(buildSkillObject(skills));
+    });
   });
-  
-// Background - Horn-Carved Wanderer
-on("sheet:opened add:navigate_skill_mdr change:navigate_skill_mdr add:survival_skill_mdr change:survival_skill_mdr change:draevi_mdr_checkbox", function() {
-  getAttrs([
-    "navigate_mdr", "survival_mdr",
-    "navigate_skill_mdr", "draevi_navigate_bonus_mdr", "draevi_talent_navigate_bonus_mdr",
-    "survival_skill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr",
-    "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"
-  ], function(values) {
+}
 
-    const skills = [
-      {
-        name: "navigate",
-        skill: values.navigate_skill_mdr,
-        bonus: values.draevi_navigate_bonus_mdr,
-        talentBonus: 0,
-        hasBonus: values.draevi_mdr_checkbox === "navigate",
-        hasTalent: false
-      },
-	  {
-        name: "survival",
-        skill: values.survival_skill_mdr,
-        bonus: values.draevi_survival_bonus_mdr,
-        talentBonus: values.draevi_talent_survival_bonus_mdr,
-        hasBonus: values.draevi_mdr_checkbox === "survival",
-        hasTalent: values.draevi_clan_blooded_mdr_checkbox === "talent_survival"
-      }
-    ];
-
-    const setObj = buildSkillObject(skills);
+// -- Default Bonus Setter --
+function setDefaultSkillBonuses(prefix, skills, defaultBonus = 5) {
+  const keys = skills.map(skill => `${prefix}_${skill}_bonus_mdr`);
+  getAttrs(keys, values => {
+    const setObj = {};
+    skills.forEach(skill => {
+      const key = `${prefix}_${skill}_bonus_mdr`;
+      setObj[key] = parseInt(values[key]) || defaultBonus;
+    });
     setAttrs(setObj);
   });
-});
+}
 
-// Background - Spritbound Techshaper
-on("sheet:opened add:slicing_skill_mdr change:slicing_skill_mdr add:spirit_lore_skill_mdr change:spirit_lore_skill_mdr change:draevi_mdr_checkbox", function() {
-  getAttrs([
-    "slicing_mdr", "spirit_lore_mdr",
-    "slicing_skill_mdr", "draevi_slicing_bonus_mdr", "draevi_talent_slicing_bonus_mdr",
-    "spirit_lore_skill_mdr", "draevi_spirit_lore_bonus_mdr", "draevi_talent_spirit_lore_bonus_mdr",
-    "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
-  ], function(values) {
-
-    const skills = [
-      {
-        name: "slicing",
-        skill: values.slicing_skill_mdr,
-        bonus: values.draevi_slicing_bonus_mdr,
-        talentBonus: values.draevi_talent_slicing_bonus_mdr,
-        hasBonus: values.draevi_mdr_checkbox === "slicing",
-        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_slicing"
-      },
-      {
-        name: "spirit_lore",
-        skill: values.spirit_lore_skill_mdr,
-        bonus: values.draevi_spirit_lore_bonus_mdr,
-        talentBonus: values.draevi_talent_spirit_lore_bonus_mdr,
-        hasBonus: values.draevi_mdr_checkbox === "spirit_lore",
-        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_spirit_lore"
-      }
-    ];
-
-    const setObj = buildSkillObject(skills);
+// -- Default Talent Bonus Setter --
+function setDefaultTalentBonuses(prefix, skills, defaultBonus = 10) {
+  const keys = skills.map(skill => `${prefix}_talent_${skill}_bonus_mdr`);
+  getAttrs(keys, values => {
+    const setObj = {};
+    skills.forEach(skill => {
+      const key = `${prefix}_talent_${skill}_bonus_mdr`;
+      setObj[key] = parseInt(values[key]) || defaultBonus;
+    });
     setAttrs(setObj);
   });
+}
+
+// ===== Example Usage: Draevi Race ===== //
+
+setDefaultSkillBonuses("draevi", [
+  "athletics", "electronics", "mechanics", "navigate", "occult",
+  "slicing", "spirit_lore", "streetwise", "survival", "veil_lore"
+]);
+
+setDefaultTalentBonuses("draevi", [
+  "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
+]);
+
+// Background: Forgeblood Scavenger
+registerSkillHandler({
+  triggerSkills: ["electronics", "mechanics"],
+  racePrefix: "draevi",
+  talentSource: "scavengers_edge"
 });
 
-// Background - Tradition-Keeper
-on("sheet:opened add:occult_skill_mdr change:occult_skill_mdr add:veil_lore_skill_mdr change:veil_lore_skill_mdr change:draevi_mdr_checkbox", function() {
-  getAttrs([
-    "occult_mdr", "veil_lore_mdr",
-    "occult_skill_mdr", "draevi_occult_bonus_mdr", "draevi_talent_occult_bonus_mdr",
-    "veil_lore_skill_mdr", "draevi_veil_lore_bonus_mdr", "draevi_talent_veil_lore_bonus_mdr",
-    "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
-  ], function(values) {
-
-    const skills = [
-      {
-        name: "occult",
-        skill: values.occult_skill_mdr,
-        bonus: values.draevi_occult_bonus_mdr,
-        talentBonus: 0,
-        hasBonus: values.draevi_mdr_checkbox === "occult",
-        hasTalent: false
-      },
-      {
-        name: "veil_lore",
-        skill: values.veil_lore_skill_mdr,
-        bonus: values.draevi_veil_lore_bonus_mdr,
-        talentBonus: 0,
-        hasBonus: values.draevi_mdr_checkbox === "veil_lore",
-        hasTalent: false
-      }
-    ];
-
-    const setObj = buildSkillObject(skills);
-    setAttrs(setObj);
-  });
+// Background: Horn-Carved Wanderer
+registerSkillHandler({
+  triggerSkills: ["navigate", "survival"],
+  racePrefix: "draevi",
+  talentSource: "clan_blooded"
 });
 
-// Background - Urban Tread
- on("sheet:opened add:streetwise_skill_mdr change:streetwise_skill_mdr add:athletics_skill_mdr change:athletics_skill_mdr change:draevi_mdr_checkbox", function() {
-	getAttrs(["streetwise_mdr", "athletics_mdr", "streetwise_skill_mdr", "draevi_streetwise_bonus_mdr", "athletics_skill_mdr", "draevi_athletics_bonus_mdr", "draevi_talent_streetwise_bonus_mdr", "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"], function(values) {
-
-	const skills = [
-		{
-			name: "athletics",
-			skill: values.athletics_skill_mdr,
-			bonus: values.draevi_athletics_bonus_mdr,
-			talentBonus: 0, // no talent
-			hasBonus: values.draevi_mdr_checkbox === "athletics",
-			hasTalent: false
-		},
-		{
-			name: "streetwise",
-			skill: values.streetwise_skill_mdr,
-			bonus: values.draevi_streetwise_bonus_mdr,
-			talentBonus: values.draevi_talent_streetwise_bonus_mdr,
-			hasBonus: values.draevi_mdr_checkbox === "streetwise",
-			hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_streetwise"
-		}
-
-	];
-
-	const setObj = buildSkillObject(skills);
-	setAttrs(setObj);
-
-	});
-  });
-
- // Draevi Racial Background Values
-  on("sheet:opened", function() {
-	getAttrs(["draevi_talent_electronics_bonus_mdr", "draevi_talent_mechanics_bonus_mdr", "draevi_talent_intimidate_bonus_mdr", "draevi_talent_streetwise_bonus_mdr", "draevi_talent_survival_bonus_mdr", "draevi_talent_track_bonus_mdr"], function(values) {
-
-		const setObj = {
-			draevi_talent_electronics_bonus_mdr: parseInt(values.draevi_talent_electronics_bonus_mdr) || 10,			
-			draevi_talent_mechanics_bonus_mdr: parseInt(values.draevi_talent_mechanics_bonus_mdr) || 10,
-			draevi_talent_intimidate_bonus_mdr: parseInt(values.draevi_talent_intimidate_bonus_mdr) || 10,			
-			draevi_talent_streetwise_bonus_mdr: parseInt(values.draevi_talent_streetwise_bonus_mdr) || 10,
-			draevi_talent_survival_bonus_mdr: parseInt(values.draevi_talent_survival_bonus_mdr) || 10,
-			draevi_talent_track_bonus_mdr: parseInt(values.draevi_talent_track_bonus_mdr) || 10			
-		};
-		setAttrs (setObj);
-	});
-  });
-  
-// Talent - Clan-Blooded
-on("sheet:opened add:intimidate_skill_mdr change:intimidate_skill_mdr add:survival_skill_mdr change:survival_skill_mdr add:track_skill_mdr change:track_skill_mdr change:draevi_clan_blooded_mdr_checkbox", function() {
-  getAttrs([
-    "intimidate_mdr", "survival_mdr", "track_mdr",
-    "intimidate_skill_mdr", "draevi_intimidate_bonus_mdr", "draevi_talent_intimidate_bonus_mdr",
-    "survival_skill_mdr", "draevi_survival_bonus_mdr", "draevi_talent_survival_bonus_mdr",
-    "track_skill_mdr", "draevi_track_bonus_mdr", "draevi_talent_track_bonus_mdr",
-    "draevi_mdr_checkbox", "draevi_clan_blooded_mdr_checkbox"
-  ], function(values) {
-
-    const skills = [
-      {
-        name: "intimidate",
-        skill: values.intimidate_skill_mdr,
-        bonus: 0,
-        talentBonus: values.draevi_talent_intimidate_bonus_mdr,
-        hasBonus: false,
-        hasTalent: values.draevi_clan_blooded_mdr_checkbox === "talent_intimidate"
-      },
-      {
-        name: "survival",
-        skill: values.survival_skill_mdr,
-        bonus: values.draevi_survival_bonus_mdr,
-        talentBonus: values.draevi_talent_survival_bonus_mdr,
-        hasBonus: values.draevi_mdr_checkbox === "survival",
-        hasTalent: values.draevi_clan_blooded_mdr_checkbox === "talent_survival"
-      },
-      {
-        name: "track",
-        skill: values.track_skill_mdr,
-        bonus: 0,
-        talentBonus: values.draevi_talent_track_bonus_mdr,
-        hasBonus: false,
-        hasTalent: values.draevi_clan_blooded_mdr_checkbox === "talent_track"
-      }
-    ];
-
-    const setObj = buildSkillObject(skills);
-    setAttrs(setObj);
-  });
+// Background: Spiritbound Techshaper
+registerSkillHandler({
+  triggerSkills: ["slicing", "spirit_lore"],
+  racePrefix: "draevi",
+  talentSource: "scavengers_edge"
 });
 
-  
-// Talent - Scavenger's Edge
-on("sheet:opened add:electronics_skill_mdr change:electronics_skill_mdr add:mechanics_skill_mdr change:mechanics_skill_mdr add:streetwise_skill_mdr change:streetwise_skill_mdr change:draevi_scavengers_edge_mdr_checkbox", function() {
-  getAttrs([
-    "electronics_mdr", "mechanics_mdr", "streetwise_mdr",
-    "electronics_skill_mdr", "draevi_electronics_bonus_mdr", "draevi_talent_electronics_bonus_mdr",
-    "mechanics_skill_mdr", "draevi_mechanics_bonus_mdr", "draevi_talent_mechanics_bonus_mdr",
-    "streetwise_skill_mdr", "draevi_streetwise_bonus_mdr", "draevi_talent_streetwise_bonus_mdr",
-    "draevi_mdr_checkbox", "draevi_scavengers_edge_mdr_checkbox"
-  ], function(values) {
-
-    const skills = [
-      {
-        name: "electronics",
-        skill: values.electronics_skill_mdr,
-        bonus: values.draevi_electronics_bonus_mdr,
-        talentBonus: values.draevi_talent_electronics_bonus_mdr,
-        hasBonus: values.draevi_mdr_checkbox === "electronics",
-        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_electronics"
-      },
-      {
-        name: "mechanics",
-        skill: values.mechanics_skill_mdr,
-        bonus: values.draevi_mechanics_bonus_mdr,
-        talentBonus: values.draevi_talent_mechanics_bonus_mdr,
-        hasBonus: values.draevi_mdr_checkbox === "mechanics",
-        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_mechanics"
-      },
-      {
-        name: "streetwise",
-        skill: values.streetwise_skill_mdr,
-        bonus: values.draevi_streetwise_bonus_mdr,
-        talentBonus: values.draevi_talent_streetwise_bonus_mdr,
-        hasBonus: values.draevi_mdr_checkbox === "streetwise",
-        hasTalent: values.draevi_scavengers_edge_mdr_checkbox === "talent_streetwise"
-      }
-    ];
-
-    const setObj = buildSkillObject(skills);
-    setAttrs(setObj);
-  });
+// Background: Tradition-Keeper (no talents)
+registerSkillHandler({
+  triggerSkills: ["occult", "veil_lore"],
+  racePrefix: "draevi"
 });
-  
+
+// Background: Urban Tread
+registerSkillHandler({
+  triggerSkills: ["streetwise", "athletics"],
+  racePrefix: "draevi",
+  talentSource: "scavengers_edge"
+});
+
+// Talent: Clan-Blooded
+registerSkillHandler({
+  triggerSkills: ["intimidate", "survival", "track"],
+  racePrefix: "draevi",
+  talentSource: "clan_blooded"
+});
+// Talent: Scavenger's Edge
+registerSkillHandler({
+  triggerSkills: ["electronics", "mechanics", "streetwise"],
+  racePrefix: "draevi",
+  talentSource: "scavengers_edge"
+}); 
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill", "edu", "language_caltheran_mdr_skill"], function(values) {

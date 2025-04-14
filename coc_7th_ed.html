@@ -4550,7 +4550,70 @@
 		<div class="sheet-section" style="width: 97.7%">
 			<table style="width:100%">
 				<table>
-				<h3 class="section-head" data-il8n="tier1-u">Tier 1 - 10 xp</h3>
+					<h3 class="section-head" data-il8n="tier1-u">Tier 1 - 10 xp</h3>
+					<table style="width:100%">
+					<tr>
+					<td>
+					<table style="width:100%">
+						<h3>Maskwright's Grace</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="alteri_talent_disguise">
+							<td><input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_disguise"></td>
+							<td class="racial-label" data-i18n="alteri_talent_disguise-u">Disguise + 10%</td>
+							<td>Gain +10% Disguise Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_talent_disguise_bonus_mdr" value="@{alteri_talent_disguise_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="alteri_talent_impersonation">
+							<td><input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_impersonation"></td>
+							<td class="racial-label" data-i18n="alteri_talent_impersonation-u">Impersonation + 10%</td>
+							<td>Gain +10% Impersonation Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_talent_impersonation_bonus_mdr" value="@{alteri_talent_impersonation_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="alteri_talent_insight">
+							<td><input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_insight"></td>
+							<td class="racial-label" data-i18n="alteri_talent_insight-u">Insight + 10%</td>
+							<td>Gain +10% Insight Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_talent_insight_bonus_mdr" value="@{alteri_talent_insight_bonus_mdr}" readonly/></td>
+						</tr>						
+					</table>				
+					</td>
+					<td style="width:25px"></td>
+					<td>
+					<table style="width:100%">
+						<h3>Shaped for Subtlety</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="alteri_talent_insight">
+							<td><input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_insight"></td>
+							<td class="racial-label" data-i18n="alteri_talent_insight-u">Insight + 10%</td>
+							<td>Gain +10% Insight Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_talent_insight_bonus_mdr" value="@{alteri_talent_insight_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="alteri_talent_slicing">
+							<td><input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_slicing"></td>
+							<td class="racial-label" data-i18n="alteri_talent_slicing-u">Slicing + 10%</td>
+							<td>Gain +10% Slicing Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_talent_slicing_bonus_mdr" value="@{alteri_talent_slicing_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="alteri_talent_stealth">
+							<td><input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_stealth"></td>
+							<td class="racial-label" data-i18n="alteri_talent_stealth-u">Stealth + 10%</td>
+							<td>Gain +10% Stealth Skill</td>
+							<td><input class="skill-input" type="text" name="attr_alteri_talent_stealth_bonus_mdr" value="@{alteri_talent_stealth_bonus_mdr}" readonly/></td>
+						</tr>						
+					</table>					
+					</td>
+					</tr>
+					</table>
 				</table>
 				<table>
 				<h3 class="section-head" data-il8n="tier2-u">Tier 2 - 20 xp</h3>
@@ -4562,9 +4625,9 @@
 				<h3 class="section-head" data-il8n="tier4-u">Tier 4 - 40 xp</h3>
 				</table>
 			</table>
-			<fieldset class="repeating_talents">
-				<textarea name="attr_talent1" style="width:99%;height:38px;font-size:90%"></textarea>
-			</fieldset>
+		<fieldset class="repeating_talents">
+			<textarea name="attr_talent1" style="width:99%;height:38px;font-size:90%"></textarea>
+		</fieldset>
 		</div>
     </div>
 
@@ -11277,21 +11340,19 @@ function buildSkillObject(skills) {
 
 // -- Register Auto-Update Events --
 function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSources = [] }) {
-  // Build list of fields to watch
   const watchFields = triggerSkills.flatMap(skill => [
     `add:${skill}_skill_mdr`,
     `change:${skill}_skill_mdr`
   ])
   .concat([
     `change:${racePrefix}_mdr_checkbox`,
-    `change:showracials`,     // ✅ watch race selection dropdown
-    `sheet:opened`            // ✅ run this on every sheet open
+    `change:showracials`,
+    `sheet:opened`
   ])
   .concat(
     talentSources.map(talent => `change:${racePrefix}_${talent}_mdr_checkbox`)
   );
 
-  // Build list of attribute keys to fetch
   const getKeys = triggerSkills.flatMap(skill => {
     const keys = [
       `${skill}_skill_mdr`,
@@ -11304,10 +11365,9 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
     return keys;
   }).concat([
     `${racePrefix}_mdr_checkbox`,
-    "showracials" // ✅ included to ensure race-specific logic
+    `showracials`
   ]);
 
-  // Register the handler
   on(watchFields.join(" "), () => {
     getAttrs([...new Set(getKeys)], values => {
       const activeRaceValue = values["showracials"];
@@ -11323,36 +11383,31 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
       };
 
       const activeRace = raceValueMap[activeRaceValue];
-
-      // ✅ Only proceed if the current handler's race matches the selected race
       if (activeRace !== racePrefix) return;
 
       const skills = triggerSkills.map(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
-        const backgroundBonus = values[`${racePrefix}_mdr_checkbox`] === skill
+        const backgroundBonus = (values[`${racePrefix}_mdr_checkbox`] === skill)
           ? (parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
           : 0;
 
-        const talentBonuses = talentSources.reduce((sum, talent) => {
-          const isChecked = values[`${racePrefix}_${talent}_mdr_checkbox`] === `talent_${skill}`;
+        // ✅ SUM bonuses from all matching talent checkboxes
+        const talentBonuses = talentSources.reduce((sum, source) => {
+          const talentCheckbox = `${racePrefix}_${source}_mdr_checkbox`;
+          const isChecked = values[talentCheckbox] === `talent_${skill}`;
           const bonus = isChecked ? (parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0) : 0;
           return sum + bonus;
         }, 0);
 
         const total = base + backgroundBonus + talentBonuses;
 
-        return {
-          [`${skill}_mdr`]: total
-        };
+        return { [`${skill}_mdr`]: total };
       });
 
-      const setObj = Object.assign({}, ...skills);
-      setAttrs(setObj);
+      setAttrs(Object.assign({}, ...skills));
     });
   });
 }
-
-
 
 // -- Default Bonus Setter --
 function setDefaultSkillBonuses(prefix, skills, defaultBonus = 5) {

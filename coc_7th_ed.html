@@ -11509,6 +11509,22 @@ function buildSkillObject(skills) {
   return obj;
 }
 
+function setDefaultSkillBonuses(racePrefix, skills) {
+  const updates = {};
+  skills.forEach(skill => {
+    updates[`${racePrefix}_${skill}_bonus_mdr`] = "5";
+  });
+  setAttrs(updates);
+}
+
+function setDefaultTalentBonuses(racePrefix, talents) {
+  const updates = {};
+  talents.forEach(skill => {
+    updates[`${racePrefix}_talent_${skill}_bonus_mdr`] = "10";
+  });
+  setAttrs(updates);
+}
+
 // -- Register Auto-Update Events --
 function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSources = [], backgroundDropdown = false }) {
   const watchFields = triggerSkills.flatMap(skill => [
@@ -11525,7 +11541,7 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
   );
 
   if (backgroundDropdown) {
-    watchFields.push(`change:${racePrefix}_background_choice`, `change:${racePrefix}_background_bonus_mdr`);
+    watchFields.push(`change:${racePrefix}_background_choice`, `change:${racePrefix}_background_bonus_mdr`, `change:${racePrefix}_mdr_checkbox`);
   }
 
   const getKeys = triggerSkills.flatMap(skill => {
@@ -11566,12 +11582,12 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
       const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
+      const backgroundActive = values[`${racePrefix}_mdr_checkbox`] === "true";
 
       const skills = triggerSkills.map(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
 
-        // ✅ Use dropdown selection if backgroundDropdown is true and matches
-        const backgroundBonus = backgroundDropdown && selectedBackground === skill
+        const backgroundBonus = backgroundDropdown && selectedBackground === skill && backgroundActive
           ? backgroundBonusVal
           : (!backgroundDropdown && values[`${racePrefix}_mdr_checkbox`] === skill
             ? (parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
@@ -11616,36 +11632,66 @@ on("sheet:opened", function () {
         "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
       ]
     },
-	{
+    {
       name: "human",
       skills: [
-		"alchemy", "anthropology", "archaeology", "architecture", "biology",
-		"chemistry", "electronics", "engineering", "etiquette_high_society", "firearms_rifle",
-		"first_aid", "insight", "mechanics", "medicine", "persuade",
-		"physics", "slicing", "stealth", "streetwise", "survival"
-		],
+        "alchemy", "anthropology", "archaeology", "architecture", "biology",
+        "chemistry", "electronics", "engineering", "etiquette_high_society", "firearms_rifle",
+        "first_aid", "insight", "mechanics", "medicine", "persuade",
+        "physics", "slicing", "stealth", "streetwise", "survival"
+      ],
       talents: [
         "electronics", "mechanics", "slicing"
       ]
     }
   ];
 
-  const initKeys = races.map(r => `${r.name}_bonuses_initialized`);
+  const initKey = "racial_bonuses_initialized";
 
-  getAttrs(initKeys, values => {
-    races.forEach(race => {
-      if (values[`${race.name}_bonuses_initialized`] !== "1") {
+  getAttrs([initKey], values => {
+    if (values[initKey] !== "1") {
+      races.forEach(race => {
         setDefaultSkillBonuses(race.name, race.skills);
         setDefaultTalentBonuses(race.name, race.talents);
-        setAttrs({ [`${race.name}_bonuses_initialized`]: "1" });
-      }
+      });
+      setAttrs({ [initKey]: "1" });
+    }
+  });
+});
+
+
+on("change:human_background_choice", function () {
+  getAttrs(["human_background_choice", "human_mdr_checkbox"], function (values) {
+    const choice = values.human_background_choice;
+    const isChecked = values.human_mdr_checkbox === "true";
+
+    const bonus = isChecked ? 5 : 0;
+    const skillNames = {
+      alchemy: "Alchemy",
+      anthropology: "Anthropology",
+      archaeology: "Archaeology",
+      architecture: "Architecture",
+      biology: "Biology",
+      chemistry: "Chemistry",
+      engineering: "Engineering",
+      medicine: "Medicine",
+      physics: "Physics"
+    };
+
+    const skill = skillNames[choice] || "";
+    const description = isChecked && skill ? `Gain +${bonus}% ${skill} Skill` : "";
+
+    setAttrs({
+      human_background_description: description,
+      human_background_bonus_mdr: bonus.toString()
     });
   });
 });
 
+
+
+
 // ===== Backgrounds and Talents Alter Race ===== //
-
-
 // Background: Break-Faced Radical
 registerSkillHandler({
   triggerSkills: ["deception", "persuade"],

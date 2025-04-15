@@ -2646,8 +2646,8 @@
                 <tr data-i18n-list-item="firearms(r/s)">
                     <td><input type="checkbox" name="attr_firearms_rifle_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="firearms(r/s)-u">Rifle/Shotgun(25%)</td>
-                    <td><input class="skill-input" type="text" name="attr_firearms_rifle_mdr" value="25"/></td>
-                    <td><input class="skill-input" type="text" name="attr_firearms_rifle_mdr" value="25" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_firearms_rifle_skill_mdr" value="25"/></td>
+                    <td><input class="skill-input" type="text" name="attr_firearms_rifle_mdr" value="@{firearms_rifle_mdr}" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{firearms_rs_txt}}} {{success=[[@{firearms_rifle_mdr}]]}} {{hard=[[floor(@{firearms_rifle_mdr}/2)]]}} {{extreme=[[floor(@{firearms_rifle_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_firearms_rifle_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="firearms_s_m_g">
@@ -4588,6 +4588,55 @@
 							<td class="racial-label" data-i18n="human_streetwise-u">Streetwise + 5%</td>
 							<td>Gain +5% Streetwise Skill</td>
 							<td><input class="skill-input" type="text" name="attr_human_streetwise_bonus_mdr" value="@{human_streetwise_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table style="width:100%">
+						<h3>Outpost Raised</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="human_survival">
+							<td><input type="checkbox" name="attr_human_mdr_checkbox" value="survival"></td>
+							<td class="racial-label" data-i18n="human_survival-u">Survival + 5%</td>
+							<td>Gain +5% Survival Skill</td>
+							<td><input class="skill-input" type="text" name="attr_human_survival_bonus_mdr" value="@{human_survival_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="human_firearms_rifle">
+							<td><input type="checkbox" name="attr_human_mdr_checkbox" value="firearms_rifle"></td>
+							<td class="racial-label" data-i18n="human_firearms_rifle-u">Rifle/Shotgun + 5%</td>
+							<td>Gain +5% Rifle/Shotgun Skill</td>
+							<td><input class="skill-input" type="text" name="attr_human_firearms_rifle_bonus_mdr" value="@{human_firearms_rifle_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+				</td>
+				<td style="width:25px"></td>
+				<td>
+					<table style="width:100%">
+						<h3>Scavsteel Whelp</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="human_electronics">
+							<td><input type="checkbox" name="attr_human_mdr_checkbox" value="electronics"></td>
+							<td class="racial-label" data-i18n="human_electronics-u">Electronics + 5%</td>
+							<td>Gain +5% Electronics Skill</td>
+							<td><input class="skill-input" type="text" name="attr_human_electronics_bonus_mdr" value="@{human_electronics_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="human_mechanics">
+							<td><input type="checkbox" name="attr_human_mdr_checkbox" value="mechanics"></td>
+							<td class="racial-label" data-i18n="human_mechanics-u">Mechanics + 5%</td>
+							<td>Gain +5% Mechanics Skill</td>
+							<td><input class="skill-input" type="text" name="attr_human_mechanics_bonus_mdr" value="@{human_mechanics_bonus_mdr}" readonly/></td>
 						</tr>
 					</table>
 				</td>
@@ -11571,14 +11620,14 @@ on("sheet:opened", function () {
       name: "human",
       skills: [
 		"alchemy", "anthropology", "archaeology", "architecture", "biology",
-		"chemistry", "electronics", "engineering", "etiquette_high_society", "firearms_rifle_mdr",
+		"chemistry", "electronics", "engineering", "etiquette_high_society", "firearms_rifle",
 		"first_aid", "insight", "mechanics", "medicine", "persuade",
 		"physics", "slicing", "stealth", "streetwise", "survival"
 		],
       talents: [
         "electronics", "mechanics", "slicing"
       ]
-    },
+    }
   ];
 
   const initKeys = races.map(r => `${r.name}_bonuses_initialized`);
@@ -11730,7 +11779,7 @@ registerSkillHandler({
 
 // Background: Outpost Raised
 registerSkillHandler({
-  triggerSkills: ["firearms_rifle_mdr", "survival"],
+  triggerSkills: ["firearms_rifle", "survival"],
   racePrefix: "human",
   talentSources: []
 });
@@ -11748,6 +11797,7 @@ registerSkillHandler({
   racePrefix: "human",
   talentSources: ["quick_fixer"]
 });
+
 // Talent: Shaped for Subtlety
 registerSkillHandler({
   triggerSkills: ["insight", "slicing", "stealth"],

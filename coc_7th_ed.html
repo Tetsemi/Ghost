@@ -11948,76 +11948,54 @@ on("sheet:opened", function () {
   const races = [
     {
       name: "alteri",
-      skills: [
-        "arcana", "deception", "disguise", "history", "insight",
-        "impersonation", "persuade", "slicing", "stealth", "streetwise"
-      ],
-      talents: [
-        "disguise", "impersonation", "insight", "slicing", "stealth"
-      ]
+      skills: ["arcana", "deception", "disguise", "history", "insight", "impersonation", "persuade", "slicing", "stealth", "streetwise"],
+      talents: ["disguise", "impersonation", "insight", "slicing", "stealth"]
     },
     {
       name: "draevi",
-      skills: [
-        "athletics", "electronics", "mechanics", "navigate", "occult",
-        "slicing", "spirit_lore", "streetwise", "survival", "veil_lore"
-      ],
-      talents: [
-        "electronics", "mechanics", "intimidate", "streetwise", "survival", "track"
-      ]
+      skills: ["athletics", "electronics", "mechanics", "navigate", "occult", "slicing", "spirit_lore", "streetwise", "survival", "veil_lore"],
+      talents: ["electronics", "mechanics", "intimidate", "streetwise", "survival", "track"]
     },
     {
       name: "human",
-      skills: [
-        "alchemy", "anthropology", "archaeology", "architecture", "biology",
-        "chemistry", "electronics", "engineering", "etiquette_high_society", "firearms_rifle",
-        "first_aid", "insight", "mechanics", "medicine", "persuade",
-        "physics", "slicing", "stealth", "streetwise", "survival"
-      ],
-      talents: [
-        "electronics", "mechanics", "slicing"
-      ]
+      skills: ["alchemy", "anthropology", "archaeology", "architecture", "biology", "chemistry", "electronics", "engineering", "etiquette_high_society", "firearms_rifle", "first_aid", "insight", "mechanics", "medicine", "persuade", "physics", "slicing", "stealth", "streetwise", "survival"],
+      talents: ["electronics", "mechanics", "slicing"]
     },
     {
       name: "lyranni",
-      skills: [
-        "arcana", "etiquette_lyranni", "magic_technomancy", "occult", "perception",
-        "persuade", "slicing", "streetwise"
-      ],
-      talents: [
-        "electronics", "insight", "mechanics", "slicing", "streetwise",
-        "dance", "impersonation", "instrument", "singing"
-      ]
+      skills: ["arcana", "etiquette_lyranni", "magic_technomancy", "occult", "perception", "persuade", "slicing", "streetwise", "dance", "impersonation", "instrument", "singing", "electronics", "mechanics", "insight"] ,
+      talents: ["electronics", "insight", "mechanics", "slicing", "streetwise", "dance", "impersonation", "instrument", "singing"]
     }
   ];
 
   const initKey = "racial_bonuses_initialized";
 
   getAttrs([initKey, "showracials"], values => {
-    const updates = {};
+    if (values[initKey] === "1") return;
 
-    if (!values["showracials"]) {
-      // Default to human (value "4" in your mapping)
-      updates["showracials"] = "4";
-      updates["race_default_trigger"] = "1";
-    }
+    const updates = { [initKey]: "1" };
+    const allSkills = new Set();
 
-    if (values[initKey] !== "1") {
-      races.forEach(race => {
-        Object.assign(updates, setDefaultSkillBonuses(race.name, race.skills));
-        Object.assign(updates, setDefaultTalentBonuses(race.name, race.talents));
-        updates[`${race.name}_background_bonus_mdr`] = "5";
-        updates[`${race.name}_background_description`] = "";
-        updates[`${race.name}_talent_bonus_mdr`] = "10";
-        updates[`${race.name}_talent_description`] = "";
+    races.forEach(race => {
+      Object.assign(updates, setDefaultSkillBonuses(race.name, race.skills));
+      Object.assign(updates, setDefaultTalentBonuses(race.name, race.talents));
+      updates[`${race.name}_background_bonus_mdr`] = "5";
+      updates[`${race.name}_background_description`] = "";
+      updates[`${race.name}_talent_bonus_mdr`] = "10";
+      updates[`${race.name}_talent_description`] = "";
+      race.skills.forEach(skill => allSkills.add(skill));
+    });
+
+    // Force initial skill_mdr calculations to base values
+    const skillList = Array.from(allSkills);
+    getAttrs(skillList.map(s => `${s}_skill_mdr`), baseValues => {
+      const mdrUpdates = {};
+      skillList.forEach(skill => {
+        const base = parseInt(baseValues[`${skill}_skill_mdr`]) || 0;
+        mdrUpdates[`${skill}_mdr`] = base;
       });
-
-      updates[initKey] = "1";
-    }
-
-    if (Object.keys(updates).length > 0) {
-      setAttrs(updates);
-    }
+      setAttrs({ ...updates, ...mdrUpdates });
+    });
   });
 });
 

@@ -1,0 +1,292 @@
+<!------------------------- Normal Sanity ------------------------->
+    <div class="sheet-col">
+    <input type="checkbox" style="display:none" value="1" name="attr_pulp_bomtoggle" class="sheet-pulpbomtoggle">
+    <div class="sheet-sanitysection">
+        <input type="checkbox" style="display:none" class="sheet-showpulp" name="attr_showpulp" value="1">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="7">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="1">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="5">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="2" checked="checked">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="6">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="4">
+        <h4 class="section-head" data-i18n="sanity-u">Sanity</h4>
+        <div class="section">
+            <div class="sheet-row" style="width:100%;margin-bottom:4px">
+                <span><button class='old-roll' type='roll' value='&{template:coc} {{name=SAN Roll}} {{success=[[@{san}]]}} {{hard=[[floor(@{san}/2)]]}} {{extreme=[[floor(@{san}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_san_check' />
+				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=SAN Roll}} {{success=[[@{san}]]}} {{hard=[[floor(@{san}/2)]]}} {{extreme=[[floor(@{san}/5)]]}} {{roll1=[[1d100]]}}' name='roll_san_check' /></span>
+                <input style="width:16%" class="secondary-attr-input" data-i18n-placeholder="4/5-u" placeholder="4/5" type="text" min="0" name="attr_san_thresh" value="floor(@{san_start}*4/5)" disabled="true">
+                <span>\</span>
+                <input style="width:22%" class="secondary-attr-input" data-i18n-placeholder="current" placeholder="current" type="text" min="0" name="attr_san">
+                <span>/</span>
+                <input style="width:16%;margin-right:3px" class="secondary-attr-input" type="number" min="0" name="attr_san_max" placeholder="max" value="99-@{cthulhu_mythos}-@{cthulhu_mythos_inv}-@{cthulhu_mythos_da}-@{cthulhu_mythos_ow}-@{cthulhu_mythos_mdr}-@{cthulhu_mythos_et}-@{cthulhu_mythos_ic}" disabled="true">
+                <input style="width:14%" class="narrow-input" data-i18n-placeholder="start" placeholder="start" type="text" min="0" name="attr_san_start">
+            </div>
+            <div class="sheet-row" style="width:100%">
+                <div class="sheet-col" style="width:40%">
+                    <span data-i18n="tempinsane-u">Temp. Insane</span><input type="checkbox" value="1" name="attr_temp_insane">
+                </div>
+                <div class="sheet-col" style="width:46%;text-align:right;margin-bottom:5px">
+                    <input type="checkbox" value="1" name="attr_indef_insane"><span data-i18n="indefinsane-u">Indef. Insane</span>
+                </div>
+            </div>
+
+<!------------------------- Bouts of Madness Invictus ------------------------->
+            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="7">
+            <div class="sheet-skills7">
+                <div class="sheet-row" style="width:100%;text-align:center">
+                    <span data-i18n="bouts-of-madness-u" style="text-align:center;font-weight:bold">Bouts of Madness</span>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                        <button class='dice-roll' type='roll' value='&{template:coc-bomadness-da-rt} {{roll1=[[1D10]]}} {{rounds=[[1d10]]}}' name='roll_bomadness-inv-rt' />
+                    </div>
+                    <div class="sheet-col" style="width:45%;margin-bottom:8px">
+                        <span data-i18n="bom-real-time">Real-Time</span>
+                    </div>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                    <button class='dice-roll' type='roll' value='&{template:coc-bomadness-da-summ} {{roll1=[[1D10]]}}' name='roll_bomadness-inv-summ' />
+                    </div>
+                    <div class="sheet-col" style="width:45%">
+                    <span style:"font-size:70%" data-i18n="bom-summary">Summary</span>
+                    </div>
+                </div>
+            </div>
+
+<!------------------------- Bouts of Madness Dark Ages ------------------------->
+            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="1">
+            <div class="sheet-skills1">
+                <div class="sheet-row" style="width:100%;text-align:center">
+                    <span data-i18n="bouts-of-madness-u" style="text-align:center;font-weight:bold">Bouts of Madness</span>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                        <button class='dice-roll' type='roll' value='&{template:coc-bomadness-da-rt} {{roll1=[[1D10]]}} {{rounds=[[1d10]]}}' name='roll_bomadness-da-rt' />
+                    </div>
+                    <div class="sheet-col" style="width:45%;margin-bottom:8px">
+                        <span data-i18n="bom-real-time">Real-Time</span>
+                    </div>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                    <button class='dice-roll' type='roll' value='&{template:coc-bomadness-da-summ} {{roll1=[[1D10]]}}' name='roll_bomadness-da-summ' />
+                    </div>
+                    <div class="sheet-col" style="width:45%">
+                    <span style:"font-size:70%" data-i18n="bom-summary">Summary</span>
+                    </div>
+                </div>
+            </div>
+
+<!------------------------- Bouts of Madness Old West ------------------------->
+            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="5">
+            <div class="sheet-skills5">
+                <div class="sheet-row" style="width:100%;text-align:center">
+                    <span data-i18n="bouts-of-madness-u" style="text-align:center;font-weight:bold">Bouts of Madness</span>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                        <button class='dice-roll' type='roll' value='&{template:coc-bomadness-da-rt} {{roll1=[[1D10]]}} {{rounds=[[1d10]]}}' name='roll_bomadness-ow-rt' />
+                    </div>
+                    <div class="sheet-col" style="width:45%;margin-bottom:8px">
+                        <span data-i18n="bom-real-time">Real-Time</span>
+                    </div>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                    <button class='dice-roll' type='roll' value='&{template:coc-bomadness-da-summ} {{roll1=[[1D10]]}}' name='roll_bomadness-ow-summ' />
+                    </div>
+                    <div class="sheet-col" style="width:45%">
+                    <span style:"font-size:70%" data-i18n="bom-summary">Summary</span>
+                    </div>
+                </div>
+            </div>
+
+<!------------------------- Bouts of Madness 1920 ------------------------->
+            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="2" checked="checked">
+            <div class="sheet-skills2">
+                <div class="sheet-row" style="width:100%;text-align:center">
+                    <span data-i18n="bouts-of-madness-u" style="text-align:center;font-weight:bold">Bouts of Madness</span>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                        <button class='dice-roll' type='roll' value='&{template:coc-bomadness-rt} {{roll1=[[1D10]]}} {{rounds=[[1d10]]}}' name='roll_bomadness-20-rt' />
+                    </div>
+                    <div class="sheet-col" style="width:45%;margin-bottom:8px">
+                        <span data-i18n="bom-real-time">Real-Time</span>
+                    </div>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                    <button class='dice-roll' type='roll' value='&{template:coc-bomadness-summ} {{roll1=[[1D10]]}}' name='roll_bomadness-20-summ' />
+                    </div>
+                    <div class="sheet-col" style="width:45%">
+                    <span style:"font-size:70%" data-i18n="bom-summary">Summary</span>
+                    </div>
+                </div>
+            </div>
+
+<!------------------------- Bouts of Madness Modern ------------------------->
+            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3">
+            <div class="sheet-skills3">
+                <div class="sheet-row" style="width:100%;text-align:center">
+                    <span data-i18n="bouts-of-madness-u" style="text-align:center;font-weight:bold">Bouts of Madness</span>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                        <button class='dice-roll' type='roll' value='&{template:coc-bomadness-rt} {{roll1=[[1D10]]}} {{rounds=[[1d10]]}}' name='roll_bomadness-mdr-rt' />
+                    </div>
+                    <div class="sheet-col" style="width:45%;margin-bottom:8px">
+                        <span data-i18n="bom-real-time">Real-Time</span>
+                    </div>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                    <button class='dice-roll' type='roll' value='&{template:coc-bomadness-summ} {{roll1=[[1D10]]}}' name='roll_bomadness-mdr-summ' />
+                    </div>
+                    <div class="sheet-col" style="width:45%">
+                    <span style:"font-size:70%" data-i18n="bom-summary">Summary</span>
+                    </div>
+                </div>
+            </div>
+
+<!------------------------- Bouts of Madness Icarus ------------------------->
+            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="6">
+            <div class="sheet-skills6">
+                <div class="sheet-row" style="width:100%;text-align:center">
+                    <span data-i18n="bouts-of-madness-u" style="text-align:center;font-weight:bold">Bouts of Madness</span>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                        <button class='dice-roll' type='roll' value='&{template:coc-bomadness-rt} {{roll1=[[1D10]]}} {{rounds=[[1d10]]}}' name='roll_bomadness-ic-rt' />
+                    </div>
+                    <div class="sheet-col" style="width:45%;margin-bottom:8px">
+                        <span data-i18n="bom-real-time">Real-Time</span>
+                    </div>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                    <button class='dice-roll' type='roll' value='&{template:coc-bomadness-summ} {{roll1=[[1D10]]}}' name='roll_bomadness-ic-summ' />
+                    </div>
+                    <div class="sheet-col" style="width:45%">
+                    <span style:"font-size:70%" data-i18n="bom-summary">Summary</span>
+                    </div>
+                </div>
+            </div>
+
+<!------------------------- Bouts of Madness End Times ------------------------->
+            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="4">
+            <div class="sheet-skills4">
+                <div class="sheet-row" style="width:100%;text-align:center">
+                    <span data-i18n="bouts-of-madness-u" style="text-align:center;font-weight:bold">Bouts of Madness</span>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                        <button class='dice-roll' type='roll' value='&{template:coc-bomadness-da-rt} {{roll1=[[1D10]]}} {{rounds=[[1d10]]}}' name='roll_bomadness-et-rt' />
+                    </div>
+                    <div class="sheet-col" style="width:45%;margin-bottom:8px">
+                        <span data-i18n="bom-real-time">Real-Time</span>
+                    </div>
+                </div>
+                <div class="sheet-row" style="width:100%;text-align:left">
+                    <div class="sheet-col" style="width:20%">
+                    <button class='dice-roll' type='roll' value='&{template:coc-bomadness-da-summ} {{roll1=[[1D10]]}}' name='roll_bomadness-et-summ' />
+                    </div>
+                    <div class="sheet-col" style="width:45%">
+                    <span style:"font-size:70%" data-i18n="bom-summary">Summary</span>
+                    </div>
+                </div>
+            </div>
+
+<!------------------------- Normal Current Mental Condition ------------------------->
+            <table style="width:100%">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:center;font-weight:bold" data-i18n="current-mental-condition"><b>Current Mental Condition</b></td>
+                    <td></td>
+                </tr>
+            </table>
+            <table style="width:100%">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><input type="text" name="attr_current_mental_condition" style="text-align:center;width:99%" data-i18n-placeholder="stable" placeholder="Stable"></td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+<!------------------------- Pulp Sanity ------------------------->
+    <div class="sheet-bompulpsection">
+        <input type="checkbox" style="display:none" class="sheet-showpulp" name="attr_showpulp" value="1">
+	    <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="7">
+	    <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="1">
+	    <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="5">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="2" checked="checked">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="6">
+        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="4">
+        <h4 class="section-head" data-i18n="sanity-u">Sanity</h4>
+        <div class="section">
+            <div class="sheet-row" style="width:100%;margin-bottom:4px">
+                <span><button class='old-roll' type='roll' value='&{template:coc} {{name=SAN Roll}} {{success=[[@{san}]]}} {{hard=[[floor(@{san}/2)]]}} {{extreme=[[floor(@{san}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_san_check' />
+				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=SAN Roll}} {{success=[[@{san}]]}} {{hard=[[floor(@{san}/2)]]}} {{extreme=[[floor(@{san}/5)]]}} {{roll1=[[1d100]]}}' name='roll_san_check' /></span>
+                <input style="width:16%" class="secondary-attr-input" placeholder="4/5" type="text" min="0" name="attr_san_thresh" value="floor(@{san_start}*4/5)" disabled="true">
+                <span>\</span>
+                <input style="width:22%" class="secondary-attr-input" data-i18n-placeholder="current" placeholder="current" type="text" min="0" name="attr_san">
+                <span>/</span>
+                <input style="width:16%;margin-right:3px" class="secondary-attr-input" type="number" min="0" name="attr_san_max" placeholder="max" value="99-@{cthulhu_mythos}-@{cthulhu_mythos_inv}-@{cthulhu_mythos_da}-@{cthulhu_mythos_ow}-@{cthulhu_mythos_mdr}-@{cthulhu_mythos_et}-@{cthulhu_mythos_ic}" disabled="true">
+                <input style="width:14%" class="narrow-input" data-i18n-placeholder="start" placeholder="start" type="text" min="0" name="attr_san_start">
+            </div>
+            <div class="sheet-row" style="width:100%">
+                <div class="sheet-col" style="width:40%">
+                    <span data-i18n="tempinsane-u">Temp. Insane</span><input type="checkbox" value="1" name="attr_temp_insane">
+                </div>
+                <div class="sheet-col" style="width:46%;text-align:right;margin-bottom:5px">
+                    <input type="checkbox" value="1" name="attr_indef_insane"><span data-i18n="indefinsane-u">Indef. Insane</span>
+                </div>
+            </div>
+            <div class="sheet-row" style="width:100%;text-align:center">
+                    <span data-i18n="pulp-bouts-of-madness-u" style="text-align:center;font-weight:bold">Pulp Bouts of Madness</span>
+            </div>
+            <div class="sheet-row" style="width:100%;text-align:left">
+                <div class="sheet-col" style="width:20%">
+                        <button class='dice-roll' type='roll' value='&{template:coc-pulp-bomadness-rt} {{roll1=[[1D10]]}} {{rounds=[[1d10]]}}' name='roll_pulp-bomadness-rt' />
+                </div>
+                <div class="sheet-col" style="width:45%;margin-bottom:8px">
+                        <span data-i18n="bom-real-time">Real-Time</span>
+                </div>
+            </div>
+            <div class="sheet-row" style="width:100%;text-align:left">
+                <div class="sheet-col" style="width:20%">
+                    <button class='dice-roll' type='roll' value='&{template:coc-pulp-bomadness-summ} {{roll1=[[1D10]]}}' name='roll_pulp-bomadness-summ' />
+                </div>
+                <div class="sheet-col" style="width:45%">
+                    <span style:"font-size:70%" data-i18n="bom-summary">Summary</span>
+                </div>
+            </div>
+            <table style="width:100%">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:center;font-weight:bold" data-i18n="current-mental-condition"><b>Current Mental Condition</b></td>
+                    <td></td>
+                </tr>
+            </table>
+            <table style="width:100%">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><input type="text" name="attr_current_mental_condition" style="text-align:center;width:99%" data-i18n-placeholder="stable" placeholder="Stable"></td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    </div>

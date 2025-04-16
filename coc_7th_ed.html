@@ -11726,49 +11726,56 @@ Bout of Madness-Summary---------------------------------------------------------
 <!-- WORKERS -->
 <script type="text/worker">
 // ===== Roll20 Reusable Skill Modifier Module ===== //
+// Maps //
+const backgroundSkillMap = {
+  human: {
+    alchemy: "Alchemy",
+    anthropology: "Anthropology",
+    archaeology: "Archaeology",
+    architecture: "Architecture",
+    biology: "Biology",
+    chemistry: "Chemistry",
+    engineering: "Engineering",
+    medicine: "Medicine",
+    physics: "Physics"
+  }
+};
 
-// -- Core Calculation --
-function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
-  return (parseInt(skill) || 0) +
-         (hasBonus ? (parseInt(bonus) || 0) : 0) +
-         (hasTalent ? (parseInt(talentBonus) || 0) : 0);
-}
+const talentSkillMap = {
+  lyranni: {
+    echo_in_the_veins: {
+      dance: "Dance",
+      impersonation: "Impersonation",
+      instrument: "Instrument",
+      singing: "Singing",
+      streetwise: "Streetwise",
+	  insight: "Insight",
+	  slicing: "Slicing"
+    }
+  }
+};
 
-// -- Object Builder --
-function buildSkillObject(skills) {
-  const obj = {};
-  skills.forEach(skill => {
-    const skillVal = parseInt(skill.skill) || 0;
-    const bonusVal = parseInt(skill.bonus) || 0;
-    const talentVal = parseInt(skill.talentBonus) || 0;
-    obj[`${skill.name}_mdr`] = calcSkillWithBonuses(
-      skillVal,
-      bonusVal,
-      talentVal,
-      skill.hasBonus,
-      skill.hasTalent
-    );
-  });
-  return obj;
-}
+const raceLanguageMap = {
+  "alteri": "Nualeth",
+  "draevi": "Khevala",
+  "feran": "A",
+  "human": "Caltheran",
+  "khadra": "Nari",
+  "kitsu": "B",
+  "lyranni": "Thal’Resh",
+  "veyra": "C"
+};
 
-function setDefaultSkillBonuses(racePrefix, skills) {
-  const updates = {};
-  skills.forEach(skill => {
-    updates[`${racePrefix}_${skill}_bonus_mdr`] = "5";
-  });
-  return updates;
-}
-
-function setDefaultTalentBonuses(racePrefix, talents) {
-  const updates = {};
-  talents.forEach(skill => {
-    updates[`${racePrefix}_talent_${skill}_bonus_mdr`] = "10";
-  });
-  return updates;
-}
-
-// ===== Roll20 Reusable Skill Modifier Module ===== //
+const raceValueMap = {
+  "1": "alteri",
+  "2": "draevi",
+  "3": "feran",
+  "4": "human",
+  "5": "khadra",
+  "6": "kitsu",
+  "7": "lyranni",
+  "8": "veyra"
+};
 
 // -- Core Calculation --
 function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
@@ -11879,16 +11886,6 @@ function registerSkillHandler({
   on(watchFields.join(" "), () => {
     getAttrs([...new Set(getKeys.concat(debugField))], values => {
       const activeRaceValue = values["showracials"];
-      const raceValueMap = {
-        "1": "alteri",
-        "2": "draevi",
-        "3": "feran",
-        "4": "human",
-        "5": "khadra",
-        "6": "kitsu",
-        "7": "lyranni",
-        "8": "veyra"
-      };
 
       const activeRace = raceValueMap[activeRaceValue];
       if (activeRace !== racePrefix) return;
@@ -12024,20 +12021,6 @@ on("sheet:opened", function () {
   });
 });
 
-const backgroundSkillMap = {
-  human: {
-    alchemy: "Alchemy",
-    anthropology: "Anthropology",
-    archaeology: "Archaeology",
-    architecture: "Architecture",
-    biology: "Biology",
-    chemistry: "Chemistry",
-    engineering: "Engineering",
-    medicine: "Medicine",
-    physics: "Physics"
-  }
-};
-
 function registerBackgroundChoiceHandler(race) {
   on(`change:${race}_background_choice`, () => {
     getAttrs([`${race}_background_choice`, `${race}_mdr_checkbox`], values => {
@@ -12058,20 +12041,6 @@ function registerBackgroundChoiceHandler(race) {
 
 // Register background handlers for all supported races
 Object.keys(backgroundSkillMap).forEach(registerBackgroundChoiceHandler);
-
-const talentSkillMap = {
-  lyranni: {
-    echo_in_the_veins: {
-      dance: "Dance",
-      impersonation: "Impersonation",
-      instrument: "Instrument",
-      singing: "Singing",
-      streetwise: "Streetwise",
-	  insight: "Insight",
-	  slicing: "Slicing"
-    }
-  }
-};
 
 function registerTalentHandlers(race) {
   const talents = talentSkillMap[race] || {};
@@ -12137,7 +12106,6 @@ function registerTalentHandlers(race) {
   });
 }
 
-
 // Register all races using the talentSkillMap
 Object.keys(talentSkillMap).forEach(registerTalentHandlers);
 
@@ -12194,28 +12162,6 @@ registerSkillHandler({
   backgroundDropdown: false,
   talentDropdown: true
 });
-
-const raceLanguageMap = {
-  "alteri": "Nualeth",
-  "draevi": "Khevala",
-  "feran": "A",
-  "human": "Caltheran",
-  "khadra": "Nari",
-  "kitsu": "B",
-  "lyranni": "Thal’Resh",
-  "veyra": "C"
-};
-
-const raceValueMap = {
-  "1": "alteri",
-  "2": "draevi",
-  "3": "feran",
-  "4": "human",
-  "5": "khadra",
-  "6": "kitsu",
-  "7": "lyranni",
-  "8": "veyra"
-};
 
 on("change:showracials sheet:opened", () => {
   getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {

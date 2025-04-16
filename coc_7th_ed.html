@@ -189,7 +189,7 @@
 					<option value="1">Alteri</option>
 					<option value="2">Draevi</option>
 					<option value="3">Feran</option>
-					<option value="4">Human</option>
+					<option value="4" selected>Human</option>
 					<option value="5">Khadra</option>
 					<option value="6">Kitsu</option>
 					<option value="7">Lyranni</option>
@@ -2742,8 +2742,8 @@
                 <tr data-i18n-list-item="magic(technomancy)">
                     <td><input type="checkbox" name="attr_magic_technomancy_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic(technomancy)-u">Technomancy(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_mdr" value="0" /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_mdr" value="0" readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_skill_mdr" value="0" /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_mdr" value="@{magic_technomancy_mdr}" readonly /></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_technomancy_txt}}} {{success=[[@{magic_technomancy_mdr}]]}} {{hard=[[floor(@{magic_technomancy_mdr}/2)]]}} {{extreme=[[floor(@{magic_technomancy_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_technomancy_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic(warding)">
@@ -3095,8 +3095,8 @@
                 <tr data-i18n-list-item="dance">
                     <td><input type="checkbox" name="attr_dance_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="dance-u">Dance(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_dance_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_dance_mdr" value="5" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_dance_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_dance_mdr" value="@{dance_mdr}" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{dance_txt}}} {{success=[[@{dance_mdr}]]}} {{hard=[[floor(@{dance_mdr}/2)]]}} {{extreme=[[floor(@{dance_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_dance_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="deception">
@@ -3120,6 +3120,13 @@
                     <td><input class="skill-input" type="text" name="attr_etiquette_high_society_mdr" value="@{etiquette_high_society_mdr}" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{etiquette_high_society_txt}}} {{success=[[@{etiquette_high_society_mdr}]]}} {{hard=[[floor(@{etiquette_high_society_mdr}/2)]]}} {{extreme=[[floor(@{etiquette_high_society_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_etiquette_high_society_mdr_check' /></td>
                 </tr>
+				<tr data-i18n-list-item="etiquette_lyranni">
+                    <td><input type="checkbox" name="attr_etiquette_lyranni_mdr_checkbox"></td>
+                    <td class="skill-label" data-i18n="etiquette_lyranni-u">Etiquette(Lyranni)(10%)</td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_lyranni_skill_mdr" value="10"/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_lyranni_mdr" value="@{etiquette_lyranni_mdr}" readonly/></td>
+				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{etiquette_lyranni_txt}}} {{success=[[@{etiquette_lyranni_mdr}]]}} {{hard=[[floor(@{etiquette_lyranni_mdr}/2)]]}} {{extreme=[[floor(@{etiquette_lyranni_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_etiquette_lyranni_mdr_check' /></td>
+                </tr>
 				<tr data-i18n-list-item="etiquette_other">
                     <td><input type="checkbox" name="attr_etiquette_other_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="etiquette_other-u">Etiquette(Other)(10%)</td>
@@ -3133,7 +3140,7 @@
                     <td><input class="skill-input" type="text" name="attr_forgery_mdr" value="1"/></td>
                     <td><input class="skill-input" type="text" name="attr_forgery_mdr" value="1" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{forgery_txt}}} {{success=[[@{forgery_mdr}]]}} {{hard=[[floor(@{forgery_mdr}/2)]]}} {{extreme=[[floor(@{forgery_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_forgery_mdr_check' /></td>
-                </tr>				
+                </tr>
                 <tr data-i18n-list-item="impersonation">
                     <td><input type="checkbox" name="attr_impersonation_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="impersonation-u">Impersonation(05%)</td>
@@ -3146,13 +3153,13 @@
                     <td class="skill-label" data-i18n="insight-u">Insight(10%)</td>
                     <td><input class="skill-input" type="text" name="attr_insight_skill_mdr" value="10"/></td>
                     <td><input class="skill-input" type="text" name="attr_insight_mdr" value="@{insight_mdr}" readonly/></td>
-					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=Insight Roll}} {{success=[[@{insight_mdr}]]}} {{hard=[[floor(@{insight_mdr}/2)]]}} {{extreme=[[floor(@{insight_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_insight_mdr_check' /></td>
+					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{insight_txt}}} {{success=[[@{insight_mdr}]]}} {{hard=[[floor(@{insight_mdr}/2)]]}} {{extreme=[[floor(@{insight_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_insight_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="instrument">
                     <td><input type="checkbox" name="attr_instrument_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="instrument-u">Instrument(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_instrument_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_instrument_mdr" value="5" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_instrument_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_instrument_mdr" value="@{instrument_mdr}" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{instrument_txt}}} {{success=[[@{instrument_mdr}]]}} {{hard=[[floor(@{instrument_mdr}/2)]]}} {{extreme=[[floor(@{instrument_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_instrument_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="intimidate">
@@ -3172,8 +3179,8 @@
                 <tr data-i18n-list-item="singing">
                     <td><input type="checkbox" name="attr_singing_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="singing-u">Singing(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_singing_mdr" value="5"/></td>
-                    <td><input class="skill-input" type="text" name="attr_singing_mdr" value="5" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_singing_skill_mdr" value="5"/></td>
+                    <td><input class="skill-input" type="text" name="attr_singing_mdr" value="@{singing_mdr}" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{singing_txt}}} {{success=[[@{singing_mdr}]]}} {{hard=[[floor(@{singing_mdr}/2)]]}} {{extreme=[[floor(@{singing_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_singing_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="streetwise">
@@ -3232,8 +3239,8 @@
                 <tr data-i18n-list-item="perception">
                     <td><input type="checkbox" name="attr_perception_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="perception-u">Perception(25%)</td>
-                    <td><input class="skill-input" type="text" name="attr_perception_mdr" value="25"/></td>
-                    <td><input class="skill-input" type="text" name="attr_perception_mdr" value="25" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_perception_skill_mdr" value="25"/></td>
+                    <td><input class="skill-input" type="text" name="attr_perception_mdr" value="@{perception_mdr}" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{perception_txt}}} {{success=[[@{perception_mdr}]]}} {{hard=[[floor(@{perception_mdr}/2)]]}} {{extreme=[[floor(@{perception_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_perception_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="sleightofhand">
@@ -4501,8 +4508,9 @@
 				</td>
 				<td style="width:25px"></td>
 				<td>
+					<h3>Data-Hatched</h3>
 					<table style="width:100%">
-						<h3>Data-Hatched</h3>
+
 						<tr>
 							<th style="width:5%">A</th>
 							<th style="width:40%">Benefit</th>
@@ -4680,6 +4688,130 @@
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials">
 		<div class="sheet-section" style="width: 97.7%">
 			<table style="width:100%">
+			<tr>
+				<td>
+					<table style="width:100%">
+						<h3>Ael’Vareth Devotee</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="lyranni_etiquette_lyranni">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="etiquette_lyranni"></td>
+							<td class="racial-label" data-i18n="lyranni_etiquette_lyranni-u">Etiquette(Lyranni) + 5%</td>
+							<td>Gain +5% Etiquette(lyranni) Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_etiquette_lyranni_bonus_mdr" value="@{lyranni_etiquette_lyranni_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="lyranni_occult">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="occult"></td>
+							<td class="racial-label" data-i18n="lyranni_occult-u">Occult Lore + 5%</td>
+							<td>Gain +5% Occult Lore Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_occult_bonus_mdr" value="@{lyranni_occult_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+				</td>
+				<td style="width:25px"></td>
+				<td>
+					<table style="width:100%">
+						<h3>Echoborne</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="lyranni_arcana">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="arcana"></td>
+							<td class="racial-label" data-i18n="lyranni_arcana-u">Arcana + 5%</td>
+							<td>Gain +5% Arcana Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_arcana_bonus_mdr" value="@{lyranni_arcana_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="lyranni_etiquette_lyranni">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="etiquette_lyranni"></td>
+							<td class="racial-label" data-i18n="lyranni_etiquette_lyranni-u">Etiquette (Lyranni) + 5%</td>
+							<td>Gain +5% Etiquette (Lyranni) Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_etiquette_lyranni_bonus_mdr" value="@{lyranni_etiquette_lyranni_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table style="width:100%">
+						<h3>Glide-Spire Scion</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="lyranni_persuade">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="persuade"></td>
+							<td class="racial-label" data-i18n="lyranni_persuade-u">Persuade + 5%</td>
+							<td>Gain +5% Persuade Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_persuade_bonus_mdr" value="@{lyranni_persuade_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="lyranni_streetwise">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="streetwise"></td>
+							<td class="racial-label" data-i18n="lyranni_streetwise-u">Streetwise + 5%</td>
+							<td>Gain +5% Streetwise Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_streetwise_bonus_mdr" value="@{lyranni_streetwise_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+				</td>
+				<td style="width:25px"></td>
+				<td>
+					<table style="width:100%">
+						<h3>Whisper-Walker</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="lyranni_occult">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="occult"></td>
+							<td class="racial-label" data-i18n="lyranni_occult-u">Occult Lore + 5%</td>
+							<td>Gain +5% Occult Lore Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_occult_bonus_mdr" value="@{lyranni_occult_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="lyranni_perception">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="perception"></td>
+							<td class="racial-label" data-i18n="lyranni_perception-u">Perception + 5%</td>
+							<td>Gain +5% Perception Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_perception_bonus_mdr" value="@{lyranni_perception_bonus_mdr}" readonly/></td>
+						</tr>
+
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table style="width:100%">
+						<h3>Zureth’Kai Flameborn</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="lyranni_magic_technomancy">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="magic_technomancy"></td>
+							<td class="racial-label" data-i18n="lyranni_magic_technomancy-u">Technomancy + 5%</td>
+							<td>Gain +5% Technomancy Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_magic_technomancy_bonus_mdr" value="@{lyranni_magic_technomancy_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="lyranni_slicing">
+							<td><input type="checkbox" name="attr_lyranni_mdr_checkbox" value="slicing"></td>
+							<td class="racial-label" data-i18n="lyranni_slicing-u">Slicing + 5%</td>
+							<td>Gain +5% Slicing Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_slicing_bonus_mdr" value="@{lyranni_slicing_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
 			</table>
 			<fieldset class="repeating_racials">
 				<textarea name="attr_racial7" style="width:99%;height:38px;font-size:90%"></textarea>
@@ -4701,6 +4833,18 @@
     </div>
 </div>
 
+<div class='sheet-colrow'
+				<table style=width:100%">
+				<tr>
+				<textarea name="attr_lyranni_skill_debug" readonly style="width:100%; height:100px;"></textarea>
+				</tr>
+				<hr />
+				<tr>
+				<textarea name="attr_lyranni_talent_debug" readonly style="width:100%; height:100px;"></textarea>
+				</tr>
+				</table>
+
+</div>
 <!------------------------- Talents ------------------------->
 <div class='sheet-colrow'>
     <input type="checkbox" class="sheet-showracials" name="sheet-showracials">
@@ -4713,7 +4857,7 @@
     <input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" value="7">
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" value="8">
 	<h4 class="section-head" data-i18n="talents-u">Talents</h4>
-	
+
 <!-- Start of Alteri Talents -->
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" value="1">
 	<div class="sheet-racials1">
@@ -4750,8 +4894,8 @@
 							<td class="racial-label" data-i18n="alteri_talent_insight-u">Insight + 10%</td>
 							<td>Gain +10% Insight Skill</td>
 							<td><input class="skill-input" type="text" name="attr_alteri_talent_insight_bonus_mdr" value="@{alteri_talent_insight_bonus_mdr}" readonly/></td>
-						</tr>						
-					</table>				
+						</tr>
+					</table>
 					</td>
 					<td style="width:25px"></td>
 					<td>
@@ -4780,8 +4924,8 @@
 							<td class="racial-label" data-i18n="alteri_talent_stealth-u">Stealth + 10%</td>
 							<td>Gain +10% Stealth Skill</td>
 							<td><input class="skill-input" type="text" name="attr_alteri_talent_stealth_bonus_mdr" value="@{alteri_talent_stealth_bonus_mdr}" readonly/></td>
-						</tr>						
-					</table>					
+						</tr>
+					</table>
 					</td>
 					</tr>
 					</table>
@@ -4838,8 +4982,8 @@
 							<td class="racial-label" data-i18n="draevi_talent_track-u">Track + 10%</td>
 							<td>Gain +10% Track Skill</td>
 							<td><input class="skill-input" type="text" name="attr_draevi_talent_track_bonus_mdr" value="@{draevi_talent_track_bonus_mdr}" readonly/></td>
-						</tr>						
-					</table>				
+						</tr>
+					</table>
 					</td>
 					<td style="width:25px"></td>
 					<td>
@@ -4868,8 +5012,8 @@
 							<td class="racial-label" data-i18n="draevi_talent_streetwise-u">Streetwise + 10%</td>
 							<td>Gain +10% Streetwise Skill</td>
 							<td><input class="skill-input" type="text" name="attr_draevi_talent_streetwise_bonus_mdr" value="@{draevi_talent_streetwise_bonus_mdr}" readonly/></td>
-						</tr>						
-					</table>					
+						</tr>
+					</table>
 					</td>
 					</tr>
 				</table>
@@ -4887,7 +5031,7 @@
 		</fieldset>
 		</div>
     </div>
-	
+
 <!-- Start of Feran Talents -->
 	<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" value="3">
 	<div class="sheet-racials3">
@@ -4971,7 +5115,7 @@
 							</tr>
 							<tr>
 								<td colspan="4">
-									<input type="checkbox" name="attr_skilled_focus_checkbox" value="placeholder2"/>									
+									<input type="checkbox" name="attr_skilled_focus_checkbox" value="placeholder2"/>
 									<span>Placeholder</span>
 								</td>
 							</tr>
@@ -5061,6 +5205,83 @@
 			<table style="width:100%">
 				<table>
 				<h3 class="section-head" data-il8n="tier1-u">Tier 1 - 10 xp</h3>
+					<table style="width:100%">
+					<tr>
+					<td>
+					<table style="width:100%">
+						<h3>Aether Override</h3>
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+						<tr data-i18n-list-item="lyranni_talent_electronics">
+							<td><input type="checkbox" name="attr_lyranni_aether_override_mdr_checkbox" value="talent_electronics"></td>
+							<td class="racial-label" data-i18n="lyranni_talent_electronics-u">Electronics + 10%</td>
+							<td>Gain +10% Electronics Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_talent_electronics_bonus_mdr" value="@{lyranni_talent_electronics_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="lyranni_talent_mechanics">
+							<td><input type="checkbox" name="attr_lyranni_aether_override_mdr_checkbox" value="talent_mechanics"></td>
+							<td class="racial-label" data-i18n="lyranni_talent_mechanics-u">Mechanics + 10%</td>
+							<td>Gain +10% Mechanics Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_talent_mechanics_bonus_mdr" value="@{lyranni_talent_mechanics_bonus_mdr}" readonly/></td>
+						</tr>
+						<tr data-i18n-list-item="lyranni_talent_slicing">
+							<td><input type="checkbox" name="attr_lyranni_aether_override_mdr_checkbox" value="talent_slicing"></td>
+							<td class="racial-label" data-i18n="lyranni_talent_slicing-u">Slicing + 10%</td>
+							<td>Gain +10% Slicing Skill</td>
+							<td><input class="skill-input" type="text" name="attr_lyranni_talent_slicing_bonus_mdr" value="@{lyranni_talent_slicing_bonus_mdr}" readonly/></td>
+						</tr>
+					</table>
+					</td>
+					<td style="width:25px"></td>
+					<td>
+                    <h3>Echo in the Veins</h3>
+                    <table style="width:100%">
+						<tr>
+							<th style="width:5%">A</th>
+							<th style="width:40%">Benefit</th>
+							<th style="width:50%">Description</th>
+							<th style="width:5%">Val</th>
+						</tr>
+ 						<tr>
+							<td>
+								<input type="checkbox" name="attr_lyranni_mdr_checkbox" value="true">
+							</td>
+							<td>
+								<select name="attr_lyranni_talent_choice">
+									<option value="">-- Select --</option>
+									
+									<optgroup label="Performance Talents">
+										<option value="dance">Dance (05%)</option>
+										<option value="impersonation">Impersonation (05%)</option>
+										<option value="instrument">Instrument (05%)</option>
+										<option value="singing">Singing (05%)</option>
+									</optgroup>
+									
+									<optgroup label="Insight">
+										<option value="insight">Insight (10%)</option>
+									</optgroup>
+									
+									<optgroup label="Insight">
+										<option value="slicing">Slicing (05%)</option>
+									</optgroup>
+								</select>
+							</td>
+							<td>
+							<span name="attr_lyranni_talent_description"></span>
+							</td>
+							<td>
+							<input class="skill-input" type="text" name="attr_lyranni_talent_bonus_mdr" value="@{lyranni_talent_bonus_mdr}" readonly />
+							</td>
+						</tr>
+					</tr>
+                    </table>
+					</td>
+					</tr>
+					</table>
 				</table>
 				<table>
 				<h3 class="section-head" data-il8n="tier2-u">Tier 2 - 20 xp</h3>
@@ -11577,7 +11798,7 @@ function setDefaultSkillBonuses(racePrefix, skills) {
   skills.forEach(skill => {
     updates[`${racePrefix}_${skill}_bonus_mdr`] = "5";
   });
-  setAttrs(updates);
+  return updates;
 }
 
 function setDefaultTalentBonuses(racePrefix, talents) {
@@ -11585,11 +11806,16 @@ function setDefaultTalentBonuses(racePrefix, talents) {
   talents.forEach(skill => {
     updates[`${racePrefix}_talent_${skill}_bonus_mdr`] = "10";
   });
-  setAttrs(updates);
+  return updates;
 }
 
-// -- Register Auto-Update Events --
-function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSources = [], backgroundDropdown = false }) {
+function registerSkillHandler({
+  triggerSkills = [],
+  racePrefix = "",
+  talentSources = [],
+  backgroundDropdown = false,
+  talentDropdown = false
+}) {
   const watchFields = triggerSkills.flatMap(skill => [
     `add:${skill}_skill_mdr`,
     `change:${skill}_skill_mdr`
@@ -11597,6 +11823,7 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
   .concat([
     `change:${racePrefix}_mdr_checkbox`,
     `change:showracials`,
+    `change:race_default_trigger`,
     `sheet:opened`
   ])
   .concat(
@@ -11604,11 +11831,23 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
   );
 
   if (backgroundDropdown) {
-    watchFields.push(`change:${racePrefix}_background_choice`, `change:${racePrefix}_background_bonus_mdr`, `change:${racePrefix}_mdr_checkbox`);
+    watchFields.push(
+      `change:${racePrefix}_background_choice`,
+      `change:${racePrefix}_background_bonus_mdr`,
+      `change:${racePrefix}_mdr_checkbox`
+    );
+  }
+
+  if (talentDropdown) {
+    watchFields.push(
+      `change:${racePrefix}_talent_choice`,
+      `change:${racePrefix}_talent_bonus_mdr`
+    );
   }
 
   const getKeys = triggerSkills.flatMap(skill => {
     const keys = [
+      `${racePrefix}_skill_debug`,
       `${skill}_skill_mdr`,
       `${racePrefix}_${skill}_bonus_mdr`,
       `${racePrefix}_talent_${skill}_bonus_mdr`
@@ -11626,8 +11865,14 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
     getKeys.push(`${racePrefix}_background_choice`, `${racePrefix}_background_bonus_mdr`);
   }
 
+  if (talentDropdown) {
+    getKeys.push(`${racePrefix}_talent_choice`, `${racePrefix}_talent_bonus_mdr`);
+  }
+
+  const debugField = `${racePrefix}_skill_debug`;
+
   on(watchFields.join(" "), () => {
-    getAttrs([...new Set(getKeys)], values => {
+    getAttrs([...new Set(getKeys.concat(debugField))], values => {
       const activeRaceValue = values["showracials"];
       const raceValueMap = {
         "1": "alteri",
@@ -11647,30 +11892,53 @@ function registerSkillHandler({ triggerSkills = [], racePrefix = "", talentSourc
       const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
       const backgroundActive = values[`${racePrefix}_mdr_checkbox`] === "true";
 
+      const selectedTalent = values[`${racePrefix}_talent_choice`];
+      const talentCheckboxValue = values[`${racePrefix}_mdr_checkbox`];
+      const talentBonusVal = parseInt(values[`${racePrefix}_talent_bonus_mdr`]) || 0;
+
+      let debugLines = [];
+
       const skills = triggerSkills.map(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
 
-        const backgroundBonus = backgroundDropdown && selectedBackground === skill && backgroundActive
-          ? backgroundBonusVal
-          : (!backgroundDropdown && values[`${racePrefix}_mdr_checkbox`] === skill
-            ? (parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
-            : 0);
+        const backgroundBonus =
+          backgroundDropdown && selectedBackground === skill && backgroundActive
+            ? backgroundBonusVal
+            : (!backgroundDropdown && values[`${racePrefix}_mdr_checkbox`] === skill
+              ? (parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
+              : 0);
 
-        const talentBonuses = talentSources.reduce((sum, source) => {
-          const talentCheckbox = `${racePrefix}_${source}_mdr_checkbox`;
-          const isChecked = values[talentCheckbox] === `talent_${skill}`;
-          const bonus = isChecked ? (parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0) : 0;
-          return sum + bonus;
-        }, 0);
+        let talentBonuses = 0;
+
+        if (talentDropdown) {
+          const isFromDropdown = talentCheckboxValue === "true" && selectedTalent === skill;
+          talentBonuses = isFromDropdown
+            ? (parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0)
+            : 0;
+        } else {
+          talentBonuses = talentSources.reduce((sum, source) => {
+            const checkboxValue = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
+            const isStaticTalent = checkboxValue === `talent_${skill}`;
+            const bonusField = `${racePrefix}_talent_${skill}_bonus_mdr`;
+            const bonus = isStaticTalent ? (parseInt(values[bonusField]) || 0) : 0;
+            return sum + bonus;
+          }, 0);
+        }
 
         const total = base + backgroundBonus + talentBonuses;
+        const debugLine = `${skill}: base=${base}, bg=${backgroundBonus}, talent=${talentBonuses}, total=${total}`;
+        debugLines.unshift(debugLine);
         return { [`${skill}_mdr`]: total };
       });
 
-      setAttrs(Object.assign({}, ...skills));
+      debugLines = debugLines.slice(0, 3); // Limit to last 3 lines
+      const updates = Object.assign({}, ...skills, { [debugField]: debugLines.join("\n") });
+
+      setAttrs(updates);
     });
   });
 }
+
 
 // -- One-Time Initialization on Sheet Open --
 on("sheet:opened", function () {
@@ -11706,53 +11974,165 @@ on("sheet:opened", function () {
       talents: [
         "electronics", "mechanics", "slicing"
       ]
+    },
+    {
+      name: "lyranni",
+      skills: [
+        "arcana", "etiquette_lyranni", "magic_technomancy", "occult", "perception",
+        "persuade", "slicing", "streetwise"
+      ],
+      talents: [
+        "electronics", "insight", "mechanics", "slicing", "streetwise",
+        "dance", "impersonation", "instrument", "singing"
+      ]
     }
   ];
 
   const initKey = "racial_bonuses_initialized";
 
-  getAttrs([initKey], values => {
+  getAttrs([initKey, "showracials"], values => {
+    const updates = {};
+
+    if (!values["showracials"]) {
+      // Default to human (value "4" in your mapping)
+      updates["showracials"] = "4";
+      updates["race_default_trigger"] = "1";
+    }
+
     if (values[initKey] !== "1") {
       races.forEach(race => {
-        setDefaultSkillBonuses(race.name, race.skills);
-        setDefaultTalentBonuses(race.name, race.talents);
+        Object.assign(updates, setDefaultSkillBonuses(race.name, race.skills));
+        Object.assign(updates, setDefaultTalentBonuses(race.name, race.talents));
+        updates[`${race.name}_background_bonus_mdr`] = "5";
+        updates[`${race.name}_background_description`] = "";
+        updates[`${race.name}_talent_bonus_mdr`] = "10";
+        updates[`${race.name}_talent_description`] = "";
       });
-      setAttrs({ [initKey]: "1" });
+
+      updates[initKey] = "1";
+    }
+
+    if (Object.keys(updates).length > 0) {
+      setAttrs(updates);
     }
   });
 });
 
+const backgroundSkillMap = {
+  human: {
+    alchemy: "Alchemy",
+    anthropology: "Anthropology",
+    archaeology: "Archaeology",
+    architecture: "Architecture",
+    biology: "Biology",
+    chemistry: "Chemistry",
+    engineering: "Engineering",
+    medicine: "Medicine",
+    physics: "Physics"
+  }
+};
 
-on("change:human_background_choice", function () {
-  getAttrs(["human_background_choice", "human_mdr_checkbox"], function (values) {
-    const choice = values.human_background_choice;
-    const isChecked = values.human_mdr_checkbox === "true";
+function registerBackgroundChoiceHandler(race) {
+  on(`change:${race}_background_choice`, () => {
+    getAttrs([`${race}_background_choice`, `${race}_mdr_checkbox`], values => {
+      const choice = values[`${race}_background_choice`];
+      const isChecked = values[`${race}_mdr_checkbox`] === "true";
+      const bonus = isChecked ? 5 : 0;
 
-    const bonus = isChecked ? 5 : 0;
-    const skillNames = {
-      alchemy: "Alchemy",
-      anthropology: "Anthropology",
-      archaeology: "Archaeology",
-      architecture: "Architecture",
-      biology: "Biology",
-      chemistry: "Chemistry",
-      engineering: "Engineering",
-      medicine: "Medicine",
-      physics: "Physics"
-    };
+      const skillName = backgroundSkillMap[race]?.[choice] || "";
+      const description = isChecked && skillName ? `Gain +${bonus}% ${skillName} Skill` : "";
 
-    const skill = skillNames[choice] || "";
-    const description = isChecked && skill ? `Gain +${bonus}% ${skill} Skill` : "";
-
-    setAttrs({
-      human_background_description: description,
-      human_background_bonus_mdr: bonus.toString()
+      setAttrs({
+        [`${race}_background_description`]: description,
+        [`${race}_background_bonus_mdr`]: bonus.toString()
+      });
     });
   });
-});
+}
+
+// Register background handlers for all supported races
+Object.keys(backgroundSkillMap).forEach(registerBackgroundChoiceHandler);
+
+const talentSkillMap = {
+  lyranni: {
+    echo_in_the_veins: {
+      dance: "Dance",
+      impersonation: "Impersonation",
+      instrument: "Instrument",
+      singing: "Singing",
+      streetwise: "Streetwise",
+	  insight: "Insight",
+	  slicing: "Slicing"
+    }
+  }
+};
+
+function registerTalentHandlers(race) {
+  const talents = talentSkillMap[race] || {};
+  const dropdownCheckbox = `${race}_mdr_checkbox`;
+  const dropdownChoice = `${race}_talent_choice`;
+  const debugField = `${race}_talent_debug`;
+
+  // -- Dropdown talents
+  Object.entries(talents).forEach(([talent, skills]) => {
+    on(`change:${dropdownCheckbox} change:${dropdownChoice}`, () => {
+      getAttrs([dropdownCheckbox, dropdownChoice, debugField], values => {
+        const isChecked = values[dropdownCheckbox] === "true";
+        const selectedSkill = values[dropdownChoice] || "";
+        const skillName = skills[selectedSkill] || "";
+        const bonus = isChecked && skillName ? 10 : 0;
+        const description = isChecked && skillName ? `Gain +${bonus}% ${skillName} Skill` : "";
+        const debugMsg = `Dropdown -> Checkbox: ${values[dropdownCheckbox]}, Skill: ${selectedSkill}, Bonus: ${bonus}`;
+
+        let debugLines = (values[debugField] || "").split("\n");
+        debugLines.unshift(debugMsg);
+        debugLines = debugLines.slice(0, 3); // Keep only last 3
+
+        const updates = {
+          [`${race}_talent_bonus_mdr`]: bonus.toString(),
+          [`${race}_talent_description`]: description,
+          [debugField]: debugLines.join("\n")
+        };
+
+        if (!isChecked) updates[dropdownChoice] = "";
+
+        setAttrs(updates);
+      });
+    });
+  });
+
+  // -- Generic static checkbox listener
+  const staticCheckbox = `${race}_mdr_checkbox`;
+  on(`change:${staticCheckbox}`, () => {
+    getAttrs([staticCheckbox, debugField], values => {
+      const val = values[staticCheckbox]; // e.g., "talent_insight"
+      let updates = {};
+      let debug = `Static -> Checkbox: ${val}`;
+
+      if (val.startsWith("talent_")) {
+        const skill = val.replace("talent_", "");
+        const bonusField = `${race}_talent_${skill}_bonus_mdr`;
+        updates[bonusField] = "10";
+        debug += `, Bonus: ${bonusField}, Value: 10`;
+      } else {
+        debug += `, Value: unchanged`;
+      }
+
+      let debugLines = (values[debugField] || "").split("\n");
+      debugLines.unshift(debug);
+      debugLines = debugLines.slice(0, 3);
+
+      updates[debugField] = debugLines.join("\n\r");
+
+      setAttrs(updates);
+    });
+  });
+}
 
 
 
+// Register all races using the talentSkillMap
+Object.keys(talentSkillMap).forEach(registerTalentHandlers);
 
 // ===== Backgrounds and Talents Alter Race ===== //
 // Background: Break-Faced Radical
@@ -11912,6 +12292,58 @@ registerSkillHandler({
   triggerSkills: ["insight", "slicing", "stealth"],
   racePrefix: "human",
   talentSources: ["shaped_for_subtlety"]
+});
+
+// ===== Backgrounds and Talents for Lyranni Race =====
+
+// Background: Ael’Vareth Devotee
+registerSkillHandler({
+  triggerSkills: ["etiquette_lyranni", "occult"],
+  racePrefix: "lyranni",
+  talentSources: []
+});
+
+// Background: Echoborne
+registerSkillHandler({
+  triggerSkills: ["arcana", "etiquette_lyranni"],
+  racePrefix: "lyranni",
+  talentSources: []
+ });
+
+// Background: Glide-Spire Scion
+registerSkillHandler({
+  triggerSkills: ["persuade", "streetwise"],
+  racePrefix: "lyranni",
+  talentSources: []
+});
+
+// Background: Whisper-Walker
+registerSkillHandler({
+  triggerSkills: ["occult", "perception"],
+  racePrefix: "lyranni",
+  talentSources: []
+});
+
+// Background: Zureth’Kai Flameborn
+registerSkillHandler({
+  triggerSkills: ["magic_technomancy", "slicing"],
+  racePrefix: "lyranni",
+  talentSources: ["echo_in_the_veins", "aether_override"]
+});
+
+// Talent: Aether Override
+registerSkillHandler({
+  triggerSkills: ["electronics", "mechanics", "slicing"],
+  racePrefix: "lyranni",
+  talentSources: ["aether_override"]
+});
+
+// Talent: Echo in the Veins
+registerSkillHandler({
+  triggerSkills: ["dance", "impersonation", "insight", "instrument", "singing", "slicing", "streetwise", "stealth"],
+  racePrefix: "lyranni",
+  talentSources: ["echo_in_the_veins"],
+  talentDropdown: true
 });
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {
@@ -12110,7 +12542,7 @@ registerSkillHandler({
         setAttrs({biology_txt: getTranslationByKey('biology-r-txt')});
     }}); getAttrs(['bureaucracy_txt'], v => {
       if (v.bureaucracy_txt !== getTranslationByKey('bureaucracy-r-txt')) {
-        setAttrs({bureaucracy_txt: getTranslationByKey('bureaucracy-r-txt')});		
+        setAttrs({bureaucracy_txt: getTranslationByKey('bureaucracy-r-txt')});
     }}); getAttrs(['charm_txt'], v => {
       if (v.charm_txt !== getTranslationByKey('charm-r-txt')) {
         setAttrs({charm_txt: getTranslationByKey('charm-r-txt')});
@@ -12185,7 +12617,7 @@ registerSkillHandler({
         setAttrs({forbidden_lore_txt: getTranslationByKey('forbidden_lore-r-txt')});
     }}); getAttrs(['forgery_txt'], v => {
       if (v.forgery_txt !== getTranslationByKey('forgery-r-txt')) {
-        setAttrs({forgery_txt: getTranslationByKey('forgery-r-txt')});			
+        setAttrs({forgery_txt: getTranslationByKey('forgery-r-txt')});
     }}); getAttrs(['gunnery_txt'], v => {
       if (v.gunnery_txt !== getTranslationByKey('gunnery-r-txt')) {
         setAttrs({gunnery_txt: getTranslationByKey('gunnery-r-txt')});

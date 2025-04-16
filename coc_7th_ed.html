@@ -2782,27 +2782,20 @@
 					<th>Val</th>
 					<th>Roll</th>
 				</tr>
-                <tr data-i18n-list-item="language(own)">
-                    <td><input type="checkbox" name="attr_language_own_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="language(own)-u">Racial(75%)</td>
-                    <td><input class="skill-input" type="text" name="attr_language_own_mdr" value="75" /></td>
-                    <td><input class="skill-input" type="text" name="attr_language_own_mdr" value="75" readonly /></td>
-				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_own_txt}}} {{success=[[@{language_own_mdr}]]}} {{hard=[[floor(@{language_own_mdr}/2)]]}} {{extreme=[[floor(@{language_own_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_language_own_mdr_check' /></td>
-                </tr>
-				 <tr data-i18n-list-item="language(caltheran)">
-                    <td><input type="checkbox" name="attr_language_caltheran_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="language(caltheran)-u">Caltheran(EDU)</td>
-                    <td><input class="skill-input" type="text" name="attr_language_caltheran_mdr_skill" value=0 /></td>
-                    <td><input class="skill-input" type="text" name="attr_language_caltheran_mdr" value="@{language_caltheran_mdr}" readonly /></td>
-				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_caltheran_txt}}} {{success=[[@{language_caltheran_mdr}]]}} {{hard=[[floor(@{language_caltheran_mdr}/2)]]}} {{extreme=[[floor(@{language_caltheran_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_language_caltheran_mdr_check' /></td>
-                </tr>
-                <tr data-i18n-list-item="language(other)">
-                    <td><input type="checkbox" name="attr_language(other)_mdr_checkbox"></td>
-                    <td class="skill-label" data-i18n="language(other)-u">Other(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_language(other)_mdr" value="1"/></td>
-                    <td><input class="skill-input" type="text" name="attr_language(other)_mdr" value="1" readonly/></td>
-				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_other_txt}}} {{success=[[@{language(other)_mdr}]]}} {{hard=[[floor(@{language(other)_mdr}/2)]]}} {{extreme=[[floor(@{language(other)_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_language(other)_mdr_check' /></td>
-                </tr>
+				<tr data-i18n-list-item="language(own)">
+					<td><input type="checkbox" name="attr_language_own_mdr_checkbox"></td>
+					<td class="skill-label"><span name="attr_language_own_txt">Racial(75%)</span></td>
+					<td><input class="skill-input" type="text" name="attr_language_own_mdr" value="75" /></td>
+					<td><input class="skill-input" type="text" name="attr_language_own_mdr" value="75" readonly /></td>
+					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_own_txt}}} {{success=[[@{language_own_mdr}]]}} {{hard=[[floor(@{language_own_mdr}/2)]]}} {{extreme=[[floor(@{language_own_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_language_own_mdr_check' /></td>
+				</tr>	
+				<tr data-i18n-list-item="language(caltheran)">
+					<td><input type="checkbox" name="attr_language_caltheran_mdr_checkbox"></td>
+					<td class="skill-label"><span name="attr_language_caltheran_txt">Caltheran(EDU)</span></td>
+					<td><input class="skill-input" type="text" name="attr_language_caltheran_mdr_skill" value=0 /></td>
+					<td><input class="skill-input" type="text" name="attr_language_caltheran_mdr" value="@{language_caltheran_mdr}" readonly /></td>
+					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_caltheran_txt}}} {{success=[[@{language_caltheran_mdr}]]}} {{hard=[[floor(@{language_caltheran_mdr}/2)]]}} {{extreme=[[floor(@{language_caltheran_mdr}/5)]]}} {{roll1=[[1d100]]}}' name='roll_language_caltheran_mdr_check' /></td>
+				</tr>
 			</table>
             <table style="width:100%">
                 <tr>
@@ -12231,6 +12224,47 @@ registerSkillHandler({
   talentDropdown: true
 });
 
+const raceLanguageMap = {
+  "alteri": "Nualeth",
+  "draevi": "Khevala",
+  "feran": "A",
+  "human": "Caltheran",
+  "khadra": "Nari",
+  "kitsu": "B",
+  "lyranni": "Thal’Resh",
+  "veyra": "C"
+};
+
+const raceValueMap = {
+  "1": "alteri",
+  "2": "draevi",
+  "3": "feran",
+  "4": "human",
+  "5": "khadra",
+  "6": "kitsu",
+  "7": "lyranni",
+  "8": "veyra"
+};
+
+on("change:showracials sheet:opened", () => {
+  getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
+    const raceId = values.showracials;
+    const race = raceValueMap[raceId] || "human"; // fallback default
+
+    const racialLang = raceLanguageMap[race] || "Racial";
+    const otherLang = race === "human" ? "Other" : "Caltheran";
+
+    const updates = {};
+    if (!values.language_own_txt) updates.language_own_txt = `${racialLang}(75%)`;
+    if (!values.language_caltheran_txt) updates.language_caltheran_txt = `${otherLang}(EDU)`;
+
+    // Always update if race changes
+    updates.language_own_txt = `${racialLang}(75%)`;
+    updates.language_caltheran_txt = `${otherLang}(EDU)`;
+
+    setAttrs(updates);
+  });
+});
 
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {

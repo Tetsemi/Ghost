@@ -290,13 +290,29 @@ input.tooltip-field {
   color: transparent;
 }
 
-
 /* -------------------- end of Background and Talent ------------------------*/
 
-.charsheet div.sheet-spells {
-    display: block;
+
+/* --------------------- Tabbed Sections ------------------------------------*/
+
+/* Hide all sections by default */
+.sheet-tab-section {
+  display: none;
 }
 
+/* Show matching section based on the dropdown selection (via Roll20 checkboxes) */
+input[name="attr_selected_tab"][value="background"]:checked ~ .sheet-tab-background,
+input[name="attr_selected_tab"][value="talents"]:checked ~ .sheet-tab-talents,
+input[name="attr_selected_tab"][value="combat"]:checked ~ .sheet-tab-combat,
+input[name="attr_selected_tab"][value="spells"]:checked ~ .sheet-tab-spells,
+input[name="attr_selected_tab"][value="inventory"]:checked ~ .sheet-tab-inventory,
+input[name="attr_selected_tab"][value="backstory"]:checked ~ .sheet-tab-backstory {
+  display: block;
+}
+
+input.sheet-tab-toggle {
+  display: none;
+}
 
 /* -------------------------------------------------------------------------- */
 

@@ -3797,6 +3797,49 @@
 <!-- End of End Times skills-->
 </div>
 
+<!-- Dropdown to switch tabs -->
+<div>
+  <select name="attr_selected_tab">
+    <option value="">-- Choose Section --</option>
+    <option value="background">Background</option>
+    <option value="talents">Talents</option>
+    <option value="combat">Combat</option>
+    <option value="spells">Spells</option>
+    <option value="inventory">Inventory</option>
+    <option value="backstory">Backstory</option>
+  </select>
+</div>
+
+<!-- Hidden checkboxes for CSS targeting -->
+<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="background">
+<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="talents">
+<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="combat">
+<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="spells">
+<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="inventory">
+<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="backstory">
+
+<!-- Tab Sections -->
+<div class="sheet-tab-section sheet-tab-background">
+  <h4>Background Section</h4>
+</div>
+<div class="sheet-tab-section sheet-tab-talents">
+  <h4>Talents Section</h4>
+</div>
+<div class="sheet-tab-section sheet-tab-combat">
+  <h4>Combat Section</h4>
+</div>
+<div class="sheet-tab-section sheet-tab-spells">
+  <h4>Spells Section</h4>
+</div>
+<div class="sheet-tab-section sheet-tab-inventory">
+  <h4>Inventory Section</h4>
+</div>
+<div class="sheet-tab-section sheet-tab-backstory">
+  <h4>Backstory Section</h4>
+</div>
+
+
+
 <!------------------------- Backgrounds ------------------------->
 <div class='sheet-colrow'>
     <input type="checkbox" class="sheet-showracials" name="sheet-showracials">
@@ -6313,11 +6356,6 @@
             <textarea name="attr_encounters_with_strange_entities" class="backstory-box" style="width:97%;height:75px"></textarea>
         </div>
     </div>
-</div>
-
-<div class="debug-output" style="display: none;">
-  <label><b>Skill Debug Output</b></label>
-  <textarea name="attr_lyranni_skill_debug" readonly style="width: 100%; height: 8em;"></textarea>
 </div>
 
 <!------------------------- Translations? ------------------------->
@@ -11480,6 +11518,23 @@ const skillMapTable = {
  "Language(Racial)": { label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
  "Language(Caltheran)": { label: "caltheran", base: "0", skill: "caltheran_skill_mdr", bonus: "caltheran_mdr", group: "Language", notes: "Calthern language" }
 };
+
+on("change:selected_tab", function (eventInfo) {
+  const selected = eventInfo.newValue;
+
+  const allTabs = [
+    "background", "talents", "combat",
+    "spells", "inventory", "backstory"
+  ];
+
+  const updates = {};
+  allTabs.forEach(tab => {
+    updates[`show_tab_${tab}`] = tab === selected ? "1" : "0";
+  });
+
+  setAttrs(updates);
+});
+
 
 // -- Core Calculation --
 function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {

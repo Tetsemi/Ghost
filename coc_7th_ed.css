@@ -292,27 +292,51 @@ input.tooltip-field {
 
 /* -------------------- end of Background and Talent ------------------------*/
 
-
-/* --------------------- Tabbed Sections ------------------------------------*/
-
-/* Hide all sections by default */
-.sheet-tab-section {
+/* Hide all content sections by default */
+.sheet-tab-content {
   display: none;
+  padding: 10px;
 }
 
-/* Show matching section based on the dropdown selection (via Roll20 checkboxes) */
-input[name="attr_selected_tab"][value="background"]:checked ~ .sheet-tab-background,
-input[name="attr_selected_tab"][value="talents"]:checked ~ .sheet-tab-talents,
-input[name="attr_selected_tab"][value="combat"]:checked ~ .sheet-tab-combat,
-input[name="attr_selected_tab"][value="spells"]:checked ~ .sheet-tab-spells,
-input[name="attr_selected_tab"][value="inventory"]:checked ~ .sheet-tab-inventory,
-input[name="attr_selected_tab"][value="backstory"]:checked ~ .sheet-tab-backstory {
+/* Show selected tab's section */
+.sheet-tab-controller[value="background"] ~ .sheet-background,
+.sheet-tab-controller[value="talents"] ~ .sheet-talents,
+.sheet-tab-controller[value="combat"] ~ .sheet-combat,
+.sheet-tab-controller[value="spells"] ~ .sheet-spells,
+.sheet-tab-controller[value="inventory"] ~ .sheet-inventory,
+.sheet-tab-controller[value="backstory"] ~ .sheet-backstory {
   display: block;
 }
 
-input.sheet-tab-toggle {
-  display: none;
+/* Tab Button Bar Styling */
+.sheet-tab-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 5px;
 }
+
+.sheet-tab-buttons button {
+  flex: 1;
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
+  padding: 6px 0;
+  font-size: 90%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sheet-tab-controller[value="background"] ~ .sheet-tab-buttons button[name="act_background"],
+.sheet-tab-controller[value="talents"] ~ .sheet-tab-buttons button[name="act_talents"],
+.sheet-tab-controller[value="combat"] ~ .sheet-tab-buttons button[name="act_combat"],
+.sheet-tab-controller[value="spells"] ~ .sheet-tab-buttons button[name="act_spells"],
+.sheet-tab-controller[value="inventory"] ~ .sheet-tab-buttons button[name="act_inventory"],
+.sheet-tab-controller[value="backstory"] ~ .sheet-tab-buttons button[name="act_backstory"] {
+  background-color: #222;
+}
+
 
 /* -------------------------------------------------------------------------- */
 

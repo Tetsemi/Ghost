@@ -3797,46 +3797,26 @@
 <!-- End of End Times skills-->
 </div>
 
-<!-- Dropdown to switch tabs -->
-<div>
-  <select name="attr_selected_tab">
-    <option value="">-- Choose Section --</option>
-    <option value="background">Background</option>
-    <option value="talents">Talents</option>
-    <option value="combat">Combat</option>
-    <option value="spells">Spells</option>
-    <option value="inventory">Inventory</option>
-    <option value="backstory">Backstory</option>
-  </select>
+<!-- Tab Buttons -->
+<div class="sheet-tab-buttons">
+  <button type="action" name="act_background">Background</button>
+  <button type="action" name="act_talents">Talents</button>
+  <button type="action" name="act_combat">Combat</button>
+  <button type="action" name="act_spells">Spells</button>
+  <button type="action" name="act_inventory">Inventory</button>
+  <button type="action" name="act_backstory">Backstory</button>
 </div>
 
-<!-- Hidden checkboxes for CSS targeting -->
-<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="background">
-<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="talents">
-<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="combat">
-<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="spells">
-<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="inventory">
-<input type="checkbox" class="sheet-tab-toggle" name="attr_selected_tab" value="backstory">
+<!-- Hidden tab value controller -->
+<input type="hidden" class="sheet-tab-controller" name="attr_selected_tab" value="background" />
 
-<!-- Tab Sections -->
-<div class="sheet-tab-section sheet-tab-background">
-  <h4>Background Section</h4>
-</div>
-<div class="sheet-tab-section sheet-tab-talents">
-  <h4>Talents Section</h4>
-</div>
-<div class="sheet-tab-section sheet-tab-combat">
-  <h4>Combat Section</h4>
-</div>
-<div class="sheet-tab-section sheet-tab-spells">
-  <h4>Spells Section</h4>
-</div>
-<div class="sheet-tab-section sheet-tab-inventory">
-  <h4>Inventory Section</h4>
-</div>
-<div class="sheet-tab-section sheet-tab-backstory">
-  <h4>Backstory Section</h4>
-</div>
+<!-- Sections -->
+<div class="sheet-tab-content sheet-background">Background content</div>
+<div class="sheet-tab-content sheet-talents">Talent content</div>
+<div class="sheet-tab-content sheet-combat">Combat content</div>
+<div class="sheet-tab-content sheet-spells">Spells content</div>
+<div class="sheet-tab-content sheet-inventory">Inventory content</div>
+<div class="sheet-tab-content sheet-backstory">Backstory content</div>
 
 
 
@@ -11519,21 +11499,16 @@ const skillMapTable = {
  "Language(Caltheran)": { label: "caltheran", base: "0", skill: "caltheran_skill_mdr", bonus: "caltheran_mdr", group: "Language", notes: "Calthern language" }
 };
 
-on("change:selected_tab", function (eventInfo) {
-  const selected = eventInfo.newValue;
 
-  const allTabs = [
-    "background", "talents", "combat",
-    "spells", "inventory", "backstory"
-  ];
+  const tabList = ["background", "talents", "combat", "spells", "inventory", "backstory"];
 
-  const updates = {};
-  allTabs.forEach(tab => {
-    updates[`show_tab_${tab}`] = tab === selected ? "1" : "0";
+  tabList.forEach(tab => {
+    on(`clicked:${tab}`, () => {
+      setAttrs({ selected_tab: tab });
+    });
   });
 
-  setAttrs(updates);
-});
+
 
 
 // -- Core Calculation --

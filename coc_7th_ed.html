@@ -550,6 +550,31 @@
     </div>
 </div>
 
+<!-- Tab Buttons -->
+<div class="sheet-tab-buttons">
+  <button type="action" name="act_skills">Skills</button>
+  <button type="action" name="act_background">Background</button>
+  <button type="action" name="act_talents">Talents</button>
+  <button type="action" name="act_combat">Combat</button>
+  <button type="action" name="act_spells">Spells</button>
+  <button type="action" name="act_inventory">Inventory</button>
+  <button type="action" name="act_backstory">Backstory</button>
+</div>
+
+<!-- Hidden tab value controller -->
+<input type="hidden" class="sheet-tab-controller" name="attr_selected_tab" value="skills" />
+
+<!-- Sections -->
+<div class="sheet-tab-content sheet-skills">Skill content</div>
+<div class="sheet-tab-content sheet-background">Background content</div>
+<div class="sheet-tab-content sheet-talents">Talent content</div>
+<div class="sheet-tab-content sheet-combat">Combat content</div>
+<div class="sheet-tab-content sheet-spells">Spells content</div>
+<div class="sheet-tab-content sheet-inventory">Inventory content</div>
+<div class="sheet-tab-content sheet-backstory">Backstory content</div>
+
+
+
 <!------------------------- Skills ------------------------->
 <div class='sheet-3colrow'>
     <input type="checkbox" class="sheet-arrow" name="attr_sheet-arrow">
@@ -3796,27 +3821,6 @@
     </div>
 <!-- End of End Times skills-->
 </div>
-
-<!-- Tab Buttons -->
-<div class="sheet-tab-buttons">
-  <button type="action" name="act_background">Background</button>
-  <button type="action" name="act_talents">Talents</button>
-  <button type="action" name="act_combat">Combat</button>
-  <button type="action" name="act_spells">Spells</button>
-  <button type="action" name="act_inventory">Inventory</button>
-  <button type="action" name="act_backstory">Backstory</button>
-</div>
-
-<!-- Hidden tab value controller -->
-<input type="hidden" class="sheet-tab-controller" name="attr_selected_tab" value="background" />
-
-<!-- Sections -->
-<div class="sheet-tab-content sheet-background">Background content</div>
-<div class="sheet-tab-content sheet-talents">Talent content</div>
-<div class="sheet-tab-content sheet-combat">Combat content</div>
-<div class="sheet-tab-content sheet-spells">Spells content</div>
-<div class="sheet-tab-content sheet-inventory">Inventory content</div>
-<div class="sheet-tab-content sheet-backstory">Backstory content</div>
 
 
 
@@ -11500,15 +11504,13 @@ const skillMapTable = {
 };
 
 
-  const tabList = ["background", "talents", "combat", "spells", "inventory", "backstory"];
+const tabList = ["skills", "background", "talents", "combat", "spells", "inventory", "backstory"];
 
   tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
       setAttrs({ selected_tab: tab });
     });
-  });
-
-
+});
 
 
 // -- Core Calculation --

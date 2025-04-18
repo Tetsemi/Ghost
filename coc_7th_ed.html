@@ -5935,99 +5935,96 @@
 </div>
 </div>
 
-<!------------------------- Detailed Spells------------------------->
+<!------------------------- Detailed Spells ------------------------->
 <div class="sheet-tab-content sheet-spells">
-<div class='sheet-colrow'>
+  <div class="sheet-colrow">
     <div class="sheet-spells">
-        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="7">
-        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="1">
-        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="5">
-        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="2">
-        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3" checked="checked">
-        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="6">
-        <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="4">
-    <h4 class="section-head" data-i18n="spells-u">Spells</h4>
 
-		<div class="sheet-section">
-<div class='sheet-3colrow'>
-    <div class="sheet-col" style="width:33%">
-		<h4 class="section-head">Prep Spell Cost / Arcane Capacity</h4>
-		<div class="section">
-			<table style="width=100%">
-				<tr>
-					<td><input class="secondary-attr-input" type="text" name="attr_total_spellcost" placeholder="current" data-i18n-placeholder="current" min="0" /></td>
-					<td><span>/</span></td>
-					<td><input class="secondary-attr-input" type="text" name="attr_ac" placeholder="current" data-i18n-placeholder="current" min="0" /></td>
-				</tr>
-			</table>
+      <!-- Hidden show skills checkboxes -->
+      <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="7">
+      <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="1">
+      <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="5">
+      <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="2">
+      <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3" checked="checked">
+      <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="6">
+      <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="4">
 
-		</div>
-		</div>
-		</div>
-					<hr/>
-<fieldset class="repeating_spells">
-  <div class="sheet-col sheet-spell-info-left">
+      <!-- Section Header -->
+      <h4 class="section-head" data-i18n="spells-u">Spells</h4>
 
-    <!-- Spacer row to align first input with description box -->
-    <div class="sheet-spell-meta-row sheet-spell-name-spacer">
-      <!-- Empty span to preserve alignment -->
-      <span class="sheet-spell-label"></span>
+      <!-- Spell Summary -->
+      <div class="sheet-section">
+        <div class="sheet-3colrow">
+          <div class="sheet-col" style="width:33%">
+            <h4 class="section-head">Prep Spell Cost / Arcane Capacity</h4>
+            <div class="section">
+              <table style="width:100%">
+                <tr>
+                  <td><input class="secondary-attr-input" type="text" name="attr_total_spellcost" placeholder="current" data-i18n-placeholder="current" min="0" /></td>
+                  <td><span>/</span></td>
+                  <td><input class="secondary-attr-input" type="text" name="attr_ac" placeholder="current" data-i18n-placeholder="current" min="0" /></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <hr/>
+
+        <!-- Repeating Spells Block -->
+        <fieldset class="repeating_spells">
+          <div class="sheet-col sheet-spell-info-left">
+
+            <!-- Spacer row to align with description -->
+            <div class="sheet-spell-meta-row sheet-spell-name-spacer">
+              <span class="sheet-spell-label"></span>
+            </div>
+
+            <!-- Spell Name -->
+            <div class="sheet-spell-meta-row">
+              <span class="sheet-spell-label" data-i18n="spellname-u"><b>Spell Name</b></span>
+              <input class="sheet-wide-input" type="text" name="attr_spellname" />
+            </div>
+
+            <!-- Spell Cost -->
+            <div class="sheet-spell-meta-row">
+              <span class="sheet-spell-label" data-i18n="cost-u"><b>Cost</b></span>
+              <input class="sheet-wide-input" type="text" name="attr_spellcost" />
+            </div>
+
+            <!-- Casting Time -->
+            <div class="sheet-spell-meta-row">
+              <span class="sheet-spell-label" data-i18n="castime-u"><b>Casting Time</b></span>
+              <input class="sheet-wide-input" type="text" name="attr_spellcastime" />
+            </div>
+
+            <!-- Prepared Toggle -->
+            <div class="sheet-spell-meta-row">
+              <span class="sheet-spell-label" data-i18n="prepared-u"><b>Prepared</b></span>
+              <input type="hidden" class="sheet-prepared-mirror" name="attr_spellprepared_mirror" />
+              <select name="attr_spellprepared" class="sheet-prepared-toggle">
+                <option value="0" selected>Off</option>
+                <option value="1">On</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Right column for description -->
+          <div class="sheet-col sheet-spell-info-right">
+            <div>
+              <span class="sheet-spell-label" data-i18n="description-u"><b>Description</b></span>
+            </div>
+            <div>
+              <textarea name="attr_spelldescription" class="sheet-spell-textarea"></textarea>
+            </div>
+          </div>
+          <hr />
+        </fieldset>
+      </div>
     </div>
-
-    <!-- Spell Name -->
-    <div class="sheet-spell-meta-row">
-      <span class="sheet-spell-label" data-i18n="spellname-u"><b>Spell Name</b></span>
-      <input class="sheet-wide-input" type="text" name="attr_spellname" />
-    </div>
-
-    <!-- Spell Cost -->
-    <div class="sheet-spell-meta-row">
-      <span class="sheet-spell-label" data-i18n="cost-u"><b>Cost</b></span>
-      <input class="sheet-wide-input" type="text" name="attr_spellcost" />
-    </div>
-
-    <!-- Casting Time -->
-    <div class="sheet-spell-meta-row">
-      <span class="sheet-spell-label" data-i18n="castime-u"><b>Casting Time</b></span>
-      <input class="sheet-wide-input" type="text" name="attr_spellcastime" />
-    </div>
-
-    <!-- Prepared Toggle (Styled Select + Mirror) -->
-    <div class="sheet-spell-meta-row">
-      <span class="sheet-spell-label" data-i18n="prepared-u"><b>Prepared</b></span>
-
-      <!-- Mirror input must come before for ~ selector to work -->
-      <input type="hidden" class="sheet-prepared-mirror" name="attr_spellprepared_mirror" />
-
-      <!-- Styled select control -->
-      <select name="attr_spellprepared" class="sheet-prepared-toggle">
-        <option value="0" selected>Off</option>
-        <option value="1">On</option>
-      </select>
-    </div>
-
   </div>
-
-  <!-- Right column for description -->
-  <div class="sheet-col sheet-spell-info-right">
-    <div>
-      <span class="sheet-spell-label" data-i18n="description-u"><b>Description</b></span>
-    </div>
-    <div>
-      <textarea name="attr_spelldescription" class="sheet-spell-textarea"></textarea>
-    </div>
-  </div>
-
-  <hr />
-</fieldset>
-
-
-
-
-		</div>
-	</div>
 </div>
-</div>
+
 
 <!------------------------- Gear and Possessions ------------------------->
 <div class="sheet-tab-content sheet-inventory">

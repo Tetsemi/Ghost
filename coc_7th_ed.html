@@ -279,6 +279,11 @@
                 <td class="attr-label"><strong data-i18n="Move rate-u">Move rate</strong></td>
                 <td><input class="attr-input" type="text" name="attr_mov"/></td>
                 <td class="attr-roll" ></td>
+				<td> </td>
+				 <td class="attr-label"><strong data-i18n="arcane_capacity-u">AC</strong></td>
+                <td><input class="attr-input" type="text" name="attr_ac"/></td>
+                <td class="attr-roll" ></td>
+				
 			</tr>
         </table>
         </div>
@@ -5942,7 +5947,24 @@
         <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="6">
         <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="4">
     <h4 class="section-head" data-i18n="spells-u">Spells</h4>
+
 		<div class="sheet-section">
+<div class='sheet-3colrow'>
+    <div class="sheet-col" style="width:33%">
+		<h4 class="section-head">Prep Spell Cost / Arcane Capacity</h4>
+		<div class="section">
+			<table style="width=100%">
+				<tr>
+					<td><input class="secondary-attr-input" type="text" name="attr_total_spellcost" placeholder="current" data-i18n-placeholder="current" min="0" /></td>
+					<td><span>/</span></td>
+					<td><input class="secondary-attr-input" type="text" name="attr_ac" placeholder="current" data-i18n-placeholder="current" min="0" /></td>
+				</tr>
+			</table>
+
+		</div>
+		</div>
+		</div>
+					<hr/>
 		    <fieldset class="repeating_spells">
 		        <div class="sheet-col" style="width:35%">
 		            <div>
@@ -6435,7 +6457,7 @@
 <input type="hidden" name="attr_track_txt" value="Track Roll"/>
 <input type="hidden" name="attr_veil_lore_txt" value="Veil Lore Roll"/>
 <input type="hidden" name="attr_unarmed_txt" value="Unarmed Attack"/>
-
+<input type="hidden" name="attr_ac" value="Arcane Capacity"/>
 
 <!----------------------------------------------------------------ROLL TEMPLATES -------------------------------------------------------------------------->
 
@@ -11511,6 +11533,31 @@ const tabList = ["skills", "background", "talents", "combat", "spells", "invento
     });
 });
 
+// Automatically sum all spellcost fields from repeating_spells
+const updateSpellCostTotal = () => {
+  getSectionIDs("repeating_spells", function(ids) {
+    const fields = ids.map(id => `repeating_spells_${id}_spellcost`);
+    if (fields.length === 0) {
+      setAttrs({ total_spellcost: 0 });
+      return;
+    }
+
+    getAttrs(fields, function(values) {
+      const total = fields.reduce((sum, field) => {
+        const val = parseFloat(values[field]) || 0;
+        return sum + val;
+      }, 0);
+
+      setAttrs({ total_spellcost: total });
+    });
+  });
+};
+
+// Trigger on change, add, or remove
+on("change:repeating_spells:spellcost remove:repeating_spells", function() {
+  updateSpellCostTotal();
+});
+
 
 // -- Core Calculation --
 function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
@@ -11877,8 +11924,8 @@ on("change:showracials sheet:opened", () => {
   });
 });
 
-  on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {
-    getAttrs(["str", "siz", "dex", "age", "dodge_skill", "edu", "language_caltheran_mdr_skill"], function(values) {
+  on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:mag change:mag add:vitality change:vitality add:language_caltheran_mdr_skill change:language_caltheran_mdr_skill", function() {
+    getAttrs(["str", "siz", "dex", "age", "dodge_skill", "edu", "mag", "vitality", "language_caltheran_mdr_skill"], function(values) {
       var istr = parseInt(values.str);
       var isiz = parseInt(values.siz);
       var idex = parseInt(values.dex);
@@ -11887,14 +11934,12 @@ on("change:showracials sheet:opened", () => {
       var siz_str_tot = istr + isiz;
 
 	  setAttrs({
-		dodge_mdr: ( ( parseInt(values.dodge_skill) || 0 ) + ( Math.floor(idex / 2) ) )
+		dodge_mdr: ( ( parseInt(values.dodge_skill) || 0 ) + ( Math.floor(idex / 2) ) ),
+		language_caltheran_mdr: ( ( parseInt(values.language_caltheran_mdr_skill ) || 0) + iedu ),
+		ac: ( Math.min(parseInt(values.mag) || 0, parseInt(values.vitality) || 0 ) )
 	  });
 
-	  setAttrs({
-		language_caltheran_mdr: ( ( parseInt(values.language_caltheran_mdr_skill ) || 0) + iedu )
-	  });
-
-      switch (true) {
+	  switch (true) {
         case (siz_str_tot < 65):
           setAttrs({
             damage_bonus: "-2",

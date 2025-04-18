@@ -878,8 +878,17 @@ input {
 
 /* ------------------------------------------ Spell Preparation Box Styling --------------------------------------- */
 
-/* Shared base styles for the box */
+/* Container to align checkbox and box side-by-side */
+.sheet-spell-prepare-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between checkbox and label box */
+}
+
+/* Styled box for the label */
 .sheet-spell-prepare-box {
+    width: 60px;
+    height: 12px;
     text-align: center;
     font-style: normal;
     font-weight: normal;
@@ -891,23 +900,24 @@ input {
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Default appearance when NOT checked */
+/* Default state when not checked */
 input[name="attr_spellprepared"]:not(:checked) ~ .sheet-spell-prepare-box {
     background-color: #2f2f2f;
 }
 
 input[name="attr_spellprepared"]:not(:checked) ~ .sheet-spell-prepare-box span {
-    color: #dddddd; /* Light gray text */
+    color: #dddddd;
 }
 
-/* Appearance when checkbox IS checked */
+/* Checked state styling */
 input[name="attr_spellprepared"]:checked ~ .sheet-spell-prepare-box {
     background-color: black;
 }
 
 input[name="attr_spellprepared"]:checked ~ .sheet-spell-prepare-box span {
-    color: #00ff00; /* Green text */
+    color: #00ff00;
 }
+
 
 
 

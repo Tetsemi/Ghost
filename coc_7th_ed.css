@@ -876,19 +876,39 @@ input {
     background-color: rgba(255,255,255,0.5);
 }
 
-/* Spell Preparation Box Styling */
+/* ------------------------------------------ Spell Preparation Box Styling --------------------------------------- */
+
+/* Shared base styles for the box */
 .sheet-spell-prepare-box {
-    background-color: black;
-    color: white;
     text-align: center;
-    font-weight: normal;
     font-style: normal;
+    font-weight: normal;
+    font-size: 80%;
     border: 1px solid black;
+    border-radius: 3px;
     padding: 4px;
     margin-bottom: 5px;
-    font-size: 80%;
-    border-radius: 3px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* Default appearance when NOT checked */
+input[name="attr_spellprepared"]:not(:checked) ~ .sheet-spell-prepare-box {
+    background-color: #2f2f2f;
+}
+
+input[name="attr_spellprepared"]:not(:checked) ~ .sheet-spell-prepare-box span {
+    color: #dddddd; /* Light gray text */
+}
+
+/* Appearance when checkbox IS checked */
+input[name="attr_spellprepared"]:checked ~ .sheet-spell-prepare-box {
+    background-color: black;
+}
+
+input[name="attr_spellprepared"]:checked ~ .sheet-spell-prepare-box span {
+    color: #00ff00; /* Green text */
+}
+
 
 
 /* ------------------------------------------ *//* Roll Templates *//* --------------------------------------- */

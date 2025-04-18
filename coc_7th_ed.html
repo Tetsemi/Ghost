@@ -5967,13 +5967,17 @@
 					<hr/>
 <fieldset class="repeating_spells">
   <div class="sheet-col" style="width:35%">
-      <!-- Prepared Checkbox Row -->
-      <div style="text-align:left; margin-bottom: 3px;">
-          <label style="font-size:80%; font-weight:bold;">
-              <input type="checkbox" name="attr_spellprepared" />
-              <span data-i18n="prepared-u">Prepared</span>
-          </label>
-      </div>
+
+<!-- Prepared Checkbox: must come first so CSS sibling selector works -->
+<input type="checkbox" name="attr_spellprepared" />
+
+<!-- Styled Box that will change based on checkbox state -->
+<div class="sheet-spell-prepare-box">
+    <label>
+        <span data-i18n="prepared-u">Prepared</span>
+    </label>
+</div>
+
 
       <div>
           <input class="skill-name-input" style="width:95%;text-align:center" type="text" name="attr_spellname" data-i18n-placeholder="spellname-u" placeholder="Spell Name"/>
@@ -5996,8 +6000,9 @@
           <textarea name="attr_spelldescription" style="width:95%;height:31px;font-size:78%"></textarea>
       </div>
   </div>
-  <hr></hr>
+  <hr />
 </fieldset>
+
 
 		</div>
 	</div>

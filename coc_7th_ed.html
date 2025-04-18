@@ -5965,30 +5965,40 @@
 		</div>
 		</div>
 					<hr/>
-		    <fieldset class="repeating_spells">
-		        <div class="sheet-col" style="width:35%">
-		            <div>
-		                <input class="skill-name-input" style="width:95%;text-align:center" type="text" name="attr_spellname" data-i18n-placeholder="spellname-u" placeholder="Spell Name"/>
-		            </div>
-		            <div style="text-align:left">
-		                <span style="font-size:80%;font-weight:bold" data-i18n="cost-u"><b>Cost</b></span>
-		                <input class="narrow-input" style="width:85.6%;text-align:center;font-size:80%" type="text" name="attr_spellcost" />
-		            </div>
-		            <div style="text-align:left">
-		                <span style="font-size:80%;font-weight:bold" data-i18n="castime-u"><b>Casting Time</b></span>
-		                <input class="narrow-input" style="width:71%;text-align:center;font-size:80%" type="text" name="attr_spellcastime" />
-		            </div>
-		        </div>
-		        <div class="sheet-col" style="width:63%">
-		            <div>
-		                <span style="font-size:80%;font-weight:bold" data-i18n="description-u"><b>Description</b></span>
-		            </div>
-		            <div>
-		                <textarea name="attr_spelldescription" style="width:95%;height:31px;font-size:78%"></textarea>
-		            </div>
-		        </div>
-	            <hr></hr>
-		    </fieldset>
+<fieldset class="repeating_spells">
+  <div class="sheet-col" style="width:35%">
+      <!-- Prepared Checkbox Row -->
+      <div style="text-align:left; margin-bottom: 3px;">
+          <label style="font-size:80%; font-weight:bold;">
+              <input type="checkbox" name="attr_spellprepared" />
+              <span data-i18n="prepared-u">Prepared</span>
+          </label>
+      </div>
+
+      <div>
+          <input class="skill-name-input" style="width:95%;text-align:center" type="text" name="attr_spellname" data-i18n-placeholder="spellname-u" placeholder="Spell Name"/>
+      </div>
+      <div style="text-align:left">
+          <span style="font-size:80%;font-weight:bold" data-i18n="cost-u"><b>Cost</b></span>
+          <input class="narrow-input" style="width:85.6%;text-align:center;font-size:80%" type="text" name="attr_spellcost" />
+      </div>
+      <div style="text-align:left">
+          <span style="font-size:80%;font-weight:bold" data-i18n="castime-u"><b>Casting Time</b></span>
+          <input class="narrow-input" style="width:71%;text-align:center;font-size:80%" type="text" name="attr_spellcastime" />
+      </div>
+  </div>
+
+  <div class="sheet-col" style="width:63%">
+      <div>
+          <span style="font-size:80%;font-weight:bold" data-i18n="description-u"><b>Description</b></span>
+      </div>
+      <div>
+          <textarea name="attr_spelldescription" style="width:95%;height:31px;font-size:78%"></textarea>
+      </div>
+  </div>
+  <hr></hr>
+</fieldset>
+
 		</div>
 	</div>
 </div>
@@ -11533,25 +11543,25 @@ const tabList = ["skills", "background", "talents", "combat", "spells", "invento
     });
 });
 
-// Automatically sum all spellcost fields from repeating_spells
-const updateSpellCostTotal = () => {
+on("change:repeating_spells:spellcost change:repeating_spells:spellprepared remove:repeating_spells", function() {
   getSectionIDs("repeating_spells", function(ids) {
-    const fields = ids.map(id => `repeating_spells_${id}_spellcost`);
-    if (fields.length === 0) {
-      setAttrs({ total_spellcost: 0 });
-      return;
-    }
+    const fields = ids.flatMap(id => [
+      `repeating_spells_${id}_spellcost`,
+      `repeating_spells_${id}_spellprepared`
+    ]);
 
     getAttrs(fields, function(values) {
-      const total = fields.reduce((sum, field) => {
-        const val = parseFloat(values[field]) || 0;
-        return sum + val;
-      }, 0);
-
+      let total = 0;
+      ids.forEach(id => {
+        const cost = parseFloat(values[`repeating_spells_${id}_spellcost`] || 0);
+        const prepared = values[`repeating_spells_${id}_spellprepared`] === "on";
+        if (prepared) total += cost;
+      });
       setAttrs({ total_spellcost: total });
     });
   });
-};
+});
+
 
 // Trigger on change, add, or remove
 on("change:repeating_spells:spellcost remove:repeating_spells", function() {

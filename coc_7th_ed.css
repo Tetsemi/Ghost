@@ -876,49 +876,63 @@ input {
     background-color: rgba(255,255,255,0.5);
 }
 
-/* ------------------------------------------ Spell Preparation Box Styling --------------------------------------- */
-
-/* Container to align checkbox and box side-by-side */
-.sheet-spell-prepare-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Space between checkbox and label box */
+/* ---------- Layout ---------- */
+.sheet-spell-info-left {
+  width: 35%;
+}
+.sheet-spell-info-right {
+  width: 63%;
+}
+.sheet-spell-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+.sheet-spell-label {
+  font-size: 80%;
+  font-weight: bold;
+  white-space: nowrap;
+  width: 90px;
+}
+.sheet-wide-input {
+  flex: 1;
+  text-align: center;
+  font-size: 80%;
+  height: 23px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+.sheet-spell-textarea {
+  width: 95%;
+  height: 31px;
+  font-size: 78%;
+  background-color: rgba(255,255,255,0.5);
+  resize: vertical;
 }
 
-/* Styled box for the label */
-.sheet-spell-prepare-box {
-    width: 60px;
-    height: 12px;
-    text-align: center;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 80%;
-    border: 1px solid black;
-    border-radius: 3px;
-    padding: 4px;
-    margin-bottom: 5px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+/* ---------- Prepared Toggle Styling via Mirror ---------- */
+.sheet-prepared-toggle {
+  flex: 1;
+  font-size: 80%;
+  text-align: center;
+  padding: 2px;
+  border: 1px solid black;
+  border-radius: 4px;
 }
 
-/* Default state when not checked */
-input[name="attr_spellprepared"]:not(:checked) ~ .sheet-spell-prepare-box {
-    background-color: #2f2f2f;
+/* Use CSS Wizardry method: mirror value in hidden input */
+/* OFF (value=0) style */
+input.sheet-prepared-mirror[value="0"] ~ select.sheet-prepared-toggle {
+  background-color: #2f2f2f;
+  color: #dddddd;
 }
 
-input[name="attr_spellprepared"]:not(:checked) ~ .sheet-spell-prepare-box span {
-    color: #dddddd;
+/* ON (value=1) style */
+input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
+  background-color: black;
+  color: #00ff00;
 }
-
-/* Checked state styling */
-input[name="attr_spellprepared"]:checked ~ .sheet-spell-prepare-box {
-    background-color: black;
-}
-
-input[name="attr_spellprepared"]:checked ~ .sheet-spell-prepare-box span {
-    color: #00ff00;
-}
-
-
 
 
 /* ------------------------------------------ *//* Roll Templates *//* --------------------------------------- */

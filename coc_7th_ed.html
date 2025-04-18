@@ -5966,46 +5966,55 @@
 		</div>
 					<hr/>
 <fieldset class="repeating_spells">
-  <div class="sheet-col" style="width:35%">
+  <div class="sheet-col sheet-spell-info-left">
 
-<!-- Flex container to align checkbox and label box horizontally -->
-<div class="sheet-spell-prepare-container">
-  <!-- Checkbox must come first for CSS sibling selector to work -->
-  <input type="checkbox" name="attr_spellprepared" />
+    <!-- Spell Name -->
+    <div class="sheet-spell-meta-row">
+      <span class="sheet-spell-label" data-i18n="spellname-u"><b>Spell Name</b></span>
+      <input class="sheet-wide-input" type="text" name="attr_spellname" />
+    </div>
 
-  <!-- Styled Box that changes based on checkbox state -->
-  <div class="sheet-spell-prepare-box">
-    <label>
-      <span data-i18n="prepared-u">Prepared</span>
-    </label>
+    <!-- Spell Cost -->
+    <div class="sheet-spell-meta-row">
+      <span class="sheet-spell-label" data-i18n="cost-u"><b>Cost</b></span>
+      <input class="sheet-wide-input" type="text" name="attr_spellcost" />
+    </div>
+
+    <!-- Casting Time -->
+    <div class="sheet-spell-meta-row">
+      <span class="sheet-spell-label" data-i18n="castime-u"><b>Casting Time</b></span>
+      <input class="sheet-wide-input" type="text" name="attr_spellcastime" />
+    </div>
+
+    <!-- Prepared Toggle (Styled Select + Mirror) -->
+    <div class="sheet-spell-meta-row">
+      <span class="sheet-spell-label" data-i18n="prepared-u"><b>Prepared</b></span>
+
+      <!-- Mirror input must come before for ~ selector to work -->
+      <input type="hidden" class="sheet-prepared-mirror" name="attr_spellprepared_mirror" />
+
+      <!-- Styled select control -->
+      <select name="attr_spellprepared" class="sheet-prepared-toggle">
+        <option value="0" selected>Off</option>
+        <option value="1">On</option>
+      </select>
+    </div>
+
   </div>
-</div>
 
-
-
-      <div>
-          <input class="skill-name-input" style="width:95%;text-align:center" type="text" name="attr_spellname" data-i18n-placeholder="spellname-u" placeholder="Spell Name"/>
-      </div>
-      <div style="text-align:left">
-          <span style="font-size:80%;font-weight:bold" data-i18n="cost-u"><b>Cost</b></span>
-          <input class="narrow-input" style="width:85.6%;text-align:center;font-size:80%" type="text" name="attr_spellcost" />
-      </div>
-      <div style="text-align:left">
-          <span style="font-size:80%;font-weight:bold" data-i18n="castime-u"><b>Casting Time</b></span>
-          <input class="narrow-input" style="width:71%;text-align:center;font-size:80%" type="text" name="attr_spellcastime" />
-      </div>
+  <!-- Right column for description -->
+  <div class="sheet-col sheet-spell-info-right">
+    <div>
+      <span class="sheet-spell-label" data-i18n="description-u"><b>Description</b></span>
+    </div>
+    <div>
+      <textarea name="attr_spelldescription" class="sheet-spell-textarea"></textarea>
+    </div>
   </div>
 
-  <div class="sheet-col" style="width:63%">
-      <div>
-          <span style="font-size:80%;font-weight:bold" data-i18n="description-u"><b>Description</b></span>
-      </div>
-      <div>
-          <textarea name="attr_spelldescription" style="width:95%;height:31px;font-size:78%"></textarea>
-      </div>
-  </div>
   <hr />
 </fieldset>
+
 
 
 		</div>
@@ -11552,30 +11561,41 @@ const tabList = ["skills", "background", "talents", "combat", "spells", "invento
     });
 });
 
+// Mirror select dropdown value to hidden input (for CSS Wizardry styling)
+on("change:repeating_spells:spellprepared", function(eventInfo) {
+  const match = eventInfo.sourceAttribute.match(/repeating_spells_([^_]+)_/);
+  if (!match) return;
+
+  const rowId = match[1];
+  const sourceAttr = `repeating_spells_${rowId}_spellprepared`;
+  const mirrorAttr = `repeating_spells_${rowId}_spellprepared_mirror`;
+
+  getAttrs([sourceAttr], function(values) {
+    const mirrorValue = values[sourceAttr] === "1" ? "1" : "0";
+    setAttrs({ [mirrorAttr]: mirrorValue });
+  });
+});
+
+// Sum spellcosts only for prepared spells
 on("change:repeating_spells:spellcost change:repeating_spells:spellprepared remove:repeating_spells", function() {
   getSectionIDs("repeating_spells", function(ids) {
-    const fields = ids.flatMap(id => [
+    const attrsToGet = ids.flatMap(id => [
       `repeating_spells_${id}_spellcost`,
       `repeating_spells_${id}_spellprepared`
     ]);
 
-    getAttrs(fields, function(values) {
+    getAttrs(attrsToGet, function(values) {
       let total = 0;
       ids.forEach(id => {
         const cost = parseFloat(values[`repeating_spells_${id}_spellcost`] || 0);
-        const prepared = values[`repeating_spells_${id}_spellprepared`] === "on";
-        if (prepared) total += cost;
+        const isPrepared = values[`repeating_spells_${id}_spellprepared`] === "1";
+        if (isPrepared) total += cost;
       });
       setAttrs({ total_spellcost: total });
     });
   });
 });
 
-
-// Trigger on change, add, or remove
-on("change:repeating_spells:spellcost remove:repeating_spells", function() {
-  updateSpellCostTotal();
-});
 
 
 // -- Core Calculation --

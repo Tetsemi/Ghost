@@ -1,0 +1,2293 @@
+/* -----------------------------------------------------------------------------
+   Base Character Sheet Styling
+----------------------------------------------------------------------------- */
+
+/* Main container for the character sheet content */
+.charsheet {
+    background-color: #888888;  /* Gray background for entire sheet */
+    border: 2px solid black;    /* Black border surrounding sheet */
+    color: black;               /* Default text color */
+    width: 840px;               /* Fixed width for layout consistency */
+}
+
+/* Placeholder class used as a CSS safeguard against encoding bugs (BOM issues) */
+.dummy {
+    /* incase BOM decides to screw up css - no functional styling here */
+}
+
+/* Table header styling, used in most of the sheet’s tables (e.g., skill headers) */
+th {
+  font-size: 14px;      /* Ensures table headers are readable */
+  font-weight: bold;    /* Emphasizes table header text */
+}
+
+/* -----------------------------------------------------------------------------
+   Form Control Tweaks: Inputs & Selects
+----------------------------------------------------------------------------- */
+
+/* Remove number input spinner buttons in browsers (mainly Chrome/Edge) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.5);  /* subtle white overlay */
+}
+
+/* Slightly transparent background for select elements (dropdowns) */
+select {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* -----------------------------------------------------------------------------
+   Repeating Section Controls (e.g., repeating_skills, repeating_talents)
+----------------------------------------------------------------------------- */
+
+/* Applies to the entire wrapper of repeatable item controls */
+div[class^="repcontrol"] {
+  margin: 0; /* No extra margin so buttons align cleanly */
+}
+
+/* Hides "Add" button when in edit mode for repeatables */
+div[class="repcontainer editmode"] ~ div[class^="repcontrol"] button[class="btn repcontrol_add"] {
+  display: inline-block !important;  /* Force layout */
+  visibility: hidden;                /* Prevents button from showing in edit mode */
+}
+
+/* Custom styling for add/edit/delete buttons inside repeating sections */
+.charsheet .repcontrol_add,
+.charsheet .repcontrol_edit,
+.charsheet .repcontrol_del {
+    display: block;               /* Ensures block layout for vertical spacing */
+    background: #7c746a;          /* Muted brown/gray for button background */
+    color: white;                 /* White text for contrast */
+    box-shadow: none;            /* Flat look — no shadows */
+    font-size: 0.7em;            /* Small font size to save space */
+    height: 1.5em;               /* Standardized button height */
+}
+
+/* ------------------------------ Show Only NPCs etc. --------------------------------------------
+   These rules are used to conditionally hide entire sections when a toggle (checkbox) is checked.
+   Common use: Toggle between PC/NPC view, or between simple/advanced layout modes.
+   Requires: <input type="checkbox" class="sheet-hide"> placed before the sections to control.
+------------------------------------------------------------------------------------------------ */
+
+input.sheet-hide:checked ~ div.sheet-2colrow,
+input.sheet-hide:checked ~ div.sheet-3colrow,
+input.sheet-hide:checked ~ div.sheet-section,
+input.sheet-hide:checked ~ h4.sheet-section-head {
+    display: none;
+}
+
+/* -----------------------------------------------------------------------------------------------
+   Major Wound Toggle
+   Initially hides the `.sheet-major-wound` section. It becomes visible if the hidden attribute
+   `.sheet-majorwound` has value="1" and is checked.
+   Example used to reveal additional wound effects or trauma UI for characters.
+------------------------------------------------------------------------------------------------ */
+
+.charsheet div.sheet-major-wound {
+    display: none;  /* Hidden by default */
+}
+
+.sheet-majorwound[value="1"]:checked ~ div.sheet-major-wound {
+    display: block; /* Show when the condition is met */
+}
+
+/* -----------------------------------------------------------------------------------------------
+   Downtime Section Toggle
+   Used to toggle visibility of downtime actions or post-adventure recovery sections.
+   Same concept as above: input controls visibility of a following block.
+------------------------------------------------------------------------------------------------ */
+
+.charsheet div.sheet-downtime {
+    display: none;  /* Hidden by default */
+}
+
+.sheet-toggledowntime[value="1"]:checked ~ div.sheet-downtime {
+    display: block; /* Shown when checkbox/input has value "1" and is checked */
+}
+
+/* -----------------------------------------------------------------------------------------------
+   Flex Layout Utilities
+   These are layout helpers used across sections (not content-specific).
+   Useful for modular rows/columns where multiple components need to be placed horizontally.
+   Common in modern CSS Wizardry designs for stats, skills, XP, logos, etc.
+------------------------------------------------------------------------------------------------ */
+
+/* Three equal-width columns */
+.sheet-flex3col {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;        /* Can be changed to 'wrap' for responsiveness */
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;                 /* Adds space between columns */
+}
+
+/* Flexible column block (used inside .sheet-flex3col or similar) */
+.sheet-flexcol {
+  flex: 1 1 0;               /* Grows equally */
+  min-width: 0;             /* Prevents overflow */
+  box-sizing: border-box;
+}
+
+/* Flex row used for modular headers/logos (ex: logo on left, title on right) */
+.sheet-flexrow-modlogo {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;                 /* Adds spacing between items */
+}
+
+/* One-third column layout (33.3%) */
+.sheet-flexcol-1of3 {
+  flex: 1 1 33.33%;
+  box-sizing: border-box;
+}
+
+/* Two-thirds column layout (66.6%) */
+.sheet-flexcol-2of3 {
+  flex: 2 1 66.66%;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   .sheet-talent-section-head
+   Used for section headers in the racial talent blocks.
+   Example usage: <h3 class="section-head sheet-talent-section-head">Tier 1 - 10 xp</h3>
+   This centers the title and adds spacing.
+-------------------------------------------------------------------------- */
+.sheet-talent-section-head {
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+/* --------------------------------------------------------------------------
+   .sheet-talent-header
+   Defines the appearance of header rows in talent tables (per race).
+   Applies to <tr class="sheet-talent-header"> inside each talent group.
+   Ensures visual clarity for table headers — dark background, white text, etc.
+-------------------------------------------------------------------------- */
+.sheet-talent-header th {
+  background-color: #444;     /* Dark header background */
+  color: white;               /* White text for contrast */
+  font-weight: bold;
+  text-align: center;
+  padding: 4px;
+  border: 1px solid black;
+  font-size: 90%;
+}
+
+/* --------------------------------------------------------------------------
+   Individual column widths for talent table headers
+   Column layout:
+   - Column 1: Checkbox (5%)
+   - Column 2: Skill benefit (e.g. "Stealth +10%") (40%)
+   - Column 3: Description (50%)
+   - Column 4: Bonus field (e.g. value box) (5%)
+-------------------------------------------------------------------------- */
+.sheet-talent-header th:nth-child(1) {
+  width: 5%;
+}
+
+.sheet-talent-header th:nth-child(2) {
+  width: 40%;
+}
+
+.sheet-talent-header th:nth-child(3) {
+  width: 50%;
+}
+
+.sheet-talent-header th:nth-child(4) {
+  width: 5%;
+}
+
+/* --------------------------------------------------------------------------
+   .sheet-background-section-head
+   Used similarly to .sheet-talent-section-head but for backgrounds.
+   Appears on section headers for background choices.
+   Example: <h3 class="section-head sheet-background-section-head">Academic</h3>
+-------------------------------------------------------------------------- */
+.sheet-background-section-head {
+  text-align: center;
+  margin: 0.5em 0;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+/* --------------------------------------------------------------------------
+   Hides all background sub-sections by default.
+   Used in the racial background section to initially hide all backgrounds.
+   Each visible background (like .sheet-bg-breakfaced) will be revealed
+   based on a matching dropdown value.
+-------------------------------------------------------------------------- */
+.sheet-bgblock {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Display logic for Alteri backgrounds using a dropdown selection.
+   Each input listens for a value like "ghostline" or "legacy", and then
+   shows the corresponding .sheet-bg-<name> block inside .sheet-section.
+   E.g., if attr_alteri_background_choice = "legacy", it reveals .sheet-bg-legacy.
+-------------------------------------------------------------------------- */
+input[name="attr_alteri_background_choice"][value="breakfaced"] ~ .sheet-section .sheet-bg-breakfaced,
+input[name="attr_alteri_background_choice"][value="ghostline"] ~ .sheet-section .sheet-bg-ghostline,
+input[name="attr_alteri_background_choice"][value="legacy"] ~ .sheet-section .sheet-bg-legacy,
+input[name="attr_alteri_background_choice"][value="softyear"] ~ .sheet-section .sheet-bg-softyear,
+input[name="attr_alteri_background_choice"][value="veilhaven"] ~ .sheet-section .sheet-bg-veilhaven {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Same logic for Draevi background dropdown.
+   If attr_draevi_background_choice = "urban", show .sheet-bg-urban, etc.
+-------------------------------------------------------------------------- */
+input[name="attr_draevi_background_choice"][value="forgeblood"] ~ .sheet-section .sheet-bg-forgeblood,
+input[name="attr_draevi_background_choice"][value="horncarved"] ~ .sheet-section .sheet-bg-horncarved,
+input[name="attr_draevi_background_choice"][value="techshaper"] ~ .sheet-section .sheet-bg-techshaper,
+input[name="attr_draevi_background_choice"][value="tradition"] ~ .sheet-section .sheet-bg-tradition,
+input[name="attr_draevi_background_choice"][value="urban"] ~ .sheet-section .sheet-bg-urban {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Same dropdown logic for Human backgrounds.
+   Handles values like "ashwar", "datahatched", etc.
+-------------------------------------------------------------------------- */
+input[name="attr_human_background_choice"][value="ashwar"] ~ .sheet-section .sheet-bg-ashwar,
+input[name="attr_human_background_choice"][value="datahatched"] ~ .sheet-section .sheet-bg-datahatched,
+input[name="attr_human_background_choice"][value="enclave"] ~ .sheet-section .sheet-bg-enclave,
+input[name="attr_human_background_choice"][value="gutterfire"] ~ .sheet-section .sheet-bg-gutterfire,
+input[name="attr_human_background_choice"][value="outpost"] ~ .sheet-section .sheet-bg-outpost,
+input[name="attr_human_background_choice"][value="scavsteel"] ~ .sheet-section .sheet-bg-scavsteel {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Lyranni backgrounds logic. Same structure as above.
+   For values like "aelvareth", "glide", etc.
+-------------------------------------------------------------------------- */
+input[name="attr_lyranni_background_choice"][value="aelvareth"] ~ .sheet-section .sheet-bg-aelvareth,
+input[name="attr_lyranni_background_choice"][value="echoborne"] ~ .sheet-section .sheet-bg-echoborne,
+input[name="attr_lyranni_background_choice"][value="glide"] ~ .sheet-section .sheet-bg-glide,
+input[name="attr_lyranni_background_choice"][value="whisper"] ~ .sheet-section .sheet-bg-whisper,
+input[name="attr_lyranni_background_choice"][value="zureth"] ~ .sheet-section .sheet-bg-zureth {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Table layout shared across both background and talent sections.
+   Ensures consistent column widths, borders, and spacing.
+-------------------------------------------------------------------------- */
+.talent-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+}
+
+/* --------------------------------------------------------------------------
+   Talent table header style (dark with white text).
+   Shared across all races. Enhances readability of skill tables.
+-------------------------------------------------------------------------- */
+.sheet-talent-header th {
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px;
+  border: 1px solid black;
+  font-size: 90%;
+}
+
+/* --------------------------------------------------------------------------
+   Shared column width classes for use in <th> and <td> across the talent tables.
+   - col-a: Checkbox column (5%)
+   - col-benefit: Skill label like "Insight +10%" (40%)
+   - col-desc: Explanation (50%)
+   - col-val: Final bonus value (5%)
+   These may be used explicitly or inherited via nth-child.
+-------------------------------------------------------------------------- */
+.sheet-talent-header th:nth-child(1),
+.col-a {
+  width: 5%;
+  text-align: center;
+}
+.sheet-talent-header th:nth-child(2),
+.col-benefit {
+  width: 40%;
+}
+.sheet-talent-header th:nth-child(3),
+.col-desc {
+  width: 50%;
+}
+.sheet-talent-header th:nth-child(4),
+.col-val {
+  width: 5%;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Centers tier headings (e.g., "Tier 1 - 10 XP").
+   Used in .sheet-talent-section-head and others.
+-------------------------------------------------------------------------- */
+.talent-center {
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Optional styling for skill tooltips.
+   These are hidden read-only fields that store notes.
+   Used in tooltips like: <span title="@{insight_note}">
+-------------------------------------------------------------------------- */
+.skill-tooltip {
+  font-size: 0.75em;
+  color: #666;
+  background: transparent;
+  border: none;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Styling for skill name labels — e.g., “Insight(10%)”
+   Allows mouse hover for help tooltips.
+-------------------------------------------------------------------------- */
+.skill-label {
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  pointer-events: auto;
+  cursor: help;
+}
+
+/* --------------------------------------------------------------------------
+   Hidden input used for storing dynamic tooltips.
+   These are linked with title="@{<skill>_note}" attributes.
+-------------------------------------------------------------------------- */
+input.tooltip-field {
+  width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: transparent;
+}
+/* -------------------- end of Background and Talent ------------------------*/
+
+/* --------------------------------------------------------------------------
+   1. Hide all content sections by default.
+   Every tabbed content section (e.g., `.sheet-talents`, `.sheet-combat`) 
+   is hidden unless explicitly shown by the active tab selector.
+   These sections usually appear immediately after the `.sheet-tab-controller`
+   hidden input and contain the content for that tab.
+-------------------------------------------------------------------------- */
+.sheet-tab-content {
+  display: none;
+  padding: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Display the section that matches the selected tab value.
+   When the hidden input `.sheet-tab-controller` (type=hidden, name="attr_sheetTab") 
+   matches one of the listed values (e.g., "talents"), the associated content 
+   section (like `.sheet-talents`) becomes visible.
+
+   Example in HTML:
+     <input type="hidden" name="attr_sheetTab" class="sheet-tab-controller" value="talents" />
+     <div class="sheet-tab-content sheet-talents">...</div>
+
+   Result: When sheetTab="talents", the `.sheet-talents` block is displayed.
+-------------------------------------------------------------------------- */
+.sheet-tab-controller[value="skills"] ~ .sheet-skills,
+.sheet-tab-controller[value="background"] ~ .sheet-background,
+.sheet-tab-controller[value="talents"] ~ .sheet-talents,
+.sheet-tab-controller[value="combat"] ~ .sheet-combat,
+.sheet-tab-controller[value="spells"] ~ .sheet-spells,
+.sheet-tab-controller[value="inventory"] ~ .sheet-inventory,
+.sheet-tab-controller[value="backstory"] ~ .sheet-backstory,
+.sheet-tab-controller[value="npcs"] ~ .sheet-npcs,
+.sheet-tab-controller[value="vehicles"] ~ .sheet-vehicles {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   3. Layout for the horizontal button bar that controls tab switching.
+   This div (class `.sheet-tab-buttons`) wraps all action buttons
+   like `<button type="action" name="act_talents">Talents</button>`,
+   and uses flex to space them evenly across the width of the sheet.
+-------------------------------------------------------------------------- */
+.sheet-tab-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 5px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Base styling for tab selector buttons.
+   All tab buttons appear with dark background, white text,
+   equal size, and slight padding for clarity.
+   These buttons trigger sheet workers via `on("clicked:...")` events,
+   updating the value of `attr_sheetTab`.
+-------------------------------------------------------------------------- */
+.sheet-tab-buttons button {
+  flex: 1;
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
+  padding: 6px 0;
+  font-size: 90%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* --------------------------------------------------------------------------
+   5. Highlight the button for the currently selected tab.
+   If `.sheet-tab-controller` has value="talents", then:
+     -> The button named `act_talents` will get a darker background (#222).
+   This visually marks which tab is active.
+
+   This logic applies for all available tabs using attribute + sibling selectors.
+
+   Example:
+     <input type="hidden" name="attr_sheetTab" value="spells">
+     ...
+     <button type="action" name="act_spells">Spells</button>
+   => The Spells button background changes to #222 to indicate it's selected.
+-------------------------------------------------------------------------- */
+.sheet-tab-controller[value="skills"] ~ .sheet-tab-buttons button[name="act_skills"],
+.sheet-tab-controller[value="background"] ~ .sheet-tab-buttons button[name="act_background"],
+.sheet-tab-controller[value="talents"] ~ .sheet-tab-buttons button[name="act_talents"],
+.sheet-tab-controller[value="combat"] ~ .sheet-tab-buttons button[name="act_combat"],
+.sheet-tab-controller[value="spells"] ~ .sheet-tab-buttons button[name="act_spells"],
+.sheet-tab-controller[value="inventory"] ~ .sheet-tab-buttons button[name="act_inventory"],
+.sheet-tab-controller[value="backstory"] ~ .sheet-tab-buttons button[name="act_backstory"],
+.sheet-tab-controller[value="npcs"] ~ .sheet-tab-buttons button[name="act_npcs"],
+.sheet-tab-controller[value="vehicles"] ~ .sheet-tab-buttons button[name="act_vehicles"] {
+  background-color: #222;
+}
+
+/* ==========================================================================
+   ARMOR SECTIONS
+   ========================================================================== */
+
+/* Hide the simplified armor block by default */
+.charsheet div.sheet-simplearmorsection {
+    display: none;
+}
+
+/* Show simple armor block only if the hidden input `attr_togglesimplearmor` has value 1 */
+.sheet-togglesimplearmor[value="1"]:checked ~ div.sheet-simplearmorsection {
+    display: block;
+}
+
+/* Hide full armor block by default */
+.charsheet div.sheet-armorsection {
+    display: none;
+}
+
+/* Show full armor block when `attr_togglearmor` is set to 1 */
+.sheet-togglearmor[value="1"]:checked ~ div.sheet-armorsection {
+    display: block;
+}
+
+/* ==========================================================================
+   DEBUG / DICE MODIFIER OUTPUT
+   ========================================================================== */
+
+/* Hide debug output unless explicitly enabled */
+.charsheet .debug-output {
+  display: none;
+}
+
+/* When the attribute `attr_show_debug_output` is 1, show `.debug-output` block */
+input[name="attr_show_debug_output"][value="1"] ~ .debug-output {
+  display: block;
+}
+
+/* Hide the dice modifier section by default */
+.charsheet div.sheet-dicemodifiersection {
+    display: none;
+}
+
+/* Show it when `attr_toggledmod` is 1 */
+.sheet-toggledmod[value="1"]:checked ~ div.sheet-dicemodifiersection {
+    display: block;
+}
+
+/* Always display this section for dice roll template usage */
+.charsheet div.sheet-dicerollsection {
+    display: block;
+}
+
+/* ==========================================================================
+   PULP TALENTS / HERO FEATURES
+   ========================================================================== */
+
+/* Hide pulp talents by default */
+.charsheet div.sheet-pulptalentssection {
+    display: none;
+}
+
+/* Show when `attr_toggletalents` is checked (1) */
+.sheet-toggletalents[value="1"]:checked ~ div.sheet-pulptalentssection {
+    display: block;
+}
+
+/* ==========================================================================
+   BOM PULP SHEET MODES
+   Used to switch between Sanity/Pulp layouts or sections like bombs
+   ========================================================================== */
+
+/* Hide BOM pulp section (used for Pulp Cthulhu gear?) */
+.charsheet div.sheet-bompulpsection {
+    display: none;
+}
+
+/* Show when `attr_pulpbomtoggle` is 1 */
+.sheet-pulpbomtoggle[value="1"]:checked ~ div.sheet-bompulpsection {
+    display: block;
+}
+
+/* Hide sanity section when pulp mode is on */
+.sheet-pulpbomtoggle[value="1"]:checked ~ div.sheet-sanitysection {
+    display: none;
+}
+
+/* ==========================================================================
+   PULP HP + INVESTIGATOR MODE SWITCH
+   ========================================================================== */
+
+/* Hide pulp-style HP bar unless pulp mode is active */
+.charsheet div.sheet-pulphpsection {
+    display: none;
+}
+
+/* Show when `attr_showpulp` is set to 1 */
+.sheet-showpulp[value="1"]:checked ~ div.sheet-pulphpsection {
+    display: block;
+}
+
+/* Hide standard HP bar when in pulp mode */
+.sheet-showpulp[value="1"]:checked ~ div.sheet-hpsection {
+    display: none;
+}
+
+/* ==========================================================================
+   PULP HERO INFO BLOCKS
+   Swaps out "Investigator Info" for "Hero Info" in Pulp mode
+   ========================================================================== */
+
+/* Hide the pulp-specific hero info block by default */
+.charsheet div.sheet-heroinfo {
+    display: none;
+}
+
+/* Show it when pulp is enabled */
+.sheet-showpulp[value="1"]:checked ~ div.sheet-heroinfo {
+    display: block;
+}
+
+/* Hide normal investigator info when pulp is on */
+.sheet-showpulp[value="1"]:checked ~ div.sheet-investigatorinfo {
+    display: none;
+}
+
+/* ==========================================================================
+   PULP LOGO SECTION
+   Replaces the CoC logo when using Pulp rules
+   ========================================================================== */
+
+/* Hide Pulp-specific logo */
+.charsheet div.sheet-pulplogosection {
+    display: none;
+}
+
+/* Show Pulp logo if `showpulp` = 1 */
+.sheet-showpulp[value="1"]:checked ~ div.sheet-pulplogosection {
+    display: block;
+}
+
+/* Hide normal logo in pulp mode */
+.sheet-showpulp[value="1"]:checked ~ div.sheet-logosection {
+    display: none;
+}
+
+/* ==========================================================================
+   ERA-SPECIFIC SKILLS DISPLAY
+   These blocks hide all skills by default and only show the matching "era" 
+   based on a hidden checkbox value from attr_showskills.
+   Used for era-specific skill lists: 1920s, Modern, Pulp, etc.
+   ========================================================================== */
+
+/* Hide all skill era sections by default */
+.charsheet div.sheet-skills1,
+.charsheet div.sheet-skills2,
+.charsheet div.sheet-skills3,
+.charsheet div.sheet-skills4,
+.charsheet div.sheet-skills5,
+.charsheet div.sheet-skills6,
+.charsheet div.sheet-skills7 {
+    display: none;
+}
+
+/* Display block when attr_showskills matches era value */
+.sheet-showskills[value="1"]:checked ~ div.sheet-skills1 {
+    display: block;
+}
+
+.sheet-showskills[value="2"]:checked ~ div.sheet-skills2 {
+    display: block;
+}
+
+.sheet-showskills[value="3"]:checked ~ div.sheet-skills3 {
+    display: block;
+}
+
+.sheet-showskills[value="4"]:checked ~ div.sheet-skills4 {
+    display: block;
+}
+
+.sheet-showskills[value="5"]:checked ~ div.sheet-skills5 {
+    display: block;
+}
+
+.sheet-showskills[value="6"]:checked ~ div.sheet-skills6 {
+    display: block;
+}
+
+.sheet-showskills[value="7"]:checked ~ div.sheet-skills7 {
+    display: block;
+}
+
+/* ==========================================================================
+   RACIAL TALENTS DISPLAY
+   Similar to era skills, this block handles visibility of racial talent 
+   sections using attr_showracials.
+   This allows showing talent bonuses for selected race only.
+   ========================================================================== */
+
+/* Hide all racial blocks by default */
+.charsheet div.sheet-racials1,
+.charsheet div.sheet-racials2,
+.charsheet div.sheet-racials3,
+.charsheet div.sheet-racials4,
+.charsheet div.sheet-racials5,
+.charsheet div.sheet-racials6,
+.charsheet div.sheet-racials7,
+.charsheet div.sheet-racials8 {
+    display: none;
+}
+
+/* Display correct racial talents block when attr_showracials is checked with the corresponding value */
+.sheet-showracials[value="1"]:checked ~ div.sheet-racials1 {
+    display: block;
+}
+
+.sheet-showracials[value="2"]:checked ~ div.sheet-racials2 {
+    display: block;
+}
+
+.sheet-showracials[value="3"]:checked ~ div.sheet-racials3 {
+    display: block;
+}
+
+.sheet-showracials[value="4"]:checked ~ div.sheet-racials4 {
+    display: block;
+}
+
+.sheet-showracials[value="5"]:checked ~ div.sheet-racials5 {
+    display: block;
+}
+
+.sheet-showracials[value="6"]:checked ~ div.sheet-racials6 {
+    display: block;
+}
+
+.sheet-showracials[value="7"]:checked ~ div.sheet-racials7 {
+    display: block;
+}
+
+.sheet-showracials[value="8"]:checked ~ div.sheet-racials8 {
+    display: block;
+}
+
+/* ==========================================================================
+   CONFIGURATION TOGGLE DISPLAY
+   These rules handle showing/hiding the configuration/settings section 
+   when the user toggles the config arrow. This is part of the "Show Config" logic.
+
+   Used with:
+   - input.sheet-HideConfig (checkbox)
+   - span.sheet-is-config (indicator icon)
+   - .sheet-config section
+
+   Behavior:
+   - Hides the configuration section when checked
+   - Changes icon direction ("^" vs "v") based on toggle
+   ========================================================================== */
+
+/* Hides the .sheet-config section when the config toggle is checked */
+.sheet-HideConfig:checked ~ *.sheet-config {
+	display: none;
+}
+
+/* Displays a caret-style icon after the span when the config is closed */
+.charsheet span.sheet-is-config::after {
+	content: "^"; /* Default: up arrow, config shown */
+}
+
+/* If the config is hidden, change the caret icon to point down */
+.charsheet .sheet-HideConfig:checked + span.sheet-is-config::after {
+	content: "v"; /* Config is hidden, show down arrow */
+}
+
+/* Style for the span that appears next to the hidden config toggle.
+   This acts as a visible clickable label for users. */
+.charsheet span.sheet-is-config {
+	text-align: center;
+	display: inline-block;
+	width: 5%;
+	height: 16px;
+	font-size: 9px;
+	background: black;
+	color: white;
+	font-weight: bold;
+	border-radius: 4px;
+	margin-left: -5%;
+}
+
+/* Hidden input for toggling config visibility. Made clickable using span sibling. */
+.charsheet input.sheet-HideConfig {
+	width: 5%;
+	height: 16px;
+	cursor: pointer;
+	margin-left: auto;
+	margin-top: auto;
+	opacity: 0; /* Fully hidden, but still clickable */
+	z-index: 9999;
+}
+
+/* Style the span differently when config is hidden */
+.charsheet .sheet-HideConfig:checked + span.sheet-is-config {
+	background: black;
+	border-radius: 4px;
+	color: white;
+}
+
+/* Labels inside configuration blocks, standard spacing/formatting */
+.charsheet label.sheet-configitem {
+	margin-left: 10px;
+	width: 50px;
+	font-size: 0.9em;
+	font-weight: normal;
+}
+
+/* ==========================================================================
+   SHEET ARROW TOGGLE CONTROLS
+   These rules allow toggling section visibility using a pictos arrow
+   icon in a checkbox. Typically used in collapsible section headers.
+
+   Used with:
+   - input.sheet-arrow (checkbox)
+   - div.sheet-section (any content block)
+   - div.sheet-skillsX (era-specific skill blocks)
+
+   ========================================================================== */
+
+/* Adds an arrow icon after the checkbox input */
+input.sheet-arrow::after {
+	float: left;
+	font-family: pictos;
+	content: "E"; /* The arrow icon from Pictos font */
+	opacity: 1.5;
+}
+
+/* Style the hidden checkbox itself */
+input.sheet-arrow {
+	float: left;
+	font-family: pictos;
+	content: "E"; /* fallback content */
+	opacity: 0.5;
+}
+
+/* When the arrow checkbox is checked, hide all sections related to it */
+.charsheet .sheet-arrow:checked ~ div.sheet-section,
+.charsheet .sheet-arrow:checked ~ div.sheet-skills1,
+.charsheet .sheet-arrow:checked ~ div.sheet-skills2,
+.charsheet .sheet-arrow:checked ~ div.sheet-skills3,
+.charsheet .sheet-arrow:checked ~ div.sheet-skills4,
+.charsheet .sheet-arrow:checked ~ div.sheet-skills5,
+.charsheet .sheet-arrow:checked ~ div.sheet-skills6,
+.charsheet .sheet-arrow:checked ~ div.sheet-skills7 {
+	display: none;
+}
+
+/* 
+  These pseudo-elements add a pictographic "arrow" to the left of checkboxes.
+  This is purely decorative and not visible in most cases, but uses the Pictos font
+  which is supported by Roll20's character sheet engine.
+  
+  ⚠️ These styles are mostly vestigial or decorative unless visible checkboxes are used.
+*/
+
+/* Adds a decorative arrow icon after the checkbox (not commonly seen) */
+input.sheet-showracials::after {
+    float: left;
+    font-family: pictos;
+    content: "E"; /* 'E' in Pictos usually renders an arrow icon */
+    opacity: 1.5;
+}
+
+/* The checkbox itself (invisible, but styled for consistency) */
+input.sheet-showracials {
+    float: left;
+    font-family: pictos;
+    content: "E"; /* fallback content */
+    opacity: 0.5;
+}
+
+/* 
+  This rule block hides *all racial display sections* (sheet-racials1-7)
+  and any generic .sheet-section elements whenever a `sheet-showracials` checkbox is checked.
+
+  ✅ Used in combination with: 
+     - `<input type="checkbox" class="sheet-showracials" name="attr_showracials" value="X">`
+     - `.sheet-racialsX` sections that show specific race-based talent/background content.
+
+  🔍 Purpose:
+     This is part of the **race selection system**. When the user selects a race (via dropdown or tab),
+     only the appropriate `.sheet-racialsX` section is made visible using separate matching selectors.
+
+  🚫 This block prevents multiple racial blocks from being visible simultaneously
+      by hiding them when a checkbox is checked (often used with Wizardry pattern).
+*/
+
+.charsheet .sheet-showracials:checked ~ div.sheet-section,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials1,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials2,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials3,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials4,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials5,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials6,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials7 {
+    display: none;
+}
+
+/* These styles dynamically apply different header colors based on the selected skill era.
+   Each corresponds to a different value of attr_showskills (usually chosen via a dropdown). 
+   They apply to the <h4 class="sheet-section-head"> elements. */
+
+.sheet-showskills[value="1"]:checked ~ h4.sheet-section-head {
+    background-image: linear-gradient(black, #840032); /* Red variant */
+    background-color: #840032;
+    color: white;
+    text-align: center;
+    font-weight: normal;
+    font-style: normal;
+    border: 1px solid black;
+}
+
+.sheet-showskills[value="2"]:checked ~ h4.sheet-section-head {
+    background-image: linear-gradient(black, #262626); /* Dark grey / black */
+    background-color: black;
+    ...
+}
+
+.sheet-showskills[value="3"]:checked ~ h4.sheet-section-head { background-color: #112749; }
+.sheet-showskills[value="4"]:checked ~ h4.sheet-section-head { background-color: #273f13; }
+.sheet-showskills[value="5"]:checked ~ h4.sheet-section-head { background-color: #6B5A38; }
+.sheet-showskills[value="6"]:checked ~ h4.sheet-section-head { background-color: #31657b; }
+.sheet-showskills[value="7"]:checked ~ h4.sheet-section-head { background-color: #65356f; }
+
+/* Applies the Pulp-style theme color to headers if the pulp mode is active */
+.sheet-showpulp[value="1"]:checked ~ h4.sheet-section-head, 
+.sheet-showpulp[value="1"]:checked ~ div.sheet-pulphpsection h4.sheet-section-head,
+.sheet-showpulp[value="1"]:checked ~ div.sheet-heroinfo h4.sheet-section-head {
+    background-image: linear-gradient(#750000, #800000);
+    background-color: #800000;
+}
+
+/* Fallback/default style for section headers if no condition overrides */
+h4.sheet-section-head {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-weight: normal;
+    font-style: normal;
+    border: 1px solid black;
+}
+
+/* Horizontal rules used for dividing parts of the sheet */
+hr { 
+  display: block;
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+/* Generic section blocks, used to contain grouped parts of the sheet (skills, talents, etc) */
+div.sheet-section,
+div.sheet-talent-section {
+    background-color: #c4beb6; /* light parchment background */
+    border: 2px solid black;
+    padding: 1%;
+    margin-bottom: 1%;
+}
+
+/* These styles define sizing and layout for character attribute cells in a table */
+table td.sheet-attr { width: 13.33%; height: 58px; }
+
+table td.sheet-attr-label {
+    height: 56px;
+    font-size: 120%; 
+    text-align: center;
+}
+
+input[type="text"].sheet-attr-input {
+    width: 52px; 
+    height: 40px; 
+    font-size: 200%; 
+    text-align: center;
+}
+
+table td.sheet-attr-roll {
+    height: 56px;
+    text-align: center;
+}
+
+/* Used for Luck, HP, SAN, etc. — narrower centered inputs */
+input.sheet-secondary-attr-input,
+input[type="number"].sheet-secondary-attr-input {
+    width: 100%;
+    text-align: center;
+}
+
+table td.sheet-skill-label {
+    width: 100%;
+    height: 23px;
+}
+
+table td.sheet-talent-label {
+    width: 200px;
+    height: 23px;
+}
+
+/* Skill value input boxes */
+input[type="text"].sheet-skill-input,
+input[type="number"].sheet-skill-input {
+    width: 30px;
+    height: 23px;
+    text-align: center;
+    background-color: rgba(255,255,255,0.5);
+    margin-bottom: 1px;
+}
+
+/* Skill name input (for custom skills) */
+input[type="text"].sheet-skill-name-input {
+    height: 23px;
+    text-align: left;
+    margin-bottom: 1px;
+}
+
+/* Reminder row for custom skills (usually italics or smaller text) */
+td.sheet-otherskill-reminder {
+    font-size: 80%;
+}
+
+/* Narrow inputs (e.g. initiative or modifiers) */
+input[type="text"].sheet-narrow-input {
+    background-color: rgba(255,255,255,0.5);
+    color: black;
+    height: 16px;
+    text-align: center;
+    font-size: 85%;
+}
+
+/* Backstory box */
+texarea.sheet-backstory-box {
+    height: 75px;
+    background-color: rgba(255,255,255,0.5);
+}
+
+/* General textarea fallback */
+textarea {
+    background-color: rgba(255,255,255,0.5);
+    resize: vertical;
+    margin: 0;
+}
+
+/* Default input fallback styling */
+input {
+    background-color: rgba(255,255,255,0.5);
+}
+
+/* ==========================
+   Roll Template for COC Defense (Primary version)
+   Used when a defense action is rolled in chat via a custom roll button
+   Template called via: &{template:coc-defence} ...
+========================== */
+
+.sheet-rolltemplate-coc-defence table {
+    width: 100%;
+    border: 1px solid black;
+    color: black;
+    background: #FFFFFF;
+}
+
+/* Header row for the roll output */
+.sheet-rolltemplate-coc-defence caption {
+    text-align: center;
+    background: black;
+    color: white;
+    font-weight: bold;
+    padding: 2px;
+    border: 1px solid black;
+    line-height: 1.6em;
+}
+
+/* Base row styling */
+.sheet-rolltemplate-coc-defence td {
+    padding: 2px;
+    border-bottom: 1px solid black;
+}
+
+/* Left-hand column (label like "Success", "Roll") */
+.sheet-rolltemplate-coc-defence td.sheet-template_label {
+    font-weight: bold;
+}
+
+/* Right-hand column (value like the actual roll result) */
+.sheet-rolltemplate-coc-defence td.sheet-template_value {
+    text-align: center;
+}
+
+/* Styling for inline dice results inside roll template */
+.sheet-rolltemplate-coc-defence .inlinerollresult {
+    display: inline-block;
+    min-width: 1.5em;
+    text-align: center;
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* These three reinforce the same style for important or crit/fail rolls */
+.sheet-rolltemplate-coc-defence .inlinerollresult.fullcrit,
+.sheet-rolltemplate-coc-defence .inlinerollresult.fullfail,
+.sheet-rolltemplate-coc-defence .inlinerollresult.importantroll {
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* ==========================
+   Roll Template for COC Defense - Alternate/Simplified Version
+   Used in some cases as a minimal template
+========================== */
+
+.sheet-rolltemplate-coc-defence-1 table {
+    width: 100%;
+    border: 1px solid black;
+    color: black;
+    background: #FFFFFF;
+}
+
+.sheet-rolltemplate-coc-defence-1 caption {
+    text-align: center;
+    background: black;
+    color: white;
+    font-weight: bold;
+    padding: 2px;
+    border: 1px solid black;
+    line-height: 1.6em;
+}
+
+.sheet-rolltemplate-coc-defence-1 td {
+    padding: 2px;
+    border-bottom: 1px solid black;
+}
+
+.sheet-rolltemplate-coc-defence-1 td.sheet-template_label {
+    font-weight: bold;
+}
+
+.sheet-rolltemplate-coc-defence-1 td.sheet-template_value {
+    text-align: center;
+}
+
+.sheet-rolltemplate-coc-defence-1 .inlinerollresult,
+.sheet-rolltemplate-coc-defence-1 .inlinerollresult.fullcrit,
+.sheet-rolltemplate-coc-defence-1 .inlinerollresult.fullfail,
+.sheet-rolltemplate-coc-defence-1 .inlinerollresult.importantroll {
+    display: inline-block;
+    min-width: 1.5em;
+    text-align: center;
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* === Table wrapper for the roll template === */
+.sheet-rolltemplate-coc-vehicleattack table {
+    width: 100%;
+    border: 1px solid black;
+    color: black;
+    background: #FFFFFF;
+}
+/* Provides a clean white background with black border for visibility */
+
+/* === Title / Header Bar of the roll === */
+.sheet-rolltemplate-coc-vehicleattack caption {
+    text-align: center;
+    background: black;
+    color: white;
+    font-weight: bold;
+    padding: 2px;
+    border: 1px solid black;
+    line-height: 1.6em;
+}
+/* The <caption> element displays the name of the roll like "Mounted Cannon" or "Pursuit Attack" */
+
+/* === Cell defaults === */
+.sheet-rolltemplate-coc-vehicleattack td {
+  padding: 2px;
+  border-bottom: 1px solid black;
+}
+/* Basic cell formatting for layout clarity */
+
+/* === Label Column === */
+.sheet-rolltemplate-coc-vehicleattack td.sheet-template_label {
+    font-weight: bold;
+}
+/* Used for keys like "Roll", "Target", or "Outcome" */
+
+/* === Value Column === */
+.sheet-rolltemplate-coc-vehicleattack td.sheet-template_value {
+    text-align: center;
+}
+/* Aligns results like the d100 or damage in the right-hand column */
+
+/* === Inline roll result (normal) === */
+.sheet-rolltemplate-coc-vehicleattack .inlinerollresult {
+    display: inline-block;
+    min-width: 1.5em;
+    text-align: center;
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+/* Standard look for roll values shown in chat */
+
+/* === Critical success styling (inherits same style for visual consistency) === */
+.sheet-rolltemplate-coc-vehicleattack .inlinerollresult.fullcrit {
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* === Critical failure styling (same look, could be styled differently if desired) === */
+.sheet-rolltemplate-coc-vehicleattack .inlinerollresult.fullfail {
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* === Important roll styling (e.g., highlighted rolls, GM emphasis) === */
+.sheet-rolltemplate-coc-vehicleattack .inlinerollresult.importantroll {
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* -------------------- PD/BD Roll Template -------------------- */
+/* This roll template is invoked in Roll20 using &{template:coc} and is styled for visual clarity in the chat window */
+
+.sheet-rolltemplate-coc table {
+    width: 100%;                    /* Full width of the chat panel */
+    border: 1px solid black;        /* Outline border for the roll result box */
+    color: black;                   /* Base text color */
+    background: #FFFFFF;            /* White background for contrast */
+}
+
+.sheet-rolltemplate-coc caption {
+    text-align: center;             /* Center-align the roll title */
+    background: black;              /* Black background for the title bar */
+    color: white;                   /* White text in the title bar */
+    font-weight: bold;             /* Emphasize the title */
+    padding: 2px;                   /* Space inside the title box */
+    border: 1px solid black;        /* Border for visual separation */
+    line-height: 1.6em;             /* Space above/below title text */
+}
+
+.sheet-rolltemplate-coc td {
+  padding: 2px;                     /* Inner padding for label/value cells */
+  border-bottom: 1px solid black;  /* Divider between rows of data */
+}
+
+.sheet-rolltemplate-coc td.sheet-template_label {
+    font-weight: bold;             /* Bold left-hand labels (e.g., "Roll", "Target") */
+}
+
+.sheet-rolltemplate-coc td.sheet-template_value {
+    text-align: center;            /* Center-align values for visual clarity */
+}
+
+/* ---------- Inline Roll Results Styling ---------- */
+/* These appear when Roll20 processes inline rolls like [[1d100]] inside templates */
+
+.sheet-rolltemplate-coc .inlinerollresult  {
+  display: inline-block;           /* Allows width/height control */
+  min-width: 1.5em;                /* Ensures readable box */
+  text-align: center;              /* Centers roll value in box */
+  border: 2px solid black;         /* Bold border to emphasize the roll */
+  background: #BEBEBE;             /* Light gray background for visibility */
+}
+
+/* Highlighting for special roll results (same style for consistency) */
+
+.sheet-rolltemplate-coc .inlinerollresult.fullcrit {
+  border: 2px solid black;
+  background: #BEBEBE;             /* Critical success - same style used to avoid extra distraction */
+}
+
+.sheet-rolltemplate-coc .inlinerollresult.fullfail {
+  border: 2px solid black;
+  background: #BEBEBE;             /* Critical failure - visually consistent */
+}
+
+.sheet-rolltemplate-coc .inlinerollresult.importantroll {
+  border: 2px solid black;
+  background: #BEBEBE;             /* Important success/fail (e.g., pushed or opposed rolls) */
+}
+
+/* -------------------------------------------------------------------------- */
+/* PD/BD Attack Roll Template - Used for Penalty Die/Bonus Die combat rolls in chat output
+   Triggered in the HTML via &{template:coc-attack}
+   Example:
+   &{template:coc-attack} {{name=Attack Roll}} {{success=[[1d100]]}} {{target=60}} ...
+*/
+
+.sheet-rolltemplate-coc-attack table {
+    width: 100%;                  /* Full width inside the chat window */
+    border: 1px solid black;      /* Black border to define the roll output box */
+    color: black;                 /* Default font color */
+    background: #FFFFFF;          /* White background for clean contrast */
+}
+
+.sheet-rolltemplate-coc-attack caption {
+    text-align: center;           /* Centered title for the roll (e.g., "Attack Roll") */
+    background: black;            /* Black background for title bar */
+    color: white;                 /* White text for title */
+    font-weight: bold;           /* Emphasize roll title */
+    padding: 2px;                 /* Inner space around text */
+    border: 1px solid black;      /* Border around title */
+    line-height: 1.6em;           /* Additional vertical spacing */
+}
+
+.sheet-rolltemplate-coc-attack td {
+  padding: 2px;                   /* Padding inside each table cell */
+  border-bottom: 1px solid black; /* Separate each row with a thin line */
+}
+
+.sheet-rolltemplate-coc-attack td.sheet-template_label {
+    font-weight: bold;           /* Labels like "Target", "Result", etc., appear in bold */
+}
+
+.sheet-rolltemplate-coc-attack td.sheet-template_value {
+    text-align: center;          /* Values (e.g., 1d100 result, success level) are centered */
+}
+
+/* Inline roll styling: how dice results appear (e.g., [[1d100]]) */
+
+.sheet-rolltemplate-coc-attack .inlinerollresult  {
+  display: inline-block;         /* Allows fixed width styling */
+  min-width: 1.5em;              /* Ensures box isn't too narrow */
+  text-align: center;            /* Center the numeric result */
+  border: 2px solid black;       /* Visually separates result */
+  background: #BEBEBE;           /* Light gray background for visibility */
+}
+
+/* Special result highlights, but all use the same styling for consistency in this template */
+
+.sheet-rolltemplate-coc-attack .inlinerollresult.fullcrit {
+  border: 2px solid black;       /* Critical success result (e.g., 01 or max hit) */
+  background: #BEBEBE;
+}
+
+.sheet-rolltemplate-coc-attack .inlinerollresult.fullfail {
+  border: 2px solid black;       /* Fumble or critical failure (e.g., 100) */
+  background: #BEBEBE;
+}
+
+.sheet-rolltemplate-coc-attack .inlinerollresult.importantroll {
+  border: 2px solid black;       /* Highlighted result (e.g., pushed roll, contested roll) */
+  background: #BEBEBE;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SIMPLE (NO PD/BD) ROLL TEMPLATE
+   This template is used for clean, straightforward roll outputs in the chat.
+   It is called via &{template:coc-1} from buttons or roll macros on the sheet.
+   Example usage:
+   &{template:coc-1} {{name=Skill Check}} {{skill=Stealth}} {{success=[[1d100]]}} {{target=60}} 
+*/
+
+/* Style the roll output table container */
+.sheet-rolltemplate-coc-1 table {
+    width: 100%;                  /* Ensures the template spans the full width of the chat pane */
+    border: 1px solid black;      /* Solid border surrounding the whole table */
+    color: black;                 /* Default text color for normal entries */
+    background: #FFFFFF;          /* White background for contrast and clarity */
+}
+
+/* Style for the top title (caption) row */
+.sheet-rolltemplate-coc-1 caption {
+    text-align: center;           /* Center the roll's title or description */
+    background: black;            /* Dark header background */
+    color: white;                 /* White text for visibility */
+    font-weight: bold;           /* Bold text to emphasize title */
+    padding: 2px;                 /* Space inside the caption */
+    border: 1px solid black;      /* Border around the caption title */
+    line-height: 1.6em;           /* Improves readability */
+}
+
+/* Style for all table cells */
+.sheet-rolltemplate-coc-1 td {
+    padding: 2px;                 /* Adds space inside each cell */
+    border-bottom: 1px solid black; /* Horizontal lines between rows for clarity */
+}
+
+/* Bold labels like "Skill:", "Target:", etc. */
+.sheet-rolltemplate-coc-1 td.sheet-template_label {
+    font-weight: bold;
+}
+
+/* Center align values like dice results, target numbers, etc. */
+.sheet-rolltemplate-coc-1 td.sheet-template_value {
+    text-align: center;
+}
+
+/* Style for the inline roll result element, like [[1d100]] */
+.sheet-rolltemplate-coc-1 .inlinerollresult {
+    display: inline-block;       /* Ensures layout consistency */
+    min-width: 1.5em;            /* Prevents the result from collapsing too small */
+    text-align: center;          /* Center the number */
+    border: 2px solid black;     /* Black border around the number */
+    background: #BEBEBE;         /* Light gray background to distinguish the roll */
+}
+
+/* Special styling if Roll20 detects a critical success */
+.sheet-rolltemplate-coc-1 .inlinerollresult.fullcrit {
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* Special styling if Roll20 detects a critical failure */
+.sheet-rolltemplate-coc-1 .inlinerollresult.fullfail {
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* Special styling for any "important" result flagged in the template */
+.sheet-rolltemplate-coc-1 .inlinerollresult.importantroll {
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* SIMPLE ATTACK ROLL TEMPLATE (NO PD/BD)
+   This rolltemplate is triggered using &{template:coc-attack-1} in a macro or ability.
+   It’s designed for attacks that don’t involve bonus or penalty dice.
+   Commonly used by weapon buttons on the sheet like: 
+   &{template:coc-attack-1} {{name=Shotgun}} {{roll=[[1d100]]}} {{target=60}} {{damage=[[2d6+2]]}}
+*/
+
+/* Styles the main table container for the roll output */
+.sheet-rolltemplate-coc-attack-1 table {
+    width: 100%;                  /* Full width of the chat display */
+    border: 1px solid black;      /* Solid outer border for clarity */
+    color: black;                 /* Default text color for all cells */
+    background: #FFFFFF;          /* White background to make content pop */
+}
+
+/* Styles the caption (title) of the roll result */
+.sheet-rolltemplate-coc-attack-1 caption {
+    text-align: center;           /* Centers the roll title (e.g., “Shotgun Attack”) */
+    background: black;            /* Black background for contrast */
+    color: white;                 /* White text for visibility */
+    font-weight: bold;            /* Bold font to highlight the title */
+    padding: 2px;                 /* Adds spacing inside caption */
+    border: 1px solid black;      /* Border around the caption box */
+    line-height: 1.6em;           /* Improves readability of multiline captions */
+}
+
+/* Applies to all standard table cells */
+.sheet-rolltemplate-coc-attack-1 td {
+  padding: 2px;                   /* Padding inside each cell for spacing */
+  border-bottom: 1px solid black;/* Horizontal separators between rows */
+}
+
+/* Applies to labels like “Attack Roll”, “Damage”, etc. */
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_label {
+    font-weight: bold;           /* Makes labels stand out from values */
+}
+
+/* Applies to the values like roll results, damage numbers, etc. */
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value {
+    text-align: center;          /* Centers numerical outputs and results */
+}
+
+/* Style for inline roll results such as [[1d100]] or [[2d6+2]] */
+.sheet-rolltemplate-coc-attack-1 .inlinerollresult {
+  display: inline-block;         /* Allows setting width without disrupting layout */
+  min-width: 1.5em;              /* Ensures all dice rolls are clearly spaced */
+  text-align: center;            /* Centers dice values in their container */
+  border: 2px solid black;       /* Solid border to make results pop */
+  background: #BEBEBE;           /* Light gray background for neutral presentation */
+}
+
+/* Styling when Roll20 detects a critical success */
+.sheet-rolltemplate-coc-attack-1 .inlinerollresult.fullcrit {
+  border: 2px solid black;
+  background: #BEBEBE;           /* Note: Uses same color as default, but can be customized */
+}
+
+/* Styling when Roll20 detects a critical failure */
+.sheet-rolltemplate-coc-attack-1 .inlinerollresult.fullfail {
+  border: 2px solid black;
+  background: #BEBEBE;
+}
+
+/* Styling for “important rolls” which might be highlighted for attention */
+.sheet-rolltemplate-coc-attack-1 .inlinerollresult.importantroll {
+  border: 2px solid black;
+  background: #BEBEBE;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SIMPLE DICE-ROLL ROLL TEMPLATE
+   This roll template is defined by &{template:coc-dice-roll} and is used 
+   for basic dice rolls (e.g., initiative, skill checks, flat rolls) that 
+   do not involve special formatting for attacks or defense. 
+   It's a clean, minimal table format for general-purpose rolls. 
+*/
+
+/* Styles the main <table> of the roll output */
+.sheet-rolltemplate-coc-dice-roll table {
+    width: 100%;                  /* Fill the width of the chat output panel */
+    border: 1px solid black;      /* Black outer border around the whole table */
+    color: black;                 /* Default text color for content */
+    background: #FFFFFF;          /* White background for clarity and contrast */
+}
+
+/* Styles the <caption> element, which is usually the title of the roll
+   such as “Initiative”, “Custom Roll”, etc. */
+.sheet-rolltemplate-coc-dice-roll caption {
+    text-align: center;           /* Center the title text */
+    background: black;            /* Black background for contrast */
+    color: white;                 /* White font color for readability */
+    font-weight: bold;           /* Make title text stand out */
+    padding: 2px;                 /* Space inside the caption box */
+    border: 1px solid black;      /* Matching border like the rest of the table */
+    line-height: 1.6em;           /* Vertical spacing for legibility */
+}
+
+/* General <td> cell styling (used for both label and value cells) */
+.sheet-rolltemplate-coc-dice-roll td {
+  padding: 2px;                   /* Padding inside each cell */
+  border-bottom: 1px solid black;/* Row separation for clarity */
+}
+
+/* Label column, often used for field names like “Result”, “Bonus”, etc. */
+.sheet-rolltemplate-coc-dice-roll td.sheet-template_label {
+    font-weight: Bold;            /* Make labels visually distinct */
+}
+
+/* Value column, typically where dice results or totals go */
+.sheet-rolltemplate-coc-dice-roll td.sheet-template_value {
+    text-align: center;           /* Center-align numerical outputs */
+}
+
+/* Style for inline roll results such as [[1d100]] or [[2d6+3]] */
+.sheet-rolltemplate-coc-dice-roll .inlinerollresult {
+  display: inline-block;         /* Prevent line break issues */
+  min-width: 1.5em;              /* Ensure consistent minimum width */
+  text-align: center;            /* Center the roll value in its cell */
+  border: 2px solid black;       /* Boxed in a border to visually isolate the roll */
+  background: #BEBEBE;           /* Neutral gray background for the result */
+}
+
+/* Highlight for "importantroll" class applied by Roll20 when configured
+   (e.g., when a GM uses it for tracking or emphasizing a roll result) */
+.sheet-rolltemplate-coc-dice-roll .inlinerollresult.importantroll {
+  border: 2px solid black;
+  background: #BEBEBE;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 
+  Roll Template: .sheet-rolltemplate-coc-bomadness-da-rt
+  Used for displaying a Bout of Madness result during real-time events
+  in the Call of Cthulhu: Dark Ages setting. This table layout is triggered
+  by using the roll template: &{template:coc-bomadness-da-rt} in a macro.
+  Each table row typically contains a label and its value, like duration,
+  symptoms, and roll outcomes.
+*/
+
+/* Main table styling for the roll template */
+.sheet-rolltemplate-coc-bomadness-da-rt table {
+    width: 100%;                /* Occupies full chat output width */
+    border: 1px solid black;    /* Solid black outer border */
+    color: black;               /* Default text color */
+    background: #FFFFFF;        /* Background color of the table */
+}
+
+/* Styles the caption (header) of the roll template */
+.sheet-rolltemplate-coc-bomadness-da-rt caption {
+    text-align: center;         /* Centers the caption/title */
+    background: black;          /* Dark background for contrast */
+    color: white;               /* White text for readability */
+    font-weight: bold;          /* Emphasize the header */
+    padding: 2px;               /* Spacing around caption text */
+    border: 1px solid black;    /* Border around caption */
+    line-height: 1.6em;         /* Height for better visual spacing */
+}
+
+/* General table cell formatting */
+.sheet-rolltemplate-coc-bomadness-da-rt td {
+  padding: 2px;                 /* Inner spacing */
+  border-bottom: 1px solid black; /* Separator between rows */
+}
+
+/* Left column cell with descriptive labels */
+.sheet-rolltemplate-coc-bomadness-da-rt td.sheet-template_label {
+    font-weight: Bold;          /* Emphasize the label for clarity */
+}
+
+/* Right column cell that contains the actual roll result or effect */
+.sheet-rolltemplate-coc-bomadness-da-rt td.sheet-template_value {
+    text-align: center;         /* Center-aligned values for balance */
+    background: #FFFFFF;        /* Ensure consistent white background */
+}
+
+/* Base style for inline roll results (e.g., [[1d10]] output) */
+.sheet-rolltemplate-coc-bomadness-da-rt .inlinerollresult  {
+  display: inline-block;        /* Prevent wrap */
+  min-width: 1.5em;             /* Minimum visual width */
+  text-align: center;           /* Center result inside box */
+  border: 2px solid black;      /* Distinct border */
+  background: #BEBEBE;          /* Subtle gray background to set off roll */
+}
+
+/* Optional Roll20 classification for "important" rolls (used for highlights) */
+.sheet-rolltemplate-coc-bomadness-da-rt .inlinerollresult.importantroll {
+  border: 2px solid black;      /* Same styling for emphasis */
+  background: #BEBEBE;          /* Same background, can be customized */
+}
+
+/* -------------------------------------------------------------------------- */
+/* 
+  Roll Template: .sheet-rolltemplate-coc-bomadness-rt
+  This CSS targets a custom roll template used for displaying the result
+  of a "Bout of Madness" event triggered during **Real-Time** gameplay
+  in the Call of Cthulhu 7th Edition character sheet.
+
+  It is triggered by using the roll macro:
+  &{template:coc-bomadness-rt} {{name=Bout of Madness}} {{duration=[[1d10]]}} {{result=Paranoia}}
+
+  Output is displayed in a chat roll with stylized tables and formatting
+  for roll results, labels, and descriptions.
+*/
+
+/* Main container styling for the table */
+.sheet-rolltemplate-coc-bomadness-rt table {
+    width: 100%;                 /* Stretch the table across the full width of the chat window */
+    border: 1px solid black;     /* Define a black border around the table */
+    color: black;                /* Text color */
+    background: #FFFFFF;         /* Table background is white for contrast */
+}
+
+/* Caption styling - used as the roll template's title/header */
+.sheet-rolltemplate-coc-bomadness-rt caption {
+    text-align: center;          /* Center the text horizontally */
+    background: black;           /* Dark background for contrast */
+    color: white;                /* White font for readability */
+    font-weight: bold;           /* Emphasize the header */
+    padding: 2px;                /* Padding around the text */
+    border: 1px solid black;     /* Border around the caption area */
+    line-height: 1.6em;          /* Space between lines for visual clarity */
+}
+
+/* Base cell styling for each row in the table */
+.sheet-rolltemplate-coc-bomadness-rt td {
+  padding: 2px;                  /* Space inside the cell */
+  border-bottom: 1px solid black; /* Row divider line */
+}
+
+/* Left-hand label cells (e.g., "Duration", "Effect") */
+.sheet-rolltemplate-coc-bomadness-rt td.sheet-template_label {
+    font-weight: Bold;           /* Make labels stand out */
+}
+
+/* Right-hand value cells (e.g., actual roll results or text) */
+.sheet-rolltemplate-coc-bomadness-rt td.sheet-template_value {
+    text-align: center;          /* Center the value in its cell */
+    background: #FFFFFF;         /* Maintain white background for clean contrast */
+}
+
+/* Roll20 inline roll result styling (e.g., [[1d10]] results) */
+.sheet-rolltemplate-coc-bomadness-rt .inlinerollresult  {
+  display: inline-block;         /* Prevent text wrap */
+  min-width: 1.5em;              /* Minimum width for roll visibility */
+  text-align: center;            /* Center text inside box */
+  border: 2px solid black;       /* Strong border for emphasis */
+  background: #BEBEBE;           /* Light grey background to distinguish result */
+}
+
+/* Special formatting for flagged "important" results */
+.sheet-rolltemplate-coc-bomadness-rt .inlinerollresult.importantroll {
+  border: 2px solid black;       /* Same strong border */
+  background: #BEBEBE;           /* Same highlight background */
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* 
+  Roll Template: .sheet-rolltemplate-coc-pulp-bomadness-rt
+  This roll template is used for displaying results of a "Bout of Madness" in real time,
+  specifically for characters using **Pulp Cthulhu** rules.
+
+  The template is rendered in the Roll20 chat window using this macro format:
+  &{template:coc-pulp-bomadness-rt} {{name=Pulp Madness}} {{duration=[[1d10]]}} {{result=Rage or Panic}}
+
+  This CSS block controls the visual style of the chat output using that template.
+*/
+
+/* Styles the outer table of the roll template */
+.sheet-rolltemplate-coc-pulp-bomadness-rt table {
+    width: 100%;                 /* Ensure the template fills the chat panel width */
+    border: 1px solid black;     /* Black border around the entire template */
+    color: black;                /* Sets base font color */
+    background: #FFFFFF;         /* Sets a white background for clean look */
+}
+
+/* Styles the caption or header of the roll template */
+.sheet-rolltemplate-coc-pulp-bomadness-rt caption {
+    text-align: center;          /* Center-align the title text */
+    background: black;           /* Solid black background for header */
+    color: white;                /* White text for contrast */
+    font-weight: bold;           /* Bold header text for emphasis */
+    padding: 2px;                /* Small padding inside the caption */
+    border: 1px solid black;     /* Border around caption to separate from table */
+    line-height: 1.6em;          /* Line height for visual clarity */
+}
+
+/* Base styles for all table cells (td elements) */
+.sheet-rolltemplate-coc-pulp-bomadness-rt td {
+    padding: 2px;                /* Padding inside each table cell */
+    border-bottom: 1px solid black; /* Bottom border to separate rows */
+}
+
+/* Style for label cells (left side of key-value pairs) */
+.sheet-rolltemplate-coc-pulp-bomadness-rt td.sheet-template_label {
+    font-weight: Bold;           /* Makes label text stand out */
+}
+
+/* Style for value cells (right side of key-value pairs) */
+.sheet-rolltemplate-coc-pulp-bomadness-rt td.sheet-template_value {
+    text-align: center;          /* Center the result text */
+    background: #FFFFFF;         /* Keep background white for consistency */
+}
+
+/* Base inline roll result style */
+.sheet-rolltemplate-coc-pulp-bomadness-rt .inlinerollresult {
+    display: inline-block;       /* Prevents wrapping of the roll result */
+    min-width: 1.5em;            /* Ensures space for at least 2-digit rolls */
+    text-align: center;          /* Centers the roll number */
+    border: 2px solid black;     /* Bold border for visibility */
+    background: #BEBEBE;         /* Light gray background to highlight the roll */
+}
+
+/* Special styling for important rolls (e.g., manually flagged with !important) */
+.sheet-rolltemplate-coc-pulp-bomadness-rt .inlinerollresult.importantroll {
+    border: 2px solid black;     /* Same border as base, keeping consistent */
+    background: #BEBEBE;         /* Highlight same as standard rolls */
+}
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* 
+  Roll Template: .sheet-rolltemplate-coc-bomadness-da-summ
+  This template is used to show a summary of a Bout of Madness event 
+  specifically in the **Dark Ages** setting of Call of Cthulhu 7e.
+
+  It is rendered in the Roll20 chat when the character triggers a summary of 
+  madness, such as via:
+  &{template:coc-bomadness-da-summ} {{name=Bout of Madness}} {{summary=Character lashes out at those nearby}}
+*/
+
+/* The outer table of the roll template */
+.sheet-rolltemplate-coc-bomadness-da-summ table {
+    width: 100%;                 /* Table fills the full chat window width */
+    border: 1px solid black;     /* Black border around the table */
+    color: black;                /* Base font color */
+    background: #FFFFFF;         /* White background for readability */
+}
+
+/* The caption or title bar of the roll template */
+.sheet-rolltemplate-coc-bomadness-da-summ caption {
+    text-align: center;          /* Center-align text in the header */
+    background: black;           /* Header background color */
+    color: white;                /* Header text color */
+    font-weight: bold;           /* Make header bold */
+    padding: 2px;                /* Padding inside header */
+    border: 1px solid black;     /* Adds inner border */
+    line-height: 1.6em;          /* Sets vertical space of caption */
+}
+
+/* Basic styling for all table cells in the template */
+.sheet-rolltemplate-coc-bomadness-da-summ td {
+    padding: 2px;                /* Padding inside each cell */
+    border-bottom: 1px solid black; /* Bottom border to separate rows */
+}
+
+/* Label column in the roll template, usually on the left */
+.sheet-rolltemplate-coc-bomadness-da-summ td.sheet-template_label {
+    font-weight: Bold;           /* Emphasize the label text */
+}
+
+/* Value column in the roll template, usually on the right */
+.sheet-rolltemplate-coc-bomadness-da-summ td.sheet-template_value {
+    text-align: center;          /* Center-align the value for consistency */
+    background: #FFFFFF;         /* Matches table background */
+}
+
+/* Inline roll result styling (e.g., [[1d10]]) */
+.sheet-rolltemplate-coc-bomadness-da-summ .inlinerollresult  {
+    display: inline-block;       /* Prevent line breaks */
+    min-width: 1.5em;            /* Ensures room for dice values */
+    text-align: center;          /* Center-align result */
+    border: 2px solid black;     /* Bold border to draw attention */
+    background: #BEBEBE;         /* Light gray background for visibility */
+}
+
+/* Additional class for special/flagged rolls */
+.sheet-rolltemplate-coc-bomadness-da-summ .inlinerollresult.importantroll {
+    border: 2px solid black;     /* Same border styling */
+    background: #BEBEBE;         /* No additional change; could be extended */
+}
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* 
+  Roll Template: .sheet-rolltemplate-coc-bomadness-summ
+  This roll template is used to show a summary of a Bout of Madness event 
+  in the standard (non-Pulp, non-Dark Ages) setting of Call of Cthulhu 7e.
+
+  The GM or player can use this to describe the madness effect in a concise
+  form in the Roll20 chat window, instead of using the real-time versions.
+
+  Example usage in Roll20 macro:
+  &{template:coc-bomadness-summ} {{name=Bout of Madness}} {{summary=Investigator begins laughing uncontrollably for 1d10 rounds.}}
+*/
+
+/* Base styling for the table in the roll template */
+.sheet-rolltemplate-coc-bomadness-summ table {
+    width: 100%;                 /* Full width of the chat area */
+    border: 1px solid black;     /* Outer table border */
+    color: black;                /* Text color for readability */
+    background: #FFFFFF;         /* White background for contrast */
+}
+
+/* Header section of the roll template */
+.sheet-rolltemplate-coc-bomadness-summ caption {
+    text-align: center;          /* Center-align header text */
+    background: black;           /* Dark background for header */
+    color: white;                /* White text on header for contrast */
+    font-weight: bold;           /* Bold header text */
+    padding: 2px;                /* Padding inside the header area */
+    border: 1px solid black;     /* Inner border for visual separation */
+    line-height: 1.6em;          /* Line height for legibility */
+}
+
+/* Table row styling */
+.sheet-rolltemplate-coc-bomadness-summ td {
+    padding: 2px;                /* Padding inside cells */
+    border-bottom: 1px solid black; /* Bottom border between rows */
+}
+
+/* Label cell styling (left-hand column) */
+.sheet-rolltemplate-coc-bomadness-summ td.sheet-template_label {
+    font-weight: Bold;           /* Emphasized text for labels */
+}
+
+/* Value cell styling (right-hand column or summary block) */
+.sheet-rolltemplate-coc-bomadness-summ td.sheet-template_value {
+    text-align: center;          /* Centered for consistent layout */
+    background: #FFFFFF;         /* Matches base background */
+}
+
+/* Styling for inline roll results (e.g., [[1d10]]) */
+.sheet-rolltemplate-coc-bomadness-summ .inlinerollresult  {
+    display: inline-block;       /* Prevent line breaks within result */
+    min-width: 1.5em;            /* Ensures roll results aren’t too narrow */
+    text-align: center;          /* Align number in the center */
+    border: 2px solid black;     /* Emphasized black border */
+    background: #BEBEBE;         /* Light gray background for rolls */
+}
+
+/* Highlight for important inline rolls, visually identical here */
+.sheet-rolltemplate-coc-bomadness-summ .inlinerollresult.importantroll {
+    border: 2px solid black;     /* Same border for consistency */
+    background: #BEBEBE;         /* Could be modified for emphasis */
+}
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* 
+  Roll Template: .sheet-rolltemplate-coc-pulp-bomadness-summ
+  This roll template is used to display a **summary of a Bout of Madness**
+  result specifically for **Pulp Cthulhu** characters in the Roll20 chat window.
+
+  It’s typically triggered via a macro or ability that summarizes the character’s
+  bout behavior after losing Sanity. This version is tailored to Pulp-style gameplay,
+  but is visually consistent with other templates in the Call of Cthulhu 7e sheet.
+*/
+
+/* Table structure for the roll template */
+.sheet-rolltemplate-coc-pulp-bomadness-summ table {
+    width: 100%;                 /* Ensures full width display in the chat */
+    border: 1px solid black;     /* Outer border of the table */
+    color: black;                /* Base text color for clarity */
+    background: #FFFFFF;         /* White background for contrast and readability */
+}
+
+/* Caption is the header/title of the roll result */
+.sheet-rolltemplate-coc-pulp-bomadness-summ caption {
+    text-align: center;          /* Center-align title text */
+    background: black;           /* Dark background to visually separate it */
+    color: white;                /* White text for legibility */
+    font-weight: bold;           /* Emphasizes it as the title/header */
+    padding: 2px;                /* Spacing inside the caption */
+    border: 1px solid black;     /* Thin border for delineation */
+    line-height: 1.6em;          /* Improves spacing between caption lines */
+}
+
+/* Each table cell within the roll result */
+.sheet-rolltemplate-coc-pulp-bomadness-summ td {
+  padding: 2px;                  /* Padding inside cells */
+  border-bottom: 1px solid black; /* Horizontal lines between rows */
+}
+
+/* This styles label fields in the result (e.g., "Effect:", "Duration:") */
+.sheet-rolltemplate-coc-pulp-bomadness-summ td.sheet-template_label {
+    font-weight: Bold;           /* Bold to help differentiate from values */
+}
+
+/* This styles the value fields (e.g., actual effect descriptions) */
+.sheet-rolltemplate-coc-pulp-bomadness-summ td.sheet-template_value {
+    text-align: center;          /* Centers the result content */
+    background: #FFFFFF;         /* Matches the table background */
+}
+
+/* Inline roll styling (i.e., result of [[1d10]] or similar) */
+.sheet-rolltemplate-coc-pulp-bomadness-summ .inlinerollresult {
+  display: inline-block;         /* Prevents wrapping of roll results */
+  min-width: 1.5em;              /* Ensures results are not too narrow */
+  text-align: center;            /* Centers the numbers */
+  border: 2px solid black;       /* Bold black border for emphasis */
+  background: #BEBEBE;           /* Light grey background to make it distinct */
+}
+
+/* Special roll styling for critical/important results */
+.sheet-rolltemplate-coc-pulp-bomadness-summ .inlinerollresult.importantroll {
+  border: 2px solid black;       /* Same border style as normal roll */
+  background: #BEBEBE;           /* Maintains visual consistency */
+}
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* 
+  Roll Template: .sheet-rolltemplate-coc-defence-2
+  This roll template is used to display a **simple defense roll** result in the Roll20 chat window.
+  It's likely an alternate or minimalist version of the other defense templates (`coc-defence` or `coc-defence-1`),
+  possibly used in specific combat scenarios, NPCs, or vehicles where fewer fields are shown.
+
+  The design focuses on clarity and neutral styling (light gray backgrounds), and displays
+  key labels, values, and roll results.
+*/
+
+/* Overall table styling for the defense roll output */
+.sheet-rolltemplate-coc-defence-2 table {
+    width: 100%;                 /* Full width table in chat */
+    border: 1px solid black;     /* Outer table border */
+    color: black;                /* Default text color */
+    background: #E3DEDB;         /* Soft background color for the template */
+}
+
+/* Caption (title) styling at the top of the roll template */
+.sheet-rolltemplate-coc-defence-2 caption {
+    text-align: center;          /* Center the caption text */
+    background-color: black;     /* Dark background for strong contrast */
+    color: white;                /* White text for readability */
+    font-weight: bold;           /* Make the title stand out */
+    padding: 2px;                /* Padding around text */
+    border: 1px solid black;     /* Adds border to separate caption */
+    line-height: 1.6em;          /* Line height for spacing */
+}
+
+/* Default table cell styling */
+.sheet-rolltemplate-coc-defence-2 td {
+  padding: 2px;                  /* Padding inside table cells */
+  border-bottom: 1px solid black; /* Line between table rows */
+  background: #efefef;           /* Light gray background for easy reading */
+}
+
+/* Label column cells (e.g., "Attack Type", "Defense Type") */
+.sheet-rolltemplate-coc-defence-2 td.sheet-template_label {
+    font-weight: Bold;           /* Make the labels stand out */
+    background: #efefef;         /* Match background with value cells */
+}
+
+/* Value column cells (e.g., the actual roll or result) */
+.sheet-rolltemplate-coc-defence-2 td.sheet-template_value {
+    text-align: center;          /* Center-align values for clean presentation */
+    background: #efefef;         /* Consistent background */
+}
+
+/* Inline roll results (e.g., [[1d100]] output) */
+.sheet-rolltemplate-coc-defence-2 .inlinerollresult  {
+  display: inline-block;         /* Prevent wrapping, align inline */
+  min-width: 1.5em;              /* Ensure a consistent minimum size */
+  text-align: center;            /* Center the number */
+  border: 2px solid black;       /* Prominent border around roll result */
+  background: #c3c9bd;           /* Muted green-gray to subtly differentiate from the rest */
+}
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+
+/* 
+  Roll Template: .sheet-rolltemplate-coc-minionattack
+  This template is used to display the result of a **Minion Attack** roll in Roll20 chat, 
+  specifically for creatures, NPCs, or simplified combat entities that do not require 
+  PD (Player Defense) or BD (Bonus Dice) mechanics. It is referenced in the 
+  `coc_7th_ed.html` file when calling a simplified minion-style attack macro.
+
+  The layout and styling match other Call of Cthulhu templates for consistency but 
+  intentionally avoids highlighting elements like PD/BD because it simplifies NPC actions.
+*/
+
+/* Table container for minion attack output in chat */
+.sheet-rolltemplate-coc-minionattack table {
+    width: 100%;                  /* Full width of chat space */
+    border: 1px solid black;      /* Outer border of the table */
+    color: black;                 /* Standard text color */
+    background: #FFFFFF;          /* White background for clean look */
+}
+
+/* Caption at the top of the template, showing the roll's title */
+.sheet-rolltemplate-coc-minionattack caption {
+    text-align: center;           /* Center the title text */
+    background: black;            /* Dark background for contrast */
+    color: white;                 /* White text for readability */
+    font-weight: bold;            /* Emphasize the title */
+    padding: 2px;                 /* Padding around caption */
+    border: 1px solid black;      /* Border to separate from table rows */
+    line-height: 1.6em;           /* Spacing for readability */
+}
+
+/* Default table cell styling for all rows */
+.sheet-rolltemplate-coc-minionattack td {
+    padding: 2px;                 /* Padding around cell content */
+    border-bottom: 1px solid black; /* Separator between rows */
+}
+
+/* Column for the label text like "Attack", "Target", etc. */
+.sheet-rolltemplate-coc-minionattack td.sheet-template_label {
+    font-weight: bold;            /* Bold label text for emphasis */
+}
+
+/* Column for the value or result of the roll */
+.sheet-rolltemplate-coc-minionattack td.sheet-template_value {
+    text-align: center;           /* Center-align numeric/roll values */
+}
+
+/* Default roll result styling (e.g., for inline [[1d100]] results) */
+.sheet-rolltemplate-coc-minionattack .inlinerollresult {
+    display: inline-block;        /* Keep inline with label */
+    min-width: 1.5em;             /* Consistent minimum width */
+    text-align: center;           /* Center the rolled number */
+    border: 2px solid black;      /* Bold border around result */
+    background: #BEBEBE;          /* Light gray background */
+}
+
+/* Styling for critical success results */
+.sheet-rolltemplate-coc-minionattack .inlinerollresult.fullcrit {
+    border: 2px solid black;
+    background: #BEBEBE;          /* Same base color for simplicity */
+}
+
+/* Styling for critical failure results */
+.sheet-rolltemplate-coc-minionattack .inlinerollresult.fullfail {
+    border: 2px solid black;
+    background: #BEBEBE;          /* No red/green — muted neutral display */
+}
+
+/* Styling for important rolls (e.g., flagged by macros) */
+.sheet-rolltemplate-coc-minionattack .inlinerollresult.importantroll {
+    border: 2px solid black;
+    background: #BEBEBE;          /* Consistent styling for emphasis */
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* 
+  Roll Template: .sheet-rolltemplate-coc-miniondef
+  This template is used in the Roll20 Call of Cthulhu 7e sheet for displaying simplified
+  defense rolls made by minions or NPCs. Minions in this context are entities that 
+  use abbreviated mechanics (i.e., no bonus dice or resistance roll complexity). 
+
+  The layout is kept minimal yet consistent with other roll templates used for full characters.
+  This template is called from HTML macros using `{{rolltemplate=coc-miniondef}}`.
+*/
+
+/* Overall table styling for the minion defense roll result shown in chat */
+.sheet-rolltemplate-coc-miniondef table {
+    width: 100%;                  /* Use full chat width */
+    border: 1px solid black;      /* Outer border for visibility */
+    color: black;                 /* Main text color */
+    background: #E3DEDB;          /* Soft neutral background for minions */
+}
+
+/* Header/caption at the top of the roll template (e.g., "Minion Defense Roll") */
+.sheet-rolltemplate-coc-miniondef caption {
+    text-align: center;           /* Centered title */
+    background-color: black;      /* Strong contrast header */
+    color: white;                 /* White text for readability */
+    font-weight: bold;            /* Emphasize the label */
+    padding: 2px;                 /* Padding around the caption */
+    border: 1px solid black;      /* Border around the caption */
+    line-height: 1.6em;           /* Height spacing for text */
+}
+
+/* Base style for each row cell in the result table */
+.sheet-rolltemplate-coc-miniondef td {
+  padding: 2px;                   /* Space inside cells */
+  border-bottom: 1px solid black; /* Divider between rows */
+  background: #efefef;           /* Lighter gray row background */
+}
+
+/* Label column (e.g., "Defense Used", "Target") */
+.sheet-rolltemplate-coc-miniondef td.sheet-template_label {
+    font-weight: Bold;            /* Make label text stand out */
+    background: #efefef;          /* Match background with default cells */
+}
+
+/* Value column (e.g., result numbers, modifiers) */
+.sheet-rolltemplate-coc-miniondef td.sheet-template_value {
+    text-align: center;           /* Center-align numerical values */
+    background: #efefef;
+}
+
+/* Inline result of a roll (e.g., [[1d100]]) */
+.sheet-rolltemplate-coc-miniondef .inlinerollresult  {
+  display: inline-block;          /* Inline appearance */
+  min-width: 1.5em;               /* Prevent overly narrow results */
+  text-align: center;             /* Center the number */
+  border: 2px solid black;        /* Strong border for readability */
+  background: #c3c9bd;            /* Muted greenish-gray background for distinctiveness */
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* 
+  Roll Template: .sheet-rolltemplate-coc-body-hit-loc
+  This template is used in the Call of Cthulhu 7e character sheet to display 
+  results from a roll that determines where on the body an attack hits.
+  This is especially useful for combat mechanics that involve localized damage.
+
+  Called in the HTML via `{{rolltemplate=coc-body-hit-loc}}` within a macro or button roll.
+*/
+
+/* Full table style for the hit location template */
+.sheet-rolltemplate-coc-body-hit-loc table {
+    width: 100%;                  /* Takes full chat window width */
+    border: 1px solid black;      /* Solid border around the table */
+    color: black;                 /* Default text color */
+    background: #FFFFFF;          /* Standard white background for readability */
+    text-align: center;           /* Center all table content by default */
+}
+
+/* Caption/header at the top of the roll template (e.g., "Hit Location") */
+.sheet-rolltemplate-coc-body-hit-loc caption {
+    text-align: center;           /* Center-align the caption text */
+    background: black;            /* High contrast background */
+    color: white;                 /* White text for contrast */
+    font-weight: bold;            /* Bold caption for emphasis */
+    padding: 2px;                 /* Space around caption text */
+    border: 1px solid black;      /* Match border with table */
+    line-height: 1.6em;           /* Consistent vertical spacing */
+}
+
+/* Table cells (rows for different labels and values) */
+.sheet-rolltemplate-coc-body-hit-loc td {
+  padding: 2px;                   /* Padding inside each cell */
+  border-bottom: 1px solid black; /* Separator between rows */
+  text-align: center;            /* Ensure consistent alignment */
+}
+
+/* Left-hand side label column (e.g., "Roll", "Hit Location") */
+.sheet-rolltemplate-coc-body-hit-loc td.sheet-template_label {
+    font-weight: Bold;            /* Emphasize labels */
+    text-align: center;           /* Center-align even labels */
+}
+
+/* Right-hand side value column */
+.sheet-rolltemplate-coc-body-hit-loc td.sheet-template_value {
+    text-align: center;           /* Ensure consistent value alignment */
+}
+
+/* Default inline roll result style (e.g., [[1d100]]) */
+.sheet-rolltemplate-coc-body-hit-loc .inlinerollresult  {
+  display: inline-block;          /* Allows spacing and alignment */
+  min-width: 1.5em;               /* Prevents overly narrow result boxes */
+  text-align: center;             /* Align numeric results */
+  border: 2px solid black;        /* Distinct border for emphasis */
+  background: #BEBEBE;            /* Neutral gray background */
+}
+
+/* Special style for "important rolls" (e.g., critical hits), though note: 
+   There's a typo in the class selector below (`--body-hit-loc` instead of `-body-hit-loc`) 
+   which may prevent this rule from applying properly. It should be corrected to match the actual template. */
+.sheet-rolltemplate-coc--body-hit-loc .inlinerollresult.importantroll {
+  border: 2px solid black;
+  background: #BEBEBE;
+  text-align: center;
+}
+
+/* -------------------------------------------- */
+/* Buttons used in character sheet macros       */
+/* -------------------------------------------- */
+
+/* 
+  .sheet-old-roll 
+  Used for PD/BD-style rolls (Possibly Pulp Defense/Bonus Dice).
+  These are small square buttons often tied to older mechanics or special rolls.
+  They appear as deep purple buttons.
+*/
+button[type=roll].sheet-old-roll {
+  color: #390c63;                  /* Text color (same as background for blend effect) */
+  background-color: #390c63;       /* Deep purple background */
+  font-weight: bolder;             /* Bold text for clarity */
+  text-align: center;              /* Center text or roll symbol */
+  width: 20px;                     /* Small button width */
+  height: 20px;                    /* Small button height */
+  margin: 0.0;                     /* No margin */
+  padding: 0.0em;                  /* No internal spacing */
+  border: 1px solid black;         /* Distinct edge */
+  border-radius: 5px;              /* Slight rounding on corners */
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* 
+  .sheet-new-roll 
+  Used for simplified or streamlined rolls (likely newer mechanics).
+  Typically associated with a more modern or minimal style, appearing green.
+*/
+button[type=roll].sheet-new-roll {
+  color: #18650D;                  /* Dark green text */
+  background-color: #248c15;       /* Medium green background */
+  font-weight: bolder;             /* Bold for emphasis */
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  margin: 0.0;
+  padding: 0.0em;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* 
+  .sheet-dice-roll 
+  General-purpose roll button for dice rolls.
+  Smaller than the others and usually solid black for contrast.
+*/
+button[type=roll].sheet-dice-roll {
+  color: #000000;                  /* Black text */
+  background-color: #000000;       /* Solid black background */
+  font-weight: bolder;
+  text-align: center;
+  width: 18px;
+  height: 18px;
+  margin: 0.0;
+  padding: 0.0em;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* 
+  .sheet-smallbutton-roll 
+  Even smaller variant of roll buttons, possibly used in tight table layouts (e.g. talent tables).
+  Uses green color to align with success-like styling.
+*/
+button[type=roll].sheet-smallbutton-roll {
+  color: #18650D; 
+  background-color: #248c15;
+  font-weight: bolder;
+  font-size: 12px;                 /* Smaller font */
+  text-align: center;
+  width: 16px;
+  height: 16px;
+  margin: 0.0;
+  padding: 0.0em;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* 
+  .sheet-smallnonskillbutton-roll 
+  Identical in size to smallbutton-roll, but styled black.
+  Used where roll buttons aren't tied to skills (e.g., attribute checks or utility rolls).
+*/
+button[type=roll].sheet-smallnonskillbutton-roll {
+  color: #000000; 
+  background-color: #000000;
+  font-weight: bolder;
+  font-size: 12px;
+  text-align: center;
+  width: 16px;
+  height: 16px;
+  margin: 0.0;
+  padding: 0.0em;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* 
+  .sheet-evensmallerbutton-roll 
+  Tiny buttons used for compact UIs such as inline modifiers or toggles.
+  Font size is almost negligible — used for visual markers or icons more than text.
+*/
+button[type=roll].sheet-evensmallerbutton-roll {
+  color: #000000; 
+  background-color: #1a1a1a;       /* Very dark gray, almost black */
+  font-weight: bolder;
+  font-size: 1px;                  /* Basically hides text visually */
+  width: 10px;
+  height: 10px;
+  margin: 0.0;
+  padding: 0.0em;
+  border: 1px solid black;
+  border-radius: 5px;
+}

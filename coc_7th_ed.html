@@ -11730,9 +11730,8 @@ function registerSkillHandler({
   on(watchFields.join(" "), () => {
     getAttrs([...new Set(getKeys.concat(debugField))], values => {
       const activeRaceValue = values["showracials"];
-
       const activeRace = raceValueMap[activeRaceValue];
-      if (activeRace !== racePrefix) return;
+      const isActiveRace = activeRace === racePrefix;
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
       const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
@@ -11747,27 +11746,30 @@ function registerSkillHandler({
       const skills = triggerSkills.map(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
 
-        const backgroundBonus =
-          backgroundDropdown && selectedBackground === skill && backgroundActive
-            ? backgroundBonusVal
-            : (!backgroundDropdown && values[`${racePrefix}_mdr_checkbox`] === skill
-              ? (parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
-              : 0);
+        const backgroundBonus = isActiveRace && (
+          backgroundDropdown
+            ? selectedBackground === skill && backgroundActive
+            : values[`${racePrefix}_mdr_checkbox`] === skill
+        )
+          ? (backgroundDropdown ? backgroundBonusVal : parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
+          : 0;
 
         let talentStaticBonus = 0;
         let talentDropdownBonus = 0;
 
         // Static talent bonuses
-        talentSources.forEach(source => {
-          const checkboxValue = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
-          if (checkboxValue === `talent_${skill}`) {
-            talentStaticBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
-          }
-        });
+        if (isActiveRace) {
+          talentSources.forEach(source => {
+            const checkboxValue = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
+            if (checkboxValue === `talent_${skill}`) {
+              talentStaticBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
+            }
+          });
 
-        // Dropdown talent bonus should only be counted once
-        if (talentDropdown && talentDropdownActive && selectedTalent === skill) {
-          talentDropdownBonus = talentBonusVal;
+          // Dropdown talent bonus
+          if (talentDropdown && talentDropdownActive && selectedTalent === skill) {
+            talentDropdownBonus = talentBonusVal;
+          }
         }
 
         const totalTalent = talentStaticBonus + talentDropdownBonus;
@@ -11786,6 +11788,7 @@ function registerSkillHandler({
     });
   });
 }
+
 
 on("sheet:opened", function () {
   const races = [

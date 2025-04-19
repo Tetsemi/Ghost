@@ -5478,10 +5478,10 @@
                     <td style="width:16%">
                         <select style="width:100%" name="attr_weaponskill">
                         <option value="@{fighting_brawl}" data-i18n="Fighting(Brawl)">Fighting(Brawl)</option>
+						<option value="@{dodge}" data-i18n="dodge-z">Dodge</option>
                         <option value="@{firearms_handgun}" data-i18n="Firarms(HG)">Firarms(HG)</option>
                         <option value="@{firearms_rifle}" data-i18n="Firarms(R/S)">Firarms(R/S)</option>
                         <option value="@{throw}" data-i18n="Throw">Throw</option>
-						<option value="@{dodge}" data-i18n="dodge-z">Dodge</option>
                         <option value="@{otherskill1}" data-i18n="Other Skill #1">Other Skill #1</option>
                         <option value="@{otherskill2}" data-i18n="Other Skill #2">Other Skill #2</option>
                         <option value="@{otherskill3}" data-i18n="Other Skill #3">Other Skill #3</option>
@@ -5531,10 +5531,9 @@
             <tr>
                 <td style="width:30%"><input style="width:100%;text-align:center" type="text" data-i18n-placeholder="unarmed-z" placeholder="Unarmed" disabled="true"/></td>
                 <td style="width:6%">
-				<button class='old-roll' type='roll' value='&{template:coc-attack} {{name=@{unarmed_txt}}} {{success=[[@{fighting_brawl_mdr}]]}} {{hard=[[floor(@{fighting_brawl_mdr}/2)]]}} {{extreme=[[floor(@{fighting_brawl_mdr}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}} {{damage=[[1d3+@{damage_bonus}]]}}' name='roll_unarmed_mdr_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{unarmed_txt}}} {{success=[[@{fighting_brawl_mdr}]]}} {{hard=[[floor(@{fighting_brawl_mdr}/2)]]}} {{extreme=[[floor(@{fighting_brawl_mdr}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[1d3+@{damage_bonus}]]}}' name='roll_unarmed_mdr_check' />
+				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{unarmed_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_unarmed_mdr_check' />
 				</td>
-                <td style="width:16%"><input style="width:100%" type="text" data-i18n-placeholder="Fighting(Brawl)" placeholder="Fighting(Brawl)" disabled="true"/></td>
+                <td style="width:16%"><input style="width:100%" type="text" data-i18n-placeholder="Unarmed" placeholder="Unarmed" disabled="true"/></td>
                 <td style="width:8%"><input style="width:100%;text-align:right;" type="text" value="1d3" disabled="true"/></td>
                 <td style="width:8%"><input style="width:100%;text-align:left;" type="text" value="+db" disabled="true"/></td>
                 <td style="width:8%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
@@ -5547,17 +5546,16 @@
             <tr>
                 <td style="width:30%"><input style="width:100%;text-align:center" type="text" name="attr_weapon1_mdr_name"/></td>
                 <td style="width:6%">
-				<button class='old-roll' type='roll' value='&{template:coc-attack} {{name=@{weapon1_mdr_name}}} {{success=[[@{weapon1_mdr_skill}]]}} {{hard=[[floor(@{weapon1_mdr_skill}/2)]]}} {{extreme=[[floor(@{weapon1_mdr_skill}/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}}' name='roll_weapon1_mdr_attack' />
-				<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{success=[[@{weapon1_mdr_skill}]]}} {{hard=[[floor(@{weapon1_mdr_skill}/2)]]}} {{extreme=[[floor(@{weapon1_mdr_skill}/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}}' name='roll_weapon1_mdr_attack' />
+				<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weapon1_mdr_skill}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_mdr_skill}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_mdr_skill}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}}' name='roll_weapon1_mdr_attack' />
 				</td>
                 <td style="width:16%">
                     <select style="width:100%" name="attr_weapon1_mdr_skill">
-                        <option value="@{fighting_brawl_mdr}" data-i18n="Fighting(Brawl)">Fighting(Brawl)</option>
-                        <option value="@{firearms_handgun_mdr}" data-i18n="Firarms(HG)">Firarms(HG)</option>
-                        <option value="@{firearms_rifle_mdr}" data-i18n="Firarms(R/S)">Firarms(R/S)</option>
-                        <option value="@{firearms_smg_mdr}" data-i18n="Firarms(SMG)">Firarms(SMG)</option>
-                        <option value="@{throw_mdr}" data-i18n="Throw">Throw</option>
 						<option value="@{dodge_mdr}" data-i18n="dodge-z">Dodge</option>
+                        <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+                        <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
+                        <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+                        <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+                        <option value="@{throw_mdr}" data-i18n="Throw">Throw</option>
                         <option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
                         <option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
                         <option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
@@ -5585,17 +5583,16 @@
                 <tr>
                     <td style="width:30%"><input style="width:100%;text-align:center" type="text" name="attr_weaponname_mdr"/></td>
                     <td style="width:6%">
-					<button class='old-roll' type='roll' value='&{template:coc-attack} {{name=@{weaponname_mdr}}} {{success=[[@{weaponskill_mdr}]]}} {{hard=[[floor(@{weaponskill_mdr}/2)]]}} {{extreme=[[floor(@{weaponskill_mdr}/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}}' name='roll_weaponskill_mdr_check' />
-					<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{success=[[@{weaponskill_mdr}]]}} {{hard=[[floor(@{weaponskill_mdr}/2)]]}} {{extreme=[[floor(@{weaponskill_mdr}/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}}' name='roll_weaponskill_mdr_check' />
+					<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}}' name='roll_weaponskill_mdr_check' />
 					</td>
                     <td style="width:16%">
                         <select style="width:100%" name="attr_weaponskill_mdr">
-                        <option value="@{fighting_brawl_mdr}" data-i18n="Fighting(Brawl)">Fighting(Brawl)</option>
-                        <option value="@{firearms_handgun_mdr}" data-i18n="Firarms(HG)">Firarms(HG)</option>
-                        <option value="@{firearms_rifle_mdr}" data-i18n="Firarms(R/S)">Firarms(R/S)</option>
-                        <option value="@{firearms_smg_mdr}" data-i18n="Firarms(SMG)">Firarms(SMG)</option>
-                        <option value="@{throw_mdr}" data-i18n="Throw">Throw</option>
 						<option value="@{dodge_mdr}" data-i18n="dodge-z">Dodge</option>
+                        <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+                        <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
+                        <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+                        <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+                        <option value="@{throw_mdr}" data-i18n="Throw">Throw</option>
                         <option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
                         <option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
                         <option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
@@ -11363,7 +11360,7 @@ Bout of Madness-Summary---------------------------------------------------------
 -->
 <rolltemplate class="sheet-rolltemplate-coc-attack-1">
     <table>
-        <caption>{{name}}</caption>
+        <caption>{{name}} | {{modifier}}</caption>
         <tr><td class="template_label" data-i18n="value">Value:</td><td class="template_value">{{success}}/{{hard}}/{{extreme}}</td></tr>
         {{#malf}}
             <tr><td class="template_label" data-i18n="malf">Malf:</td><td class="template_value">{{malf}}</td></tr>

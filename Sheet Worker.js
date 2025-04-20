@@ -2,63 +2,77 @@
 // Maps //
 const backgroundSkillMap = {
   alteri: {
-    deception: "Deception",
-    persuade: "Persuade",
-    slicing: "Slicing",
-    streetwise: "Streetwise",
-    history: "History",
-    impersonation: "Impersonation",
-    insight: "Insight",
-    stealth: "Stealth",
-    arcana: "Arcana",
-    disguise: "Disguise"
+    break_faced_radical: {
+      deception: "Deception", persuade: "Persuade"
+    },
+    ghostline_runner: {
+      slicing: "Slicing", streetwise: "Streetwise"
+    },
+    legacy_bearer: {
+      history: "History", impersonation: "Impersonation"
+    },
+    soft_year_drifter: {
+      insight: "Insight", stealth: "Stealth"
+    },
+    veilhaven_attendant: {
+      arcana: "Arcana", disguise: "Disguise"
+    }
   },
   draevi: {
-    electronics: "Electronics",
-    mechanics: "Mechanics",
-    navigate: "Navigate",
-    survival: "Survival",
-    slicing: "Slicing",
-    spirit_lore: "Spirit Lore",
-    occult: "Occult Lore",
-    veil_lore: "Veil Lore",
-    athletics: "Athletics",
-    streetwise: "Streetwise"
+    forgeblood_scavenger: {
+      electronics: "Electronics", mechanics: "Mechanics"
+    },
+    horn_carved_wanderer: {
+      navigate: "Navigate", survival: "Survival"
+    },
+    spiritbound_techshaper: {
+      slicing: "Slicing", spirit_lore: "Spirit Lore"
+    },
+    tradition_keeper: {
+      occult: "Occult Lore", veil_lore: "Veil Lore"
+    },
+    urban_tread: {
+      athletics: "Athletics", streetwise: "Streetwise"
+    }
   },
   human: {
-    first_aid: "First Aid",
-    insight: "Insight",
-    alchemy: "Alchemy",
-    anthropology: "Anthropology",
-    archaeology: "Archaeology",
-    architecture: "Architecture",
-    biology: "Biology",
-    chemistry: "Chemistry",
-    engineering: "Engineering",
-    medicine: "Medicine",
-    physics: "Physics",
-    slicing: "Slicing",
-    etiquette_high_society: "Etiquette(H. Soc.)",
-    persuade: "Persuade",
-    stealth: "Stealth",
-    streetwise: "Streetwise",
-    survival: "Survival(Wild)",
-    firearms_rifle: "Rifle/Shotgun",
-    electronics: "Electronics",
-    mechanics: "Mechanics"
+    ash_war_refugee: {
+      first_aid: "First Aid", insight: "Insight"
+    },
+    data_hatched: {
+      alchemy: "Alchemy", anthropology: "Anthropology", archaeology: "Archaeology", architecture: "Architecture", biology: "Biology", chemistry: "Chemistry", engineering: "Engineering", medicine: "Medicine", physics: "Physics", slicing: "Slicing"
+    },
+    enclave_born: {
+      etiquette_high_society: "Etiquette(H. Soc.)", persuade: "Persuade"
+    },
+    gutter_fire_youth: {
+      stealth: "Stealth", streetwise: "Streetwise"
+    },
+    outpost_raised: {
+      survival: "Survival(Wild)", firearms_rifle: "Rifle/Shotgun"
+    },
+    scavsteel_whelp: {
+      electronics: "Electronics", mechanics: "Mechanics"
+    }
   },
   lyranni: {
-    etiquette_lyranni: "Etiquette(Lyranni)",
-    occult: "Occult Lore",
-    arcana: "Arcana",
-    persuade: "Persuade",
-    streetwise: "Streetwise",
-    perception: "Perception",
-    magic_technomancy: "Magic(Technomancy)",
-    slicing: "Slicing"
+    aelvareth_devotee: {
+      etiquette_lyranni: "Etiquette(Lyranni)", occult: "Occult Lore"
+    },
+    echoborne: {
+      arcana: "Arcana", etiquette_lyranni: "Etiquette(Lyranni)"
+    },
+    glide_spire_scion: {
+      persuade: "Persuade", streetwise: "Streetwise"
+    },
+    whisper_walker: {
+      occult: "Occult Lore", perception: "Perception"
+    },
+    zurethkai_flameborn: {
+      magic_technomancy: "Magic(Technomancy)", slicing: "Slicing"
+    }  
   }
 };
-
 
 const talentSkillMap = {
   alteri: {
@@ -147,7 +161,7 @@ const skillMapTable = {
  "Demolitions": { label: "demolitions", base: "1", skill: "demolitions_skill_mdr", bonus: "demolitions_mdr", group: "Tech/Cyber", notes: "Demolitions" },
  "Electronics": { label: "electronics", base: "10", skill: "electronics_skill_mdr", bonus: "electronics_mdr", group: "Tech/Cyber", notes: "circuitry, electronic repair" },
  "Mechanics": { label: "mechanics", base: "10", skill: "mechanics_skill_mdr", bonus: "mechanics_mdr", group: "Tech/Cyber", notes: "Mechanics" },
- "Security Systems": { label: "security_systems", base: "1", skill: "security_systems_skill_mdr", bonus: "security_systems_mdr", group: "Tech/Cyber", notes: "Understanding and bypassing surveillance, sensors, magitech security, and physical/digital alarm systems." },
+ "Security Systems": { label: "security", base: "1", skill: "security_systems_skill_mdr", bonus: "security_systems_mdr", group: "Tech/Cyber", notes: "Understanding and bypassing surveillance, sensors, magitech security, and physical/digital alarm systems." },
  "Slicing": { label: "slicing", base: "5", skill: "slicing_skill_mdr", bonus: "slicing_mdr", group: "Tech/Cyber", notes: "Digital infiltration, cybersecurity" },
  "Drive (Ground Vehicles)": { label: "drive_auto", base: "20", skill: "drive_auto_skill_mdr", bonus: "drive_auto_mdr", group: "Pilot", notes: "Drive (Ground Vehicles)" },
  "Drone Operation": { label: "drone_operation", base: "10", skill: "drone_operation_skill_mdr", bonus: "drone_operation_mdr", group: "Pilot", notes: "Drone Operation" },
@@ -198,7 +212,7 @@ const skillMapTable = {
  "Survival (Wilderness)": { label: "survival", base: "10", skill: "survival_skill_mdr", bonus: "survival_mdr", group: "Survival", notes: "Survival (Wilderness)" },
  "Track": { label: "track", base: "10", skill: "track_skill_mdr", bonus: "track_mdr", group: "Survival", notes: "Track" },
  "Language(Racial)": { label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
- "Language(Caltheran)": { label: "caltheran", base: "0", skill: "caltheran_skill_mdr", bonus: "caltheran_mdr", group: "Language", notes: "Calthern language" }
+ "Language(Caltheran)": { label: "caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" }
 };
 
 
@@ -431,29 +445,6 @@ function registerSkillHandler({
 
 
 on("sheet:opened", function () {
-  const races = [
-    {
-      name: "alteri",
-      skills: ["arcana", "deception", "disguise", "history", "insight", "impersonation", "persuade", "slicing", "stealth", "streetwise"],
-      talents: ["disguise", "impersonation", "insight", "slicing", "stealth"]
-    },
-    {
-      name: "draevi",
-      skills: ["athletics", "electronics", "mechanics", "navigate", "occult", "slicing", "spirit_lore", "streetwise", "survival", "veil_lore"],
-      talents: ["electronics", "mechanics", "intimidate", "streetwise", "survival", "track"]
-    },
-    {
-      name: "human",
-      skills: ["alchemy", "anthropology", "archaeology", "architecture", "biology", "chemistry", "electronics", "engineering", "etiquette_high_society", "firearms_rifle", "first_aid", "insight", "mechanics", "medicine", "persuade", "physics", "slicing", "stealth", "streetwise", "survival"],
-      talents: ["electronics", "mechanics", "slicing"]
-    },
-    {
-      name: "lyranni",
-      skills: ["arcana", "etiquette_lyranni", "magic_technomancy", "occult", "perception", "persuade", "slicing", "streetwise", "dance", "impersonation", "instrument", "singing", "electronics", "mechanics", "insight"],
-      talents: ["electronics", "insight", "mechanics", "slicing", "streetwise", "dance", "impersonation", "instrument", "singing"]
-    }
-  ];
-
   const initKey = "racial_bonuses_initialized";
 
   getAttrs([initKey, "showracials"], values => {
@@ -462,18 +453,27 @@ on("sheet:opened", function () {
     const updates = { [initKey]: "1" };
     const allSkills = new Set();
 
-    // Apply default racial bonuses and descriptions
-    races.forEach(race => {
-      Object.assign(updates, setDefaultSkillBonuses(race.name, race.skills));
-      Object.assign(updates, setDefaultTalentBonuses(race.name, race.talents));
-      updates[`${race.name}_background_bonus_mdr`] = "5";
-      updates[`${race.name}_background_description`] = "";
-      updates[`${race.name}_talent_bonus_mdr`] = "10";
-      updates[`${race.name}_talent_description`] = "";
-      race.skills.forEach(skill => allSkills.add(skill));
+    // Loop through all races in backgroundSkillMap
+    Object.keys(backgroundSkillMap).forEach(race => {
+      const raceBackgrounds = backgroundSkillMap[race];
+      const backgroundSkills = Object.values(raceBackgrounds).flatMap(skills => Object.keys(skills));
+      Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
+      updates[`${race}_background_bonus_mdr`] = "5";
+      updates[`${race}_background_description`] = "";
+      backgroundSkills.forEach(skill => allSkills.add(skill));
     });
 
-    // Initialize skill values and notes from skillMapTable
+    // Loop through all races in talentSkillMap
+    Object.keys(talentSkillMap).forEach(race => {
+      const raceTalents = talentSkillMap[race];
+      const talentSkills = Object.values(raceTalents).flatMap(skills => Object.keys(skills));
+      Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
+      updates[`${race}_talent_bonus_mdr`] = "10";
+      updates[`${race}_talent_description`] = "";
+      talentSkills.forEach(skill => allSkills.add(skill));
+    });
+
+    // Initialize skill values from skillMapTable
     Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
       const defaultVal = parseInt(base, 10) || 0;
       updates[`${label}_skill_mdr`] = defaultVal;
@@ -484,6 +484,27 @@ on("sheet:opened", function () {
     setAttrs(updates);
   });
 });
+
+function registerBackgroundChoiceHandler(race) {
+  on(`change:${race}_background_choice`, () => {
+    getAttrs([`${race}_background_choice`, `${race}_mdr_checkbox`], values => {
+      const choice = values[`${race}_background_choice`];
+      const isChecked = values[`${race}_mdr_checkbox`] === "true";
+      const bonus = isChecked ? 5 : 0;
+
+      // New logic: pull skill display name from backgroundSkillMap
+      const skillEntry = backgroundSkillMap[race]?.[choice] || {};
+      const skillName = Object.values(skillEntry)[0]; // Show first skill name only
+      const description = isChecked && skillName ? `Gain +${bonus}% ${skillName} Skill` : "";
+
+      setAttrs({
+        [`${race}_background_description`]: description,
+        [`${race}_background_bonus_mdr`]: bonus.toString()
+      });
+    });
+  });
+}
+
 
 function registerBackgroundChoiceHandler(race) {
   on(`change:${race}_background_choice`, () => {

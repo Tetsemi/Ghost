@@ -11418,8 +11418,6 @@ Bout of Madness-Summary---------------------------------------------------------
 <!-- WORKERS -->
 <script type="text/worker">
 
-
-
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -11807,24 +11805,22 @@ function registerSkillHandler({
       const activeRaceValue = values["showracials"];
       const activeRace = raceValueMap[String(activeRaceValue)];
       const isActiveRace = activeRace === racePrefix;
+	  
+	  	console.log("function registerSkillHandler on(watchFields)");
+		console.log("Active Race Value:", activeRaceValue);
+		console.log(`Sheet opened. Race ID: ${activeRaceValue} | Mapped Race: ${activeRace}`);
+		console.log(`Initializing racial bonuses for: ${activeRace}`);
+		console.log("Race Prefix", racePrefix);
+		console.log("Is Active Race: ", isActiveRace);
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
       const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
       const backgroundActive = values[`${racePrefix}_mdr_checkbox`] === "true";
 
+
       const selectedTalent = values[`${racePrefix}_talent_choice`];
       const talentBonusVal = parseInt(values[`${racePrefix}_talent_bonus_mdr`]) || 0;
       const talentDropdownActive = values[`${racePrefix}_talent_mdr_checkbox`] === "true";
-
-  getAttrs(["showracials"], values => {
-    const raceKey = String(values.showracials); // ensure string key
-    const race = raceValueMap[raceKey] || "unknown";
-    
-	console.log("function registerSkillHandler");
-    console.log("Race ID:", raceKey);
-    console.log(`Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
-    console.log(`Initializing racial bonuses for: ${race}`);
-    });
 
       let debugLines = [];
 
@@ -11860,15 +11856,14 @@ function registerSkillHandler({
         const totalTalent = talentStaticBonus + talentDropdownBonus;
         const total = base + backgroundBonus + totalTalent;
 
-        debugLines.push(`Talent bonus for ${skill}: static=${talentStaticBonus}, dropdown=${talentDropdownBonus}, total=${totalTalent}`);
-        debugLines.push(`${skill}: base=${base}, bg=${backgroundBonus}, talent=${totalTalent}, total=${total}`);
+        console.log(`Talent bonus for ${skill}: static=${talentStaticBonus}, dropdown=${talentDropdownBonus}, total=${totalTalent}`);
+        console.log(`${skill}: base=${base}, bg=${backgroundBonus}, talent=${totalTalent}, total=${total}`);
 
         return { [`${skill}_mdr`]: total };
       });
 
       const updates = Object.assign({}, ...skills);
-      updates[debugField] = debugLines.reverse().slice(-10).join("\n");
-
+      
       setAttrs(updates);
     });
   });
@@ -12048,7 +12043,7 @@ registerSkillHandler({
   triggerSkills: ["first_aid", "insight", "alchemy", "anthropology", "archaeology", "architecture", "biology", "chemistry", "engineering", "medicine", "physics", "slicing", "etiquette_high_society", "persuade", "stealth", "streetwise", "firearms_rifle", "survival", "electronics", "mechanics"],
   racePrefix: "human",
   talentSources: ["quick_fixer", "shaped_for_subtlety"],
-  backgroundDropdown: true,
+  backgroundDropdown: false,
   talentDropdown: false
 });
 

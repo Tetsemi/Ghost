@@ -1,5 +1,3 @@
-// ===== Roll20 Reusable Skill Modifier Module ===== //
-
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -387,6 +385,12 @@ function registerSkillHandler({
       const activeRaceValue = values["showracials"];
       const activeRace = raceValueMap[String(activeRaceValue)];
       const isActiveRace = activeRace === racePrefix;
+	  
+	  	console.log("function registerSkillHandler on(watchFields)");
+		console.log("Active Race Value:", activeRaceValue);
+		console.log(`Sheet opened. Race ID: ${activeRaceValue} | Mapped Race: ${activeRace}`);
+		console.log(`Initializing racial bonuses for: ${race}`);
+		console.log("Is Active Race: ", isActiveRace);
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
       const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
@@ -462,12 +466,15 @@ on("sheet:opened", function () {
     getAttrs([initKey, "showracials"], values => {
     
         if (values[initKey] === "1") return;
-
+		
+		console.log("First time initialization");
+		
         const updates = { [initKey]: "1" };
         const allSkills = new Set();
 
         // Loop through all races in backgroundSkillMap
         Object.keys(backgroundSkillMap).forEach(race => {
+		console.log("backgroundSkillMap call - Race value: ", race);
         const raceBackgrounds = backgroundSkillMap[race];
         const backgroundSkills = Object.values(raceBackgrounds).flatMap(skills => Object.keys(skills));
         Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
@@ -478,6 +485,7 @@ on("sheet:opened", function () {
 
         // Loop through all races in talentSkillMap
         Object.keys(talentSkillMap).forEach(race => {
+		console.log("talentSkillMap call - Race value: ", race);
         const raceTalents = talentSkillMap[race];
         const talentSkills = Object.values(raceTalents).flatMap(skills => Object.keys(skills));
         Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
@@ -488,6 +496,7 @@ on("sheet:opened", function () {
 
         // Initialize skill values from skillMapTable
         Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
+		console.log("skillMapTable call - Label value: ", label, " base value: ", base);
         const defaultVal = parseInt(base, 10) || 0;
         updates[`${label}_skill_mdr`] = defaultVal;
         updates[`${label}_mdr`] = defaultVal;
@@ -627,6 +636,16 @@ registerSkillHandler({
 });
 
 on("change:showracials sheet:opened", () => {
+    getAttrs(["showracials"], values => {
+    const raceKey = String(values.showracials); // ensure string key
+    const race = raceValueMap[raceKey] || "unknown";
+    
+	console.log("on(change:showracials sheet:opened)");
+    console.log("Race ID:", raceKey);
+    console.log(`Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
+    console.log(`Initializing racial bonuses for: ${race}`);
+});
+  
   getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
     const raceId = values.showracials;
     const race = raceValueMap[String(raceId)] || "human"; // fallback default

@@ -1,4 +1,5 @@
 // ===== Roll20 Reusable Skill Modifier Module ===== //
+
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -153,8 +154,8 @@ const skillMapTable = {
  "Restoration": { label: "magic_restoration", base: "0", skill: "magic_restoration_skill_mdr", bonus: "magic_restoration_mdr", group: "Magic", notes: "Healing, cleansing, and regeneration magic that mends wounds, purifies corruption, or restores vitality." },
  "Summoning": { label: "magic_summoning", base: "0", skill: "magic_summoning_skill_mdr", bonus: "magic_summoning_mdr", group: "Magic", notes: "Calls forth spirits, creatures, or arcane constructs from beyond to aid, defend, or serve the caster." },
  "Technomancy": { label: "magic_technomancy", base: "0", skill: "magic_technomancy_skill_mdr", bonus: "magic_technomancy_mdr", group: "Magic", notes: "The fusion of magic with technology. Enables interaction with archanotech, digital constructs, and spell-driven machines." },
- "Warding": { label: "magic_warding", base: "0", skill: "magic_warding_skill_mdr", bonus: "magic_warding_mdr", group: "Magic", notes: "Protective magic used to shield, block, or dispel incoming threatsboth physical and magical." },
- "Universal": { label: "magic_universal", base: "0", skill: "magic_universal_skill_mdr", bonus: "magic_universal_mdr", group: "Magic", notes: "Covers basic arcane techniques used across traditionsdetecting, sensing, or disrupting magical phenomena." },
+ "Warding": { label: "magic_warding", base: "0", skill: "magic_warding_skill_mdr", bonus: "magic_warding_mdr", group: "Magic", notes: "Protective magic used to shield, block, or dispel incoming threats both physical and magical." },
+ "Universal": { label: "magic_universal", base: "0", skill: "magic_universal_skill_mdr", bonus: "magic_universal_mdr", group: "Magic", notes: "Covers basic arcane techniques used across traditions detecting, sensing, or disrupting magical phenomena." },
  "Archanotech": { label: "archanotech", base: "1", skill: "archanotech_skill_mdr", bonus: "archanotech_mdr", group: "Tech/Cyber", notes: "Construction, repair, and interfacing with arcane-tech hybrids" },
  "Computer Use": { label: "computer_use", base: "10", skill: "computer_use_skill_mdr", bonus: "computer_use_mdr", group: "Tech/Cyber", notes: "General software and system operation" },
  "Cybernetics": { label: "cybernetics", base: "1", skill: "cybernetics_skill_mdr", bonus: "cybernetics_mdr", group: "Tech/Cyber", notes: "Installing and maintaining cyberware" },
@@ -193,7 +194,7 @@ const skillMapTable = {
  "Etiquette (High Society)": { label: "etiquette_high_society", base: "10", skill: "etiquette_high_society_skill_mdr", bonus: "etiquette_high_society_mdr", group: "Social", notes: "Etiquette (High Society)" },
  "Etiquette (Lyranni)": { label: "etiquette_lyranni", base: "10", skill: "etiquette_lyranni_skill_mdr", bonus: "etiquette_lyranni_mdr", group: "Social", notes: "Etiquette (Lyranni)" },
  "Etiquette (Other)": { label: "etiquette_other", base: "10", skill: "etiquette_other_skill_mdr", bonus: "etiquette_other_mdr", group: "Social", notes: "Etiquette may be specialized: (Corporate), (Military), (Underworld), (Racial), etc." },
- "Forgery": { label: "forgery", base: "1", skill: "forgery_skill_mdr", bonus: "forgery_mdr", group: "Social", notes: "Creating falsified documents, IDs, credentialsphysical or digital." },
+ "Forgery": { label: "forgery", base: "1", skill: "forgery_skill_mdr", bonus: "forgery_mdr", group: "Social", notes: "Creating falsified documents, IDs, credentials physical or digital." },
  "Impersonation": { label: "impersonation", base: "5", skill: "impersonation_skill_mdr", bonus: "impersonation_mdr", group: "Social", notes: "Performance (Impersonation)" },
  "Insight": { label: "insight", base: "10", skill: "insight_skill_mdr", bonus: "insight_mdr", group: "Social", notes: "Insight" },
  "Instrument": { label: "instrument", base: "5", skill: "instrument_skill_mdr", bonus: "instrument_mdr", group: "Social", notes: "Performance (Instrument)" },
@@ -384,7 +385,7 @@ function registerSkillHandler({
   on(watchFields.join(" "), () => {
     getAttrs([...new Set(getKeys.concat(debugField))], values => {
       const activeRaceValue = values["showracials"];
-      const activeRace = raceValueMap[activeRaceValue];
+      const activeRace = raceValueMap[String(activeRaceValue)];
       const isActiveRace = activeRace === racePrefix;
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
@@ -444,46 +445,59 @@ function registerSkillHandler({
 }
 
 
+
 on("sheet:opened", function () {
-  const initKey = "racial_bonuses_initialized";
-
-  getAttrs([initKey, "showracials"], values => {
-    if (values[initKey] === "1") return;
-
-    const updates = { [initKey]: "1" };
-    const allSkills = new Set();
-
-    // Loop through all races in backgroundSkillMap
-    Object.keys(backgroundSkillMap).forEach(race => {
-      const raceBackgrounds = backgroundSkillMap[race];
-      const backgroundSkills = Object.values(raceBackgrounds).flatMap(skills => Object.keys(skills));
-      Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
-      updates[`${race}_background_bonus_mdr`] = "5";
-      updates[`${race}_background_description`] = "";
-      backgroundSkills.forEach(skill => allSkills.add(skill));
+    getAttrs(["showracials"], values => {
+    const raceKey = String(values.showracials); // ensure string key
+    const race = raceValueMap[raceKey] || "unknown";
+    
+    console.log("on(sheet:opened, function)");
+    console.log("Race ID:", raceKey);
+    console.log(`Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
+    console.log(`Initializing racial bonuses for: ${race}`);
     });
 
-    // Loop through all races in talentSkillMap
-    Object.keys(talentSkillMap).forEach(race => {
-      const raceTalents = talentSkillMap[race];
-      const talentSkills = Object.values(raceTalents).flatMap(skills => Object.keys(skills));
-      Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
-      updates[`${race}_talent_bonus_mdr`] = "10";
-      updates[`${race}_talent_description`] = "";
-      talentSkills.forEach(skill => allSkills.add(skill));
-    });
+    const initKey = "racial_bonuses_initialized";
 
-    // Initialize skill values from skillMapTable
-    Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
-      const defaultVal = parseInt(base, 10) || 0;
-      updates[`${label}_skill_mdr`] = defaultVal;
-      updates[`${label}_mdr`] = defaultVal;
-      updates[`${label}_note`] = notes || "";
-    });
+    getAttrs([initKey, "showracials"], values => {
+    
+        if (values[initKey] === "1") return;
 
-    setAttrs(updates);
-  });
+        const updates = { [initKey]: "1" };
+        const allSkills = new Set();
+
+        // Loop through all races in backgroundSkillMap
+        Object.keys(backgroundSkillMap).forEach(race => {
+        const raceBackgrounds = backgroundSkillMap[race];
+        const backgroundSkills = Object.values(raceBackgrounds).flatMap(skills => Object.keys(skills));
+        Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
+        updates[`${race}_background_bonus_mdr`] = "5";
+        updates[`${race}_background_description`] = "";
+        backgroundSkills.forEach(skill => allSkills.add(skill));
+        });
+
+        // Loop through all races in talentSkillMap
+        Object.keys(talentSkillMap).forEach(race => {
+        const raceTalents = talentSkillMap[race];
+        const talentSkills = Object.values(raceTalents).flatMap(skills => Object.keys(skills));
+        Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
+        updates[`${race}_talent_bonus_mdr`] = "10";
+        updates[`${race}_talent_description`] = "";
+        talentSkills.forEach(skill => allSkills.add(skill));
+        });
+
+        // Initialize skill values from skillMapTable
+        Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
+        const defaultVal = parseInt(base, 10) || 0;
+        updates[`${label}_skill_mdr`] = defaultVal;
+        updates[`${label}_mdr`] = defaultVal;
+        updates[`${label}_note`] = notes || "";
+        });
+
+        setAttrs(updates);
+    });
 });
+
 
 function registerBackgroundChoiceHandler(race) {
   on(`change:${race}_background_choice`, () => {
@@ -615,7 +629,7 @@ registerSkillHandler({
 on("change:showracials sheet:opened", () => {
   getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
     const raceId = values.showracials;
-    const race = raceValueMap[raceId] || "human"; // fallback default
+    const race = raceValueMap[String(raceId)] || "human"; // fallback default
 
     const racialLang = raceLanguageMap[race] || "Racial";
     const otherLang = race === "human" ? "Other" : "Caltheran";
@@ -631,3 +645,456 @@ on("change:showracials sheet:opened", () => {
     setAttrs(updates);
   });
 });
+
+  on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:mag change:mag add:vitality change:vitality add:language_caltheran_skill_mdr change:language_caltheran_skill_mdr", function() {
+    getAttrs(["str", "siz", "dex", "age", "dodge_skill_mdr", "edu", "mag", "vitality", "language_caltheran_skill_mdr"], function(values) {
+      var istr = parseInt(values.str);
+      var isiz = parseInt(values.siz);
+      var idex = parseInt(values.dex);
+	  var iage = parseInt(values.age);
+	  var iedu = parseInt(values.edu);
+      var siz_str_tot = istr + isiz;
+
+	  setAttrs({
+		dodge_skill_mdr: ( parseInt(values.dodge_skill_mdr) || 0 ),
+		dodge_mdr: ( ( parseInt(values.dodge_skill_mdr) || 0 ) + ( Math.floor(idex / 2) ) ),
+		language_caltheran_skill_mdr: ( parseInt(values.language_caltheran_skill_mdr ) || 0),
+		language_caltheran_mdr: ( ( parseInt(values.language_caltheran_skill_mdr ) || 0) + iedu ),
+		ac: ( Math.min(parseInt(values.mag) || 0, parseInt(values.vitality) || 0 ) )
+	  });
+
+	  switch (true) {
+        case (siz_str_tot < 65):
+          setAttrs({
+            damage_bonus: "-2",
+            build: "-2"
+          });
+          break;
+        case (siz_str_tot > 64 && siz_str_tot < 85):
+          setAttrs({
+            damage_bonus: "-1",
+            build: "-1"
+          });
+          break;
+        case (siz_str_tot > 84 && siz_str_tot < 125):
+          setAttrs({
+            damage_bonus: "0",
+            build: "0"
+          });
+          break;
+        case (siz_str_tot > 124 && siz_str_tot < 165):
+          setAttrs({
+            damage_bonus: "1d4",
+            build: "+1"
+          });
+          break;
+        case (siz_str_tot > 164 && siz_str_tot < 205):
+          setAttrs({
+            damage_bonus: "1d6",
+            build: "+2"
+          });
+          break;
+        case (siz_str_tot > 204 && siz_str_tot < 285):
+          setAttrs({
+            damage_bonus: "2d6",
+            build: "+3"
+          });
+          break;
+        case (siz_str_tot > 284 && siz_str_tot < 365):
+          setAttrs({
+            damage_bonus: "3d6",
+            build: "+4"
+          });
+          break;
+        case (siz_str_tot > 364 && siz_str_tot < 445):
+          setAttrs({
+            damage_bonus: "4d6",
+            build: "+5"
+          });
+          break;
+        case (siz_str_tot > 444 && siz_str_tot < 525):
+          setAttrs({
+            damage_bonus: "5d6",
+            build: "+6"
+          });
+          break;
+      } //end switch (true)
+	if (idex < isiz && istr < isiz) {
+        var imov = 7;
+      } else if (idex > isiz && istr > isiz) {
+        var imov = 9;
+      } else {
+        var imov = 8;
+      }
+    if (iage < 40) {
+      imov = imov;
+    } else if (iage > 39 && iage < 50) {
+      imov = imov - 1;
+    } else if (iage > 49 && iage < 60) {
+      imov = imov - 2;
+    } else if (iage > 59 && iage < 70) {
+      imov = imov - 3;
+    } else if (iage > 69 && iage < 80) {
+      imov = imov - 4;
+    } else if (iage > 79 && iage < 90) {
+      imov = imov - 5;
+    } else if (iage > 89) {
+      imov = imov - 6;
+    }
+    setAttrs({mov: imov});
+    }); //end getAttrs
+  }); //end on("add:siz...
+  on("add:age change:age", function() {
+    getAttrs(["str", "siz", "dex", "age"], function(values) {
+      var iage = parseInt(values.age);
+	  var istr = parseInt(values.str);
+      var isiz = parseInt(values.siz);
+      var idex = parseInt(values.dex);
+	if (idex < isiz && istr < isiz) {
+        var imov = 7;
+      } else if (idex > isiz && istr > isiz) {
+        var imov = 9;
+      } else {
+        var imov = 8;
+      }
+    if (iage < 40) {
+      imov = imov;
+    } else if (iage > 39 && iage < 50) {
+      imov = imov - 1;
+    } else if (iage > 49 && iage < 60) {
+      imov = imov - 2;
+    } else if (iage > 59 && iage < 70) {
+      imov = imov - 3;
+    } else if (iage > 69 && iage < 80) {
+      imov = imov - 4;
+    } else if (iage > 79 && iage < 90) {
+      imov = imov - 5;
+    } else if (iage > 89) {
+      imov = imov - 6;
+    }
+    setAttrs({mov: imov});
+    }); //end getAttrs
+  }); //end on("add:siz...
+
+  on('sheet:opened', function () {
+    getAttrs(['str_txt'], v => {
+      if (v.str_txt !== getTranslationByKey('STR-r-txt')) {
+        setAttrs({str_txt: getTranslationByKey('STR-r-txt')});
+    }}); getAttrs(['dex_txt'], v => {
+      if (v.dex_txt !== getTranslationByKey('DEX-r-txt')) {
+        setAttrs({dex_txt: getTranslationByKey('DEX-r-txt')});
+    }}); getAttrs(['pow_txt'], v => {
+      if (v.pow_txt !== getTranslationByKey('POW-r-txt')) {
+        setAttrs({pow_txt: getTranslationByKey('POW-r-txt')});
+    }}); getAttrs(['con_txt'], v => {
+      if (v.con_txt !== getTranslationByKey('CON-r-txt')) {
+        setAttrs({con_txt: getTranslationByKey('CON-r-txt')});
+    }}); getAttrs(['app_txt'], v => {
+      if (v.app_txt !== getTranslationByKey('APP-r-txt')) {
+        setAttrs({app_txt: getTranslationByKey('APP-r-txt')});
+    }}); getAttrs(['edu_txt'], v => {
+      if (v.edu_txt !== getTranslationByKey('EDU-r-txt')) {
+        setAttrs({edu_txt: getTranslationByKey('EDU-r-txt')});
+    }}); getAttrs(['siz_txt'], v => {
+      if (v.siz_txt !== getTranslationByKey('SIZ-r-txt')) {
+        setAttrs({siz_txt: getTranslationByKey('SIZ-r-txt')});
+    }}); getAttrs(['int_txt'], v => {
+      if (v.int_txt !== getTranslationByKey('INT-r-txt')) {
+        setAttrs({int_txt: getTranslationByKey('INT-r-txt')});
+    }}); getAttrs(['mag_txt'], v => {
+      if (v.mag_txt !== getTranslationByKey('MAG-r-txt')) {
+        setAttrs({mag_txt: getTranslationByKey('MAG-r-txt')});
+    }}); getAttrs(['luck_txt'], v => {
+      if (v.luck_txt !== getTranslationByKey('luck-u')) {
+        setAttrs({luck_txt: getTranslationByKey('luck-u')});
+    }}); getAttrs(['accounting_txt'], v => {
+      if (v.accounting_txt !== getTranslationByKey('accounting-r-txt')) {
+        setAttrs({accounting_txt: getTranslationByKey('accounting-r-txt')});
+    }}); getAttrs(['alchemy_txt'], v => {
+      if (v.alchemy_txt !== getTranslationByKey('alchemy-r-txt')) {
+        setAttrs({alchemy_txt: getTranslationByKey('alchemy-r-txt')});
+    }}); getAttrs(['animalhandling_txt'], v => {
+      if (v.animalhandling_txt !== getTranslationByKey('animalhandling-r-txt')) {
+        setAttrs({animalhandling_txt: getTranslationByKey('animalhandling-r-txt')});
+    }}); getAttrs(['anthropology_txt'], v => {
+      if (v.anthropology_txt !== getTranslationByKey('anthropology-r-txt')) {
+        setAttrs({anthropology_txt: getTranslationByKey('anthropology-r-txt')});
+    }}); getAttrs(['appraise_txt'], v => {
+      if (v.appraise_txt !== getTranslationByKey('appraise-r-txt')) {
+        setAttrs({appraise_txt: getTranslationByKey('appraise-r-txt')});
+	}}); getAttrs(['arcana_txt'], v => {
+      if (v.arcana_txt !== getTranslationByKey('arcana-r-txt')) {
+        setAttrs({arcana_txt: getTranslationByKey('arcana-r-txt')});
+    }}); getAttrs(['archaeology_txt'], v => {
+      if (v.archaeology_txt !== getTranslationByKey('archaeology-r-txt')) {
+        setAttrs({archaeology_txt: getTranslationByKey('archaeology-r-txt')});
+    }}); getAttrs(['archanotech_txt'], v => {
+      if (v.archanotech_txt !== getTranslationByKey('archanotech-r-txt')) {
+        setAttrs({archanotech_txt: getTranslationByKey('archanotech-r-txt')});
+    }}); getAttrs(['archery_txt'], v => {
+      if (v.archery_txt !== getTranslationByKey('archery-r-txt')) {
+        setAttrs({archery_txt: getTranslationByKey('archery-r-txt')});
+	}}); getAttrs(['architecture_txt'], v => {
+      if (v.architecture_txt !== getTranslationByKey('architecture-r-txt')) {
+        setAttrs({architecture_txt: getTranslationByKey('architecture-r-txt')});
+	}}); getAttrs(['biology_txt'], v => {
+      if (v.biology_txt !== getTranslationByKey('biology-r-txt')) {
+        setAttrs({biology_txt: getTranslationByKey('biology-r-txt')});
+    }}); getAttrs(['bureaucracy_txt'], v => {
+      if (v.bureaucracy_txt !== getTranslationByKey('bureaucracy-r-txt')) {
+        setAttrs({bureaucracy_txt: getTranslationByKey('bureaucracy-r-txt')});
+    }}); getAttrs(['charm_txt'], v => {
+      if (v.charm_txt !== getTranslationByKey('charm-r-txt')) {
+        setAttrs({charm_txt: getTranslationByKey('charm-r-txt')});
+	}}); getAttrs(['chemistry_txt'], v => {
+      if (v.chemistry_txt !== getTranslationByKey('chemistry-r-txt')) {
+        setAttrs({chemistry_txt: getTranslationByKey('chemistry-r-txt')});
+    }}); getAttrs(['climb_txt'], v => {
+      if (v.climb_txt !== getTranslationByKey('climb-r-txt')) {
+        setAttrs({climb_txt: getTranslationByKey('climb-r-txt')});
+    }}); getAttrs(['computeruse_txt'], v => {
+      if (v.computeruse_txt !== getTranslationByKey('computeruse-r-txt')) {
+        setAttrs({computeruse_txt: getTranslationByKey('computeruse-r-txt')});
+    }}); getAttrs(['creditrating_txt'], v => {
+      if (v.creditrating_txt !== getTranslationByKey('creditrating-r-txt')) {
+        setAttrs({creditrating_txt: getTranslationByKey('creditrating-r-txt')});
+    }}); getAttrs(['cthulhumythos_txt'], v => {
+      if (v.cthulhumythos_txt !== getTranslationByKey('cthulhumythos-r-txt')) {
+        setAttrs({cthulhumythos_txt: getTranslationByKey('cthulhumythos-r-txt')});
+    }}); getAttrs(['cybernetics_txt'], v => {
+      if (v.cybernetics_txt !== getTranslationByKey('cybernetics-r-txt')) {
+        setAttrs({cybernetics_txt: getTranslationByKey('cybernetics-r-txt')});
+    }}); getAttrs(['dance_txt'], v => {
+      if (v.dance_txt !== getTranslationByKey('dance-r-txt')) {
+        setAttrs({dance_txt: getTranslationByKey('dance-r-txt')});
+	}}); getAttrs(['demolitions_txt'], v => {
+      if (v.demolitions_txt !== getTranslationByKey('demolitions-r-txt')) {
+        setAttrs({demolitions_txt: getTranslationByKey('demolitions-r-txt')});
+    }}); getAttrs(['disguise_txt'], v => {
+      if (v.disguise_txt !== getTranslationByKey('disguise-r-txt')) {
+        setAttrs({disguise_txt: getTranslationByKey('disguise-r-txt')});
+    }}); getAttrs(['deception_txt'], v => {
+      if (v.deception_txt !== getTranslationByKey('deception-r-txt')) {
+        setAttrs({deception_txt: getTranslationByKey('deception-r-txt')});
+    }}); getAttrs(['dodge_txt'], v => {
+      if (v.dodge_txt !== getTranslationByKey('dodge-r-txt')) {
+        setAttrs({dodge_txt: getTranslationByKey('dodge-r-txt')});
+    }}); getAttrs(['driveauto_txt'], v => {
+      if (v.driveauto_txt !== getTranslationByKey('driveauto-r-txt')) {
+        setAttrs({driveauto_txt: getTranslationByKey('driveauto-r-txt')});
+    }}); getAttrs(['drone_operation_txt'], v => {
+      if (v.pilotboat_txt !== getTranslationByKey('drone_operation-r-txt')) {
+        setAttrs({pilotboat_txt: getTranslationByKey('drone_operation-r-txt')});
+    }}); getAttrs(['elecrepair_txt'], v => {
+      if (v.elecrepair_txt !== getTranslationByKey('elecrepair-r-txt')) {
+        setAttrs({elecrepair_txt: getTranslationByKey('elecrepair-r-txt')});
+	}}); getAttrs(['engineering_txt'], v => {
+      if (v.engineering_txt !== getTranslationByKey('engineering-r-txt')) {
+        setAttrs({engineering_txt: getTranslationByKey('engineering-r-txt')});
+	}}); getAttrs(['etiquette_high_society_txt'], v => {
+      if (v.etiquette_high_society_txt !== getTranslationByKey('etiquette_high_society-r-txt')) {
+        setAttrs({etiquette_high_society_txt: getTranslationByKey('etiquette_high_society-r-txt')});
+	}}); getAttrs(['engineering_txt'], v => {
+      if (v.engineering_txt !== getTranslationByKey('engineering-r-txt')) {
+        setAttrs({engineering_txt: getTranslationByKey('engineering-r-txt')});
+    }}); getAttrs(['fasttalk_txt'], v => {
+      if (v.fasttalk_txt !== getTranslationByKey('fasttalk-r-txt')) {
+        setAttrs({fasttalk_txt: getTranslationByKey('fasttalk-r-txt')});
+    }}); getAttrs(['fighting_brawl_txt'], v => {
+      if (v.fighting_brawl_txt !== getTranslationByKey('fighting_brawl-r-txt')) {
+        setAttrs({fighting_brawl_txt: getTranslationByKey('fighting_brawl-r-txt')});
+    }}); getAttrs(['firearms_hg_txt'], v => {
+      if (v.firearms_hg_txt !== getTranslationByKey('firearms_hg-r-txt')) {
+        setAttrs({firearms_hg_txt: getTranslationByKey('firearms_hg-r-txt')});
+    }}); getAttrs(['firearms_rifle_txt'], v => {
+      if (v.firearms_rifle_txt !== getTranslationByKey('firearms_rifle-r-txt')) {
+        setAttrs({firearms_rifle_txt: getTranslationByKey('firearms_rifle-r-txt')});
+    }}); getAttrs(['first_aid_txt'], v => {
+      if (v.firstaid_txt !== getTranslationByKey('first_aid-r-txt')) {
+        setAttrs({firstaid_txt: getTranslationByKey('first_aid-r-txt')});
+	}}); getAttrs(['forbidden_lore_txt'], v => {
+      if (v.forbidden_lore_txt !== getTranslationByKey('forbidden_lore-r-txt')) {
+        setAttrs({forbidden_lore_txt: getTranslationByKey('forbidden_lore-r-txt')});
+    }}); getAttrs(['forgery_txt'], v => {
+      if (v.forgery_txt !== getTranslationByKey('forgery-r-txt')) {
+        setAttrs({forgery_txt: getTranslationByKey('forgery-r-txt')});
+    }}); getAttrs(['gunnery_txt'], v => {
+      if (v.gunnery_txt !== getTranslationByKey('gunnery-r-txt')) {
+        setAttrs({gunnery_txt: getTranslationByKey('gunnery-r-txt')});
+    }}); getAttrs(['heavy_weapons_txt'], v => {
+      if (v.heavy_weapons_txt !== getTranslationByKey('heavy_weapons-r-txt')) {
+        setAttrs({heavy_weapons_txt: getTranslationByKey('heavy_weapons-r-txt')});
+    }}); getAttrs(['history_txt'], v => {
+      if (v.history_txt !== getTranslationByKey('history-r-txt')) {
+        setAttrs({history_txt: getTranslationByKey('history-r-txt')});
+	}}); getAttrs(['impersonation_txt'], v => {
+      if (v.impersonation_txt !== getTranslationByKey('impersonation-r-txt')) {
+        setAttrs({impersonation_txt: getTranslationByKey('impersonation-r-txt')});
+	}}); getAttrs(['instrument_txt'], v => {
+      if (v.instrument_txt !== getTranslationByKey('instrument-r-txt')) {
+        setAttrs({instrument_txt: getTranslationByKey('instrument-r-txt')});
+    }}); getAttrs(['intimidate_txt'], v => {
+      if (v.intimidate_txt !== getTranslationByKey('intimidate-r-txt')) {
+        setAttrs({intimidate_txt: getTranslationByKey('intimidate-r-txt')});
+    }}); getAttrs(['interrogation_txt'], v => {
+      if (v.interrogation_txt !== getTranslationByKey('interrogation-r-txt')) {
+        setAttrs({interrogation_txt: getTranslationByKey('interrogation-r-txt')});		
+    }}); getAttrs(['insight_txt'], v => {
+      if (v.insight_txt !== getTranslationByKey('insight-r-txt')) {
+        setAttrs({insight_txt: getTranslationByKey('insight-r-txt')});
+    }}); getAttrs(['investigation_txt'], v => {
+      if (v.investigation_txt !== getTranslationByKey('investigation-r-txt')) {
+        setAttrs({investigation_txt: getTranslationByKey('investigation-r-txt')});
+    }}); getAttrs(['jump_txt'], v => {
+      if (v.jump_txt !== getTranslationByKey('jump-r-txt')) {
+        setAttrs({jump_txt: getTranslationByKey('jump-r-txt')});
+    }}); getAttrs(['language_own_txt'], v => {
+      if (v.language_own_txt !== getTranslationByKey('language_own-r-txt')) {
+        setAttrs({language_own_txt: getTranslationByKey('language_own-r-txt')});
+    }}); getAttrs(['language_caltheran_txt'], v => {
+      if (v.language_language_txt !== getTranslationByKey('language_caltheran-r-txt')) {
+        setAttrs({language_caltheran_txt: getTranslationByKey('language_caltheran-r-txt')});
+    }}); getAttrs(['language_other_txt'], v => {
+      if (v.language_language_txt !== getTranslationByKey('language_other-r-txt')) {
+        setAttrs({language_other_txt: getTranslationByKey('language_other-r-txt')});
+    }}); getAttrs(['law_txt'], v => {
+      if (v.law_txt !== getTranslationByKey('law-r-txt')) {
+        setAttrs({law_txt: getTranslationByKey('law-r-txt')});
+    }}); getAttrs(['libraryuse_txt'], v => {
+      if (v.libraryuse_txt !== getTranslationByKey('libraryuse-r-txt')) {
+        setAttrs({libraryuse_txt: getTranslationByKey('libraryuse-r-txt')});
+    }}); getAttrs(['listen_txt'], v => {
+      if (v.listen_txt !== getTranslationByKey('listen-r-txt')) {
+        setAttrs({listen_txt: getTranslationByKey('listen-r-txt')});
+    }}); getAttrs(['locksmith_txt'], v => {
+      if (v.locksmith_txt !== getTranslationByKey('locksmith-r-txt')) {
+        setAttrs({locksmith_txt: getTranslationByKey('locksmith-r-txt')});
+    }}); getAttrs(['magic_alteration_txt'], v => {
+      if (v.magic_alteration_txt !== getTranslationByKey('magic_alteration-r-txt')) {
+        setAttrs({magic_alteration_txt: getTranslationByKey('magic_alteration-r-txt')});
+    }}); getAttrs(['magic_elemental_txt'], v => {
+      if (v.magic_elemental_txt !== getTranslationByKey('magic_elemental-r-txt')) {
+        setAttrs({magic_elemental_txt: getTranslationByKey('magic_elemental-r-txt')});
+    }}); getAttrs(['magic_enchantment_txt'], v => {
+      if (v.magic_enchantment_txt !== getTranslationByKey('magic_enchantment-r-txt')) {
+        setAttrs({magic_enchantment_txt: getTranslationByKey('magic_enchantment-r-txt')});
+    }}); getAttrs(['magic_illusion_txt'], v => {
+      if (v.magic_illusion_txt !== getTranslationByKey('magic_illusion-r-txt')) {
+        setAttrs({magic_illusion_txt: getTranslationByKey('magic_illusion-r-txt')});
+    }}); getAttrs(['magic_necromancy_txt'], v => {
+      if (v.magic_necromancy_txt !== getTranslationByKey('magic_necromancy-r-txt')) {
+        setAttrs({magic_necromancy_txt: getTranslationByKey('magic_necromancy-r-txt')});
+    }}); getAttrs(['magic_restoration_txt'], v => {
+      if (v.magic_restoration_txt !== getTranslationByKey('magic_restoration-r-txt')) {
+        setAttrs({magic_restoration_txt: getTranslationByKey('magic_restoration-r-txt')});
+    }}); getAttrs(['magic_summoning_txt'], v => {
+      if (v.magic_summoning_txt !== getTranslationByKey('magic_summoning-r-txt')) {
+        setAttrs({magic_summoning_txt: getTranslationByKey('magic_summoning-r-txt')});
+    }}); getAttrs(['magic_technomancy_txt'], v => {
+      if (v.magic_technomancy_txt !== getTranslationByKey('magic_technomancy-r-txt')) {
+        setAttrs({magic_technomancy_txt: getTranslationByKey('magic_technomancy-r-txt')});
+    }}); getAttrs(['magic_warding_txt'], v => {
+      if (v.magic_warding_txt !== getTranslationByKey('magic_warding-r-txt')) {
+        setAttrs({magic_warding_txt: getTranslationByKey('magic_warding-r-txt')});
+    }}); getAttrs(['magic_universal_txt'], v => {
+      if (v.magic_universal_txt !== getTranslationByKey('magic_universal-r-txt')) {
+        setAttrs({magic_universal_txt: getTranslationByKey('magic_universal-r-txt')});
+    }}); getAttrs(['mechrepair_txt'], v => {
+      if (v.mechrepair_txt !== getTranslationByKey('mechrepair-r-txt')) {
+        setAttrs({mechrepair_txt: getTranslationByKey('mechrepair-r-txt')});
+    }}); getAttrs(['mechanics_txt'], v => {
+      if (v.mechanics_txt !== getTranslationByKey('mechanics-r-txt')) {
+        setAttrs({mechanics_txt: getTranslationByKey('mechanics-r-txt')});
+    }}); getAttrs(['medicine_txt'], v => {
+      if (v.medicine_txt !== getTranslationByKey('medicine-r-txt')) {
+        setAttrs({medicine_txt: getTranslationByKey('medicine-r-txt')});
+    }}); getAttrs(['melee_weapons_txt'], v => {
+      if (v.melee_weapons_txt !== getTranslationByKey('melee_weapons-r-txt')) {
+        setAttrs({melee_weapons_txt: getTranslationByKey('melee_weapons-r-txt')});
+    }}); getAttrs(['naturalworld_txt'], v => {
+      if (v.naturalworld_txt !== getTranslationByKey('naturalworld-r-txt')) {
+        setAttrs({naturalworld_txt: getTranslationByKey('naturalworld-r-txt')});
+    }}); getAttrs(['navigate_txt'], v => {
+      if (v.navigate_txt !== getTranslationByKey('navigate-r-txt')) {
+        setAttrs({navigate_txt: getTranslationByKey('navigate-r-txt')});
+    }}); getAttrs(['occult_txt'], v => {
+      if (v.occult_txt !== getTranslationByKey('occult-r-txt')) {
+        setAttrs({occult_txt: getTranslationByKey('occult-r-txt')});
+    }}); getAttrs(['ophvmachine_txt'], v => {
+      if (v.ophvmachine_txt !== getTranslationByKey('ophvmachine-r-txt')) {
+        setAttrs({ophvmachine_txt: getTranslationByKey('ophvmachine-r-txt')});
+    }}); getAttrs(['perception_txt'], v => {
+      if (v.perception_txt !== getTranslationByKey('perception-r-txt')) {
+        setAttrs({perception_txt: getTranslationByKey('perception-r-txt')});
+    }}); getAttrs(['persuade_txt'], v => {
+      if (v.persuade_txt !== getTranslationByKey('persuade-r-txt')) {
+        setAttrs({persuade_txt: getTranslationByKey('persuade-r-txt')});
+    }}); getAttrs(['physics_txt'], v => {
+      if (v.physics_txt !== getTranslationByKey('physics-r-txt')) {
+        setAttrs({physics_txt: getTranslationByKey('physics-r-txt')});
+    }}); getAttrs(['pilotaircraft_txt'], v => {
+      if (v.pilotboat_txt !== getTranslationByKey('pilotaircraft-r-txt')) {
+        setAttrs({pilotboat_txt: getTranslationByKey('pilotaircraft-r-txt')});
+	}}); getAttrs(['pilotboat_txt'], v => {
+      if (v.pilotboat_txt !== getTranslationByKey('pilotboat-r-txt')) {
+        setAttrs({pilotboat_txt: getTranslationByKey('pilotboat-r-txt')});
+    }}); getAttrs(['psychology_txt'], v => {
+      if (v.psychology_txt !== getTranslationByKey('psychology-r-txt')) {
+        setAttrs({psychology_txt: getTranslationByKey('psychology-r-txt')});
+    }}); getAttrs(['psychoanalysis_txt'], v => {
+      if (v.psychoanalysis_txt !== getTranslationByKey('psychoanalysis-r-txt')) {
+        setAttrs({psychoanalysis_txt: getTranslationByKey('psychoanalysis-r-txt')});
+    }}); getAttrs(['ride_txt'], v => {
+      if (v.ride_txt !== getTranslationByKey('ride-r-txt')) {
+        setAttrs({ride_txt: getTranslationByKey('ride-r-txt')});
+    }}); getAttrs(['security_txt'], v => {
+      if (v.security_txt !== getTranslationByKey('security-r-txt')) {
+        setAttrs({security_txt: getTranslationByKey('security-r-txt')});
+    }}); getAttrs(['singing_txt'], v => {
+      if (v.singing_txt !== getTranslationByKey('singing-r-txt')) {
+        setAttrs({singing_txt: getTranslationByKey('singing-r-txt')});
+    }}); getAttrs(['sleightofhand_txt'], v => {
+      if (v.sleightofhand_txt !== getTranslationByKey('sleightofhand-r-txt')) {
+        setAttrs({sleightofhand_txt: getTranslationByKey('sleightofhand-r-txt')});
+    }}); getAttrs(['slicing_txt'], v => {
+      if (v.slicing_txt !== getTranslationByKey('slicing-r-txt')) {
+        setAttrs({slicing_txt: getTranslationByKey('slicing-r-txt')});
+    }}); getAttrs(['spirit_lore_txt'], v => {
+      if (v.spirit_lore_txt !== getTranslationByKey('spirit_lore-r-txt')) {
+        setAttrs({spirit_lore_txt: getTranslationByKey('spirit_lore-r-txt')});
+    }}); getAttrs(['spothidden_txt'], v => {
+      if (v.spothidden_txt !== getTranslationByKey('spothidden-r-txt')) {
+        setAttrs({spothidden_txt: getTranslationByKey('spothidden-r-txt')});
+    }}); getAttrs(['stealth_txt'], v => {
+      if (v.stealth_txt !== getTranslationByKey('stealth-r-txt')) {
+        setAttrs({stealth_txt: getTranslationByKey('stealth-r-txt')});
+    }}); getAttrs(['streetwise_txt'], v => {
+      if (v.streetwise_txt !== getTranslationByKey('streetwise-r-txt')) {
+        setAttrs({streetwise_txt: getTranslationByKey('streetwise-r-txt')});
+    }}); getAttrs(['survivaltxt'], v => {
+      if (v.survivaltxt !== getTranslationByKey('survival-r-txt')) {
+        setAttrs({survivaltxt: getTranslationByKey('survival-r-txt')});
+    }}); getAttrs(['athletics_txt'], v => {
+      if (v.athletics_txt !== getTranslationByKey('athletics-r-txt')) {
+        setAttrs({athletics_txt: getTranslationByKey('athletics-r-txt')});
+    }}); getAttrs(['coordination_txt'], v => {
+      if (v.coordination_txt !== getTranslationByKey('coordination-r-txt')) {
+        setAttrs({coordination_txt: getTranslationByKey('coordination-r-txt')});
+    }}); getAttrs(['swim_txt'], v => {
+      if (v.swim_txt !== getTranslationByKey('swim-r-txt')) {
+        setAttrs({swim_txt: getTranslationByKey('swim-r-txt')});
+    }}); getAttrs(['throw_txt'], v => {
+      if (v.throw_txt !== getTranslationByKey('throw-r-txt')) {
+        setAttrs({throw_txt: getTranslationByKey('throw-r-txt')});
+    }}); getAttrs(['track_txt'], v => {
+      if (v.track_txt !== getTranslationByKey('track-r-txt')) {
+        setAttrs({track_txt: getTranslationByKey('track-r-txt')});
+    }}); getAttrs(['unarmed_txt'], v => {
+      if (v.unarmed_txt !== getTranslationByKey('unarmed-z')) {
+        setAttrs({unarmed_txt: getTranslationByKey('unarmed-z')});
+    }}); getAttrs(['veil_lore_txt'], v => {
+      if (v.veil_lore_txt !== getTranslationByKey('veil_lore-r-txt')) {
+        setAttrs({veil_lore_txt: getTranslationByKey('veil_lore-r-txt')});
+    }});
+
+  });

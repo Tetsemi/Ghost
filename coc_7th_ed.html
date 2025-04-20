@@ -11417,7 +11417,9 @@ Bout of Madness-Summary---------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-// ===== Roll20 Reusable Skill Modifier Module ===== //
+
+
+
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -11572,8 +11574,8 @@ const skillMapTable = {
  "Restoration": { label: "magic_restoration", base: "0", skill: "magic_restoration_skill_mdr", bonus: "magic_restoration_mdr", group: "Magic", notes: "Healing, cleansing, and regeneration magic that mends wounds, purifies corruption, or restores vitality." },
  "Summoning": { label: "magic_summoning", base: "0", skill: "magic_summoning_skill_mdr", bonus: "magic_summoning_mdr", group: "Magic", notes: "Calls forth spirits, creatures, or arcane constructs from beyond to aid, defend, or serve the caster." },
  "Technomancy": { label: "magic_technomancy", base: "0", skill: "magic_technomancy_skill_mdr", bonus: "magic_technomancy_mdr", group: "Magic", notes: "The fusion of magic with technology. Enables interaction with archanotech, digital constructs, and spell-driven machines." },
- "Warding": { label: "magic_warding", base: "0", skill: "magic_warding_skill_mdr", bonus: "magic_warding_mdr", group: "Magic", notes: "Protective magic used to shield, block, or dispel incoming threatsboth physical and magical." },
- "Universal": { label: "magic_universal", base: "0", skill: "magic_universal_skill_mdr", bonus: "magic_universal_mdr", group: "Magic", notes: "Covers basic arcane techniques used across traditionsdetecting, sensing, or disrupting magical phenomena." },
+ "Warding": { label: "magic_warding", base: "0", skill: "magic_warding_skill_mdr", bonus: "magic_warding_mdr", group: "Magic", notes: "Protective magic used to shield, block, or dispel incoming threats both physical and magical." },
+ "Universal": { label: "magic_universal", base: "0", skill: "magic_universal_skill_mdr", bonus: "magic_universal_mdr", group: "Magic", notes: "Covers basic arcane techniques used across traditions detecting, sensing, or disrupting magical phenomena." },
  "Archanotech": { label: "archanotech", base: "1", skill: "archanotech_skill_mdr", bonus: "archanotech_mdr", group: "Tech/Cyber", notes: "Construction, repair, and interfacing with arcane-tech hybrids" },
  "Computer Use": { label: "computer_use", base: "10", skill: "computer_use_skill_mdr", bonus: "computer_use_mdr", group: "Tech/Cyber", notes: "General software and system operation" },
  "Cybernetics": { label: "cybernetics", base: "1", skill: "cybernetics_skill_mdr", bonus: "cybernetics_mdr", group: "Tech/Cyber", notes: "Installing and maintaining cyberware" },
@@ -11612,7 +11614,7 @@ const skillMapTable = {
  "Etiquette (High Society)": { label: "etiquette_high_society", base: "10", skill: "etiquette_high_society_skill_mdr", bonus: "etiquette_high_society_mdr", group: "Social", notes: "Etiquette (High Society)" },
  "Etiquette (Lyranni)": { label: "etiquette_lyranni", base: "10", skill: "etiquette_lyranni_skill_mdr", bonus: "etiquette_lyranni_mdr", group: "Social", notes: "Etiquette (Lyranni)" },
  "Etiquette (Other)": { label: "etiquette_other", base: "10", skill: "etiquette_other_skill_mdr", bonus: "etiquette_other_mdr", group: "Social", notes: "Etiquette may be specialized: (Corporate), (Military), (Underworld), (Racial), etc." },
- "Forgery": { label: "forgery", base: "1", skill: "forgery_skill_mdr", bonus: "forgery_mdr", group: "Social", notes: "Creating falsified documents, IDs, credentialsphysical or digital." },
+ "Forgery": { label: "forgery", base: "1", skill: "forgery_skill_mdr", bonus: "forgery_mdr", group: "Social", notes: "Creating falsified documents, IDs, credentials physical or digital." },
  "Impersonation": { label: "impersonation", base: "5", skill: "impersonation_skill_mdr", bonus: "impersonation_mdr", group: "Social", notes: "Performance (Impersonation)" },
  "Insight": { label: "insight", base: "10", skill: "insight_skill_mdr", bonus: "insight_mdr", group: "Social", notes: "Insight" },
  "Instrument": { label: "instrument", base: "5", skill: "instrument_skill_mdr", bonus: "instrument_mdr", group: "Social", notes: "Performance (Instrument)" },
@@ -11803,7 +11805,7 @@ function registerSkillHandler({
   on(watchFields.join(" "), () => {
     getAttrs([...new Set(getKeys.concat(debugField))], values => {
       const activeRaceValue = values["showracials"];
-      const activeRace = raceValueMap[activeRaceValue];
+      const activeRace = raceValueMap[String(activeRaceValue)];
       const isActiveRace = activeRace === racePrefix;
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
@@ -11813,6 +11815,16 @@ function registerSkillHandler({
       const selectedTalent = values[`${racePrefix}_talent_choice`];
       const talentBonusVal = parseInt(values[`${racePrefix}_talent_bonus_mdr`]) || 0;
       const talentDropdownActive = values[`${racePrefix}_talent_mdr_checkbox`] === "true";
+
+  getAttrs(["showracials"], values => {
+    const raceKey = String(values.showracials); // ensure string key
+    const race = raceValueMap[raceKey] || "unknown";
+    
+	console.log("function registerSkillHandler");
+    console.log("Race ID:", raceKey);
+    console.log(`Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
+    console.log(`Initializing racial bonuses for: ${race}`);
+    });
 
       let debugLines = [];
 
@@ -11863,46 +11875,64 @@ function registerSkillHandler({
 }
 
 
+
 on("sheet:opened", function () {
-  const initKey = "racial_bonuses_initialized";
-
-  getAttrs([initKey, "showracials"], values => {
-    if (values[initKey] === "1") return;
-
-    const updates = { [initKey]: "1" };
-    const allSkills = new Set();
-
-    // Loop through all races in backgroundSkillMap
-    Object.keys(backgroundSkillMap).forEach(race => {
-      const raceBackgrounds = backgroundSkillMap[race];
-      const backgroundSkills = Object.values(raceBackgrounds).flatMap(skills => Object.keys(skills));
-      Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
-      updates[`${race}_background_bonus_mdr`] = "5";
-      updates[`${race}_background_description`] = "";
-      backgroundSkills.forEach(skill => allSkills.add(skill));
+    getAttrs(["showracials"], values => {
+    const raceKey = String(values.showracials); // ensure string key
+    const race = raceValueMap[raceKey] || "unknown";
+    
+    console.log("on(sheet:opened, function)");
+    console.log("Race ID:", raceKey);
+    console.log(`Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
+    console.log(`Initializing racial bonuses for: ${race}`);
     });
 
-    // Loop through all races in talentSkillMap
-    Object.keys(talentSkillMap).forEach(race => {
-      const raceTalents = talentSkillMap[race];
-      const talentSkills = Object.values(raceTalents).flatMap(skills => Object.keys(skills));
-      Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
-      updates[`${race}_talent_bonus_mdr`] = "10";
-      updates[`${race}_talent_description`] = "";
-      talentSkills.forEach(skill => allSkills.add(skill));
-    });
+    const initKey = "racial_bonuses_initialized";
 
-    // Initialize skill values from skillMapTable
-    Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
-      const defaultVal = parseInt(base, 10) || 0;
-      updates[`${label}_skill_mdr`] = defaultVal;
-      updates[`${label}_mdr`] = defaultVal;
-      updates[`${label}_note`] = notes || "";
-    });
+    getAttrs([initKey, "showracials"], values => {
+    
+        if (values[initKey] === "1") return;
+		
+		console.log("First time initialization");
+		
+        const updates = { [initKey]: "1" };
+        const allSkills = new Set();
 
-    setAttrs(updates);
-  });
+        // Loop through all races in backgroundSkillMap
+        Object.keys(backgroundSkillMap).forEach(race => {
+		console.log("backgroundSkillMap call - Race value: ", race);
+        const raceBackgrounds = backgroundSkillMap[race];
+        const backgroundSkills = Object.values(raceBackgrounds).flatMap(skills => Object.keys(skills));
+        Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
+        updates[`${race}_background_bonus_mdr`] = "5";
+        updates[`${race}_background_description`] = "";
+        backgroundSkills.forEach(skill => allSkills.add(skill));
+        });
+
+        // Loop through all races in talentSkillMap
+        Object.keys(talentSkillMap).forEach(race => {
+		console.log("talentSkillMap call - Race value: ", race);
+        const raceTalents = talentSkillMap[race];
+        const talentSkills = Object.values(raceTalents).flatMap(skills => Object.keys(skills));
+        Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
+        updates[`${race}_talent_bonus_mdr`] = "10";
+        updates[`${race}_talent_description`] = "";
+        talentSkills.forEach(skill => allSkills.add(skill));
+        });
+
+        // Initialize skill values from skillMapTable
+        Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
+		console.log("skillMapTable call - Label value: ", label, " base value: ", base);
+        const defaultVal = parseInt(base, 10) || 0;
+        updates[`${label}_skill_mdr`] = defaultVal;
+        updates[`${label}_mdr`] = defaultVal;
+        updates[`${label}_note`] = notes || "";
+        });
+
+        setAttrs(updates);
+    });
 });
+
 
 function registerBackgroundChoiceHandler(race) {
   on(`change:${race}_background_choice`, () => {
@@ -12032,9 +12062,19 @@ registerSkillHandler({
 });
 
 on("change:showracials sheet:opened", () => {
+    getAttrs(["showracials"], values => {
+    const raceKey = String(values.showracials); // ensure string key
+    const race = raceValueMap[raceKey] || "unknown";
+    
+	console.log("on(change:showracials sheet:opened)");
+    console.log("Race ID:", raceKey);
+    console.log(`Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
+    console.log(`Initializing racial bonuses for: ${race}`);
+});
+  
   getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
     const raceId = values.showracials;
-    const race = raceValueMap[raceId] || "human"; // fallback default
+    const race = raceValueMap[String(raceId)] || "human"; // fallback default
 
     const racialLang = raceLanguageMap[race] || "Racial";
     const otherLang = race === "human" ? "Other" : "Caltheran";
@@ -12504,7 +12544,3 @@ on("change:showracials sheet:opened", () => {
 
   });
 </script>
-
-
-
-

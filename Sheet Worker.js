@@ -506,24 +506,6 @@ function registerBackgroundChoiceHandler(race) {
 }
 
 
-function registerBackgroundChoiceHandler(race) {
-  on(`change:${race}_background_choice`, () => {
-    getAttrs([`${race}_background_choice`, `${race}_mdr_checkbox`], values => {
-      const choice = values[`${race}_background_choice`];
-      const isChecked = values[`${race}_mdr_checkbox`] === "true";
-      const bonus = isChecked ? 5 : 0;
-
-      const skillName = backgroundSkillMap[race]?.[choice] || "";
-      const description = isChecked && skillName ? `Gain +${bonus}% ${skillName} Skill` : "";
-
-      setAttrs({
-        [`${race}_background_description`]: description,
-        [`${race}_background_bonus_mdr`]: bonus.toString()
-      });
-    });
-  });
-}
-
 // Register background handlers for all supported races
 Object.keys(backgroundSkillMap).forEach(registerBackgroundChoiceHandler);
 

@@ -2377,7 +2377,7 @@
                     <td><input type="checkbox" name="attr_magic_technomancy_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_technomancy-u">Technomancy(0%)</td>
                     <td><input class="skill-input" type="text" name="attr_magic_technomancy_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_mdr" value="@{magic_technomancy_mdr}" readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_mdr" readonly /></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_technomancy_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_technomancy_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_technomancy_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_technomancy_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_technomancy_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_warding">
@@ -2390,7 +2390,7 @@
                 <tr data-i18n-list-item="magic_universal">
                     <td><input type="checkbox" name="attr_magic_universal_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_universal-u">Universal(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_universal_mdr"  /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_universal_skill_mdr" readonly /></td>
                     <td><input class="skill-input" type="text" name="attr_magic_universal_mdr"  readonly /></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_universal_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_universal_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_universal_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_universal_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_universal_mdr_check' /></td>
                 </tr>
@@ -12115,6 +12115,40 @@ on("change:showracials sheet:opened", () => {
     setAttrs(updates);
   });
 });
+
+// List of relevant attributes
+const magicSchools = [
+  "magic_alteration_mdr",
+  "magic_elemental_mdr",
+  "magic_enchantment_mdr",
+  "magic_illusion_mdr",
+  "magic_necromancy_mdr",
+  "magic_restoration_mdr",
+  "magic_summoning_mdr",
+  "magic_technomancy_mdr",
+  "magic_warding_mdr",
+  "magic_universal_skill_mdr"
+];
+
+// Trigger on any of the above changing
+on(`change:${magicSchools.join(' change:')}`, () => {
+  getAttrs(magicSchools, values => {
+    const schoolValues = magicSchools
+      .slice(0, 9) // first 9 are school values
+      .map(attr => parseInt(values[attr], 10) || 0);
+
+    const baseUniversal = parseInt(values.magic_universal_skill_mdr, 10) || 0;
+    const highestSchool = Math.max(...schoolValues);
+    const total = highestSchool + baseUniversal;
+
+    console.log(`Highest Magic School: ${highestSchool}`);
+    console.log(`Universal Base: ${baseUniversal}`);
+    console.log(`Total Universal: ${total}`);
+
+    setAttrs({ magic_universal_mdr: total });
+  });
+});
+
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:mag change:mag add:vitality change:vitality add:language_caltheran_skill_mdr change:language_caltheran_skill_mdr", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill_mdr", "edu", "mag", "vitality", "language_caltheran_skill_mdr"], function(values) {

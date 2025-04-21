@@ -1,3 +1,4 @@
+
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -688,6 +689,40 @@ on("change:showracials sheet:opened", () => {
     setAttrs(updates);
   });
 });
+
+// List of relevant attributes
+const magicSchools = [
+  "magic_alteration_mdr",
+  "magic_elemental_mdr",
+  "magic_enchantment_mdr",
+  "magic_illusion_mdr",
+  "magic_necromancy_mdr",
+  "magic_restoration_mdr",
+  "magic_summoning_mdr",
+  "magic_technomancy_mdr",
+  "magic_warding_mdr",
+  "magic_universal_skill_mdr"
+];
+
+// Trigger on any of the above changing
+on(`change:${magicSchools.join(' change:')}`, () => {
+  getAttrs(magicSchools, values => {
+    const schoolValues = magicSchools
+      .slice(0, 9) // first 9 are school values
+      .map(attr => parseInt(values[attr], 10) || 0);
+
+    const baseUniversal = parseInt(values.magic_universal_skill_mdr, 10) || 0;
+    const highestSchool = Math.max(...schoolValues);
+    const total = highestSchool + baseUniversal;
+
+    console.log(`Highest Magic School: ${highestSchool}`);
+    console.log(`Universal Base: ${baseUniversal}`);
+    console.log(`Total Universal: ${total}`);
+
+    setAttrs({ magic_universal_mdr: total });
+  });
+});
+
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:mag change:mag add:vitality change:vitality add:language_caltheran_skill_mdr change:language_caltheran_skill_mdr", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill_mdr", "edu", "mag", "vitality", "language_caltheran_skill_mdr"], function(values) {

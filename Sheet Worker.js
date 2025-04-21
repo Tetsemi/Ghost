@@ -214,6 +214,7 @@ const skillMapTable = {
  "Language(Caltheran)": { label: "caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" }
 };
 
+//----------------------- Tab Workers Start ----------------------//
 
 const tabList = ["skills", "background", "talents", "combat", "spells", "inventory", "backstory", "npcs", "vehicles"];
 
@@ -222,6 +223,24 @@ const tabList = ["skills", "background", "talents", "combat", "spells", "invento
       setAttrs({ selected_tab: tab });
     });
 });
+
+const humanBackgroundTabs = ["ash_war_refugee", "data_hatched", "enclave_born", "gutter_fire_youth", "outpost_raised", "scavsteel_whelp"];
+
+	humanBackgroundTabs.forEach(tab => {
+		on(`clicked:${tab}`, () => {
+		setAttrs({ human_background_choice: tab });
+	});
+});
+
+const humanTalentTabs = ["quick_fixer", "skilled_focus"];
+
+	humanTalentTabs.forEach(tab => {
+		on(`clicked:${tab}`, () => {
+		setAttrs({ human_talent_tab: tab });
+	});
+});
+
+//----------------------- Tab Workers End ----------------------//
 
 // Mirror select dropdown value to hidden input (for CSS Wizardry styling)
 on("change:repeating_spells:spellprepared", function(eventInfo) {
@@ -389,12 +408,14 @@ function registerSkillHandler({
 	  	console.log("function registerSkillHandler on(watchFields)");
 		console.log("Active Race Value:", activeRaceValue);
 		console.log(`Sheet opened. Race ID: ${activeRaceValue} | Mapped Race: ${activeRace}`);
-		console.log(`Initializing racial bonuses for: ${race}`);
+		console.log(`Initializing racial bonuses for: ${activeRace}`);
+		console.log("Race Prefix", racePrefix);
 		console.log("Is Active Race: ", isActiveRace);
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
       const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
       const backgroundActive = values[`${racePrefix}_mdr_checkbox`] === "true";
+
 
       const selectedTalent = values[`${racePrefix}_talent_choice`];
       const talentBonusVal = parseInt(values[`${racePrefix}_talent_bonus_mdr`]) || 0;
@@ -403,47 +424,50 @@ function registerSkillHandler({
       let debugLines = [];
 
       const skills = triggerSkills.map(skill => {
-        const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
+		const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
 
-        const backgroundBonus = isActiveRace && (
-          backgroundDropdown
-            ? selectedBackground === skill && backgroundActive
-            : values[`${racePrefix}_mdr_checkbox`] === skill
-        )
-          ? (backgroundDropdown ? backgroundBonusVal : parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
-          : 0;
+		if (!isActiveRace) {
+        // Don't update for non-active races — just return
+		return;
+		}
 
-        let talentStaticBonus = 0;
-        let talentDropdownBonus = 0;
+		const backgroundBonus = (
+			backgroundDropdown
+			? selectedBackground === skill && backgroundActive
+			: values[`${racePrefix}_mdr_checkbox`] === skill
+		)
+		? (backgroundDropdown ? backgroundBonusVal : parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
+		: 0;
 
-        // Static talent bonuses
-        if (isActiveRace) {
-          talentSources.forEach(source => {
-            const checkboxValue = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
-            if (checkboxValue === `talent_${skill}`) {
-              talentStaticBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
-            }
-          });
+		let talentStaticBonus = 0;
+		let talentDropdownBonus = 0;
 
-          // Dropdown talent bonus
-          if (talentDropdown && talentDropdownActive && selectedTalent === skill) {
-            talentDropdownBonus = talentBonusVal;
-          }
-        }
+		// Static talent bonuses
+		talentSources.forEach(source => {
+			const checkboxValue = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
+			if (checkboxValue === `talent_${skill}`) {
+				talentStaticBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
+			}
+		});
 
-        const totalTalent = talentStaticBonus + talentDropdownBonus;
-        const total = base + backgroundBonus + totalTalent;
+		// Dropdown talent bonus
+		if (talentDropdown && talentDropdownActive && selectedTalent === skill) {
+			talentDropdownBonus = talentBonusVal;
+		}
 
-        debugLines.push(`Talent bonus for ${skill}: static=${talentStaticBonus}, dropdown=${talentDropdownBonus}, total=${totalTalent}`);
-        debugLines.push(`${skill}: base=${base}, bg=${backgroundBonus}, talent=${totalTalent}, total=${total}`);
+		const totalTalent = talentStaticBonus + talentDropdownBonus;
+		const total = base + backgroundBonus + totalTalent;
 
-        return { [`${skill}_mdr`]: total };
-      });
+		console.log(`Talent bonus for ${skill}: static=${talentStaticBonus}, dropdown=${talentDropdownBonus}, total=${totalTalent}`);
+		console.log(`${skill}: base=${base}, bg=${backgroundBonus}, talent=${totalTalent}, total=${total}`);
 
-      const updates = Object.assign({}, ...skills);
-      updates[debugField] = debugLines.reverse().slice(-10).join("\n");
+		return { [`${skill}_mdr`]: total };
+	});
 
-      setAttrs(updates);
+
+    const updates = Object.assign({}, ...skills);
+      
+    setAttrs(updates);
     });
   });
 }
@@ -622,7 +646,7 @@ registerSkillHandler({
   triggerSkills: ["first_aid", "insight", "alchemy", "anthropology", "archaeology", "architecture", "biology", "chemistry", "engineering", "medicine", "physics", "slicing", "etiquette_high_society", "persuade", "stealth", "streetwise", "firearms_rifle", "survival", "electronics", "mechanics"],
   racePrefix: "human",
   talentSources: ["quick_fixer", "shaped_for_subtlety"],
-  backgroundDropdown: true,
+  backgroundDropdown: false,
   talentDropdown: false
 });
 
@@ -632,7 +656,7 @@ registerSkillHandler({
   racePrefix: "lyranni",
   talentSources: ["aether_override", "echo_in_the_veins"],
   backgroundDropdown: false,
-  talentDropdown: true
+  talentDropdown: false
 });
 
 on("change:showracials sheet:opened", () => {

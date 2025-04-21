@@ -1,4 +1,3 @@
-
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -405,75 +404,67 @@ function registerSkillHandler({
       const activeRaceValue = values["showracials"];
       const activeRace = raceValueMap[String(activeRaceValue)];
       const isActiveRace = activeRace === racePrefix;
-	  
-	  	console.log("function registerSkillHandler on(watchFields)");
-		console.log("Active Race Value:", activeRaceValue);
-		console.log(`Sheet opened. Race ID: ${activeRaceValue} | Mapped Race: ${activeRace}`);
-		console.log(`Initializing racial bonuses for: ${activeRace}`);
-		console.log("Race Prefix", racePrefix);
-		console.log("Is Active Race: ", isActiveRace);
+
+      console.log("function registerSkillHandler on(watchFields)");
+      console.log("Active Race Value:", activeRaceValue);
+      console.log(`Sheet opened. Race ID: ${activeRaceValue} | Mapped Race: ${activeRace}`);
+      console.log(`Initializing racial bonuses for: ${activeRace}`);
+      console.log("Race Prefix", racePrefix);
+      console.log("Is Active Race: ", isActiveRace);
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
       const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
       const backgroundActive = values[`${racePrefix}_mdr_checkbox`] === "true";
 
-
       const selectedTalent = values[`${racePrefix}_talent_choice`];
       const talentBonusVal = parseInt(values[`${racePrefix}_talent_bonus_mdr`]) || 0;
       const talentDropdownActive = values[`${racePrefix}_talent_mdr_checkbox`] === "true";
 
-      let debugLines = [];
+      let updates = {};
 
-      const skills = triggerSkills.map(skill => {
-		const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
+      triggerSkills.forEach(skill => {
+        const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
 
-		if (!isActiveRace) {
-        // Don't update for non-active races — just return
-		return;
-		}
+        const backgroundBonus = (
+          backgroundDropdown
+          ? selectedBackground === skill && backgroundActive
+          : values[`${racePrefix}_mdr_checkbox`] === skill
+        )
+        ? (backgroundDropdown ? backgroundBonusVal : parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
+        : 0;
 
-		const backgroundBonus = (
-			backgroundDropdown
-			? selectedBackground === skill && backgroundActive
-			: values[`${racePrefix}_mdr_checkbox`] === skill
-		)
-		? (backgroundDropdown ? backgroundBonusVal : parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
-		: 0;
+        let talentStaticBonus = 0;
+        let talentDropdownBonus = 0;
 
-		let talentStaticBonus = 0;
-		let talentDropdownBonus = 0;
+        talentSources.forEach(source => {
+          const checkboxValue = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
+          if (checkboxValue === `talent_${skill}`) {
+            talentStaticBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
+          }
+        });
 
-		// Static talent bonuses
-		talentSources.forEach(source => {
-			const checkboxValue = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
-			if (checkboxValue === `talent_${skill}`) {
-				talentStaticBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
-			}
-		});
+        if (talentDropdown && talentDropdownActive && selectedTalent === skill) {
+          talentDropdownBonus = talentBonusVal;
+        }
 
-		// Dropdown talent bonus
-		if (talentDropdown && talentDropdownActive && selectedTalent === skill) {
-			talentDropdownBonus = talentBonusVal;
-		}
+        const totalTalent = talentStaticBonus + talentDropdownBonus;
+        const total = base + backgroundBonus + totalTalent;
 
-		const totalTalent = talentStaticBonus + talentDropdownBonus;
-		const total = base + backgroundBonus + totalTalent;
+        updates[`${skill}_mdr`] = total;
+        updates[`${racePrefix}_skill_debug`] = `Calc: ${base} + ${backgroundBonus} + ${totalTalent} = ${total}`;
 
-		console.log(`Talent bonus for ${skill}: static=${talentStaticBonus}, dropdown=${talentDropdownBonus}, total=${totalTalent}`);
-		console.log(`${skill}: base=${base}, bg=${backgroundBonus}, talent=${totalTalent}, total=${total}`);
+        console.log(`--- Skill Update: ${skill} ---`);
+        console.log(`Base: ${skill}_skill_mdr = ${base}`);
+        console.log(`Background: ${racePrefix}_${skill}_bonus_mdr = ${backgroundBonus}`);
+        console.log(`Talent: ${racePrefix}_talent_${skill}_bonus_mdr = ${totalTalent}`);
+        console.log(`isActive: ${isActiveRace}`);
+        console.log(`Total => ${skill}_mdr = ${total}`);
+      });
 
-		return { [`${skill}_mdr`]: total };
-	});
-
-
-    const updates = Object.assign({}, ...skills);
-      
-    setAttrs(updates);
+      setAttrs(updates);
     });
   });
 }
-
-
 
 on("sheet:opened", function () {
     getAttrs(["showracials"], values => {

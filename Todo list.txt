@@ -6,12 +6,11 @@ Combat and Spells
 
 Add Magic_Universal for Other 1
 
+Update code to reset calculations when switch races, currently non-active race skill bonuses from background and talents are applying.
+Do not regress code so values aren't saved and reapplied for active race.
+Possible fix, when switching races, all *_mdr is reset to *_skill_mdr and then bonuses for the active race are applied from backgrounds and talents for that race.
 
-Huamn skills are now working, look into the issue below.
+So it would be
 
-		
-
-
-
-	Shared Background and Talents are not getting applied correctly, but backgrounds and talents that only one race has or that no race has, are working.
-
+reset *_mdr to *_skill_mdr (so you don't overwrite someone adding skill points
+apply bonuses based on checkboxes checked for backgrounds and talents for the active race only.

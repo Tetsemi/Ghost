@@ -4851,25 +4851,47 @@
               <th>Description</th>
               <th>Val</th>
             </tr>
-            <tr>
-              <td><input type="checkbox" name="attr_lyranni_talent_mdr_checkbox" value="true"></td>
-              <td>
-                <select name="attr_lyranni_talent_choice">
-                  <option value="">-- Select --</option>
-                  <optgroup label="Performance Talents">
-                    <option value="dance">Dance (05%)</option>
-                    <option value="impersonation">Impersonation (05%)</option>
-                    <option value="instrument">Instrument (05%)</option>
-                    <option value="singing">Singing (05%)</option>
-                  </optgroup>
-                  <optgroup label="Insight">
-                    <option value="insight">Insight (10%)</option>
-                    <option value="slicing">Slicing (05%)</option>
-                  </optgroup>
-                </select>
-              </td>
-              <td><span name="attr_lyranni_talent_description"></span></td>
-              <td><input class="skill-input" type="text" name="attr_lyranni_talent_bonus_mdr" value="@{lyranni_talent_bonus_mdr}" readonly></td>
+            <!-- Dance Talent -->
+            <tr data-i18n-list-item="lyranni_talent_dance">
+               <td><input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_dance"></td>
+               <td class="racial-label" data-i18n="lyranni_talent_dance-u">Dance +5%</td>
+               <td>Gain +5% Dance Skill</td>
+               <td><input class="skill-input" type="text" name="attr_lyranni_talent_dance_bonus_mdr" value="@{lyranni_talent_dance_bonus_mdr}" readonly></td>
+            </tr>
+            <!-- Impersonation Talent -->
+            <tr data-i18n-list-item="lyranni_talent_impersonation">
+               <td><input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_impersonation"></td>
+               <td class="racial-label" data-i18n="lyranni_talent_impersonation-u">Impersonation +5%</td>
+               <td>Gain +5% Impersonation Skill</td>
+               <td><input class="skill-input" type="text" name="attr_lyranni_talent_impersonation_bonus_mdr" value="@{lyranni_talent_impersonation_bonus_mdr}" readonly></td>
+            </tr>
+            <!-- Instrument Talent -->
+            <tr data-i18n-list-item="lyranni_talent_instrument">
+               <td><input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_instrument"></td>
+               <td class="racial-label" data-i18n="lyranni_talent_instrument-u">Instrument +5%</td>
+               <td>Gain +5% Instrument Skill</td>
+               <td><input class="skill-input" type="text" name="attr_lyranni_talent_instrument_bonus_mdr" value="@{lyranni_talent_instrument_bonus_mdr}" readonly></td>
+            </tr>
+            <!-- Singing Talent -->
+            <tr data-i18n-list-item="lyranni_talent_singing">
+               <td><input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_singing"></td>
+               <td class="racial-label" data-i18n="lyranni_talent_singing-u">Singing +5%</td>
+               <td>Gain +5% Singing Skill</td>
+               <td><input class="skill-input" type="text" name="attr_lyranni_talent_singing_bonus_mdr" value="@{lyranni_talent_singing_bonus_mdr}" readonly></td>
+            </tr>
+            <!-- Insight Talent -->
+            <tr data-i18n-list-item="lyranni_talent_insight">
+               <td><input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_insight"></td>
+               <td class="racial-label" data-i18n="lyranni_talent_insight-u">Insight +10%</td>
+               <td>Gain +10% Insight Skill</td>
+               <td><input class="skill-input" type="text" name="attr_lyranni_talent_insight_bonus_mdr" value="@{lyranni_talent_insight_bonus_mdr}" readonly></td>
+            </tr>
+            <!-- Slicing Talent -->
+            <tr data-i18n-list-item="lyranni_talent_slicing">
+               <td><input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_slicing"></td>
+               <td class="racial-label" data-i18n="lyranni_talent_slicing-u">Slicing +5%</td>
+               <td>Gain +5% Slicing Skill</td>
+               <td><input class="skill-input" type="text" name="attr_lyranni_talent_slicing_bonus_mdr" value="@{lyranni_talent_slicing_bonus_mdr}" readonly></td>
             </tr>
           </table>
         </td>
@@ -12053,7 +12075,7 @@ registerSkillHandler({
   racePrefix: "lyranni",
   talentSources: ["aether_override", "echo_in_the_veins"],
   backgroundDropdown: false,
-  talentDropdown: true
+  talentDropdown: false
 });
 
 on("change:showracials sheet:opened", () => {

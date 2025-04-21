@@ -3832,20 +3832,23 @@
 <!-- Start of Alteri Backgrounds (Dropdown Selection + Toggle CSS Method) -->
 <input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" value="1">
 <div class="sheet-racials1">
-  <input type="hidden" name="attr_alteri_background_choice">
-  <!-- Background Selection Dropdown -->
   <div class="sheet-section" style="width: 97.7%">
-    <label><b>Select Background:</b></label>
-	<select name="attr_alteri_background_choice">
-		<option value="break_faced_radical">Break-Faced Radical</option>
-		<option value="ghostline_runner">Ghostline Runner</option>
-		<option value="legacy_bearer">Legacy-Bearer</option>
-		<option value="soft_year_drifter">Soft-Year Drifter</option>
-		<option value="veilhaven_attendant">Veilhaven Attendant</option>
-	</select>
+<!-- Alteri Backgrounds Tabbed Menu -->
+<input type="hidden" name="attr_alteri_background_choice" class="sheet-tab-controller">
 
-    <!-- Break-Faced Radical -->
-    <div class="sheet-bgblock sheet-bg-breakfaced">
+<!-- Tab Buttons -->
+<div class="sheet-tab-buttons">
+  <button type="action" name="act_break_faced_radical">Break-Faced Radical</button>
+  <button type="action" name="act_ghostline_runner">Ghostline Runner</button>
+  <button type="action" name="act_legacy_bearer">Legacy-Bearer</button>
+  <button type="action" name="act_soft_year_drifter">Soft-Year Drifter</button>
+  <button type="action" name="act_veilhaven_attendant">Veilhaven Attendant</button>
+</div>
+
+<!-- Break-Faced Radical -->
+<div class="sheet-bgblock sheet-bg-break_faced_radical">
+  <div class="sheet-bgblock-flex">
+    <div class="sheet-bg-content-left">
       <h3 class="section-head sheet-background-section-head talent-center">Break-Faced Radical</h3>
       <table class="talent-table">
         <tr class="sheet-talent-header">
@@ -3865,9 +3868,16 @@
         </tr>
       </table>
     </div>
+    <div class="sheet-bg-content-right">
+      <img src="https://example.com/logos/break_faced_radical.png" alt="Break-Faced Radical Logo">
+    </div>
+  </div>
+</div>
 
-    <!-- Ghostline Runner -->
-    <div class="sheet-bgblock sheet-bg-ghostline">
+<!-- Ghostline Runner -->
+<div class="sheet-bgblock sheet-bg-ghostline_runner">
+  <div class="sheet-bgblock-flex">
+    <div class="sheet-bg-content-left">
       <h3 class="section-head sheet-background-section-head talent-center">Ghostline Runner</h3>
       <table class="talent-table">
         <tr class="sheet-talent-header">
@@ -3887,9 +3897,16 @@
         </tr>
       </table>
     </div>
+    <div class="sheet-bg-content-right">
+      <img src="https://example.com/logos/ghostline_runner.png" alt="Ghostline Runner Logo">
+    </div>
+  </div>
+</div>
 
-    <!-- Legacy-Bearer -->
-    <div class="sheet-bgblock sheet-bg-legacy">
+<!-- Legacy-Bearer -->
+<div class="sheet-bgblock sheet-bg-legacy_bearer">
+  <div class="sheet-bgblock-flex">
+    <div class="sheet-bg-content-left">
       <h3 class="section-head sheet-background-section-head talent-center">Legacy-Bearer</h3>
       <table class="talent-table">
         <tr class="sheet-talent-header">
@@ -3909,9 +3926,16 @@
         </tr>
       </table>
     </div>
+    <div class="sheet-bg-content-right">
+      <img src="https://example.com/logos/legacy_bearer.png" alt="Legacy-Bearer Logo">
+    </div>
+  </div>
+</div>
 
-    <!-- Soft-Year Drifter -->
-    <div class="sheet-bgblock sheet-bg-softyear">
+<!-- Soft-Year Drifter -->
+<div class="sheet-bgblock sheet-bg-soft_year_drifter">
+  <div class="sheet-bgblock-flex">
+    <div class="sheet-bg-content-left">
       <h3 class="section-head sheet-background-section-head talent-center">Soft-Year Drifter</h3>
       <table class="talent-table">
         <tr class="sheet-talent-header">
@@ -3931,9 +3955,16 @@
         </tr>
       </table>
     </div>
+    <div class="sheet-bg-content-right">
+      <img src="https://example.com/logos/soft_year_drifter.png" alt="Soft-Year Drifter Logo">
+    </div>
+  </div>
+</div>
 
-    <!-- Veilhaven Attendant -->
-    <div class="sheet-bgblock sheet-bg-veilhaven">
+<!-- Veilhaven Attendant -->
+<div class="sheet-bgblock sheet-bg-veilhaven_attendant">
+  <div class="sheet-bgblock-flex">
+    <div class="sheet-bg-content-left">
       <h3 class="section-head sheet-background-section-head talent-center">Veilhaven Attendant</h3>
       <table class="talent-table">
         <tr class="sheet-talent-header">
@@ -3953,10 +3984,12 @@
         </tr>
       </table>
     </div>
+    <div class="sheet-bg-content-right">
+      <img src="https://example.com/logos/veilhaven_attendant.png" alt="Veilhaven Attendant Logo">
+    </div>
+  </div>
+</div>
 
-    <fieldset class="repeating_racials">
-      <textarea name="attr_racial1" style="width:99%;height:38px;font-size:90%"></textarea>
-    </fieldset>
   </div>
 </div>
 
@@ -11645,25 +11678,33 @@ const skillMapTable = {
 
 const tabList = ["skills", "background", "talents", "combat", "spells", "inventory", "backstory", "npcs", "vehicles"];
 
-  tabList.forEach(tab => {
+tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
       setAttrs({ selected_tab: tab });
     });
 });
 
+const alteriBackgroundTabs = ["break_faced_radical", "ghostline_runner", "legacy_bearer", "soft_year_drifter", "veilhaven_attendant"];
+
+alteriBackgroundTabs.forEach(tab => {
+	on(`clicked:${tab}`, () => {
+		setAttrs({ alteri_background_choice: tab });
+	});
+});
+
 const humanBackgroundTabs = ["ash_war_refugee", "data_hatched", "enclave_born", "gutter_fire_youth", "outpost_raised", "scavsteel_whelp"];
 
-	humanBackgroundTabs.forEach(tab => {
+humanBackgroundTabs.forEach(tab => {
 		on(`clicked:${tab}`, () => {
-		setAttrs({ human_background_choice: tab });
+			setAttrs({ human_background_choice: tab });
 	});
 });
 
 const humanTalentTabs = ["quick_fixer", "skilled_focus"];
 
-	humanTalentTabs.forEach(tab => {
+humanTalentTabs.forEach(tab => {
 		on(`clicked:${tab}`, () => {
-		setAttrs({ human_talent_tab: tab });
+			setAttrs({ human_talent_tab: tab });
 	});
 });
 

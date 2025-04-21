@@ -281,6 +281,8 @@ input.tooltip-field {
 
 /* -------------------- end of Background and Talent ------------------------*/
 
+/* --------------------- Tabbed Selection Bar Start ------------------------------------------------------- */
+
 /* Hide all content sections by default */
 .sheet-tab-content {
   display: none;
@@ -332,8 +334,66 @@ input.tooltip-field {
   background-color: #222;
 }
 
+/* ------------------- Tabs - Background styling - Start ------------------------------------------------------- */
 
-/* -------------------------------------------------------------------------- */
+/* Default hidden */
+.sheet-bgblock {
+  display: none;
+}
+
+.sheet-bgblock-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.sheet-bg-content-left {
+  flex: 1 1 48%;
+  min-width: 280px;
+}
+
+.sheet-bg-content-right {
+  flex: 1 1 48%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  border: 1px dashed #666;
+  background: #1a1a1a;
+  padding: 5px;
+}
+
+.sheet-bg-content-right img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Show correct background block */
+.sheet-tab-controller[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-bg-ashwar,
+.sheet-tab-controller[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-bg-datahatched,
+.sheet-tab-controller[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-bg-enclave,
+.sheet-tab-controller[name="attr_human_background_choice"][value="gutter_fire_youth"] ~ .sheet-bg-gutterfire,
+.sheet-tab-controller[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-bg-outpost,
+.sheet-tab-controller[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-bg-scavsteel {
+  display: block;
+}
+
+/* Display only the active human background section */
+.sheet-tab-controller[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-tab-buttons button[name="act_ash_war_refugee"],
+.sheet-tab-controller[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-tab-buttons button[name="act_data_hatched"],
+.sheet-tab-controller[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-tab-buttons button[name="act_enclave_born"],
+.sheet-tab-controller[name="attr_human_background_choice"][value="gutter_fire_youth"] ~ .sheet-tab-buttons button[name="act_gutter_fire_youth"],
+.sheet-tab-controller[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-tab-buttons button[name="act_outpost_raised"],
+.sheet-tab-controller[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-tab-buttons button[name="act_scavsteel_whelp"] {
+  background-color: #222;
+}
+
+/* --------------------- Tabs - Background styling - End ----------------------------------------------------- */
+
+/* --------------------- Tabbed Selection Bar - End  --------------------------------------------------------- */
 
 
 .charsheet div.sheet-simplearmorsection {

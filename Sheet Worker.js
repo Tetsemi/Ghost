@@ -233,6 +233,14 @@ alteriBackgroundTabs.forEach(tab => {
 	});
 });
 
+const draeviBackgroundTabs = ["forgeblood_scavenger", "horn_carved_wanderer", "spiritbound_techshaper", "tradition_keeper"];
+
+draeviBackgroundTabs.forEach(tab => {
+	on(`clicked:${tab}`, () => {
+		setAttrs({ draevi_background_choice: tab });
+	});
+});
+
 const humanBackgroundTabs = ["ash_war_refugee", "data_hatched", "enclave_born", "gutter_fire_youth", "outpost_raised", "scavsteel_whelp"];
 
 humanBackgroundTabs.forEach(tab => {
@@ -240,6 +248,15 @@ humanBackgroundTabs.forEach(tab => {
 			setAttrs({ human_background_choice: tab });
 	});
 });
+
+const lyranniBackgroundTabs = ["aelvareth_devotee", "echoborne", "glide_spire_scion", "whisper_walker", "zurethkai_flameborn"];
+
+lyranniBackgroundTabs.forEach(tab => {
+	on(`clicked:${tab}`, () => {
+		setAttrs({ lyranni_background_choice: tab });
+	});
+});
+
 
 const humanTalentTabs = ["quick_fixer", "skilled_focus"];
 

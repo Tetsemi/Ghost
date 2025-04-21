@@ -1,3 +1,4 @@
+
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -218,25 +219,33 @@ const skillMapTable = {
 
 const tabList = ["skills", "background", "talents", "combat", "spells", "inventory", "backstory", "npcs", "vehicles"];
 
-  tabList.forEach(tab => {
+tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
       setAttrs({ selected_tab: tab });
     });
 });
 
+const alteriBackgroundTabs = ["break_faced_radical", "ghostline_runner", "legacy_bearer", "soft_year_drifter", "veilhaven_attendant"];
+
+alteriBackgroundTabs.forEach(tab => {
+	on(`clicked:${tab}`, () => {
+		setAttrs({ alteri_background_choice: tab });
+	});
+});
+
 const humanBackgroundTabs = ["ash_war_refugee", "data_hatched", "enclave_born", "gutter_fire_youth", "outpost_raised", "scavsteel_whelp"];
 
-	humanBackgroundTabs.forEach(tab => {
+humanBackgroundTabs.forEach(tab => {
 		on(`clicked:${tab}`, () => {
-		setAttrs({ human_background_choice: tab });
+			setAttrs({ human_background_choice: tab });
 	});
 });
 
 const humanTalentTabs = ["quick_fixer", "skilled_focus"];
 
-	humanTalentTabs.forEach(tab => {
+humanTalentTabs.forEach(tab => {
 		on(`clicked:${tab}`, () => {
-		setAttrs({ human_talent_tab: tab });
+			setAttrs({ human_talent_tab: tab });
 	});
 });
 

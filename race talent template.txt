@@ -1,0 +1,101 @@
+HTML Template (replace yourrace, talent_one, talent_two, skill_one, skill_two, etc.)
+
+<!-- Start of YourRace Talents -->
+<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" value="X" />
+<div class="sheet-racialsX">
+  <div class="sheet-section" style="width: 97.7%">
+
+    <!-- Talent Tab Controller -->
+    <input type="hidden" name="attr_yourrace_talent_tab" class="sheet-tab-controller" value="talent_one" />
+
+    <!-- Talent Tab Buttons -->
+    <div class="sheet-tab-buttons">
+      <button type="action" name="act_talent_one">Talent One</button>
+      <button type="action" name="act_talent_two">Talent Two</button>
+    </div>
+
+    <!-- Talent One -->
+    <div class="sheet-bgblock sheet-talent-talent_one">
+      <h3 class="section-head sheet-background-section-head talent-center">Talent One</h3>
+      <div class="sheet-bgblock-flex">
+        <div class="sheet-bg-content-left">
+          <table class="talent-table">
+            <tr class="sheet-talent-header">
+              <th class="col-a">A</th><th class="col-benefit">Benefit</th><th class="col-desc">Description</th><th class="col-val">Val</th>
+            </tr>
+            <tr>
+              <td><input type="checkbox" name="attr_yourrace_talent_one_mdr_checkbox" value="talent_skill_one" /></td>
+              <td>Skill One +10%</td>
+              <td>Gain +10% Skill One</td>
+              <td><input class="skill-input" type="text" name="attr_yourrace_talent_skill_one_bonus_mdr" readonly /></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" name="attr_yourrace_talent_one_mdr_checkbox" value="talent_skill_two" /></td>
+              <td>Skill Two +10%</td>
+              <td>Gain +10% Skill Two</td>
+              <td><input class="skill-input" type="text" name="attr_yourrace_talent_skill_two_bonus_mdr" readonly /></td>
+            </tr>
+          </table>
+        </div>
+        <div class="sheet-bg-content-right">
+          <img src="https://example.com/talent_one.png" alt="Talent One Logo" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Talent Two -->
+    <div class="sheet-bgblock sheet-talent-talent_two">
+      <h3 class="section-head sheet-background-section-head talent-center">Talent Two</h3>
+      <div class="sheet-bgblock-flex">
+        <div class="sheet-bg-content-left">
+          <table class="talent-table">
+            <tr class="sheet-talent-header">
+              <th class="col-a">A</th><th class="col-benefit">Benefit</th><th class="col-desc">Description</th><th class="col-val">Val</th>
+            </tr>
+            <tr>
+              <td><input type="checkbox" name="attr_yourrace_talent_two_mdr_checkbox" value="talent_skill_three" /></td>
+              <td>Skill Three +10%</td>
+              <td>Gain +10% Skill Three</td>
+              <td><input class="skill-input" type="text" name="attr_yourrace_talent_skill_three_bonus_mdr" readonly /></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" name="attr_yourrace_talent_two_mdr_checkbox" value="talent_skill_four" /></td>
+              <td>Skill Four +10%</td>
+              <td>Gain +10% Skill Four</td>
+              <td><input class="skill-input" type="text" name="attr_yourrace_talent_skill_four_bonus_mdr" readonly /></td>
+            </tr>
+          </table>
+        </div>
+        <div class="sheet-bg-content-right">
+          <img src="https://example.com/talent_two.png" alt="Talent Two Logo" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Repeating Talent Notes -->
+    <fieldset class="repeating_talents">
+      <textarea name="attr_talentX" style="width:99%;height:38px;font-size:90%"></textarea>
+    </fieldset>
+
+  </div>
+</div>
+
+const yourraceTalentTabs = ["talent_one", "talent_two"];
+
+yourraceTalentTabs.forEach(tab => {
+  on(`clicked:${tab}`, () => {
+    setAttrs({ yourrace_talent_tab: tab });
+  });
+});
+
+/* Show correct talent block */
+.sheet-tab-controller[name="attr_yourrace_talent_tab"][value="talent_one"] ~ .sheet-talent-talent_one,
+.sheet-tab-controller[name="attr_yourrace_talent_tab"][value="talent_two"] ~ .sheet-talent-talent_two {
+  display: block;
+}
+
+/* Highlight active tab button */
+.sheet-tab-controller[name="attr_yourrace_talent_tab"][value="talent_one"] ~ .sheet-tab-buttons button[name="act_talent_one"],
+.sheet-tab-controller[name="attr_yourrace_talent_tab"][value="talent_two"] ~ .sheet-tab-buttons button[name="act_talent_two"] {
+  background-color: #222;
+}

@@ -166,13 +166,6 @@
                 </tr>
             </table>
         </div>
-		<div>
-			<!-- Ensure racial bonuses are tracked -->
-			<input type="hidden" name="attr_racial_bonuses_initialized" value="0" />
-
-			<!-- Optional reset trigger for dev/testing -->
-			<button type="action" name="act_reset_initialization">Reset Initialization</button>
-		</div>
 
 		<!-- HTML: Race selection dropdown -->
 		<div style="text-align:left"><b>Race</b></div>
@@ -11413,6 +11406,7 @@ Bout of Madness-Summary---------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
+const debug_on = true;
 
 // Maps //
 const backgroundSkillMap = {
@@ -11787,6 +11781,7 @@ function setDefaultSkillBonuses(racePrefix, skills) {
   skills.forEach(skill => {
     updates[`${racePrefix}_${skill}_bonus_mdr`] = "5";
   });
+  if (debug_on) console.log("2. function setDefaultSkillBonuses used");
   return updates;
 }
 
@@ -11795,6 +11790,7 @@ function setDefaultTalentBonuses(racePrefix, talents) {
   talents.forEach(skill => {
     updates[`${racePrefix}_talent_${skill}_bonus_mdr`] = "10";
   });
+  if (debug_on) console.log("3. function setDefaultTalentBonuses used");
   return updates;
 }
 
@@ -11869,12 +11865,12 @@ function registerSkillHandler({
       const activeRace = raceValueMap[String(activeRaceValue)];
       const isActiveRace = activeRace === racePrefix;
 
-      console.log("function registerSkillHandler on(watchFields)");
-      console.log("Active Race Value:", activeRaceValue);
-      console.log(`Sheet opened. Race ID: ${activeRaceValue} | Mapped Race: ${activeRace}`);
-      console.log(`Initializing racial bonuses for: ${activeRace}`);
-      console.log("Race Prefix", racePrefix);
-      console.log("Is Active Race: ", isActiveRace);
+      if (debug_on) console.log("5a. function registerSkillHandler on(watchFields)");
+      if (debug_on) console.log("5b. Active Race Value:", activeRaceValue);
+      if (debug_on) console.log(`5c. Sheet opened. Race ID: ${activeRaceValue} | Mapped Race: ${activeRace}`);
+      if (debug_on) console.log(`5d. Initializing racial bonuses for: ${activeRace}`);
+      if (debug_on) console.log("5e. Race Prefix", racePrefix);
+      if (debug_on) console.log("5f. Is Active Race: ", isActiveRace);
 
       const selectedBackground = values[`${racePrefix}_background_choice`];
       const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
@@ -11917,12 +11913,12 @@ function registerSkillHandler({
         updates[`${skill}_mdr`] = total;
         updates[`${racePrefix}_skill_debug`] = `Calc: ${base} + ${backgroundBonus} + ${totalTalent} = ${total}`;
 
-        console.log(`--- Skill Update: ${skill} ---`);
-        console.log(`Base: ${skill}_skill_mdr = ${base}`);
-        console.log(`Background: ${racePrefix}_${skill}_bonus_mdr = ${backgroundBonus}`);
-        console.log(`Talent: ${racePrefix}_talent_${skill}_bonus_mdr = ${totalTalent}`);
-        console.log(`isActive: ${isActiveRace}`);
-        console.log(`Total => ${skill}_mdr = ${total}`);
+        if (debug_on) console.log(`6a. --- Skill Update: ${skill} ---`);
+        if (debug_on) console.log(`6b. Base: ${skill}_skill_mdr = ${base}`);
+        if (debug_on) console.log(`6c. Background: ${racePrefix}_${skill}_bonus_mdr = ${backgroundBonus}`);
+        if (debug_on) console.log(`6d. Talent: ${racePrefix}_talent_${skill}_bonus_mdr = ${totalTalent}`);
+        if (debug_on) console.log(`6e. isActive: ${isActiveRace}`);
+        if (debug_on) console.log(`6f. Total => ${skill}_mdr = ${total}`);
       });
 
       setAttrs(updates);
@@ -11935,10 +11931,10 @@ on("sheet:opened", function () {
     const raceKey = String(values.showracials); // ensure string key
     const race = raceValueMap[raceKey] || "unknown";
     
-    console.log("on(sheet:opened, function)");
-    console.log("Race ID:", raceKey);
-    console.log(`Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
-    console.log(`Initializing racial bonuses for: ${race}`);
+    if (debug_on) console.log("1a. on(sheet:opened, function)");
+    if (debug_on) console.log("1b. Race ID:", raceKey);
+    if (debug_on) console.log(`1c. Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
+    if (debug_on) console.log(`1d. Initializing racial bonuses for: ${race}`);
     });
 
     const initKey = "racial_bonuses_initialized";
@@ -11947,14 +11943,14 @@ on("sheet:opened", function () {
     
         if (values[initKey] === "1") return;
 		
-		console.log("First time initialization");
+		if (debug_on) console.log("1e. First time initialization");
 		
         const updates = { [initKey]: "1" };
         const allSkills = new Set();
 
         // Loop through all races in backgroundSkillMap
         Object.keys(backgroundSkillMap).forEach(race => {
-		console.log("backgroundSkillMap call - Race value: ", race);
+		if (debug_on) console.log("4a. backgroundSkillMap call - Race value: ", race);
         const raceBackgrounds = backgroundSkillMap[race];
         const backgroundSkills = Object.values(raceBackgrounds).flatMap(skills => Object.keys(skills));
         Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
@@ -11965,7 +11961,7 @@ on("sheet:opened", function () {
 
         // Loop through all races in talentSkillMap
         Object.keys(talentSkillMap).forEach(race => {
-		console.log("talentSkillMap call - Race value: ", race);
+		if (debug_on) console.log("4b. talentSkillMap call - Race value: ", race);
         const raceTalents = talentSkillMap[race];
         const talentSkills = Object.values(raceTalents).flatMap(skills => Object.keys(skills));
         Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
@@ -11976,7 +11972,7 @@ on("sheet:opened", function () {
 
         // Initialize skill values from skillMapTable
         Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
-		console.log("skillMapTable call - Label value: ", label, " base value: ", base);
+		if (debug_on) console.log("4c. skillMapTable call - Label value: ", label, " base value: ", base);
         const defaultVal = parseInt(base, 10) || 0;
         updates[`${label}_skill_mdr`] = defaultVal;
         updates[`${label}_mdr`] = defaultVal;
@@ -12120,10 +12116,10 @@ on("change:showracials sheet:opened", () => {
     const raceKey = String(values.showracials); // ensure string key
     const race = raceValueMap[raceKey] || "unknown";
     
-	console.log("on(change:showracials sheet:opened)");
-    console.log("Race ID:", raceKey);
-    console.log(`Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
-    console.log(`Initializing racial bonuses for: ${race}`);
+	if (debug_on) console.log("7a. on(change:showracials sheet:opened)");
+    if (debug_on) console.log("7b. Race ID:", raceKey);
+    if (debug_on) console.log(`7c. Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
+    if (debug_on) console.log(`7d. Initializing racial bonuses for: ${race}`);
 });
   
   getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {

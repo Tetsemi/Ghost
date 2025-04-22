@@ -1,3 +1,4 @@
+
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -256,12 +257,36 @@ lyranniBackgroundTabs.forEach(tab => {
 	});
 });
 
+const alteriTalentTabs = ["maskwrights_grace", "shaped_for_subtlety"];
+
+alteriTalentTabs.forEach(tab => {
+  on(`clicked:${tab}`, () => {
+    setAttrs({ alteri_talent_tab: tab });
+  });
+});
+
+const draeviTalentTabs = ["clan_blooded", "scavengers_edge"];
+
+draeviTalentTabs.forEach(tab => {
+  on(`clicked:${tab}`, () => {
+    setAttrs({ draevi_talent_tab: tab });
+  });
+});
+
 const humanTalentTabs = ["quick_fixer", "skilled_focus"];
 
 humanTalentTabs.forEach(tab => {
 		on(`clicked:${tab}`, () => {
 			setAttrs({ human_talent_tab: tab });
 	});
+});
+
+const lyranniTalentTabs = ["aether_override", "echo_in_the_veins"];
+
+lyranniTalentTabs.forEach(tab => {
+  on(`clicked:${tab}`, () => {
+    setAttrs({ lyranni_talent_tab: tab });
+  });
 });
 
 //----------------------- Tab Workers End ----------------------//

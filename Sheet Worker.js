@@ -222,7 +222,8 @@ const tabList = ["skills", "background", "talents", "combat", "spells", "invento
 
 tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
-      setAttrs({ selected_tab: tab });
+		console.log("Clicked tab", tab);
+		setAttrs({ selected_tab: tab });
     });
 });
 
@@ -230,7 +231,9 @@ const alteriBackgroundTabs = ["break_faced_radical", "ghostline_runner", "legacy
 
 alteriBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
+		console.log("Clicked tab", tab);
 		setAttrs({ alteri_background_choice: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
 });
 
@@ -238,7 +241,9 @@ const draeviBackgroundTabs = ["forgeblood_scavenger", "horn_carved_wanderer", "s
 
 draeviBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
+		console.log("Clicked tab", tab);
 		setAttrs({ draevi_background_choice: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
 });
 
@@ -246,7 +251,9 @@ const humanBackgroundTabs = ["ash_war_refugee", "data_hatched", "enclave_born", 
 
 humanBackgroundTabs.forEach(tab => {
 		on(`clicked:${tab}`, () => {
+			console.log("Clicked tab", tab);
 			setAttrs({ human_background_choice: tab });
+			race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
 });
 
@@ -254,7 +261,9 @@ const lyranniBackgroundTabs = ["aelvareth_devotee", "echoborne", "glide_spire_sc
 
 lyranniBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
+		console.log("Clicked tab", tab);
 		setAttrs({ lyranni_background_choice: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
 });
 
@@ -262,7 +271,9 @@ const alteriTalentTabs = ["maskwrights_grace", "shaped_for_subtlety"];
 
 alteriTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-    setAttrs({ alteri_talent_tab: tab });
+		console.log("Clicked tab", tab);
+		setAttrs({ alteri_talent_tab: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
 });
 
@@ -270,15 +281,19 @@ const draeviTalentTabs = ["clan_blooded", "scavengers_edge"];
 
 draeviTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-    setAttrs({ draevi_talent_tab: tab });
+		console.log("Clicked tab", tab);
+		setAttrs({ draevi_talent_tab: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
 });
 
 const humanTalentTabs = ["quick_fixer", "skilled_focus"];
 
 humanTalentTabs.forEach(tab => {
-		on(`clicked:${tab}`, () => {
-			setAttrs({ human_talent_tab: tab });
+	on(`clicked:${tab}`, () => {
+		console.log("Clicked tab", tab);
+		setAttrs({ human_talent_tab: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
 });
 
@@ -286,7 +301,9 @@ const lyranniTalentTabs = ["aether_override", "echo_in_the_veins"];
 
 lyranniTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-    setAttrs({ lyranni_talent_tab: tab });
+		console.log("Clicked tab", tab);
+		setAttrs({ lyranni_talent_tab: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
 });
 
@@ -386,20 +403,47 @@ function setDefaultTalentBonuses(racePrefix, talents) {
   return updates;
 }
 
+function registerSkillHandlerForRace(race) {
+  const backgrounds = Object.values(backgroundSkillMap[race] || {});
+  const backgroundSkills = backgrounds.flatMap(bg => Object.keys(bg));
+
+  const talents = Object.entries(talentSkillMap[race] || {});
+  const talentSkills = talents.flatMap(([_, skillMap]) => Object.keys(skillMap));
+  const talentSources = talents.map(([key]) => key);
+
+  const triggerSkills = Array.from(new Set([...backgroundSkills, ...talentSkills]));
+
+  if (debug_on) {
+    console.log(`[SkillHandler Init] Race: ${race}`);
+    console.log("  Skills:", triggerSkills);
+    console.log("  Talent Sources:", talentSources);
+  }
+
+  registerSkillHandler({
+    triggerSkills,
+    racePrefix: race,
+    talentSources
+  });
+}
+
 function registerSkillHandler({
   triggerSkills = [],
   racePrefix = "",
-  talentSources = [],
-  backgroundDropdown = false,
-  talentDropdown = false
+  talentSources = []
 }) {
   const watchFields = triggerSkills.flatMap(skill => [
     `add:${skill}_skill_mdr`,
-    `change:${skill}_skill_mdr`
+    `change:${skill}_skill_mdr`,
+    `change:${racePrefix}_${skill}_bonus_mdr`,
+    `change:${racePrefix}_talent_${skill}_bonus_mdr`
   ])
   .concat([
     `change:${racePrefix}_mdr_checkbox`,
+    `change:${racePrefix}_background_choice`,
+    `change:${racePrefix}_background_bonus_mdr`,
     `change:${racePrefix}_talent_mdr_checkbox`,
+    `change:${racePrefix}_talent_choice`,
+    `change:${racePrefix}_talent_bonus_mdr`,
     `change:showracials`,
     `change:race_default_trigger`,
     `sheet:opened`
@@ -407,22 +451,6 @@ function registerSkillHandler({
   .concat(
     talentSources.map(talent => `change:${racePrefix}_${talent}_mdr_checkbox`)
   );
-
-  if (backgroundDropdown) {
-    watchFields.push(
-      `change:${racePrefix}_background_choice`,
-      `change:${racePrefix}_background_bonus_mdr`,
-      `change:${racePrefix}_mdr_checkbox`
-    );
-  }
-
-  if (talentDropdown) {
-    watchFields.push(
-      `change:${racePrefix}_talent_choice`,
-      `change:${racePrefix}_talent_bonus_mdr`,
-      `change:${racePrefix}_talent_mdr_checkbox`
-    );
-  }
 
   const getKeys = triggerSkills.flatMap(skill => {
     const keys = [
@@ -436,77 +464,101 @@ function registerSkillHandler({
     return keys;
   }).concat([
     `${racePrefix}_mdr_checkbox`,
+    `${racePrefix}_background_choice`,
+    `${racePrefix}_background_bonus_mdr`,
     `${racePrefix}_talent_mdr_checkbox`,
+    `${racePrefix}_talent_choice`,
+    `${racePrefix}_talent_bonus_mdr`,
     `showracials`
   ]);
 
-  if (backgroundDropdown) {
-    getKeys.push(`${racePrefix}_background_choice`, `${racePrefix}_background_bonus_mdr`);
-  }
+  on(watchFields.join(" "), event => {
+    const changedAttr = event.sourceAttribute;
+    const triggerType = event.triggerName;
 
-  if (talentDropdown) {
-    getKeys.push(`${racePrefix}_talent_choice`, `${racePrefix}_talent_bonus_mdr`);
-  }
+    if (changedAttr && changedAttr.endsWith("_skill_mdr")) {
+      getAttrs([changedAttr], values => {
+        console.log("Detected skill_mdr change:", changedAttr, "=", values[changedAttr]);
+      });
+    }
 
-  on(watchFields.join(" "), () => {
-    getAttrs([...new Set())], values => {
+    getAttrs([...new Set(getKeys)], values => {
       const activeRaceValue = values["showracials"];
       const activeRace = raceValueMap[String(activeRaceValue)];
       const isActiveRace = activeRace === racePrefix;
 
-      if (debug_on) console.log("5a. function registerSkillHandler on(watchFields)");
-      if (debug_on) console.log("5b. Active Race Value:", activeRaceValue);
-      if (debug_on) console.log(`5c. Sheet opened. Race ID: ${activeRaceValue} | Mapped Race: ${activeRace}`);
-      if (debug_on) console.log(`5d. Initializing racial bonuses for: ${activeRace}`);
-      if (debug_on) console.log("5e. Race Prefix", racePrefix);
-      if (debug_on) console.log("5f. Is Active Race: ", isActiveRace);
+      if (debug_on) {
+        console.log("Skill Handler Triggered for racePrefix: " + racePrefix);
+        console.log("Active Race ID: " + activeRaceValue);
+        console.log("Mapped Active Race: " + activeRace);
+        console.log("Is Active Race: " + isActiveRace);
+      }
 
-      const selectedBackground = values[`${racePrefix}_background_choice`];
-      const backgroundBonusVal = parseInt(values[`${racePrefix}_background_bonus_mdr`]) || 0;
-      const backgroundActive = values[`${racePrefix}_mdr_checkbox`] === "true";
+      if (!isActiveRace) return;
 
-      const selectedTalent = values[`${racePrefix}_talent_choice`];
-      const talentBonusVal = parseInt(values[`${racePrefix}_talent_bonus_mdr`]) || 0;
-      const talentDropdownActive = values[`${racePrefix}_talent_mdr_checkbox`] === "true";
-
-      let updates = {};
+      const updates = {};
 
       triggerSkills.forEach(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
 
-        const backgroundBonus = (
-          backgroundDropdown
-          ? selectedBackground === skill && backgroundActive
-          : values[`${racePrefix}_mdr_checkbox`] === skill
-        )
-        ? (backgroundDropdown ? backgroundBonusVal : parseInt(values[`${racePrefix}_${skill}_bonus_mdr`]) || 0)
-        : 0;
+        const backgroundCheckboxVal = values[`${racePrefix}_mdr_checkbox`];
+        const backgroundBonusField = `${racePrefix}_${skill}_bonus_mdr`;
+		
+		let backgroundBonus = 0;
+		const backgroundChoice = values[`${racePrefix}_mdr_checkbox`];
+		const backgroundMap = backgroundSkillMap[racePrefix] || {};
+
+		Object.entries(backgroundMap).forEach(([backgroundName, skillObj]) => {
+		const backgroundField = `${racePrefix}_${skill}_bonus_mdr`;
+
+		if (backgroundChoice === backgroundName && skill in skillObj) {
+			const bonusVal = parseInt(values[backgroundField]) || 0;
+			backgroundBonus = bonusVal;
+
+			if (debug_on) {
+				console.log("Background Match: " + backgroundName + " => " + skill);
+				console.log("  " + backgroundField + " = " + bonusVal);
+			}
+		}
+	});
+
 
         let talentStaticBonus = 0;
-        let talentDropdownBonus = 0;
-
         talentSources.forEach(source => {
-          const checkboxValue = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
-          if (checkboxValue === `talent_${skill}`) {
-            talentStaticBonus += parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`]) || 0;
+          const checkboxVal = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
+          const isChecked = checkboxVal === `talent_${skill}`;
+          if (isChecked) {
+            const talentField = `${racePrefix}_talent_${skill}_bonus_mdr`;
+            const bonusVal = parseInt(values[talentField]) || 0;
+            talentStaticBonus += bonusVal;
+
+            if (debug_on) {
+              console.log("Static Talent Match: " + source + " => " + skill);
+              console.log("  " + talentField + " = " + bonusVal);
+            }
           }
         });
 
-        if (talentDropdown && talentDropdownActive && selectedTalent === skill) {
-          talentDropdownBonus = talentBonusVal;
-        }
+        const dropdownActive = values[`${racePrefix}_talent_mdr_checkbox`] === "true";
+        const dropdownSelected = values[`${racePrefix}_talent_choice`] === skill;
+        const talentDropdownBonus =
+          dropdownActive && dropdownSelected
+            ? parseInt(values[`${racePrefix}_talent_bonus_mdr`]) || 0
+            : 0;
 
-        const totalTalent = talentStaticBonus + talentDropdownBonus;
-        const total = base + backgroundBonus + totalTalent;
-
+        const total = base + backgroundBonus + talentStaticBonus + talentDropdownBonus;
         updates[`${skill}_mdr`] = total;
 
-        if (debug_on) console.log(`6a. --- Skill Update: ${skill} ---`);
-        if (debug_on) console.log(`6b. Base: ${skill}_skill_mdr = ${base}`);
-        if (debug_on) console.log(`6c. Background: ${racePrefix}_${skill}_bonus_mdr = ${backgroundBonus}`);
-        if (debug_on) console.log(`6d. Talent: ${racePrefix}_talent_${skill}_bonus_mdr = ${totalTalent}`);
-        if (debug_on) console.log(`6e. isActive: ${isActiveRace}`);
-        if (debug_on) console.log(`6f. Total => ${skill}_mdr = ${total}`);
+        if (debug_on) {
+          console.log("Skill Calculation: " + skill);
+          console.log("  Base: " + base);
+          console.log("  Background Checkbox: " + backgroundCheckboxVal);
+          console.log("  Background Bonus [" + backgroundBonusField + "]: " + backgroundBonus);
+          console.log("  Talent Dropdown Active: " + dropdownActive + ", Selected: " + dropdownSelected);
+          console.log("  Talent Dropdown Bonus: " + talentDropdownBonus);
+          console.log("  Talent Static Bonus: " + talentStaticBonus);
+          console.log("  Final " + skill + "_mdr = " + total);
+        }
       });
 
       setAttrs(updates);
@@ -536,27 +588,7 @@ on("sheet:opened", function () {
         const updates = { [initKey]: "1" };
         const allSkills = new Set();
 
-        // Loop through all races in backgroundSkillMap
-        Object.keys(backgroundSkillMap).forEach(race => {
-		if (debug_on) console.log("4a. backgroundSkillMap call - Race value: ", race);
-        const raceBackgrounds = backgroundSkillMap[race];
-        const backgroundSkills = Object.values(raceBackgrounds).flatMap(skills => Object.keys(skills));
-        Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
-        updates[`${race}_background_bonus_mdr`] = "5";
-        updates[`${race}_background_description`] = "";
-        backgroundSkills.forEach(skill => allSkills.add(skill));
-        });
-
-        // Loop through all races in talentSkillMap
-        Object.keys(talentSkillMap).forEach(race => {
-		if (debug_on) console.log("4b. talentSkillMap call - Race value: ", race);
-        const raceTalents = talentSkillMap[race];
-        const talentSkills = Object.values(raceTalents).flatMap(skills => Object.keys(skills));
-        Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
-        updates[`${race}_talent_bonus_mdr`] = "10";
-        updates[`${race}_talent_description`] = "";
-        talentSkills.forEach(skill => allSkills.add(skill));
-        });
+// Code removed here
 
         // Initialize skill values from skillMapTable
         Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
@@ -572,31 +604,37 @@ on("sheet:opened", function () {
 });
 
 
-function registerBackgroundChoiceHandler(race) {
-  on(`change:${race}_background_choice`, () => {
-    getAttrs([`${race}_background_choice`, `${race}_mdr_checkbox`], values => {
-      const choice = values[`${race}_background_choice`];
-      const isChecked = values[`${race}_mdr_checkbox`] === "true";
-      const bonus = isChecked ? 5 : 0;
+function registerBackgroundHandlers(race) {
+  const raceMap = backgroundSkillMap[race];
+  if (!raceMap) return;
 
-      // New logic: pull skill display name from backgroundSkillMap
-      const skillEntry = backgroundSkillMap[race]?.[choice] || {};
-      const skillName = Object.values(skillEntry)[0]; // Show first skill name only
-      const description = isChecked && skillName ? `Gain +${bonus}% ${skillName} Skill` : "";
+  const bgCheckboxAttr = `attr_${race}_mdr_checkbox`;
+  const bgBonusAttrs = [];
 
-      setAttrs({
-        [`${race}_background_description`]: description,
-        [`${race}_background_bonus_mdr`]: bonus.toString()
+  Object.entries(raceMap).forEach(([background, skillObj]) => {
+    Object.entries(skillObj).forEach(([skill, label]) => {
+      const bonusField = `${race}_${skill}_bonus_mdr`;
+      bgBonusAttrs.push(bonusField);
+    });
+  });
+
+  const watchAttrs = [bgCheckboxAttr, ...bgBonusAttrs.map(b => `attr_${b}`)];
+  
+  on(`change:${bgCheckboxAttr} sheet:opened`, async () => {
+    const attrs = await getAttrsAsync([bgCheckboxAttr, ...bgBonusAttrs]);
+    const selectedBackground = attrs[bgCheckboxAttr];
+    
+    Object.entries(raceMap).forEach(([background, skillObj]) => {
+      Object.entries(skillObj).forEach(([skill, label]) => {
+        const bonusField = `${race}_${skill}_bonus_mdr`;
+        const newValue = (selectedBackground === background) ? 5 : 0;
+        setAttrs({ [bonusField]: newValue });
+        console.log(`Background Bonus Update → ${bonusField} = ${newValue}`);
       });
     });
   });
 }
 
-// Register background handlers for all supported races
-Object.keys(backgroundSkillMap).forEach(registerBackgroundChoiceHandler);
-
-// Register all races using the talentSkillMap
-Object.keys(talentSkillMap).forEach(registerTalentHandlers);
 
 function registerTalentHandlers(race) {
   const talents = talentSkillMap[race] || {};
@@ -709,6 +747,13 @@ on(`change:${magicSchools.join(' change:')}`, () => {
   });
 });
 
+on("sheet:opened", () => {
+  console.log("Sheet opened — Initializing handlers...");
+
+  Object.keys(backgroundSkillMap).forEach(registerBackgroundHandlers);
+  Object.keys(talentSkillMap).forEach(registerTalentHandlers);
+  Object.keys(backgroundSkillMap).forEach(registerSkillHandlerForRace);
+});
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:mag change:mag add:vitality change:vitality add:language_caltheran_skill_mdr change:language_caltheran_skill_mdr", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill_mdr", "edu", "mag", "vitality", "language_caltheran_skill_mdr"], function(values) {

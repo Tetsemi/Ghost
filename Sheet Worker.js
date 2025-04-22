@@ -493,34 +493,38 @@ function registerSkillHandler({
         console.log("Mapped Active Race: " + activeRace);
         console.log("Is Active Race: " + isActiveRace);
       }
-
+	  
       if (!isActiveRace) return;
-
+	  
       const updates = {};
 
       triggerSkills.forEach(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
+		
+		if (debug_on) {
+			console.log("Skill Calculation: " + skill);
+			console.log("  Background Raw Checkbox Value:", values[`${racePrefix}_mdr_checkbox`]);
+		}
 
         const backgroundCheckboxVal = values[`${racePrefix}_mdr_checkbox`];
         const backgroundBonusField = `${racePrefix}_${skill}_bonus_mdr`;
 		
-		let backgroundBonus = 0;
-		const backgroundChoice = values[`${racePrefix}_mdr_checkbox`];
-		const backgroundMap = backgroundSkillMap[racePrefix] || {};
+        let backgroundBonus = 0;
+        const selectedSkill = values[`${racePrefix}_mdr_checkbox`]; // e.g., "slicing"
+        const backgroundMap = backgroundSkillMap[racePrefix] || {};
 
-		Object.entries(backgroundMap).forEach(([backgroundName, skillObj]) => {
-		const backgroundField = `${racePrefix}_${skill}_bonus_mdr`;
+        Object.entries(backgroundMap).forEach(([backgroundName, skillObj]) => {
+          if (selectedSkill in skillObj && skill === selectedSkill) {
+            const backgroundField = `${racePrefix}_${selectedSkill}_bonus_mdr`;
+            const bonusVal = parseInt(values[backgroundField]) || 0;
+            backgroundBonus = bonusVal;
 
-		if (backgroundChoice === backgroundName && skill in skillObj) {
-			const bonusVal = parseInt(values[backgroundField]) || 0;
-			backgroundBonus = bonusVal;
-
-			if (debug_on) {
-				console.log("Background Match: " + backgroundName + " => " + skill);
-				console.log("  " + backgroundField + " = " + bonusVal);
-			}
-		}
-	});
+            if (debug_on) {
+              console.log("Background Match: " + backgroundName + " => " + selectedSkill);
+              console.log("  " + backgroundField + " = " + bonusVal);
+            }
+          }
+        });
 
 
         let talentStaticBonus = 0;
@@ -566,43 +570,102 @@ function registerSkillHandler({
   });
 }
 
+function getAllBackgroundSkills(race) {
+  const skills = new Set();
+  const backgrounds = backgroundSkillMap[race] || {};
+  Object.values(backgrounds).forEach(skillGroup => {
+    Object.keys(skillGroup).forEach(skill => skills.add(skill));
+  });
+  return [...skills];
+}
+
+function getAllTalentSkills(race) {
+  const skills = new Set();
+  const talents = talentSkillMap[race] || {};
+  Object.values(talents).forEach(skillGroup => {
+    Object.keys(skill => skills.add(skill));
+  });
+  return [...skills];
+}
+
+function initializeRace(race) {
+  if (!race || race === "unknown") return;
+
+  const initKey = `${race}_initialized`;
+
+  if (debug_on) {
+    console.log(`→ [Init] Initializing for race: ${race}`);
+  }
+
+  getAttrs([initKey], initValues => {
+    const updates = {};
+
+    // Always set base skill values
+    Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
+      const defaultVal = parseInt(base, 10) || 0;
+      updates[`${label}_skill_mdr`] = defaultVal;
+      updates[`${label}_mdr`] = defaultVal;
+      updates[`${label}_note`] = notes || "";
+    });
+
+    if (initValues[initKey] !== "1") {
+      updates[initKey] = "1";
+
+      const backgroundSkills = getAllBackgroundSkills(race);
+      const talentSkills = getAllTalentSkills(race);
+
+      Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
+      Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
+
+      if (debug_on) {
+        console.log(`[Init] Default skill and talent bonuses applied for ${race}`);
+      }
+    }
+
+    setAttrs(updates);
+  });
+}
+
 on("sheet:opened", function () {
-    getAttrs(["showracials"], values => {
-    const raceKey = String(values.showracials); // ensure string key
-    const race = raceValueMap[raceKey] || "unknown";
-    
-    if (debug_on) console.log("1a. on(sheet:opened, function)");
-    if (debug_on) console.log("1b. Race ID:", raceKey);
-    if (debug_on) console.log(`1c. Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
-    if (debug_on) console.log(`1d. Initializing racial bonuses for: ${race}`);
-    });
+  if (debug_on) console.log("1a. on(sheet:opened)");
 
-    const initKey = "racial_bonuses_initialized";
+  getAttrs(["showracials"], values => {
+    const raceKey = String(values.showracials || "0");
+    const race = raceValueMap[raceKey];
 
-    getAttrs([initKey, "showracials"], values => {
-    
-        if (values[initKey] === "1") return;
-		
-		if (debug_on) console.log("1e. First time initialization");
-		
-        const updates = { [initKey]: "1" };
-        const allSkills = new Set();
+    if (debug_on) {
+      console.log(`1b. Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race || "unknown"}`);
+    }
 
-// Code removed here
-
-        // Initialize skill values from skillMapTable
-        Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
-		if (debug_on) console.log("4c. skillMapTable call - Label value: ", label, " base value: ", base);
-        const defaultVal = parseInt(base, 10) || 0;
-        updates[`${label}_skill_mdr`] = defaultVal;
-        updates[`${label}_mdr`] = defaultVal;
-        updates[`${label}_note`] = notes || "";
+    if (!race || race === "unknown") {
+      // Retry after slight delay if dropdown hasn't populated yet
+      setTimeout(() => {
+        getAttrs(["showracials"], retryValues => {
+          const retryRace = raceValueMap[String(retryValues.showracials || "0")];
+          if (debug_on) {
+            console.log(`1c. Retrying init. Race: ${retryRace}`);
+          }
+          initializeRace(retryRace);
         });
-
-        setAttrs(updates);
-    });
+      }, 200);
+    } else {
+      initializeRace(race);
+    }
+  });
 });
 
+on("change:showracials", function () {
+  getAttrs(["showracials"], values => {
+    const raceKey = values.showracials || "0";
+    const race = raceValueMap[raceKey];
+
+    if (debug_on) {
+      console.log(`2a. Race changed to ID: ${raceKey} | Mapped: ${race}`);
+    }
+
+    initializeRace(race);
+  });
+});
 
 function registerBackgroundHandlers(race) {
   const raceMap = backgroundSkillMap[race];
@@ -747,13 +810,26 @@ on(`change:${magicSchools.join(' change:')}`, () => {
   });
 });
 
-on("sheet:opened", () => {
-  console.log("Sheet opened — Initializing handlers...");
+on("change:showracials sheet:opened", () => {
+  getAttrs(["showracials"], values => {
+    const raceId = values["showracials"];
+    const mappedRace = raceValueMap[String(raceId)];
 
-  Object.keys(backgroundSkillMap).forEach(registerBackgroundHandlers);
-  Object.keys(talentSkillMap).forEach(registerTalentHandlers);
-  Object.keys(backgroundSkillMap).forEach(registerSkillHandlerForRace);
+    if (!mappedRace) {
+      console.log("No mapped race for race ID:", raceId);
+      return;
+    }
+
+    console.log("Race ID:", raceId);
+    console.log("Mapped Race:", mappedRace);
+    console.log("Initializing racial handlers for:", mappedRace);
+
+    registerBackgroundHandlers(mappedRace);
+    registerTalentHandlers(mappedRace);
+    registerSkillHandlerForRace(mappedRace);
+  });
 });
+
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:mag change:mag add:vitality change:vitality add:language_caltheran_skill_mdr change:language_caltheran_skill_mdr", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill_mdr", "edu", "mag", "vitality", "language_caltheran_skill_mdr"], function(values) {

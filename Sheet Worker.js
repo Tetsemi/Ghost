@@ -543,11 +543,11 @@ on("change:showracials sheet:opened", () => {
 
     console.log("[Skill Init] Race ID:", raceId);
     console.log("[Skill Init] Mapped Race:", mappedRace);
-
+	
 	const bgSkills = getAllBackgroundSkills(mappedRace);
 	const talentSkills = getAllTalentSkills(mappedRace);
 	const skillList = Object.keys(skillMapTable).map(key => skillMapTable[key].label);
-
+	
     const talentSources = Object.keys(talentSkillMap[mappedRace] || {});
 	console.log("[registerSkillHandler] Watching Skills:", skillList);
     registerSkillHandler(mappedRace, skillList, talentSources);
@@ -564,15 +564,24 @@ on("change:showracials sheet:opened", () => {
   });
 });
 
+const registeredRaces = new Set();
+
 function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
-  const watched = triggerSkills.reduce((arr, skill) => {
-    return arr.concat([
-      `${skill}_skill_mdr`,
-      `${racePrefix}_mdr_checkbox`,
-      `${racePrefix}_talent_mdr_checkbox`,
-      ...talentSources.map(source => `attr_${racePrefix}_${source}_checkbox`)
-    ]);
-  }, []);
+	const key = `${racePrefix}`; // do NOT include skillList here
+	if (registeredRaces.has(key)) return;
+	registeredRaces.add(key);
+	
+	const watched = [
+		`${racePrefix}_mdr_checkbox`,
+		`${racePrefix}_talent_mdr_checkbox`,
+		...triggerSkills.flatMap(skill => [
+			`${skill}_skill_mdr`,
+			`${racePrefix}_${skill}_bonus_mdr`,
+			`${racePrefix}_talent_${skill}_bonus_mdr`
+		]),
+		...talentSources.map(source => `attr_${racePrefix}_${source}_checkbox`)
+	];
+
 
   const skillsToAttrs = triggerSkills.reduce((map, skill) => {
     map[skill] = [
@@ -587,7 +596,8 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
   console.log("[registerSkillHandler Init]", { watched });
 
   // === Main change handler ===
-  on(watched.map(s => `change:${s}`).join(" "), () => {
+  const uniqueWatched = [...new Set(watched)];
+  on(uniqueWatched.map(s => `change:${s}`).join(" "), () => {
     if (debug_on) console.log("[registerSkillHandler Triggered]", { racePrefix, watched });
 
     getAttrs(["showracials"].concat(...Object.values(skillsToAttrs)), values => {
@@ -609,7 +619,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 		const total = base + bgBonus + talentBonus;
 
-        if (debug_on) {
+        if (debug_on && (bgBonus !== 0 || talentBonus !== 0)) {
           console.log(`[Skill Calculation] ${skill}`);
           console.log(`  Base: ${base}`);
           console.log(`  Background Bonus: ${bgBonus}`);

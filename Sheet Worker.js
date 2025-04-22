@@ -426,7 +426,6 @@ function registerSkillHandler({
 
   const getKeys = triggerSkills.flatMap(skill => {
     const keys = [
-      `${racePrefix}_skill_debug`,
       `${skill}_skill_mdr`,
       `${racePrefix}_${skill}_bonus_mdr`,
       `${racePrefix}_talent_${skill}_bonus_mdr`
@@ -449,10 +448,8 @@ function registerSkillHandler({
     getKeys.push(`${racePrefix}_talent_choice`, `${racePrefix}_talent_bonus_mdr`);
   }
 
-  const debugField = `${racePrefix}_skill_debug`;
-
   on(watchFields.join(" "), () => {
-    getAttrs([...new Set(getKeys.concat(debugField))], values => {
+    getAttrs([...new Set())], values => {
       const activeRaceValue = values["showracials"];
       const activeRace = raceValueMap[String(activeRaceValue)];
       const isActiveRace = activeRace === racePrefix;
@@ -503,7 +500,6 @@ function registerSkillHandler({
         const total = base + backgroundBonus + totalTalent;
 
         updates[`${skill}_mdr`] = total;
-        updates[`${racePrefix}_skill_debug`] = `Calc: ${base} + ${backgroundBonus} + ${totalTalent} = ${total}`;
 
         if (debug_on) console.log(`6a. --- Skill Update: ${skill} ---`);
         if (debug_on) console.log(`6b. Base: ${skill}_skill_mdr = ${base}`);
@@ -596,35 +592,30 @@ function registerBackgroundChoiceHandler(race) {
   });
 }
 
-
 // Register background handlers for all supported races
 Object.keys(backgroundSkillMap).forEach(registerBackgroundChoiceHandler);
+
+// Register all races using the talentSkillMap
+Object.keys(talentSkillMap).forEach(registerTalentHandlers);
 
 function registerTalentHandlers(race) {
   const talents = talentSkillMap[race] || {};
   const dropdownCheckbox = `${race}_talent_mdr_checkbox`;
   const dropdownChoice = `${race}_talent_choice`;
-  const debugField = `${race}_talent_debug`;
 
   // -- Dropdown talents --
   Object.entries(talents).forEach(([talent, skills]) => {
     on(`change:${dropdownCheckbox} change:${dropdownChoice}`, () => {
-      getAttrs([dropdownCheckbox, dropdownChoice, debugField], values => {
+      getAttrs([dropdownCheckbox, dropdownChoice], values => {
         const isChecked = values[dropdownCheckbox] === "true";
         const selectedSkill = values[dropdownChoice] || "";
         const skillName = skills[selectedSkill] || "";
         const bonus = isChecked && skillName ? 10 : 0;
         const description = isChecked && skillName ? `Gain +${bonus}% ${skillName} Skill` : "";
-        const debugMsg = `Dropdown -> Checkbox: ${values[dropdownCheckbox]}, Skill: ${selectedSkill}, Bonus: ${bonus}`;
-
-        let debugLines = (values[debugField] || "").split("\n");
-        debugLines.unshift(debugMsg);
-        debugLines = debugLines.slice(0, 5); // Keep only last 5
-
+        
         const updates = {
           [`${race}_talent_bonus_mdr`]: bonus.toString(),
-          [`${race}_talent_description`]: description,
-          [debugField]: debugLines.join("\n")
+          [`${race}_talent_description`]: description
         };
 
         if (!isChecked) updates[dropdownChoice] = "";
@@ -639,69 +630,21 @@ function registerTalentHandlers(race) {
   talentSources.forEach(source => {
     const staticCheckbox = `${race}_${source}_mdr_checkbox`;
     on(`change:${staticCheckbox}`, () => {
-      getAttrs([staticCheckbox, debugField], values => {
+      getAttrs([staticCheckbox], values => {
         const val = values[staticCheckbox]; // e.g., "talent_slicing"
         let updates = {};
-        let debug = `Static -> Checkbox: ${val}`;
 
         if (val && val.startsWith("talent_")) {
           const skill = val.replace("talent_", "");
           const bonusField = `${race}_talent_${skill}_bonus_mdr`;
           updates[bonusField] = "10";
-          debug += `, Bonus: ${bonusField}, Value: 10`;
-        } else {
-          debug += `, Value: unchanged`;
         }
-
-        let debugLines = (values[debugField] || "").split("\n");
-        debugLines.unshift(debug);
-        debugLines = debugLines.slice(0, 5);
-        updates[debugField] = debugLines.join("\n");
-
+		
         setAttrs(updates);
       });
     });
   });
 }
-
-// Register all races using the talentSkillMap
-Object.keys(talentSkillMap).forEach(registerTalentHandlers);
-
-// ===== Unified Alteri Handler =====
-registerSkillHandler({
-  triggerSkills: ["deception", "persuade", "slicing", "streetwise", "impersonation", "history", "insight", "stealth", "arcana", "disguise"],
-  racePrefix: "alteri",
-  talentSources: ["maskwrights_grace", "shaped_for_subtlety"],
-  backgroundDropdown: false,
-  talentDropdown: false
-});
-
-// ===== Unified Draevi Handler =====
-registerSkillHandler({
-  triggerSkills: ["electronics", "mechanics", "navigate", "survival", "slicing", "spirit_lore", "occult", "veil_lore", "streetwise", "athletics", "intimidate", "track"],
-  racePrefix: "draevi",
-  talentSources: ["scavengers_edge", "clan_blooded"],
-  backgroundDropdown: false,
-  talentDropdown: false
-});
-
-// ===== Unified Human Handler =====
-registerSkillHandler({
-  triggerSkills: ["first_aid", "insight", "alchemy", "anthropology", "archaeology", "architecture", "biology", "chemistry", "engineering", "medicine", "physics", "slicing", "etiquette_high_society", "persuade", "stealth", "streetwise", "firearms_rifle", "survival", "electronics", "mechanics"],
-  racePrefix: "human",
-  talentSources: ["quick_fixer", "shaped_for_subtlety"],
-  backgroundDropdown: false,
-  talentDropdown: false
-});
-
-// ===== Unified Lyranni Handler =====
-registerSkillHandler({
-  triggerSkills: ["magic_technomancy", "slicing", "electronics", "mechanics", "dance", "impersonation", "insight", "instrument", "singing", "streetwise", "stealth", "arcana", "etiquette_lyranni", "occult", "perception", "persuade"],
-  racePrefix: "lyranni",
-  talentSources: ["aether_override", "echo_in_the_veins"],
-  backgroundDropdown: false,
-  talentDropdown: false
-});
 
 on("change:showracials sheet:opened", () => {
     getAttrs(["showracials"], values => {

@@ -1,4 +1,5 @@
 <!------------------------- Options ------------------------->
+<input type="hidden" name="attr_new_character_flag" value="1" />
 <div class='sheet-cdiv'>
     <input class="sheet-HideConfig" type="checkbox" checked name="attr_is_config"/><span class="sheet-is-config"><span style='font-family:"Pictos";'>y</span></span>
     <div class="sheet-config" style="text-align:left">
@@ -171,7 +172,8 @@
 		<div style="text-align:left"><b>Race</b></div>
 			<div>
 				<select class="race-select" name="attr_showracials">
-					<option value="1" selected>Alteri</option>
+					<option value="0" selected>-- Choose Race --</option>
+					<option value="1" >Alteri</option>
 					<option value="2">Draevi</option>
 					<option value="3">Feran</option>
 					<option value="4">Human</option>
@@ -2231,71 +2233,71 @@
                 <tr data-i18n-list-item="archery">
                     <td><input type="checkbox" name="attr_archery_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="archery-u">Archery(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_archery_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_archery_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_archery_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_archery_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{archery_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{archery_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{archery_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{archery_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_archery_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="dodge">
                     <td><input type="checkbox" name="attr_dodge_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="dodge-u">Dodge(DEX/2)</td>
 					<td><input class="skill-input" type="text" name="attr_dodge_skill_mdr" </td>
-                    <td><input class="skill-input" type="text" name="attr_dodge_mdr" value="@{dodge_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_dodge_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{dodge_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{dodge_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{dodge_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{dodge_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_dodge_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="gunnery">
                     <td><input type="checkbox" name="attr_gunnery_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="gunnery-u">Gunnery(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_gunnery_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_gunnery_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_gunnery_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_gunnery_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{gunnery_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{gunnery_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{gunnery_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{gunnery_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_gunnery_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="heavy_weapons">
                     <td><input type="checkbox" name="attr_heavy_weapons_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="heavy_weapons-u">Heavy Weapons(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_heavy_weapons_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_heavy_weapons_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_heavy_weapons_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_heavy_weapons_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{heavy_weapons_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{heavy_weapons_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{heavy_weapons_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{heavy_weapons_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_heavy_weapons_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="melee_weapons">
                     <td><input type="checkbox" name="attr_melee_weapons_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="melee_weapons-u">Melee Weapon(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_melee_weapons_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_melee_weapons_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_melee_weapons_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_melee_weapons_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{melee_weapons_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{melee_weapons_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{melee_weapons_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{melee_weapons_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_melee_weapons_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="firearms(hg)">
                     <td><input type="checkbox" name="attr_firearms_handgun_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="firearms(hg)-u">Pistols(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_firearms_handgun_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_firearms_handgun_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_firearms_handgun_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_firearms_handgun_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{firearms_hg_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{firearms_handgun_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{firearms_handgun_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{firearms_handgun_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_firearms_handgun_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="firearms_rifle">
                     <td><input type="checkbox" name="attr_firearms_rifle_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="firearms_rifle-u">Rifle/Shotgun(25%)</td>
-                    <td><input class="skill-input" type="text" name="attr_firearms_rifle_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_firearms_rifle_mdr" value="@{firearms_rifle_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_firearms_rifle_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_firearms_rifle_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{firearms_rifle_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{firearms_rifle_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{firearms_rifle_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{firearms_rifle_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_firearms_rifle_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="firearms_s_m_g">
                     <td><input type="checkbox" name="attr_firearms_smg_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="firearms_s_m_g-u">Submachine Guns(15%)</td>
-                    <td><input class="skill-input" type="text" name="attr_firearms_smg_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_firearms_smg_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_firearms_smg_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_firearms_smg_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{firearms_smg_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{firearms_smg_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{firearms_smg_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{firearms_smg_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_firearms_smg_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="throw">
                     <td><input type="checkbox" name="attr_throw_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="throw-u">Throw(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_throw_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_throw_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_throw_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_throw_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{throw_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{throw_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{throw_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{throw_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_throw_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="unarmed">
                     <td><input type="checkbox" name="attr_unarmed_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="unarmed-u">Unarmed(25%)</td>
-                    <td><input class="skill-input" type="text" name="attr_unarmed_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_unarmed_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_unarmed_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_unarmed_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{unarmed_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_unarmed_mdr_check' /></td>
                 </tr>
 
@@ -2304,7 +2306,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill1_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill1_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill1_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill1_skill_mdr"/></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill1_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill1_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill1_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill1_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill1_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill1_mdr_check' /></td>
                 </tr>
@@ -2320,71 +2322,71 @@
                 <tr data-i18n-list-item="magic_alteration">
                     <td><input type="checkbox" name="attr_magic_alteration_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_alteration-u">Alteration(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_alteration_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_alteration_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_alteration_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_alteration_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_alteration_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_alteration_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_alteration_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_alteration_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_alteration_mdr_check' /></td>
                 </tr>
 		        <tr data-i18n-list-item="magic_elemental">
                     <td><input type="checkbox" name="attr_magic_elemental_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_elemental-u">Elemental(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_elemental_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_elemental_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_elemental_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_elemental_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_elemental_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_elemental_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_elemental_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_elemental_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_elemental_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_enchantment">
                     <td><input type="checkbox" name="attr_magic_enchantment_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_enchantment-u">Enchantment(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_enchantment_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_enchantment_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_enchantment_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_enchantment_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_enchantment_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_enchantment_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_enchantment_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_enchantment_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_enchantment_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_illusion">
                     <td><input type="checkbox" name="attr_magic_illusion_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_illusion-u">Illusion(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_illusion_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_illusion_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_illusion_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_illusion_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_illusion_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_illusion_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_illusion_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_illusion_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_illusion_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_necromancy">
                     <td><input type="checkbox" name="attr_magic_necromancy_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_necromancy-u">Necromancy(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_necromancy_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_necromancy_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_necromancy_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_necromancy_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_necromancy_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_necromancy_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_necromancy_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_necromancy_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_necromancy_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_restoration">
                     <td><input type="checkbox" name="attr_magic_restoration_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_restoration-u">Restoration(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_restoration_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_restoration_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_restoration_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_restoration_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_restoration_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_restoration_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_restoration_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_restoration_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_restoration_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_summoning">
                     <td><input type="checkbox" name="attr_magic_summoning_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_summoning-u">Summoning(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_summoning_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_summoning_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_summoning_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_summoning_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_summoning_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_summoning_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_summoning_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_summoning_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_summoning_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_technomancy">
                     <td><input type="checkbox" name="attr_magic_technomancy_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_technomancy-u">Technomancy(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_mdr" readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_technomancy_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_technomancy_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_technomancy_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_technomancy_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_technomancy_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_technomancy_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_warding">
                     <td><input type="checkbox" name="attr_magic_warding_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_warding-u">Warding(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_warding_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_warding_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_warding_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_warding_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_warding_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_warding_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_warding_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_warding_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_warding_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="magic_universal">
                     <td><input type="checkbox" name="attr_magic_universal_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_universal-u">Universal(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_universal_skill_mdr" readonly /></td>
-                    <td><input class="skill-input" type="text" name="attr_magic_universal_mdr"  readonly /></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_universal_skill_mdr" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_universal_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_universal_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_universal_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_universal_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_universal_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_universal_mdr_check' /></td>
                 </tr>
 			</table>
@@ -2392,7 +2394,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill2_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill2_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill2_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill2_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill2_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill2_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill2_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill2_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill2_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill2_mdr_check' /></td>
                 </tr>
@@ -2408,15 +2410,15 @@
 				<tr data-i18n-list-item="language(own)">
 					<td><input type="checkbox" name="attr_language_own_mdr_checkbox"></td>
 					<td class="skill-label"><span name="language(own)-u">Racial(75%)</span></td>
-					<td><input class="skill-input" type="text" name="attr_language_own_mdr" /></td>
-					<td><input class="skill-input" type="text" name="attr_language_own_mdr" readonly /></td>
+					<td><input class="skill-input" type="text" name="attr_language_own_skill_mdr" /></td>
+					<td><input class="skill-input" type="text" name="attr_language_own_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_own_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{language_own_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{language_own_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{language_own_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_language_own_mdr_check' /></td>
 				</tr>	
 				<tr data-i18n-list-item="language(caltheran)">
 					<td><input type="checkbox" name="attr_language_caltheran_mdr_checkbox"></td>
 					<td class="skill-label"><span name="language(caltheran)-u">Caltheran(EDU)</span></td>
 					<td><input class="skill-input" type="text" name="attr_language_caltheran_skill_mdr" /></td>
-					<td><input class="skill-input" type="text" name="attr_language_caltheran_mdr" value="@{language_caltheran_mdr}" readonly /></td>
+					<td><input class="skill-input" type="text" name="attr_language_caltheran_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_caltheran_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{language_caltheran_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{language_caltheran_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{language_caltheran_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_language_caltheran_mdr_check' /></td>
 				</tr>
 			</table>
@@ -2424,7 +2426,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill3_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill3_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill3_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill3_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill3_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill3_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill3_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill3_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill3_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill3_mdr_check' /></td>
                 </tr>
@@ -2441,7 +2443,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill10_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill10_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill10_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill10_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill10_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill10_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill10_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill10_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill10_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill10_mdr_check' /></td>
                 </tr>
@@ -2470,22 +2472,22 @@
 				<tr data-i18n-list-item="athletics">
                     <td><input type="checkbox" name="attr_athletics_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="athletics-u">Athletics(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_athletics_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_athletics_mdr" value="@{athletics_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_athletics_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_athletics_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{athletics_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{athletics_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{athletics_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{athletics_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_athletics_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="coordination">
                     <td><input type="checkbox" name="attr_coordination_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="coordination-u">Coordination(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_coordination_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_coordination_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_coordination_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_coordination_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{coordination_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{coordination_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{coordination_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{coordination_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_coordination_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="swim">
                     <td><input type="checkbox" name="attr_swim_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="swim-u">Swim(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_swim_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_swim_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_swim_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_swim_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{swim_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{swim_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{swim_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{swim_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_swim_mdr_check' /></td>
                 </tr>
  			</table>
@@ -2493,7 +2495,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill4_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill4_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill4_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill4_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill4_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill4_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill4_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill4_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill4_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill4_mdr_check' /></td>
                 </tr>
@@ -2509,28 +2511,28 @@
                 <tr data-i18n-list-item="driveauto">
                     <td><input type="checkbox" name="attr_drive_auto_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="driveauto-u">Drive Auto(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_drive_auto_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_drive_auto_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_drive_auto_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_drive_auto_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{driveauto_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{drive_auto_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{drive_auto_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{drive_auto_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_drive_auto_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="drone_operation">
                     <td><input type="checkbox" name="attr_drone_operation_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="drone_operation-u">Drone Operation(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_drone_operation_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_drone_operation_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_drone_operation_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_drone_operation_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{drone_operation_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{drone_operation_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{drone_operation_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{drone_operation_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_drone_operation_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="pilotaircraft">
                     <td><input type="checkbox" name="attr_pilotaircraft_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="pilotaircraft-u">Pilot Aircraft(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_pilotaircraft_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_pilotaircraft_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_pilotaircraft_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{pilotaircraft_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{pilotaircraft_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{pilotaircraft_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{pilotaircraft_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_pilotaircraft_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="pilotboat">
                     <td><input type="checkbox" name="attr_pilotboat_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="pilotboat-u">Pilot Boat(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_pilotboat_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_pilotboat_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_pilotboat_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{pilotboat_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{pilotboat_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{pilotboat_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{pilotboat_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_pilotboat_mdr_check' /></td>
                 </tr>
@@ -2539,7 +2541,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill5_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill5_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill5_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill5_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill5_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill5_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill5_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill5_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill5_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill5_mdr_check' /></td>
                 </tr>
@@ -2556,126 +2558,126 @@
                     <td><input type="checkbox" name="attr_alchemy_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="alchemy-u">Alchemy(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_alchemy_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_alchemy_mdr" value="@{alchemy_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_alchemy_mdr" readonly/></td>
                     <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{alchemy_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{alchemy_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{alchemy_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{alchemy_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_alchemy_mdr_check' /></td>
 			    </tr>
                 <tr data-i18n-list-item="anthropology">
                     <td><input type="checkbox" name="attr_anthropology_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="anthropology-u">Anthropology(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_anthropology_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_anthropology_mdr" value="@{anthropology_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_anthropology_mdr" readonly/></td>
                     <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{anthropology_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{anthropology_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{anthropology_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{anthropology_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_anthropology_mdr_check' /></td>
 			    </tr>
                 <tr data-i18n-list-item="arcana">
                     <td><input type="checkbox" name="attr_arcana_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="arcana-u">Arcana(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_arcana_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_arcana_mdr" value="@{arcana_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_arcana_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_arcana_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{arcana_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{arcana_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{arcana_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{arcana_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_arcana_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="archaeology">
                     <td><input type="checkbox" name="attr_archaeology_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="archaeology-u">Archaeology(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_archaeology_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_archaeology_mdr" value="@{archaeology_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_archaeology_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{archaeology_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{archaeology_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{archaeology_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{archaeology_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_archaeology_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="architecture">
                     <td><input type="checkbox" name="attr_architecture_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="architecture-u">Architecture(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_architecture_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_architecture_mdr" value="@{architecture_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_architecture_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{architecture_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{architecture_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{architecture_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{architecture_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_architecture_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="biology">
                     <td><input type="checkbox" name="attr_biology_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="biology-u">Biology(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_biology_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_biology_mdr" value="@{biology_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_biology_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{biology_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{biology_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{biology_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{biology_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_biology_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="chemistry">
                     <td><input type="checkbox" name="attr_chemistry_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="chemistry-u">Chemistry(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_chemistry_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_chemistry_mdr" value="@{chemistry_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_chemistry_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{chemistry_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{chemistry_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{chemistry_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{chemistry_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_chemistry_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="engineering">
                     <td><input type="checkbox" name="attr_engineering_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="engineering-u">Engineering(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_engineering_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_engineering_mdr" value="@{engineering_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_engineering_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{engineering_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{engineering_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{engineering_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{engineering_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_engineering_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="forbidden_lore">
                     <td><input type="checkbox" name="attr_forbidden_lore_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="forbidden_lore-u">Forbidden Lore(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_forbidden_lore_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_forbidden_lore_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_forbidden_lore_mdr"  readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{forbidden_lore_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{forbidden_lore_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{forbidden_lore_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{forbidden_lore_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_forbidden_lore_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="history">
                     <td><input type="checkbox" name="attr_history_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="history-u">History(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_history_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_history_mdr" value="@{history_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_history_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_history_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{history_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{history_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{history_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{history_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_history_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="investigation">
                     <td><input type="checkbox" name="attr_investigation_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="investigation-u">Investigation(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_investigation_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_investigation_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_investigation_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_investigation_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{investigation_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{investigation_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{investigation_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{investigation_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_investigation_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="law">
                     <td><input type="checkbox" name="attr_law_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="law-u">Law(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_law_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_law_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_law_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_law_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{law_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{law_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{law_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{law_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_law_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="medicine">
                     <td><input type="checkbox" name="attr_medicine_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="medicine-u">Medicine(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_medicine_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_medicine_mdr" value="@{medicine_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_medicine_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{medicine_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{medicine_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{medicine_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{medicine_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_medicine_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="naturalworld">
                     <td><input type="checkbox" name="attr_natural_world_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="naturalworld-u">Natural World(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_natural_world_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_natural_world_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_natural_world_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_natural_world_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{naturalworld_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{natural_world_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{natural_world_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{natural_world_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_natural_world_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="occult">
                     <td><input type="checkbox" name="attr_occult_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="occult-u">Occult Lore(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_occult_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_occult_mdr" value="@{occult_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_occult_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_occult_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{occult_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{occult_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{occult_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{occult_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_occult_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="physics">
                     <td><input type="checkbox" name="attr_physics_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="physics-u">Physics(01%)</td>
                     <td><input class="skill-input" type="text" name="attr_physics_skill_mdr" /></td>
-                    <td><input class="skill-input" type="text" name="attr_physics_mdr" value="@{physics_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_physics_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{physics_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{physics_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{physics_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{physics_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_physics_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="spirit_lore">
                     <td><input type="checkbox" name="attr_spirit_lore_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="spirit_lore-u">Spirit Lore(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_spirit_lore_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_spirit_lore_mdr" value="@{spirit_lore_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_spirit_lore_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_spirit_lore_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{spirit_lore_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{spirit_lore_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spirit_lore_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spirit_lore_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_spirit_lore_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="veil_lore">
                     <td><input type="checkbox" name="attr_veil_lore_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="veil_lore-u">Veil Lore(5%)</td>
-                    <td><input class="skill-input" type="text" name="attr_veil_lore_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_veil_lore_mdr" value="@{veil_lore_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_veil_lore_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_veil_lore_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{veil_lore_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{veil_lore_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{veil_lore_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{veil_lore_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_veil_lore_mdr_check' /></td>
                 </tr>
 			</table>
@@ -2683,7 +2685,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill6_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill6_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill6_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill6_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill6_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill6_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill6_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill6_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill6_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill6_mdr_check' /></td>
                 </tr>
@@ -2701,120 +2703,120 @@
                 <tr data-i18n-list-item="bureaucracy">
                     <td><input type="checkbox" name="attr_bureaucracy_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="bureaucracy-u">Bureaucracy(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_bureaucracy_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_bureaucracy_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_bureaucracy_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_bureaucracy_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{bureaucracy_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{bureaucracy_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{bureaucracy_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{bureaucracy_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_bureaucracy_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="charm">
                     <td><input type="checkbox" name="attr_charm_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="charm-u">Charm(15%)</td>
-                    <td><input class="skill-input" type="text" name="attr_charm_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_charm_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_charm_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_charm_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{charm_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{charm_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{charm_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{charm_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_charm_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="dance">
                     <td><input type="checkbox" name="attr_dance_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="dance-u">Dance(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_dance_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_dance_mdr" value="@{dance_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_dance_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_dance_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{dance_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{dance_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{dance_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{dance_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_dance_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="deception">
                     <td><input type="checkbox" name="attr_deception_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="deception-u">Deception(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_deception_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_deception_mdr" value="@{deception_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_deception_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_deception_mdr" readonly/></td>
 				   	<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{deception_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{deception_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{deception_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{deception_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_deception_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="disguise">
                     <td><input type="checkbox" name="attr_disguise_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="disguise-u">Disguise(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_disguise_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_disguise_mdr" value="@{disguise_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_disguise_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_disguise_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{disguise_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{disguise_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{disguise_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{disguise_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_disguise_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="etiquette_high_society">
                     <td><input type="checkbox" name="attr_etiquette_high_society_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="etiquette_high_society-u">Etiquette(H. Soc.)(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_etiquette_high_society_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_etiquette_high_society_mdr" value="@{etiquette_high_society_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_high_society_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_high_society_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{etiquette_high_society_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{etiquette_high_society_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_high_society_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_high_society_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_etiquette_high_society_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="etiquette_lyranni">
                     <td><input type="checkbox" name="attr_etiquette_lyranni_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="etiquette_lyranni-u">Etiquette(Lyranni)(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_etiquette_lyranni_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_etiquette_lyranni_mdr" value="@{etiquette_lyranni_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_lyranni_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_lyranni_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{etiquette_lyranni_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{etiquette_lyranni_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_lyranni_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_lyranni_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_etiquette_lyranni_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="etiquette_other">
                     <td><input type="checkbox" name="attr_etiquette_other_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="etiquette_other-u">Etiquette(Other)(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_etiquette_other_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_etiquette_other_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_other_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_etiquette_other_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{etiquette_other_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{etiquette_other_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_other_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_other_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_etiquette_other_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="forgery">
                     <td><input type="checkbox" name="attr_forgery_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="forgery-u">Forgery(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_forgery_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_forgery_skill_mdr"/></td>
                     <td><input class="skill-input" type="text" name="attr_forgery_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{forgery_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{forgery_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{forgery_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{forgery_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_forgery_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="impersonation">
                     <td><input type="checkbox" name="attr_impersonation_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="impersonation-u">Impersonation(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_impersonation_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_impersonation_mdr" value="@{impersonation_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_impersonation_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_impersonation_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{impersonation_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{impersonation_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{impersonation_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{impersonation_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_impersonation_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="insight">
                     <td><input type="checkbox" name="attr_insight_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="insight-u">Insight(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_insight_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_insight_mdr" value="@{insight_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_insight_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_insight_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{insight_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{insight_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{insight_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{insight_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_insight_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="instrument">
                     <td><input type="checkbox" name="attr_instrument_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="instrument-u">Instrument(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_instrument_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_instrument_mdr" value="@{instrument_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_instrument_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_instrument_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{instrument_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{instrument_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{instrument_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{instrument_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_instrument_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="intimidate">
                     <td><input type="checkbox" name="attr_intimidate_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="intimidate-u">Intimidate(15%)</td>
-                    <td><input class="skill-input" type="text" name="attr_intimidate_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_intimidate_mdr" value="@{intimidate_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_intimidate_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_intimidate_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{intimidate_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{intimidate_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{intimidate_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{intimidate_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_intimidate_mdr_check' /></td>
                 </tr>
 	            <tr data-i18n-list-item="interrogation">
                     <td><input type="checkbox" name="attr_interrogation_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="interrogation-u">Interrogation(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_interrogation_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_interrogation_mdr" value="@{interrogation_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_interrogation_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_interrogation_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{interrogation_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{interrogation_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{interrogation_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{interrogation_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_interrogation_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="persuade">
                     <td><input type="checkbox" name="attr_persuade_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="persuade-u">Persuade(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_persuade_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_persuade_mdr" value="@{persuade_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_persuade_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_persuade_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{persuade_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{persuade_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{persuade_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{persuade_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_persuade_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="singing">
                     <td><input type="checkbox" name="attr_singing_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="singing-u">Singing(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_singing_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_singing_mdr" value="@{singing_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_singing_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_singing_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{singing_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{singing_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{singing_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{singing_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_singing_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="streetwise">
                     <td><input type="checkbox" name="attr_streetwise_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="streetwise-u">Streetwise(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_streetwise_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_streetwise_mdr" value="@{streetwise_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_streetwise_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_streetwise_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{streetwise_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{streetwise_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{streetwise_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{streetwise_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_streetwise_mdr_check' /></td>
                 </tr>
             </table>
@@ -2822,7 +2824,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill7_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill7_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill7_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill7_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill7_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill7_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill7_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill7_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill7_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill7_mdr_check' /></td>
                 </tr>
@@ -2838,64 +2840,64 @@
                 <tr data-i18n-list-item="animalhandling">
                     <td><input type="checkbox" name="attr_animalhandling_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="animalhandling_mdr-u">Animal Handling(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_animalhandling_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_animalhandling_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_animalhandling_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_animalhandling_mdr" readonly/></td>
                     <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{animalhandling_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{animalhandling_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{animalhandling_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{animalhandling_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_animalhandling_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="first_aid">
                     <td><input type="checkbox" name="attr_first_aid_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="firstaid-u">First Aid(30%)</td>
-                    <td><input class="skill-input" type="text" name="attr_first_aid_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_first_aid_mdr" value="@{first_aid_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_first_aid_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_first_aid_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{firstaid_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{first_aid_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{first_aid_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{first_aid_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_first_aid_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="listen">
                     <td><input type="checkbox" name="attr_listen_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="listen_mdr-u">Listen(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_listen_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_listen_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_listen_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_listen_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{listen_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{listen_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{listen_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{listen_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_listen_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="navigate">
                     <td><input type="checkbox" name="attr_navigate_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="navigate-u">Navigate(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_navigate_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_navigate_mdr" value="@{navigate_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_navigate_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_navigate_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{navigate_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{navigate_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{navigate_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{navigate_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_navigate_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="perception">
                     <td><input type="checkbox" name="attr_perception_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="perception-u">Perception(25%)</td>
-                    <td><input class="skill-input" type="text" name="attr_perception_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_perception_mdr" value="@{perception_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_perception_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_perception_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{perception_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{perception_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{perception_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{perception_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_perception_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="sleightofhand">
                     <td><input type="checkbox" name="attr_sleight_of_hand_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="sleightofhand-u">Sleight of Hand(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_sleight_of_hand_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_sleight_of_hand_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_sleight_of_hand_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_sleight_of_hand_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{sleightofhand_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{sleight_of_hand_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{sleight_of_hand_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{sleight_of_hand_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_sleight_of_hand_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="stealth">
                     <td><input type="checkbox" name="attr_stealth_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="stealth-u">Stealth(20%)</td>
-                    <td><input class="skill-input" type="text" name="attr_stealth_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_stealth_mdr" value="@{stealth_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_stealth_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_stealth_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{stealth_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{stealth_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{stealth_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{stealth_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_stealth_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="survival">
                     <td><input type="checkbox" name="attr_survival_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="survival-u">Survival(Wild)(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_survival_skill_mdr"  /></td>
+                    <td><input class="skill-input" type="text" name="attr_survival_skill_mdr"/></td>
                     <td><input class="skill-input" type="text" name="attr_survival_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{survival_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{survival_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{survival_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{survival_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_survival_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="track">
                     <td><input type="checkbox" name="attr_track_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="track-u">Track (10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_track_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_track_mdr" value="@{track_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_track_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_track_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{track_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{track_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{track_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{track_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_track_mdr_check' /></td>
                 </tr>
             </table>
@@ -2903,7 +2905,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill8_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill8_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill8_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill8_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill8_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill8_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill8_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill8_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill8_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill8_mdr_check' /></td>
                 </tr>
@@ -2919,56 +2921,56 @@
                 <tr data-i18n-list-item="archanotech">
                     <td><input type="checkbox" name="attr_archanotech_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="archanotech-u">Archanotech(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_archanotech_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_archanotech_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_archanotech_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{archanotech_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{archanotech_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{archanotech_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{archanotech_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_archanotech_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="computeruse">
                     <td><input type="checkbox" name="attr_computer_use_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="computeruse-u">Computer Use(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_computer_use_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_computer_use_mdr"   readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_computer_use_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_computer_use_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{computeruse_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{computer_use_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{computer_use_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{computer_use_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_computer_use_mdr_check' /></td>
                 </tr>
 				<tr data-i18n-list-item="cybernetics">
                     <td><input type="checkbox" name="attr_cybernetics_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="cybernetics-u">Cybernetics(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_cybernetics_mdr" value="1"/></td>
-                    <td><input class="skill-input" type="text" name="attr_cybernetics_mdr" value="1" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_cybernetics_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_cybernetics_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{cybernetics_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{cybernetics_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{cybernetics_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{cybernetics_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_cybernetics_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="demolitions">
                     <td><input type="checkbox" name="attr_demolitions_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="demolitions-u">Demolitions(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_demolitions_mdr" value="1"/></td>
-                    <td><input class="skill-input" type="text" name="attr_demolitions_mdr" value="1" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_demolitions_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_demolitions_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{demolitions_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{demolitions_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{demolitions_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{demolitions_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_demolitions_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="electronics">
                     <td><input type="checkbox" name="attr_electronics_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="electronics-u">Electronics(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_electronics_skill_mdr"  /></td>
-                    <td><input class="skill-input" type="text" name="attr_electronics_mdr" value="@{electronics_mdr}" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_electronics_skill_mdr"/></td>
+                    <td><input class="skill-input" type="text" name="attr_electronics_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{electronics_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{electronics_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{electronics_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{electronics_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_electronics_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="mechanics">
                     <td><input type="checkbox" name="attr_mechanics_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="mechanics-u">Mechanics(10%)</td>
-                    <td><input class="skill-input" type="text" name="attr_mechanics_skill_mdr"  /></td>
+                    <td><input class="skill-input" type="text" name="attr_mechanics_skill_mdr"/></td>
                     <td><input class="skill-input" type="text" name="attr_mechanics_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{mechanics_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{mechanics_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{mechanics_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{mechanics_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_mechanics_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="security">
                     <td><input type="checkbox" name="attr_security_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="security-u">Security(01%)</td>
-                    <td><input class="skill-input" type="text" name="attr_security_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_security_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_security_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{security_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{security_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{security_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{security_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_security_mdr_check' /></td>
                 </tr>
                 <tr data-i18n-list-item="slicing">
                     <td><input type="checkbox" name="attr_slicing_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="slicing-u">Slicing(05%)</td>
-                    <td><input class="skill-input" type="text" name="attr_slicing_skill_mdr"  /></td>
+                    <td><input class="skill-input" type="text" name="attr_slicing_skill_mdr"/></td>
                     <td><input class="skill-input" type="text" name="attr_slicing_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{slicing_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{slicing_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{slicing_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{slicing_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_slicing_mdr_check' /></td>
                 </tr>
@@ -2977,7 +2979,7 @@
                 <tr>
                     <td><input type="checkbox" name="attr_otherskill9_mdr_checkbox"></td>
                     <td class="skill-label"><input class="skill-name-input" style="width:100%" type="text" name="attr_otherskill9_mdr_name" /></td>
-                    <td><input class="skill-input" type="text" name="attr_otherskill9_mdr" /></td>
+                    <td><input class="skill-input" type="text" name="attr_otherskill9_skill_mdr" /></td>
                     <td><input class="skill-input" type="text" name="attr_otherskill9_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{otherskill9_mdr_name} Roll}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{otherskill9_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill9_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill9_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_otherskill9_mdr_check' /></td>
                 </tr>
@@ -11768,393 +11770,6 @@ on("change:total_spellcost change:ac", function () {
   });
 });
 
-// -- Core Calculation --
-function calcSkillWithBonuses(skill, bonus = 0, talentBonus = 0, hasBonus = false, hasTalent = false) {
-  return (parseInt(skill) || 0) +
-         (hasBonus ? (parseInt(bonus) || 0) : 0) +
-         (hasTalent ? (parseInt(talentBonus) || 0) : 0);
-}
-
-// -- Object Builder --
-function buildSkillObject(skills) {
-  const obj = {};
-  skills.forEach(skill => {
-    const skillVal = parseInt(skill.skill) || 0;
-    const bonusVal = parseInt(skill.bonus) || 0;
-    const talentVal = parseInt(skill.talentBonus) || 0;
-    obj[`${skill.name}_mdr`] = calcSkillWithBonuses(
-      skillVal,
-      bonusVal,
-      talentVal,
-      skill.hasBonus,
-      skill.hasTalent
-    );
-  });
-  return obj;
-}
-
-function setDefaultSkillBonuses(racePrefix, skills) {
-  const updates = {};
-  skills.forEach(skill => {
-    updates[`${racePrefix}_${skill}_bonus_mdr`] = "5";
-  });
-  if (debug_on) console.log("2. function setDefaultSkillBonuses used");
-  return updates;
-}
-
-function setDefaultTalentBonuses(racePrefix, talents) {
-  const updates = {};
-  talents.forEach(skill => {
-    updates[`${racePrefix}_talent_${skill}_bonus_mdr`] = "10";
-  });
-  if (debug_on) console.log("3. function setDefaultTalentBonuses used");
-  return updates;
-}
-
-function registerSkillHandlerForRace(race) {
-  const backgrounds = Object.values(backgroundSkillMap[race] || {});
-  const backgroundSkills = backgrounds.flatMap(bg => Object.keys(bg));
-
-  const talents = Object.entries(talentSkillMap[race] || {});
-  const talentSkills = talents.flatMap(([_, skillMap]) => Object.keys(skillMap));
-  const talentSources = talents.map(([key]) => key);
-
-  const triggerSkills = Array.from(new Set([...backgroundSkills, ...talentSkills]));
-
-  if (debug_on) {
-    console.log(`[SkillHandler Init] Race: ${race}`);
-    console.log("  Skills:", triggerSkills);
-    console.log("  Talent Sources:", talentSources);
-  }
-
-  registerSkillHandler({
-    triggerSkills,
-    racePrefix: race,
-    talentSources
-  });
-}
-
-function registerSkillHandler({
-  triggerSkills = [],
-  racePrefix = "",
-  talentSources = []
-}) {
-  const watchFields = triggerSkills.flatMap(skill => [
-    `add:${skill}_skill_mdr`,
-    `change:${skill}_skill_mdr`,
-    `change:${racePrefix}_${skill}_bonus_mdr`,
-    `change:${racePrefix}_talent_${skill}_bonus_mdr`
-  ])
-  .concat([
-    `change:${racePrefix}_mdr_checkbox`,
-    `change:${racePrefix}_background_choice`,
-    `change:${racePrefix}_background_bonus_mdr`,
-    `change:${racePrefix}_talent_mdr_checkbox`,
-    `change:${racePrefix}_talent_choice`,
-    `change:${racePrefix}_talent_bonus_mdr`,
-    `change:showracials`,
-    `change:race_default_trigger`,
-    `sheet:opened`
-  ])
-  .concat(
-    talentSources.map(talent => `change:${racePrefix}_${talent}_mdr_checkbox`)
-  );
-
-  const getKeys = triggerSkills.flatMap(skill => {
-    const keys = [
-      `${skill}_skill_mdr`,
-      `${racePrefix}_${skill}_bonus_mdr`,
-      `${racePrefix}_talent_${skill}_bonus_mdr`
-    ];
-    talentSources.forEach(talent => {
-      keys.push(`${racePrefix}_${talent}_mdr_checkbox`);
-    });
-    return keys;
-  }).concat([
-    `${racePrefix}_mdr_checkbox`,
-    `${racePrefix}_background_choice`,
-    `${racePrefix}_background_bonus_mdr`,
-    `${racePrefix}_talent_mdr_checkbox`,
-    `${racePrefix}_talent_choice`,
-    `${racePrefix}_talent_bonus_mdr`,
-    `showracials`
-  ]);
-
-  on(watchFields.join(" "), event => {
-    const changedAttr = event.sourceAttribute;
-    const triggerType = event.triggerName;
-
-    if (changedAttr && changedAttr.endsWith("_skill_mdr")) {
-      getAttrs([changedAttr], values => {
-        console.log("Detected skill_mdr change:", changedAttr, "=", values[changedAttr]);
-      });
-    }
-
-    getAttrs([...new Set(getKeys)], values => {
-      const activeRaceValue = values["showracials"];
-      const activeRace = raceValueMap[String(activeRaceValue)];
-      const isActiveRace = activeRace === racePrefix;
-
-      if (debug_on) {
-        console.log("Skill Handler Triggered for racePrefix: " + racePrefix);
-        console.log("Active Race ID: " + activeRaceValue);
-        console.log("Mapped Active Race: " + activeRace);
-        console.log("Is Active Race: " + isActiveRace);
-      }
-	  
-      if (!isActiveRace) return;
-	  
-      const updates = {};
-
-      triggerSkills.forEach(skill => {
-        const base = parseInt(values[`${skill}_skill_mdr`]) || 0;
-		
-		if (debug_on) {
-			console.log("Skill Calculation: " + skill);
-			console.log("  Background Raw Checkbox Value:", values[`${racePrefix}_mdr_checkbox`]);
-		}
-
-        const backgroundCheckboxVal = values[`${racePrefix}_mdr_checkbox`];
-        const backgroundBonusField = `${racePrefix}_${skill}_bonus_mdr`;
-		
-        let backgroundBonus = 0;
-        const selectedSkill = values[`${racePrefix}_mdr_checkbox`]; // e.g., "slicing"
-        const backgroundMap = backgroundSkillMap[racePrefix] || {};
-
-        Object.entries(backgroundMap).forEach(([backgroundName, skillObj]) => {
-          if (selectedSkill in skillObj && skill === selectedSkill) {
-            const backgroundField = `${racePrefix}_${selectedSkill}_bonus_mdr`;
-            const bonusVal = parseInt(values[backgroundField]) || 0;
-            backgroundBonus = bonusVal;
-
-            if (debug_on) {
-              console.log("Background Match: " + backgroundName + " => " + selectedSkill);
-              console.log("  " + backgroundField + " = " + bonusVal);
-            }
-          }
-        });
-
-
-        let talentStaticBonus = 0;
-        talentSources.forEach(source => {
-          const checkboxVal = values[`${racePrefix}_${source}_mdr_checkbox`] || "";
-          const isChecked = checkboxVal === `talent_${skill}`;
-          if (isChecked) {
-            const talentField = `${racePrefix}_talent_${skill}_bonus_mdr`;
-            const bonusVal = parseInt(values[talentField]) || 0;
-            talentStaticBonus += bonusVal;
-
-            if (debug_on) {
-              console.log("Static Talent Match: " + source + " => " + skill);
-              console.log("  " + talentField + " = " + bonusVal);
-            }
-          }
-        });
-
-        const dropdownActive = values[`${racePrefix}_talent_mdr_checkbox`] === "true";
-        const dropdownSelected = values[`${racePrefix}_talent_choice`] === skill;
-        const talentDropdownBonus =
-          dropdownActive && dropdownSelected
-            ? parseInt(values[`${racePrefix}_talent_bonus_mdr`]) || 0
-            : 0;
-
-        const total = base + backgroundBonus + talentStaticBonus + talentDropdownBonus;
-        updates[`${skill}_mdr`] = total;
-
-        if (debug_on) {
-          console.log("Skill Calculation: " + skill);
-          console.log("  Base: " + base);
-          console.log("  Background Checkbox: " + backgroundCheckboxVal);
-          console.log("  Background Bonus [" + backgroundBonusField + "]: " + backgroundBonus);
-          console.log("  Talent Dropdown Active: " + dropdownActive + ", Selected: " + dropdownSelected);
-          console.log("  Talent Dropdown Bonus: " + talentDropdownBonus);
-          console.log("  Talent Static Bonus: " + talentStaticBonus);
-          console.log("  Final " + skill + "_mdr = " + total);
-        }
-      });
-
-      setAttrs(updates);
-    });
-  });
-}
-
-function getAllBackgroundSkills(race) {
-  const skills = new Set();
-  const backgrounds = backgroundSkillMap[race] || {};
-  Object.values(backgrounds).forEach(skillGroup => {
-    Object.keys(skillGroup).forEach(skill => skills.add(skill));
-  });
-  return [...skills];
-}
-
-function getAllTalentSkills(race) {
-  const skills = new Set();
-  const talents = talentSkillMap[race] || {};
-  Object.values(talents).forEach(skillGroup => {
-    Object.keys(skill => skills.add(skill));
-  });
-  return [...skills];
-}
-
-function initializeRace(race) {
-  if (!race || race === "unknown") return;
-
-  const initKey = `${race}_initialized`;
-
-  if (debug_on) {
-    console.log(`→ [Init] Initializing for race: ${race}`);
-  }
-
-  getAttrs([initKey], initValues => {
-    const updates = {};
-
-    // Always set base skill values
-    Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
-      const defaultVal = parseInt(base, 10) || 0;
-      updates[`${label}_skill_mdr`] = defaultVal;
-      updates[`${label}_mdr`] = defaultVal;
-      updates[`${label}_note`] = notes || "";
-    });
-
-    if (initValues[initKey] !== "1") {
-      updates[initKey] = "1";
-
-      const backgroundSkills = getAllBackgroundSkills(race);
-      const talentSkills = getAllTalentSkills(race);
-
-      Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
-      Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
-
-      if (debug_on) {
-        console.log(`[Init] Default skill and talent bonuses applied for ${race}`);
-      }
-    }
-
-    setAttrs(updates);
-  });
-}
-
-on("sheet:opened", function () {
-  if (debug_on) console.log("1a. on(sheet:opened)");
-
-  getAttrs(["showracials"], values => {
-    const raceKey = String(values.showracials || "0");
-    const race = raceValueMap[raceKey];
-
-    if (debug_on) {
-      console.log(`1b. Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race || "unknown"}`);
-    }
-
-    if (!race || race === "unknown") {
-      // Retry after slight delay if dropdown hasn't populated yet
-      setTimeout(() => {
-        getAttrs(["showracials"], retryValues => {
-          const retryRace = raceValueMap[String(retryValues.showracials || "0")];
-          if (debug_on) {
-            console.log(`1c. Retrying init. Race: ${retryRace}`);
-          }
-          initializeRace(retryRace);
-        });
-      }, 200);
-    } else {
-      initializeRace(race);
-    }
-  });
-});
-
-on("change:showracials", function () {
-  getAttrs(["showracials"], values => {
-    const raceKey = values.showracials || "0";
-    const race = raceValueMap[raceKey];
-
-    if (debug_on) {
-      console.log(`2a. Race changed to ID: ${raceKey} | Mapped: ${race}`);
-    }
-
-    initializeRace(race);
-  });
-});
-
-function registerBackgroundHandlers(race) {
-  const raceMap = backgroundSkillMap[race];
-  if (!raceMap) return;
-
-  const bgCheckboxAttr = `attr_${race}_mdr_checkbox`;
-  const bgBonusAttrs = [];
-
-  Object.entries(raceMap).forEach(([background, skillObj]) => {
-    Object.entries(skillObj).forEach(([skill, label]) => {
-      const bonusField = `${race}_${skill}_bonus_mdr`;
-      bgBonusAttrs.push(bonusField);
-    });
-  });
-
-  const watchAttrs = [bgCheckboxAttr, ...bgBonusAttrs.map(b => `attr_${b}`)];
-  
-  on(`change:${bgCheckboxAttr} sheet:opened`, async () => {
-    const attrs = await getAttrsAsync([bgCheckboxAttr, ...bgBonusAttrs]);
-    const selectedBackground = attrs[bgCheckboxAttr];
-    
-    Object.entries(raceMap).forEach(([background, skillObj]) => {
-      Object.entries(skillObj).forEach(([skill, label]) => {
-        const bonusField = `${race}_${skill}_bonus_mdr`;
-        const newValue = (selectedBackground === background) ? 5 : 0;
-        setAttrs({ [bonusField]: newValue });
-        console.log(`Background Bonus Update → ${bonusField} = ${newValue}`);
-      });
-    });
-  });
-}
-
-
-function registerTalentHandlers(race) {
-  const talents = talentSkillMap[race] || {};
-  const dropdownCheckbox = `${race}_talent_mdr_checkbox`;
-  const dropdownChoice = `${race}_talent_choice`;
-
-  // -- Dropdown talents --
-  Object.entries(talents).forEach(([talent, skills]) => {
-    on(`change:${dropdownCheckbox} change:${dropdownChoice}`, () => {
-      getAttrs([dropdownCheckbox, dropdownChoice], values => {
-        const isChecked = values[dropdownCheckbox] === "true";
-        const selectedSkill = values[dropdownChoice] || "";
-        const skillName = skills[selectedSkill] || "";
-        const bonus = isChecked && skillName ? 10 : 0;
-        const description = isChecked && skillName ? `Gain +${bonus}% ${skillName} Skill` : "";
-        
-        const updates = {
-          [`${race}_talent_bonus_mdr`]: bonus.toString(),
-          [`${race}_talent_description`]: description
-        };
-
-        if (!isChecked) updates[dropdownChoice] = "";
-
-        setAttrs(updates);
-      });
-    });
-  });
-
-  // -- Static talent checkboxes: one for each talent source
-  const talentSources = Object.keys(talents);
-  talentSources.forEach(source => {
-    const staticCheckbox = `${race}_${source}_mdr_checkbox`;
-    on(`change:${staticCheckbox}`, () => {
-      getAttrs([staticCheckbox], values => {
-        const val = values[staticCheckbox]; // e.g., "talent_slicing"
-        let updates = {};
-
-        if (val && val.startsWith("talent_")) {
-          const skill = val.replace("talent_", "");
-          const bonusField = `${race}_talent_${skill}_bonus_mdr`;
-          updates[bonusField] = "10";
-        }
-		
-        setAttrs(updates);
-      });
-    });
-  });
-}
-
 on("change:showracials sheet:opened", () => {
     getAttrs(["showracials"], values => {
     const raceKey = String(values.showracials); // ensure string key
@@ -12218,26 +11833,263 @@ on(`change:${magicSchools.join(' change:')}`, () => {
   });
 });
 
-on("change:showracials sheet:opened", () => {
+function getAllBackgroundSkills(race) {
+  const skills = new Set();
+  const backgrounds = backgroundSkillMap[race] || {};
+  Object.values(backgrounds).forEach(skillGroup => {
+    Object.keys(skillGroup).forEach(skill => skills.add(skill));
+  });
+  return [...skills];
+}
+
+function getAllTalentSkills(race) {
+  const skills = new Set();
+  const talents = talentSkillMap[race] || {};
+  Object.values(talents).forEach(skillGroup => {
+    Object.keys(skill => skills.add(skill));
+  });
+  return [...skills];
+}
+
+// -------------------- working area start --------------- //
+
+// == Sheet Worker.js ==
+// Dependencies: skillMapTable, backgroundSkillMap, talentSkillMap, raceValueMap
+
+// === Helpers ===
+function getActiveRace(values) {
+  const raceId = values.showracials || "0";
+  const race = raceValueMap[raceId] || "unknown";
+  if (debug_on) console.log("[getActiveRace]", { raceId, race });
+  return race;
+}
+
+function resetAllMDRToBase(race, callback) {
+  const skills = Object.keys(skillMapTable);
+  const attrsToGet = skills.map(skill => `${skill}_skill_mdr`).concat(skills.map(skill => `${skill}_mdr`));
+
+  getAttrs(attrsToGet, values => {
+    const updates = {};
+    skills.forEach(skill => {
+      const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+      updates[`${skill}_mdr`] = base;
+    });
+    if (debug_on) console.log("[resetAllMDRToBase]", updates);
+    setAttrs(updates, callback);
+  });
+}
+
+function applyAllSkillBonuses(race) {
+  const backgroundSkills = getAllBackgroundSkills(race);
+  const talentSkills = getAllTalentSkills(race);
+
+  const updates = {};
+  Object.assign(updates, setDefaultSkillBonuses(race, backgroundSkills));
+  Object.assign(updates, setDefaultTalentBonuses(race, talentSkills));
+
+  if (debug_on) console.log("[applyAllSkillBonuses]", updates);
+  setAttrs(updates);
+}
+
+function handleRaceChange(race) {
+  if (debug_on) console.log("[handleRaceChange]", race);
+  resetAllMDRToBase(race, () => {
+    applyAllSkillBonuses(race);
+  });
+}
+
+// === Sheet Initialization ===
+on("sheet:opened", function () {
+  if (debug_on) console.log("[sheet:opened] fired");
+
+  getAttrs(["showracials", "new_character_flag"], values => {
+    const isNew = values.new_character_flag === "1";
+    const race = getActiveRace(values);
+    const updates = {};
+
+    if (debug_on) console.log("[sheet:opened]", { race, isNew });
+
+    // Always run skill init if new character, even if race is "unknown"
+    if (isNew) {
+      Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
+        const val = parseInt(base, 10) || 0;
+        updates[`${label}_skill_mdr`] = val;
+        updates[`${label}_mdr`] = val;
+        updates[`${label}_note`] = notes || "";
+      });
+      updates.new_character_flag = "0";
+
+      if (debug_on) console.log("[New Character Skill Init]", updates);
+      setAttrs(updates, () => {
+        if (race && race !== "unknown") {
+          handleRaceChange(race); // Only apply race bonuses if race is valid
+        }
+      });
+    } else if (race && race !== "unknown") {
+      handleRaceChange(race);
+    }
+  });
+});
+
+
+on("change:showracials", function () {
   getAttrs(["showracials"], values => {
+    const race = getActiveRace(values);
+    if (!race || race === "unknown") return;
+    if (debug_on) console.log("[change:showracials]", race);
+    handleRaceChange(race);
+  });
+});
+
+on("change:showracials sheet:opened", () => {
+  getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
     const raceId = values["showracials"];
     const mappedRace = raceValueMap[String(raceId)];
 
     if (!mappedRace) {
-      console.log("No mapped race for race ID:", raceId);
+      console.log("[Skill Init] No mapped race for Race ID:", raceId);
       return;
     }
 
-    console.log("Race ID:", raceId);
-    console.log("Mapped Race:", mappedRace);
-    console.log("Initializing racial handlers for:", mappedRace);
+    console.log("[Skill Init] Race ID:", raceId);
+    console.log("[Skill Init] Mapped Race:", mappedRace);
 
-    registerBackgroundHandlers(mappedRace);
-    registerTalentHandlers(mappedRace);
-    registerSkillHandlerForRace(mappedRace);
+    const skillList = Object.values(skillMapTable).map(entry => entry.label);
+    const talentSources = Object.keys(talentSkillMap[mappedRace] || {});
+	console.log("[registerSkillHandler] Watching Skills:", skillList);
+    registerSkillHandler(mappedRace, skillList, talentSources);
+
+    const racialLang = raceLanguageMap[mappedRace] || "Racial";
+    const otherLang = mappedRace === "human" ? "Other" : "Caltheran";
+
+    const updates = {
+      language_own_txt: `${racialLang}(75%)`,
+      language_caltheran_txt: `${otherLang}(EDU)`
+    };
+
+    setAttrs(updates);
   });
 });
 
+function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
+  const watched = triggerSkills.reduce((arr, skill) => {
+    return arr.concat([
+      `${skill}_skill_mdr`,
+      `${racePrefix}_mdr_checkbox`,
+      `${racePrefix}_talent_mdr_checkbox`,
+      ...talentSources.map(source => `attr_${racePrefix}_${source}_checkbox`)
+    ]);
+  }, []);
+
+  const skillsToAttrs = triggerSkills.reduce((map, skill) => {
+    map[skill] = [
+      `${skill}_skill_mdr`,
+      `${skill}_mdr`,
+      `${racePrefix}_${skill}_bonus_mdr`,
+      `${racePrefix}_talent_${skill}_bonus_mdr`
+    ];
+    return map;
+  }, {});
+
+  console.log("[registerSkillHandler Init]", { watched });
+
+  // === Main change handler ===
+  on(watched.map(s => `change:${s}`).join(" "), () => {
+    if (debug_on) console.log("[registerSkillHandler Triggered]", { racePrefix, watched });
+
+    getAttrs(["showracials"].concat(...Object.values(skillsToAttrs)), values => {
+      const raceId = values.showracials || "0";
+      const activeRace = raceValueMap[raceId];
+      const isActive = activeRace === racePrefix;
+      if (!isActive) return;
+
+      if (debug_on) console.log("[Skill Handler Execution]", { racePrefix, activeRace, isActive });
+
+      triggerSkills.forEach(skill => {
+        const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+		const hasBg = values[`${racePrefix}_mdr_checkbox`] === "true";
+		const hasTalent = values[`${racePrefix}_talent_mdr_checkbox`] === "true";
+
+		// Only apply bonuses if the checkboxes are selected
+		const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+		const talentBonus = hasTalent ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
+
+		const total = base + bgBonus + talentBonus;
+
+        if (debug_on) {
+          console.log(`[Skill Calculation] ${skill}`);
+          console.log(`  Base: ${base}`);
+          console.log(`  Background Bonus: ${bgBonus}`);
+          console.log(`  Talent Bonus: ${talentBonus}`);
+          console.log(`  Final ${skill}_mdr = ${total}`);
+        }
+
+        const update = {};
+        update[`${skill}_mdr`] = total;
+        setAttrs(update);
+      });
+    });
+  });
+
+  // === Manual trigger once to initialize all values (e.g., on sheet:opened) ===
+  if (debug_on) {
+    console.log("[registerSkillHandler] Manual initialization on load");
+    console.log("[registerSkillHandler] Skills to initialize:", triggerSkills);
+  }
+
+  getAttrs(["showracials"].concat(...Object.values(skillsToAttrs)), values => {
+    const raceId = values.showracials || "0";
+    const activeRace = raceValueMap[raceId];
+    const isActive = activeRace === racePrefix;
+    if (!isActive) return;
+
+    triggerSkills.forEach(skill => {
+      const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+		const hasBg = values[`${racePrefix}_mdr_checkbox`] === "true";
+		const hasTalent = values[`${racePrefix}_talent_mdr_checkbox`] === "true";
+
+		// Only apply bonuses if the checkboxes are selected
+		const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+		const talentBonus = hasTalent ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
+
+		const total = base + bgBonus + talentBonus;
+
+      if (debug_on) {
+        console.log(`[Manual Init - Skill Calculation] ${skill}`);
+        console.log(`  Base: ${base}`);
+        console.log(`  Background Bonus: ${bgBonus}`);
+        console.log(`  Talent Bonus: ${talentBonus}`);
+        console.log(`  Final ${skill}_mdr = ${total}`);
+      }
+
+      const update = {};
+      update[`${skill}_mdr`] = total;
+      setAttrs(update);
+    });
+  });
+}
+
+function setDefaultSkillBonuses(race, backgroundSkills) {
+  const updates = {};
+  backgroundSkills.forEach(skill => {
+    const attr = `${race}_${skill}_bonus_mdr`;
+    if (!(attr in updates)) updates[attr] = 5;
+  });
+  if (debug_on) console.log("[setDefaultSkillBonuses]", updates);
+  return updates;
+}
+
+function setDefaultTalentBonuses(race, talentSkills) {
+  const updates = {};
+  talentSkills.forEach(skill => {
+    const attr = `${race}_talent_${skill}_bonus_mdr`;
+    if (!(attr in updates)) updates[attr] = 10;
+  });
+  if (debug_on) console.log("[setDefaultTalentBonuses]", updates);
+  return updates;
+}
+
+// -------------------- working area end ----------------- //
 
   on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:mag change:mag add:vitality change:vitality add:language_caltheran_skill_mdr change:language_caltheran_skill_mdr", function() {
     getAttrs(["str", "siz", "dex", "age", "dodge_skill_mdr", "edu", "mag", "vitality", "language_caltheran_skill_mdr"], function(values) {

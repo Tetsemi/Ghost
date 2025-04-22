@@ -1,4 +1,3 @@
-
 // Maps //
 const backgroundSkillMap = {
   alteri: {
@@ -256,7 +255,6 @@ lyranniBackgroundTabs.forEach(tab => {
 		setAttrs({ lyranni_background_choice: tab });
 	});
 });
-
 
 const humanTalentTabs = ["quick_fixer", "skilled_focus"];
 

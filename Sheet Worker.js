@@ -515,7 +515,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			`${racePrefix}_${skill}_bonus_mdr`,
 			`${racePrefix}_talent_${skill}_bonus_mdr`
 		]),
-		...talentSources.map(source => `${racePrefix}_${source}_mdr_checkbox`)
+		...Object.keys(talentSkillMap[racePrefix]).map(talentKey => `${racePrefix}_${talentKey}_mdr_checkbox`)
 	];
 
 	const skillsToAttrs = triggerSkills.reduce((map, skill) => {
@@ -531,7 +531,10 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	const globalAttrs = [
 		`${racePrefix}_mdr_checkbox`,
 		"showracials",
-		...talentSources.map(source => `${racePrefix}_${source}_mdr_checkbox`)
+//		...talentSources.map(source => `${racePrefix}_${source}_mdr_checkbox`),
+		...Object.keys(talentSkillMap[racePrefix] || {}).map(talent =>
+			`${racePrefix}_${talent}_mdr_checkbox`
+		)
 	];
 
 	if (debug_on) console.log("[registerSkillHandler Init]", { watched });
@@ -572,14 +575,15 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 				
 				let talentBonus = 0;
-				talentSources.forEach(source => {
-					const checkboxName = `${racePrefix}_${source}_mdr_checkbox`;
+				Object.entries(talentSkillMap[racePrefix] || {}).forEach(([talentKey, skills]) => {
+					const checkboxName = `${racePrefix}_${talentKey}_mdr_checkbox`;
 					const checkboxValue = values[checkboxName];
 					const expectedValue = `talent_${skill}`;
 					if (checkboxValue === `talent_${skill}`) {
 						talentBonus += 10;
-						console.log(`  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`);
+						if (debug_on) console.log(`Inside IF  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`);
 					}
+					if (debug_on) console.log(`Outside IF  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`)
 				});
 
 				const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
@@ -636,14 +640,15 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			}
 
 			let talentBonus = 0;
-			talentSources.forEach(source => {
-				const checkboxName = `${racePrefix}_${source}_mdr_checkbox`;
+			Object.entries(talentSkillMap[racePrefix] || {}).forEach(([talentKey, skills]) => {
+				const checkboxName = `${racePrefix}_${talentKey}_mdr_checkbox`;
 				const checkboxValue = values[checkboxName];
 				const expectedValue = `talent_${skill}`;
 				if (checkboxValue === `talent_${skill}`) {
 					talentBonus += 10;
-					if (debug_on) console.log(`  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`);
+					if (debug_on) console.log(`Inside IF  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`);
 				}
+				if (debug_on) console.log(`Outside IF  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`)
 			});
 
 			const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;

@@ -2409,14 +2409,14 @@
 				</tr>
 				<tr data-i18n-list-item="language(own)">
 					<td><input type="checkbox" name="attr_language_own_mdr_checkbox"></td>
-					<td class="skill-label"><span name="language(own)-u">Racial(75%)</span></td>
+					<td class="skill-label"><span name="attr_language_own_txt"></span></td>
 					<td><input class="skill-input" type="text" name="attr_language_own_skill_mdr" /></td>
 					<td><input class="skill-input" type="text" name="attr_language_own_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_own_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{language_own_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{language_own_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{language_own_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_language_own_mdr_check' /></td>
 				</tr>	
 				<tr data-i18n-list-item="language(caltheran)">
 					<td><input type="checkbox" name="attr_language_caltheran_mdr_checkbox"></td>
-					<td class="skill-label"><span name="language(caltheran)-u">Caltheran(EDU)</span></td>
+					<td class="skill-label"><span name="attr_language_caltheran_txt"></span></td>
 					<td><input class="skill-input" type="text" name="attr_language_caltheran_skill_mdr" /></td>
 					<td><input class="skill-input" type="text" name="attr_language_caltheran_mdr" readonly/></td>
 					<td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{language_caltheran_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{language_caltheran_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{language_caltheran_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{language_caltheran_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_language_caltheran_mdr_check' /></td>
@@ -6441,8 +6441,6 @@
 <input type="hidden" name="attr_insight_txt" value="Insight Roll"/>
 <input type="hidden" name="attr_investigation_txt" value="Investigation Roll"/>
 <input type="hidden" name="attr_jump_txt" value="Jump Roll"/>
-<input type="hidden" name="attr_language_own_txt" value="Language(Own) Roll"/>
-<input type="hidden" name="attr_language_caltheran_txt" value="Language(Caltheran) Roll"/>
 <input type="hidden" name="attr_law_txt" value="Law Roll"/>
 <input type="hidden" name="attr_libraryuse_txt" value="Library Use Roll"/>
 <input type="hidden" name="attr_listen_txt" value="Listen Roll"/>
@@ -11771,33 +11769,22 @@ on("change:total_spellcost change:ac", function () {
 });
 
 on("change:showracials sheet:opened", () => {
-    getAttrs(["showracials"], values => {
-    const raceKey = String(values.showracials); // ensure string key
-    const race = raceValueMap[raceKey] || "unknown";
-    
-	if (debug_on) console.log("7a. on(change:showracials sheet:opened)");
-    if (debug_on) console.log("7b. Race ID:", raceKey);
-    if (debug_on) console.log(`7c. Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
-    if (debug_on) console.log(`7d. Initializing racial bonuses for: ${race}`);
-});
-  
-  getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
-    const raceId = values.showracials;
-    const race = raceValueMap[String(raceId)] || "human"; // fallback default
+	getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
+		const raceId = String(values.showracials || "0");
+		const race = raceValueMap[raceId] || "human";
+		const racialLang = raceLanguageMap[race] || "Racial";
 
-    const racialLang = raceLanguageMap[race] || "Racial";
-    const otherLang = race === "human" ? "Other" : "Caltheran";
+		// Determine language labels based on race
+		const ownLang = `${racialLang}(75%)`;
+		const otherLang = race === "human" ? "Other(EDU)" : "Caltheran(EDU)";
 
-    const updates = {};
-    if (!values.language_own_txt) updates.language_own_txt = `${racialLang}(75%)`;
-    if (!values.language_caltheran_txt) updates.language_caltheran_txt = `${otherLang}(EDU)`;
+		const updates = {
+			language_own_txt: ownLang,
+			language_caltheran_txt: otherLang
+		};
 
-    // Always update if race changes
-    updates.language_own_txt = `${racialLang}(75%)`;
-    updates.language_caltheran_txt = `${otherLang}(EDU)`;
-
-    setAttrs(updates);
-  });
+		setAttrs(updates);
+	});
 });
 
 // List of relevant attributes
@@ -11948,7 +11935,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			`${racePrefix}_${skill}_bonus_mdr`,
 			`${racePrefix}_talent_${skill}_bonus_mdr`
 		]),
-		...talentSources.map(source => `attr_${racePrefix}_${source}_checkbox`)
+		...talentSources.map(skill => `${racePrefix}_${skill}_talent_mdr`)
 	];
 
 
@@ -11986,7 +11973,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
       triggerSkills.forEach(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
 		const hasBg = values[`${racePrefix}_mdr_checkbox`] === skill;
-		const hasTalent = values[`${racePrefix}_talent_mdr_checkbox`] === skill;
+		const hasTalent = values[`${racePrefix}_${skill}_talent_mdr`] === `talent_${skill}`;
 
 		// Only apply bonuses if the checkboxes are selected
 		const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;

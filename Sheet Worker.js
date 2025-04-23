@@ -361,33 +361,22 @@ on("change:total_spellcost change:ac", function () {
 });
 
 on("change:showracials sheet:opened", () => {
-    getAttrs(["showracials"], values => {
-    const raceKey = String(values.showracials); // ensure string key
-    const race = raceValueMap[raceKey] || "unknown";
-    
-	if (debug_on) console.log("7a. on(change:showracials sheet:opened)");
-    if (debug_on) console.log("7b. Race ID:", raceKey);
-    if (debug_on) console.log(`7c. Sheet opened. Race ID: ${raceKey} | Mapped Race: ${race}`);
-    if (debug_on) console.log(`7d. Initializing racial bonuses for: ${race}`);
-});
-  
-  getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
-    const raceId = values.showracials;
-    const race = raceValueMap[String(raceId)] || "human"; // fallback default
+	getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
+		const raceId = String(values.showracials || "0");
+		const race = raceValueMap[raceId] || "human";
+		const racialLang = raceLanguageMap[race] || "Racial";
 
-    const racialLang = raceLanguageMap[race] || "Racial";
-    const otherLang = race === "human" ? "Other" : "Caltheran";
+		// Determine language labels based on race
+		const ownLang = `${racialLang}(75%)`;
+		const otherLang = race === "human" ? "Other(EDU)" : "Caltheran(EDU)";
 
-    const updates = {};
-    if (!values.language_own_txt) updates.language_own_txt = `${racialLang}(75%)`;
-    if (!values.language_caltheran_txt) updates.language_caltheran_txt = `${otherLang}(EDU)`;
+		const updates = {
+			language_own_txt: ownLang,
+			language_caltheran_txt: otherLang
+		};
 
-    // Always update if race changes
-    updates.language_own_txt = `${racialLang}(75%)`;
-    updates.language_caltheran_txt = `${otherLang}(EDU)`;
-
-    setAttrs(updates);
-  });
+		setAttrs(updates);
+	});
 });
 
 // List of relevant attributes
@@ -538,7 +527,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			`${racePrefix}_${skill}_bonus_mdr`,
 			`${racePrefix}_talent_${skill}_bonus_mdr`
 		]),
-		...talentSources.map(source => `attr_${racePrefix}_${source}_checkbox`)
+		...talentSources.map(skill => `${racePrefix}_${skill}_talent_mdr`)
 	];
 
 
@@ -576,7 +565,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
       triggerSkills.forEach(skill => {
         const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
 		const hasBg = values[`${racePrefix}_mdr_checkbox`] === skill;
-		const hasTalent = values[`${racePrefix}_talent_mdr_checkbox`] === skill;
+		const hasTalent = values[`${racePrefix}_${skill}_talent_mdr`] === `talent_${skill}`;
 
 		// Only apply bonuses if the checkboxes are selected
 		const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;

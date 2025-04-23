@@ -489,11 +489,6 @@ on("change:showracials sheet:opened", () => {
       return;
     }
 
-    console.log("[Skill Init] Race ID:", raceId);
-    console.log("[Skill Init] Mapped Race:", mappedRace);
-	
-    handleRaceChange(mappedRace);
-
     const racialLang = raceLanguageMap[mappedRace] || "Racial";
     const otherLang = mappedRace === "human" ? "Other" : "Caltheran";
 
@@ -711,35 +706,34 @@ function setDefaultTalentBonuses(race) {
   return updates;
 }
 
+let lastRaceHandled = null;
+
 function handleRaceChange(race) {
-  if (!race || !backgroundSkillMap[race]) return;
+  if (race === lastRaceHandled) {
+    if (debug_on) console.log(`[handleRaceChange] Skipped duplicate init for race: ${race}`);
+    return;
+  }
+  lastRaceHandled = race;
 
   if (debug_on) console.log("[handleRaceChange]", race);
 
-  const skillList = Object.values(backgroundSkillMap[race])
-    .flatMap(obj => Object.keys(obj));
-  const talentList = Object.values(talentSkillMap[race] || {})
-    .flatMap(obj => Object.keys(obj));
+  resetAllMDRToBase();
+  setDefaultSkillBonuses(race);
+  setDefaultTalentBonuses(race);
+  applyAllSkillBonuses(race);
 
-  resetAllMDRToBase(); 
-  const skillUpdates = setDefaultSkillBonuses(race, skillList);
-  const talentUpdates = setDefaultTalentBonuses(race, talentList);
+  const skillList = Object.values(backgroundSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
+  const talentList = Object.values(talentSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
+  if (debug_on) {
+    console.log("[handleRaceChange] Calling registerSkillHandler");
+    console.log("  Race:", race);
+    console.log("  Skills:", skillList);
+    console.log("  Talents:", talentList);
+  }
 
-  const allUpdates = { ...skillUpdates, ...talentUpdates };
-  setAttrs(allUpdates, () => {
-    applyAllSkillBonuses(race); 
-		if (debug_on) {
-			console.log("[handleRaceChange] Calling registerSkillHandler");
-			console.log("  Race:", race);
-			console.log("  Skills:", skillList);
-			console.log("  Talents:", talentList);
-		}
-    // Register handlers AFTER state is clean
-    registeredRaces.delete(race);
-    registerSkillHandler(race, skillList, talentList);
-
-  });
+  registerSkillHandler(race, skillList, talentList);
 }
+
 
 
 
@@ -771,16 +765,6 @@ on("sheet:opened", function () {
         // Handle race bonus init
         handleRaceChange(race);
 
-        // Register handlers separately AFTER all bonuses are applied
-		const skillList = Object.values(backgroundSkillMap[race])
-		.flatMap(obj => Object.keys(obj));
-
-		const talentSources = Object.keys(talentSkillMap[race] || {});
-
-        registeredRaces.delete(race);
-        setTimeout(() => {
-          registerSkillHandler(race, skillList, talentSources);
-        }, 0);
       }
     });
   });

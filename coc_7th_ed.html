@@ -11891,47 +11891,6 @@ function applyAllSkillBonuses(race) {
   setAttrs(updates);
 }
 
-function handleRaceChange(race) {
-  if (debug_on) console.log("[handleRaceChange]", race);
-  resetAllMDRToBase(race, () => {
-    applyAllSkillBonuses(race);
-  });
-}
-
-// === Sheet Initialization ===
-on("sheet:opened", function () {
-  if (debug_on) console.log("[sheet:opened] fired");
-
-  getAttrs(["showracials", "new_character_flag"], values => {
-    const isNew = values.new_character_flag === "1";
-    const race = getActiveRace(values);
-    const updates = {};
-
-    if (debug_on) console.log("[sheet:opened]", { race, isNew });
-
-    // Always run skill init if new character, even if race is "unknown"
-    if (isNew) {
-      Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
-        const val = parseInt(base, 10) || 0;
-        updates[`${label}_skill_mdr`] = val;
-        updates[`${label}_mdr`] = val;
-        updates[`${label}_note`] = notes || "";
-      });
-      updates.new_character_flag = "0";
-
-      if (debug_on) console.log("[New Character Skill Init]", updates);
-      setAttrs(updates, () => {
-        if (race && race !== "unknown") {
-          handleRaceChange(race); // Only apply race bonuses if race is valid
-        }
-      });
-    } else if (race && race !== "unknown") {
-      handleRaceChange(race);
-    }
-  });
-});
-
-
 on("change:showracials", function () {
   getAttrs(["showracials"], values => {
     const race = getActiveRace(values);
@@ -12057,63 +12016,153 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
   }
 
   getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
-    const raceId = values.showracials || "0";
-    const activeRace = raceValueMap[raceId];
-    const isActive = activeRace === racePrefix;
-    if (!isActive) return;
+  const raceId = values.showracials || "0";
+  const activeRace = raceValueMap[raceId];
+  const isActive = activeRace === racePrefix;
+  if (!isActive) return;
 
-    triggerSkills.forEach(skill => {
-  const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
-
-  const bgChecked = values[`${racePrefix}_mdr_checkbox`];
-  const talentChecked = values[`${racePrefix}_talent_mdr_checkbox`];
-
-  // Determine if background or talent applies to this specific skill
-  const hasBg = bgChecked === skill;
-  const hasTalent = talentChecked === skill;
-
-  const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
-  const talentBonus = hasTalent ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
-
-  const total = base + bgBonus + talentBonus;
-
-  if (debug_on && (bgBonus !== 0 || talentBonus !== 0)) {
-    console.log(`[Skill Calculation] ${skill}`);
-    console.log(`  Base: ${base}`);
-    console.log(`  BG Checked: ${bgChecked}, Match: ${hasBg}`);
-    console.log(`  Talent Checked: ${talentChecked}, Match: ${hasTalent}`);
-    console.log(`  Background Bonus: ${bgBonus}`);
-    console.log(`  Talent Bonus: ${talentBonus}`);
-    console.log(`  Final ${skill}_mdr = ${total}`);
+  if (debug_on) {
+    console.log("[registerSkillHandler] Manual Init", { racePrefix, activeRace });
   }
 
-  const update = {};
-  update[`${skill}_mdr`] = total;
-  setAttrs(update);
+  triggerSkills.forEach(skill => {
+    const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+    const bgCheckedSkill = values[`${racePrefix}_mdr_checkbox`] || "";
+    const talentCheckedSkill = values[`${racePrefix}_talent_mdr_checkbox`] || "";
+
+    const hasBg = bgCheckedSkill === skill;
+    const hasTalent = talentCheckedSkill === skill;
+
+    const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+    const talentBonus = hasTalent ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
+
+    const total = base + bgBonus + talentBonus;
+
+    if (debug_on && (hasBg || hasTalent)) {
+      console.log(`[Manual Init Skill Calculation] ${skill}`);
+      console.log(`  Base: ${base}`);
+      console.log(`  Background Checked: ${bgCheckedSkill} (Match: ${hasBg})`);
+      console.log(`  Talent Checked: ${talentCheckedSkill} (Match: ${hasTalent})`);
+      console.log(`  BG Bonus: ${bgBonus}`);
+      console.log(`  Talent Bonus: ${talentBonus}`);
+      console.log(`  Final ${skill}_mdr = ${total}`);
+    }
+
+    const update = {};
+    update[`${skill}_mdr`] = total;
+    setAttrs(update);
+  });
 });
 
-  });
 }
 
-function setDefaultSkillBonuses(race, backgroundSkills) {
+function setDefaultSkillBonuses(race) {
   const updates = {};
-  backgroundSkills.forEach(skill => {
-    const attr = `${race}_${skill}_bonus_mdr`;
-    if (!(attr in updates)) updates[attr] = 5;
+  const raceBackgrounds = backgroundSkillMap[race];
+
+  if (!raceBackgrounds) return updates;
+
+  Object.values(raceBackgrounds).forEach(skillSet => {
+    Object.keys(skillSet).forEach(skill => {
+      const attr = `${race}_${skill}_bonus_mdr`;
+      if (!(attr in updates)) updates[attr] = 5;
+    });
   });
+
   if (debug_on) console.log("[setDefaultSkillBonuses]", updates);
+  setAttrs(updates);
   return updates;
 }
 
-function setDefaultTalentBonuses(race, talentSkills) {
+
+function setDefaultTalentBonuses(race) {
   const updates = {};
-  talentSkills.forEach(skill => {
-    const attr = `${race}_talent_${skill}_bonus_mdr`;
-    if (!(attr in updates)) updates[attr] = 10;
+  const raceTalents = talentSkillMap[race];
+
+  if (!raceTalents) return updates;
+
+  Object.values(raceTalents).forEach(skillSet => {
+    Object.keys(skillSet).forEach(skill => {
+      const attr = `${race}_talent_${skill}_bonus_mdr`;
+      if (!(attr in updates)) updates[attr] = 10;
+    });
   });
+
   if (debug_on) console.log("[setDefaultTalentBonuses]", updates);
+  setAttrs(updates);
   return updates;
 }
+
+function handleRaceChange(race) {
+  if (!race || !backgroundSkillMap[race]) return;
+
+  if (debug_on) console.log("[handleRaceChange]", race);
+
+  const skillList = Object.values(backgroundSkillMap[race])
+    .flatMap(obj => Object.keys(obj));
+  const talentList = Object.values(talentSkillMap[race] || {})
+    .flatMap(obj => Object.keys(obj));
+
+  resetAllMDRToBase(); // ✅ FIRST
+  const skillUpdates = setDefaultSkillBonuses(race, skillList);
+  const talentUpdates = setDefaultTalentBonuses(race, talentList);
+
+  const allUpdates = { ...skillUpdates, ...talentUpdates };
+  setAttrs(allUpdates, () => {
+    applyAllSkillBonuses(race); // ✅ AFTER bonuses set
+
+    // Register handlers AFTER state is clean
+    registeredRaces.delete(race);
+    registerSkillHandler(race, skillList, talentList);
+
+  });
+}
+
+
+
+on("sheet:opened", function () {
+  if (debug_on) console.log("[sheet:opened] fired");
+
+  getAttrs(["showracials", "new_character_flag"], values => {
+    const isNew = values.new_character_flag === "1";
+    const race = getActiveRace(values);
+    const updates = {};
+
+    if (debug_on) console.log("[sheet:opened]", { race, isNew });
+
+    // Always run skill init if new character
+    if (isNew) {
+      Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
+        const val = parseInt(base, 10) || 0;
+        updates[`${label}_skill_mdr`] = val;
+        updates[`${label}_mdr`] = val;
+        updates[`${label}_note`] = notes || "";
+      });
+      updates.new_character_flag = "0";
+
+      if (debug_on) console.log("[New Character Skill Init]", updates);
+    }
+
+    setAttrs(updates, () => {
+      if (race && race !== "unknown") {
+        // Handle race bonus init
+        handleRaceChange(race);
+
+        // Register handlers separately AFTER all bonuses are applied
+		const skillList = Object.values(backgroundSkillMap[race])
+		.flatMap(obj => Object.keys(obj));
+
+		const talentList = Object.values(talentSkillMap[race] || {})
+		.flatMap(obj => Object.keys(obj));
+
+        registeredRaces.delete(race);
+        setTimeout(() => {
+          registerSkillHandler(race, skillList, talentSources);
+        }, 0);
+      }
+    });
+  });
+});
 
 // -------------------- working area end ----------------- //
 

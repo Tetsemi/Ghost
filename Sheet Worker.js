@@ -646,48 +646,69 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 }
 
-function setDefaultSkillBonuses(race, backgroundSkills) {
+function setDefaultSkillBonuses(race) {
   const updates = {};
-  backgroundSkills.forEach(skill => {
-    const attr = `${race}_${skill}_bonus_mdr`;
-    if (!(attr in updates)) updates[attr] = 5;
+  const raceBackgrounds = backgroundSkillMap[race];
+
+  if (!raceBackgrounds) return updates;
+
+  Object.values(raceBackgrounds).forEach(skillSet => {
+    Object.keys(skillSet).forEach(skill => {
+      const attr = `${race}_${skill}_bonus_mdr`;
+      if (!(attr in updates)) updates[attr] = 5;
+    });
   });
+
   if (debug_on) console.log("[setDefaultSkillBonuses]", updates);
+  setAttrs(updates);
   return updates;
 }
 
-function setDefaultTalentBonuses(race, talentSkills) {
+
+function setDefaultTalentBonuses(race) {
   const updates = {};
-  talentSkills.forEach(skill => {
-    const attr = `${race}_talent_${skill}_bonus_mdr`;
-    if (!(attr in updates)) updates[attr] = 10;
+  const raceTalents = talentSkillMap[race];
+
+  if (!raceTalents) return updates;
+
+  Object.values(raceTalents).forEach(skillSet => {
+    Object.keys(skillSet).forEach(skill => {
+      const attr = `${race}_talent_${skill}_bonus_mdr`;
+      if (!(attr in updates)) updates[attr] = 10;
+    });
   });
+
   if (debug_on) console.log("[setDefaultTalentBonuses]", updates);
+  setAttrs(updates);
   return updates;
 }
 
-function handleRaceChange(race, force = false) {
-  if (!race || !skillBonusMap[race]) return;
+function handleRaceChange(race) {
+  if (!race || !backgroundSkillMap[race]) return;
 
   if (debug_on) console.log("[handleRaceChange]", race);
 
-  // 1. Clear MDRs
-  resetAllMDRToBase();
+  const skillList = Object.values(backgroundSkillMap[race])
+    .flatMap(obj => Object.keys(obj));
+  const talentList = Object.values(talentSkillMap[race] || {})
+    .flatMap(obj => Object.keys(obj));
 
-  // 2. Apply default racial bonuses
-  setDefaultSkillBonuses(race);
-  setDefaultTalentBonuses(race);
-  applyAllSkillBonuses(race);
+  resetAllMDRToBase(); // ✅ FIRST
+  const skillUpdates = setDefaultSkillBonuses(race, skillList);
+  const talentUpdates = setDefaultTalentBonuses(race, talentList);
 
-  // 3. Defer registerSkillHandler until all bonuses are applied
-  const skillList = Object.keys(skillBonusMap[race]);
-  const talentSources = talentBonusSources[race] || [];
+  const allUpdates = { ...skillUpdates, ...talentUpdates };
+  setAttrs(allUpdates, () => {
+    applyAllSkillBonuses(race); // ✅ AFTER bonuses set
 
-  registeredRaces.delete(race); // Force re-init
-  setTimeout(() => {
-    registerSkillHandler(race, skillList, talentSources);
-  }, 0); // defer by 1 tick
+    // Register handlers AFTER state is clean
+    registeredRaces.delete(race);
+    registerSkillHandler(race, skillList, talentList);
+
+  });
 }
+
+
 
 on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] fired");
@@ -717,9 +738,12 @@ on("sheet:opened", function () {
         // Handle race bonus init
         handleRaceChange(race);
 
-        // 💡 Register handlers separately AFTER all bonuses are applied
-        const skillList = Object.keys(skillBonusMap[race]);
-        const talentSources = talentBonusSources[race] || [];
+        // Register handlers separately AFTER all bonuses are applied
+		const skillList = Object.values(backgroundSkillMap[race])
+		.flatMap(obj => Object.keys(obj));
+
+		const talentList = Object.values(talentSkillMap[race] || {})
+		.flatMap(obj => Object.keys(obj));
 
         registeredRaces.delete(race);
         setTimeout(() => {

@@ -509,6 +509,12 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	registeredRaces.add(key);
 
 	const allSkills = Object.values(skillMapTable).map(s => s.label);
+	
+	const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
+		map[skill.label] = parseInt(skill.base || "0", 10);
+		return map;
+	}, {});
+
 
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,
@@ -553,9 +559,15 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				.filter(Boolean);
 
 			const update = {};
-
+			let totalSkillPointsSpent = 0;
+			
 			allSkills.forEach(skill => {
 				const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+				
+				const defaultBase = baseSkillLookup[skill] || 0;
+				const spent = Math.max(base - defaultBase, 0);
+				totalSkillPointsSpent += spent;
+				
 				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
 				const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
 				const total = base + bgBonus + talentBonus;
@@ -566,7 +578,8 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 					console.log(`[Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 				}
 			});
-
+			
+			update["total_skill_points_spent"] = totalSkillPointsSpent;
 			setAttrs(update);
 		});
 	});
@@ -590,9 +603,15 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			.filter(Boolean);
 
 		const update = {};
+		let totalSkillPointsSpent = 0;
 
 		allSkills.forEach(skill => {
 			const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+				
+			const defaultBase = baseSkillLookup[skill] || 0;
+			const spent = Math.max(base - defaultBase, 0);
+			totalSkillPointsSpent += spent;
+			
 			const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
 			const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
 			const total = base + bgBonus + talentBonus;
@@ -603,12 +622,11 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 			}
 		});
-
+		
+		update["total_skill_points_spent"] = totalSkillPointsSpent;
 		setAttrs(update);
 	});
 }
-
-
 
 function setDefaultSkillBonuses(race) {
   const updates = {};
@@ -623,7 +641,7 @@ function setDefaultSkillBonuses(race) {
     });
   });
 
-  if (debug_on) console.log("[setDefaultSkillBonuses]", updates);
+//  if (debug_on) console.log("[setDefaultSkillBonuses]", updates);
   setAttrs(updates);
   return updates;
 }
@@ -642,7 +660,7 @@ function setDefaultTalentBonuses(race) {
     });
   });
 
-  if (debug_on) console.log("[setDefaultTalentBonuses]", updates);
+//  if (debug_on) console.log("[setDefaultTalentBonuses]", updates);
   setAttrs(updates);
   return updates;
 }
@@ -656,21 +674,13 @@ function handleRaceChange(race) {
   }
   lastRaceHandled = race;
 
-  if (debug_on) console.log("[handleRaceChange]", race);
+//  if (debug_on) console.log("[handleRaceChange]", race);
 
   resetAllMDRToBase();
-  setDefaultSkillBonuses(race);
-  setDefaultTalentBonuses(race);
   applyAllSkillBonuses(race);
 
   const skillList = Object.values(backgroundSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
   const talentList = Object.values(talentSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
-  if (debug_on) {
-    console.log("[handleRaceChange] Calling registerSkillHandler");
-    console.log("  Race:", race);
-    console.log("  Skills:", skillList);
-    console.log("  Talents:", talentList);
-  }
 
   registerSkillHandler(race, skillList, talentList);
 }
@@ -686,7 +696,7 @@ on("sheet:opened", function () {
     const race = getActiveRace(values);
     const updates = {};
 
-    if (debug_on) console.log("[sheet:opened]", { race, isNew });
+//    if (debug_on) console.log("[sheet:opened]", { race, isNew });
 
     // Always run skill init if new character
     if (isNew) {

@@ -277,7 +277,10 @@
 				 <td class="attr-label"><strong data-i18n="arcane_capacity-u">AC</strong></td>
                 <td><input class="attr-input" type="text" name="attr_ac"/></td>
                 <td class="attr-roll" ></td>
-				
+				<td> </td>
+				<td class="attr-label"><strong data-i18n="total_skill_points_spent-u">AC</strong></td>
+                <td><input class="attr-input" type="text" name="attr_total_skill_points_spent"/></td>
+                <td class="attr-roll" ></td>
 			</tr>
         </table>
         </div>
@@ -11917,6 +11920,12 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	registeredRaces.add(key);
 
 	const allSkills = Object.values(skillMapTable).map(s => s.label);
+	
+	const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
+		map[skill.label] = parseInt(skill.base || "0", 10);
+		return map;
+	}, {});
+
 
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,
@@ -11961,9 +11970,15 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				.filter(Boolean);
 
 			const update = {};
-
+			let totalSkillPointsSpent = 0;
+			
 			allSkills.forEach(skill => {
 				const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+				
+				const defaultBase = baseSkillLookup[skill] || 0;
+				const spent = Math.max(base - defaultBase, 0);
+				totalSkillPointsSpent += spent;
+				
 				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
 				const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
 				const total = base + bgBonus + talentBonus;
@@ -11974,7 +11989,8 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 					console.log(`[Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 				}
 			});
-
+			
+			update["total_skill_points_spent"] = totalSkillPointsSpent;
 			setAttrs(update);
 		});
 	});
@@ -11998,9 +12014,15 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			.filter(Boolean);
 
 		const update = {};
+		let totalSkillPointsSpent = 0;
 
 		allSkills.forEach(skill => {
 			const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+				
+			const defaultBase = baseSkillLookup[skill] || 0;
+			const spent = Math.max(base - defaultBase, 0);
+			totalSkillPointsSpent += spent;
+			
 			const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
 			const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
 			const total = base + bgBonus + talentBonus;
@@ -12011,12 +12033,11 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 			}
 		});
-
+		
+		update["total_skill_points_spent"] = totalSkillPointsSpent;
 		setAttrs(update);
 	});
 }
-
-
 
 function setDefaultSkillBonuses(race) {
   const updates = {};

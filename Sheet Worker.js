@@ -515,7 +515,6 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		return map;
 	}, {});
 
-
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,
 		...allSkills.map(skill => `${skill}_skill_mdr`),
@@ -646,7 +645,6 @@ function setDefaultSkillBonuses(race) {
   return updates;
 }
 
-
 function setDefaultTalentBonuses(race) {
   const updates = {};
   const raceTalents = talentSkillMap[race];
@@ -684,9 +682,6 @@ function handleRaceChange(race) {
 
   registerSkillHandler(race, skillList, talentList);
 }
-
-
-
 
 on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] fired");

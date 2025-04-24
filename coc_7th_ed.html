@@ -5519,7 +5519,7 @@
                 <td style="width:6%">
 				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{unarmed_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_unarmed_mdr_check' />
 				</td>
-                <td style="width:16%"><input style="width:100%" type="text" data-i18n-placeholder="Unarmed" placeholder="Unarmed" disabled="true"/></td>
+                <td style="width:16%"><input style="width:100%" type="text" data-i18n-placeholder="unarmed-u" placeholder="Unarmed" disabled="true"/></td>
                 <td style="width:8%"><input style="width:100%;text-align:right;" type="text" value="1d3" disabled="true"/></td>
                 <td style="width:8%"><input style="width:100%;text-align:left;" type="text" value="+db" disabled="true"/></td>
                 <td style="width:8%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
@@ -5532,16 +5532,20 @@
             <tr>
                 <td style="width:30%"><input style="width:100%;text-align:center" type="text" name="attr_weapon1_mdr_name"/></td>
                 <td style="width:6%">
-				<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}}' name='roll_weapon1_mdr_attack' />
+				<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[ floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox}) / 2) ]]}}, {{extreme=[[ floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox}) / 5) ]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}}' name='roll_weapon1_mdr_attack' />
 				</td>
                 <td style="width:16%">
-                    <select style="width:100%" name="attr_weapon1__skill_mdr">
-						<option value="@{dodge_mdr}" data-i18n="dodge-z">Dodge</option>
-                        <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
-                        <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
-                        <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
-                        <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
-                        <option value="@{throw_mdr}" data-i18n="Throw">Throw</option>
+                    <select style="width:100%" name="attr_weapon1_skill_mdr">
+						<option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+						<option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
+						<option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
+						<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
+						<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
+						<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
+						<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+						<option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+						<option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
+						<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
                         <option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
                         <option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
                         <option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
@@ -5573,18 +5577,22 @@
 					</td>
                     <td style="width:16%">
                         <select style="width:100%" name="attr_weaponskill_mdr">
-						<option value="@{dodge_mdr}" data-i18n="dodge-z">Dodge</option>
-                        <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
-                        <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
-                        <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
-                        <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
-                        <option value="@{throw_mdr}" data-i18n="Throw">Throw</option>
-                        <option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
-                        <option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
-                        <option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
-                        <option value="@{otherskill4_mdr}" data-i18n="Other Skill #4">Other Skill #4</option>
-                        <option value="@{otherskill5_mdr}" data-i18n="Other Skill #5">Other Skill #5</option>
-                        <option value="@{otherskill6_mdr}" data-i18n="Other Skill #6">Other Skill #6</option>
+							<option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+							<option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
+							<option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
+							<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
+							<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
+							<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
+							<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+							<option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+							<option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
+							<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
+							<option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
+							<option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
+							<option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
+							<option value="@{otherskill4_mdr}" data-i18n="Other Skill #4">Other Skill #4</option>
+							<option value="@{otherskill5_mdr}" data-i18n="Other Skill #5">Other Skill #5</option>
+							<option value="@{otherskill6_mdr}" data-i18n="Other Skill #6">Other Skill #6</option>
                         </select>
                     </td>
                     <td style="width:8%"><input style="width:100%;text-align:right;" type="text" name="attr_weapondamage_mdr"/></td>
@@ -11633,7 +11641,7 @@ const tabList = ["skills", "background", "talents", "combat", "spells", "invento
 
 tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ selected_tab: tab });
     });
 });
@@ -11642,7 +11650,7 @@ const alteriBackgroundTabs = ["break_faced_radical", "ghostline_runner", "legacy
 
 alteriBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on)  console.log("Clicked tab", tab);
 		setAttrs({ alteri_background_choice: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
@@ -11652,7 +11660,7 @@ const draeviBackgroundTabs = ["forgeblood_scavenger", "horn_carved_wanderer", "s
 
 draeviBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ draevi_background_choice: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
@@ -11661,10 +11669,10 @@ draeviBackgroundTabs.forEach(tab => {
 const humanBackgroundTabs = ["ash_war_refugee", "data_hatched", "enclave_born", "gutter_fire_youth", "outpost_raised", "scavsteel_whelp"];
 
 humanBackgroundTabs.forEach(tab => {
-		on(`clicked:${tab}`, () => {
-			console.log("Clicked tab", tab);
-			setAttrs({ human_background_choice: tab });
-			race_default_trigger: Date.now() // Triggers recalculation and is watched
+	on(`clicked:${tab}`, () => {
+		if (debug_on) console.log("Clicked tab", tab);
+		setAttrs({ human_background_choice: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
 });
 
@@ -11672,7 +11680,7 @@ const lyranniBackgroundTabs = ["aelvareth_devotee", "echoborne", "glide_spire_sc
 
 lyranniBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ lyranni_background_choice: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
@@ -11682,7 +11690,7 @@ const alteriTalentTabs = ["maskwrights_grace", "shaped_for_subtlety"];
 
 alteriTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ alteri_talent_tab: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
@@ -11692,7 +11700,7 @@ const draeviTalentTabs = ["clan_blooded", "scavengers_edge"];
 
 draeviTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ draevi_talent_tab: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
@@ -11702,7 +11710,7 @@ const humanTalentTabs = ["quick_fixer", "skilled_focus"];
 
 humanTalentTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ human_talent_tab: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
@@ -11712,7 +11720,7 @@ const lyranniTalentTabs = ["aether_override", "echo_in_the_veins"];
 
 lyranniTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ lyranni_talent_tab: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
@@ -11763,9 +11771,9 @@ on("change:total_spellcost change:ac", function () {
     const isOver = cost > capacity ? "1" : "0";
 	
     // Log the raw values and the comparison result
-    console.log("Total Spell Cost:", cost);
-    console.log("Arcane Capacity:", capacity);
-    console.log("Is Over Capacity:", isOver);
+    if (debug_on) console.log("Total Spell Cost:", cost);
+    if (debug_on) console.log("Arcane Capacity:", capacity);
+    if (debug_on) console.log("Is Over Capacity:", isOver);
 	
     setAttrs({ spellcost_overflow: isOver });
   });
@@ -11805,7 +11813,7 @@ const magicSchools = [
 ];
 
 // Trigger on any of the above changing
-on(`change:${magicSchools.join(' change:')}`, () => {
+on("sheet:opened " + magicSchools.map(s => `change:${s}`).join(' '), () => {
   getAttrs(magicSchools, values => {
     const schoolValues = magicSchools
       .slice(0, 9) // first 9 are school values
@@ -11815,9 +11823,9 @@ on(`change:${magicSchools.join(' change:')}`, () => {
     const highestSchool = Math.max(...schoolValues);
     const total = highestSchool + baseUniversal;
 
-//    console.log(`Highest Magic School: ${highestSchool}`);
-//    console.log(`Universal Base: ${baseUniversal}`);
-//    console.log(`Total Universal: ${total}`);
+    if (debug_on) console.log(`Highest Magic School: ${highestSchool}`);
+    if (debug_on) console.log(`Universal Base: ${baseUniversal}`);
+    if (debug_on) console.log(`Total Universal: ${total}`);
 
     setAttrs({ magic_universal_mdr: total });
   });
@@ -11896,7 +11904,7 @@ on("change:showracials sheet:opened", () => {
     const mappedRace = raceValueMap[String(raceId)];
 
     if (!mappedRace) {
-      console.log("[Skill Init] No mapped race for Race ID:", raceId);
+      if (debug_on) console.log("[Skill Init] No mapped race for Race ID:", raceId);
       return;
     }
 
@@ -11986,7 +11994,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				update[`${skill}_mdr`] = total;
 
 				if (debug_on && (bgBonus || talentBonus)) {
-					console.log(`[Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
+					if (debug_on) console.log(`[Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 				}
 			});
 			
@@ -11996,8 +12004,8 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	});
 
 	if (debug_on) {
-		console.log("[registerSkillHandler] Manual initialization on load");
-		console.log("[registerSkillHandler] Skills to initialize:", triggerSkills);
+		if (debug_on) console.log("[registerSkillHandler] Manual initialization on load");
+		if (debug_on) console.log("[registerSkillHandler] Skills to initialize:", triggerSkills);
 	}
 
 	getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
@@ -12030,7 +12038,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			update[`${skill}_mdr`] = total;
 
 			if (debug_on && (bgBonus || talentBonus)) {
-				console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
+				if (debug_on) console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 			}
 		});
 		

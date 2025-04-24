@@ -3,7 +3,7 @@
 <div class='sheet-cdiv'>
     <input class="sheet-HideConfig" type="checkbox" checked name="attr_is_config"/><span class="sheet-is-config"><span style='font-family:"Pictos";'>y</span></span>
     <div class="sheet-config" style="text-align:left">
-        <div style="text-align:left"><b>Era Selection</b></div>
+<!--        <div style="text-align:left"><b>Era Selection</b></div>
 	    <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="7"><span style="display:none">Invictus</span>
 	    <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="1"><span style="display:none">Dark Ages</span>
 	    <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="5"><span style="display:none">Old West</span>
@@ -23,6 +23,8 @@
 					<option value="4">End Times(Post Apocalyptic Era)</option>
 				</select>
 		    </div>
+-->
+
 	    <div style="text-align:left"><b>Pulp Options</b></div>
 	    <div>
 	        <input type="checkbox" class="sheet-showshowpulp" name="attr_showpulp" value="1"><span>Pulp Cthulhu Overlay (Auto-enables Pulp HP)</span>
@@ -12105,13 +12107,18 @@ function handleRaceChange(race) {
 
 on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] fired");
-
+  
   getAttrs(["showracials", "new_character_flag"], values => {
     const isNew = values.new_character_flag === "1";
     const race = getActiveRace(values);
     const updates = {};
 
 //    if (debug_on) console.log("[sheet:opened]", { race, isNew });
+	getAttrs(["showskills"], values => {
+        if (!values.showskills || values.showskills === "0") {
+            setAttrs({ showskills: "3" });
+        }
+    });
 
     // Always run skill init if new character
     if (isNew) {

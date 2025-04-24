@@ -4201,7 +4201,7 @@
             <tr><td><input type="checkbox" name="attr_human_mdr_checkbox" value="engineering"></td><td>Engineering +5%</td><td>Gain +5% Engineering Skill</td><td><input class="skill-input" type="text" name="attr_human_engineering_bonus_mdr" readonly/></td></tr>
             <tr><td><input type="checkbox" name="attr_human_mdr_checkbox" value="medicine"></td><td>Medicine +5%</td><td>Gain +5% Medicine Skill</td><td><input class="skill-input" type="text" name="attr_human_medicine_bonus_mdr" readonly/></td></tr>
             <tr><td><input type="checkbox" name="attr_human_mdr_checkbox" value="physics"></td><td>Physics +5%</td><td>Gain +5% Physics Skill</td><td><input class="skill-input" type="text" name="attr_human_physics_bonus_mdr" readonly/></td></tr>
-            <tr><td><input type="checkbox" name="attr_human_mdr_checkbox" value="slicing"></td><td>Slicing Lore +5%</td><td>Gain +5% Slicing Lore Skill</td><td><input class="skill-input" type="text" name="attr_human_slicing_bonus_mdr" readonly/></td></tr>
+            <tr><td><input type="checkbox" name="attr_human_mdr_checkbox" value="slicing"></td><td>Slicing +5%</td><td>Gain +5% Slicing Skill</td><td><input class="skill-input" type="text" name="attr_human_slicing_bonus_mdr" readonly/></td></tr>
           </table>
         </div>
         <div class="sheet-bg-content-right">
@@ -12031,7 +12031,7 @@ function setDefaultSkillBonuses(race) {
     });
   });
 
-  if (debug_on) console.log("[setDefaultSkillBonuses]", updates);
+//  if (debug_on) console.log("[setDefaultSkillBonuses]", updates);
   setAttrs(updates);
   return updates;
 }
@@ -12050,7 +12050,7 @@ function setDefaultTalentBonuses(race) {
     });
   });
 
-  if (debug_on) console.log("[setDefaultTalentBonuses]", updates);
+//  if (debug_on) console.log("[setDefaultTalentBonuses]", updates);
   setAttrs(updates);
   return updates;
 }
@@ -12064,21 +12064,13 @@ function handleRaceChange(race) {
   }
   lastRaceHandled = race;
 
-  if (debug_on) console.log("[handleRaceChange]", race);
+//  if (debug_on) console.log("[handleRaceChange]", race);
 
   resetAllMDRToBase();
-  setDefaultSkillBonuses(race);
-  setDefaultTalentBonuses(race);
   applyAllSkillBonuses(race);
 
   const skillList = Object.values(backgroundSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
   const talentList = Object.values(talentSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
-  if (debug_on) {
-    console.log("[handleRaceChange] Calling registerSkillHandler");
-    console.log("  Race:", race);
-    console.log("  Skills:", skillList);
-    console.log("  Talents:", talentList);
-  }
 
   registerSkillHandler(race, skillList, talentList);
 }
@@ -12094,7 +12086,7 @@ on("sheet:opened", function () {
     const race = getActiveRace(values);
     const updates = {};
 
-    if (debug_on) console.log("[sheet:opened]", { race, isNew });
+//    if (debug_on) console.log("[sheet:opened]", { race, isNew });
 
     // Always run skill init if new character
     if (isNew) {

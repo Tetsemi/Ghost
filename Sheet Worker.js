@@ -508,17 +508,19 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	if (registeredRaces.has(key)) return;
 	registeredRaces.add(key);
 
+	const allSkills = Object.values(skillMapTable).map(s => s.label);
+
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,
+		...allSkills.map(skill => `${skill}_skill_mdr`),
 		...triggerSkills.flatMap(skill => [
-			`${skill}_skill_mdr`,
 			`${racePrefix}_${skill}_bonus_mdr`,
 			`${racePrefix}_talent_${skill}_bonus_mdr`
 		]),
 		...Object.keys(talentSkillMap[racePrefix]).map(talentKey => `${racePrefix}_${talentKey}_mdr_checkbox`)
 	];
 
-	const skillsToAttrs = triggerSkills.reduce((map, skill) => {
+	const skillsToAttrs = allSkills.reduce((map, skill) => {
 		map[skill] = [
 			`${skill}_skill_mdr`,
 			`${skill}_mdr`,
@@ -531,81 +533,41 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	const globalAttrs = [
 		`${racePrefix}_mdr_checkbox`,
 		"showracials",
-//		...talentSources.map(source => `${racePrefix}_${source}_mdr_checkbox`),
-		...Object.keys(talentSkillMap[racePrefix] || {}).map(talent =>
-			`${racePrefix}_${talent}_mdr_checkbox`
-		)
+		...Object.keys(talentSkillMap[racePrefix] || {}).map(talent => `${racePrefix}_${talent}_mdr_checkbox`)
 	];
 
 	if (debug_on) console.log("[registerSkillHandler Init]", { watched });
 
-	const uniqueWatched = [...new Set(watched)];
-	on(uniqueWatched.map(s => `change:${s}`).join(" "), () => {
-		if (debug_on) {
-			console.log("[registerSkillHandler Init]", {
-				racePrefix,
-				watched,
-				talentSources
-			});
-		}
-
+	on([...new Set(watched)].map(s => `change:${s}`).join(" "), () => {
 		getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
-			if (debug_on) {
-				console.log("\n[Skill Handler] Values Retrieved:");
-				Object.keys(values).forEach(key => {
-					console.log(`  ${key} = ${values[key]}`);
-				});
-			}
 			const raceId = values.showracials || "0";
 			const activeRace = raceValueMap[raceId];
-			const isActive = activeRace === racePrefix;
-			if (!isActive) return;
+			if (activeRace !== racePrefix) return;
 
-			if (debug_on) console.log("[Skill Handler Execution]", { racePrefix, activeRace, isActive });
+			const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
+			const talentSkills = Object.entries(talentSkillMap[racePrefix] || {})
+				.map(([talentKey, skills]) => {
+					const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
+					return val && val.startsWith("talent_") ? val.replace("talent_", "") : null;
+				})
+				.filter(Boolean);
 
-			triggerSkills.forEach(skill => {
+			const update = {};
+
+			allSkills.forEach(skill => {
 				const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
-				const hasBg = values[`${racePrefix}_mdr_checkbox`] === skill;
-				
-				if (debug_on) {
-					console.log(`\n[Skill Handler Debug: ${skill}]`);
-					console.log("  Base:", base);
-					console.log("  Checking talent sources:", talentSources);
-				}
-
-				
-				let talentBonus = 0;
-				Object.entries(talentSkillMap[racePrefix] || {}).forEach(([talentKey, skills]) => {
-					const checkboxName = `${racePrefix}_${talentKey}_mdr_checkbox`;
-					const checkboxValue = values[checkboxName];
-					const expectedValue = `talent_${skill}`;
-					if (checkboxValue === `talent_${skill}`) {
-						talentBonus += 10;
-						if (debug_on) console.log(`Inside IF  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`);
-					}
-					if (debug_on) console.log(`Outside IF  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`)
-				});
-
-				const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+				const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
 				const total = base + bgBonus + talentBonus;
 
-				if (debug_on && (bgBonus !== 0 || talentBonus !== 0)) {
-					console.log(`[Skill Calculation] ${skill}`);
-					console.log(`  Base: ${base}`);
-					console.log(`  Background Bonus: ${bgBonus}`);
-					console.log(`  Talent Bonus: ${talentBonus}`);
-					console.log(`  Final ${skill}_mdr = ${total}`);
-					console.log("  Final MDR Value:", base + bgBonus + talentBonus);
-				}
-
-				const update = {};
 				update[`${skill}_mdr`] = total;
-				setAttrs(update);
-				
-				if (debug_on) {
-					console.log(`[setAttrs] Updated ${skill}_mdr =>`, update[`${skill}_mdr`]);
+
+				if (debug_on && (bgBonus || talentBonus)) {
+					console.log(`[Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 				}
 			});
+
+			setAttrs(update);
 		});
 	});
 
@@ -615,64 +577,38 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	}
 
 	getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
-		if (debug_on) {
-			console.log("\n[Skill Handler] Values Retrieved:");
-			Object.keys(values).forEach(key => {
-				console.log(`  ${key} = ${values[key]}`);
-			});
-		}
 		const raceId = values.showracials || "0";
 		const activeRace = raceValueMap[raceId];
-		const isActive = activeRace === racePrefix;
-		if (!isActive) return;
+		if (activeRace !== racePrefix) return;
 
-		if (debug_on) console.log("[registerSkillHandler] Manual Init", { racePrefix, activeRace });
+		const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
+		const talentSkills = Object.entries(talentSkillMap[racePrefix] || {})
+			.map(([talentKey, skills]) => {
+				const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
+				return val && val.startsWith("talent_") ? val.replace("talent_", "") : null;
+			})
+			.filter(Boolean);
 
-		triggerSkills.forEach(skill => {
+		const update = {};
+
+		allSkills.forEach(skill => {
 			const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
-			const bgCheckedSkill = values[`${racePrefix}_mdr_checkbox`] || "";
-			const hasBg = bgCheckedSkill === skill;
-			
-			if (debug_on) {
-				console.log(`\n[Skill Handler Debug: ${skill}]`);
-				console.log("  Base:", base);
-				console.log("  Checking talent sources:", talentSources);
-			}
-
-			let talentBonus = 0;
-			Object.entries(talentSkillMap[racePrefix] || {}).forEach(([talentKey, skills]) => {
-				const checkboxName = `${racePrefix}_${talentKey}_mdr_checkbox`;
-				const checkboxValue = values[checkboxName];
-				const expectedValue = `talent_${skill}`;
-				if (checkboxValue === `talent_${skill}`) {
-					talentBonus += 10;
-					if (debug_on) console.log(`Inside IF  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`);
-				}
-				if (debug_on) console.log(`Outside IF  → Talent Checkbox [${checkboxName}]: ${checkboxValue} (Expect: ${expectedValue})`)
-			});
-
-			const bgBonus = hasBg ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+			const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+			const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
 			const total = base + bgBonus + talentBonus;
 
-			if (debug_on && (hasBg || talentBonus > 0)) {
-				console.log(`[Manual Init Skill Calculation] ${skill}`);
-				console.log(`  Base: ${base}`);
-				console.log(`  Background Checked: ${bgCheckedSkill} (Match: ${hasBg})`);
-				console.log(`  Talent Bonus: ${talentBonus}`);
-				console.log(`  BG Bonus: ${bgBonus}`);
-				console.log(`  Final ${skill}_mdr = ${total}`);
-				console.log("  Final MDR Value:", base + bgBonus + talentBonus);
-			}
-
-			const update = {};
 			update[`${skill}_mdr`] = total;
-			setAttrs(update);
-			if (debug_on) {
-				console.log(`[setAttrs] Updated ${skill}_mdr =>`, update[`${skill}_mdr`]);
+
+			if (debug_on && (bgBonus || talentBonus)) {
+				console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 			}
 		});
+
+		setAttrs(update);
 	});
 }
+
+
 
 function setDefaultSkillBonuses(race) {
   const updates = {};

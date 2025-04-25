@@ -185,18 +185,6 @@ const raceDataMap = {
   }
 };
 
-
-const raceLanguageMap = {
-  "alteri": "Nualeth",
-  "draevi": "Khevala",
-  "feran": "A",
-  "human": "Caltheran",
-  "khadra": "Nari",
-  "kitsu": "B",
-  "lyranni": "Thal’Resh",
-  "veyra": "C"
-};
-
 const raceValueMap = {
   "1": "alteri",
   "2": "draevi",

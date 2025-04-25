@@ -222,7 +222,7 @@ const tabList = ["skills", "background", "talents", "combat", "spells", "invento
 
 tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ selected_tab: tab });
     });
 });
@@ -231,7 +231,7 @@ const alteriBackgroundTabs = ["break_faced_radical", "ghostline_runner", "legacy
 
 alteriBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on)  console.log("Clicked tab", tab);
 		setAttrs({ alteri_background_choice: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
@@ -241,7 +241,7 @@ const draeviBackgroundTabs = ["forgeblood_scavenger", "horn_carved_wanderer", "s
 
 draeviBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ draevi_background_choice: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
@@ -250,10 +250,10 @@ draeviBackgroundTabs.forEach(tab => {
 const humanBackgroundTabs = ["ash_war_refugee", "data_hatched", "enclave_born", "gutter_fire_youth", "outpost_raised", "scavsteel_whelp"];
 
 humanBackgroundTabs.forEach(tab => {
-		on(`clicked:${tab}`, () => {
-			console.log("Clicked tab", tab);
-			setAttrs({ human_background_choice: tab });
-			race_default_trigger: Date.now() // Triggers recalculation and is watched
+	on(`clicked:${tab}`, () => {
+		if (debug_on) console.log("Clicked tab", tab);
+		setAttrs({ human_background_choice: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
 });
 
@@ -261,7 +261,7 @@ const lyranniBackgroundTabs = ["aelvareth_devotee", "echoborne", "glide_spire_sc
 
 lyranniBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ lyranni_background_choice: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
@@ -271,7 +271,7 @@ const alteriTalentTabs = ["maskwrights_grace", "shaped_for_subtlety"];
 
 alteriTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ alteri_talent_tab: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
@@ -281,7 +281,7 @@ const draeviTalentTabs = ["clan_blooded", "scavengers_edge"];
 
 draeviTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ draevi_talent_tab: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
@@ -291,7 +291,7 @@ const humanTalentTabs = ["quick_fixer", "skilled_focus"];
 
 humanTalentTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ human_talent_tab: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
@@ -301,7 +301,7 @@ const lyranniTalentTabs = ["aether_override", "echo_in_the_veins"];
 
 lyranniTalentTabs.forEach(tab => {
   on(`clicked:${tab}`, () => {
-		console.log("Clicked tab", tab);
+		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ lyranni_talent_tab: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
   });
@@ -352,9 +352,9 @@ on("change:total_spellcost change:ac", function () {
     const isOver = cost > capacity ? "1" : "0";
 	
     // Log the raw values and the comparison result
-    console.log("Total Spell Cost:", cost);
-    console.log("Arcane Capacity:", capacity);
-    console.log("Is Over Capacity:", isOver);
+    if (debug_on) console.log("Total Spell Cost:", cost);
+    if (debug_on) console.log("Arcane Capacity:", capacity);
+    if (debug_on) console.log("Is Over Capacity:", isOver);
 	
     setAttrs({ spellcost_overflow: isOver });
   });
@@ -394,7 +394,7 @@ const magicSchools = [
 ];
 
 // Trigger on any of the above changing
-on(`change:${magicSchools.join(' change:')}`, () => {
+on("sheet:opened " + magicSchools.map(s => `change:${s}`).join(' '), () => {
   getAttrs(magicSchools, values => {
     const schoolValues = magicSchools
       .slice(0, 9) // first 9 are school values
@@ -404,9 +404,9 @@ on(`change:${magicSchools.join(' change:')}`, () => {
     const highestSchool = Math.max(...schoolValues);
     const total = highestSchool + baseUniversal;
 
-//    console.log(`Highest Magic School: ${highestSchool}`);
-//    console.log(`Universal Base: ${baseUniversal}`);
-//    console.log(`Total Universal: ${total}`);
+    if (debug_on) console.log(`Highest Magic School: ${highestSchool}`);
+    if (debug_on) console.log(`Universal Base: ${baseUniversal}`);
+    if (debug_on) console.log(`Total Universal: ${total}`);
 
     setAttrs({ magic_universal_mdr: total });
   });
@@ -485,7 +485,7 @@ on("change:showracials sheet:opened", () => {
     const mappedRace = raceValueMap[String(raceId)];
 
     if (!mappedRace) {
-      console.log("[Skill Init] No mapped race for Race ID:", raceId);
+      if (debug_on) console.log("[Skill Init] No mapped race for Race ID:", raceId);
       return;
     }
 
@@ -509,7 +509,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	registeredRaces.add(key);
 
 	const allSkills = Object.values(skillMapTable).map(s => s.label);
-	
+
 	const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
 		map[skill.label] = parseInt(skill.base || "0", 10);
 		return map;
@@ -517,6 +517,9 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,
+		"dex",
+		"edu",
+		"language_caltheran_skill_mdr",
 		...allSkills.map(skill => `${skill}_skill_mdr`),
 		...triggerSkills.flatMap(skill => [
 			`${racePrefix}_${skill}_bonus_mdr`,
@@ -536,6 +539,9 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	}, {});
 
 	const globalAttrs = [
+		"dex",
+		"edu",
+		"language_caltheran_skill_mdr",
 		`${racePrefix}_mdr_checkbox`,
 		"showracials",
 		...Object.keys(talentSkillMap[racePrefix] || {}).map(talent => `${racePrefix}_${talent}_mdr_checkbox`)
@@ -559,26 +565,36 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 			const update = {};
 			let totalSkillPointsSpent = 0;
-			
+
 			allSkills.forEach(skill => {
 				const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
-				
 				const defaultBase = baseSkillLookup[skill] || 0;
 				const spent = Math.max(base - defaultBase, 0);
 				totalSkillPointsSpent += spent;
-				
+
 				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
 				const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
-				const total = base + bgBonus + talentBonus;
+				let total = base + bgBonus + talentBonus;
+
+				if (skill === "dodge") {
+					const idex = parseInt(values.dex || "0", 10);
+					const dexBonus = Math.floor(idex / 2);
+					total += dexBonus;
+					if (debug_on) console.log(`[Dodge Adjustment] DEX=${idex}, +${dexBonus} added`);
+				}
 
 				update[`${skill}_mdr`] = total;
 
-				if (debug_on && (bgBonus || talentBonus)) {
+				if (debug_on && (bgBonus || talentBonus || skill === "dodge")) {
 					console.log(`[Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 				}
 			});
-			
+
+			const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
+			const iedu = parseInt(values.edu || "0", 10);
+			update["language_caltheran_mdr"] = icaltheran + iedu;
 			update["total_skill_points_spent"] = totalSkillPointsSpent;
+
 			setAttrs(update);
 		});
 	});
@@ -594,38 +610,49 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		if (activeRace !== racePrefix) return;
 
 		const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
-		const talentSkills = Object.entries(talentSkillMap[racePrefix] || {})
-			.map(([talentKey, skills]) => {
-				const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
-				return val && val.startsWith("talent_") ? val.replace("talent_", "") : null;
-			})
-			.filter(Boolean);
+			const talentSkills = Object.entries(talentSkillMap[racePrefix] || {})
+				.map(([talentKey, skills]) => {
+					const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
+					return val && val.startsWith("talent_") ? val.replace("talent_", "") : null;
+				})
+				.filter(Boolean);
 
-		const update = {};
-		let totalSkillPointsSpent = 0;
+			const update = {};
+			let totalSkillPointsSpent = 0;
 
-		allSkills.forEach(skill => {
-			const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
-				
-			const defaultBase = baseSkillLookup[skill] || 0;
-			const spent = Math.max(base - defaultBase, 0);
-			totalSkillPointsSpent += spent;
-			
-			const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
-			const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
-			const total = base + bgBonus + talentBonus;
+			allSkills.forEach(skill => {
+				const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+				const defaultBase = baseSkillLookup[skill] || 0;
+				const spent = Math.max(base - defaultBase, 0);
+				totalSkillPointsSpent += spent;
 
-			update[`${skill}_mdr`] = total;
+				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+				const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
+				let total = base + bgBonus + talentBonus;
 
-			if (debug_on && (bgBonus || talentBonus)) {
-				console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
-			}
-		});
-		
-		update["total_skill_points_spent"] = totalSkillPointsSpent;
-		setAttrs(update);
+				if (skill === "dodge") {
+					const idex = parseInt(values.dex || "0", 10);
+					const dexBonus = Math.floor(idex / 2);
+					total += dexBonus;
+					if (debug_on) console.log(`[Manual Dodge Adjustment] DEX=${idex}, +${dexBonus} added`);
+				}
+
+				update[`${skill}_mdr`] = total;
+
+				if (debug_on && (bgBonus || talentBonus || skill === "dodge")) {
+					console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
+				}
+			});
+
+			const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
+			const iedu = parseInt(values.edu || "0", 10);
+			update["language_caltheran_mdr"] = icaltheran + iedu;
+			update["total_skill_points_spent"] = totalSkillPointsSpent;
+
+			setAttrs(update);
 	});
 }
+
 
 function setDefaultSkillBonuses(race) {
   const updates = {};
@@ -685,13 +712,18 @@ function handleRaceChange(race) {
 
 on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] fired");
-
+  
   getAttrs(["showracials", "new_character_flag"], values => {
     const isNew = values.new_character_flag === "1";
     const race = getActiveRace(values);
     const updates = {};
 
 //    if (debug_on) console.log("[sheet:opened]", { race, isNew });
+	getAttrs(["showskills"], values => {
+        if (!values.showskills || values.showskills === "0") {
+            setAttrs({ showskills: "3" });
+        }
+    });
 
     // Always run skill init if new character
     if (isNew) {
@@ -710,143 +742,89 @@ on("sheet:opened", function () {
       if (race && race !== "unknown") {
         // Handle race bonus init
         handleRaceChange(race);
+		registerStatHandler();
 
       }
     });
   });
 });
 
+function registerStatHandler() {
+    const watched = [
+        "str", "siz", "dex", "age", "mag", "vitality"
+    ];
+
+    if (debug_on) console.log("[registerStatHandler Init] Watching:", watched);
+
+    on(watched.map(s => `change:${s} add:${s}`).join(" "), () => {
+        getAttrs(watched, values => {
+            const istr = parseInt(values.str) || 0;
+            const isiz = parseInt(values.siz) || 0;
+            const idex = parseInt(values.dex) || 0;
+            const iage = parseInt(values.age) || 0;
+            const imag = parseInt(values.mag) || 0;
+            const ivit = parseInt(values.vitality) || 0;
+
+            const update = {};
+
+            // Armor Class = min(MAG, VITALITY)
+            update.ac = Math.min(imag, ivit);
+
+            // Damage Bonus and Build
+            const siz_str_tot = istr + isiz;
+            if (siz_str_tot < 65) {
+                update.damage_bonus = "-2";
+                update.build = "-2";
+            } else if (siz_str_tot < 85) {
+                update.damage_bonus = "-1";
+                update.build = "-1";
+            } else if (siz_str_tot < 125) {
+                update.damage_bonus = "0";
+                update.build = "0";
+            } else if (siz_str_tot < 165) {
+                update.damage_bonus = "1d4";
+                update.build = "+1";
+            } else if (siz_str_tot < 205) {
+                update.damage_bonus = "1d6";
+                update.build = "+2";
+            } else if (siz_str_tot < 285) {
+                update.damage_bonus = "2d6";
+                update.build = "+3";
+            } else if (siz_str_tot < 365) {
+                update.damage_bonus = "3d6";
+                update.build = "+4";
+            } else if (siz_str_tot < 445) {
+                update.damage_bonus = "4d6";
+                update.build = "+5";
+            } else if (siz_str_tot < 525) {
+                update.damage_bonus = "5d6";
+                update.build = "+6";
+            }
+
+            // Movement Rate
+            let imov = 8;
+            if (idex < isiz && istr < isiz) {
+                imov = 7;
+            } else if (idex > isiz && istr > isiz) {
+                imov = 9;
+            }
+
+			if (age >= 40) mov -= Math.min(6, Math.floor((age - 40) / 10) + 1);
+
+            update.mov = imov;
+
+            if (debug_on) {
+                console.log("[Stat Calc] STR+SIZ=", siz_str_tot);
+                console.log("[Stat Calc] AC=", update.ac);
+                console.log("[Stat Calc] MOV=", imov);
+                console.log("[Stat Calc] DMG Bonus / Build=", update.damage_bonus, update.build);
+            }
+
+            setAttrs(update);
+        });
+    });
+}
 // -------------------- working area end ----------------- //
-
-  on("add:dex add:siz add:str change:dex change:siz change:str add:dodge_skill change:dodge_skill add:edu change:edu add:mag change:mag add:vitality change:vitality add:language_caltheran_skill_mdr change:language_caltheran_skill_mdr", function() {
-    getAttrs(["str", "siz", "dex", "age", "dodge_skill_mdr", "edu", "mag", "vitality", "language_caltheran_skill_mdr"], function(values) {
-      var istr = parseInt(values.str);
-      var isiz = parseInt(values.siz);
-      var idex = parseInt(values.dex);
-	  var iage = parseInt(values.age);
-	  var iedu = parseInt(values.edu);
-      var siz_str_tot = istr + isiz;
-
-	  setAttrs({
-		dodge_skill_mdr: ( parseInt(values.dodge_skill_mdr) || 0 ),
-		dodge_mdr: ( ( parseInt(values.dodge_skill_mdr) || 0 ) + ( Math.floor(idex / 2) ) ),
-		language_caltheran_skill_mdr: ( parseInt(values.language_caltheran_skill_mdr ) || 0),
-		language_caltheran_mdr: ( ( parseInt(values.language_caltheran_skill_mdr ) || 0) + iedu ),
-		ac: ( Math.min(parseInt(values.mag) || 0, parseInt(values.vitality) || 0 ) )
-	  });
-
-	  switch (true) {
-        case (siz_str_tot < 65):
-          setAttrs({
-            damage_bonus: "-2",
-            build: "-2"
-          });
-          break;
-        case (siz_str_tot > 64 && siz_str_tot < 85):
-          setAttrs({
-            damage_bonus: "-1",
-            build: "-1"
-          });
-          break;
-        case (siz_str_tot > 84 && siz_str_tot < 125):
-          setAttrs({
-            damage_bonus: "0",
-            build: "0"
-          });
-          break;
-        case (siz_str_tot > 124 && siz_str_tot < 165):
-          setAttrs({
-            damage_bonus: "1d4",
-            build: "+1"
-          });
-          break;
-        case (siz_str_tot > 164 && siz_str_tot < 205):
-          setAttrs({
-            damage_bonus: "1d6",
-            build: "+2"
-          });
-          break;
-        case (siz_str_tot > 204 && siz_str_tot < 285):
-          setAttrs({
-            damage_bonus: "2d6",
-            build: "+3"
-          });
-          break;
-        case (siz_str_tot > 284 && siz_str_tot < 365):
-          setAttrs({
-            damage_bonus: "3d6",
-            build: "+4"
-          });
-          break;
-        case (siz_str_tot > 364 && siz_str_tot < 445):
-          setAttrs({
-            damage_bonus: "4d6",
-            build: "+5"
-          });
-          break;
-        case (siz_str_tot > 444 && siz_str_tot < 525):
-          setAttrs({
-            damage_bonus: "5d6",
-            build: "+6"
-          });
-          break;
-      } //end switch (true)
-	if (idex < isiz && istr < isiz) {
-        var imov = 7;
-      } else if (idex > isiz && istr > isiz) {
-        var imov = 9;
-      } else {
-        var imov = 8;
-      }
-    if (iage < 40) {
-      imov = imov;
-    } else if (iage > 39 && iage < 50) {
-      imov = imov - 1;
-    } else if (iage > 49 && iage < 60) {
-      imov = imov - 2;
-    } else if (iage > 59 && iage < 70) {
-      imov = imov - 3;
-    } else if (iage > 69 && iage < 80) {
-      imov = imov - 4;
-    } else if (iage > 79 && iage < 90) {
-      imov = imov - 5;
-    } else if (iage > 89) {
-      imov = imov - 6;
-    }
-    setAttrs({mov: imov});
-    }); //end getAttrs
-  }); //end on("add:siz...
-  on("add:age change:age", function() {
-    getAttrs(["str", "siz", "dex", "age"], function(values) {
-      var iage = parseInt(values.age);
-	  var istr = parseInt(values.str);
-      var isiz = parseInt(values.siz);
-      var idex = parseInt(values.dex);
-	if (idex < isiz && istr < isiz) {
-        var imov = 7;
-      } else if (idex > isiz && istr > isiz) {
-        var imov = 9;
-      } else {
-        var imov = 8;
-      }
-    if (iage < 40) {
-      imov = imov;
-    } else if (iage > 39 && iage < 50) {
-      imov = imov - 1;
-    } else if (iage > 49 && iage < 60) {
-      imov = imov - 2;
-    } else if (iage > 59 && iage < 70) {
-      imov = imov - 3;
-    } else if (iage > 69 && iage < 80) {
-      imov = imov - 4;
-    } else if (iage > 79 && iage < 90) {
-      imov = imov - 5;
-    } else if (iage > 89) {
-      imov = imov - 6;
-    }
-    setAttrs({mov: imov});
-    }); //end getAttrs
-  }); //end on("add:siz...
 
   on('sheet:opened', function () {
     getAttrs(['str_txt'], v => {

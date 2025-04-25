@@ -110,6 +110,82 @@ const talentSkillMap = {
   }
 };
 
+const raceDataMap = {
+  "alteri": {
+    label: "Alteri",
+    language: "Nualeth",
+    stats: {
+      str: { base: 15, max: 75 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 75 },
+      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 85 }, app: { base: 15, max: 85 }, mag: { base: 0, max: 80 }
+    }
+  },
+  "draevi": {
+    label: "Draevi",
+    language: "Khevala",
+    stats: {
+      str: { base: 25, max: 90 }, dex: { base: 25, max: 80 }, con: { base: 25, max: 90 },
+      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 40, max: 80 },
+      pow: { base: 40, max: 90 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
+    }
+  },
+  "feran": {
+    label: "Feran",
+    language: "A",
+    stats: {
+      str: { base: 15, max: 80 }, dex: { base: 20, max: 90 }, con: { base: 15, max: 85 },
+      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 20, max: 85 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 85 }, mag: { base: 0, max: 80 }
+    }
+  },
+  "human": {
+    label: "Human",
+    language: "Caltheran",
+    stats: {
+      str: { base: 15, max: 90 }, dex: { base: 15, max: 90 }, con: { base: 15, max: 90 },
+      siz: { base: 40, max: 90 }, int: { base: 40, max: 90 }, edu: { base: 15, max: 90 },
+      pow: { base: 15, max: 90 }, app: { base: 15, max: 90 }, mag: { base: 0, max: 80 }
+    }
+  },
+  "khadra": {
+    label: "Khadra",
+    language: "Nari",
+    stats: {
+      str: { base: 30, max: 95 }, dex: { base: 15, max: 70 }, con: { base: 25, max: 90 },
+      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 70 }, mag: { base: 0, max: 80 }
+    }
+  },
+  "kitsu": {
+    label: "Kitsu",
+    language: "B",
+    stats: {
+      str: { base: 15, max: 75 }, dex: { base: 20, max: 90 }, con: { base: 15, max: 75 },
+      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 85 }, app: { base: 15, max: 90 }, mag: { base: 0, max: 80 }
+    }
+  },
+  "lyranni": {
+    label: "Lyranni",
+    language: "Thal’Resh",
+    stats: {
+      str: { base: 15, max: 75 }, dex: { base: 15, max: 85 }, con: { base: 15, max: 75 },
+      siz: { base: 40, max: 80 }, int: { base: 40, max: 90 }, edu: { base: 15, max: 90 },
+      pow: { base: 40, max: 95 }, app: { base: 15, max: 85 }, mag: { base: 0, max: 80 }
+    }
+  },
+  "veyra": {
+    label: "Veyra",
+    language: "C",
+    stats: {
+      str: { base: 25, max: 90 }, dex: { base: 15, max: 80 }, con: { base: 25, max: 90 },
+      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 75 }, mag: { base: 0, max: 80 }
+    }
+  }
+};
+
+
 const raceLanguageMap = {
   "alteri": "Nualeth",
   "draevi": "Khevala",
@@ -213,7 +289,7 @@ const skillMapTable = {
  "Survival (Wilderness)": { label: "survival", base: "10", skill: "survival_skill_mdr", bonus: "survival_mdr", group: "Survival", notes: "Survival (Wilderness)" },
  "Track": { label: "track", base: "10", skill: "track_skill_mdr", bonus: "track_mdr", group: "Survival", notes: "Track" },
  "Language(Racial)": { label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
- "Language(Caltheran)": { label: "caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" }
+ "Language(Caltheran)": { label: "language_caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" }
 };
 
 //----------------------- Tab Workers Start ----------------------//
@@ -360,58 +436,6 @@ on("change:total_spellcost change:ac", function () {
   });
 });
 
-on("change:showracials sheet:opened", () => {
-	getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
-		const raceId = String(values.showracials || "0");
-		const race = raceValueMap[raceId] || "human";
-		const racialLang = raceLanguageMap[race] || "Racial";
-
-		// Determine language labels based on race
-		const ownLang = `${racialLang}(75%)`;
-		const otherLang = race === "human" ? "Other(EDU)" : "Caltheran(EDU)";
-
-		const updates = {
-			language_own_txt: ownLang,
-			language_caltheran_txt: otherLang
-		};
-
-		setAttrs(updates);
-	});
-});
-
-// List of relevant attributes
-const magicSchools = [
-  "magic_alteration_mdr",
-  "magic_elemental_mdr",
-  "magic_enchantment_mdr",
-  "magic_illusion_mdr",
-  "magic_necromancy_mdr",
-  "magic_restoration_mdr",
-  "magic_summoning_mdr",
-  "magic_technomancy_mdr",
-  "magic_warding_mdr",
-  "magic_universal_skill_mdr"
-];
-
-// Trigger on any of the above changing
-on("sheet:opened " + magicSchools.map(s => `change:${s}`).join(' '), () => {
-  getAttrs(magicSchools, values => {
-    const schoolValues = magicSchools
-      .slice(0, 9) // first 9 are school values
-      .map(attr => parseInt(values[attr], 10) || 0);
-
-    const baseUniversal = parseInt(values.magic_universal_skill_mdr, 10) || 0;
-    const highestSchool = Math.max(...schoolValues);
-    const total = highestSchool + baseUniversal;
-
-    if (debug_on) console.log(`Highest Magic School: ${highestSchool}`);
-    if (debug_on) console.log(`Universal Base: ${baseUniversal}`);
-    if (debug_on) console.log(`Total Universal: ${total}`);
-
-    setAttrs({ magic_universal_mdr: total });
-  });
-});
-
 function getAllBackgroundSkills(race) {
   const skills = new Set();
   const backgrounds = backgroundSkillMap[race] || {};
@@ -470,26 +494,26 @@ function applyAllSkillBonuses(race) {
   setAttrs(updates);
 }
 
-on("change:showracials", function () {
-  getAttrs(["showracials"], values => {
-    const race = getActiveRace(values);
-    if (!race || race === "unknown") return;
-    if (debug_on) console.log("[change:showracials]", race);
-    handleRaceChange(race);
-  });
-});
-
 on("change:showracials sheet:opened", () => {
   getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
     const raceId = values["showracials"];
-    const mappedRace = raceValueMap[String(raceId)];
+    const mappedRace = raceValueMap[String(raceId)]; // still use raceValueMap
 
     if (!mappedRace) {
       if (debug_on) console.log("[Skill Init] No mapped race for Race ID:", raceId);
       return;
     }
 
-    const racialLang = raceLanguageMap[mappedRace] || "Racial";
+    const raceData = raceDataMap[mappedRace]; // get full race data from raceDataMap
+    const racialLang = raceData?.language || "Racial"; // use .language property
+
+    if (debug_on) {
+      console.log("[showracials handler] Mapped Race:", mappedRace);
+      console.log(`Racial Lang: ${racialLang}`);
+    }
+    
+    handleRaceChange(mappedRace);
+
     const otherLang = mappedRace === "human" ? "Other" : "Caltheran";
 
     const updates = {
@@ -500,6 +524,8 @@ on("change:showracials sheet:opened", () => {
     setAttrs(updates);
   });
 });
+
+
 
 const registeredRaces = new Set();
 
@@ -515,11 +541,25 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		return map;
 	}, {});
 
+	const magicSchools = [
+		"magic_alteration_mdr",
+		"magic_elemental_mdr",
+		"magic_enchantment_mdr",
+		"magic_illusion_mdr",
+		"magic_necromancy_mdr",
+		"magic_restoration_mdr",
+		"magic_summoning_mdr",
+		"magic_technomancy_mdr",
+		"magic_warding_mdr",
+		"magic_universal_skill_mdr"
+	];
+
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,
 		"dex",
 		"edu",
 		"language_caltheran_skill_mdr",
+		...magicSchools,
 		...allSkills.map(skill => `${skill}_skill_mdr`),
 		...triggerSkills.flatMap(skill => [
 			`${racePrefix}_${skill}_bonus_mdr`,
@@ -542,6 +582,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		"dex",
 		"edu",
 		"language_caltheran_skill_mdr",
+		...magicSchools,
 		`${racePrefix}_mdr_checkbox`,
 		"showracials",
 		...Object.keys(talentSkillMap[racePrefix] || {}).map(talent => `${racePrefix}_${talent}_mdr_checkbox`)
@@ -593,7 +634,21 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
 			const iedu = parseInt(values.edu || "0", 10);
 			update["language_caltheran_mdr"] = icaltheran + iedu;
+			
 			update["total_skill_points_spent"] = totalSkillPointsSpent;
+
+			// Calculate magic_universal_mdr
+			const schoolValues = magicSchools.slice(0, 9).map(attr => parseInt(values[attr], 10) || 0);
+			const baseUniversal = parseInt(values.magic_universal_skill_mdr, 10) || 0;
+			const highestSchool = Math.max(...schoolValues);
+			const totalUniversal = highestSchool + baseUniversal;
+			update["magic_universal_mdr"] = totalUniversal;
+
+			if (debug_on) {
+				console.log(`Highest Magic School: ${highestSchool}`);
+				console.log(`Universal Base: ${baseUniversal}`);
+				console.log(`Total Universal: ${totalUniversal}`);
+			}
 
 			setAttrs(update);
 		});
@@ -610,49 +665,61 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		if (activeRace !== racePrefix) return;
 
 		const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
-			const talentSkills = Object.entries(talentSkillMap[racePrefix] || {})
-				.map(([talentKey, skills]) => {
-					const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
-					return val && val.startsWith("talent_") ? val.replace("talent_", "") : null;
-				})
-				.filter(Boolean);
+		const talentSkills = Object.entries(talentSkillMap[racePrefix] || {})
+			.map(([talentKey, skills]) => {
+				const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
+				return val && val.startsWith("talent_") ? val.replace("talent_", "") : null;
+			})
+			.filter(Boolean);
 
-			const update = {};
-			let totalSkillPointsSpent = 0;
+		const update = {};
+		let totalSkillPointsSpent = 0;
 
-			allSkills.forEach(skill => {
-				const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
-				const defaultBase = baseSkillLookup[skill] || 0;
-				const spent = Math.max(base - defaultBase, 0);
-				totalSkillPointsSpent += spent;
+		allSkills.forEach(skill => {
+			const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+			const defaultBase = baseSkillLookup[skill] || 0;
+			const spent = Math.max(base - defaultBase, 0);
+			totalSkillPointsSpent += spent;
 
-				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
-				const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
-				let total = base + bgBonus + talentBonus;
+			const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+			const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
+			let total = base + bgBonus + talentBonus;
 
-				if (skill === "dodge") {
-					const idex = parseInt(values.dex || "0", 10);
-					const dexBonus = Math.floor(idex / 2);
-					total += dexBonus;
-					if (debug_on) console.log(`[Manual Dodge Adjustment] DEX=${idex}, +${dexBonus} added`);
-				}
+			if (skill === "dodge") {
+				const idex = parseInt(values.dex || "0", 10);
+				const dexBonus = Math.floor(idex / 2);
+				total += dexBonus;
+				if (debug_on) console.log(`[Manual Dodge Adjustment] DEX=${idex}, +${dexBonus} added`);
+			}
 
-				update[`${skill}_mdr`] = total;
+			update[`${skill}_mdr`] = total;
 
-				if (debug_on && (bgBonus || talentBonus || skill === "dodge")) {
-					console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
-				}
-			});
+			if (debug_on && (bgBonus || talentBonus || skill === "dodge")) {
+				console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
+			}
+		});
 
-			const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
-			const iedu = parseInt(values.edu || "0", 10);
-			update["language_caltheran_mdr"] = icaltheran + iedu;
-			update["total_skill_points_spent"] = totalSkillPointsSpent;
+		const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
+		const iedu = parseInt(values.edu || "0", 10);
+		update["language_caltheran_mdr"] = icaltheran + iedu;
+		
+		update["total_skill_points_spent"] = totalSkillPointsSpent;
 
-			setAttrs(update);
+		const schoolValues = magicSchools.slice(0, 9).map(attr => parseInt(values[attr], 10) || 0);
+		const baseUniversal = parseInt(values.magic_universal_skill_mdr, 10) || 0;
+		const highestSchool = Math.max(...schoolValues);
+		const totalUniversal = highestSchool + baseUniversal;
+		update["magic_universal_mdr"] = totalUniversal;
+
+		if (debug_on) {
+			console.log(`Highest Magic School: ${highestSchool}`);
+			console.log(`Universal Base: ${baseUniversal}`);
+			console.log(`Total Universal: ${totalUniversal}`);
+		}
+
+		setAttrs(update);
 	});
 }
-
 
 function setDefaultSkillBonuses(race) {
   const updates = {};
@@ -809,7 +876,7 @@ function registerStatHandler() {
                 imov = 9;
             }
 
-			if (age >= 40) mov -= Math.min(6, Math.floor((age - 40) / 10) + 1);
+			if (iage >= 40) mov -= Math.min(6, Math.floor((iage - 40) / 10) + 1);
 
             update.mov = imov;
 
@@ -998,15 +1065,6 @@ function registerStatHandler() {
     }}); getAttrs(['jump_txt'], v => {
       if (v.jump_txt !== getTranslationByKey('jump-r-txt')) {
         setAttrs({jump_txt: getTranslationByKey('jump-r-txt')});
-    }}); getAttrs(['language_own_txt'], v => {
-      if (v.language_own_txt !== getTranslationByKey('language_own-r-txt')) {
-        setAttrs({language_own_txt: getTranslationByKey('language_own-r-txt')});
-    }}); getAttrs(['language_caltheran_txt'], v => {
-      if (v.language_language_txt !== getTranslationByKey('language_caltheran-r-txt')) {
-        setAttrs({language_caltheran_txt: getTranslationByKey('language_caltheran-r-txt')});
-    }}); getAttrs(['language_other_txt'], v => {
-      if (v.language_language_txt !== getTranslationByKey('language_other-r-txt')) {
-        setAttrs({language_other_txt: getTranslationByKey('language_other-r-txt')});
     }}); getAttrs(['law_txt'], v => {
       if (v.law_txt !== getTranslationByKey('law-r-txt')) {
         setAttrs({law_txt: getTranslationByKey('law-r-txt')});

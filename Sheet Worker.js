@@ -448,6 +448,8 @@ function getAllTalentSkills(race) {
 // Dependencies: skillMapTable, backgroundSkillMap, talentSkillMap, raceValueMap
 
 // === Helpers ===
+
+// To be deleted when showracials stores the race and not a number
 function getActiveRace(values) {
   const raceId = values.showracials || "0";
   const race = raceValueMap[raceId] || "unknown";
@@ -485,15 +487,18 @@ function applyAllSkillBonuses(race) {
 on("change:showracials sheet:opened", () => {
   getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
     const raceId = values["showracials"];
-    const mappedRace = raceValueMap[String(raceId)]; // still use raceValueMap
+    
+    // TODO: After showracials migration, showracials will store race names directly.
+    // Then remove raceValueMap lookup and use raceId as the race key directly.
+    const mappedRace = raceValueMap[String(raceId)];
 
     if (!mappedRace) {
       if (debug_on) console.log("[Skill Init] No mapped race for Race ID:", raceId);
       return;
     }
 
-    const raceData = raceDataMap[mappedRace]; // get full race data from raceDataMap
-    const racialLang = raceData?.language || "Racial"; // use .language property
+    const raceData = raceDataMap[mappedRace];
+    const racialLang = raceData?.language || "Racial";
 
     if (debug_on) {
       console.log("[showracials handler] Mapped Race:", mappedRace);
@@ -512,8 +517,6 @@ on("change:showracials sheet:opened", () => {
     setAttrs(updates);
   });
 });
-
-
 
 const registeredRaces = new Set();
 
@@ -581,7 +584,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	on([...new Set(watched)].map(s => `change:${s}`).join(" "), () => {
 		getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
 			const raceId = values.showracials || "0";
-			const activeRace = raceValueMap[raceId];
+			const activeRace = raceValueMap[raceId]; // TODO: After migration, showracials will store race name directly.
 			if (activeRace !== racePrefix) return;
 
 			const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
@@ -649,7 +652,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 	getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
 		const raceId = values.showracials || "0";
-		const activeRace = raceValueMap[raceId];
+		const activeRace = raceValueMap[raceId]; // TODO: After migration, showracials will store race name directly.
 		if (activeRace !== racePrefix) return;
 
 		const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
@@ -769,18 +772,17 @@ on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] fired");
   
   getAttrs(["showracials", "new_character_flag"], values => {
+    // TODO: After migration, showracials will store the race directly; remove getActiveRace().
     const isNew = values.new_character_flag === "1";
-    const race = getActiveRace(values);
+    const race = getActiveRace(values); 
     const updates = {};
 
-//    if (debug_on) console.log("[sheet:opened]", { race, isNew });
 	getAttrs(["showskills"], values => {
         if (!values.showskills || values.showskills === "0") {
             setAttrs({ showskills: "3" });
         }
     });
 
-    // Always run skill init if new character
     if (isNew) {
       Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
         const val = parseInt(base, 10) || 0;
@@ -795,10 +797,8 @@ on("sheet:opened", function () {
 
     setAttrs(updates, () => {
       if (race && race !== "unknown") {
-        // Handle race bonus init
         handleRaceChange(race);
 		registerStatHandler();
-
       }
     });
   });

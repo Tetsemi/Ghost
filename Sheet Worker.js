@@ -856,7 +856,7 @@ function registerStatHandler() {
                 imov = 9;
             }
 
-			if (iage >= 40) mov -= Math.min(6, Math.floor((iage - 40) / 10) + 1);
+			if (iage >= 40) imov -= Math.min(6, Math.floor((iage - 40) / 10) + 1);
 
             update.mov = imov;
 
@@ -874,315 +874,40 @@ function registerStatHandler() {
 // -------------------- working area end ----------------- //
 
   on('sheet:opened', function () {
-    getAttrs(['str_txt'], v => {
-      if (v.str_txt !== getTranslationByKey('STR-r-txt')) {
-        setAttrs({str_txt: getTranslationByKey('STR-r-txt')});
-    }}); getAttrs(['dex_txt'], v => {
-      if (v.dex_txt !== getTranslationByKey('DEX-r-txt')) {
-        setAttrs({dex_txt: getTranslationByKey('DEX-r-txt')});
-    }}); getAttrs(['pow_txt'], v => {
-      if (v.pow_txt !== getTranslationByKey('POW-r-txt')) {
-        setAttrs({pow_txt: getTranslationByKey('POW-r-txt')});
-    }}); getAttrs(['con_txt'], v => {
-      if (v.con_txt !== getTranslationByKey('CON-r-txt')) {
-        setAttrs({con_txt: getTranslationByKey('CON-r-txt')});
-    }}); getAttrs(['app_txt'], v => {
-      if (v.app_txt !== getTranslationByKey('APP-r-txt')) {
-        setAttrs({app_txt: getTranslationByKey('APP-r-txt')});
-    }}); getAttrs(['edu_txt'], v => {
-      if (v.edu_txt !== getTranslationByKey('EDU-r-txt')) {
-        setAttrs({edu_txt: getTranslationByKey('EDU-r-txt')});
-    }}); getAttrs(['siz_txt'], v => {
-      if (v.siz_txt !== getTranslationByKey('SIZ-r-txt')) {
-        setAttrs({siz_txt: getTranslationByKey('SIZ-r-txt')});
-    }}); getAttrs(['int_txt'], v => {
-      if (v.int_txt !== getTranslationByKey('INT-r-txt')) {
-        setAttrs({int_txt: getTranslationByKey('INT-r-txt')});
-    }}); getAttrs(['mag_txt'], v => {
-      if (v.mag_txt !== getTranslationByKey('MAG-r-txt')) {
-        setAttrs({mag_txt: getTranslationByKey('MAG-r-txt')});
-    }}); getAttrs(['luck_txt'], v => {
-      if (v.luck_txt !== getTranslationByKey('luck-u')) {
-        setAttrs({luck_txt: getTranslationByKey('luck-u')});
-    }}); getAttrs(['accounting_txt'], v => {
-      if (v.accounting_txt !== getTranslationByKey('accounting-r-txt')) {
-        setAttrs({accounting_txt: getTranslationByKey('accounting-r-txt')});
-    }}); getAttrs(['alchemy_txt'], v => {
-      if (v.alchemy_txt !== getTranslationByKey('alchemy-r-txt')) {
-        setAttrs({alchemy_txt: getTranslationByKey('alchemy-r-txt')});
-    }}); getAttrs(['animalhandling_txt'], v => {
-      if (v.animalhandling_txt !== getTranslationByKey('animalhandling-r-txt')) {
-        setAttrs({animalhandling_txt: getTranslationByKey('animalhandling-r-txt')});
-    }}); getAttrs(['anthropology_txt'], v => {
-      if (v.anthropology_txt !== getTranslationByKey('anthropology-r-txt')) {
-        setAttrs({anthropology_txt: getTranslationByKey('anthropology-r-txt')});
-    }}); getAttrs(['appraise_txt'], v => {
-      if (v.appraise_txt !== getTranslationByKey('appraise-r-txt')) {
-        setAttrs({appraise_txt: getTranslationByKey('appraise-r-txt')});
-	}}); getAttrs(['arcana_txt'], v => {
-      if (v.arcana_txt !== getTranslationByKey('arcana-r-txt')) {
-        setAttrs({arcana_txt: getTranslationByKey('arcana-r-txt')});
-    }}); getAttrs(['archaeology_txt'], v => {
-      if (v.archaeology_txt !== getTranslationByKey('archaeology-r-txt')) {
-        setAttrs({archaeology_txt: getTranslationByKey('archaeology-r-txt')});
-    }}); getAttrs(['archanotech_txt'], v => {
-      if (v.archanotech_txt !== getTranslationByKey('archanotech-r-txt')) {
-        setAttrs({archanotech_txt: getTranslationByKey('archanotech-r-txt')});
-    }}); getAttrs(['archery_txt'], v => {
-      if (v.archery_txt !== getTranslationByKey('archery-r-txt')) {
-        setAttrs({archery_txt: getTranslationByKey('archery-r-txt')});
-	}}); getAttrs(['architecture_txt'], v => {
-      if (v.architecture_txt !== getTranslationByKey('architecture-r-txt')) {
-        setAttrs({architecture_txt: getTranslationByKey('architecture-r-txt')});
-	}}); getAttrs(['biology_txt'], v => {
-      if (v.biology_txt !== getTranslationByKey('biology-r-txt')) {
-        setAttrs({biology_txt: getTranslationByKey('biology-r-txt')});
-    }}); getAttrs(['bureaucracy_txt'], v => {
-      if (v.bureaucracy_txt !== getTranslationByKey('bureaucracy-r-txt')) {
-        setAttrs({bureaucracy_txt: getTranslationByKey('bureaucracy-r-txt')});
-    }}); getAttrs(['charm_txt'], v => {
-      if (v.charm_txt !== getTranslationByKey('charm-r-txt')) {
-        setAttrs({charm_txt: getTranslationByKey('charm-r-txt')});
-	}}); getAttrs(['chemistry_txt'], v => {
-      if (v.chemistry_txt !== getTranslationByKey('chemistry-r-txt')) {
-        setAttrs({chemistry_txt: getTranslationByKey('chemistry-r-txt')});
-    }}); getAttrs(['climb_txt'], v => {
-      if (v.climb_txt !== getTranslationByKey('climb-r-txt')) {
-        setAttrs({climb_txt: getTranslationByKey('climb-r-txt')});
-    }}); getAttrs(['computeruse_txt'], v => {
-      if (v.computeruse_txt !== getTranslationByKey('computeruse-r-txt')) {
-        setAttrs({computeruse_txt: getTranslationByKey('computeruse-r-txt')});
-    }}); getAttrs(['creditrating_txt'], v => {
-      if (v.creditrating_txt !== getTranslationByKey('creditrating-r-txt')) {
-        setAttrs({creditrating_txt: getTranslationByKey('creditrating-r-txt')});
-    }}); getAttrs(['cthulhumythos_txt'], v => {
-      if (v.cthulhumythos_txt !== getTranslationByKey('cthulhumythos-r-txt')) {
-        setAttrs({cthulhumythos_txt: getTranslationByKey('cthulhumythos-r-txt')});
-    }}); getAttrs(['cybernetics_txt'], v => {
-      if (v.cybernetics_txt !== getTranslationByKey('cybernetics-r-txt')) {
-        setAttrs({cybernetics_txt: getTranslationByKey('cybernetics-r-txt')});
-    }}); getAttrs(['dance_txt'], v => {
-      if (v.dance_txt !== getTranslationByKey('dance-r-txt')) {
-        setAttrs({dance_txt: getTranslationByKey('dance-r-txt')});
-	}}); getAttrs(['demolitions_txt'], v => {
-      if (v.demolitions_txt !== getTranslationByKey('demolitions-r-txt')) {
-        setAttrs({demolitions_txt: getTranslationByKey('demolitions-r-txt')});
-    }}); getAttrs(['disguise_txt'], v => {
-      if (v.disguise_txt !== getTranslationByKey('disguise-r-txt')) {
-        setAttrs({disguise_txt: getTranslationByKey('disguise-r-txt')});
-    }}); getAttrs(['deception_txt'], v => {
-      if (v.deception_txt !== getTranslationByKey('deception-r-txt')) {
-        setAttrs({deception_txt: getTranslationByKey('deception-r-txt')});
-    }}); getAttrs(['dodge_txt'], v => {
-      if (v.dodge_txt !== getTranslationByKey('dodge-r-txt')) {
-        setAttrs({dodge_txt: getTranslationByKey('dodge-r-txt')});
-    }}); getAttrs(['driveauto_txt'], v => {
-      if (v.driveauto_txt !== getTranslationByKey('driveauto-r-txt')) {
-        setAttrs({driveauto_txt: getTranslationByKey('driveauto-r-txt')});
-    }}); getAttrs(['drone_operation_txt'], v => {
-      if (v.pilotboat_txt !== getTranslationByKey('drone_operation-r-txt')) {
-        setAttrs({pilotboat_txt: getTranslationByKey('drone_operation-r-txt')});
-    }}); getAttrs(['elecrepair_txt'], v => {
-      if (v.elecrepair_txt !== getTranslationByKey('elecrepair-r-txt')) {
-        setAttrs({elecrepair_txt: getTranslationByKey('elecrepair-r-txt')});
-	}}); getAttrs(['engineering_txt'], v => {
-      if (v.engineering_txt !== getTranslationByKey('engineering-r-txt')) {
-        setAttrs({engineering_txt: getTranslationByKey('engineering-r-txt')});
-	}}); getAttrs(['etiquette_high_society_txt'], v => {
-      if (v.etiquette_high_society_txt !== getTranslationByKey('etiquette_high_society-r-txt')) {
-        setAttrs({etiquette_high_society_txt: getTranslationByKey('etiquette_high_society-r-txt')});
-	}}); getAttrs(['engineering_txt'], v => {
-      if (v.engineering_txt !== getTranslationByKey('engineering-r-txt')) {
-        setAttrs({engineering_txt: getTranslationByKey('engineering-r-txt')});
-    }}); getAttrs(['fasttalk_txt'], v => {
-      if (v.fasttalk_txt !== getTranslationByKey('fasttalk-r-txt')) {
-        setAttrs({fasttalk_txt: getTranslationByKey('fasttalk-r-txt')});
-    }}); getAttrs(['fighting_brawl_txt'], v => {
-      if (v.fighting_brawl_txt !== getTranslationByKey('fighting_brawl-r-txt')) {
-        setAttrs({fighting_brawl_txt: getTranslationByKey('fighting_brawl-r-txt')});
-    }}); getAttrs(['firearms_hg_txt'], v => {
-      if (v.firearms_hg_txt !== getTranslationByKey('firearms_hg-r-txt')) {
-        setAttrs({firearms_hg_txt: getTranslationByKey('firearms_hg-r-txt')});
-    }}); getAttrs(['firearms_rifle_txt'], v => {
-      if (v.firearms_rifle_txt !== getTranslationByKey('firearms_rifle-r-txt')) {
-        setAttrs({firearms_rifle_txt: getTranslationByKey('firearms_rifle-r-txt')});
-    }}); getAttrs(['first_aid_txt'], v => {
-      if (v.firstaid_txt !== getTranslationByKey('first_aid-r-txt')) {
-        setAttrs({firstaid_txt: getTranslationByKey('first_aid-r-txt')});
-	}}); getAttrs(['forbidden_lore_txt'], v => {
-      if (v.forbidden_lore_txt !== getTranslationByKey('forbidden_lore-r-txt')) {
-        setAttrs({forbidden_lore_txt: getTranslationByKey('forbidden_lore-r-txt')});
-    }}); getAttrs(['forgery_txt'], v => {
-      if (v.forgery_txt !== getTranslationByKey('forgery-r-txt')) {
-        setAttrs({forgery_txt: getTranslationByKey('forgery-r-txt')});
-    }}); getAttrs(['gunnery_txt'], v => {
-      if (v.gunnery_txt !== getTranslationByKey('gunnery-r-txt')) {
-        setAttrs({gunnery_txt: getTranslationByKey('gunnery-r-txt')});
-    }}); getAttrs(['heavy_weapons_txt'], v => {
-      if (v.heavy_weapons_txt !== getTranslationByKey('heavy_weapons-r-txt')) {
-        setAttrs({heavy_weapons_txt: getTranslationByKey('heavy_weapons-r-txt')});
-    }}); getAttrs(['history_txt'], v => {
-      if (v.history_txt !== getTranslationByKey('history-r-txt')) {
-        setAttrs({history_txt: getTranslationByKey('history-r-txt')});
-	}}); getAttrs(['impersonation_txt'], v => {
-      if (v.impersonation_txt !== getTranslationByKey('impersonation-r-txt')) {
-        setAttrs({impersonation_txt: getTranslationByKey('impersonation-r-txt')});
-	}}); getAttrs(['instrument_txt'], v => {
-      if (v.instrument_txt !== getTranslationByKey('instrument-r-txt')) {
-        setAttrs({instrument_txt: getTranslationByKey('instrument-r-txt')});
-    }}); getAttrs(['intimidate_txt'], v => {
-      if (v.intimidate_txt !== getTranslationByKey('intimidate-r-txt')) {
-        setAttrs({intimidate_txt: getTranslationByKey('intimidate-r-txt')});
-    }}); getAttrs(['interrogation_txt'], v => {
-      if (v.interrogation_txt !== getTranslationByKey('interrogation-r-txt')) {
-        setAttrs({interrogation_txt: getTranslationByKey('interrogation-r-txt')});		
-    }}); getAttrs(['insight_txt'], v => {
-      if (v.insight_txt !== getTranslationByKey('insight-r-txt')) {
-        setAttrs({insight_txt: getTranslationByKey('insight-r-txt')});
-    }}); getAttrs(['investigation_txt'], v => {
-      if (v.investigation_txt !== getTranslationByKey('investigation-r-txt')) {
-        setAttrs({investigation_txt: getTranslationByKey('investigation-r-txt')});
-    }}); getAttrs(['jump_txt'], v => {
-      if (v.jump_txt !== getTranslationByKey('jump-r-txt')) {
-        setAttrs({jump_txt: getTranslationByKey('jump-r-txt')});
-    }}); getAttrs(['law_txt'], v => {
-      if (v.law_txt !== getTranslationByKey('law-r-txt')) {
-        setAttrs({law_txt: getTranslationByKey('law-r-txt')});
-    }}); getAttrs(['libraryuse_txt'], v => {
-      if (v.libraryuse_txt !== getTranslationByKey('libraryuse-r-txt')) {
-        setAttrs({libraryuse_txt: getTranslationByKey('libraryuse-r-txt')});
-    }}); getAttrs(['listen_txt'], v => {
-      if (v.listen_txt !== getTranslationByKey('listen-r-txt')) {
-        setAttrs({listen_txt: getTranslationByKey('listen-r-txt')});
-    }}); getAttrs(['locksmith_txt'], v => {
-      if (v.locksmith_txt !== getTranslationByKey('locksmith-r-txt')) {
-        setAttrs({locksmith_txt: getTranslationByKey('locksmith-r-txt')});
-    }}); getAttrs(['magic_alteration_txt'], v => {
-      if (v.magic_alteration_txt !== getTranslationByKey('magic_alteration-r-txt')) {
-        setAttrs({magic_alteration_txt: getTranslationByKey('magic_alteration-r-txt')});
-    }}); getAttrs(['magic_elemental_txt'], v => {
-      if (v.magic_elemental_txt !== getTranslationByKey('magic_elemental-r-txt')) {
-        setAttrs({magic_elemental_txt: getTranslationByKey('magic_elemental-r-txt')});
-    }}); getAttrs(['magic_enchantment_txt'], v => {
-      if (v.magic_enchantment_txt !== getTranslationByKey('magic_enchantment-r-txt')) {
-        setAttrs({magic_enchantment_txt: getTranslationByKey('magic_enchantment-r-txt')});
-    }}); getAttrs(['magic_illusion_txt'], v => {
-      if (v.magic_illusion_txt !== getTranslationByKey('magic_illusion-r-txt')) {
-        setAttrs({magic_illusion_txt: getTranslationByKey('magic_illusion-r-txt')});
-    }}); getAttrs(['magic_necromancy_txt'], v => {
-      if (v.magic_necromancy_txt !== getTranslationByKey('magic_necromancy-r-txt')) {
-        setAttrs({magic_necromancy_txt: getTranslationByKey('magic_necromancy-r-txt')});
-    }}); getAttrs(['magic_restoration_txt'], v => {
-      if (v.magic_restoration_txt !== getTranslationByKey('magic_restoration-r-txt')) {
-        setAttrs({magic_restoration_txt: getTranslationByKey('magic_restoration-r-txt')});
-    }}); getAttrs(['magic_summoning_txt'], v => {
-      if (v.magic_summoning_txt !== getTranslationByKey('magic_summoning-r-txt')) {
-        setAttrs({magic_summoning_txt: getTranslationByKey('magic_summoning-r-txt')});
-    }}); getAttrs(['magic_technomancy_txt'], v => {
-      if (v.magic_technomancy_txt !== getTranslationByKey('magic_technomancy-r-txt')) {
-        setAttrs({magic_technomancy_txt: getTranslationByKey('magic_technomancy-r-txt')});
-    }}); getAttrs(['magic_warding_txt'], v => {
-      if (v.magic_warding_txt !== getTranslationByKey('magic_warding-r-txt')) {
-        setAttrs({magic_warding_txt: getTranslationByKey('magic_warding-r-txt')});
-    }}); getAttrs(['magic_universal_txt'], v => {
-      if (v.magic_universal_txt !== getTranslationByKey('magic_universal-r-txt')) {
-        setAttrs({magic_universal_txt: getTranslationByKey('magic_universal-r-txt')});
-    }}); getAttrs(['mechrepair_txt'], v => {
-      if (v.mechrepair_txt !== getTranslationByKey('mechrepair-r-txt')) {
-        setAttrs({mechrepair_txt: getTranslationByKey('mechrepair-r-txt')});
-    }}); getAttrs(['mechanics_txt'], v => {
-      if (v.mechanics_txt !== getTranslationByKey('mechanics-r-txt')) {
-        setAttrs({mechanics_txt: getTranslationByKey('mechanics-r-txt')});
-    }}); getAttrs(['medicine_txt'], v => {
-      if (v.medicine_txt !== getTranslationByKey('medicine-r-txt')) {
-        setAttrs({medicine_txt: getTranslationByKey('medicine-r-txt')});
-    }}); getAttrs(['melee_weapons_txt'], v => {
-      if (v.melee_weapons_txt !== getTranslationByKey('melee_weapons-r-txt')) {
-        setAttrs({melee_weapons_txt: getTranslationByKey('melee_weapons-r-txt')});
-    }}); getAttrs(['naturalworld_txt'], v => {
-      if (v.naturalworld_txt !== getTranslationByKey('naturalworld-r-txt')) {
-        setAttrs({naturalworld_txt: getTranslationByKey('naturalworld-r-txt')});
-    }}); getAttrs(['navigate_txt'], v => {
-      if (v.navigate_txt !== getTranslationByKey('navigate-r-txt')) {
-        setAttrs({navigate_txt: getTranslationByKey('navigate-r-txt')});
-    }}); getAttrs(['occult_txt'], v => {
-      if (v.occult_txt !== getTranslationByKey('occult-r-txt')) {
-        setAttrs({occult_txt: getTranslationByKey('occult-r-txt')});
-    }}); getAttrs(['ophvmachine_txt'], v => {
-      if (v.ophvmachine_txt !== getTranslationByKey('ophvmachine-r-txt')) {
-        setAttrs({ophvmachine_txt: getTranslationByKey('ophvmachine-r-txt')});
-    }}); getAttrs(['perception_txt'], v => {
-      if (v.perception_txt !== getTranslationByKey('perception-r-txt')) {
-        setAttrs({perception_txt: getTranslationByKey('perception-r-txt')});
-    }}); getAttrs(['persuade_txt'], v => {
-      if (v.persuade_txt !== getTranslationByKey('persuade-r-txt')) {
-        setAttrs({persuade_txt: getTranslationByKey('persuade-r-txt')});
-    }}); getAttrs(['physics_txt'], v => {
-      if (v.physics_txt !== getTranslationByKey('physics-r-txt')) {
-        setAttrs({physics_txt: getTranslationByKey('physics-r-txt')});
-    }}); getAttrs(['pilotaircraft_txt'], v => {
-      if (v.pilotboat_txt !== getTranslationByKey('pilotaircraft-r-txt')) {
-        setAttrs({pilotboat_txt: getTranslationByKey('pilotaircraft-r-txt')});
-	}}); getAttrs(['pilotboat_txt'], v => {
-      if (v.pilotboat_txt !== getTranslationByKey('pilotboat-r-txt')) {
-        setAttrs({pilotboat_txt: getTranslationByKey('pilotboat-r-txt')});
-    }}); getAttrs(['psychology_txt'], v => {
-      if (v.psychology_txt !== getTranslationByKey('psychology-r-txt')) {
-        setAttrs({psychology_txt: getTranslationByKey('psychology-r-txt')});
-    }}); getAttrs(['psychoanalysis_txt'], v => {
-      if (v.psychoanalysis_txt !== getTranslationByKey('psychoanalysis-r-txt')) {
-        setAttrs({psychoanalysis_txt: getTranslationByKey('psychoanalysis-r-txt')});
-    }}); getAttrs(['ride_txt'], v => {
-      if (v.ride_txt !== getTranslationByKey('ride-r-txt')) {
-        setAttrs({ride_txt: getTranslationByKey('ride-r-txt')});
-    }}); getAttrs(['security_txt'], v => {
-      if (v.security_txt !== getTranslationByKey('security-r-txt')) {
-        setAttrs({security_txt: getTranslationByKey('security-r-txt')});
-    }}); getAttrs(['singing_txt'], v => {
-      if (v.singing_txt !== getTranslationByKey('singing-r-txt')) {
-        setAttrs({singing_txt: getTranslationByKey('singing-r-txt')});
-    }}); getAttrs(['sleightofhand_txt'], v => {
-      if (v.sleightofhand_txt !== getTranslationByKey('sleightofhand-r-txt')) {
-        setAttrs({sleightofhand_txt: getTranslationByKey('sleightofhand-r-txt')});
-    }}); getAttrs(['slicing_txt'], v => {
-      if (v.slicing_txt !== getTranslationByKey('slicing-r-txt')) {
-        setAttrs({slicing_txt: getTranslationByKey('slicing-r-txt')});
-    }}); getAttrs(['spirit_lore_txt'], v => {
-      if (v.spirit_lore_txt !== getTranslationByKey('spirit_lore-r-txt')) {
-        setAttrs({spirit_lore_txt: getTranslationByKey('spirit_lore-r-txt')});
-    }}); getAttrs(['spothidden_txt'], v => {
-      if (v.spothidden_txt !== getTranslationByKey('spothidden-r-txt')) {
-        setAttrs({spothidden_txt: getTranslationByKey('spothidden-r-txt')});
-    }}); getAttrs(['stealth_txt'], v => {
-      if (v.stealth_txt !== getTranslationByKey('stealth-r-txt')) {
-        setAttrs({stealth_txt: getTranslationByKey('stealth-r-txt')});
-    }}); getAttrs(['streetwise_txt'], v => {
-      if (v.streetwise_txt !== getTranslationByKey('streetwise-r-txt')) {
-        setAttrs({streetwise_txt: getTranslationByKey('streetwise-r-txt')});
-    }}); getAttrs(['survivaltxt'], v => {
-      if (v.survivaltxt !== getTranslationByKey('survival-r-txt')) {
-        setAttrs({survivaltxt: getTranslationByKey('survival-r-txt')});
-    }}); getAttrs(['athletics_txt'], v => {
-      if (v.athletics_txt !== getTranslationByKey('athletics-r-txt')) {
-        setAttrs({athletics_txt: getTranslationByKey('athletics-r-txt')});
-    }}); getAttrs(['coordination_txt'], v => {
-      if (v.coordination_txt !== getTranslationByKey('coordination-r-txt')) {
-        setAttrs({coordination_txt: getTranslationByKey('coordination-r-txt')});
-    }}); getAttrs(['swim_txt'], v => {
-      if (v.swim_txt !== getTranslationByKey('swim-r-txt')) {
-        setAttrs({swim_txt: getTranslationByKey('swim-r-txt')});
-    }}); getAttrs(['throw_txt'], v => {
-      if (v.throw_txt !== getTranslationByKey('throw-r-txt')) {
-        setAttrs({throw_txt: getTranslationByKey('throw-r-txt')});
-    }}); getAttrs(['track_txt'], v => {
-      if (v.track_txt !== getTranslationByKey('track-r-txt')) {
-        setAttrs({track_txt: getTranslationByKey('track-r-txt')});
-    }}); getAttrs(['unarmed_txt'], v => {
-      if (v.unarmed_txt !== getTranslationByKey('unarmed-z')) {
-        setAttrs({unarmed_txt: getTranslationByKey('unarmed-z')});
-    }}); getAttrs(['veil_lore_txt'], v => {
-      if (v.veil_lore_txt !== getTranslationByKey('veil_lore-r-txt')) {
-        setAttrs({veil_lore_txt: getTranslationByKey('veil_lore-r-txt')});
-    }});
+  const translationFields = [
+    "str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
+    "accounting_txt", "alchemy_txt", "animalhandling_txt", "anthropology_txt", "appraise_txt", "arcana_txt",
+    "archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
+    "charm_txt", "chemistry_txt", "climb_txt", "computeruse_txt", "creditrating_txt", "cthulhumythos_txt",
+    "cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "driveauto_txt",
+    "drone_operation_txt", "elecrepair_txt", "engineering_txt", "etiquette_high_society_txt", "fasttalk_txt",
+    "fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "first_aid_txt", "forbidden_lore_txt",
+    "forgery_txt", "gunnery_txt", "heavy_weapons_txt", "history_txt", "impersonation_txt", "instrument_txt",
+    "intimidate_txt", "interrogation_txt", "insight_txt", "investigation_txt", "jump_txt", "law_txt", "libraryuse_txt",
+    "listen_txt", "locksmith_txt", "magic_alteration_txt", "magic_elemental_txt", "magic_enchantment_txt",
+    "magic_illusion_txt", "magic_necromancy_txt", "magic_restoration_txt", "magic_summoning_txt", "magic_technomancy_txt",
+    "magic_warding_txt", "magic_universal_txt", "mechrepair_txt", "mechanics_txt", "medicine_txt", "melee_weapons_txt",
+    "naturalworld_txt", "navigate_txt", "occult_txt", "ophvmachine_txt", "perception_txt", "persuade_txt", "physics_txt",
+    "pilotaircraft_txt", "pilotboat_txt", "psychology_txt", "psychoanalysis_txt", "ride_txt", "security_txt",
+    "singing_txt", "sleightofhand_txt", "slicing_txt", "spirit_lore_txt", "spothidden_txt", "stealth_txt", "streetwise_txt",
+    "survivaltxt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt"
+  ];
 
+  getAttrs(translationFields, values => {
+    const updates = {};
+
+    translationFields.forEach(field => {
+      const translationKey = field.replace("_txt", "-r-txt")
+        .replace("luck_txt", "luck-u");
+
+      const correctText = getTranslationByKey(translationKey);
+      if (values[field] !== correctText) {
+        updates[field] = correctText;
+      }
+    });
+
+    if (Object.keys(updates).length > 0) {
+      setAttrs(updates);
+    }
   });
+});

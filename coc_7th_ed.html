@@ -169,10 +169,11 @@
                 </tr>
             </table>
         </div>
-
+		
+		<div class='sheet-col'>
 		<!-- HTML: Race selection dropdown -->
-		<div style="text-align:left"><b>Race</b></div>
-			<div>
+			<h4 class="section-head" ">Race</h4>
+			<div class="section">
 				<select class="race-select" name="attr_showracials">
 					<option value="0" selected>-- Choose Race --</option>
 					<option value="alteri">Alteri</option>
@@ -185,6 +186,7 @@
 					<option value="veyra">Veyra</option>
 				</select>
 			</div>
+		</div>
         </div>
     </div>
 
@@ -281,7 +283,7 @@
                 <td class="attr-roll" ></td>
 				<td> </td>
 				<td class="attr-label"><strong data-i18n="total_skill_points_spent-u">AC</strong></td>
-                <td><input class="attr-input" type="text" name="attr_total_skill_points_spent"/></td>
+                <td><input class="attr-input" type="text" name="attr_total_skill_points_spent"/ readonly></td>
                 <td class="attr-roll" ></td>
 			</tr>
         </table>
@@ -2390,7 +2392,7 @@
                 <tr data-i18n-list-item="magic_universal">
                     <td><input type="checkbox" name="attr_magic_universal_mdr_checkbox"></td>
                     <td class="skill-label" data-i18n="magic_universal-u">Universal(0%)</td>
-                    <td><input class="skill-input" type="text" name="attr_magic_universal_skill_mdr" readonly/></td>
+                    <td><input class="skill-input" type="text" name="attr_magic_universal_skill_mdr"/></td>
                     <td><input class="skill-input" type="text" name="attr_magic_universal_mdr" readonly/></td>
 				    <td><button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{magic_universal_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{magic_universal_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{magic_universal_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{magic_universal_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_magic_universal_mdr_check' /></td>
                 </tr>
@@ -11900,18 +11902,10 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		return map;
 	}, {});
 
-	const magicSchools = [
-		"magic_alteration_mdr",
-		"magic_elemental_mdr",
-		"magic_enchantment_mdr",
-		"magic_illusion_mdr",
-		"magic_necromancy_mdr",
-		"magic_restoration_mdr",
-		"magic_summoning_mdr",
-		"magic_technomancy_mdr",
-		"magic_warding_mdr",
-		"magic_universal_skill_mdr"
-	];
+	const magicSchools = Object.values(skillMapTable)
+	.filter(skill => skill.group === "Magic" && skill.label !== "magic_universal")
+	.map(skill => skill.bonus); // bonus field is like "magic_alteration_mdr", "magic_elemental_mdr", etc
+
 
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,

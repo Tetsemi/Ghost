@@ -185,17 +185,6 @@ const raceDataMap = {
   }
 };
 
-const raceValueMap = {
-  "1": "alteri",
-  "2": "draevi",
-  "3": "feran",
-  "4": "human",
-  "5": "khadra",
-  "6": "kitsu",
-  "7": "lyranni",
-  "8": "veyra"
-};
-
 const skillMapTable = {
  "Archery": { label: "archery", base: "10", skill: "archery_skill_mdr", bonus: "archery_mdr", group: "Combat", notes: "Archery" },
  "Dodge (DEX/2)": { label: "dodge", base: "0", skill: "dodge_skill_mdr", bonus: "dodge_mdr", group: "Combat", notes: "Half of your DEX score" },
@@ -449,14 +438,6 @@ function getAllTalentSkills(race) {
 
 // === Helpers ===
 
-// To be deleted when showracials stores the race and not a number
-function getActiveRace(values) {
-  const raceId = values.showracials || "0";
-  const race = raceValueMap[raceId] || "unknown";
-  if (debug_on) console.log("[getActiveRace]", { raceId, race });
-  return race;
-}
-
 function resetAllMDRToBase(race, callback) {
   const skills = Object.keys(skillMapTable);
   const attrsToGet = skills.map(skill => `${skill}_skill_mdr`).concat(skills.map(skill => `${skill}_mdr`));
@@ -485,37 +466,33 @@ function applyAllSkillBonuses(race) {
 }
 
 on("change:showracials sheet:opened", () => {
-  getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
-    const raceId = values["showracials"];
-    
-    // TODO: After showracials migration, showracials will store race names directly.
-    // Then remove raceValueMap lookup and use raceId as the race key directly.
-    const mappedRace = raceValueMap[String(raceId)];
+	getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
+		const race = values.showracials || "";
 
-    if (!mappedRace) {
-      if (debug_on) console.log("[Skill Init] No mapped race for Race ID:", raceId);
-      return;
-    }
+		if (!raceDataMap[race]) {
+			if (debug_on) console.log("[Skill Init] No race data for:", race);
+			return;
+		}
 
-    const raceData = raceDataMap[mappedRace];
-    const racialLang = raceData?.language || "Racial";
+		const raceData = raceDataMap[race];
+		const racialLang = raceData.language || "Racial";
 
-    if (debug_on) {
-      console.log("[showracials handler] Mapped Race:", mappedRace);
-      console.log(`Racial Lang: ${racialLang}`);
-    }
-    
-    handleRaceChange(mappedRace);
+		if (debug_on) {
+			console.log("[showracials handler] Race:", race);
+			console.log(`Racial Lang: ${racialLang}`);
+		}
 
-    const otherLang = mappedRace === "human" ? "Other" : "Caltheran";
+		handleRaceChange(race);
 
-    const updates = {
-      language_own_txt: `${racialLang}(75%)`,
-      language_caltheran_txt: `${otherLang}(EDU)`
-    };
+		const otherLang = race === "human" ? "Other" : "Caltheran";
 
-    setAttrs(updates);
-  });
+		const updates = {
+			language_own_txt: `${racialLang}(75%)`,
+			language_caltheran_txt: `${otherLang}(EDU)`
+		};
+
+		setAttrs(updates);
+	});
 });
 
 const registeredRaces = new Set();
@@ -532,18 +509,10 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		return map;
 	}, {});
 
-	const magicSchools = [
-		"magic_alteration_mdr",
-		"magic_elemental_mdr",
-		"magic_enchantment_mdr",
-		"magic_illusion_mdr",
-		"magic_necromancy_mdr",
-		"magic_restoration_mdr",
-		"magic_summoning_mdr",
-		"magic_technomancy_mdr",
-		"magic_warding_mdr",
-		"magic_universal_skill_mdr"
-	];
+	const magicSchools = Object.values(skillMapTable)
+	.filter(skill => skill.group === "Magic" && skill.label !== "magic_universal")
+	.map(skill => skill.bonus); // bonus field is like "magic_alteration_mdr", "magic_elemental_mdr", etc
+
 
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,
@@ -581,10 +550,10 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 	if (debug_on) console.log("[registerSkillHandler Init]", { watched });
 
+	// BEGIN Sheet Worker Watcher
 	on([...new Set(watched)].map(s => `change:${s}`).join(" "), () => {
 		getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
-			const raceId = values.showracials || "0";
-			const activeRace = raceValueMap[raceId]; // TODO: After migration, showracials will store race name directly.
+			const activeRace = values.showracials || "unknown"; // minimal change here
 			if (activeRace !== racePrefix) return;
 
 			const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
@@ -628,31 +597,31 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			
 			update["total_skill_points_spent"] = totalSkillPointsSpent;
 
-			// Calculate magic_universal_mdr
+			// Universal Magic Skill
 			const schoolValues = magicSchools.slice(0, 9).map(attr => parseInt(values[attr], 10) || 0);
 			const baseUniversal = parseInt(values.magic_universal_skill_mdr, 10) || 0;
 			const highestSchool = Math.max(...schoolValues);
-			const totalUniversal = highestSchool + baseUniversal;
-			update["magic_universal_mdr"] = totalUniversal;
+			update["magic_universal_mdr"] = highestSchool + baseUniversal;
 
 			if (debug_on) {
 				console.log(`Highest Magic School: ${highestSchool}`);
 				console.log(`Universal Base: ${baseUniversal}`);
-				console.log(`Total Universal: ${totalUniversal}`);
+				console.log(`Total Universal: ${highestSchool + baseUniversal}`);
 			}
 
 			setAttrs(update);
 		});
 	});
+	// END Sheet Worker Watcher
 
 	if (debug_on) {
 		console.log("[registerSkillHandler] Manual initialization on load");
 		console.log("[registerSkillHandler] Skills to initialize:", triggerSkills);
 	}
 
+	// BEGIN Manual Initialization
 	getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
-		const raceId = values.showracials || "0";
-		const activeRace = raceValueMap[raceId]; // TODO: After migration, showracials will store race name directly.
+		const activeRace = values.showracials || "unknown"; // minimal change here
 		if (activeRace !== racePrefix) return;
 
 		const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
@@ -699,18 +668,19 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		const schoolValues = magicSchools.slice(0, 9).map(attr => parseInt(values[attr], 10) || 0);
 		const baseUniversal = parseInt(values.magic_universal_skill_mdr, 10) || 0;
 		const highestSchool = Math.max(...schoolValues);
-		const totalUniversal = highestSchool + baseUniversal;
-		update["magic_universal_mdr"] = totalUniversal;
+		update["magic_universal_mdr"] = highestSchool + baseUniversal;
 
 		if (debug_on) {
 			console.log(`Highest Magic School: ${highestSchool}`);
 			console.log(`Universal Base: ${baseUniversal}`);
-			console.log(`Total Universal: ${totalUniversal}`);
+			console.log(`Total Universal: ${highestSchool + baseUniversal}`);
 		}
 
 		setAttrs(update);
 	});
+	// END Manual Initialization
 }
+
 
 function setDefaultSkillBonuses(race) {
   const updates = {};
@@ -772,17 +742,18 @@ on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] fired");
   
   getAttrs(["showracials", "new_character_flag"], values => {
-    // TODO: After migration, showracials will store the race directly; remove getActiveRace().
     const isNew = values.new_character_flag === "1";
-    const race = getActiveRace(values); 
+    const race = values.showracials || "unknown"; // ⬅️ direct from showracials now
     const updates = {};
 
+    //    if (debug_on) console.log("[sheet:opened]", { race, isNew });
 	getAttrs(["showskills"], values => {
         if (!values.showskills || values.showskills === "0") {
             setAttrs({ showskills: "3" });
         }
     });
 
+    // Always run skill init if new character
     if (isNew) {
       Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
         const val = parseInt(base, 10) || 0;
@@ -796,32 +767,53 @@ on("sheet:opened", function () {
     }
 
     setAttrs(updates, () => {
-      if (race && race !== "unknown") {
+	  if (debug_on) console.log ("[sheet:opened] Checking for undefined or unknown race");
+      if (race && race !== "unknown" && race !== "0") {
+        // Handle race bonus init
+		if (debug_on) console.log (`[sheet:opened] Race: "${race}" being initialized`);
         handleRaceChange(race);
-		registerStatHandler();
       }
+	  registerStatHandler();
     });
   });
 });
 
+
 function registerStatHandler() {
     const watched = [
-        "str", "siz", "dex", "age", "mag", "vitality"
+        "age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", 
     ];
 
     if (debug_on) console.log("[registerStatHandler Init] Watching:", watched);
 
     on(watched.map(s => `change:${s} add:${s}`).join(" "), () => {
         getAttrs(watched, values => {
-            const istr = parseInt(values.str) || 0;
+		    const iage = parseInt(values.age) || 0;
+			const istr = parseInt(values.str) || 0;
+			const idex = parseInt(values.dex) || 0;
+			const ipow = parseInt(values.pow) || 0;
+            const icon = parseInt(values.con) || 0;
+			const iapp = parseInt(values.app) || 0;
+            const iedu = parseInt(values.edu) || 0;			
             const isiz = parseInt(values.siz) || 0;
-            const idex = parseInt(values.dex) || 0;
-            const iage = parseInt(values.age) || 0;
+            const iint = parseInt(values.int) || 0;
             const imag = parseInt(values.mag) || 0;
             const ivit = parseInt(values.vitality) || 0;
 
             const update = {};
+			
+			// Attribute Points Total Calculation
+			const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag"];
 
+			let totalAttrPointsSpent = 0;
+
+			statKeys.forEach(stat => {
+				const val = parseInt(values[stat], 10) || 0;
+				totalAttrPointsSpent += val;
+			});
+
+			update["total_attr_points_spent"] = totalAttrPointsSpent;
+			
             // Armor Class = min(MAG, VITALITY)
             update.ac = Math.min(imag, ivit);
 

@@ -169,10 +169,11 @@
                 </tr>
             </table>
         </div>
+		</div>
 		
 		<div class='sheet-col'>
 		<!-- HTML: Race selection dropdown -->
-			<h4 class="section-head" ">Race</h4>
+			<h4 class="section-head">Race</h4>
 			<div class="section">
 				<select class="race-select" name="attr_showracials">
 					<option value="0" selected>-- Choose Race --</option>
@@ -185,9 +186,26 @@
 					<option value="lyranni">Lyranni</option>
 					<option value="veyra">Veyra</option>
 				</select>
+			</div>		
+		</div>
+		
+		<div class='sheet-col'>
+			<h4 class="section-head">Spenders</h4>
+			<div class="section">
+				<table>
+					<tr>
+						<td class="attr-label-small"><strong data-i18n="total_attr_points_spent-u">AS</strong></td>
+						<td><input class="attr-input-small" type="text" name="attr_total_attr_points_spent"/ readonly></td>
+						<td> </td>
+						<td class="attr-label-small"><strong data-i18n="total_skill_points_spent-u">SPS</strong></td>
+						<td><input class="attr-input-small" type="text" name="attr_total_skill_points_spent"/ readonly></td>
+						<td> </td>
+					</tr>
+				</table>
 			</div>
 		</div>
-        </div>
+		
+		
     </div>
 
     <div class='sheet-col'>
@@ -282,9 +300,6 @@
                 <td><input class="attr-input" type="text" name="attr_ac"/></td>
                 <td class="attr-roll" ></td>
 				<td> </td>
-				<td class="attr-label"><strong data-i18n="total_skill_points_spent-u">AC</strong></td>
-                <td><input class="attr-input" type="text" name="attr_total_skill_points_spent"/ readonly></td>
-                <td class="attr-roll" ></td>
 			</tr>
         </table>
         </div>
@@ -12174,22 +12189,39 @@ on("sheet:opened", function () {
 
 function registerStatHandler() {
     const watched = [
-        "str", "siz", "dex", "age", "mag", "vitality"
+        "age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", 
     ];
 
     if (debug_on) console.log("[registerStatHandler Init] Watching:", watched);
 
     on(watched.map(s => `change:${s} add:${s}`).join(" "), () => {
         getAttrs(watched, values => {
-            const istr = parseInt(values.str) || 0;
+		    const iage = parseInt(values.age) || 0;
+			const istr = parseInt(values.str) || 0;
+			const idex = parseInt(values.dex) || 0;
+			const ipow = parseInt(values.pow) || 0;
+            const icon = parseInt(values.con) || 0;
+			const iapp = parseInt(values.app) || 0;
+            const iedu = parseInt(values.edu) || 0;			
             const isiz = parseInt(values.siz) || 0;
-            const idex = parseInt(values.dex) || 0;
-            const iage = parseInt(values.age) || 0;
+            const iint = parseInt(values.int) || 0;
             const imag = parseInt(values.mag) || 0;
             const ivit = parseInt(values.vitality) || 0;
 
             const update = {};
+			
+			// Attribute Points Total Calculation
+			const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag"];
 
+			let totalAttrPointsSpent = 0;
+
+			statKeys.forEach(stat => {
+				const val = parseInt(values[stat], 10) || 0;
+				totalAttrPointsSpent += val;
+			});
+
+			update["total_attr_points_spent"] = totalAttrPointsSpent;
+			
             // Armor Class = min(MAG, VITALITY)
             update.ac = Math.min(imag, ivit);
 

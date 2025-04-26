@@ -1,4 +1,5 @@
 const debug_on = true;
+const debug_on_trace = true;
 
 // Maps //
 const backgroundSkillMap = {
@@ -364,6 +365,7 @@ lyranniTalentTabs.forEach(tab => {
 
 // Mirror select dropdown value to hidden input (for CSS Wizardry styling)
 on("change:repeating_spells:spellprepared", function(eventInfo) {
+  if (debug_on_trace) console.log ("[change:repeating_spells:spellprepared] Start");
   const match = eventInfo.sourceAttribute.match(/repeating_spells_([^_]+)_/);
   if (!match) return;
 
@@ -379,6 +381,7 @@ on("change:repeating_spells:spellprepared", function(eventInfo) {
 
 // Sum spellcosts only for prepared spells
 on("change:repeating_spells:spellcost change:repeating_spells:spellprepared remove:repeating_spells", function() {
+  if (debug_on_trace) console.log ("[change:repeating_spells:spellcost change:repeating_spells:spellprepared remove:repeating_spells] Start");
   getSectionIDs("repeating_spells", function(ids) {
     const attrsToGet = ids.flatMap(id => [
       `repeating_spells_${id}_spellcost`,
@@ -399,6 +402,7 @@ on("change:repeating_spells:spellcost change:repeating_spells:spellprepared remo
 
 // Update overflow flag when spellcost or AC changes
 on("change:total_spellcost change:ac", function () {
+  if (debug_on_trace) console.log ("[change:total_spellcost change:ac] Start");
   getAttrs(["total_spellcost", "ac"], function (values) {
     const cost = parseFloat(values.total_spellcost) || 0;
     const capacity = parseFloat(values.ac) || 0;
@@ -414,6 +418,7 @@ on("change:total_spellcost change:ac", function () {
 });
 
 function getAllBackgroundSkills(race) {
+		if (debug_on_trace) console.log ("[getAllBackgroundSkills] Start");
   const skills = new Set();
   const backgrounds = backgroundSkillMap[race] || {};
   Object.values(backgrounds).forEach(skillGroup => {
@@ -423,6 +428,7 @@ function getAllBackgroundSkills(race) {
 }
 
 function getAllTalentSkills(race) {
+	if (debug_on_trace) console.log ("[getAllTalentSkills] Start");
   const skills = new Set();
   const talents = talentSkillMap[race] || {};
   Object.values(talents).forEach(skillGroup => {
@@ -439,6 +445,7 @@ function getAllTalentSkills(race) {
 // === Helpers ===
 
 function resetAllMDRToBase(race, callback) {
+		if (debug_on_trace) console.log ("[resetAllMDRToBase] Start");
   const skills = Object.keys(skillMapTable);
   const attrsToGet = skills.map(skill => `${skill}_skill_mdr`).concat(skills.map(skill => `${skill}_mdr`));
 
@@ -454,6 +461,7 @@ function resetAllMDRToBase(race, callback) {
 }
 
 function applyAllSkillBonuses(race) {
+	if (debug_on_trace) console.log ("[applyAllSkillBonuses] Start");
   const backgroundSkills = getAllBackgroundSkills(race);
   const talentSkills = getAllTalentSkills(race);
 
@@ -466,6 +474,7 @@ function applyAllSkillBonuses(race) {
 }
 
 on("change:showracials sheet:opened", () => {
+	if (debug_on_trace) console.log ("[change:showracials sheet:opened] Start");
 	getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
 		const race = values.showracials || "";
 
@@ -498,6 +507,7 @@ on("change:showracials sheet:opened", () => {
 const registeredRaces = new Set();
 
 function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
+		if (debug_on_trace) console.log ("[registerSkillHandler] Start");
 	const key = `${racePrefix}`;
 	if (registeredRaces.has(key)) return;
 	registeredRaces.add(key);
@@ -683,6 +693,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 
 function setDefaultSkillBonuses(race) {
+		  if (debug_on_trace) console.log ("[setDefaultSkillBonuses] Start");
   const updates = {};
   const raceBackgrounds = backgroundSkillMap[race];
 
@@ -701,6 +712,7 @@ function setDefaultSkillBonuses(race) {
 }
 
 function setDefaultTalentBonuses(race) {
+	  if (debug_on_trace) console.log ("[setDefaultTalentBonuses] Start");
   const updates = {};
   const raceTalents = talentSkillMap[race];
 
@@ -721,6 +733,7 @@ function setDefaultTalentBonuses(race) {
 let lastRaceHandled = null;
 
 function handleRaceChange(race) {
+  if (debug_on_trace) console.log ("[handleRaceChange] Start");
   if (race === lastRaceHandled) {
     if (debug_on) console.log(`[handleRaceChange] Skipped duplicate init for race: ${race}`);
     return;
@@ -739,7 +752,7 @@ function handleRaceChange(race) {
 }
 
 on("sheet:opened", function () {
-  if (debug_on) console.log("[sheet:opened] fired");
+  if (debug_on_trace) console.log("[sheet:opened] New Character check");
   
   getAttrs(["showracials", "new_character_flag"], values => {
     const isNew = values.new_character_flag === "1";
@@ -780,6 +793,7 @@ on("sheet:opened", function () {
 
 
 function registerStatHandler() {
+	if (debug_on_trace) console.log ("[registerStatHandler] Start");
     const watched = [
         "age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", 
     ];
@@ -874,6 +888,7 @@ function registerStatHandler() {
 // -------------------- working area end ----------------- //
 
   on('sheet:opened', function () {
+	  if (debug_on_trace) console.log ("[sheet:opened] Translation");
   const translationFields = [
     "str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
     "accounting_txt", "alchemy_txt", "animalhandling_txt", "anthropology_txt", "appraise_txt", "arcana_txt",

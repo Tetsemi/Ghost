@@ -1,4 +1,4 @@
-const debug_on = true;
+const debug_on = false;
 const debug_on_trace = true;
 
 // Maps //
@@ -578,11 +578,16 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			let totalSkillPointsSpent = 0;
 
 			allSkills.forEach(skill => {
-				const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+				let base = parseInt(values[`${skill}_skill_mdr`], 10);
 				const defaultBase = baseSkillLookup[skill] || 0;
+				if (isNaN(base)) {
+				// Auto-correct missing or blank input to default
+					base = defaultBase; // << use defaultBase here
+					update[`${skill}_skill_mdr`] = base;
+				}
 				const spent = Math.max(base - defaultBase, 0);
 				totalSkillPointsSpent += spent;
-
+				
 				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
 				const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
 				let total = base + bgBonus + talentBonus;
@@ -646,8 +651,13 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		let totalSkillPointsSpent = 0;
 
 		allSkills.forEach(skill => {
-			const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+			let base = parseInt(values[`${skill}_skill_mdr`], 10);
 			const defaultBase = baseSkillLookup[skill] || 0;
+			if (isNaN(base)) {
+				// Auto-correct missing or blank input to default
+				base = defaultBase; // << use defaultBase here
+				update[`${skill}_skill_mdr`] = base;
+			}
 			const spent = Math.max(base - defaultBase, 0);
 			totalSkillPointsSpent += spent;
 
@@ -730,6 +740,35 @@ function setDefaultTalentBonuses(race) {
   return updates;
 }
 
+function applyRacialBaseStats(race) {
+  if (!raceDataMap[race] || !raceDataMap[race].stats) {
+    if (debug_on) console.log("[applyRacialBaseStats] No stats found for race:", race);
+    return;
+  }
+
+  const raceStats = raceDataMap[race].stats;
+  const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag"];
+
+  getAttrs(statKeys, values => {
+    const updates = {};
+
+    statKeys.forEach(stat => {
+      const currentRaw = values[stat];
+      const current = parseInt(currentRaw, 10);
+      const racialBase = raceStats[stat]?.base;
+
+      if (isNaN(current) || current < racialBase) {
+        updates[stat] = racialBase;
+        if (debug_on) console.log(`[applyRacialBaseStats] ${stat.toUpperCase()} raised from ${current} to ${racialBase}`);
+      }
+    });
+
+    if (Object.keys(updates).length > 0) {
+      setAttrs(updates);
+    }
+  });
+}
+
 let lastRaceHandled = null;
 
 function handleRaceChange(race) {
@@ -743,6 +782,7 @@ function handleRaceChange(race) {
 //  if (debug_on) console.log("[handleRaceChange]", race);
 
   resetAllMDRToBase();
+  applyRacialBaseStats(race);
   applyAllSkillBonuses(race);
 
   const skillList = Object.values(backgroundSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
@@ -905,7 +945,7 @@ function registerStatHandler() {
     "naturalworld_txt", "navigate_txt", "occult_txt", "ophvmachine_txt", "perception_txt", "persuade_txt", "physics_txt",
     "pilotaircraft_txt", "pilotboat_txt", "psychology_txt", "psychoanalysis_txt", "ride_txt", "security_txt",
     "singing_txt", "sleightofhand_txt", "slicing_txt", "spirit_lore_txt", "spothidden_txt", "stealth_txt", "streetwise_txt",
-    "survivaltxt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt"
+    "survival_txt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt"
   ];
 
   getAttrs(translationFields, values => {
@@ -913,7 +953,17 @@ function registerStatHandler() {
 
     translationFields.forEach(field => {
       const translationKey = field.replace("_txt", "-r-txt")
-        .replace("luck_txt", "luck-u");
+        .replace("luck_txt", "luck-u")
+		.replace("unarmed_txt", "unarmed-z")
+		.replace("str-r-txt", "STR-r-txt")
+		.replace("dex-r-txt", "DEX-r-txt")
+		.replace("pow-r-txt", "POW-r-txt")
+		.replace("con-r-txt", "CON-r-txt")
+		.replace("app-r-txt", "APP-r-txt")
+		.replace("edu-r-txt", "EDU-r-txt")
+		.replace("siz-r-txt", "SIZ-r-txt")
+		.replace("int-r-txt", "INT-r-txt")
+		.replace("mag-r-txt", "MAG-r-txt");
 
       const correctText = getTranslationByKey(translationKey);
       if (values[field] !== correctText) {

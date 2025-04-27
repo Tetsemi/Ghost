@@ -5490,42 +5490,90 @@
 <!------------------------- Modern Combat ------------------------->
 
     <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3"  checked="checked">
-    <div class="sheet-skills3">
-        <table style="width:100%">
-            <thead>
-                <th style="width:30%" data-i18n="weaponname-u">Weapon</th>
-                <th style="width:6%"></th>
-                <th style="width:16%" data-i18n="skill-u">Skill</th>
-                <th style="width:16%" data-i18n="damage-u">Damage</th>
-                <th style="width:8%" data-i18n="range-u">Range</th>
-                <th style="width:8%" data-i18n="attacks-u">Attacks</th>
-                <th style="width:10%" data-i18n="ammo-u">Ammo</th>
-                <th style="width:6%" data-i18n="malf-u">Malf</th>
-            </thead>
-        </table>
+<div class="sheet-skills3">
+
+    <table style="width:100%">
+        <thead>
+            <th style="width:28%" data-i18n="weaponname-u">Weapon</th>
+            <th style="width:6%"></th>
+            <th style="width:14%" data-i18n="skill-u">Skill</th>
+            <th style="width:14%" data-i18n="damage-u">Damage</th>
+            <th style="width:8%" data-i18n="range-u">Range</th>
+            <th style="width:8%" data-i18n="attacks-u">Attacks</th>
+            <th style="width:10%" data-i18n="ammo-u">Ammo</th>
+            <th style="width:6%" data-i18n="malf-u">Malf</th>
+            <th style="width:6%" data-i18n="strain-u">Strain</th> <!-- NEW COLUMN -->
+        </thead>
+    </table>
         <table style="width:100%">
             <tr>
-                <td style="width:30%"><input style="width:100%;text-align:center" type="text" data-i18n-placeholder="unarmed-z" placeholder="Unarmed" disabled="true"/></td>
+                <td style="width:28%"><input style="width:100%;text-align:center" type="text" data-i18n-placeholder="unarmed-z" placeholder="Unarmed" disabled="true"/></td>
                 <td style="width:6%">
 				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{unarmed_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_unarmed_mdr_check' />
 				</td>
-                <td style="width:16%"><input style="width:100%" type="text" data-i18n-placeholder="unarmed-u" placeholder="Unarmed" disabled="true"/></td>
-                <td style="width:8%"><input style="width:100%;text-align:right;" type="text" value="1d3" disabled="true"/></td>
-                <td style="width:8%"><input style="width:100%;text-align:left;" type="text" value="+db" disabled="true"/></td>
+                <td style="width:14%"><input style="width:100%" type="text" data-i18n-placeholder="unarmed-u" placeholder="Unarmed" disabled="true"/></td>
+                <td style="width:7%"><input style="width:100%;text-align:right;" type="text" value="1d3" disabled="true"/></td>
+                <td style="width:7%"><input style="width:100%;text-align:left;" type="text" value="+db" disabled="true"/></td>
                 <td style="width:8%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
                 <td style="width:8%"><input style="width:100%;text-align:center;" type="text" value="1" disabled="true"/></td>
                 <td style="width:10%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
                 <td style="width:6%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
+				<td style="width:6%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
             </tr>
         </table>
+    <!-- Weapon 1 -->
+    <table style="width:100%">
+        <tr>
+            <td style="width:28%"><input style="width:100%;text-align:center" type="text" name="attr_weapon1_mdr_name"/></td>
+            <td style="width:6%">
+                <button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[ floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox}) / 2) ]]}} {{extreme=[[ floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox}) / 5) ]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}' name='roll_weapon1_mdr_attack' />
+            </td>
+            <td style="width:14%">
+                <select style="width:100%" name="attr_weapon1_skill_mdr">
+                    <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+                    <option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
+                    <option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
+                    <option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
+                    <option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
+                    <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
+                    <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+                    <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+                    <option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
+                    <option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
+                    <option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
+                    <option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
+                    <option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
+                    <option value="@{otherskill4_mdr}" data-i18n="Other Skill #4">Other Skill #4</option>
+                    <option value="@{otherskill5_mdr}" data-i18n="Other Skill #5">Other Skill #5</option>
+                    <option value="@{otherskill6_mdr}" data-i18n="Other Skill #6">Other Skill #6</option>
+                </select>
+            </td>
+            <td style="width:7%"><input style="width:100%;text-align:right;" type="text" name="attr_weapon1_mdr_damage"/></td>
+            <td style="width:7%">
+                <select style="width:100%" name="attr_weapon1_mdr_db">
+                    <option value="+0">+0</option>
+                    <option value="+round((@{damage_bonus})/2)">+&#189;db</option>
+                    <option value="+@{damage_bonus}">+db</option>
+                </select>
+            </td>
+            <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_range"/></td>
+            <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_attacks"/></td>
+            <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_ammo"/></td>
+            <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_malf"/></td>
+            <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_strain" value="0"/></td> <!-- New strain input -->
+        </tr>
+    </table>
+
+    <!-- Repeating Weapons -->
+    <fieldset class="repeating_weaponsmdr">
         <table style="width:100%">
             <tr>
-                <td style="width:30%"><input style="width:100%;text-align:center" type="text" name="attr_weapon1_mdr_name"/></td>
+                <td style="width:28%"><input style="width:100%;text-align:center" type="text" name="attr_weaponname_mdr"/></td>
                 <td style="width:6%">
-				<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[ floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox}) / 2) ]]}}, {{extreme=[[ floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox}) / 5) ]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}}' name='roll_weapon1_mdr_attack' />
-				</td>
-                <td style="width:16%">
-                    <select style="width:100%" name="attr_weapon1_skill_mdr">
+                    <button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}' name='roll_weaponskill_mdr_check' />
+                </td>
+                <td style="width:14%">
+                    <select style="width:100%" name="attr_weaponskill_mdr">
 						<option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
 						<option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
 						<option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
@@ -5536,71 +5584,32 @@
 						<option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
 						<option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
 						<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
-                        <option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
-                        <option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
-                        <option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
-                        <option value="@{otherskill4_mdr}" data-i18n="Other Skill #4">Other Skill #4</option>
-                        <option value="@{otherskill5_mdr}" data-i18n="Other Skill #5">Other Skill #5</option>
-                        <option value="@{otherskill6_mdr}" data-i18n="Other Skill #6">Other Skill #6</option>
+						<option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
+						<option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
+						<option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
+						<option value="@{otherskill4_mdr}" data-i18n="Other Skill #4">Other Skill #4</option>
+						<option value="@{otherskill5_mdr}" data-i18n="Other Skill #5">Other Skill #5</option>
+						<option value="@{otherskill6_mdr}" data-i18n="Other Skill #6">Other Skill #6</option>
                     </select>
                 </td>
-                <td style="width:8%"><input style="width:100%;text-align:right;" type="text" name="attr_weapon1_mdr_damage"/></td>
-                <td style="width:8%">
-                    <select style="width:100%;text-align:left;" name="attr_weapon1_mdr_db">
+                <td style="width:7%"><input style="width:100%;text-align:right;" type="text" name="attr_weapondamage_mdr"/></td>
+                <td style="width:7%">
+                    <select style="width:100%" name="attr_weapondb_mdr">
                         <option value="+0">+0</option>
                         <option value="+round((@{damage_bonus})/2)">+&#189;db</option>
                         <option value="+@{damage_bonus}">+db</option>
                     </select>
                 </td>
-                <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_range"/></td>
-                <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_attacks"/></td>
-                <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_ammo"/></td>
-                <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_malf"/></td>
+                <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponrange_mdr"/></td>
+                <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponattacks_mdr"/></td>
+                <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponammo_mdr"/></td>
+                <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponmalf_mdr"/></td>
+                <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponstrain_mdr" value="0"/></td> <!-- New strain input -->
             </tr>
         </table>
-        <fieldset class="repeating_weaponsmdr">
-            <table style="width:100%">
-                <tr>
-                    <td style="width:30%"><input style="width:100%;text-align:center" type="text" name="attr_weaponname_mdr"/></td>
-                    <td style="width:6%">
-					<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}}' name='roll_weaponskill_mdr_check' />
-					</td>
-                    <td style="width:16%">
-                        <select style="width:100%" name="attr_weaponskill_mdr">
-							<option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
-							<option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
-							<option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
-							<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
-							<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
-							<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
-							<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
-							<option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
-							<option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
-							<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
-							<option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
-							<option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
-							<option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
-							<option value="@{otherskill4_mdr}" data-i18n="Other Skill #4">Other Skill #4</option>
-							<option value="@{otherskill5_mdr}" data-i18n="Other Skill #5">Other Skill #5</option>
-							<option value="@{otherskill6_mdr}" data-i18n="Other Skill #6">Other Skill #6</option>
-                        </select>
-                    </td>
-                    <td style="width:8%"><input style="width:100%;text-align:right;" type="text" name="attr_weapondamage_mdr"/></td>
-                    <td style="width:8%">
-                        <select style="width:100%;text-align:left;" name="attr_weapondb_mdr">
-                            <option value="+0">+0</option>
-                            <option value="+round((@{damage_bonus})/2)">+&#189;db</option>
-                            <option value="+@{damage_bonus}">+db</option>
-                        </select>
-                    </td>
-                    <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponrange_mdr"/></td>
-                    <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponattacks_mdr"/></td>
-                    <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponammo_mdr"/></td>
-                    <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponmalf_mdr"/></td>
-                </tr>
-            </table>
-        </fieldset>
-    </div>
+    </fieldset>
+</div>
+
 
 <!------------------------- Icarus Combat ------------------------->
 
@@ -11399,7 +11408,12 @@ Bout of Madness-Summary---------------------------------------------------------
         </tr>
         <tr>
 			<td class="template_label" data-i18n="dam">Dam:</td><td class="template_value">{{damage}}</td>
-		</tr>
+		</tr>	
+		{{#^rollTotal() strain 0}}
+        <tr>
+			<td class="template_label" data-i18n="strain">Strain:</td><td class="template_value">{{strain}}</td>
+        </tr>
+		{{/^rollTotal() strain 0}}
     </table>
 </rolltemplate>
 
@@ -11533,35 +11547,35 @@ const raceDataMap = {
     label: "Draevi",
     language: "Khevala",
     stats: {
-      str: { base: 25, max: 90 }, dex: { base: 25, max: 80 }, con: { base: 25, max: 90 },
-      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 40, max: 80 },
-      pow: { base: 40, max: 90 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 70 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 90 },
+      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     }
   },
   "feran": {
     label: "Feran",
     language: "A",
     stats: {
-      str: { base: 15, max: 80 }, dex: { base: 20, max: 90 }, con: { base: 15, max: 85 },
-      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 20, max: 85 },
-      pow: { base: 15, max: 80 }, app: { base: 15, max: 85 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 80 }, dex: { base: 15, max: 90 }, con: { base: 15, max: 80 },
+      siz: { base: 35, max: 70 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     }
   },
   "human": {
     label: "Human",
     language: "Caltheran",
     stats: {
-      str: { base: 15, max: 90 }, dex: { base: 15, max: 90 }, con: { base: 15, max: 90 },
-      siz: { base: 40, max: 90 }, int: { base: 40, max: 90 }, edu: { base: 15, max: 90 },
-      pow: { base: 15, max: 90 }, app: { base: 15, max: 90 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 80 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
+      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     }
   },
   "khadra": {
     label: "Khadra",
     language: "Nari",
     stats: {
-      str: { base: 30, max: 95 }, dex: { base: 15, max: 70 }, con: { base: 25, max: 90 },
-      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      str: { base: 15, max: 90 }, dex: { base: 15, max: 70 }, con: { base: 15, max: 80 },
+      siz: { base: 50, max: 90 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
       pow: { base: 15, max: 80 }, app: { base: 15, max: 70 }, mag: { base: 0, max: 80 }
     }
   },
@@ -11569,27 +11583,27 @@ const raceDataMap = {
     label: "Kitsu",
     language: "B",
     stats: {
-      str: { base: 15, max: 75 }, dex: { base: 20, max: 90 }, con: { base: 15, max: 75 },
-      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
-      pow: { base: 15, max: 85 }, app: { base: 15, max: 90 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 75 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
+      siz: { base: 35, max: 75 }, int: { base: 40, max: 85 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 85 }
     }
   },
   "lyranni": {
     label: "Lyranni",
     language: "Thal’Resh",
     stats: {
-      str: { base: 15, max: 75 }, dex: { base: 15, max: 85 }, con: { base: 15, max: 75 },
-      siz: { base: 40, max: 80 }, int: { base: 40, max: 90 }, edu: { base: 15, max: 90 },
-      pow: { base: 40, max: 95 }, app: { base: 15, max: 85 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 70 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
+      siz: { base: 30, max: 70 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 90 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 90 }
     }
   },
   "veyra": {
     label: "Veyra",
     language: "C",
     stats: {
-      str: { base: 25, max: 90 }, dex: { base: 15, max: 80 }, con: { base: 25, max: 90 },
-      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
-      pow: { base: 15, max: 80 }, app: { base: 15, max: 75 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 80 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
+      siz: { base: 30, max: 60 }, int: { base: 40, max: 90 }, edu: { base: 40, max: 90 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     }
   }
 };

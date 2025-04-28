@@ -11377,7 +11377,6 @@ Bout of Madness-Summary---------------------------------------------------------
                     {{/rollLess() roll1 96}}
                   {{/rollLess() success 50}}
                 {{/rollGreater() roll1 success}}
-			</td>
         </tr>
     </table>
 </rolltemplate>
@@ -12421,7 +12420,7 @@ function parseDamageString(damageString, prefix) {
 }
 
 // Auto-calculate damage components for fixed weapon (weapon1_mdr)
-on("sheet:opened add:weapon1_mdr_damage change:weapon1_mdr_damage", function() {
+on("change:weapon1_mdr_damage", function() {
   getAttrs(["weapon1_mdr_damage"], function(values) {
     const damageString = values.weapon1_mdr_damage || "";
     const updates = parseDamageString(damageString, "weapon1_mdr");
@@ -12430,34 +12429,13 @@ on("sheet:opened add:weapon1_mdr_damage change:weapon1_mdr_damage", function() {
 });
 
 // Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
-on("add:repeating_weaponsmdr change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
+on(" change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
 
   getAttrs([`repeating_weaponsmdr_${repeatingId}_weapondamage_mdr`], function(values) {
     const damageString = values[`repeating_weaponsmdr_${repeatingId}_weapondamage_mdr`] || "";
     const updates = parseDamageString(damageString, `repeating_weaponsmdr_${repeatingId}`);
     setAttrs(updates);
-  });
-});
-
-// On sheet:opened, manually get all repeating rows
-on("sheet:opened", function() {
-  getSectionIDs("repeating_weaponsmdr", function(ids) {
-    if (ids.length === 0) return;
-
-    const fields = ids.map(id => `repeating_weaponsmdr_${id}_weapondamage_mdr`);
-    getAttrs(fields, function(values) {
-      const updates = {};
-
-      ids.forEach(id => {
-        const damageString = values[`repeating_weaponsmdr_${id}_weapondamage_mdr`] || "";
-        Object.assign(updates, parseDamageString(damageString, `repeating_weaponsmdr_${id}`));
-      });
-
-      if (Object.keys(updates).length > 0) {
-        setAttrs(updates);
-      }
-    });
   });
 });
 

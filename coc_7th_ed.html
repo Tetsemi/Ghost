@@ -5526,8 +5526,8 @@
 <!------------------------- Modern Combat ------------------------->
 
     <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3"  checked="checked">
-<div class="sheet-skills3">
-
+	<div class="sheet-skills3">
+	
     <table style="width:100%">
         <thead>
             <th style="width:28%" data-i18n="weaponname-u">Weapon</th>
@@ -5545,7 +5545,7 @@
             <tr>
                 <td style="width:28%"><input style="width:100%;text-align:center" type="text" data-i18n-placeholder="unarmed-z" placeholder="Unarmed" disabled="true"/></td>
                 <td style="width:6%">
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{unarmed_txt}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}' name='roll_unarmed_mdr_check' />
+				<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize}+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}} 'name='roll_weapon1_mdr_attack' />
 				</td>
                 <td style="width:14%"><input style="width:100%" type="text" data-i18n-placeholder="unarmed-u" placeholder="Unarmed" disabled="true"/></td>
                 <td style="width:7%"><input style="width:100%;text-align:right;" type="text" value="1d3" disabled="true"/></td>
@@ -5558,14 +5558,65 @@
             </tr>
         </table>
     <!-- Weapon 1 -->
+	<!-- Hidden parsing fields for weapon1 (place BEFORE the table) -->
+		<input type="hidden" name="attr_weapon1_mdr_damage_numdice" value="0" />
+		<input type="hidden" name="attr_weapon1_mdr_damage_dicesize" value="0" />
+		<input type="hidden" name="attr_weapon1_mdr_damage_bonus" value="0" />
+		<input type="hidden" name="attr_weapon1_mdr_strain" value="0" />
+
+
+<table style="width:100%">
+    <tr>
+        <td style="width:28%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_name"/></td>
+        <td style="width:6%">
+            <button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}' name='roll_weapon1_mdr_attack' />
+        </td>
+        <td style="width:14%">
+            <select style="width:100%" name="attr_weapon1_skill_mdr">
+                <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+                <option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
+                <option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
+                <option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
+                <option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
+                <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
+                <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+                <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+                <option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
+                <option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
+            </select>
+        </td>
+        <td style="width:7%"><input style="width:100%;text-align:right;" type="text" name="attr_weapon1_mdr_damage"/></td>
+        <td style="width:7%">
+            <select style="width:100%" name="attr_weapon1_mdr_db">
+                <option value="+0">+0</option>
+                <option value="+round((@{damage_bonus})/2)">+½db</option>
+                <option value="+@{damage_bonus}">+db</option>
+            </select>
+        </td>
+        <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_range"/></td>
+        <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_attacks"/></td>
+        <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_ammo"/></td>
+        <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_malf"/></td>
+        <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_strain" value="0"/></td>
+    </tr>
+</table>
+
+    <!-- Repeating Weapons -->
+    <!-- Hidden parsing fields for repeating weapons (place INSIDE fieldset, BEFORE table) -->
+<fieldset class="repeating_weaponsmdr">
+    <input type="hidden" name="attr_damage_numdice" value="0" />
+    <input type="hidden" name="attr_damage_dicesize" value="0" />
+    <input type="hidden" name="attr_damage_bonus" value="0" />
+    <input type="hidden" name="attr_weaponstrain_mdr" value="0" />
+
     <table style="width:100%">
         <tr>
-            <td style="width:28%"><input style="width:100%;text-align:center" type="text" name="attr_weapon1_mdr_name"/></td>
+            <td style="width:28%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponname_mdr"/></td>
             <td style="width:6%">
-                <button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[ floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox}) / 2) ]]}} {{extreme=[[ floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox}) / 5) ]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}' name='roll_weapon1_mdr_attack' />
+                <button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}' name='roll_weaponskill_mdr_check' />
             </td>
             <td style="width:14%">
-                <select style="width:100%" name="attr_weapon1_skill_mdr">
+                <select style="width:100%" name="attr_weaponskill_mdr">
                     <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
                     <option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
                     <option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
@@ -5576,74 +5627,25 @@
                     <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
                     <option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
                     <option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
-                    <option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
-                    <option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
-                    <option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
-                    <option value="@{otherskill4_mdr}" data-i18n="Other Skill #4">Other Skill #4</option>
-                    <option value="@{otherskill5_mdr}" data-i18n="Other Skill #5">Other Skill #5</option>
-                    <option value="@{otherskill6_mdr}" data-i18n="Other Skill #6">Other Skill #6</option>
                 </select>
             </td>
-            <td style="width:7%"><input style="width:100%;text-align:right;" type="text" name="attr_weapon1_mdr_damage"/></td>
+            <td style="width:7%"><input style="width:100%;text-align:right;" type="text" name="attr_weapondamage_mdr"/></td>
             <td style="width:7%">
-                <select style="width:100%" name="attr_weapon1_mdr_db">
+                <select style="width:100%" name="attr_weapondb_mdr">
                     <option value="+0">+0</option>
-                    <option value="+round((@{damage_bonus})/2)">+&#189;db</option>
+                    <option value="+round((@{damage_bonus})/2)">+½db</option>
                     <option value="+@{damage_bonus}">+db</option>
                 </select>
             </td>
-            <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_range"/></td>
-            <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_attacks"/></td>
-            <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_ammo"/></td>
-            <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_malf"/></td>
-            <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weapon1_mdr_strain" value="0"/></td> <!-- New strain input -->
+            <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponrange_mdr"/></td>
+            <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponattacks_mdr"/></td>
+            <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponammo_mdr"/></td>
+            <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponmalf_mdr"/></td>
+            <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponstrain_mdr" value="0"/></td>
         </tr>
     </table>
+</fieldset>
 
-    <!-- Repeating Weapons -->
-    <fieldset class="repeating_weaponsmdr">
-        <table style="width:100%">
-            <tr>
-                <td style="width:28%"><input style="width:100%;text-align:center" type="text" name="attr_weaponname_mdr"/></td>
-                <td style="width:6%">
-                    <button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{modifier=@{dice_modifier_checkbox}}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}' name='roll_weaponskill_mdr_check' />
-                </td>
-                <td style="width:14%">
-                    <select style="width:100%" name="attr_weaponskill_mdr">
-						<option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
-						<option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
-						<option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
-						<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
-						<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
-						<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
-						<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
-						<option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
-						<option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
-						<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
-						<option value="@{otherskill1_mdr}" data-i18n="Other Skill #1">Other Skill #1</option>
-						<option value="@{otherskill2_mdr}" data-i18n="Other Skill #2">Other Skill #2</option>
-						<option value="@{otherskill3_mdr}" data-i18n="Other Skill #3">Other Skill #3</option>
-						<option value="@{otherskill4_mdr}" data-i18n="Other Skill #4">Other Skill #4</option>
-						<option value="@{otherskill5_mdr}" data-i18n="Other Skill #5">Other Skill #5</option>
-						<option value="@{otherskill6_mdr}" data-i18n="Other Skill #6">Other Skill #6</option>
-                    </select>
-                </td>
-                <td style="width:7%"><input style="width:100%;text-align:right;" type="text" name="attr_weapondamage_mdr"/></td>
-                <td style="width:7%">
-                    <select style="width:100%" name="attr_weapondb_mdr">
-                        <option value="+0">+0</option>
-                        <option value="+round((@{damage_bonus})/2)">+&#189;db</option>
-                        <option value="+@{damage_bonus}">+db</option>
-                    </select>
-                </td>
-                <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponrange_mdr"/></td>
-                <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponattacks_mdr"/></td>
-                <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponammo_mdr"/></td>
-                <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponmalf_mdr"/></td>
-                <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponstrain_mdr" value="0"/></td> <!-- New strain input -->
-            </tr>
-        </table>
-    </fieldset>
 </div>
 
 
@@ -11394,65 +11396,76 @@ Bout of Madness-Summary---------------------------------------------------------
         <tr><td class="template_label" data-i18n="rolled">Rolled:</td><td class="template_value">{{roll1}}</td></tr>
         <tr style="background:#BEBEBE;">
             <td class="template_label" data-i18n="result">Result:</td>
-                <!-- 01 is always Critical -->
-                {{#rollTotal() roll1 1}}
-                  <td style="background:Lime;" class="template_value"><b data-i18n="critical">Critical</b></td>
-                {{/rollTotal() roll1 1}}
-                <!-- Is Success -->
-                {{#rollBetween() roll1 2 success}}
-                  <!-- Is Standard -->
-                  {{#rollGreater() roll1 hard}}
+            <!-- 01 is always Critical -->
+            {{#rollTotal() roll1 1}}
+                <td style="background:Lime;" class="template_value"><b data-i18n="critical">Critical</b></td>
+            {{/rollTotal() roll1 1}}
+            <!-- Is Success -->
+            {{#rollBetween() roll1 2 success}}
+                <!-- Is Standard -->
+                {{#rollGreater() roll1 hard}}
                     <td style="background:DarkGreen;" class="template_value" data-i18n="success">Success</td>
-                  {{/rollGreater() roll1 hard}}
-                  <!-- Is Hard or Extreme -->
-                  {{#rollBetween() roll1 2 hard}}
+                {{/rollGreater() roll1 hard}}
+                <!-- Is Hard or Extreme -->
+                {{#rollBetween() roll1 2 hard}}
                     <!-- Is Hard -->
                     {{#rollGreater() roll1 extreme}}
-                      <td style="background:Green;" class="template_value" data-i18n="hard">Hard</td>
+                        <td style="background:Green;" class="template_value" data-i18n="hard">Hard</td>
                     {{/rollGreater() roll1 extreme}}
                     <!-- Is Extreme -->
                     {{#rollBetween() roll1 2 extreme}}
-                      <td style="background:LightGreen;" class="template_value"><b data-i18n="extreme">Extreme</b></td>
+                        <td style="background:LightGreen;" class="template_value"><b data-i18n="extreme">Extreme</b></td>
                     {{/rollBetween() roll1 2 extreme}}
-                  {{/rollBetween() roll1 2 hard}}
-                {{/rollBetween() roll1 2 success}}
-                <!-- Is Not Success -->
-                {{#rollGreater() roll1 success}}
-                  <!-- Is skill >= 50 -->
-                  {{#rollGreater() success 49}}
+                {{/rollBetween() roll1 2 hard}}
+            {{/rollBetween() roll1 2 success}}
+            <!-- Is Not Success -->
+            {{#rollGreater() roll1 success}}
+                <!-- Is skill >= 50 -->
+                {{#rollGreater() success 49}}
                     <!-- Is Fumble -->
                     {{#rollTotal() roll1 100}}
-                      <td style="background:Red;" class="template_value"><b data-i18n="fumble">Fumble</b></td>
+                        <td style="background:Red;" class="template_value"><b data-i18n="fumble">Fumble</b></td>
                     {{/rollTotal() roll1 100}}
                     <!-- Is Fail -->
                     {{#rollLess() roll1 100}}
-                      <td style="background:Crimson;" class="template_value" data-i18n="fail">Fail</td>
+                        <td style="background:Crimson;" class="template_value" data-i18n="fail">Fail</td>
                     {{/rollLess() roll1 100}}
-                  {{/rollGreater() success 49}}
-                  <!-- Is skill < 50 -->
-                  {{#rollLess() success 50}}
+                {{/rollGreater() success 49}}
+                <!-- Is skill < 50 -->
+                {{#rollLess() success 50}}
                     <!-- Is Fumble -->
                     {{#rollGreater() roll1 95}}
-                      <td style="background:Red;" class="template_value"><b data-i18n="fumble">Fumble</b></td>
+                        <td style="background:Red;" class="template_value"><b data-i18n="fumble">Fumble</b></td>
                     {{/rollGreater() roll1 95}}
                     <!-- Is Fail -->
                     {{#rollLess() roll1 96}}
-                      <td style="background:Crimson;" class="template_value" data-i18n="fail">Fail</td>
+                        <td style="background:Crimson;" class="template_value" data-i18n="fail">Fail</td>
                     {{/rollLess() roll1 96}}
-                  {{/rollLess() success 50}}
-                {{/rollGreater() roll1 success}}
+                {{/rollLess() success 50}}
+            {{/rollGreater() roll1 success}}
         </tr>
         <tr>
 			<td class="template_label" data-i18n="dam">Dam:</td><td class="template_value">{{damage}}</td>
-		</tr>	
+		</tr>
+        <!-- Only show Extreme Damage on Critical or Extreme -->
+        {{#rollTotal() roll1 1}}
+            <tr>
+                <td class="template_label" data-i18n="extreme-damage">Extreme Dam:</td><td class="template_value">{{extremedamage}}</td>
+            </tr>
+        {{/rollTotal() roll1 1}}
+        {{#rollBetween() roll1 2 extreme}}
+            <tr>
+                <td class="template_label" data-i18n="extreme-damage">Extreme Dam:</td><td class="template_value">{{extremedamage}}</td>
+            </tr>
+        {{/rollBetween() roll1 2 extreme}}
 		{{#^rollTotal() strain 0}}
-        <tr>
-			<td class="template_label" data-i18n="strain">Strain:</td><td class="template_value">{{strain}}</td>
-        </tr>
+            <tr>
+			    <td class="template_label" data-i18n="strain">Strain:</td><td class="template_value">{{strain}}</td>
+            </tr>
 		{{/^rollTotal() strain 0}}
+
     </table>
 </rolltemplate>
-
 
 <!-- WORKERS -->
 <script type="text/worker">
@@ -12383,6 +12396,71 @@ function registerStatHandler() {
         });
     });
 }
+
+// Common parser function
+function parseDamageString(damageString, prefix) {
+  const updates = {};
+
+  const match = damageString.match(/^(\d+)[dD](\d+)([+\-]\d+)?$/);
+
+  if (match) {
+    const numDice = parseInt(match[1], 10) || 0;
+    const diceSize = parseInt(match[2], 10) || 0;
+    const bonus = parseInt(match[3] || "0", 10) || 0;
+
+    updates[`${prefix}_damage_numdice`] = numDice;
+    updates[`${prefix}_damage_dicesize`] = diceSize;
+    updates[`${prefix}_damage_bonus`] = bonus;
+  } else {
+    updates[`${prefix}_damage_numdice`] = 0;
+    updates[`${prefix}_damage_dicesize`] = 0;
+    updates[`${prefix}_damage_bonus`] = 0;
+  }
+
+  return updates;
+}
+
+// Auto-calculate damage components for fixed weapon (weapon1_mdr)
+on("sheet:opened add:weapon1_mdr_damage change:weapon1_mdr_damage", function() {
+  getAttrs(["weapon1_mdr_damage"], function(values) {
+    const damageString = values.weapon1_mdr_damage || "";
+    const updates = parseDamageString(damageString, "weapon1_mdr");
+    setAttrs(updates);
+  });
+});
+
+// Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
+on("add:repeating_weaponsmdr change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
+  const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
+
+  getAttrs([`repeating_weaponsmdr_${repeatingId}_weapondamage_mdr`], function(values) {
+    const damageString = values[`repeating_weaponsmdr_${repeatingId}_weapondamage_mdr`] || "";
+    const updates = parseDamageString(damageString, `repeating_weaponsmdr_${repeatingId}`);
+    setAttrs(updates);
+  });
+});
+
+// On sheet:opened, manually get all repeating rows
+on("sheet:opened", function() {
+  getSectionIDs("repeating_weaponsmdr", function(ids) {
+    if (ids.length === 0) return;
+
+    const fields = ids.map(id => `repeating_weaponsmdr_${id}_weapondamage_mdr`);
+    getAttrs(fields, function(values) {
+      const updates = {};
+
+      ids.forEach(id => {
+        const damageString = values[`repeating_weaponsmdr_${id}_weapondamage_mdr`] || "";
+        Object.assign(updates, parseDamageString(damageString, `repeating_weaponsmdr_${id}`));
+      });
+
+      if (Object.keys(updates).length > 0) {
+        setAttrs(updates);
+      }
+    });
+  });
+});
+
 // -------------------- working area end ----------------- //
 
   on('sheet:opened', function () {

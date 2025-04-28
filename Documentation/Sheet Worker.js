@@ -125,35 +125,35 @@ const raceDataMap = {
     label: "Draevi",
     language: "Khevala",
     stats: {
-      str: { base: 25, max: 90 }, dex: { base: 25, max: 80 }, con: { base: 25, max: 90 },
-      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 40, max: 80 },
-      pow: { base: 40, max: 90 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 70 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 90 },
+      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     }
   },
   "feran": {
     label: "Feran",
     language: "A",
     stats: {
-      str: { base: 15, max: 80 }, dex: { base: 20, max: 90 }, con: { base: 15, max: 85 },
-      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 20, max: 85 },
-      pow: { base: 15, max: 80 }, app: { base: 15, max: 85 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 80 }, dex: { base: 15, max: 90 }, con: { base: 15, max: 80 },
+      siz: { base: 35, max: 70 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     }
   },
   "human": {
     label: "Human",
     language: "Caltheran",
     stats: {
-      str: { base: 15, max: 90 }, dex: { base: 15, max: 90 }, con: { base: 15, max: 90 },
-      siz: { base: 40, max: 90 }, int: { base: 40, max: 90 }, edu: { base: 15, max: 90 },
-      pow: { base: 15, max: 90 }, app: { base: 15, max: 90 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 80 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
+      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     }
   },
   "khadra": {
     label: "Khadra",
     language: "Nari",
     stats: {
-      str: { base: 30, max: 95 }, dex: { base: 15, max: 70 }, con: { base: 25, max: 90 },
-      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      str: { base: 15, max: 90 }, dex: { base: 15, max: 70 }, con: { base: 15, max: 80 },
+      siz: { base: 50, max: 90 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
       pow: { base: 15, max: 80 }, app: { base: 15, max: 70 }, mag: { base: 0, max: 80 }
     }
   },
@@ -161,27 +161,27 @@ const raceDataMap = {
     label: "Kitsu",
     language: "B",
     stats: {
-      str: { base: 15, max: 75 }, dex: { base: 20, max: 90 }, con: { base: 15, max: 75 },
-      siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
-      pow: { base: 15, max: 85 }, app: { base: 15, max: 90 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 75 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
+      siz: { base: 35, max: 75 }, int: { base: 40, max: 85 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 85 }
     }
   },
   "lyranni": {
     label: "Lyranni",
     language: "Thal’Resh",
     stats: {
-      str: { base: 15, max: 75 }, dex: { base: 15, max: 85 }, con: { base: 15, max: 75 },
-      siz: { base: 40, max: 80 }, int: { base: 40, max: 90 }, edu: { base: 15, max: 90 },
-      pow: { base: 40, max: 95 }, app: { base: 15, max: 85 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 70 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
+      siz: { base: 30, max: 70 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      pow: { base: 15, max: 90 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 90 }
     }
   },
   "veyra": {
     label: "Veyra",
     language: "C",
     stats: {
-      str: { base: 25, max: 90 }, dex: { base: 15, max: 80 }, con: { base: 25, max: 90 },
-      siz: { base: 60, max: 100 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
-      pow: { base: 15, max: 80 }, app: { base: 15, max: 75 }, mag: { base: 0, max: 80 }
+      str: { base: 15, max: 80 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
+      siz: { base: 30, max: 60 }, int: { base: 40, max: 90 }, edu: { base: 40, max: 90 },
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     }
   }
 };
@@ -925,6 +925,71 @@ function registerStatHandler() {
         });
     });
 }
+
+// Common parser function
+function parseDamageString(damageString, prefix) {
+  const updates = {};
+
+  const match = damageString.match(/^(\d+)[dD](\d+)([+\-]\d+)?$/);
+
+  if (match) {
+    const numDice = parseInt(match[1], 10) || 0;
+    const diceSize = parseInt(match[2], 10) || 0;
+    const bonus = parseInt(match[3] || "0", 10) || 0;
+
+    updates[`${prefix}_damage_numdice`] = numDice;
+    updates[`${prefix}_damage_dicesize`] = diceSize;
+    updates[`${prefix}_damage_bonus`] = bonus;
+  } else {
+    updates[`${prefix}_damage_numdice`] = 0;
+    updates[`${prefix}_damage_dicesize`] = 0;
+    updates[`${prefix}_damage_bonus`] = 0;
+  }
+
+  return updates;
+}
+
+// Auto-calculate damage components for fixed weapon (weapon1_mdr)
+on("sheet:opened add:weapon1_mdr_damage change:weapon1_mdr_damage", function() {
+  getAttrs(["weapon1_mdr_damage"], function(values) {
+    const damageString = values.weapon1_mdr_damage || "";
+    const updates = parseDamageString(damageString, "weapon1_mdr");
+    setAttrs(updates);
+  });
+});
+
+// Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
+on("add:repeating_weaponsmdr change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
+  const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
+
+  getAttrs([`repeating_weaponsmdr_${repeatingId}_weapondamage_mdr`], function(values) {
+    const damageString = values[`repeating_weaponsmdr_${repeatingId}_weapondamage_mdr`] || "";
+    const updates = parseDamageString(damageString, `repeating_weaponsmdr_${repeatingId}`);
+    setAttrs(updates);
+  });
+});
+
+// On sheet:opened, manually get all repeating rows
+on("sheet:opened", function() {
+  getSectionIDs("repeating_weaponsmdr", function(ids) {
+    if (ids.length === 0) return;
+
+    const fields = ids.map(id => `repeating_weaponsmdr_${id}_weapondamage_mdr`);
+    getAttrs(fields, function(values) {
+      const updates = {};
+
+      ids.forEach(id => {
+        const damageString = values[`repeating_weaponsmdr_${id}_weapondamage_mdr`] || "";
+        Object.assign(updates, parseDamageString(damageString, `repeating_weaponsmdr_${id}`));
+      });
+
+      if (Object.keys(updates).length > 0) {
+        setAttrs(updates);
+      }
+    });
+  });
+});
+
 // -------------------- working area end ----------------- //
 
   on('sheet:opened', function () {

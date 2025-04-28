@@ -11943,8 +11943,8 @@ function applyAllSkillBonuses(race) {
   setAttrs(updates);
 }
 
-on("change:showracials sheet:opened", () => {
-	if (debug_on_trace) console.log ("[change:showracials sheet:opened] Start");
+on("change:showracials", () => {
+	if (debug_on_trace) console.log ("[change:showracials] Start");
 	getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
 		const race = values.showracials || "";
 
@@ -12310,7 +12310,7 @@ function registerStatHandler() {
 
     if (debug_on) console.log("[registerStatHandler Init] Watching:", watched);
 
-    on(watched.map(s => `change:${s} add:${s}`).join(" "), () => {
+    on(watched.map(s => `change:${s}`).join(" "), () => {
         getAttrs(watched, values => {
 		    const iage = parseInt(values.age) || 0;
 			const istr = parseInt(values.str) || 0;

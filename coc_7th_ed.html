@@ -5524,164 +5524,127 @@
         </fieldset>
     </div>
 
-<!------------------------- Modern Combat ------------------------->
+<!---------------------------- Modern Combat ---------------------------->
+<input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3" checked="checked">
+<div class="sheet-skills3">
 
-    <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3"  checked="checked">
-	<div class="sheet-skills3">
-	
-    <table style="width:100%">
-        <thead>
-            <th style="width:28%" data-i18n="weaponname-u">Weapon</th>
-            <th style="width:6%"></th>
-            <th style="width:14%" data-i18n="skill-u">Skill</th>
-            <th style="width:14%" data-i18n="damage-u">Damage</th>
-            <th style="width:8%" data-i18n="range-u">Range</th>
-            <th style="width:8%" data-i18n="attacks-u">Attacks</th>
-            <th style="width:10%" data-i18n="ammo-u">Ammo</th>
-            <th style="width:6%" data-i18n="malf-u">Malf</th>
-            <th style="width:6%" data-i18n="strain-u">Strain</th> <!-- NEW COLUMN -->
-        </thead>
-    </table>
-        <table style="width:100%">
-            <tr>
-                <td style="width:28%"><input style="width:100%;text-align:center" type="text" data-i18n-placeholder="unarmed-z" placeholder="Unarmed" disabled="true"/></td>
-                <td style="width:6%">
-				<button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize}+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}} 'name='roll_weapon1_mdr_attack' />
-				</td>
-                <td style="width:14%"><input style="width:100%" type="text" data-i18n-placeholder="unarmed-u" placeholder="Unarmed" disabled="true"/></td>
-                <td style="width:7%"><input style="width:100%;text-align:right;" type="text" value="1d3" disabled="true"/></td>
-                <td style="width:7%"><input style="width:100%;text-align:left;" type="text" value="+db" disabled="true"/></td>
-                <td style="width:8%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
-                <td style="width:8%"><input style="width:100%;text-align:center;" type="text" value="1" disabled="true"/></td>
-                <td style="width:10%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
-                <td style="width:6%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
-				<td style="width:6%"><input style="width:100%;text-align:center;" type="text" value="-" disabled="true"/></td>
-            </tr>
-        </table>
-    <!-- Weapon 1 -->
-	<!-- Hidden parsing fields for weapon1 (place BEFORE the table) -->
-		<input type="hidden" name="attr_weapon1_mdr_damage_numdice" value="0" />
-		<input type="hidden" name="attr_weapon1_mdr_damage_dicesize" value="0" />
-		<input type="hidden" name="attr_weapon1_mdr_damage_bonus" value="0" />
-		<input type="hidden" name="attr_weapon1_mdr_strain" value="0" />
-
-<div class="sheet-weapon-block">
-    <div class="flex-row">
-        <!-- Weapon Name -->
-        <div class="flex-cell weapon-name">
-            <input type="text" name="attr_weapon1_mdr_name" placeholder="Weapon Name" />
-        </div>
-
-        <!-- Attack Roll Button -->
-        <div class="flex-cell weapon-roll">
-            <button class="new-roll" type="roll" value="&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}"></button>
-        </div>
-
-        <!-- Skill Select -->
-        <div class="flex-cell weapon-skill">
-            <select name="attr_weapon1_skill_mdr">
-                <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
-                <option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
-                <option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
-                <option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
-                <option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
-                <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
-                <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
-                <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
-                <option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
-                <option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
-            </select>
-        </div>
-
-        <!-- Damage Dice -->
-        <div class="flex-cell weapon-damage">
-            <input type="text" name="attr_weapon1_mdr_damage" />
-        </div>
-
-        <!-- Damage Bonus -->
-        <div class="flex-cell weapon-damage-bonus">
-            <select name="attr_weapon1_mdr_db">
-                <option value="+0">+0</option>
-                <option value="+round((@{damage_bonus})/2)">+½db</option>
-                <option value="+@{damage_bonus}">+db</option>
-            </select>
-        </div>
-
-        <!-- Range -->
-        <div class="flex-cell weapon-range">
-            <input type="text" name="attr_weapon1_mdr_range" />
-        </div>
-
-        <!-- Attacks -->
-        <div class="flex-cell weapon-attacks">
-            <input type="text" name="attr_weapon1_mdr_attacks" />
-        </div>
-
-        <!-- Ammo -->
-        <div class="flex-cell weapon-ammo">
-            <input type="text" name="attr_weapon1_mdr_ammo" />
-        </div>
-
-        <!-- Malfunction -->
-        <div class="flex-cell weapon-malf">
-            <input type="text" name="attr_weapon1_mdr_malf" />
-        </div>
-
-        <!-- Strain -->
-        <div class="flex-cell weapon-strain">
-            <input type="text" name="attr_weapon1_mdr_strain" value="0" />
-        </div>
-    </div>
+<!-- Header -->
+<div class="sheet-weapon-header">
+  <div class="flex-row">
+    <div class="flex-cell weapon-name"><span data-i18n="weaponname-u">Weapon</span></div>
+    <div class="flex-cell weapon-roll"><!-- Empty for roll --></div>
+    <div class="flex-cell weapon-skill"><span data-i18n="skill-u">Skill</span></div>
+    <div class="flex-cell weapon-damage"><span data-i18n="damage-u">Damage</span></div>
+    <div class="flex-cell weapon-damage-bonus"><span>DB</span></div>
+    <div class="flex-cell weapon-range"><span data-i18n="range-u">Range</span></div>
+    <div class="flex-cell weapon-attacks"><span data-i18n="attacks-u">Attacks</span></div>
+    <div class="flex-cell weapon-ammo"><span data-i18n="ammo-u">Ammo</span></div>
+    <div class="flex-cell weapon-malf"><span data-i18n="malf-u">Malf</span></div>
+    <div class="flex-cell weapon-strain"><span data-i18n="strain-u">Strain</span></div>
+  </div>
 </div>
 
+<!-- Default Row (Unarmed) -->
+<div class="sheet-weapon-default">
+  <div class="flex-row">
+    <div class="flex-cell weapon-name"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-z" disabled="true"></div>
+    <div class="flex-cell weapon-roll"><button type="roll" class="new-roll" disabled="true"></button></div>
+    <div class="flex-cell weapon-skill"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-u" disabled="true"></div>
+    <div class="flex-cell weapon-damage"><input type="text" value="1d3" disabled="true"></div>
+    <div class="flex-cell weapon-damage-bonus"><input type="text" value="+db" disabled="true"></div>
+    <div class="flex-cell weapon-range"><input type="text" value="-" disabled="true"></div>
+    <div class="flex-cell weapon-attacks"><input type="text" value="1" disabled="true"></div>
+    <div class="flex-cell weapon-ammo"><input type="text" value="-" disabled="true"></div>
+    <div class="flex-cell weapon-malf"><input type="text" value="-" disabled="true"></div>
+    <div class="flex-cell weapon-strain"><input type="text" value="-" disabled="true"></div>
+  </div>
+</div>
 
-    <!-- Repeating Weapons -->
-    <!-- Hidden parsing fields for repeating weapons (place INSIDE fieldset, BEFORE table) -->
+<!-- Fixed Weapon 1 -->
+<div class="sheet-weapon-block">
+  <div class="flex-row">
+    <div class="flex-cell weapon-name"><input type="text" name="attr_weapon1_mdr_name" placeholder="Weapon Name"></div>
+    <div class="flex-cell weapon-roll">
+      <button type="roll" class="new-roll" name="roll_weapon1_mdr_attack" value="&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}">
+      </button>
+    </div>
+    <div class="flex-cell weapon-skill">
+      <select name="attr_weapon1_skill_mdr">
+        <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+        <option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
+        <option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
+        <option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
+        <option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
+        <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
+        <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+        <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+        <option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
+        <option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
+      </select>
+    </div>
+    <div class="flex-cell weapon-damage"><input type="text" name="attr_weapon1_mdr_damage" placeholder="Damage"></div>
+    <div class="flex-cell weapon-damage-bonus">
+      <select name="attr_weapon1_mdr_db">
+        <option value="+0">+0</option>
+        <option value="+round((@{damage_bonus})/2)">+½db</option>
+        <option value="+@{damage_bonus}">+db</option>
+      </select>
+    </div>
+    <div class="flex-cell weapon-range"><input type="text" name="attr_weapon1_mdr_range" placeholder="Range"></div>
+    <div class="flex-cell weapon-attacks"><input type="text" name="attr_weapon1_mdr_attacks" placeholder="Attacks"></div>
+    <div class="flex-cell weapon-ammo"><input type="text" name="attr_weapon1_mdr_ammo" placeholder="Ammo"></div>
+    <div class="flex-cell weapon-malf"><input type="text" name="attr_weapon1_mdr_malf" placeholder="Malf"></div>
+    <div class="flex-cell weapon-strain"><input type="text" name="attr_weapon1_mdr_strain" placeholder="Strain"></div>
+  </div>
+</div>
+
+<!-- Hidden parsing fields for Weapon 1 -->
+<input type="hidden" name="attr_weapon1_mdr_damage_numdice" value="0">
+<input type="hidden" name="attr_weapon1_mdr_damage_dicesize" value="0">
+<input type="hidden" name="attr_weapon1_mdr_damage_bonus" value="0">
+<input type="hidden" name="attr_weapon1_mdr_strain" value="0">
+
 <fieldset class="repeating_weaponsmdr">
-    <input type="hidden" name="attr_damage_numdice" value="0" />
-    <input type="hidden" name="attr_damage_dicesize" value="0" />
-    <input type="hidden" name="attr_damage_bonus" value="0" />
-    <input type="hidden" name="attr_weaponstrain_mdr" value="0" />
-
-    <table style="width:100%">
-        <tr>
-            <td style="width:28%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponname_mdr"/></td>
-            <td style="width:6%">
-                <button class='new-roll' type='roll' value='&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}' name='roll_weaponskill_mdr_check' />
-            </td>
-            <td style="width:14%">
-                <select style="width:100%" name="attr_weaponskill_mdr">
-                    <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
-                    <option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
-                    <option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
-                    <option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
-                    <option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
-                    <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
-                    <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
-                    <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
-                    <option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
-                    <option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
-                </select>
-            </td>
-            <td style="width:7%"><input style="width:100%;text-align:right;" type="text" name="attr_weapondamage_mdr"/></td>
-            <td style="width:7%">
-                <select style="width:100%" name="attr_weapondb_mdr">
-                    <option value="+0">+0</option>
-                    <option value="+round((@{damage_bonus})/2)">+½db</option>
-                    <option value="+@{damage_bonus}">+db</option>
-                </select>
-            </td>
-            <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponrange_mdr"/></td>
-            <td style="width:8%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponattacks_mdr"/></td>
-            <td style="width:10%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponammo_mdr"/></td>
-            <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponmalf_mdr"/></td>
-            <td style="width:6%"><input style="width:100%;text-align:center;" type="text" name="attr_weaponstrain_mdr" value="0"/></td>
-        </tr>
-    </table>
+  <div class="flex-row">
+    <input type="hidden" name="attr_damage_numdice" value="0">
+    <input type="hidden" name="attr_damage_dicesize" value="0">
+    <input type="hidden" name="attr_damage_bonus" value="0">
+    <input type="hidden" name="attr_weaponstrain_mdr" value="0">
+    <div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr"></div>
+    <div class="flex-cell weapon-roll">
+      <button type="roll" class="new-roll" name="roll_weaponskill_mdr_check" value="&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
+    </div>
+    <div class="flex-cell weapon-skill">
+      <select name="attr_weaponskill_mdr">
+        <option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+        <option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
+        <option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
+        <option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
+        <option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
+        <option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Pistol</option>
+        <option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+        <option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+        <option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
+        <option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
+      </select>
+    </div>
+    <div class="flex-cell weapon-damage"><input type="text" name="attr_weapondamage_mdr"></div>
+    <div class="flex-cell weapon-damage-bonus">
+      <select name="attr_weapondb_mdr">
+        <option value="+0">+0</option>
+        <option value="+round((@{damage_bonus})/2)">+½db</option>
+        <option value="+@{damage_bonus}">+db</option>
+      </select>
+    </div>
+    <div class="flex-cell weapon-range"><input type="text" name="attr_weaponrange_mdr"></div>
+    <div class="flex-cell weapon-attacks"><input type="text" name="attr_weaponattacks_mdr"></div>
+    <div class="flex-cell weapon-ammo"><input type="text" name="attr_weaponammo_mdr"></div>
+    <div class="flex-cell weapon-malf"><input type="text" name="attr_weaponmalf_mdr"></div>
+    <div class="flex-cell weapon-strain"><input type="text" name="attr_weaponstrain_mdr"></div>
+  </div>
 </fieldset>
 
-</div>
-
+</div> <!-- end of skills3 -->
 
 <!------------------------- Icarus Combat ------------------------->
 

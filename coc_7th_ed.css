@@ -128,51 +128,166 @@ input.sheet-hide:checked ~ h4.sheet-section-head {
   box-sizing: border-box;
 }
 
-/* --------------------------------------- Modern Weapon Combat ---------------------------------- */
-
-/* Weapon Section Layout */
-.sheet-weapon-block {
-    margin-bottom: 1rem;
+/* --------------------------------------- Combat ---------------------------------- */
+/* Main Combat Block */
+.sheet-tab-content.sheet-combat {
+  margin-top: 10px;
+  background: #5a5a5a; /* darker gray like old layout */
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
 }
 
-/* Flex Row (controls horizontal flow) */
-.flex-row {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: center;
-    gap: 4px;
+/* Inner Row Layout */
+.sheet-combat .sheet-colrow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
-/* Flex Cells (basic units) */
+/* Combat Section Header (Combat title) */
+/* Combat Section Header */
+.section-head {
+  background-image: linear-gradient(black, #112749);
+  background-color: #112749;
+  color: white;
+  text-align: center;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.2em;
+  padding: 4px;
+  border: 1px solid black;
+  border-radius: 3px;
+  margin-bottom: 0px;
+}
+
+
+/* ---------------- Combat Section Flex Layout ---------------- */
+
+/* Fieldset */
+fieldset.repeating_weaponsmdr {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* Container for all weapon entries */
+.repcontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+/* Each repeated weapon entry */
+.repitem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each flex-row inside weapon */
+.repitem .flex-row,
+.sheet-weapon-header .flex-row,
+.sheet-weapon-default .flex-row,
+.sheet-weapon-block .flex-row {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+}
+
+/* General Flex Cell */
 .flex-cell {
-    flex-grow: 1;
-    min-width: 0; /* Important for shrinkage control */
+  padding: 0; /* No padding inside cells */
+  margin: 0;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Inputs and Buttons */
-.flex-cell input,
-.flex-cell select,
-.flex-cell button {
-    width: 100%;
-    height: auto;
-    padding: 2px;
-    margin: 0;
-    text-align: center;
-    box-sizing: border-box;
+/* Flex Widths */
+.weapon-name { flex: 2 1 28%; }
+.weapon-roll { flex: 0 0 24px; }
+.weapon-skill { flex: 1.5 1 14%; }
+.weapon-damage { flex: 1 1 7%; }
+.weapon-damage-bonus { flex: 1 1 7%; }
+.weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 8%; }
+.weapon-malf, .weapon-strain { flex: 0.8 1 6%; }
+
+/* Inputs and Selects */
+.flex-cell input[type="text"],
+.flex-cell select {
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  text-align: center;
+  background: #d9d9d9;
+  border: none;
 }
 
-/* Field Sizing */
-.weapon-name { flex: 3; }
-.weapon-roll { flex: 1; }
-.weapon-skill { flex: 2; }
-.weapon-damage { flex: 1; }
-.weapon-damage-bonus { flex: 1; }
-.weapon-range { flex: 1; }
-.weapon-attacks { flex: 1; }
-.weapon-ammo { flex: 1; }
-.weapon-malf { flex: 1; }
-.weapon-strain { flex: 1; }
+/* Specific text alignments */
+.weapon-name input { text-align: center; }
+.weapon-skill select, .weapon-skill input { text-align: center; }
+.weapon-damage input { text-align: right; }
+.weapon-damage-bonus select { text-align: left; }
+.weapon-range input, .weapon-attacks input, .weapon-ammo input, .weapon-malf input, .weapon-strain input { text-align: center; }
+
+/* Weapon Header Row (Weapon, Skill, Damage, etc.) */
+.sheet-weapon-header {
+  background: black;
+  color: white;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+
+.sheet-weapon-header .flex-cell {
+  background: black;
+  color: white;
+  text-align: center;
+  border: 1px solid black;
+}
+
+/* Disabled (Unarmed row) */
+.sheet-weapon-default input[disabled],
+.sheet-weapon-default select[disabled] {
+  background: #d9d9d9;
+  color: #666;
+  border: none;
+}
+
+/* Roll Button Style */
+button[type="roll"].new-roll {
+  color: #18650D;
+  background-color: #248c15;
+  font-weight: bold;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  padding: 0;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+/* Disabled roll button */
+.sheet-weapon-default .weapon-roll button[disabled] {
+  background: #BEBEBE;
+  border: 1px solid #999;
+}
 
 /* ------------------------------- Background and Talent ------------------------------------------- */
 
@@ -2101,18 +2216,19 @@ button[type=roll].sheet-new-roll {
   text-align: center;
   width: 20px;
   height: 20px;
-  margin: 0.0;
+  margin: auto;
   padding: 0.0em;
   border: 1px solid black;
   border-radius: 5px;
+  background: black;
 }
 
 /* -------------------------------------------------------------------------- */
 
 /* Button Small */
 button[type=roll].sheet-dice-roll {
-  color: #000000;
-  background-color: #000000;
+  color: #0000FF;
+  background-color: #0000FF;
   font-weight: bolder;
   text-align: center;
   width: 18px;
@@ -2145,7 +2261,7 @@ button[type=roll].sheet-smallbutton-roll {
 /* Non-Skill Button Smaller */
 button[type=roll].sheet-smallnonskillbutton-roll {
   color: #000000; 
-  background-color: #000000;
+  background-color: #FFFF00;
   font-weight: bolder;
   font-size: 12px;
   text-align: center;
@@ -2160,7 +2276,7 @@ button[type=roll].sheet-smallnonskillbutton-roll {
 
 /* Button Even Smaller */
 button[type=roll].sheet-evensmallerbutton-roll {
-  color: #000000; 
+  color: #008000; 
   background-color: #1a1a1a;
   font-weight: bolder;
   font-size: 1px;

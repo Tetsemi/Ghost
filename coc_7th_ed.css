@@ -1,8 +1,289 @@
+/* -------------------------------------------------------------------------- */
+/*                         THEME COLOR PALETTE - MASTER                      */
+/* -------------------------------------------------------------------------- */
+
+/* --- Sheet Background and Borders --- */
+-- Main Sheet Background:      #888888  /* Entire character sheet background (charsheet) */
+-- Sheet Border:                black    /* Border around the sheet */
+
+/* --- Section Backgrounds --- */
+-- Section Block Background:   #f0f0f0  /* Section content blocks (e.g., Combat, Skills) */
+-- Section Block Border:        black    /* Section border */
+
+/* --- Section Headers (h4, .section-head) --- */
+-- Section Header Background:  Gradient (black -> #112749)  /* Section header bars */
+-- Section Header Border:       black    /* Header border */
+-- Section Header Text:         white    /* Header font color */
+
+/* --- Weapon Headers --- */
+-- Weapon Block Header:         #E0E0E0  /* Background for Weapon header rows */
+-- Weapon Block Border:         black    /* Border under Weapon header */
+
+/* --- Disabled Inputs --- */
+-- Disabled Input Background:  #D9D9D9  /* Background for disabled fields (e.g., Unarmed row) */
+-- Disabled Input Text:         #666666  /* Text color for disabled fields */
+-- Disabled Input Border:       #999999  /* Border color for disabled fields */
+
+/* --- Roll Buttons (Skill/Combat Rolls) --- */
+-- Enabled Roll Button Background:  #248c15  /* Normal roll buttons (e.g., green for rolls) */
+-- Enabled Roll Button Text:        #18650D  /* Roll button text */
+-- Roll Button Border:              black    /* Border for roll buttons */
+-- Disabled Roll Button Background: #BEBEBE  /* Background for disabled roll buttons */
+-- Disabled Roll Button Border:     #999999  /* Border for disabled roll buttons */
+
+/* --- Repeating Section Controls (Add/Edit/Delete/Move) --- */
+-- Repeating Button Background:     #333333  /* Base for add/edit/move buttons */
+-- Repeating Button Text:            white    /* Text color for repeating buttons */
+-- Delete Button Background:         #882222  /* Background for delete (danger button) */
+-- Repeating Button Border:          black    /* Border for all repeating buttons */
+
+/* -------------------------------------------------------------------------- */
+/* Notes:
+   - All colors are centralized here for easy theme changes.
+   - Gradients use linear-gradient where applicable (headers).
+   - Keep hex codes consistent across layout, forms, and buttons.
+*/
+/* -------------------------------------------------------------------------- */
+
+/* ------------------------------- */
+/* Main sheet background and master */
+/* ------------------------------- */
 .charsheet {
-    background-color: #888888;
-    border: 2px solid black;
-    color:black;
-    width: 840px;
+	background-color: #888888;
+	border: 2px solid black;
+	color: black;
+	width: 840px;
+}
+
+/* ------------------------------- */
+/* Sheet Layout Master Container */
+/* ------------------------------- */
+.sheet-layout {
+	background-color: #888888;
+	width: 840px;
+	margin: auto;
+	border: 2px solid black;
+	box-sizing: border-box;
+	color: black;
+	font-family: "Arial", sans-serif;
+}
+
+/* ------------------------------- */
+/* Top, Middle, Bottom Sections */
+/* ------------------------------- */
+.sheet-top {
+	background: #dcdcdc;
+	border-bottom: 2px solid black;
+	padding: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.sheet-top > .sheet-top-2col,
+.sheet-top > .sheet-top-4col {
+	width: 100%;
+}
+
+.sheet-middle {
+	background: #cccccc;
+	border-bottom: 2px solid black;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.sheet-bottom {
+	background: #dcdcdc;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ------------------------------- */
+/* Top Section Layout */
+/* ------------------------------- */
+.sheet-top-2col {
+	display: flex;
+	gap: 10px;
+}
+.sheet-top-2col > div {
+	flex: 1 1 50%;
+	background: #dcdcdc;
+	padding: 8px;
+	border: 1px solid black;
+}
+
+.sheet-top-4col {
+	display: flex;
+	gap: 10px;
+	margin-top: 10px;
+}
+.sheet-top-4col > div {
+	flex: 1 1 25%;
+	background: #dcdcdc;
+	padding: 8px;
+	border: 1px solid black;
+}
+
+/* ------------------------------- */
+/* Middle Section Layout */
+/* ------------------------------- */
+.sheet-logo {
+	flex: 1 1 100%;
+	text-align: center;
+	background: #cccccc;
+	padding: 10px;
+}
+.sheet-middle-2col {
+	display: flex;
+	gap: 10px;
+	margin-top: 10px;
+}
+.sheet-middle-2col > div {
+	background: #dcdcdc;
+	border: 1px solid black;
+	padding: 8px;
+}
+.sheet-dice {
+	flex: 2 1 66%;
+}
+.sheet-dice_modifiers {
+	flex: 1 1 34%;
+}
+
+/* ------------------------------- */
+/* Investigator Info Section */
+/* ------------------------------- */
+/* Investigator Info Section Container */
+.sheet-section {
+  background: #d9d9d9;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Investigator Info Header */
+.sheet-section-head {
+  background-image: linear-gradient(black, #112749);
+  background-color: #112749;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 5px;
+  margin: 0;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+/* Main Investigator Info Grid */
+.sheet-grid-investigatorinfo {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-auto-rows: min-content;
+  gap: 0px;
+  padding: 0;
+  margin: 0;
+  background: #d0cabe; /* correct */
+  border: none;
+  box-sizing: border-box;
+}
+
+/* Investigator Info Labels */
+.sheet-info-label {
+  font-weight: bold;
+  text-align: left;
+  padding: 2px 4px;
+  margin: 0;
+  background: #d0cabe; /* correct */
+  align-self: center;
+  color: black;
+  white-space: nowrap;
+}
+
+/* Regular Input Fields */
+.sheet-grid-investigatorinfo input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 2px;
+  margin: 0;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+}
+
+/* Mini-grid for Age/Sex row */
+.sheet-grid-age-sex {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	width: 100%;
+	align-items: center;
+	gap: 2px;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+}
+
+.sheet-grid-age-sex input[type="text"] {
+	width: 100%;
+	min-width: 0;
+	padding: 2px;
+	margin: 0;
+	background: #f0f0f0;
+	border: 1px solid #999;
+	color: black;
+	box-sizing: border-box;
+}
+
+.sheet-grid-age-sex .sheet-info-label {
+	font-weight: bold;
+	text-align: center;
+	padding: 2px;
+	color: black;
+	background: transparent;
+	white-space: nowrap;
+}
+
+/* ------------------------------- */
+/* Main tab content block for Combat */
+/* ------------------------------- */
+.sheet-tab-content.sheet-combat {
+  margin-top: 10px;
+  background: #d0cabe; /* Light tan/gray inside sections */
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+/* ------------------------------- */
+/* Inner row layout (within sections) */
+/* ------------------------------- */
+.sheet-combat .sheet-colrow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #d0cabe; /* Also needs to match section background */
+}
+
+/* ------------------------------- */
+/* Combat Section Header (h4 Section-Head) */
+/* ------------------------------- */
+.section-head {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  background-image: linear-gradient(black, #112749); /* Black to dark blue */
+  background-color: #112749; /* fallback */
+  color: white;
+  padding: 4px;
+  border: 1px solid black;
+  border-radius: 3px;
+  margin-bottom: 10px;
 }
 
 .dummy{
@@ -29,43 +310,7 @@ select {
     background-color: rgba(255,255,255,0.5);
 }
 
-/* Tweak repeating section buttons so they have a bottom margin and dont overflow when in edit mode. */
-div[class^="repcontrol"] {
-  margin: 0 0 0 0;
-}
 
-div[class="repcontainer editmode"] ~ div[class^="repcontrol"] button[class="btn repcontrol_add"] {
-  display: inline-block!important;
-  visibility: hidden;
-}
-
-.charsheet .repcontrol_add,
-.charsheet .repcontrol_edit,
-.charsheet .repcontrol_del {
-    display: block;
-    background: #7c746a;
-    color: white;
-    box-shadow:none;
-    font-size:0.7em;
-    height:1.5em;
-}
-
-/* Optional style for the reset button */
-button[name="act_reset_initialization"] {
-  background-color: #600;
-  color: #fff;
-  border: 1px solid #400;
-  padding: 2px 6px;
-  font-size: 0.9em;
-}
-
-.charsheet select[name="attr_showracials"] {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 4px;
-  font-size: 1em;
-  text-align: center;
-}
 
 /* ------------------------------Show Only NPCS etc-------------------------------------------- */
 
@@ -132,7 +377,7 @@ input.sheet-hide:checked ~ h4.sheet-section-head {
 /* Main Combat Block */
 .sheet-tab-content.sheet-combat {
   margin-top: 10px;
-  background: #5a5a5a; /* darker gray like old layout */
+  background: ##c3c9bd; /* darker gray like old layout */
   padding: 10px;
   border: 1px solid black;
   border-radius: 4px;
@@ -2190,7 +2435,71 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     text-align: center;
 }
 
-/* -------------------------------------------- *//* Buttons *//* ---------------------------------- */
+/* -------------------------------------------- *//* Select Start  *//* ---------------------------------- */
+
+.charsheet select[name="attr_showracials"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px;
+  font-size: 1em;
+  text-align: center;
+}
+/* -------------------------------------------- *//* Select End    *//* ---------------------------------- */
+
+/* -------------------------------------------- *//* Buttons Start *//* ---------------------------------- */
+
+/* Repeating Section Buttons - Unified Style */
+.charsheet .repcontrol_add,
+.charsheet .repcontrol_edit,
+.charsheet .repcontrol_del,
+.charsheet .repcontrol_move {
+  background: #333333; /* Dark gray for a clean, unified look */
+  color: white;
+  font-weight: bold;
+  font-size: 0.9em;
+  height: 1.5em;
+  width: 1.5em;
+  border: 1px solid black;
+  border-radius: 4px;
+  text-align: center;
+  padding: 0;
+  margin: 2px; /* slight spacing for neatness */
+  box-shadow: none;
+}
+
+/* Specific Tweaks */
+.charsheet .repcontrol_add,
+.charsheet .repcontrol_edit {
+  width: auto; /* Add & Edit need flexible width for text */
+  padding: 0 6px;
+  cursor: pointer;
+}
+
+.charsheet .repcontrol_del {
+  background: #882222; /* Slightly muted red for delete */
+  cursor: pointer;
+}
+
+.charsheet .repcontrol_move {
+  cursor: grab;
+}
+
+/* Hover Effects (Optional, subtle) */
+.charsheet .repcontrol_add:hover,
+.charsheet .repcontrol_edit:hover {
+  background: #555555;
+}
+
+.charsheet .repcontrol_del:hover {
+  background: #aa3333;
+}
+
+.charsheet .repcontrol_move:hover {
+  background: #555555;
+}
+
+
+/* ------------------------------- */
 
 /* Button for PD/BD */
 button[type=roll].sheet-old-roll {
@@ -2287,3 +2596,4 @@ button[type=roll].sheet-evensmallerbutton-roll {
   border: 1px solid black;
   border-radius: 5px;
 }
+/* -------------------------------------------- *//*  Buttons End  *//* ---------------------------------- */

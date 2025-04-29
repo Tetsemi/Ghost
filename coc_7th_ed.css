@@ -54,6 +54,28 @@
 	color: black;
 	width: 840px;
 }
+
+.sheet-section {
+  background: #d9d9d9;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.sheet-section-head {
+  background-image: linear-gradient(black, #112749);
+  background-color: #112749;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 5px;
+  margin: 0;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
 /* ----------------------------------------------------- */
 /* Universal Input Styles for All Sheet Sections         */
 /* ----------------------------------------------------- */
@@ -66,6 +88,19 @@
   padding: 4px;
   margin: 0;
   font-size: 200%;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+  text-align: center;
+}
+/* Smaller input (e.g., points spent, AC, move) */
+.sheet-attr-input-medium {
+  width: 77px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 2px;
+  margin: 0;
+  font-size: 150%;
   background: #f0f0f0;
   border: 1px solid #999;
   color: black;
@@ -114,6 +149,35 @@
   grid-column: 1 / -1; /* spans full width of grid */
 }
 
+/* ------------------------------------------- */
+/* Full-Width Select Boxes for Sheet Sections  */
+/* ------------------------------------------- */
+
+/* Shared style class for dropdowns */
+.sheet-select-full {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px;
+  font-size: 1em;
+  text-align: center;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+  margin-top: 5px; /* consistent gap under headers */
+}
+
+/* Required Roll20-specific name selector (ensures this works in sandbox) */
+select[name="attr_showracials"],
+select[name="attr_damage_bonus"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px;
+  font-size: 1em;
+  text-align: center;
+  border: 1px solid #999;
+  color: black;
+  margin-top: 5px;
+}
 
 /* ------------------------------- */
 /* Sheet Layout Master Container */
@@ -164,7 +228,6 @@
   min-width: 0;
   box-sizing: border-box;
 }
-
 
 .sheet-middle {
 	background: #cccccc;
@@ -242,27 +305,6 @@
 /* Investigator Info Section */
 /* ------------------------------- */
 /* Investigator Info Section Container */
-.sheet-section {
-  background: #d9d9d9;
-  border: 1px solid black;
-  padding: 5px;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-
-/* Investigator Info Header */
-.sheet-section-head {
-  background-image: linear-gradient(black, #112749);
-  background-color: #112749;
-  color: white;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.2em;
-  padding: 5px;
-  margin: 0;
-  border: 1px solid black;
-  border-radius: 3px;
-}
 
 /* Main Investigator Info Grid */
 .sheet-grid-investigatorinfo {
@@ -389,51 +431,24 @@ button.new-roll {
 /* ---------------------------- */
 
 /* Outer Race Container */
-.sheet-race {
+.sheet-race,
+.sheet-damage_bonus {
     background: #d0cabe; /* Match combat/investigatorinfo/characteristics */
     border: 2px solid black;
-    border-radius: 4px;
-    padding: 5px;
     box-sizing: border-box;
-}
-
-/* Section Header */
-.sheet-section-head {
-    background-image: linear-gradient(black, #112749);
-    background-color: #112749;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.2em;
-    padding: 5px;
-    margin: 0;
-    border: 1px solid black;
-    border-radius: 3px;
-}
-
-/* Race Dropdown */
-select[name="attr_showracials"] {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 4px;
-    font-size: 1em;
-    text-align: center;
-    background: #f0f0f0;
-    border: 1px solid #999;
-    color: black;
-    margin-top: 5px; /* optional: small gap under header */
+	border-radius: 4px;
 }
 
 /* ---------------------------- */
 /* Spenders Section Layout      */
 /* ---------------------------- */
-
 .sheet-grid-spenders {
   display: grid;
   grid-template-columns: 0.5fr auto 1em 0.5fr auto;
   align-items: center;
   width: 100%;
   gap: 2px;
+  background: #d0cabe;
 }
 
 /* Optional: consistent small labels */
@@ -456,18 +471,41 @@ select[name="attr_showracials"] {
   color: black;
 }
 
-/* Full Width Select Box for Sheet Sections */
-.sheet-select-full {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 4px;
-  font-size: 1em;
-  text-align: center;
-  background: #f0f0f0;
-  border: 1px solid #999;
-  color: black;
+.sheet-grid-hp {
+	display: grid;
+	grid-template-columns: auto 0.5fr 1em 0.5fr auto;
+	grid-template-rows: auto auto;
+	gap: 4px;
+	align-items: center;
+	width: 100%;
+	padding-top: 4px;
+	background: #d0cabe;
 }
 
+/* Row 1 spans */
+.sheet-grid-hp input[name="attr_hp"] {
+	grid-column: 1 / span 2;
+}
+.sheet-grid-hp .sheet-hp-slash {
+	grid-column: 3;
+	text-align: center;
+	font-size: 150%;
+	font-weight: bold;
+}
+.sheet-grid-hp input[name="attr_pulphp_max"] {
+	grid-column: 4 / span 2;
+}
+
+/* Checkbox label appearance */
+.sheet-checkbox-label {
+	font-size: 0.9em;
+	color: black;
+	text-align: left;
+}
+
+.sheet-checkbox {
+	margin: 0;
+}
 
 /* ------------------------------- */
 /* Main tab content block for Combat */

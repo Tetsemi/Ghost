@@ -54,6 +54,66 @@
 	color: black;
 	width: 840px;
 }
+/* ----------------------------------------------------- */
+/* Universal Input Styles for All Sheet Sections         */
+/* ----------------------------------------------------- */
+
+/* Standard input for attributes or large fields */
+.sheet-attr-input {
+  width: 45px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 4px;
+  margin: 0;
+  font-size: 200%;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+  text-align: center;
+}
+
+/* Smaller input (e.g., points spent, AC, move) */
+.sheet-attr-input-small {
+  width: 40px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 2px;
+  margin: 0;
+  font-size: 110%;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+  text-align: center;
+}
+.sheet-attr-input-long {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  margin: 0;
+  font-size: 100%;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+  text-align: left; /* Important: text aligns left for names and phrases */
+}
+/* Readonly variant — visually distinct */
+.sheet-attr-input[readonly],
+.sheet-attr-input-small[readonly],
+.sheet-attr-input-long[readonly] {
+  background: #e0e0e0; /* Light gray for info-only fields */
+  color: #333;
+}
+
+/* Small Separator Line Between Attribute Sections */
+.sheet-attr-separator {
+  width: 100%;
+  height: 1px;
+  background-color: #333; /* dark gray/black line to match our theme */
+  margin: 6px 0 6px 0; /* tiny margin above/below */
+  grid-column: 1 / -1; /* spans full width of grid */
+}
+
 
 /* ------------------------------- */
 /* Sheet Layout Master Container */
@@ -67,7 +127,6 @@
 	color: black;
 	font-family: "Arial", sans-serif;
 }
-
 /* ------------------------------- */
 /* Top, Middle, Bottom Sections */
 /* ------------------------------- */
@@ -83,6 +142,29 @@
 .sheet-top > .sheet-top-4col {
 	width: 100%;
 }
+
+/* Two-column row layout */
+.sheet-top-2col {
+  display: flex;
+  gap: 10px;
+}
+.sheet-top-2col > .sheet-section {
+  flex: 1 1 50%; /* Fixed 50% width per section */
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Four-column row layout */
+.sheet-top-4col {
+  display: flex;
+  gap: 10px;
+}
+.sheet-top-4col > .sheet-section {
+  flex: 1 1 25%; /* Fixed 25% width per section */
+  min-width: 0;
+  box-sizing: border-box;
+}
+
 
 .sheet-middle {
 	background: #cccccc;
@@ -151,6 +233,10 @@
 .sheet-dice_modifiers {
 	flex: 1 1 34%;
 }
+/* --------------------------------------------- */
+/* Bottom Section: Tabs */
+/* (Already working, use existing tab CSS!) */
+/* --------------------------------------------- */
 
 /* ------------------------------- */
 /* Investigator Info Section */
@@ -272,19 +358,6 @@
     align-self: center;
 }
 
-/* Input fields */
-.sheet-attr-input {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    padding: 2px 4px;
-    margin: 0;
-    background: #f0f0f0;
-    border: 1px solid #999;
-    color: black;
-    text-align: center;
-}
-
 /* Roll button container */
 .sheet-attr-roll {
     display: flex;
@@ -350,6 +423,51 @@ select[name="attr_showracials"] {
     color: black;
     margin-top: 5px; /* optional: small gap under header */
 }
+
+/* ---------------------------- */
+/* Spenders Section Layout      */
+/* ---------------------------- */
+
+.sheet-grid-spenders {
+  display: grid;
+  grid-template-columns: 0.5fr auto 1em 0.5fr auto;
+  align-items: center;
+  width: 100%;
+  gap: 2px;
+}
+
+/* Optional: consistent small labels */
+.sheet-info-label-small {
+  font-weight: bold;
+  text-align: left;
+  padding: 2px 4px;
+  font-size: 80%;
+  color: black;
+}
+
+/* Input style (reuse existing small input style if defined) */
+.sheet-grid-spenders input[readonly] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  text-align: center;
+  background: #e0e0e0;
+  border: 1px solid #999;
+  color: black;
+}
+
+/* Full Width Select Box for Sheet Sections */
+.sheet-select-full {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px;
+  font-size: 1em;
+  text-align: center;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+}
+
 
 /* ------------------------------- */
 /* Main tab content block for Combat */
@@ -1500,19 +1618,6 @@ table td.sheet-attr-label-small {
     text-align: center;
 }
 
-input[type="text"].sheet-attr-input {
-    width: 52px; 
-    height: 40px; 
-    font-size: 200%; 
-    text-align: center;
-}
-
-input[type="text"].sheet-attr-input-small {
-    width: 40px; 
-    height: 40px; 
-    font-size: 125%; 
-    text-align: center;
-}
 
 table td.sheet-attr-roll {
     height: 56px;

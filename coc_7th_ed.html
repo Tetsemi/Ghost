@@ -27,15 +27,84 @@
 						<input type="text" name="attr_birthplace">
 					</div>
 				</div>
-				<div class="sheet-characteristics">
-					<!-- Characteristics grid to be added -->
+				<div class="sheet-section">
+                  <h4 class="sheet-section-head" data-i18n="characteristics-u">Characteristics</h4>
+                  <div class="sheet-grid-characteristics">
+                     <!-- Row 1 -->
+                     <div class="sheet-attr-label"><strong data-i18n="STR-u">STR</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_str" />
+                     <button class="new-roll" type="roll" name="roll_str_check" value="&{template:coc-1} {{name=@{str_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{str}]]}} {{hard=[[floor(@{str}/2)]]}} {{extreme=[[floor(@{str}/5)]]}} {{roll1=[[1d100]]}}"></button>
+                     <div class="sheet-attr-spacer"></div>
+
+                     <div class="sheet-attr-label"><strong data-i18n="DEX-u">DEX</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_dex" />
+                     <button class="new-roll" type="roll" name="roll_dex_check" value="&{template:coc-1} {{name=@{dex_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{dex}]]}} {{hard=[[floor(@{dex}/2)]]}} {{extreme=[[floor(@{dex}/5)]]}} {{roll1=[[1d100]]}}"></button>
+                     <div class="sheet-attr-spacer"></div>
+
+                     <div class="sheet-attr-label"><strong data-i18n="POW-u">POW</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_pow" />
+                     <button class="new-roll" type="roll" name="roll_pow_check" value="&{template:coc-1} {{name=@{pow_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{pow}]]}} {{hard=[[floor(@{pow}/2)]]}} {{extreme=[[floor(@{pow}/5)]]}} {{roll1=[[1d100]]}}"></button>
+
+                     <!-- Row 2 -->
+                     <div class="sheet-attr-label"><strong data-i18n="CON-u">CON</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_con" />
+                     <button class="new-roll" type="roll" name="roll_con_check" value="&{template:coc-1} {{name=@{con_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{con}]]}} {{hard=[[floor(@{con}/2)]]}} {{extreme=[[floor(@{con}/5)]]}} {{roll1=[[1d100]]}}"></button>
+                     <div class="sheet-attr-spacer"></div>
+
+                     <div class="sheet-attr-label"><strong data-i18n="APP-u">APP</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_app" />
+                     <button class="new-roll" type="roll" name="roll_app_check" value="&{template:coc-1} {{name=@{app_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{app}]]}} {{hard=[[floor(@{app}/2)]]}} {{extreme=[[floor(@{app}/5)]]}} {{roll1=[[1d100]]}}"></button>
+                     <div class="sheet-attr-spacer"></div>
+
+                     <div class="sheet-attr-label"><strong data-i18n="EDU-u">EDU</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_edu" />
+                     <button class="new-roll" type="roll" name="roll_edu_check" value="&{template:coc-1} {{name=@{edu_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{edu}]]}} {{hard=[[floor(@{edu}/2)]]}} {{extreme=[[floor(@{edu}/5)]]}} {{roll1=[[1d100]]}}"></button>
+
+                     <!-- Row 3 -->
+                     <div class="sheet-attr-label"><strong data-i18n="SIZ-u">SIZ</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_siz" />
+                     <button class="new-roll" type="roll" name="roll_siz_check" value="&{template:coc-1} {{name=@{siz_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{siz}]]}} {{hard=[[floor(@{siz}/2)]]}} {{extreme=[[floor(@{siz}/5)]]}} {{roll1=[[1d100]]}}"></button>
+                     <div class="sheet-attr-spacer"></div>
+
+                     <div class="sheet-attr-label"><strong data-i18n="INT-u">INT</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_int" />
+                     <button class="new-roll" type="roll" name="roll_int_check" value="&{template:coc-1} {{name=@{int_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{int}]]}} {{hard=[[floor(@{int}/2)]]}} {{extreme=[[floor(@{int}/5)]]}} {{roll1=[[1d100]]}}"></button>
+                     <div class="sheet-attr-spacer"></div>
+
+                     <div class="sheet-attr-label"><strong data-i18n="MAG-u">MAG</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_mag" />
+                     <button class="new-roll" type="roll" name="roll_mag_check" value="&{template:coc-1} {{name=@{mag_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{mag}]]}} {{hard=[[floor(@{mag}/2)]]}} {{extreme=[[floor(@{mag}/5)]]}} {{roll1=[[1d100]]}}"></button>
+
+                     <!-- Row 4 (Move and AC) -->
+                     <div class="sheet-attr-label"><strong data-i18n="Move rate-u">Move rate</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_mov" />
+                     <div></div>
+                     <div class="sheet-attr-spacer"></div>
+
+                     <div class="sheet-attr-label"><strong data-i18n="arcane_capacity-u">AC</strong></div>
+                     <input class="sheet-attr-input" type="text" name="attr_ac" />
+                     <div></div>
+                  </div>
 				</div>
 			</div>
 
 			<!-- 4 Cols (25/25/25/25): Race / Spenders / Damage Bonus / Build -->
 			<div class="sheet-top-4col">
-					<div class="sheet-race">
-							<!-- Race selection block -->
+					<div class="sheet-section">
+						<div class="sheet-race">
+							<h4 class="sheet-section-head" data-i18n="race-u">Race</h4>
+							<select name="attr_showracials">
+								<option value="0" selected>-- Choose Race --</option>
+								<option value="alteri">Alteri</option>
+								<option value="draevi">Draevi</option>
+								<option value="feran">Feran</option>
+								<option value="human">Human</option>
+								<option value="khadra">Khadra</option>
+								<option value="kitsu">Kitsu</option>
+								<option value="lyranni">Lyranni</option>
+								<option value="veyra">Veyra</option>
+							</select>
+						</div>
 					</div>
 					<div class="sheet-spenders">
 							<!-- Points spent INT/POW/EDU -->
@@ -128,102 +197,7 @@
 		
     </div>
 
-    <div class='sheet-col'>
-        <input type="checkbox" style="display:none" class="sheet-showpulp" name="attr_showpulp" value="1">
-        <input type="checkbox" style="display:none" class="sheet-showpulp" name="attr_showpulp" value="1">
-            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="7">
-            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="1">
-            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="5">
-            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="2">
-            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="3" checked="checked">
-            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="6">
-            <input type="checkbox" style="display:none" class="sheet-showskills" name="attr_showskills" value="4">
-        <h4 class="section-head" data-i18n="characteristics-u">Characteristics</h4>
-        <div class="section">
-            <table style="width:100%">
-            <tr>
-                <td class="attr-label" ><strong data-i18n="STR-u">STR</strong></td>
-                <td>
-				<input class="attr-input" type="text" name="attr_str"/></td>
-                <td class="attr-roll" ><button class='old-roll' type='roll' value='&{template:coc} {{name=@{str_txt}}} {{success=[[@{str}]]}} {{hard=[[floor(@{str}/2)]]}} {{extreme=[[floor(@{str}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_str_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{str_txt}}} {{success=[[@{str}]]}} {{hard=[[floor(@{str}/2)]]}} {{extreme=[[floor(@{str}/5)]]}} {{roll1=[[1d100]]}}' name='roll_str_check' />
-				</td>
-                <td> </td>
-                <td class="attr-label" ><strong data-i18n="DEX-u">DEX</strong></td>
-                <td>
-				<input class="attr-input" type="text" name="attr_dex"/></td>
-                <td class="attr-roll" >
-				<button class='old-roll'  type='roll' value='&{template:coc} {{name=@{dex_txt}}} {{success=[[@{dex}]]}} {{hard=[[floor(@{dex}/2)]]}} {{extreme=[[floor(@{dex}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_dex_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{dex_txt}}} {{success=[[@{dex}]]}} {{hard=[[floor(@{dex}/2)]]}} {{extreme=[[floor(@{dex}/5)]]}} {{roll1=[[1d100]]}}' name='roll_dex_check' />
-				</td>
-                <td> </td>
-                <td class="attr-label"><strong data-i18n="POW-u">POW</strong></td>
-                <td>
-				<input class="attr-input" type="text" name="attr_pow"/></td>
-                <td class="attr-roll" >
-				<button class='old-roll' type='roll' value='&{template:coc} {{name=@{pow_txt}}} {{success=[[@{pow}]]}} {{hard=[[floor(@{pow}/2)]]}} {{extreme=[[floor(@{pow}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_pow_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{pow_txt}}} {{success=[[@{pow}]]}} {{hard=[[floor(@{pow}/2)]]}} {{extreme=[[floor(@{pow}/5)]]}} {{roll1=[[1d100]]}}' name='roll_pow_check' />
-				</td>
-            </tr>
-            <tr>
-                <td class="attr-label" ><strong data-i18n="CON-u">CON</strong></td>
-                <td>
-				<input class="attr-input" type="text" name="attr_con"/></td>
-                <td class="attr-roll" >
-				<button class='old-roll' type='roll' value='&{template:coc} {{name=@{con_txt}}} {{success=[[@{con}]]}} {{hard=[[floor(@{con}/2)]]}} {{extreme=[[floor(@{con}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_con_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{con_txt}}} {{success=[[@{con}]]}} {{hard=[[floor(@{con}/2)]]}} {{extreme=[[floor(@{con}/5)]]}} {{roll1=[[1d100]]}}' name='roll_con_check' />
-				</td>
-                <td> </td>
-                <td class="attr-label"><strong data-i18n="APP-u">APP</strong></td>
-                <td>
-				<input class="attr-input" type="text" name="attr_app"/></td>
-                <td class="attr-roll" >
-				<button class='old-roll' type='roll' value='&{template:coc} {{name=@{app_txt}}} {{success=[[@{app}]]}} {{hard=[[floor(@{app}/2)]]}} {{extreme=[[floor(@{app}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_app_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{app_txt}}} {{success=[[@{app}]]}} {{hard=[[floor(@{app}/2)]]}} {{extreme=[[floor(@{app}/5)]]}} {{roll1=[[1d100]]}}' name='roll_app_check' />
-				</td>
-                <td> </td>
-                <td class="attr-label"><strong data-i18n="EDU-u">EDU</strong></td>
-                <td><input class="attr-input" type="text" name="attr_edu"/></td>
-                <td class="attr-roll" >
-				<button class='old-roll' type='roll' value='&{template:coc} {{name=@{edu_txt}}} {{success=[[@{edu}]]}} {{hard=[[floor(@{edu}/2)]]}} {{extreme=[[floor(@{edu}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_edu_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{edu_txt}}} {{success=[[@{edu}]]}} {{hard=[[floor(@{edu}/2)]]}} {{extreme=[[floor(@{edu}/5)]]}} {{roll1=[[1d100]]}}' name='roll_edu_check' />
-				</td>
-            </tr>
-            <tr>
-                <td class="attr-label" ><strong data-i18n="SIZ-u">SIZ</strong></td>
-                <td><input class="attr-input" type="text" name="attr_siz"/></td>
-                <td class="attr-roll" >
-				<button class='old-roll' type='roll' value='&{template:coc} {{name=@{siz_txt}}} {{success=[[@{siz}]]}} {{hard=[[floor(@{siz}/2)]]}} {{extreme=[[floor(@{siz}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_siz_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{siz_txt}}} {{success=[[@{siz}]]}} {{hard=[[floor(@{siz}/2)]]}} {{extreme=[[floor(@{siz}/5)]]}} {{roll1=[[1d100]]}}' name='roll_siz_check' />
-				</td>
-                <td> </td>
-                <td class="attr-label"><strong data-i18n="INT-u">INT</strong></td>
-                <td><input class="attr-input" type="text" name="attr_int"/></td>
-                <td class="attr-roll" >
-				<button class='old-roll' type='roll' value='&{template:coc} {{name=@{int_txt}}} {{success=[[@{int}]]}} {{hard=[[floor(@{int}/2)]]}} {{extreme=[[floor(@{int}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_int_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{int_txt}}} {{success=[[@{int}]]}} {{hard=[[floor(@{int}/2)]]}} {{extreme=[[floor(@{int}/5)]]}} {{roll1=[[1d100]]}}' name='roll_int_check' />
-				</td>
-				<td> </td>
-                <td class="attr-label"><strong data-i18n="MAG-u">MAG</strong></td>
-                <td><input class="attr-input" type="text" name="attr_mag"/></td>
-                <td class="attr-roll" >
-				<button class='old-roll' type='roll' value='&{template:coc} {{name=@{mag_txt}}} {{success=[[@{mag}]]}} {{hard=[[floor(@{mag}/2)]]}} {{extreme=[[floor(@{mag}/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}' name='roll_mag_check' />
-				<button class='new-roll' type='roll' value='&{template:coc-1} {{name=@{mag_txt}}} {{success=[[@{mag}]]}} {{hard=[[floor(@{mag}/2)]]}} {{extreme=[[floor(@{mag}/5)]]}} {{roll1=[[1d100]]}}' name='roll_mag_check' />
-				</td>
-            </tr>
-			<tr>
-                <td class="attr-label"><strong data-i18n="Move rate-u">Move rate</strong></td>
-                <td><input class="attr-input" type="text" name="attr_mov"/></td>
-                <td class="attr-roll" ></td>
-				<td> </td>
-				 <td class="attr-label"><strong data-i18n="arcane_capacity-u">AC</strong></td>
-                <td><input class="attr-input" type="text" name="attr_ac"/></td>
-                <td class="attr-roll" ></td>
-				<td> </td>
-			</tr>
-        </table>
-        </div>
-    </div>
+   
 </div>
 
 <!------------------------- Hit Points / Luck / Strain / Vitality / Major Wound / Logo / Build+BD / Sanity+Bouts of Madness ------------------------->

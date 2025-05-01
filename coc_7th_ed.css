@@ -163,6 +163,59 @@
   grid-column: 1 / -1; /* spans full width of grid */
 }
 
+/* Checkbox and label appearaance */
+
+/* Checkbox label appearance */
+.sheet-checkbox-label {
+	font-size: 0.9em;
+	color: black;
+	text-align: center;
+}
+
+.sheet-checkbox {
+	margin: 0;
+}
+
+/* Label cells */
+.sheet-attr-label {
+    font-weight: bold;
+    text-align: left;
+    padding: 2px 4px;
+    margin: 0;
+    color: black;
+    background: transparent;
+    align-self: center;
+}
+
+/* Spacer cells */
+.sheet-attr-spacer {
+    width: 100%;
+    height: 100%;
+}
+
+/* ------------------------ Roll buttons ---------------------- */
+
+/* Roll button container */
+.sheet-attr-roll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+button.new-roll {
+   color: #18650D;
+   background-color: #248c15;
+   font-weight: bold;
+   text-align: center;
+   width: 20px;
+   height: 20px;
+   margin: auto;
+   padding: 0;
+   border: 1px solid black;
+}
+/* ------------------------------------------------------------ */
+
 /* ------------------------------------------- */
 /* Full-Width Select Boxes for Sheet Sections  */
 /* ------------------------------------------- */
@@ -174,17 +227,6 @@
   font-size: 1em;
   text-align: center;
   background: #f0f0f0;
-  border: 1px solid #999;
-  color: black;
-}
-
-/* Required Roll20-specific name selector (ensures this works in sandbox) */
-select[name="attr_showracials"],
-select[name="attr_damage_bonus"] {
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 1em;
-  text-align: center;
   border: 1px solid #999;
   color: black;
 }
@@ -282,9 +324,10 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
   margin: 0;
   padding: 0;
 }
-/* ------------------------------- */
-/* Bottom Section Layout */
-/* ------------------------------- */
+/* --------------------------------------------- */
+/* Bottom Section: Tabs */
+/* (Already working, use existing tab CSS!) */
+/* --------------------------------------------- */
 
 .sheet-bottom {
 	background: #dcdcdc;
@@ -296,10 +339,6 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 /* End Section Layout */
 /* ------------------------------- */
 
-/* --------------------------------------------- */
-/* Bottom Section: Tabs */
-/* (Already working, use existing tab CSS!) */
-/* --------------------------------------------- */
 
 /* ------------------------------- */
 /* Investigator Info Section */
@@ -375,6 +414,10 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 	white-space: nowrap;
 }
 
+/* ------------------------------------------------ */
+
+/* ----------------- Characteristics -------------- */
+
 .sheet-grid-characteristics {
     display: grid;
     grid-template-columns:
@@ -389,54 +432,6 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
     box-sizing: border-box;
 }
 
-/* Label cells */
-.sheet-attr-label {
-    font-weight: bold;
-    text-align: left;
-    padding: 2px 4px;
-    margin: 0;
-    color: black;
-    background: transparent;
-    align-self: center;
-}
-
-/* Roll button container */
-.sheet-attr-roll {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Spacer cells */
-.sheet-attr-spacer {
-    width: 100%;
-    height: 100%;
-}
-
-button.new-roll {
-   color: #18650D;
-   background-color: #248c15;
-   font-weight: bold;
-   text-align: center;
-   width: 20px;
-   height: 20px;
-   margin: auto;
-   padding: 0;
-   border: 1px solid black;
-}
-
-/* ---------------------------- */
-/* Race Section Layout & Select */
-/* ---------------------------- */
-
-/* Outer Race Container */
-.sheet-race,
-.sheet-damage_bonus {
-    background: #d0cabe; /* Match combat/investigatorinfo/characteristics */
-    border: 1px solid black;
-    box-sizing: border-box;
-}
-
 /* ---------------------------- */
 /* Spenders Section Layout      */
 /* ---------------------------- */
@@ -446,6 +441,7 @@ button.new-roll {
   align-items: center;
   width: 100%;
   background: #d0cabe;
+  border: none;
 }
 
 /* Optional: consistent small labels */
@@ -468,58 +464,27 @@ button.new-roll {
   color: black;
 }
 
-.sheet-grid-hp {
-	display: grid;
-	grid-template-columns: auto 0.5fr 1em 0.5fr auto;
-	grid-template-rows: auto auto;
-	align-items: center;
-	width: 100%;
-	padding-top: 4px;
-	background: #d0cabe;
+/* ---------------------------- */
+/* Race and Damage Bonus Section Layout & Select */
+/* ---------------------------- */
+
+/* Outer Race Container */
+.sheet-race,
+.sheet-damage_bonus {
+    background: #d0cabe; /* Match combat/investigatorinfo/characteristics */
+    border: 1px solid black;
+    box-sizing: border-box;
 }
 
-/* Row 1 spans */
-.sheet-grid-hp input[name="attr_hp"] {
-	grid-column: 1 / span 2;
-}
-.sheet-grid-hp .sheet-hp-slash {
-	grid-column: 3;
-	text-align: center;
-	font-size: 150%;
-	font-weight: bold;
-}
-.sheet-grid-hp input[name="attr_pulphp_max"] {
-	grid-column: 4 / span 2;
-}
-
-/* Checkbox label appearance */
-.sheet-checkbox-label {
-	font-size: 0.9em;
-	color: black;
-	text-align: center;
-}
-
-.sheet-checkbox {
-	margin: 0;
-}
-
-/* Strain grid layout */
-.sheet-grid-strain,
-.sheet-grid-vitality {
-	display: grid;
-	grid-template-columns: 0.5fr 1em 0.5fr;
-	align-items: center;
-	width: 100%;
-	padding-top: 4px;
-	background: #d0cabe; /* match section background */
-}
-
-/* Slash styling */
-.sheet-strain-slash,
-.sheet-vitality-slash {
-	text-align: center;
-	font-size: 150%;
-	font-weight: bold;
+/* Required Roll20-specific name selector (ensures this works in sandbox) */
+select[name="attr_showracials"],
+select[name="attr_damage_bonus"] {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1em;
+  text-align: center;
+  border: 1px solid #999;
+  color: black;
 }
 
 /* ------------------------------ */
@@ -686,6 +651,58 @@ button.new-roll {
   background-color: black;
   color: yellow;
 }
+
+/* ---------------------------- */
+/* HP Grid & Layout             */
+/* ---------------------------- */
+
+.sheet-grid-hp {
+	display: grid;
+	grid-template-columns: auto 0.5fr 1em 0.5fr auto;
+	grid-template-rows: auto auto;
+	align-items: center;
+	width: 100%;
+	padding-top: 4px;
+	background: #d0cabe;
+}
+
+/* Row 1 spans */
+.sheet-grid-hp input[name="attr_hp"] {
+	grid-column: 1 / span 2;
+}
+.sheet-grid-hp .sheet-hp-slash {
+	grid-column: 3;
+	text-align: center;
+	font-size: 150%;
+	font-weight: bold;
+}
+.sheet-grid-hp input[name="attr_pulphp_max"] {
+	grid-column: 4 / span 2;
+}
+
+/* --------------------------------------------------- */
+
+/* Strain grid layout */
+.sheet-grid-strain,
+.sheet-grid-vitality {
+	display: grid;
+	grid-template-columns: 0.5fr 1em 0.5fr;
+	align-items: center;
+	width: 100%;
+	padding-top: 4px;
+	background: #d0cabe; /* match section background */
+}
+
+/* Slash styling */
+.sheet-strain-slash,
+.sheet-vitality-slash {
+	text-align: center;
+	font-size: 150%;
+	font-weight: bold;
+}
+
+/* -------------------------------------------------- */
+
 
 /* ----------------------- Dice and Logo ---------------------- */
 .sheet-dicerollsection {

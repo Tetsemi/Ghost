@@ -247,14 +247,15 @@
 					<div class="sheet-dice-roll-pair" data-i18n="body-hit-location"><b>Body Hit Location</b><button type="roll" name="roll_body_hit_loc" value="&{template:coc-body-hit-loc} {{roll1=[[1D20]]}}"></button></div>
 				</div>
 			</div>
+			<!-- Dice Modifiers Section (Tabs) -->
+			<input type="hidden" name="attr_dice_modifier_checkbox" value="0" />
 			<div class="sheet-dice_modifiers">
 				<h4 class="sheet-section-head" data-i18n="dicemodifiers-u">Dice Modifiers</h4>
-				<input type="hidden" name="attr_dice_modifier_checkbox" value="0" />
-				<div class="sheet-dice-modifier-grid">
-					<label><input type="checkbox" name="attr_dice_modifier_checkbox" value="-20" /><span>-20 from target</span></label>
-					<label><input type="checkbox" name="attr_dice_modifier_checkbox" value="-10" /><span>-10 from target</span></label>
-					<label><input type="checkbox" name="attr_dice_modifier_checkbox" value="10" /><span>+10 to target</span></label>
-					<label><input type="checkbox" name="attr_dice_modifier_checkbox" value="20" /><span>+20 to target</span></label>
+				<div class="sheet-dice-modifier-tabs">
+					<button type="action" name="act_20">+20 target number</button>
+					<button type="action" name="act_10">+10 target number</button>
+					<button type="action" name="act_-10">-10 target number</button>
+					<button type="action" name="act_-20">-20 target number</button>
 				</div>
 			</div>
 		</div>
@@ -11527,6 +11528,17 @@ on("clicked:edit_mode", () => {
     }
   });
 });
+
+// Dice Modifier Button Handler
+on("clicked:-20 clicked:-10 clicked:10 clicked:20", (event) => {
+  const clicked = event.triggerName.replace("clicked:", "");
+  getAttrs(["dice_modifier_checkbox"], (values) => {
+    const current = values.dice_modifier_checkbox || "0";
+    const next = current === clicked ? "0" : clicked;
+    setAttrs({ dice_modifier_checkbox: next });
+  });
+});
+
 
 const tabList = ["skills", "background", "talents", "combat", "spells", "inventory", "backstory", "npcs", "vehicles"];
 

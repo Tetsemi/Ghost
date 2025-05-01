@@ -701,6 +701,11 @@ button.new-roll {
 }
 
 /* ----------------------- Dice and Logo ---------------------- */
+.sheet-dicerollsection {
+	background: #d9d9d9;
+    display: block;
+}
+
 .sheet-logo {
   flex: 1 1 100%;
   text-align: center;
@@ -762,11 +767,16 @@ button.new-roll {
 }
 
 /* ----------------------- Dice Modifiers ---------------------- */
+.sheet-dice_modifiers {
+	background: #d9d9d9;
+    display: block;
+}
+
 /* Right: Dice Modifiers (1/3 width) */
 .sheet-dice_modifiers {
   flex: 1 1 33%;
   min-width: 0;
-  background: #d0cabe;
+  background: #d9d9d9;
   margin: 0;
   padding: 0;
 }
@@ -787,7 +797,7 @@ button.new-roll {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  background: #d0cabe;
+  background: #f0f0f0;
   border: 1px solid #aaa;
   border-radius: 0;
   padding: 2px 4px;
@@ -796,11 +806,6 @@ button.new-roll {
   white-space: nowrap;
   box-sizing: border-box;
 }
-
-.sheet-dice-modifier-grid label input[type="checkbox"] {
-  margin-right: 8px; /* or however much space you want */
-}
-
 
 .sheet-dice-modifier-grid span:first-of-type {
   width: 35px;
@@ -814,6 +819,51 @@ button.new-roll {
   color: black;
   text-align: left;
 }
+
+.sheet-dice-modifier-tabs {
+  display: flex;
+  justify-content: space-between; /* or space-evenly for equal gaps */
+  width: 100%;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+
+/* Modifier Button Base Style */
+.sheet-dice-modifier-tabs button[type="action"] {
+  flex: 0 0 24px;
+  font-weight: bold;
+  padding: 4px 6px;
+  color: black;
+  background: #d0cabe;
+  border: 1px solid #999;
+  border-radius: 3px;
+  text-align: center;
+  cursor: pointer;
+  height: 24px;
+  box-sizing: border-box;
+}
+
+/* Active Negative Modifier (Red) */
+.sheet-layout input[name="attr_dice_modifier_checkbox"][value="-20"] ~ * button[name="act_-20"],
+.sheet-layout input[name="attr_dice_modifier_checkbox"][value="-10"] ~ * button[name="act_-10"] {
+  background: #aa3333;
+  color: white;
+}
+
+/* Active Positive Modifier (Blue) */
+.sheet-layout input[name="attr_dice_modifier_checkbox"][value="10"] ~ * button[name="act_10"],
+.sheet-layout input[name="attr_dice_modifier_checkbox"][value="20"] ~ * button[name="act_20"] {
+  background: #3366aa;
+  color: white;
+}
+
+/* Optional: Reset all on value 0 (i.e., no active button) */
+.sheet-layout input[name="attr_dice_modifier_checkbox"][value="0"] ~ * .sheet-dice-modifier-tabs button {
+  background: #d0cabe;
+  color: black;
+}
+
 
 /* ------------------------------- */
 /* Main tab content block for Combat */
@@ -1397,30 +1447,6 @@ input.tooltip-field {
 }
 
 .sheet-togglearmor[value="1"]:checked ~ div.sheet-armorsection {
-    display: block;
-}
-
-/* -------------------------------------------------------------------------- */
-
-.charsheet .debug-output {
-  display: none;
-}
-
-input[name="attr_show_debug_output"][value="1"] ~ .debug-output {
-  display: block;
-}
-
-.charsheet div.sheet-dicemodifiersection {
-    display: none;
-}
-
-.sheet-toggledmod[value="1"]:checked ~ div.sheet-dicemodifiersection {
-    display: block;
-}
-
-/* -------------------------------------------------------------------------- */
-
-.charsheet div.sheet-dicerollsection {
     display: block;
 }
 

@@ -9387,7 +9387,9 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	registeredRaces.add(key);
 
 	const allSkills = Object.values(skillMapTable).map(s => s.label);
-
+	
+	const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
+	
 	const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
 		map[skill.label] = parseInt(skill.base || "0", 10);
 		return map;
@@ -9405,6 +9407,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		"language_caltheran_skill_mdr",
 		...magicSchools,
 		...allSkills.map(skill => `${skill}_skill_mdr`),
+		...otherSkills.map(skill => `${skill}_skill_mdr`),
 		...triggerSkills.flatMap(skill => [
 			`${racePrefix}_${skill}_bonus_mdr`,
 			`${racePrefix}_talent_${skill}_bonus_mdr`
@@ -9434,9 +9437,14 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 	if (debug_on) console.log("[registerSkillHandler Init]", { watched });
 
+	const otherSkillAttrs = otherSkills.flatMap(skill => [
+		`${skill}_skill_mdr`,
+		`${skill}_mdr`
+		]);
+
 	// BEGIN Sheet Worker Watcher
 	on([...new Set(watched)].map(s => `change:${s}`).join(" "), () => {
-		getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
+		getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs), otherSkillAttrs), values => {
 			const activeRace = values.showracials || "unknown"; // minimal change here
 			if (activeRace !== racePrefix) return;
 
@@ -9479,6 +9487,13 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 					console.log(`[Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 				}
 			});
+			
+			otherSkills.forEach(skill => {
+				const base = parseInt(values[`${skill}_skill_mdr`], 10) || 0;
+				const spent = Math.max(base, 0); // no base value to subtract from
+				totalSkillPointsSpent += spent;
+				update[`${skill}_mdr`] = base;
+			});
 
 			const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
 			const iedu = parseInt(values.edu || "0", 10);
@@ -9509,7 +9524,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	}
 
 	// BEGIN Manual Initialization
-	getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs)), values => {
+	getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs), otherSkillAttrs), values => {
 		const activeRace = values.showracials || "unknown"; // minimal change here
 		if (activeRace !== racePrefix) return;
 
@@ -9552,6 +9567,13 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				console.log(`[Manual Init Skill Calc] ${skill}: base=${base}, bgBonus=${bgBonus}, talentBonus=${talentBonus}, total=${total}`);
 			}
 		});
+		
+		otherSkills.forEach(skill => {
+			const base = parseInt(values[`${skill}_skill_mdr`], 10) || 0;
+			const spent = Math.max(base, 0); // no base value to subtract from
+			totalSkillPointsSpent += spent;
+			update[`${skill}_mdr`] = base;
+		});
 
 		const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
 		const iedu = parseInt(values.edu || "0", 10);
@@ -9574,7 +9596,6 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	});
 	// END Manual Initialization
 }
-
 
 function setDefaultSkillBonuses(race) {
 		  if (debug_on_trace) console.log ("[setDefaultSkillBonuses] Start");

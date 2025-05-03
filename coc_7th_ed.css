@@ -471,6 +471,33 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
   color: black;
 }
 
+/* ------------------------------Sheet Racials-------------------------------------------- */
+input.sheet-showracials::after {
+    float: left;
+    font-family: pictos;
+    content: "E";
+    opacity: 1.5;
+}
+
+input.sheet-showracials {
+    float: left;
+    font-family: pictos;
+    content: "E";
+    opacity: 0.5;
+}
+
+.charsheet .sheet-showracials:checked ~ div.sheet-section,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials1,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials2,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials3,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials4,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials5,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials6,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials7,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials8 {
+    display: none;
+}
+
 /* ---------------------------- */
 /* Race and Damage Bonus Section Layout & Select */
 /* ---------------------------- */
@@ -938,186 +965,6 @@ select[name="attr_damage_bonus"] {
 }
 
 /* -------------------------------------------------------------------------- */
-
-
-/* ------------------------------- */
-/* Main tab content block for Combat */
-/* ------------------------------- */
-.sheet-tab-content.sheet-combat {
-  margin-top: 10px;
-  background: #d0cabe; /* Light tan/gray inside sections */
-  padding: 10px;
-  border: 1px solid black;
-}
-
-/* ------------------------------- */
-/* Inner row layout (within sections) */
-/* ------------------------------- */
-.sheet-combat .sheet-colrow {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  background: #d0cabe; /* Also needs to match section background */
-}
-
-/* ------------------------------- */
-/* Combat Section Header (h4 Section-Head) */
-/* ------------------------------- */
-.section-head {
-  font-size: 1.2em;
-  font-weight: bold;
-  text-align: center;
-  background-image: linear-gradient(black, #112749); /* Black to dark blue */
-  background-color: #112749; /* fallback */
-  color: white;
-  padding: 4px;
-  border: 1px solid black;
-  margin-bottom: 10px;
-}
-
-/* --------------------------------------- Combat ---------------------------------- */
-/* Main Combat Block */
-.sheet-tab-content.sheet-combat {
-  margin-top: 10px;
-  background: ##c3c9bd; /* darker gray like old layout */
-  padding: 10px;
-  border: 1px solid black;
-}
-
-/* Inner Row Layout */
-.sheet-combat .sheet-colrow {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-/* ---------------- Combat Section Flex Layout ---------------- */
-
-/* Fieldset */
-fieldset.repeating_weaponsmdr {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-/* Container for all weapon entries */
-.repcontainer {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 0;
-}
-
-/* Each repeated weapon entry */
-.repitem {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-/* Each flex-row inside weapon */
-.repitem .flex-row,
-.sheet-weapon-header .flex-row,
-.sheet-weapon-default .flex-row,
-.sheet-weapon-block .flex-row {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  gap: 0;
-}
-
-/* General Flex Cell */
-.flex-cell {
-  padding: 0; /* No padding inside cells */
-  margin: 0;
-  border: 1px solid black;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Flex Widths */
-.weapon-name { flex: 2 1 28%; }
-.weapon-roll { flex: 0 0 24px; }
-.weapon-skill { flex: 1.5 1 14%; }
-.weapon-damage { flex: 1 1 7%; }
-.weapon-damage-bonus { flex: 1 1 7%; }
-.weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 8%; }
-.weapon-malf, .weapon-strain { flex: 0.8 1 6%; }
-
-/* Inputs and Selects */
-.flex-cell input[type="text"],
-.flex-cell select {
-  width: 100%;
-  height: 100%;
-  padding: 2px;
-  box-sizing: border-box;
-  font-size: 0.9em;
-  text-align: center;
-  background: #d9d9d9;
-  border: none;
-}
-
-/* Specific text alignments */
-.weapon-name input { text-align: center; }
-.weapon-skill select, .weapon-skill input { text-align: center; }
-.weapon-damage input { text-align: right; }
-.weapon-damage-bonus select { text-align: left; }
-.weapon-range input, .weapon-attacks input, .weapon-ammo input, .weapon-malf input, .weapon-strain input { text-align: center; }
-
-/* Weapon Header Row (Weapon, Skill, Damage, etc.) */
-.sheet-weapon-header {
-  background: black;
-  color: white;
-  font-weight: bold;
-  border-bottom: 1px solid black;
-}
-
-.sheet-weapon-header .flex-cell {
-  background: black;
-  color: white;
-  text-align: center;
-  border: 1px solid black;
-}
-
-/* Disabled (Unarmed row) */
-.sheet-weapon-default input[disabled],
-.sheet-weapon-default select[disabled] {
-  background: #d9d9d9;
-  color: #666;
-  border: none;
-}
-
-/* Roll Button Style */
-button[type="roll"].new-roll {
-  color: #18650D;
-  background-color: #248c15;
-  font-weight: bold;
-  text-align: center;
-  width: 20px;
-  height: 20px;
-  margin: auto;
-  padding: 0;
-  border: 1px solid black;
-}
-
-/* Disabled roll button */
-.sheet-weapon-default .weapon-roll button[disabled] {
-  background: #BEBEBE;
-  border: 1px solid #999;
-}
 
 /* --------------------- Tabbed Selection Bar Start ------------------------------------------------------- */
 
@@ -1718,6 +1565,278 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 
 /* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
 
+/* ------------------------------- */
+/* Main tab content block for Combat */
+/* ------------------------------- */
+.sheet-tab-content.sheet-combat {
+  margin-top: 10px;
+  background: #d0cabe; /* Light tan/gray inside sections */
+  padding: 10px;
+  border: 1px solid black;
+}
+
+/* ------------------------------- */
+/* Inner row layout (within sections) */
+/* ------------------------------- */
+.sheet-combat .sheet-colrow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #d0cabe; /* Also needs to match section background */
+}
+
+/* ------------------------------- */
+/* Combat Section Header (h4 Section-Head) */
+/* ------------------------------- */
+.section-head {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  background-image: linear-gradient(black, #112749); /* Black to dark blue */
+  background-color: #112749; /* fallback */
+  color: white;
+  padding: 4px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+/* --------------------------------------- Combat ---------------------------------- */
+/* Main Combat Block */
+.sheet-tab-content.sheet-combat {
+  margin-top: 10px;
+  background: ##c3c9bd; /* darker gray like old layout */
+  padding: 10px;
+  border: 1px solid black;
+}
+
+/* Inner Row Layout */
+.sheet-combat .sheet-colrow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* ---------------- Combat Section Flex Layout ---------------- */
+
+/* Fieldset */
+fieldset.repeating_weaponsmdr {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* Container for all weapon entries */
+.repcontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+/* Each repeated weapon entry */
+.repitem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each flex-row inside weapon */
+.repitem .flex-row,
+.sheet-weapon-header .flex-row,
+.sheet-weapon-default .flex-row,
+.sheet-weapon-block .flex-row {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+}
+
+/* General Flex Cell */
+.flex-cell {
+  padding: 0; /* No padding inside cells */
+  margin: 0;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Flex Widths */
+.weapon-name { flex: 2 1 28%; }
+.weapon-roll { flex: 0 0 24px; }
+.weapon-skill { flex: 1.5 1 14%; }
+.weapon-damage { flex: 1 1 7%; }
+.weapon-damage-bonus { flex: 1 1 7%; }
+.weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 8%; }
+.weapon-malf, .weapon-strain { flex: 0.8 1 6%; }
+
+/* Inputs and Selects */
+.flex-cell input[type="text"],
+.flex-cell select {
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  text-align: center;
+  background: #d9d9d9;
+  border: none;
+}
+
+/* Specific text alignments */
+.weapon-name input { text-align: center; }
+.weapon-skill select, .weapon-skill input { text-align: center; }
+.weapon-damage input { text-align: right; }
+.weapon-damage-bonus select { text-align: left; }
+.weapon-range input, .weapon-attacks input, .weapon-ammo input, .weapon-malf input, .weapon-strain input { text-align: center; }
+
+/* Weapon Header Row (Weapon, Skill, Damage, etc.) */
+.sheet-weapon-header {
+  background: black;
+  color: white;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+
+.sheet-weapon-header .flex-cell {
+  background: black;
+  color: white;
+  text-align: center;
+  border: 1px solid black;
+}
+
+/* Disabled (Unarmed row) */
+.sheet-weapon-default input[disabled],
+.sheet-weapon-default select[disabled] {
+  background: #d9d9d9;
+  color: #666;
+  border: none;
+}
+
+/* Roll Button Style */
+button[type="roll"].new-roll {
+  color: #18650D;
+  background-color: #248c15;
+  font-weight: bold;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  padding: 0;
+  border: 1px solid black;
+}
+
+/* Disabled roll button */
+.sheet-weapon-default .weapon-roll button[disabled] {
+  background: #BEBEBE;
+  border: 1px solid #999;
+}
+/* ------------------------------- Spells ----------------------- */
+
+/* ---------- Layout ---------- */
+.sheet-spell-info-left {
+  width: 35%;
+}
+.sheet-spell-info-right {
+  width: 63%;
+}
+.sheet-spell-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Spacer row before first input (for alignment) */
+.sheet-spell-name-spacer {
+  height: 12px; /* Half the height of the input row */
+}
+
+.sheet-spell-label {
+  font-size: 100%;
+  font-weight: bold;
+  white-space: nowrap;
+  width: 90px;
+
+}
+.sheet-wide-input {
+  flex: 1;
+  text-align: center;
+  font-size: 100%;
+  height: 23px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+.sheet-spell-textarea {
+  width: 95%;
+  height: 31px;
+  font-size: 80%;
+  background-color: rgba(255,255,255,0.5);
+  resize: vertical;
+}
+
+/* ---------- Prepared Toggle Styling via Mirror ---------- */
+.sheet-prepared-toggle {
+  flex: 1;
+  font-size: 100%;
+  text-align: center;
+  padding: 2px;
+  border: 1px solid black;
+}
+
+/* Mirror value selector styles */
+input.sheet-prepared-mirror[value="0"] ~ select.sheet-prepared-toggle {
+  background-color: #d3d3d3;
+  color: #000000;
+}
+input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
+  background-color: black;
+  color: #00ff00;
+}
+
+/* Default input style */
+.sheet-prep-cost-input {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Inputs inside the Arcane Tracker */
+.secondary-attr-input {
+  width: 100%;
+  text-align: center;
+  font-size: 100%;
+  height: 23px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+}
+
+/* Base style for the overflow-sensitive input */
+.sheet-overflow-sensitive {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Overflow warning */
+input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
+  background-color: red;
+  color: yellow;
+}
+
+
 
 /* --------------------- Tabbed Selection Bar - End  --------------------------------------------------------- */
 
@@ -1947,34 +2066,6 @@ input.sheet-arrow {
     display: none;
 }
 
-/* ------------------------------Sheet Racials-------------------------------------------- */
-
-
-input.sheet-showracials::after {
-    float: left;
-    font-family: pictos;
-    content: "E";
-    opacity: 1.5;
-}
-
-input.sheet-showracials {
-    float: left;
-    font-family: pictos;
-    content: "E";
-    opacity: 0.5;
-}
-
-.charsheet .sheet-showracials:checked ~ div.sheet-section,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials1,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials2,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials3,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials4,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials5,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials6,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials7,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials8 {
-    display: none;
-}
 
 /* -------------------------------Headers Coloring------------------------------------------- */
 
@@ -2061,100 +2152,6 @@ input.sheet-showracials {
 }
 
 /* -------------------------------------------------------------------------- */
-
-
-/* ---------- Layout ---------- */
-.sheet-spell-info-left {
-  width: 35%;
-}
-.sheet-spell-info-right {
-  width: 63%;
-}
-.sheet-spell-meta-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-/* Spacer row before first input (for alignment) */
-.sheet-spell-name-spacer {
-  height: 12px; /* Half the height of the input row */
-}
-
-.sheet-spell-label {
-  font-size: 100%;
-  font-weight: bold;
-  white-space: nowrap;
-  width: 90px;
-
-}
-.sheet-wide-input {
-  flex: 1;
-  text-align: center;
-  font-size: 100%;
-  height: 23px;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
-.sheet-spell-textarea {
-  width: 95%;
-  height: 31px;
-  font-size: 80%;
-  background-color: rgba(255,255,255,0.5);
-  resize: vertical;
-}
-
-/* ---------- Prepared Toggle Styling via Mirror ---------- */
-.sheet-prepared-toggle {
-  flex: 1;
-  font-size: 100%;
-  text-align: center;
-  padding: 2px;
-  border: 1px solid black;
-}
-
-/* Mirror value selector styles */
-input.sheet-prepared-mirror[value="0"] ~ select.sheet-prepared-toggle {
-  background-color: #d3d3d3;
-  color: #000000;
-}
-input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
-  background-color: black;
-  color: #00ff00;
-}
-
-/* Default input style */
-.sheet-prep-cost-input {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
-
-/* Inputs inside the Arcane Tracker */
-.secondary-attr-input {
-  width: 100%;
-  text-align: center;
-  font-size: 100%;
-  height: 23px;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-  border: 1px solid #aaa;
-  box-sizing: border-box;
-}
-
-/* Base style for the overflow-sensitive input */
-.sheet-overflow-sensitive {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
-
-/* Overflow warning */
-input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
-  background-color: red;
-  color: yellow;
-}
-
-
 
 /* ------------------------------------------ *//* Roll Templates *//* --------------------------------------- */
 

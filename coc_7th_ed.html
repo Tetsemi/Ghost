@@ -32,91 +32,142 @@
 					</div>
 				</div>	
 				<div class="sheet-section">
-                  <h4 class="sheet-section-head" data-i18n="characteristics-u">Characteristics</h4>
-                  <div class="sheet-grid-characteristics">
-                    <!-- Row 1 -->
-					<div class="sheet-attr-label" data-i18n="STR-u">STR</div>
-					<div class="sheet-str-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_str" type="text" />
-						<button class="sheet-str-roll" type="roll" name="roll_str_check" value="&{template:coc-1} {{name=@{str_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{str}]]}} {{hard=[[floor(@{str}/2)]]}} {{extreme=[[floor(@{str}/5)]]}} {{roll1=[[1d100]]}}"></button>
-					</div>
-					<div class="sheet-attr-spacer"></div>
-					<div class="sheet-attr-label" data-i18n="DEX-u">DEX</div>
-					<div class="sheet-dex-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_dex" type="text" />
-						<button class="sheet-dex-roll" type="roll" name="roll_dex_check" value="&{template:coc-1} {{name=@{dex_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{dex}]]}} {{hard=[[floor(@{dex}/2)]]}} {{extreme=[[floor(@{dex}/5)]]}} {{roll1=[[1d100]]}}"></button>
-					</div>
-					<div class="sheet-attr-spacer"></div>
-					<div class="sheet-attr-label" data-i18n="POW-u">POW</div>
-					<div class="sheet-pow-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_pow" type="text" />
-						<button class="sheet-pow-roll" type="roll" name="roll_pow_check" value="&{template:coc-1} {{name=@{pow_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{pow}]]}} {{hard=[[floor(@{pow}/2)]]}} {{extreme=[[floor(@{pow}/5)]]}} {{roll1=[[1d100]]}}"></button>
-					</div>
-					<!-- Row 2 -->
-					<div class="sheet-attr-label" data-i18n="CON-u">CON</div>
-					<div class="sheet-con-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_con" type="text" />
-						<button class="sheet-con-roll" type="roll" name="roll_con_check" value="&{template:coc-1} {{name=@{con_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{con}]]}} {{hard=[[floor(@{con}/2)]]}} {{extreme=[[floor(@{con}/5)]]}} {{roll1=[[1d100]]}}"></button>
-					</div>
-					<div class="sheet-attr-spacer"></div>
-					<div class="sheet-attr-label" data-i18n="APP-u">APP</div>
-					<div class="sheet-app-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_app" type="text" />
-						<button class="sheet-app-roll" type="roll" name="roll_app_check" value="&{template:coc-1} {{name=@{app_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{app}]]}} {{hard=[[floor(@{app}/2)]]}} {{extreme=[[floor(@{app}/5)]]}} {{roll1=[[1d100]]}}"></button>
-					</div>
-					<div class="sheet-attr-spacer"></div>
-					<div class="sheet-attr-label" data-i18n="EDU-u">EDU</div>
-					<div class="sheet-edu-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_edu" type="text" />
-						<button class="sheet-edu-roll" type="roll" name="roll_edu_check" value="&{template:coc-1} {{name=@{edu_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{edu}]]}} {{hard=[[floor(@{edu}/2)]]}} {{extreme=[[floor(@{edu}/5)]]}} {{roll1=[[1d100]]}}"></button>
-					</div>
-					<!-- Row 3 -->
-					<div class="sheet-attr-label" data-i18n="SIZ-u">SIZ</div>
-					<div class="sheet-siz-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_siz" type="text" />
-						<button class="sheet-siz-roll" type="roll" name="roll_siz_check" value="&{template:coc-1} {{name=@{siz_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{siz}]]}} {{hard=[[floor(@{siz}/2)]]}} {{extreme=[[floor(@{siz}/5)]]}} {{roll1=[[1d100]]}}"></button>
-					</div>
-					<div class="sheet-attr-spacer"></div>
-					<div class="sheet-attr-label" data-i18n="INT-u">INT</div>
-					<div class="sheet-int-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_int" type="text" />
-						<button class="sheet-int-roll" type="roll" name="roll_int_check" value="&{template:coc-1} {{name=@{int_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{int}]]}} {{hard=[[floor(@{int}/2)]]}} {{extreme=[[floor(@{int}/5)]]}} {{roll1=[[1d100]]}}"></button>
-					</div>
-					<div class="sheet-attr-spacer"></div>
-					<div class="sheet-attr-label" data-i18n="MAG-u">MAG</div>
-					<div class="sheet-mag-wrapper">
-						<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_mag" type="text" />
-						<button class="sheet-mag-roll" type="roll" name="roll_mag_check" value="&{template:coc-1} {{name=@{mag_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{mag}]]}} {{hard=[[floor(@{mag}/2)]]}} {{extreme=[[floor(@{mag}/5)]]}} {{roll1=[[1d100]]}}"></button>
+					<h4 class="sheet-section-head" data-i18n="characteristics-u">Characteristics</h4>
+					<!-- Row 1: STR / DEX / POW / VITALITY -->
+					<div class="sheet-grid-characteristics">
+						<!-- STR -->
+						<div class="sheet-attr-label" data-i18n="STR-u">STR</div>
+						<div class="sheet-str-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_str" type="text" />
+							<button class="sheet-str-roll" type="roll" name="roll_str_check" value="&{template:coc-1} {{name=@{str_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{str}]]}} {{hard=[[floor(@{str}/2)]]}} {{extreme=[[floor(@{str}/5)]]}} {{roll1=[[1d100]]}}"></button>
+						</div>
+
+						<!-- DEX -->
+						<div class="sheet-attr-label" data-i18n="DEX-u">DEX</div>
+						<div class="sheet-dex-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_dex" type="text" />
+							<button class="sheet-dex-roll" type="roll" name="roll_dex_check" value="&{template:coc-1} {{name=@{dex_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{dex}]]}} {{hard=[[floor(@{dex}/2)]]}} {{extreme=[[floor(@{dex}/5)]]}} {{roll1=[[1d100]]}}"></button>
+						</div>
+
+						<!-- POW -->
+						<div class="sheet-attr-label" data-i18n="POW-u">POW</div>
+						<div class="sheet-pow-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_pow" type="text" />
+							<button class="sheet-pow-roll" type="roll" name="roll_pow_check" value="&{template:coc-1} {{name=@{pow_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{pow}]]}} {{hard=[[floor(@{pow}/2)]]}} {{extreme=[[floor(@{pow}/5)]]}} {{roll1=[[1d100]]}}"></button>
+						</div>
+						<div class="sheet-vertical-divider"></div>
+
+						<!-- VITALITY -->
+						<div class="sheet-attr-label" data-i18n="vitality-u">Vitality</div>
+						<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_vitality" placeholder="current" data-i18n-placeholder="current" />
+						<div class="sheet-vitality-slash">/</div>
+						<input class="sheet-attr-input" type="text" name="attr_vitality_max" placeholder="max" readonly />
+
+						<!-- Row 2: CON / APP / EDU / STRAIN -->
+						<!-- CON -->
+						<div class="sheet-attr-label" data-i18n="CON-u">CON</div>
+						<div class="sheet-con-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_con" type="text" />
+							<button class="sheet-con-roll" type="roll" name="roll_con_check" value="&{template:coc-1} {{name=@{con_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{con}]]}} {{hard=[[floor(@{con}/2)]]}} {{extreme=[[floor(@{con}/5)]]}} {{roll1=[[1d100]]}}"></button>
+						</div>
+
+						<!-- APP -->
+						<div class="sheet-attr-label" data-i18n="APP-u">APP</div>
+						<div class="sheet-app-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_app" type="text" />
+							<button class="sheet-app-roll" type="roll" name="roll_app_check" value="&{template:coc-1} {{name=@{app_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{app}]]}} {{hard=[[floor(@{app}/2)]]}} {{extreme=[[floor(@{app}/5)]]}} {{roll1=[[1d100]]}}"></button>
+						</div>
+
+						<!-- EDU -->
+						<div class="sheet-attr-label" data-i18n="EDU-u">EDU</div>
+						<div class="sheet-edu-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_edu" type="text" />
+							<button class="sheet-edu-roll" type="roll" name="roll_edu_check" value="&{template:coc-1} {{name=@{edu_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{edu}]]}} {{hard=[[floor(@{edu}/2)]]}} {{extreme=[[floor(@{edu}/5)]]}} {{roll1=[[1d100]]}}"></button>
+						</div>
+						<div class="sheet-vertical-divider"></div>
+						
+						<!-- STRAIN -->
+ 						<div class="sheet-attr-label" data-i18n="strain-u">Strain</div>
+						<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current" />
+						<div class="sheet-strain-slash">/</div>
+						<input class="sheet-attr-input" type="text" name="attr_strain_max" placeholder="max" readonly />
+
+						<!-- Row 3: SIZ / INT / MAG / HP -->
+						<!-- SIZ -->
+ 						<div class="sheet-attr-label" data-i18n="SIZ-u">SIZ</div>
+						<div class="sheet-siz-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_siz" type="text" />
+							<button class="sheet-siz-roll" type="roll" name="roll_siz_check" value="&{template:coc-1} {{name=@{siz_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{siz}]]}} {{hard=[[floor(@{siz}/2)]]}} {{extreme=[[floor(@{siz}/5)]]}} {{roll1=[[1d100]]}}"></button>
+						</div>
+
+						<!-- INT -->
+						<div class="sheet-attr-label" data-i18n="INT-u">INT</div>
+  						<div class="sheet-int-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_int" type="text" />
+							<button class="sheet-int-roll" type="roll" name="roll_int_check" value="&{template:coc-1} {{name=@{int_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{int}]]}} {{hard=[[floor(@{int}/2)]]}} {{extreme=[[floor(@{int}/5)]]}} {{roll1=[[1d100]]}}"></button>
+ 						</div>
+
+ 						<!-- MAG -->
+						<div class="sheet-attr-label" data-i18n="MAG-u">MAG</div>
+						<div class="sheet-mag-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_mag" type="text" />
+							<button class="sheet-mag-roll" type="roll" name="roll_mag_check" value="&{template:coc-1} {{name=@{mag_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{mag}]]}} {{hard=[[floor(@{mag}/2)]]}} {{extreme=[[floor(@{mag}/5)]]}} {{roll1=[[1d100]]}}"></button>
+						</div>
+						<div class="sheet-vertical-divider"></div>
+						
+						<!-- HP -->
+						<div class="sheet-attr-label" data-i18n="HP-u">Hit Points</div>
+						<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_hp" placeholder="current" data-i18n-placeholder="current" />
+						<div class="sheet-hp-slash">/</div>
+						<input class="sheet-attr-input" type="text" name="attr_pulphp_max" placeholder="max" readonly />
 					</div>
 					 <!-- Separator -->
 					<div class="sheet-attr-separator"></div> 
-					 <!-- Row 4 (Move and AC) -->
-					 <div class="sheet-attr-label" data-i18n="build-u">Build</div>
-					 <input class="sheet-attr-input" type="text" name="attr_build" readonly>
-                     <div class="sheet-attr-spacer"></div>
-                     <div class="sheet-attr-label" data-i18n="Move rate-u">Move rate</div>
-                     <input class="sheet-attr-input" type="text" name="attr_mov" readonly>
-					 <div class="sheet-attr-spacer"></div>
-                     <div class="sheet-attr-label" data-i18n="arcane_capacity-u">AC</div>
-                     <input class="sheet-attr-input" type="text" name="attr_ac" readonly>
-                  </div>
-				</div>
+					
+<!-- Row 4: BUILD / MOVE / AC + STATUS + LUCK -->
+<div class="sheet-grid-characteristics-lower">
+  <div class="sheet-grid-inline">
+    <label class="sheet-attr-label" data-i18n="build-u">Build</label>
+    <input class="sheet-attr-input" type="text" name="attr_build" readonly />
+  </div>
+
+  <div class="sheet-grid-inline">
+    <label class="sheet-attr-label" data-i18n="Move rate-u">Move rate</label>
+    <input class="sheet-attr-input" type="text" name="attr_mov" readonly />
+  </div>
+
+  <div class="sheet-grid-inline">
+    <label class="sheet-attr-label" data-i18n="arcane_capacity-u">Arc. Cap.</label>
+    <input class="sheet-attr-input" type="text" name="attr_ac" readonly />
+  </div>
+
+<div class="sheet-vertical-divider"></div>
+						
+  <div class="sheet-grid-inline sheet-status-wrapper">
+    <div class="sheet-status-grid">
+      <input type="checkbox" class="sheet-checkbox" name="attr_dying" value="1" />
+      <div class="sheet-checkbox-label" data-i18n="dying-z">Dying</div>
+      <input type="checkbox" class="sheet-checkbox" name="attr_major-wound-toggle" value="1" />
+      <div class="sheet-checkbox-label" data-i18n="majorwound-z">M. Wound</div>
+    </div>
+  </div>
+  <div class="sheet-grid-inline sheet-luck-wrapper">
+    <label class="sheet-attr-label" data-i18n="luck-u">Luck</label>
+    <div class="sheet-grid-luck">
+      <input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_luck" />
+      <button class="sheet-luck-roll" type="roll" name="roll_luck_check" value="&{template:coc-1} {{name=@{luck_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{luck}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{luck}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{luck}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
+    </div>
+  </div>
+</div>
+
+
+
+
+                </div>
 			</div>
 
 			<!-- 4 Cols (25/25/25/25): Race / Spenders / Damage Bonus / Build -->
 			<div class="sheet-top-4col">
-                <div class="sheet-section">
-                    <div class="sheet-spenders">
-                        <h4 class="sheet-section-head" data-i18n="spenders-u">Spenders</h4>
-                        <div class="sheet-grid-spenders">
-                            <div class="sheet-info-label-small" data-i18n="total_attr_points_spent-u">AS</div>
-                            <input class="sheet-attr-input-small" type="text" name="attr_total_attr_points_spent" readonly>
-                            <div></div>
-                            <div class="sheet-info-label-small" data-i18n="total_skill_points_spent-u">SPS</div>
-                            <input class="sheet-attr-input-small" type="text" name="attr_total_skill_points_spent" readonly>
-                        </div>
-                    </div>
-                </div>
 				<div class="sheet-section">
 					<div class="sheet-race">
 						<h4 class="sheet-section-head" data-i18n="race-u">Race</h4>
@@ -154,6 +205,18 @@
 						</select>
 					</div>
 				</div>
+                <div class="sheet-section">
+                    <div class="sheet-spenders">
+                        <h4 class="sheet-section-head" data-i18n="spenders-u">Spenders</h4>
+                        <div class="sheet-grid-spenders">
+                            <div class="sheet-info-label-small" data-i18n="total_attr_points_spent-u">AS</div>
+                            <input class="sheet-attr-input-small" type="text" name="attr_total_attr_points_spent" readonly>
+                            <div></div>
+                            <div class="sheet-info-label-small" data-i18n="total_skill_points_spent-u">SPS</div>
+                            <input class="sheet-attr-input-small" type="text" name="attr_total_skill_points_spent" readonly>
+                        </div>
+                    </div>
+                </div>				
 				<div class="sheet-section">
 					<div class="sheet-edit-toggle">
 						<h4 class="sheet-section-head" data-i18n="editmode-u">Edit Mode</h4>
@@ -162,61 +225,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- 5 Cols (25/5/25/25/20): HP / Status / Strain / Vitality / Luck -->
-			<div class="sheet-top-5col">
-			<div class="sheet-section">
-					<div class="sheet-vitality">
-						<h4 class="sheet-section-head" data-i18n="vitality-u">Vitality</h4>
-						<div class="sheet-grid-vitality">
-							<input class="sheet-attr-input-medium sheet-edit-toggle-field" type="text" name="attr_vitality" placeholder="current" data-i18n-placeholder="current" />
-							<div class="sheet-vitality-slash">/</div>
-							<input class="sheet-attr-input-medium" type="text" name="attr_vitality_max" placeholder="max" readonly/>
-						</div>
-					</div>
-				</div>
-				<div class="sheet-section">
-					<div class="sheet-strain">
-						<h4 class="sheet-section-head" data-i18n="strain-u">Strain</h4>
-						<div class="sheet-grid-strain">
-							<input class="sheet-attr-input-medium" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current" />
-							<div class="sheet-strain-slash">/</div>
-							<input class="sheet-attr-input-medium" type="text" name="attr_strain_max" placeholder="max" readonly>
-						</div>
-					</div>
-				</div>		
-				<div class="sheet-section">
-					<div class="sheet-hp">
-						<h4 class="sheet-section-head" data-i18n="HP-u">Hit Points</h4>
-						<div class="sheet-grid-hp">
-							<input class="sheet-attr-input-medium" type="text" name="attr_hp" placeholder="current" data-i18n-placeholder="current" />
-							<div class="sheet-hp-slash">/</div>
-							<input class="sheet-attr-input-medium" type="text" name="attr_pulphp_max" placeholder="max" readonly/>
-						</div>
-					</div>
-				</div>	
-				<div class="sheet-section">
-					<div class="sheet-status">
-						<h4 class="sheet-section-head" data-i18n="status-u">Status</h4>
-						<div class="sheet-status-grid">
-							<input type="checkbox" class="sheet-checkbox" name="attr_dying" value="1" />
-							<div class="sheet-checkbox-label" data-i18n="dying-z">Dying</div>
-							<input type="checkbox" class="sheet-checkbox" name="attr_major-wound-toggle" value="1" />
-							<div class="sheet-checkbox-label" data-i18n="majorwound-z">Major Wound</div>
-						</div>
-					</div>
-				</div>					
-				<div class="sheet-section">
-					<div class="sheet-luck">
-						<h4 class="sheet-section-head" data-i18n="luck-u">Luck</h4>
-						<div class="sheet-grid-luck">
-							<div class="sheet-luck-wrapper">
-								<input class="sheet-attr-input-medium sheet-edit-toggle-field" type="text" name="attr_luck" />
-								<button class="sheet-luck-roll" type="roll" name="roll_luck_check" value="&{template:coc-1} {{name=@{luck_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{luck} + @{dice_modifier_checkbox}]]}} {{hard=[[floor((@{luck}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{luck}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
-							</div>
-						</div>
-					</div>
-				</div>				
-			</div>
+		</div>
 	</div>
 
 	<!-- Middle Section -->
@@ -1035,8 +1044,7 @@
 			</div>
 		</div>
 	
-		<!-- ------------------- Backgrounds -------------------- -->
-		
+		<!-- ------------------- Backgrounds -------------------- -->	
 		<div class="sheet-tab-content sheet-background">
 			<!-- Controls which racial section is shown -->
 			<input type="hidden" name="attr_showracials" class="sheet-tab-controller">

@@ -108,6 +108,7 @@
 /* Smaller input (e.g., points spent, AC, move) */
 .sheet-attr-input-medium {
   width: 97px;
+  height: 15px;
   min-width: 0;
   box-sizing: border-box;
   padding: 2px;
@@ -122,7 +123,7 @@
 /* Smaller input (e.g., points spent, AC, move) */
 .sheet-attr-input-small {
   width: 40px;
-  heigh: 15px;
+  height: 15px;
   min-width: 0;
   box-sizing: border-box;
   padding: 2px;
@@ -429,15 +430,67 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 .sheet-grid-characteristics {
     display: grid;
     grid-template-columns:
-        1fr 2fr 0.5fr
-        1fr 2fr 0.5fr
-        1fr 2fr;
-    width: 100%;
-    gap: 2px;
-    padding: 5px;
+		1fr 2fr   /* STR */
+		1fr 2fr   /* DEX */
+		1fr 2fr   /* POW */
+		1em
+		1fr 1fr 1em 1fr; /* VIT */
+	width: 100%;
+    gap: 0px;
+    padding: 2px;
     background: #d0cabe;
     border: none;
     box-sizing: border-box;
+}
+
+.sheet-grid-characteristics-lower {
+  display: grid;
+    grid-template-columns:
+		1fr 2fr   /* Build */
+		1fr 2fr   /* Move */
+		1fr 2fr   /* AC */
+		1em		  /* Divider */
+		1fr 2.5fr   /* Status */
+		1fr 1fr;  /* Luck */
+  gap: 0px;
+  padding: 2px;
+  width: 100%;
+  background: #d0cabe;
+  box-sizing: border-box;
+  align-items: center;
+}
+.sheet-grid-characteristics-lower .sheet-grid-inline {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 0;
+	align-items: center;
+	gap: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.sheet-grid-characteristics-lower .sheet-grid-inline label {
+	color: black;
+	font-size: 0.75em;
+}
+
+.sheet-grid-characteristics-lower .sheet-grid-inline .sheet-checkbox-label {
+	color: black;
+	font-size: 1em;
+	white-space: nowrap;
+	text-align: left;
+}
+
+.sheet-grid-characteristics-lower .sheet-grid-inline .sheet-attr-input {
+	height: 40px;
+	width: 45px;
+}
+
+.sheet-grid-characteristics-lower .sheet-vertical-divider {
+  width: 1px;
+  background-color: #666;
+  margin: 0 12px;
+  height: 45px; /* Or a fixed height like 100% or 40px */
 }
 
 /* ---------------------------- */
@@ -656,6 +709,13 @@ select[name="attr_damage_bonus"] {
 .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-mag-roll {
   display: none;
   pointer-events: none;
+}
+
+.sheet-vertical-divider {
+  width: 1px;
+  background-color: #666;
+  margin: 0 10px;
+  height: auto; /* Or a fixed height like 100% or 40px */
 }
 
 /* ------------------------------ */

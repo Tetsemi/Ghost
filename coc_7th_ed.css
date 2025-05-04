@@ -605,7 +605,8 @@ select[name="attr_damage_bonus"] {
 .sheet-edu-wrapper,
 .sheet-siz-wrapper,
 .sheet-int-wrapper,
-.sheet-mag-wrapper {
+.sheet-mag-wrapper,
+.sheet-move-wrapper {
   position: relative;
   width: 100%;
 }
@@ -620,7 +621,8 @@ select[name="attr_damage_bonus"] {
 .sheet-edu-roll,
 .sheet-siz-roll,
 .sheet-int-roll,
-.sheet-mag-roll {
+.sheet-mag-roll,
+.sheet-move-roll {
   position: absolute;
   top: 0;
   left: 0;
@@ -632,6 +634,23 @@ select[name="attr_damage_bonus"] {
   margin: 0;
   padding: 0;
   display: none;
+}
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_mov"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_mov"] {
+  pointer-events: none;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  color: #666;
+  border: 1px solid #999;
+}
+
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-move-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-move-roll {
+  display: block;
+  pointer-events: auto;
+  opacity: 0;
+  cursor: pointer;
+  border: 1px solid #999;
 }
 
 /* ------------------ */

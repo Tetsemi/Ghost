@@ -143,6 +143,16 @@
 							<input class="sheet-attr-input" type="text" name="attr_ac" readonly />
 						</div>
 						<div class="sheet-vertical-divider"></div>	
+					
+						<div class="sheet-grid-inline sheet-init-wrapper">
+							<label class="sheet-attr-label" data-i18n="initiative-u">Init</label>
+							<div class="sheet-grid-initiative">
+								<input class="sheet-attr-input" type="text" name="attr_dex" readonly />
+								<button type="roll" name="roll_initdex" value="!initdex" class="sheet-init-roll-button"></button>
+							</div>
+						</div>
+
+<!--
 						<div class="sheet-grid-inline sheet-status-wrapper">
 							<div class="sheet-status-grid">
 								<input type="checkbox" class="sheet-checkbox" name="attr_dying" value="1" />
@@ -151,6 +161,7 @@
 								<div class="sheet-checkbox-label" data-i18n="majorwound-z">M. Wound</div>
 							</div>
 						</div>
+-->
 						<div class="sheet-grid-inline sheet-luck-wrapper">
 							<label class="sheet-attr-label" data-i18n="luck-u">Luck</label>
 							<div class="sheet-grid-luck">
@@ -9112,7 +9123,17 @@ function registerStatHandler() {
                 update.damage_bonus = "5d6";
                 update.build = "+6";
             }
-
+			
+			update.mdr_dex_crit_threshold = 1;
+			update.mdr_dex_extreme_threshold = Math.floor(idex / 5);
+			update.mdr_dex_hard_threshold = Math.floor(idex / 2);
+			update.mdr_dex_normal_threshold = idex;
+			update.mdr_dex_crit_value = 4000 + idex;
+			update.mdr_dex_extreme_value = 3000 + idex;
+			update.mdr_dex_hard_value = 2000 + idex;
+			update.mdr_dex_normal_value = 1000 + idex;
+			update.mdr_dex_fail_value = idex;
+    
             if (debug_on) {
                 console.log("[Stat Calc] STR+SIZ=", siz_str_tot);
                 console.log("[Stat Calc] AC=", update.ac);

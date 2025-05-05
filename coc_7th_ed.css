@@ -449,11 +449,11 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 		1fr 2fr   /* Build */
 		1fr 2fr   /* Move */
 		1fr 2fr   /* AC */
-		1em		  /* Divider */
-		1fr 2.5fr   /* Status */
-		1fr 1fr;  /* Luck */
+		0.5em		  /* Divider */
+		1fr 2fr   /* Init */
+		1fr 2fr;  /* Luck */
   gap: 0px;
-  padding: 2px;
+  padding: 2px 0px;
   width: 100%;
   background: #d0cabe;
   box-sizing: border-box;
@@ -471,7 +471,9 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 
 .sheet-grid-characteristics-lower .sheet-grid-inline label {
 	color: black;
-	font-size: 0.75em;
+	font-size: 0.97em;
+	padding: 0 4px;
+	gap: 0px;
 }
 
 .sheet-grid-characteristics-lower .sheet-grid-inline .sheet-checkbox-label {
@@ -489,8 +491,8 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 .sheet-grid-characteristics-lower .sheet-vertical-divider {
   width: 1px;
   background-color: #666;
-  margin: 0 12px;
-  height: 45px; /* Or a fixed height like 100% or 40px */
+  margin: 0px 0px 0px 10px;
+  height: 40px; /* Or a fixed height like 100% or 40px */
 }
 
 /* ---------------------------- */
@@ -572,32 +574,6 @@ select[name="attr_damage_bonus"] {
   text-align: center;
   border: 1px solid #999;
   color: black;
-}
-
-.sheet-grid-characteristics-lower .sheet-initiative-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.sheet-grid-characteristics-lower .sheet-initiative-wrapper .sheet-attr-label {
-  font-weight: bold;
-  color: black;
-  white-space: nowrap;
-  padding-right: 6px;
-}
-
-.sheet-grid-characteristics-lower .sheet-grid-initiative {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.sheet-grid-characteristics-lower .sheet-initiative-roll {
-  height: 24px;
-  width: 24px;
-/*  background: url('https://s3.amazonaws.com/files.d20.io/images/237103365/YOUR_DICE_ICON_URL.png') no-repeat center center; */
-  background-size: contain;
-  border: none;
 }
 
 /* ------------------------------ */
@@ -803,8 +779,8 @@ select[name="attr_damage_bonus"] {
 .sheet-top-5col > .sheet-section:nth-child(1) { flex: 0 0 25%; }    /* Vitality */
 .sheet-top-5col > .sheet-section:nth-child(2) { flex: 0 0 25%; }    /* Strain */
 .sheet-top-5col > .sheet-section:nth-child(3) { flex: 0 0 25%; }    /* Hit Points */
-.sheet-top-5col > .sheet-section:nth-child(4) { flex: 0 0 14%; }    /* Status */
-.sheet-top-5col > .sheet-section:nth-child(5) { flex: 0 0 11%; }    /* Luck */
+.sheet-top-5col > .sheet-section:nth-child(4) { flex: 0 0 12%; }    /* Status */
+.sheet-top-5col > .sheet-section:nth-child(5) { flex: 0 0 13%; }    /* Luck */
 
 .sheet-top-5col > .sheet-section {
 	border: 1px solid black;
@@ -852,7 +828,8 @@ select[name="attr_damage_bonus"] {
 
 
 /* ------------------- Luck --------------------------------- */
-.sheet-grid-luck {
+.sheet-grid-luck,
+.sheet-grid-initiative {
 	display: grid;
 	align-items: center;
 	justify-content: center;

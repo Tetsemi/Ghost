@@ -1311,35 +1311,38 @@ input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .she
 /* Table styling for racial talents and backgrounds */
 
 .sheet-talent-grid {
-  display: flex;
-  flex-direction: column;
+  display: block;
   width: 100%;
-  margin-top: 5px;
-  border-collapse: collapse;
   border: 1px solid black;
+  margin-top: 5px;
+  box-sizing: border-box;
 }
 
 /* Header row styles */
 .sheet-talent-header-row {
   display: grid;
-  grid-template-columns: 5% 40% 50% 5%;
+  grid-template-columns:  30px 1fr 2fr 40px;
   background-color: #444;
   color: white;
   font-weight: bold;
   text-align: left;
-  padding: 4px 0;
+  padding: 0;
+  margin: 0;
   border-bottom: 1px solid black;
   font-size: 100%;
+  box-sizing: border-box;
 }
 
 /* Data rows */
 .sheet-talent-row {
   display: grid;
-  grid-template-columns: 5% 40% 50% 5%;
-  align-items: center;
+  grid-template-columns: 30px 1fr 2fr 40px;
+  align-items: left;
   padding: 0px 0;
+  margin: 0;
   border-bottom: 1px solid #ccc;
   font-size: 100%;
+  box-sizing: border-box;
 }
 
 /* Cell formatting for consistent alignment */
@@ -1347,45 +1350,46 @@ input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .she
 .sheet-talent-row .col-val {
   text-align: center;
 }
-
-/* Constrain input size in Val column */
-.skill-input-small {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  text-align: center;
-  padding: 2px;
-}
-
-
-/* Optional: Center talent section headers */
-.talent-center {
-  text-align: center;
-}
-
-.skill-tooltip {
-  font-size: 0.75em;
-  color: #666;
-  background: transparent;
-  border: none;
-  pointer-events: none;
-}
-
-.skill-label {
-  border: none;
-  background: transparent;
-  font-weight: bold;
-  pointer-events: auto;
-  cursor: help;
-}
-
-input.tooltip-field {
-  width: 0;
+.col-val {
+  width: 40px;
+  height: 100%;
   padding: 0;
   margin: 0;
-  border: none;
-  background: transparent;
-  color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Constrain input size in Val column */
+.col-val input {
+  width: 30px;            /* slightly less to account for padding/borders */
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 2px;
+  margin: 0;
+  height: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 0.85em;
+}
+
+.col-desc {
+  width: 200px;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.col-benefit {
+  width: 50px;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  box-sizing: border-box;
 }
 
 /* -------------------- end of Background and Talent ------------------------*/

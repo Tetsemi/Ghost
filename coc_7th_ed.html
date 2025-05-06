@@ -2617,285 +2617,287 @@
 			</div>
 		</div>
 		
-		<!-- Spells -->
-		<div class="sheet-tab-content sheet-spells">
-			<h4 class="section-head" data-i18n="spells-u">Spells</h4>
-			<!-- Prep Spell Cost / Arcane Capacity Tracker -->
+	<!-- Spells -->
+	<div class="sheet-tab-content sheet-spells">
+		<h4 class="section-head" data-i18n="spells-u">Spells</h4>
+		<!-- Prep Spell Cost / Arcane Capacity Tracker -->
+		<div class="sheet-section">
+			<div class="sheet-spell-tracker">
+				<div class="sheet-spell-tracker-header">Prep Spell Cost / Arcane Capacity</div>
+				<div class="sheet-spell-tracker-box">
+					<input type="hidden" class="sheet-overflow-mirror" name="attr_spellcost_overflow" />
+					<input type="text" name="attr_total_spellcost" class="spell-cost-input sheet-overflow-sensitive" placeholder="0">
+					<span class="slash-divider">/</span>
+					<input type="text" name="attr_ac" class="spell-capacity-input" placeholder="60">
+				</div>
+			</div>
+			<hr/>
+
+			<!-- Repeating Spells Block -->
+			<fieldset class="repeating_spells">
+				<div class="sheet-spell-row-wrapper">
+					<!-- Left Column -->
+					<div class="sheet-spell-info-left">
+						<div class="sheet-spell-meta-row">
+							<div class="sheet-spell-label" data-i18n="spellname-u">Spell Name</div>
+							<input class="sheet-wide-input" type="text" name="attr_spellname" />
+						</div>
+						<div class="sheet-spell-meta-row">
+							<div class="sheet-spell-label" data-i18n="cost-u">Cost</div>
+							<input class="sheet-wide-input" type="text" name="attr_spellcost" />
+						</div>
+						<div class="sheet-spell-meta-row">
+							<div class="sheet-spell-label" data-i18n="castime-u">Casting Time</div>
+							<input class="sheet-wide-input" type="text" name="attr_spellcastime" />
+						</div>
+						<div class="sheet-spell-meta-row">
+							<div class="sheet-spell-label" data-i18n="prepared-u">Prepared</div>
+							<input type="hidden" class="sheet-prepared-mirror" name="attr_spellprepared_mirror" />
+							<select name="attr_spellprepared" class="sheet-prepared-toggle">
+								<option value="0" selected>Off</option>
+								<option value="1">On</option>
+							</select>
+						</div>
+					</div>
+					<!-- Right Column -->
+					<div class="sheet-spell-info-right">
+						<div class="sheet-spell-label" data-i18n="description-u">Description</div>
+						<textarea name="attr_spelldescription" class="sheet-spell-textarea"></textarea>
+					</div>
+				</div>
+				<hr />
+			</fieldset>
+		</div>
+	</div>
+		
+	<!-- ------------------------- Gear and Possessions ------------------------- -->
+	<div class="sheet-tab-content sheet-inventory">
+		<div class="sheet-2colrow">
+			<!-- Gear & Possessions Column -->
+			<div class="sheet-col">
+				<h4 class="section-head" data-i18n="gearandpossessions-u">Gear and Possessions</h4>
+				<div class="sheet-section sheet-gear-flex">
+					<textarea name="attr_gear_and_posessions" class="sheet-gear-textarea"></textarea>
+					<textarea name="attr_gear_and_posessions1" class="sheet-gear-textarea"></textarea>
+				</div>
+			</div>
+
+			<!-- Cash & Assets Column -->
+			<div class="sheet-col">
+				<h4 class="section-head" data-i18n="cashandassets-u">Cash and Assets</h4>
+				<div class="sheet-section sheet-cash-grid">
+					<div class="sheet-cash-row">
+						<div class="sheet-cash-label" data-i18n="spendinglevel-u">Spending Level</div>
+						<input type="text" name="attr_spending_level" class="sheet-wide-input" />
+					</div>
+					<div class="sheet-cash-row">
+						<div class="sheet-cash-label" data-i18n="cash-u">Cash</div>
+						<input type="text" name="attr_cash" class="sheet-wide-input" />
+					</div>
+					<div class="sheet-cash-row">
+						<div class="sheet-cash-label" data-i18n="assets-u">Assets</div>
+						<textarea name="attr_assets" class="sheet-gear-textarea"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		
+	<!-- ------------------------- Backstory ------------------------- -->
+	<div class="sheet-tab-content sheet-backstory">
+		<h4 class="section-head" data-i18n="backstory-u">Backstory</h4>
+			<div class="sheet-section sheet-backstory-grid">
+				<!-- Column 1 -->
+				<div class="sheet-backstory-col">
+				<div class="sheet-backstory-label" data-i18n="Personal Description">Personal Description</div>
+				<textarea name="attr_personal_description" class="sheet-backstory-textarea"></textarea>
+				<div class="sheet-backstory-label" data-i18n="Ideology/Beliefs">Ideology/Beliefs</div>
+				<textarea name="attr_ideaology_beliefs" class="sheet-backstory-textarea"></textarea>
+				<div class="sheet-backstory-label" data-i18n="Significant People">Significant People</div>
+				<textarea name="attr_significant_people" class="sheet-backstory-textarea"></textarea>
+				<div class="sheet-backstory-label" data-i18n="Meaningful Locations">Meaningful Locations</div>
+				<textarea name="attr_meaningful_locations" class="sheet-backstory-textarea"></textarea>
+				<div class="sheet-backstory-label" data-i18n="Treasured Possessions">Treasured Possessions</div>
+				<textarea name="attr_treasured_posessions" class="sheet-backstory-textarea"></textarea>
+			</div>
+			<!-- Column 2 -->
+			<div class="sheet-backstory-col">
+				<div class="sheet-backstory-label" data-i18n="Traits">Traits</div>
+				<textarea name="attr_traits" class="sheet-backstory-textarea"></textarea>
+				<div class="sheet-backstory-label" data-i18n="Injuries & Scars">Injuries & Scars</div>
+				<textarea name="attr_injuries_scars" class="sheet-backstory-textarea"></textarea>
+				<div class="sheet-backstory-label" data-i18n="Phobias/Manias">Phobias/Manias</div>
+				<textarea name="attr_phobias_manias" class="sheet-backstory-textarea"></textarea>
+				<div class="sheet-backstory-label" data-i18n="Tomes, Spells and Artifacts">Tomes, Spells and Artifacts</div>
+				<textarea name="attr_tomes_spells_artifacts" class="sheet-backstory-textarea"></textarea>
+				<div class="sheet-backstory-label" data-i18n="Encounters with Strange Entities-z">Encounters with Strange Entities</div>
+				<textarea name="attr_encounters_with_strange_entities" class="sheet-backstory-textarea"></textarea>
+			</div>
+		</div>
+	</div>
+
+		
+	<!-- NPC Companions (Converted to Grid/Flex Layout) -->
+	<div class="sheet-tab-content sheet-npcs">
+		<input type="checkbox" class="sheet-togglecompanions" style="display:none" name="attr_togglecompanions" value="1" />
+		<div class="sheet-companions">
+			<h4 class="section-head" data-i18n="companions&mounts-u">NPCs</h4>
 			<div class="sheet-section">
-<div class="sheet-spell-tracker">
-  <div class="sheet-spell-tracker-header">Prep Spell Cost / Arcane Capacity</div>
-  <div class="sheet-spell-tracker-box">
-    <input type="hidden" class="sheet-overflow-mirror" name="attr_spellcost_overflow" />
-    <input type="text" name="attr_total_spellcost" class="spell-cost-input sheet-overflow-sensitive" placeholder="0">
-    <span class="slash-divider">/</span>
-    <input type="text" name="attr_ac" class="spell-capacity-input" placeholder="60">
-  </div>
-</div>
-<hr/>
+				<fieldset class="repeating_minion">
+					<div class="sheet-npcblock-flex">
+						<!-- Left Column -->
+						<div class="sheet-npc-content-left">
+							<div class="sheet-npc-grid">
+								<div class="sheet-npc-row">
+									<div class="sheet-npc-label" data-i18n="name-u">Name</div>
+										<div class="sheet-npc-val">
+											<input type="text" name="attr_minion_name" class="sheet-wide-input" placeholder="Name" />
+										</div>
+									</div>
+									<div class="sheet-npc-row">
+										<div class="sheet-npc-label" data-i18n="san-u">SAN</div>
+										<div class="sheet-npc-val">
+											<input type="text" name="attr_minion_san_roll" class="sheet-wide-input" placeholder="SAN" />
+											<button type="roll" class="smallbutton-roll" name="roll_minion_san_roll_check" value="&{template:coc-1} {{name=@{minion_name} Rolling SAN}} {{success=[[@{minion_san_roll}]]}} {{hard=[[floor(@{minion_san_roll}/2)]]}} {{extreme=[[floor(@{minion_san_roll}/5)]]}} {{roll1=[[1d100]]}}"></button>
+										</div>
+									</div>
+									<div class="sheet-npc-row">
+										<div class="sheet-npc-label" data-i18n="generalinfo-u">General Info</div>
+										<div class="sheet-npc-val">
+											<textarea name="attr_minion_stats_info" class="sheet-npc-textarea" placeholder="General Info"></textarea>
+										</div>
+									</div>
+									<div class="sheet-npc-row">
+										<div class="sheet-npc-label">HP / Strain</div>
+										<div class="sheet-npc-val">
+											<input type="text" name="attr_minionhp" class="sheet-narrow-input" placeholder="HP" /> /
+											<input type="text" name="attr_minionmp" class="sheet-narrow-input" placeholder="Strain" />
+										</div>
+									</div>
+									<div class="sheet-npc-row">
+										<div class="sheet-npc-label">MOV</div>
+										<div class="sheet-npc-val">
+											<input type="text" name="attr_minionmove" class="sheet-wide-input" placeholder="Movement" />
+										</div>
+									</div>
+									<div class="sheet-npc-row">
+										<div class="sheet-npc-label">B / DB</div>
+										<div class="sheet-npc-val">
+											<input type="text" name="attr_minionbuild" class="sheet-narrow-input" placeholder="Build" /> /
+											<input type="text" name="attr_miniondb" class="sheet-narrow-input" placeholder="DB" />
+										</div>
+									</div>
+									<div class="sheet-npc-row">
+										<div class="sheet-npc-label" data-i18n="armor-z">Armor</div>
+										<div class="sheet-npc-val">
+											<input type="text" name="attr_minionarmorname" class="sheet-wide-input" placeholder="Armor Name" />
+											<input type="text" name="attr_minionarmor" class="sheet-narrow-input" placeholder="Def" />
+											<button type="roll" class="smallnonskillbutton-roll" name="roll_minionarmor" value="&{template:coc-miniondef} {{name=@{minion_name} @{minionarmorname}}} {{defence=[[@{minionarmor}]]}}"></button>
+										</div>
+									</div>
+								</div>
 
-				<!-- Repeating Spells Block -->
-				<fieldset class="repeating_spells">
-<div class="sheet-spell-row-wrapper">
-  <!-- Left Column -->
-  <div class="sheet-spell-info-left">
-<div class="sheet-spell-meta-row">
-  <div class="sheet-spell-label" data-i18n="spellname-u">Spell Name</div>
-  <input class="sheet-wide-input" type="text" name="attr_spellname" />
-</div>
-<div class="sheet-spell-meta-row">
-  <div class="sheet-spell-label" data-i18n="cost-u">Cost</div>
-  <input class="sheet-wide-input" type="text" name="attr_spellcost" />
-</div>
-<div class="sheet-spell-meta-row">
-  <div class="sheet-spell-label" data-i18n="castime-u">Casting Time</div>
-  <input class="sheet-wide-input" type="text" name="attr_spellcastime" />
-</div>
-<div class="sheet-spell-meta-row">
-  <div class="sheet-spell-label" data-i18n="prepared-u">Prepared</div>
-  <input type="hidden" class="sheet-prepared-mirror" name="attr_spellprepared_mirror" />
-  <select name="attr_spellprepared" class="sheet-prepared-toggle">
-    <option value="0" selected>Off</option>
-    <option value="1">On</option>
-  </select>
-</div>
-
-  </div>
-
-  <!-- Right Column -->
-  <div class="sheet-spell-info-right">
-    <div class="sheet-spell-label" data-i18n="description-u">Description</div>
-    <textarea name="attr_spelldescription" class="sheet-spell-textarea"></textarea>
-  </div>
-</div>
-
+							<!-- Attributes Section -->
+							<div class="sheet-npc-header-row">
+								<div class="sheet-npc-label">Attributes</div>
+								<div class="sheet-npc-val">&nbsp;</div>
+							</div>
+							<div class="sheet-npc-row">
+								<div class="sheet-npc-val">
+									<div class="sheet-npc-attr-label">STR</div>
+									<input type="text" name="attr_minionattr1" class="sheet-narrow-input" />
+									<button type="roll" class="smallbutton-roll" name="roll_minionattr1_check" value="&{template:coc-1} {{name=@{minion_name} rolling STR}} {{success=[[@{minionattr1}]]}} {{hard=[[floor(@{minionattr1}/2)]]}} {{extreme=[[floor(@{minionattr1}/5)]]}} {{roll1=[[1d100]]}}"></button>
+								</div>
+							</div>
+							<div class="sheet-npc-row">
+								<div class="sheet-npc-val">
+									<div class="sheet-npc-attr-label">CON</div>
+									<input type="text" name="attr_minionattr2" class="sheet-narrow-input" />
+									<button type="roll" class="smallbutton-roll" name="roll_minionattr2_check" value="&{template:coc-1} {{name=@{minion_name} rolling CON}} {{success=[[@{minionattr2}]]}} {{hard=[[floor(@{minionattr2}/2)]]}} {{extreme=[[floor(@{minionattr2}/5)]]}} {{roll1=[[1d100]]}}"></button>
+								</div>
+							</div>
+							<div class="sheet-npc-row">
+								<div class="sheet-npc-val">
+									<div class="sheet-npc-attr-label">SIZ</div>
+									<input type="text" name="attr_minionattr3" class="sheet-narrow-input" />
+									<button type="roll" class="smallbutton-roll" name="roll_minionattr3_check" value="&{template:coc-1} {{name=@{minion_name} rolling SIZ}} {{success=[[@{minionattr3}]]}} {{hard=[[floor(@{minionattr3}/2)]]}} {{extreme=[[floor(@{minionattr3}/5)]]}} {{roll1=[[1d100]]}}"></button>
+								</div>
+							</div>
+							<div class="sheet-npc-row">
+								<div class="sheet-npc-val">
+									<div class="sheet-npc-attr-label">APP</div>
+									<input type="text" name="attr_minionattr4" class="sheet-narrow-input" />
+									<button type="roll" class="smallbutton-roll" name="roll_minionattr4_check" value="&{template:coc-1} {{name=@{minion_name} rolling APP}} {{success=[[@{minionattr4}]]}} {{hard=[[floor(@{minionattr4}/2)]]}} {{extreme=[[floor(@{minionattr4}/5)]]}} {{roll1=[[1d100]]}}"></button>
+								</div>
+							</div>
+							<div class="sheet-npc-row">
+								<div class="sheet-npc-val">
+									<div class="sheet-npc-attr-label">DEX</div>
+									<input type="text" name="attr_minionattr5" class="sheet-narrow-input" />
+									<button type="roll" class="smallbutton-roll" name="roll_minionattr5_check" value="&{template:coc-1} {{name=@{minion_name} rolling DEX}} {{success=[[@{minionattr5}]]}} {{hard=[[floor(@{minionattr5}/2)]]}} {{extreme=[[floor(@{minionattr5}/5)]]}} {{roll1=[[1d100]]}}"></button>
+								</div>
+							</div>
+							<div class="sheet-npc-row">
+								<div class="sheet-npc-val">
+									<div class="sheet-npc-attr-label">INT</div>
+									<input type="text" name="attr_minionattr6" class="sheet-narrow-input" />
+									<button type="roll" class="smallbutton-roll" name="roll_minionattr6_check" value="&{template:coc-1} {{name=@{minion_name} rolling INT}} {{success=[[@{minionattr6}]]}} {{hard=[[floor(@{minionattr6}/2)]]}} {{extreme=[[floor(@{minionattr6}/5)]]}} {{roll1=[[1d100]]}}"></button>
+								</div>
+							</div>
+							<div class="sheet-npc-row">
+								<div class="sheet-npc-val">
+									<div class="sheet-npc-attr-label">POW</div>
+									<input type="text" name="attr_minionattr7" class="sheet-narrow-input" />
+									<button type="roll" class="smallbutton-roll" name="roll_minionattr7_check" value="&{template:coc-1} {{name=@{minion_name} rolling POW}} {{success=[[@{minionattr7}]]}} {{hard=[[floor(@{minionattr7}/2)]]}} {{extreme=[[floor(@{minionattr7}/5)]]}} {{roll1=[[1d100]]}}"></button>
+								</div>
+							</div>
+							<div class="sheet-npc-row">
+								<div class="sheet-npc-val">
+									<div class="sheet-npc-attr-label">EDU</div>
+									<input type="text" name="attr_minionattr8" class="sheet-narrow-input" />
+									<button type="roll" class="smallbutton-roll" name="roll_minionattr8_check" value="&{template:coc-1} {{name=@{minion_name} rolling EDU}} {{success=[[@{minionattr8}]]}} {{hard=[[floor(@{minionattr8}/2)]]}} {{extreme=[[floor(@{minionattr8}/5)]]}} {{roll1=[[1d100]]}}"></button>
+								</div>
+							</div>
+						</div>
+						<!-- Right Column: Weapons -->
+						<div class="sheet-npc-content-right">
+							<div class="sheet-npc-grid">
+								<div class="sheet-npc-header-row">
+									<div class="sheet-npc-label">Weapons</div>
+									<div class="sheet-npc-val">&nbsp;</div>
+								</div>
+								<div class="sheet-npc-row">
+									<div class="sheet-npc-val">
+										<input type="text" name="attr_minionweapon1" class="sheet-wide-input" placeholder="Weapon 1 (Skill 6)" />
+										<input type="text" name="attr_miniondamage1" class="sheet-narrow-input" placeholder="Dam+DB" />
+										<button type="roll" class="smallbutton-roll" name="roll_miniondamage1" value="&{template:coc-minionattack} {{name=@{minion_name} attacking with @{minionweapon1}}} {{success=[[@{minionskill6}]]}} {{hard=[[floor(@{minionskill6}/2)]]}} {{extreme=[[floor(@{minionskill6}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{miniondamage1}]]}}"></button>
+									</div>
+								</div>
+								<div class="sheet-npc-row">
+									<div class="sheet-npc-val">
+										<input type="text" name="attr_minionweapon2" class="sheet-wide-input" placeholder="Weapon 2 (Skill 7)" />
+										<input type="text" name="attr_miniondamage2" class="sheet-narrow-input" placeholder="Dam+DB" />
+										<button type="roll" class="smallbutton-roll" name="roll_miniondamage2" value="&{template:coc-minionattack} {{name=@{minion_name} attacking with @{minionweapon2}}} {{success=[[@{minionskill7}]]}} {{hard=[[floor(@{minionskill7}/2)]]}} {{extreme=[[floor(@{minionskill7}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{miniondamage2}]]}}"></button>
+									</div>
+								</div>
+								<div class="sheet-npc-row">
+									<div class="sheet-npc-val">
+										<input type="text" name="attr_minionweapon3" class="sheet-wide-input" placeholder="Weapon 3 (Skill 8)" />
+										<input type="text" name="attr_miniondamage3" class="sheet-narrow-input" placeholder="Dam+DB" />
+										<button type="roll" class="smallbutton-roll" name="roll_miniondamage3" value="&{template:coc-minionattack} {{name=@{minion_name} attacking with @{minionweapon3}}} {{success=[[@{minionskill8}]]}} {{hard=[[floor(@{minionskill8}/2)]]}} {{extreme=[[floor(@{minionskill8}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{miniondamage3}]]}}"></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<hr />
 				</fieldset>
 			</div>
 		</div>
-		
-<!-- ------------------------- Gear and Possessions ------------------------- -->
-<div class="sheet-tab-content sheet-inventory">
-  <div class="sheet-2colrow">
-    <!-- Gear & Possessions Column -->
-    <div class="sheet-col">
-      <h4 class="section-head" data-i18n="gearandpossessions-u">Gear and Possessions</h4>
-<div class="sheet-section sheet-gear-flex">
-  <textarea name="attr_gear_and_posessions" class="sheet-gear-textarea"></textarea>
-  <textarea name="attr_gear_and_posessions1" class="sheet-gear-textarea"></textarea>
-</div>
-    </div>
+	</div>
 
-    <!-- Cash & Assets Column -->
-    <div class="sheet-col">
-      <h4 class="section-head" data-i18n="cashandassets-u">Cash and Assets</h4>
-      <div class="sheet-section sheet-cash-grid">
-        <div class="sheet-cash-row">
-          <div class="sheet-cash-label" data-i18n="spendinglevel-u">Spending Level</div>
-          <input type="text" name="attr_spending_level" class="sheet-wide-input" />
-        </div>
-        <div class="sheet-cash-row">
-          <div class="sheet-cash-label" data-i18n="cash-u">Cash</div>
-          <input type="text" name="attr_cash" class="sheet-wide-input" />
-        </div>
-        <div class="sheet-cash-row">
-          <div class="sheet-cash-label" data-i18n="assets-u">Assets</div>
-          <textarea name="attr_assets" class="sheet-gear-textarea"></textarea>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-		
-		<!-- ------------------------- Backstory ------------------------- -->
-<!-- ------------------------- Backstory ------------------------- -->
-<div class="sheet-tab-content sheet-backstory">
-  <h4 class="section-head" data-i18n="backstory-u">Backstory</h4>
-  <div class="sheet-section sheet-backstory-grid">
-    <!-- Column 1 -->
-    <div class="sheet-backstory-col">
-      <div class="sheet-backstory-label" data-i18n="Personal Description">Personal Description</div>
-      <textarea name="attr_personal_description" class="sheet-backstory-textarea"></textarea>
-      <div class="sheet-backstory-label" data-i18n="Ideology/Beliefs">Ideology/Beliefs</div>
-      <textarea name="attr_ideaology_beliefs" class="sheet-backstory-textarea"></textarea>
-      <div class="sheet-backstory-label" data-i18n="Significant People">Significant People</div>
-      <textarea name="attr_significant_people" class="sheet-backstory-textarea"></textarea>
-      <div class="sheet-backstory-label" data-i18n="Meaningful Locations">Meaningful Locations</div>
-      <textarea name="attr_meaningful_locations" class="sheet-backstory-textarea"></textarea>
-      <div class="sheet-backstory-label" data-i18n="Treasured Possessions">Treasured Possessions</div>
-      <textarea name="attr_treasured_posessions" class="sheet-backstory-textarea"></textarea>
-    </div>
-
-    <!-- Column 2 -->
-    <div class="sheet-backstory-col">
-      <div class="sheet-backstory-label" data-i18n="Traits">Traits</div>
-      <textarea name="attr_traits" class="sheet-backstory-textarea"></textarea>
-      <div class="sheet-backstory-label" data-i18n="Injuries & Scars">Injuries & Scars</div>
-      <textarea name="attr_injuries_scars" class="sheet-backstory-textarea"></textarea>
-      <div class="sheet-backstory-label" data-i18n="Phobias/Manias">Phobias/Manias</div>
-      <textarea name="attr_phobias_manias" class="sheet-backstory-textarea"></textarea>
-      <div class="sheet-backstory-label" data-i18n="Tomes, Spells and Artifacts">Tomes, Spells and Artifacts</div>
-      <textarea name="attr_tomes_spells_artifacts" class="sheet-backstory-textarea"></textarea>
-      <div class="sheet-backstory-label" data-i18n="Encounters with Strange Entities-z">Encounters with Strange Entities</div>
-      <textarea name="attr_encounters_with_strange_entities" class="sheet-backstory-textarea"></textarea>
-    </div>
-  </div>
-</div>
-
-		
-<!-- NPC Companions (Converted to Grid/Flex Layout) -->
-<div class="sheet-tab-content sheet-npcs">
-  <input type="checkbox" class="sheet-togglecompanions" style="display:none" name="attr_togglecompanions" value="1">
-  <div class="sheet-companions">
-    <h4 class="section-head" data-i18n="companions&mounts-u">NPCs</h4>
-    <div class="sheet-section">
-      <fieldset class="repeating_minion">
-        <div class="sheet-bgblock-flex">
-          <!-- Left Column: Identity, Stats, Attributes, Skills -->
-          <div class="sheet-bg-content-left">
-            <div class="sheet-talent-grid">
-              <div class="sheet-talent-header-row">
-                <div class="col-benefit" data-i18n="name-u">Name</div>
-                <div class="col-val">
-                  <input type="text" name="attr_minion_name" class="sheet-wide-input" placeholder="Name" />
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-benefit" data-i18n="san-u">SAN</div>
-                <div class="col-val">
-                  <input type="text" name="attr_minion_san_roll" class="sheet-wide-input" placeholder="SAN" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minion_san_roll_check" value="&{template:coc-1} {{name=@{minion_name} Rolling SAN}} {{success=[[@{minion_san_roll}]]}} {{hard=[[floor(@{minion_san_roll}/2)]]}} {{extreme=[[floor(@{minion_san_roll}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-benefit" data-i18n="generalinfo-u">General Info</div>
-                <div class="col-val">
-                  <textarea name="attr_minion_stats_info" class="sheet-spell-textarea" placeholder="General Info"></textarea>
-                </div>
-              </div>
-              <!-- Health & Movement -->
-              <div class="sheet-talent-row">
-                <div class="col-benefit">HP / Strain</div>
-                <div class="col-val">
-                  <input type="text" name="attr_minionhp" class="sheet-narrow-input" placeholder="HP" /> / 
-                  <input type="text" name="attr_minionmp" class="sheet-narrow-input" placeholder="Strain" />
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-benefit">MOV</div>
-                <div class="col-val">
-                  <input type="text" name="attr_minionmove" class="sheet-wide-input" placeholder="Movement" />
-                </div>
-              </div>
-              <!-- Build / DB -->
-              <div class="sheet-talent-row">
-                <div class="col-benefit">B / DB</div>
-                <div class="col-val">
-                  <input type="text" name="attr_minionbuild" class="sheet-narrow-input" placeholder="Build" /> / 
-                  <input type="text" name="attr_miniondb" class="sheet-narrow-input" placeholder="DB" />
-                </div>
-              </div>
-              <!-- Armor -->
-              <div class="sheet-talent-row">
-                <div class="col-benefit" data-i18n="armor-z">Armor</div>
-                <div class="col-val">
-                  <input type="text" name="attr_minionarmorname" class="sheet-wide-input" placeholder="Armor Name" />
-                  <input type="text" name="attr_minionarmor" class="sheet-narrow-input" placeholder="Def" />
-                  <button type="roll" class="smallnonskillbutton-roll" name="roll_minionarmor" value="&{template:coc-miniondef} {{name=@{minion_name} @{minionarmorname}}} {{defence=[[@{minionarmor}]]}}"></button>
-                </div>
-              </div>
-              <!-- Attributes (STR to EDU) -->
-              <div class="sheet-talent-header-row">
-                <div class="col-benefit">Attributes</div>
-                <div class="col-val">&nbsp;</div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  STR <input type="text" name="attr_minionattr1" class="sheet-narrow-input" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minionattr1_check" value="&{template:coc-1} {{name=@{minion_name} rolling STR}} {{success=[[@{minionattr1}]]}} {{hard=[[floor(@{minionattr1}/2)]]}} {{extreme=[[floor(@{minionattr1}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  CON <input type="text" name="attr_minionattr2" class="sheet-narrow-input" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minionattr2_check" value="&{template:coc-1} {{name=@{minion_name} rolling CON}} {{success=[[@{minionattr2}]]}} {{hard=[[floor(@{minionattr2}/2)]]}} {{extreme=[[floor(@{minionattr2}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  SIZ <input type="text" name="attr_minionattr3" class="sheet-narrow-input" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minionattr3_check" value="&{template:coc-1} {{name=@{minion_name} rolling SIZ}} {{success=[[@{minionattr3}]]}} {{hard=[[floor(@{minionattr3}/2)]]}} {{extreme=[[floor(@{minionattr3}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  APP <input type="text" name="attr_minionattr4" class="sheet-narrow-input" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minionattr4_check" value="&{template:coc-1} {{name=@{minion_name} rolling APP}} {{success=[[@{minionattr4}]]}} {{hard=[[floor(@{minionattr4}/2)]]}} {{extreme=[[floor(@{minionattr4}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  DEX <input type="text" name="attr_minionattr5" class="sheet-narrow-input" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minionattr5_check" value="&{template:coc-1} {{name=@{minion_name} rolling DEX}} {{success=[[@{minionattr5}]]}} {{hard=[[floor(@{minionattr5}/2)]]}} {{extreme=[[floor(@{minionattr5}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  INT <input type="text" name="attr_minionattr6" class="sheet-narrow-input" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minionattr6_check" value="&{template:coc-1} {{name=@{minion_name} rolling INT}} {{success=[[@{minionattr6}]]}} {{hard=[[floor(@{minionattr6}/2)]]}} {{extreme=[[floor(@{minionattr6}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  POW <input type="text" name="attr_minionattr7" class="sheet-narrow-input" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minionattr7_check" value="&{template:coc-1} {{name=@{minion_name} rolling POW}} {{success=[[@{minionattr7}]]}} {{hard=[[floor(@{minionattr7}/2)]]}} {{extreme=[[floor(@{minionattr7}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  EDU <input type="text" name="attr_minionattr8" class="sheet-narrow-input" />
-                  <button type="roll" class="smallbutton-roll" name="roll_minionattr8_check" value="&{template:coc-1} {{name=@{minion_name} rolling EDU}} {{success=[[@{minionattr8}]]}} {{hard=[[floor(@{minionattr8}/2)]]}} {{extreme=[[floor(@{minionattr8}/5)]]}} {{roll1=[[1d100]]}}"></button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Column: Weapons -->
-          <div class="sheet-bg-content-right">
-            <div class="sheet-talent-grid">
-              <div class="sheet-talent-header-row">
-                <div class="col-benefit">Weapons</div>
-                <div class="col-val">&nbsp;</div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  <input type="text" name="attr_minionweapon1" class="sheet-wide-input" placeholder="Weapon 1 (Skill 6)" />
-                  <input type="text" name="attr_miniondamage1" class="sheet-narrow-input" placeholder="Dam+DB" />
-                  <button type="roll" class="smallbutton-roll" name="roll_miniondamage1" value="&{template:coc-minionattack} {{name=@{minion_name} attacking with @{minionweapon1}}} {{success=[[@{minionskill6}]]}} {{hard=[[floor(@{minionskill6}/2)]]}} {{extreme=[[floor(@{minionskill6}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{miniondamage1}]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  <input type="text" name="attr_minionweapon2" class="sheet-wide-input" placeholder="Weapon 2 (Skill 7)" />
-                  <input type="text" name="attr_miniondamage2" class="sheet-narrow-input" placeholder="Dam+DB" />
-                  <button type="roll" class="smallbutton-roll" name="roll_miniondamage2" value="&{template:coc-minionattack} {{name=@{minion_name} attacking with @{minionweapon2}}} {{success=[[@{minionskill7}]]}} {{hard=[[floor(@{minionskill7}/2)]]}} {{extreme=[[floor(@{minionskill7}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{miniondamage2}]]}}"></button>
-                </div>
-              </div>
-              <div class="sheet-talent-row">
-                <div class="col-val">
-                  <input type="text" name="attr_minionweapon3" class="sheet-wide-input" placeholder="Weapon 3 (Skill 8)" />
-                  <input type="text" name="attr_miniondamage3" class="sheet-narrow-input" placeholder="Dam+DB" />
-                  <button type="roll" class="smallbutton-roll" name="roll_miniondamage3" value="&{template:coc-minionattack} {{name=@{minion_name} attacking with @{minionweapon3}}} {{success=[[@{minionskill8}]]}} {{hard=[[floor(@{minionskill8}/2)]]}} {{extreme=[[floor(@{minionskill8}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{miniondamage3}]]}}"></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-      </fieldset>
-    </div>
-  </div>
-</div>
 		
 		<!-- Vehicles -->
 		<div class="sheet-tab-content sheet-vehicles">

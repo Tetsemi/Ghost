@@ -2145,37 +2145,45 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   border: 1px solid #666;
   box-sizing: border-box;
 }
-/* ------------------------- NPC's --------------------------------------*/
+
 /* ------------------ NPC Section Scoped Styles ------------------ */
-.sheet-companions .sheet-npc-block {
+/* ------------------ NPC Section Scoped Styles ------------------ */
+.sheet-companions .sheet-npcblock-flex {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 10px;
-  padding: 10px 0;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 10px;
 }
 
+/* Left Column (Name, SAN, General Info, etc.) */
 .sheet-companions .sheet-npc-left {
-  flex: 1 1 48%;
+  flex: 1 1 55%;
   min-width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-
-.sheet-companions .sheet-npc-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.sheet-companions .sheet-npc-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   gap: 8px;
 }
 
+/* Right Column (Attributes, Skills, Weapons) */
+.sheet-companions .sheet-npc-right {
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Row wrapper for label + input(s) */
+.sheet-companions .sheet-npc-row,
+.sheet-companions .sheet-npc-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Label column */
 .sheet-companions .sheet-npc-label {
   flex: 0 0 35%;
   font-weight: bold;
@@ -2184,13 +2192,15 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   white-space: nowrap;
 }
 
+/* Input wrapper */
 .sheet-companions .sheet-npc-val {
   flex: 1;
   display: flex;
-  gap: 5px;
   flex-wrap: wrap;
+  gap: 5px;
 }
 
+/* Inputs */
 .sheet-companions .sheet-wide-input {
   flex: 1;
   height: 23px;
@@ -2213,6 +2223,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   box-sizing: border-box;
 }
 
+/* Textarea (e.g., General Info) */
 .sheet-companions .sheet-npc-textarea {
   width: 100%;
   height: 60px;
@@ -2225,6 +2236,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   box-sizing: border-box;
 }
 
+/* Roll buttons */
 .sheet-companions .smallbutton-roll,
 .sheet-companions .smallnonskillbutton-roll {
   height: 23px;
@@ -2232,13 +2244,49 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   margin-left: 4px;
 }
 
-/* Attribute label in inline row */
-.sheet-companions .sheet-npc-attr-label {
+/* Attribute Rows */
+.sheet-companions .sheet-npc-attribute-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sheet-companions .sheet-npc-attribute-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sheet-companions .sheet-attr-label {
+  width: 40px;
   font-weight: bold;
   color: black;
-  width: 40px;
   text-align: right;
   margin-right: 4px;
+}
+
+/* Skills */
+.sheet-companions .sheet-companion-skill-header {
+  font-weight: bold;
+  margin-top: 10px;
+  padding-left: 4px;
+  color: black;
+}
+
+/* Weapons Panel */
+.sheet-companions .sheet-npc-content-right {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 5px;
+  background: #1a1a1a;
+  border: 1px dashed #666;
+}
+
+.sheet-companions .sheet-npc-content-right .sheet-wide-input {
+  max-width: 48%;
 }
 
 

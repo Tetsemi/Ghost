@@ -2147,7 +2147,33 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 }
 
 /* ------------------ NPC Section Scoped Styles ------------------ */
-/* ------------------ NPC Section Scoped Styles ------------------ */
+
+/* DEBUG: Attribute Section Bounding Box */
+.sheet-companions .sheet-npc-attribute-grid {
+	border: 2px solid red; /* Entire attribute grid */
+}
+
+.sheet-companions .sheet-npc-content-left {
+	border: 2px dotted red; /* Entire attribute grid */
+}
+.sheet-companions .sheet-npc-info-section {
+	border: 2px solid blue; /* Entire attribute grid */
+}
+.sheet-companions .sheet-npc-attribute-section {
+	border: 2px dotted blue; /* Entire attribute grid */
+}
+
+.sheet-companions .sheet-npc-skills-section {
+	border: 2px solid green; /* Entire attribute grid */
+}
+
+.sheet-companions .sheet-npc-content-left {
+  display: flex;
+  flex-direction: row; /* switch from column to row */
+  gap: 4px; /* spacing between each section */
+  flex-wrap: nowrap; /* optional: wrap if screen gets tight */
+}
+
 .sheet-companions .sheet-npcblock-flex {
   display: flex;
   flex-wrap: wrap;
@@ -2173,26 +2199,28 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   flex-direction: column;
   gap: 10px;
 }
+.sheet-companions .sheet-npc-skills-section {
+  margin-top: 0;     /* Remove extra spacing above */
+  padding-top: 0;    /* Optional: also remove padding */
+}
 
-/* Row wrapper for label + input(s) */
+/* Generic Row Layout */
 .sheet-companions .sheet-npc-row,
 .sheet-companions .sheet-npc-header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
-/* Label column */
 .sheet-companions .sheet-npc-label {
-  flex: 0 0 35%;
+  flex: 0 0 15%;
   font-weight: bold;
   font-size: 100%;
   color: black;
   white-space: nowrap;
 }
 
-/* Input wrapper */
 .sheet-companions .sheet-npc-val {
   flex: 1;
   display: flex;
@@ -2204,6 +2232,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 .sheet-companions .sheet-wide-input {
   flex: 1;
   height: 23px;
+  width: 80px;
   text-align: center;
   font-size: 100%;
   background-color: rgba(255, 255, 255, 0.5);
@@ -2223,7 +2252,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   box-sizing: border-box;
 }
 
-/* Textarea (e.g., General Info) */
+/* Textareas */
 .sheet-companions .sheet-npc-textarea {
   width: 100%;
   height: 60px;
@@ -2236,7 +2265,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   box-sizing: border-box;
 }
 
-/* Roll buttons */
+/* Roll Buttons */
 .sheet-companions .smallbutton-roll,
 .sheet-companions .smallnonskillbutton-roll {
   height: 23px;
@@ -2244,58 +2273,62 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   margin-left: 4px;
 }
 
-/* Attribute Grid for 2-column layout */
 .sheet-companions .sheet-npc-attribute-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 12px;
+  grid-template-columns: max-content max-content;
+  column-gap: 4px;
+  padding-left: 4px;
+  margin-top: 2px;
 }
 
-/* Each row (label + input + button) */
 .sheet-companions .sheet-npc-attribute-cell {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  font-size: 85%;
+  line-height: 1;
 }
 
 .sheet-companions .sheet-npc-attr-label {
-  width: 35px;
-  font-weight: bold;
+  width: 20px;
   text-align: right;
+  font-weight: bold;
   color: black;
+  margin: 0;
 }
 
 .sheet-companions .sheet-npc-attr-input {
-  width: 50px;
+  width: 24px;
+  height: 10px;
+  padding: 1px 0px;
   text-align: center;
-  font-size: 90%;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
+  background: rgba(255,255,255,0.5);
   border: 1px solid #aaa;
+  box-sizing: border-box;
+  color: black;
 }
 
 .sheet-companions .sheet-npc-attr-roll {
-  height: 23px;
-  font-size: 90%;
-  margin-left: 4px;
+  height: 20px;
+  width: auto;
+  padding: 0 2px;
+  margin: 0;
 }
 
-
-.sheet-companions .sheet-npc-attribute-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Skills */
-.sheet-companions .sheet-companion-skill-header {
+/* Skills Section */
+.sheet-companions .sheet-companion-info-header,
+.sheet-companions .sheet-companion-attr-header,
+.sheet-companions .sheet-companion-skill-header{
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 0px;
   padding-left: 4px;
   color: black;
 }
+.sheet-companions .sheet-companion-info-header {
+	margin-bottom: 2px;
+}
 
-/* Weapons Panel */
+/* Weapons Block */
 .sheet-companions .sheet-npc-content-right {
   flex: 1 1 100%;
   display: flex;
@@ -2310,6 +2343,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 .sheet-companions .sheet-npc-content-right .sheet-wide-input {
   max-width: 48%;
 }
+
 
 
 /* --------------------------- Vehicles -------------------------------------------------------------*/

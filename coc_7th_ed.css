@@ -2184,6 +2184,50 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   padding-top: 0;    /* Optional: also remove padding */
 }
 
+.sheet-companions .sheet-npc-mini-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex-wrap: nowrap; /* ⛔ Prevent wrapping */
+  align-items: flex-start;
+}
+
+.sheet-companions .sheet-npc-mini-flex .sheet-narrow-input {
+  width: 24px;
+  height: 20px;
+  padding: 1px 2px;
+  font-size: 85%;
+  text-align: center;
+  border: 1px solid #aaa;
+  background: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+
+.sheet-companions .sheet-npc-mini-flex .sheet-npc-row {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row; /* <— was column, this is the key fix */
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.sheet-companions .sheet-npc-mini-flex .sheet-npc-label {
+  flex: 0 0 60px;
+  font-weight: bold;
+  color: black;
+  font-size: 85%;
+}
+
+.sheet-companions .sheet-npc-mini-flex .sheet-npc-val {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+}
+
+
 /* Generic Row Layout */
 .sheet-companions .sheet-npc-row,
 .sheet-companions .sheet-npc-header-row {
@@ -2208,13 +2252,17 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   flex-wrap: wrap;
   gap: 5px;
 }
-.sheet-companions input[name="attr_minionmove"] {
-  /* Overrides */
-    /* Your overrides here */
-  width: 60px;
-  font-size: 90%;
-  text-align: center;
 
+.sheet-companions input[name="attr_minionmove"] {
+  width: 24px;         /* or whatever fixed width you want */
+  height: 20px;
+  padding: 1px 0px;
+  text-align: center;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+  color: black;
+  flex: 0 0 auto;       /* don't grow/shrink */
 }
 
 /* Inputs */

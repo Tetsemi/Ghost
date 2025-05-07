@@ -1419,12 +1419,13 @@ input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .she
 }
 
 .col-benefit {
-  width: 50px;
+  width: 125px;
   height: 100%;
   padding: 0;
   margin: 0;
   display: flex;
   box-sizing: border-box;
+  flex-wrap: nowrap;
 }
 
 /* -------------------- end of Background and Talent ------------------------*/
@@ -2412,108 +2413,112 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 
 /* --------------------------- Vehicles -------------------------------------------------------------*/
-
-/* ------------------------------- Vehicles ----------------------- */
-
-/* Layout for vehicle flex block */
-.sheet-bgblock-flex {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 0;
-}
-
-/* Left side: main vehicle data grid */
-.sheet-bg-content-left {
-  flex: 1 1 48%;
-  min-width: 280px;
-}
-
-/* Right side: vehicle info (textareas) */
-.sheet-bg-content-right {
-  flex: 1 1 48%;
+.sheet-vehicle-grid {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 5px;
-  background: #1a1a1a;
-  border: 1px dashed #666;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Inputs & labels */
-.sheet-bg-content-right label {
-  font-weight: bold;
-  font-size: 90%;
-  margin-bottom: 2px;
-}
-
-/* Input layout grid reused from talents/spells */
-.sheet-talent-grid {
+.sheet-vehicle-column-right {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.5rem;
 }
 
-.sheet-talent-header-row,
-.sheet-talent-row {
+.sheet-vehicle-column-left {
+  width: 100%;
+  max-width: 100%;
+  flex: 1 1 auto;
+}
+
+.sheet-vehicle-info {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+  flex: 1 1 100%; 
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.col-benefit {
-  flex: 0 0 35%;
+.sheet-vehicle-info .sheet-wide-input {
+	height: 23px;
+	width: 25px;
+}
+
+.sheet-vehicle-info .sheet-name-row .sheet-wide-input{
+	height: 23px;
+	width: 195px;
+}
+
+.sheet-vehicle-row,
+.sheet-vehicle-grid-header {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  align-items: top;
+  gap: 0.5rem;
+}
+
+.sheet-wrapper .sheet-vehicle-col-label {
   font-weight: bold;
-}
-
-.col-val {
-  flex: 1;
-  display: flex;
-  gap: 5px;
-}
-
-/* Reuse this for text inputs (wide) */
-.sheet-wide-input {
-  flex: 1;
-  height: 23px;
-  text-align: center;
-  font-size: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
   color: black;
 }
 
-/* General textarea formatting */
-.sheet-spell-textarea {
-  width: 100%;
-  height: 60px;
-  font-size: 85%;
-  background-color: rgba(255, 255, 255, 0.5);
+.sheet-vehicle-col-value {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.sheet-vehicle-textarea {
+  min-height: 40px;
   resize: vertical;
+  padding: 4px;
+  width: 100%;
 }
 
-/* Roll buttons */
-.smallbutton-roll,
-.smallnonskillbutton-roll {
-  height: 23px;
-  font-size: 90%;
-  margin-left: 4px;
+.sheet-vehicle-weaponblock {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-/* Weapon & Skill Section */
-.sheet-vehicle-button-block {
+.sheet-vehicle-impact-row {
+  display: flex;
+  align-items: flex-start; /* valid */
+  gap: 3px;
+}
+
+.sheet-vehicle-impact-row > div {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 10px 0;
-  border-top: 1px solid #555;
+  justify-content: center;
+  flex: 0 1 auto;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.sheet-vehicle-button-block input {
-  max-width: 60%;
+.sheet-vehicle-impact-row > div > .sheet-vehicle-col-label {
+  height: 23px;
+  background-color: #f0f0f0;
+  text-align: center;
+  padding: 4px;
+  margin-bottom: 1px;
+  border: 1px solid #8b8680;
+  color: #a9a9a9;
 }
+
+.sheet-vehicles-wrapper .sheet-name-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: left;
+}
+
 
 
 /* --------------------- Tabbed Selection Bar - End  --------------------------------------------------------- */

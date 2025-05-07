@@ -2698,7 +2698,6 @@
 				</div>
 			</div>
 		</div>
-
 		
 		<!-- ------------------------- Backstory ------------------------- -->
 		<div class="sheet-tab-content sheet-backstory">
@@ -2732,11 +2731,9 @@
 				</div>
 			</div>
 		</div>
-
 		
 		<!-- NPC Companions (Converted to Grid/Flex Layout) -->
 		<div class="sheet-tab-content sheet-npcs">
-			<input type="checkbox" class="sheet-togglecompanions" style="display:none" name="attr_togglecompanions" value="1" />
 			<div class="sheet-companions">
 				<h4 class="section-head" data-i18n="companions&mounts-u">NPCs</h4>
 				<div class="sheet-section">
@@ -2931,91 +2928,96 @@
 				</div>
 			</div>
 		</div>
-
-		
-		<!-- Vehicles -->
-		<div class="sheet-tab-content sheet-vehicles">
-			<input type="checkbox" class="sheet-togglevehicles" style="display:none" name="attr_togglevehicles" value="1">
-			<div class="sheet-vehicles">
-				<h4 class="section-head" data-i18n="vehicles-u">Vehicles</h4>
-				<div class="sheet-section">
-					<fieldset class="repeating_vehicle">
-						<div class="sheet-bgblock-flex">
-							<!-- Left Block -->
-							<div class="sheet-bg-content-left">
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-benefit" data-i18n="name-u">Name</div>
-										<div class="col-val">
-											<input type="text" name="attr_vehicle_name" class="sheet-wide-input" placeholder="Name" data-i18n-placeholder="name-u" />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-benefit" data-i18n="build-u">Build</div>
-										<div class="col-val">
-											<input class="sheet-wide-input" type="text" name="attr_vehiclebuild" placeholder="Current" data-i18n-placeholder="current-u" />
-											<span>/</span>
-											<input class="sheet-wide-input" type="text" name="attr_vehiclebuildmax" placeholder="Max" data-i18n-placeholder="max-u" />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-benefit" data-i18n="MOV-u">MOV</div>
-										<div class="col-val">
-											<input class="sheet-wide-input" type="text" name="attr_vehiclemove" />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-benefit" data-i18n="armor-z">Armor</div>
-										<div class="col-val">
-											<input class="sheet-wide-input" type="text" name="attr_vehiclearmor" />
-											<button class="smallnonskillbutton-roll" type="roll" value="&{template:coc-miniondef} {{name=@{vehicle_name} Armor}} {{defence=[[@{vehiclearmor}]]}}" name="roll_vehiclearmor"></button>
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-benefit" data-i18n="cap-u">Capacity</div>
-										<div class="col-val">
-											<input class="sheet-wide-input" type="text" name="attr_vehiclecap" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Right Block -->
-							<div class="sheet-bg-content-right">
-								<label data-i18n="generalinfo-u">General Info</label>
-								<textarea name="attr_vehicle_stats_info" class="sheet-spell-textarea" placeholder="General Info" data-i18n-placeholder="generalinfo-u"></textarea>
-								<label data-i18n="cargo-u">Cargo</label>
-								<textarea name="attr_vehicle_stats_info_2" class="sheet-spell-textarea" placeholder="Cargo" data-i18n-placeholder="cargo-u"></textarea>
-								<label data-i18n="passengers-u">Passengers</label>
-								<textarea name="attr_vehicle_stats_info_3" class="sheet-spell-textarea" placeholder="Passengers" data-i18n-placeholder="passengers-u"></textarea>
-							</div>
+	
+<!-- Vehicles -->
+<div class="sheet-tab-content sheet-vehicles">
+  <div class="sheet-vehicles-wrapper">
+    <h4 class="section-head" data-i18n="vehicles-u">Vehicles</h4>
+    <div class="sheet-vehicles-section">
+      <fieldset class="repeating_vehicle">
+        <div class="sheet-vehicle-grid">
+          <!-- Left Block -->
+          <div class="sheet-vehicle-column-left">
+            <div class="sheet-vehicle-grid-header">
+				<div class="sheet-vehicle-info">
+					<div class="sheet-name-row">
+						<div class="sheet-vehicle-col-label" data-i18n="name-u">Name</div>
+						<div class="sheet-vehicle-col-value">
+							<input type="text" class="sheet-wide-input" name="attr_vehicle_name" placeholder="Name" data-i18n-placeholder="name-u" />
 						</div>
-						<!-- Weapon & Skill Section -->
-						<div class="sheet-vehicle-button-block">
-							<div>
-								<span data-i18n="vehicleattack-u"><b>Vehicular Impact Attack</b></span>
-								<button class="smallbutton-roll" type="roll" name="roll_vehicleattack_check" value="&{template:coc-vehicleattack} {{name=@{vehicle_name} attacking with @{operatorskillname}}} {{success=[[@{operatorskill}]]}} {{hard=[[floor(@{operatorskill}/2)]]}} {{extreme=[[floor(@{operatorskill}/5)]]}} {{roll1=[[1d100]]}} {{builddam=[[@{vehiclebuild}d10/10]]}}"></button>
-							</div>
-							<div>
-								<input class="sheet-wide-input" type="text" name="attr_operatorskillname" placeholder="Operator's Skill" data-i18n-placeholder="operatorskill" />
-								<input class="sheet-wide-input" type="text" name="attr_operatorskill" />
-								<button class="smallbutton-roll" type="roll" name="roll_operatorskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{operatorskillname}}} {{success=[[@{operatorskill}]]}} {{hard=[[floor(@{operatorskill}/2)]]}} {{extreme=[[floor(@{operatorskill}/5)]]}} {{roll1=[[1d100]]}}"></button>
-							</div>
-							<div>
-								<input class="sheet-wide-input" type="text" name="attr_vehicleweaponskillname" placeholder="Mounted Weapon Skill" data-i18n-placeholder="MountedWeaponSkill" />
-								<input class="sheet-wide-input" type="text" name="attr_vehicleweaponskill" />
-								<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{vehicleweaponskillname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}}"></button>
-							</div>
-							<div>
-								<input class="sheet-wide-input" type="text" name="attr_vehicleweaponname" placeholder="Mounted Weapon" />
-								<input class="sheet-wide-input" type="text" name="attr_vehicleweapondamage" placeholder="Dam" data-i18n-placeholder="dam-z" />
-								<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponattack" value="&{template:coc-minionattack} {{name=@{vehicle_name} attacking with @{vehicleweaponname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vehicleweapondamage}]]}}"></button>
-							</div>
+					</div>
+					<div class="sheet-vehicle-row">
+						<div class="sheet-vehicle-col-label" data-i18n="build-u">Build</div>
+						<div class="sheet-vehicle-col-value">
+							<input type="text" class="sheet-wide-input" name="attr_vehiclebuild" placeholder="Current" data-i18n-placeholder="current-u" />
+							<span>/</span>
+							<input type="text" class="sheet-wide-input" name="attr_vehiclebuildmax" placeholder="Max" data-i18n-placeholder="max-u" />
 						</div>
-					<hr />
-					</fieldset>
+					</div>
+					<div class="sheet-vehicle-row">
+						<div class="sheet-vehicle-col-label" data-i18n="MOV-u">MOV</div>
+						<div class="sheet-vehicle-col-value">
+							<input type="text" class="sheet-wide-input" name="attr_vehiclemove" />
+						</div>
+					</div>
+					<div class="sheet-vehicle-row">
+						<div class="sheet-vehicle-col-label" data-i18n="armor-z">Armor</div>
+						<div class="sheet-vehicle-col-value">
+							<input type="text" class="sheet-wide-input" name="attr_vehiclearmor" />
+							<button class="smallnonskillbutton-roll" type="roll" name="roll_vehiclearmor" value="&{template:coc-miniondef} {{name=@{vehicle_name} Armor}} {{defence=[[@{vehiclearmor}]]}}"></button>
+						</div>
+					</div>
+					<div class="sheet-vehicle-row">
+						<div class="sheet-vehicle-col-label" data-i18n="cap-u">Capacity</div>
+						<div class="sheet-vehicle-col-value">
+							<input type="text" class="sheet-wide-input" name="attr_vehiclecap" />
+						</div>
+					</div>
+				</div>	
+				<div class="sheet-vehicle-weaponblock">
+					<div class="sheet-vehicle-impact-row">
+						<div>
+							<div class="sheet-vehicle-col-label" data-i18n="vehicleattack-u">Vehicular Impact Attack</div>
+							<div class="sheet-vehicle-col-label" data-i18n="vehicleattack_req-u">Vehicular Impact Attack Requirement</div>
+						</div>
+						<button class="smallbutton-roll" type="roll" name="roll_vehicleattack_check" value="&{template:coc-vehicleattack} {{name=@{vehicle_name} attacking with @{operatorskillname}}}{{success=[[@{operatorskill}]]}} {{hard=[[floor(@{operatorskill}/2)]]}} {{extreme=[[floor(@{operatorskill}/5)]]}} {{roll1=[[1d100]]}} {{builddam=[[@{vehiclebuild}d10/10]]}}"></button>
+					</div>
+					<div>
+						<input type="text" class="sheet-wide-input" name="attr_operatorskillname" placeholder="Operator's Skill" data-i18n-placeholder="operatorskill" />
+						<input type="text" class="sheet-wide-input" name="attr_operatorskill" />
+						<button class="smallbutton-roll" type="roll" name="roll_operatorskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{operatorskillname}}} {{success=[[@{operatorskill}]]}} {{hard=[[floor(@{operatorskill}/2)]]}} {{extreme=[[floor(@{operatorskill}/5)]]}} {{roll1=[[1d100]]}}"></button>
+					</div>
+					<div>
+						<input type="text" class="sheet-wide-input" name="attr_vehicleweaponskillname" placeholder="Mounted Weapon Skill" data-i18n-placeholder="MountedWeaponSkill" />
+						<input type="text" class="sheet-wide-input" name="attr_vehicleweaponskill" />
+						<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{vehicleweaponskillname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}}"></button>
+					</div>
+					<div>
+						<input type="text" class="sheet-wide-input" name="attr_vehicleweaponname" placeholder="Mounted Weapon" />
+						<input type="text" class="sheet-wide-input" name="attr_vehicleweapondamage" placeholder="Dam" data-i18n-placeholder="dam-z" />
+						<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponattack" value="&{template:coc-minionattack} {{name=@{vehicle_name} attacking with @{vehicleweaponname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vehicleweapondamage}]]}}"></button>
+					</div>
 				</div>
 			</div>
 		</div>
+        <!-- Right Block -->
+        <div class="sheet-vehicle-column-right">
+			<div class="sheet-vehicle-col-label" data-i18n="generalinfo-u">General Info</div>
+			<textarea name="attr_vehicle_stats_info" class="sheet-vehicle-textarea" placeholder="General Info" data-i18n-placeholder="generalinfo-u"></textarea>
+			<div class="sheet-vehicle-col-label" data-i18n="cargo-u">Cargo</div>
+			<textarea name="attr_vehicle_stats_info_2" class="sheet-vehicle-textarea" placeholder="Cargo" data-i18n-placeholder="cargo-u"></textarea>
+			<div class="sheet-vehicle-col-label" data-i18n="passengers-u">Passengers</div>
+			<textarea name="attr_vehicle_stats_info_3" class="sheet-vehicle-textarea" placeholder="Passengers" data-i18n-placeholder="passengers-u"></textarea>
+		</div>
+	</div>
+
+
+      <hr />
+      </fieldset>
+    </div>
+  </div>
+</div>
+
 		
 	</div>
 </div>

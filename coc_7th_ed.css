@@ -1893,6 +1893,30 @@ button[type="roll"]:hover.new-roll {
   background: #BEBEBE;
   border: 1px solid #999;
 }
+
+/* Hide both by default */
+.sheet-weapon-block .sheet-roll-noimpale,
+.sheet-weapon-block .sheet-roll-impale {
+  display: none;
+}
+
+/* Show only impale roll */
+.sheet-weapon-block .sheet-attack-toggle[value="impale"] + .sheet-roll-noimpale {
+  display: none;
+}
+.sheet-weapon-block .sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale + .sheet-roll-impale {
+  display: none;
+}
+.sheet-weapon-block .sheet-attack-toggle[value="impale"] + .sheet-roll-noimpale + .sheet-roll-impale {
+  display: inline-block;
+}
+/* Show only noimpale roll */
+.sheet-weapon-block .sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale {
+  display: inline-block;
+}
+
+
+
 /* ------------------------------- Spells ----------------------- */
 
 /* ---------- Layout ---------- */

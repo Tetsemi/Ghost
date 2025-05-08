@@ -2543,7 +2543,7 @@
 							<input type="hidden" name="attr_weapon1_mdr_strain" value="0">
 							<div class="flex-cell weapon-name"><input type="text" name="attr_weapon1_mdr_name" placeholder="Weapon Name"></div>
 							<div class="flex-cell weapon-roll">
-								<button type="roll" class="new-roll" name="roll_weapon1_mdr_attack" value="&{template:coc-attack-1} {{name=@{weapon1_mdr_name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}">
+								<button type="roll" class="new-roll" name="roll_weapon1_mdr_attack" value="&{template:coc-attack-1-noimpale} {{name=@{weapon1_mdr_name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}">
 								</button>
 							</div>
 							<div class="flex-cell weapon-skill">
@@ -2583,7 +2583,7 @@
 							<input type="hidden" name="attr_weaponstrain_mdr" value="0">
 							<div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr"></div>
 							<div class="flex-cell weapon-roll">
-								<button type="roll" class="new-roll" name="roll_weaponskill_mdr_check" value="&{template:coc-attack-1} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
+								<button type="roll" class="new-roll" name="roll_weaponskill_mdr_check" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
 							</div>
 							<div class="flex-cell weapon-skill">
 								<select name="attr_weaponskill_mdr">
@@ -2618,7 +2618,7 @@
 			</div>
 		</div>
 		
-		<!-- Spells -->
+		<!-- -------------------------- Spells -------------------------- -->
 		<div class="sheet-tab-content sheet-spells">
 			<h4 class="section-head" data-i18n="spells-u">Spells</h4>
 			<!-- Prep Spell Cost / Arcane Capacity Tracker -->
@@ -4594,7 +4594,6 @@ Body Hit Location---------------------------------------------------------------
     </table>
 </rolltemplate>
 
-
 <!--
 &{template:coc-vehicleattack} ---------------------------------
 -->
@@ -4664,7 +4663,6 @@ Body Hit Location---------------------------------------------------------------
 	</tr>
     </table>
 </rolltemplate>
-
 
 <!--
 &{template:coc-defence-2} ---------------------------------------------------------------------------------------------------------
@@ -4770,7 +4768,6 @@ Body Hit Location---------------------------------------------------------------
 <!--
 &{template:coc} {{name=Test}} {{success=[[50]]}} {{hard=[[floor(50/2)]]}} {{extreme=[[floor(50/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}---------------------------------------------------------------------------------------------------------
 -->
-
 <rolltemplate class="sheet-rolltemplate-coc">
     <table>
 		{{#rollTotal() modifier 0}}
@@ -6070,7 +6067,6 @@ Body Hit Location---------------------------------------------------------------
         </tr>
     </table>
 </rolltemplate>
-
 
 <!--
 &{template:coc-attack} ---------------------------------------------------------------------------------------------------------
@@ -7596,6 +7592,267 @@ Body Hit Location---------------------------------------------------------------
     </table>
 </rolltemplate>
 
+<!--
+&{template:coc-attack-1-impale} ---------------------------------------------------------------------------------------------------------
+-->
+<rolltemplate class="sheet-rolltemplate-coc-attack-1-impale">
+    <table>
+		{{#rollTotal() modifier 0}}
+        <caption>{{name}}</caption>
+		{{/rollTotal() modifier 0}}
+		
+		{{#^rollTotal() modifier 0}}
+        <caption>{{name}} | {{modifier}}</caption>
+		{{/^rollTotal() modifier 0}}
+
+		<tr>
+            <td class="template_label" data-i18n="value">Value:</td>
+            <td class="template_value">{{success}}/{{hard}}/{{extreme}}</td>
+        </tr>		
+
+        {{#malf}}
+        <tr>
+            <td class="template_label" data-i18n="malf">Malf:</td>
+            <td class="template_value">{{malf}}</td>
+        </tr>
+        {{/malf}}
+
+        <tr>
+            <td class="template_label" data-i18n="rolled">Rolled:</td>
+            <td class="template_value">{{roll1}}</td>
+        </tr>
+
+        <!-- Results Row(s) - Each condition outputs a full <tr> -->
+
+        {{#rollTotal() roll1 1}}
+        <tr class="template_row_background">
+            <td class="template_label" data-i18n="result">Result:</td>
+            <td class="template_value_critical" data-i18n="critical">Critical</td>
+        </tr>
+        {{/rollTotal() roll1 1}}
+
+        {{#rollBetween() roll1 2 success}}
+            {{#rollGreater() roll1 hard}}
+            <tr class="template_row_background">
+                <td class="template_label" data-i18n="result">Result:</td>
+                <td class="template_value_success" data-i18n="success">Success</td>
+            </tr>
+            {{/rollGreater() roll1 hard}}
+
+            {{#rollBetween() roll1 2 hard}}
+                {{#rollGreater() roll1 extreme}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_hard" data-i18n="hard">Hard</td>
+                </tr>
+                {{/rollGreater() roll1 extreme}}
+
+                {{#rollBetween() roll1 2 extreme}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_extreme" data-i18n="extreme">Extreme</td>
+                </tr>
+                {{/rollBetween() roll1 2 extreme}}
+            {{/rollBetween() roll1 2 hard}}
+        {{/rollBetween() roll1 2 success}}
+
+        {{#rollGreater() roll1 success}}
+            {{#rollGreater() success 49}}
+                {{#rollTotal() roll1 100}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_fumble" data-i18n="fumble">Fumble</td>
+                </tr>
+                {{/rollTotal() roll1 100}}
+
+                {{#rollLess() roll1 100}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_fail" data-i18n="fail">Fail</td>
+                </tr>
+                {{/rollLess() roll1 100}}
+            {{/rollGreater() success 49}}
+
+            {{#rollLess() success 50}}
+                {{#rollGreater() roll1 95}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_fumble" data-i18n="fumble">Fumble</td>
+                </tr>
+                {{/rollGreater() roll1 95}}
+
+                {{#rollLess() roll1 96}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_fail" data-i18n="fail">Fail</td>
+                </tr>
+                {{/rollLess() roll1 96}}
+            {{/rollLess() success 50}}
+        {{/rollGreater() roll1 success}}
+
+        <!-- Damage and Other Info -->
+
+        <tr>
+            <td class="template_label" data-i18n="dam">Dam:</td>
+            <td class="template_value">{{damage}}</td>
+        </tr>
+
+        {{#rollTotal() roll1 1}}
+        <tr>
+            <td class="template_label" data-i18n="extreme-damage">Extreme Dam:</td>
+            <td class="template_value">{{extremedamage}}</td>
+        </tr>
+        {{/rollTotal() roll1 1}}
+
+        {{#rollBetween() roll1 2 extreme}}
+        <tr>
+            <td class="template_label" data-i18n="extreme-damage">Extreme Dam:</td>
+            <td class="template_value">{{extremedamage}}</td>
+        </tr>
+        {{/rollBetween() roll1 2 extreme}}
+
+        {{#^rollTotal() strain 0}}
+        <tr>
+            <td class="template_label" data-i18n="strain">Strain:</td>
+            <td class="template_value">{{strain}}</td>
+        </tr>
+        {{/^rollTotal() strain 0}}
+
+    </table>
+</rolltemplate>
+
+<!--
+&{template:coc-attack-1-noimpale} ---------------------------------------------------------------------------------------------------------
+-->
+<rolltemplate class="sheet-rolltemplate-coc-attack-1-noimpale">
+    <table>
+		{{#rollTotal() modifier 0}}
+        <caption>{{name}}</caption>
+		{{/rollTotal() modifier 0}}
+		
+		{{#^rollTotal() modifier 0}}
+        <caption>{{name}} | {{modifier}}</caption>
+		{{/^rollTotal() modifier 0}}
+
+		<tr>
+            <td class="template_label" data-i18n="value">Value:</td>
+            <td class="template_value">{{success}}/{{hard}}/{{extreme}}</td>
+        </tr>		
+
+        {{#malf}}
+        <tr>
+            <td class="template_label" data-i18n="malf">Malf:</td>
+            <td class="template_value">{{malf}}</td>
+        </tr>
+        {{/malf}}
+
+        <tr>
+            <td class="template_label" data-i18n="rolled">Rolled:</td>
+            <td class="template_value">{{roll1}}</td>
+        </tr>
+
+        <!-- Results Row(s) - Each condition outputs a full <tr> -->
+
+        {{#rollTotal() roll1 1}}
+        <tr class="template_row_background">
+            <td class="template_label" data-i18n="result">Result:</td>
+            <td class="template_value_critical" data-i18n="critical">Critical</td>
+        </tr>
+        {{/rollTotal() roll1 1}}
+
+        {{#rollBetween() roll1 2 success}}
+            {{#rollGreater() roll1 hard}}
+            <tr class="template_row_background">
+                <td class="template_label" data-i18n="result">Result:</td>
+                <td class="template_value_success" data-i18n="success">Success</td>
+            </tr>
+            {{/rollGreater() roll1 hard}}
+
+            {{#rollBetween() roll1 2 hard}}
+                {{#rollGreater() roll1 extreme}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_hard" data-i18n="hard">Hard</td>
+                </tr>
+                {{/rollGreater() roll1 extreme}}
+
+                {{#rollBetween() roll1 2 extreme}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_extreme" data-i18n="extreme">Extreme</td>
+                </tr>
+                {{/rollBetween() roll1 2 extreme}}
+            {{/rollBetween() roll1 2 hard}}
+        {{/rollBetween() roll1 2 success}}
+
+        {{#rollGreater() roll1 success}}
+            {{#rollGreater() success 49}}
+                {{#rollTotal() roll1 100}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_fumble" data-i18n="fumble">Fumble</td>
+                </tr>
+                {{/rollTotal() roll1 100}}
+
+                {{#rollLess() roll1 100}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_fail" data-i18n="fail">Fail</td>
+                </tr>
+                {{/rollLess() roll1 100}}
+            {{/rollGreater() success 49}}
+
+            {{#rollLess() success 50}}
+                {{#rollGreater() roll1 95}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_fumble" data-i18n="fumble">Fumble</td>
+                </tr>
+                {{/rollGreater() roll1 95}}
+
+                {{#rollLess() roll1 96}}
+                <tr class="template_row_background">
+                    <td class="template_label" data-i18n="result">Result:</td>
+                    <td class="template_value_fail" data-i18n="fail">Fail</td>
+                </tr>
+                {{/rollLess() roll1 96}}
+            {{/rollLess() success 50}}
+        {{/rollGreater() roll1 success}}
+
+        <!-- Damage and Other Info -->
+
+        <!-- Show only damage on normal hit -->
+        {{#rollGreater() roll1 extreme}}
+        <tr>
+			<td class="template_label" data-i18n="dam">Dam:</td>
+			<td class="template_value">{{damage}}</td>
+		</tr>
+		{{/rollGreater() roll1 extreme}}
+
+		<!-- Show only extreme damage if crit/extreme -->
+		{{#rollTotal() roll1 1}}
+		<tr>
+			<td class="template_label" data-i18n="extreme-damage">Extreme Dam:</td>
+			<td class="template_value">{{extremedamage}}</td>
+		</tr>
+		{{/rollTotal() roll1 1}}
+       
+		{{#rollBetween() roll1 2 extreme}}
+		<tr>
+			<td class="template_label" data-i18n="extreme-damage">Extreme Dam:</td>
+			<td class="template_value">{{extremedamage}}</td>
+		</tr>
+		{{/rollBetween() roll1 2 extreme}}
+
+        {{#^rollTotal() strain 0}}
+        <tr>
+            <td class="template_label" data-i18n="strain">Strain:</td>
+            <td class="template_value">{{strain}}</td>
+        </tr>
+        {{/^rollTotal() strain 0}}
+
+    </table>
+</rolltemplate>
 
 <!-- WORKERS -->
 <script type="text/worker">

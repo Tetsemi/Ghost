@@ -59,7 +59,7 @@ on('chat:message', function(msg) {
     if (debug_on) sendChat("Debug", `DEX: ${dex}, Roll: ${roll}, Tier: ${tier}, Init: ${init}`);
 
     const output = `&{template:default} `
-      + `{{name=${name} – Initiative}} `
+      + `{{name=Initiative (Combat) - ${name}}} `
       + `{{Roll=${roll}}} `
       + `{{Tier=${tier}}} `
       + `{{Result=${init}}}`;

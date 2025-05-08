@@ -1894,26 +1894,41 @@ button[type="roll"]:hover.new-roll {
   border: 1px solid #999;
 }
 
+/* DEBUG */
+
+.sheet-weapon-block .weapon-roll button[name="roll_weapon1_mdr_attack_noimpale"],
+.sheet-weapon-block .weapon-roll button[name="roll_weaponskill_mdr_check_noimpale"] {
+  border: 2px solid blue;
+}
+
+.sheet-weapon-block .weapon-roll button[name="roll_weapon1_mdr_attack_impale"],
+.sheet-weapon-block .weapon-roll button[name="roll_weaponskill_mdr_check_impale"] {
+  border: 2px solid yellow;
+}
+
+
 /* Hide both by default */
-.sheet-weapon-block .sheet-roll-noimpale,
-.sheet-weapon-block .sheet-roll-impale {
+.sheet-roll-noimpale,
+.sheet-roll-impale {
   display: none;
 }
 
-/* Show only impale roll */
-.sheet-weapon-block .sheet-attack-toggle[value="impale"] + .sheet-roll-noimpale {
+/* Show impale only */
+.sheet-attack-toggle[value="impale"] + .sheet-roll-noimpale {
   display: none;
 }
-.sheet-weapon-block .sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale + .sheet-roll-impale {
+.sheet-attack-toggle[value="impale"] + .sheet-roll-noimpale + .sheet-roll-impale {
+  display: inline-block;
+}
+
+/* Show noimpale only */
+.sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale {
+  display: inline-block;
+}
+.sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale + .sheet-roll-impale {
   display: none;
 }
-.sheet-weapon-block .sheet-attack-toggle[value="impale"] + .sheet-roll-noimpale + .sheet-roll-impale {
-  display: inline-block;
-}
-/* Show only noimpale roll */
-.sheet-weapon-block .sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale {
-  display: inline-block;
-}
+
 
 
 

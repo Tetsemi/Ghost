@@ -2507,6 +2507,7 @@
 					<div class="sheet-weapon-header">
 						<div class="flex-row">
 							<div class="flex-cell weapon-name"><span data-i18n="weaponname-u">Weapon</span></div>
+							<div class="flex-cell weapon-impale"><!-- Empty for impale --></div>
 							<div class="flex-cell weapon-roll"><!-- Empty for roll --></div>
 							<div class="flex-cell weapon-skill"><span data-i18n="skill-u">Skill</span></div>
 							<div class="flex-cell weapon-damage"><span data-i18n="damage-u">Damage</span></div>
@@ -2522,6 +2523,7 @@
 					<div class="sheet-weapon-default">
 						<div class="flex-row">
 							<div class="flex-cell weapon-name"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-z" readonly></div>
+							<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"></div>
 							<div class="flex-cell weapon-roll"><button type="roll" class="new-roll" name="@{weapon-name}" value="&{template:coc-attack-1} {{name=@{unarmed_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[1d3]]}} {{extremedamage=[[1d3+(1*3)]]}} {{strain=[[ 0 + 0 ]]}}" ></button></div>
 							<div class="flex-cell weapon-skill"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-u" disabled="true"></div>
 							<div class="flex-cell weapon-damage"><input type="text" value="1d3" readonly></div>
@@ -2544,7 +2546,7 @@
 							<div class="flex-cell weapon-name"><input type="text" name="attr_weapon1_mdr_name" placeholder="Weapon Name"></div>
 							<input type="checkbox" name="attr_roll_weapon1_mdr_attack_impale_checkbox" value="1" />
 							<div class="flex-cell weapon-roll">
-								<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" />
+								<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
 								<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weapon1_mdr_attack_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weapon1_mdr_name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}"></button>
 								<button type="roll" class="new-roll sheet-roll-impale" name="roll_weapon1_mdr_attack_impale" value="&{template:coc-attack-1-impale} {{name=@{weapon1_mdr_name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}"></button>
 							</div>
@@ -2584,9 +2586,11 @@
 							<input type="hidden" name="attr_damage_bonus" value="0">
 							<input type="hidden" name="attr_weaponstrain_mdr" value="0">
 							<div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr"></div>
+							<input type="checkbox" name="attr_attack_impale_checkbox" value="1" />		
 							<div class="flex-cell weapon-roll">
-								<button type="roll" class="new-roll" name="roll_weaponskill_mdr_check_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
-								<button type="roll" class="new-roll" name="roll_weaponskill_mdr_check_impale" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
+								<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
+								<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponskill_mdr_check_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
+								<button type="roll" class="new-roll sheet-roll-impale" name="roll_weaponskill_mdr_check_impale" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
 							</div>
 							<div class="flex-cell weapon-skill">
 								<select name="attr_weaponskill_mdr">
@@ -8254,28 +8258,24 @@ lyranniTalentTabs.forEach(tab => {
 
 on("change:roll_weapon1_mdr_attack_impale_checkbox", function () {
   getAttrs(["roll_weapon1_mdr_attack_impale_checkbox"], function (v) {
-	if (debug_on) console.log (`Impale checkbox value: ${v.roll_weapon1_mdr_attack_impale_checkbox}`); 
-	
-	const itoggle = v.roll_weapon1_mdr_attack_impale_checkbox === "1" ? "impale" : "noimpale";
-	if (debug_on) console.log (`Toggle value: ${itoggle}`); 
-	
     setAttrs({
-      attack_mode_toggle: itoggle
+		attack_mode_toggle: v.roll_weapon1_mdr_attack_impale_checkbox === "1" ? "impale" : "noimpale"
     });
-	
   });
 });
 
-on("change:repeating_weaponsmdr:impale_checkbox", function (eventInfo) {
+on("change:repeating_weaponsmdr:attack_impale_checkbox", function(eventInfo) {
   const rowId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
-  const impaleAttr = `repeating_weaponsmdr_${rowId}_impale_checkbox`;
+  const impaleAttr = `repeating_weaponsmdr_${rowId}_attack_impale_checkbox`;
   const toggleAttr = `repeating_weaponsmdr_${rowId}_attack_mode_toggle`;
-  getAttrs([impaleAttr], function (v) {
+
+  getAttrs([impaleAttr], function(v) {
     setAttrs({
       [toggleAttr]: v[impaleAttr] === "1" ? "impale" : "noimpale"
     });
   });
 });
+
 
 
 // Mirror select dropdown value to hidden input (for CSS Wizardry styling)

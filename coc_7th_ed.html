@@ -768,7 +768,9 @@
 							<div><input class="skill-input" type="text" name="attr_bureaucracy_skill_mdr" /></div>
 							<div class="sheet-val-roll-static">
 								<input class="sheet-skill-input" type="text" name="attr_bureaucracy_mdr" readonly />
-								<button type="roll" name="roll_bureaucracy_mdr_check" value="&{template:coc-1} {{name=@{bureaucracy_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{bureaucracy_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{bureaucracy_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{bureaucracy_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+								<input type="hidden" name="attr_social_mode_toggle" class="sheet-social-mode-toggle" value="0"/>
+								<button type="roll" class="sheet-toggle-social-mode-off" name="roll_bureaucracy_mdr_check" value="&{template:coc-1} {{name=@{bureaucracy_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{bureaucracy_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{bureaucracy_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{bureaucracy_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+								<button type="roll" class="sheet-toggle-social-mode-on" name="roll_bureaucracy_mdr_check" value="&{template:coc} {{name=@{bureaucracy_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{bureaucracy_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{bureaucracy_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{bureaucracy_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
 							</div>
 							<div><input type="checkbox" name="attr_charm_mdr_checkbox" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_charm_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="charm-u">Charm(15%)</span></div>
@@ -8809,6 +8811,8 @@ function registerStatHandler() {
 			update["vitality_max"]= ipow;
 			update["pulphp_max"] = Math.floor((icon + isiz)/5);
 			update["strain_max"] = Math.floor((ipow + icon)/5);
+			
+			update["social_mode_toggle"] = (iapp <= 40 ) ? 1 : ( iapp >= 70 ) ? 1 : 0;
 
 			// Attribute Points Total Calculation
 			const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag"];

@@ -1,293 +1,1057 @@
-.charsheet {
-    background-color: #888888;
-    border: 2px solid black;
-    color:black;
-    width: 840px;
-}
-
-.dummy{
-	/*incase BOM decides to screw up css */
-}
-
-th {
-  font-size: 14px; /* Set font size for table header cells */
-  font-weight: bold; /* Optionally make header text bold */
-}
-
+/* -------------------------------------------------------------------------- */
+/*                         THEME COLOR PALETTE - MASTER                      */
 /* -------------------------------------------------------------------------- */
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
+/* --- Sheet Background and Borders --- */
+-- Main Sheet Background:      #888888  /* Entire character sheet background (charsheet) */
+-- Sheet Border:                black    /* Border around the sheet */
+
+/* --- Section Backgrounds --- */
+-- Section Block Background:   #f0f0f0  /* Section content blocks (e.g., Combat, Skills) */
+-- Section Block Border:        black    /* Section border */
+
+/* --- Section Headers (h4, .section-head) --- */
+-- Section Header Background:  Gradient (black -> #112749)  /* Section header bars */
+-- Section Header Border:       black    /* Header border */
+-- Section Header Text:         white    /* Header font color */
+
+/* --- Weapon Headers --- */
+-- Weapon Block Header:         #E0E0E0  /* Background for Weapon header rows */
+-- Weapon Block Border:         black    /* Border under Weapon header */
+
+/* --- Disabled Inputs --- */
+-- Disabled Input Background:  #D9D9D9  /* Background for disabled fields (e.g., Unarmed row) */
+-- Disabled Input Text:         #666666  /* Text color for disabled fields */
+-- Disabled Input Border:       #999999  /* Border color for disabled fields */
+
+/* --- Roll Buttons (Skill/Combat Rolls) --- */
+-- Enabled Roll Button Background:  #248c15  /* Normal roll buttons (e.g., green for rolls) */
+-- Enabled Roll Button Text:        #18650D  /* Roll button text */
+-- Roll Button Border:              black    /* Border for roll buttons */
+-- Disabled Roll Button Background: #BEBEBE  /* Background for disabled roll buttons */
+-- Disabled Roll Button Border:     #999999  /* Border for disabled roll buttons */
+
+/* --- Repeating Section Controls (Add/Edit/Delete/Move) --- */
+-- Repeating Button Background:     #333333  /* Base for add/edit/move buttons */
+-- Repeating Button Text:            white    /* Text color for repeating buttons */
+-- Delete Button Background:         #882222  /* Background for delete (danger button) */
+-- Repeating Button Border:          black    /* Border for all repeating buttons */
+
+/* -------------------------------------------------------------------------- */
+/* Notes:
+   - All colors are centralized here for easy theme changes.
+   - Gradients use linear-gradient where applicable (headers).
+   - Keep hex codes consistent across layout, forms, and buttons.
+*/
+
+/* ------------------------------- */
+/* Main sheet background and master */
+/* ------------------------------- */
+.charsheet {
+	background-color: #888888;
+	border: 1px solid black;
+	color: black;
+	width: 840px;
+}
+
+/* ------------------------------- */
+/* Sheet Layout Master Container */
+/* ------------------------------- */
+.sheet-layout {
+	background-color: #888888;
+	width: 840px;
+	margin: auto;
+	border: 1px solid black;
+	box-sizing: border-box;
+	color: black;
+	font-family: "Arial", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.sheet-section {
+  background: #d0cabe;
+  1px solid #999;
+}
+
+.sheet-section-head {
+  background-image: linear-gradient(black, #112749);
+  background-color: #112749;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
   margin: 0;
-  background-color: rgba(255,255,255,0.5);
 }
 
-select {
-    margin: 0;
-    padding: 0;
-    background-color: rgba(255,255,255,0.5);
-}
+/* ----------------------------------------------------- */
+/* Universal Input Styles for All Sheet Sections         */
+/* ----------------------------------------------------- */
 
-/* Tweak repeating section buttons so they have a bottom margin and dont overflow when in edit mode. */
-div[class^="repcontrol"] {
-  margin: 0 0 0 0;
-}
-
-div[class="repcontainer editmode"] ~ div[class^="repcontrol"] button[class="btn repcontrol_add"] {
-  display: inline-block!important;
-  visibility: hidden;
-}
-
-.charsheet .repcontrol_add,
-.charsheet .repcontrol_edit,
-.charsheet .repcontrol_del {
-    display: block;
-    background: #7c746a;
-    color: white;
-    box-shadow:none;
-    font-size:0.7em;
-    height:1.5em;
-}
-
-/* Optional style for the reset button */
-button[name="act_reset_initialization"] {
-  background-color: #600;
-  color: #fff;
-  border: 1px solid #400;
-  padding: 2px 6px;
-  font-size: 0.9em;
-}
-
-.charsheet select[name="attr_showracials"] {
-  width: 100%;
+/* Standard input for attributes or large fields */
+.sheet-attr-input {
+  width: 45px;
+  min-width: 0;
   box-sizing: border-box;
   padding: 4px;
+  margin: 0;
+  font-size: 200%;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+  text-align: center;
+}
+/* Smaller input (e.g., points spent, AC, move) */
+.sheet-attr-input-medium {
+  width: 97px;
+  height: 15px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 2px;
+  margin: 0;
+  font-size: 150%;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+  text-align: center;
+}
+
+/* Smaller input (e.g., points spent, AC, move) */
+.sheet-attr-input-small {
+  width: 40px;
+  height: 15px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 2px;
+  margin: 0;
+  font-size: 100%;
+  background: #f0f0f0;
+  border: 1px solid #000000;
+  color: black;
+  text-align: center;
+}
+.sheet-attr-input-long {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  margin: 0;
+  font-size: 100%;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+  text-align: left; /* Important: text aligns left for names and phrases */
+}
+/* Readonly variant — visually distinct */
+.sheet-attr-input[readonly],
+.sheet-attr-input-small[readonly],
+.sheet-attr-input-medium[readonly],
+.sheet-attr-input-long[readonly] {
+  background: #e0e0e0; /* Light gray for info-only fields */
+  color: #333;
+  border: 1px solid #999;
+}
+
+/* Small Separator Line Between Attribute Sections */
+.sheet-attr-separator {
+  width: 100%;
+  height: 1px;
+  background-color: #333; /* dark gray/black line to match our theme */
+  margin: 6px 0 6px 0; /* tiny margin above/below */
+  grid-column: 1 / -1; /* spans full width of grid */
+}
+
+/* Checkbox and label appearaance */
+
+/* Checkbox label appearance */
+.sheet-checkbox-label {
+	font-size: 0.9em;
+	color: black;
+	text-align: center;
+}
+
+.sheet-checkbox {
+	margin: 0;
+}
+
+/* Label cells */
+.sheet-attr-label {
+    font-weight: bold;
+    text-align: left;
+    padding: 2px 4px;
+    margin: 0;
+    color: black;
+    background: transparent;
+    align-self: center;
+}
+
+/* Spacer cells */
+.sheet-attr-spacer {
+    width: 100%;
+    height: 100%;
+}
+
+/* ------------------------ Roll buttons ---------------------- */
+
+/* Roll button container */
+.sheet-attr-roll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+button.new-roll {
+   color: #18650D;
+   background-color: #248c15;
+   font-weight: bold;
+   text-align: center;
+   width: 20px;
+   height: 20px;
+   margin: auto;
+   padding: 0;
+   border: 1px solid black;
+}
+/* ------------------------------------------------------------ */
+
+/* ------------------------------------------- */
+/* Full-Width Select Boxes for Sheet Sections  */
+/* ------------------------------------------- */
+
+/* Shared style class for dropdowns */
+.sheet-select-full {
+  width: 100%;
+  box-sizing: border-box;
   font-size: 1em;
   text-align: center;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
 }
 
-/* ------------------------------Show Only NPCS etc-------------------------------------------- */
+/* ----------------------------------- */
+/* Global Edit Mode Toggle for Fields  */
+/* ----------------------------------- */
 
-input.sheet-hide:checked ~ div.sheet-2colrow,
-input.sheet-hide:checked ~ div.sheet-3colrow,
-input.sheet-hide:checked ~ div.sheet-section,
-input.sheet-hide:checked ~ h4.sheet-section-head {
-    display: none;
+/* DISABLE inputs (readonly style) when edit_mode is OFF */
+input[name="attr_edit_mode"][value="off"] ~ .sheet-layout input.sheet-edit-toggle-field {
+  background-color: #e0e0e0;
+  color: #666;
+  pointer-events: none;
+  cursor: not-allowed;
+  border: 1px solid #999;
 }
 
-/* -------------------------------------------------------------------------- */
-
-.charsheet div.sheet-major-wound {
-    display: none;
+/* ENABLE inputs normally when edit_mode is ON */
+input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle-field {
+  background-color: #f0f0f0;
+  color: black;
+  pointer-events: auto;
+  cursor: auto;
 }
 
-.sheet-majorwound[value="1"]:checked ~ div.sheet-major-wound {
-    display: block;
+/* ------------------------------- */
+/* Top, Middle, Bottom Sections */
+/* ------------------------------- */
+
+/* ------------------------------- */
+/* Top Section Layout */
+/* ------------------------------- */
+.sheet-top {
+	background: #dcdcdc;
+	border-bottom: 1px solid black;
+	display: flex;
+	flex-wrap: wrap;
+}
+.sheet-top > .sheet-top-2col,
+.sheet-top > .sheet-top-4col {
+	width: 100%;
 }
 
-/* -------------------------------------------------------------------------- */
-
-.charsheet div.sheet-downtime {
-    display: none;
+/* Two-column row layout */
+.sheet-top-2col {
+  display: flex;
+}
+.sheet-top-2col > .sheet-section {
+  flex: 1 1 50%; /* Fixed 50% width per section */
+  min-width: 0;
+  box-sizing: border-box;
 }
 
-.sheet-toggledowntime[value="1"]:checked ~ div.sheet-downtime {
-    display: block;
+/* Four-column row layout */
+.sheet-top-4col {
+  display: flex;
+}
+.sheet-top-4col > .sheet-section {
+  flex: 1 1 25%; /* Fixed 25% width per section */
+  min-width: 0;
+  box-sizing: border-box;
 }
 
-.sheet-flex3col {
+.sheet-top-4col .sheet-section select {
+  width: 100%;
+  height: 100%;
+  padding: 6px 8px;
+  margin: 0;
+  border-bottom: 1px solid black;
+  background: transparent;
+  font-size: 1em;
+  box-sizing: border-box;
+  appearance: auto;
+}
+
+.sheet-top-5col {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap; /* You can set to 'wrap' if you want mobile responsiveness */
-  justify-content: space-between;
-  width: 100%;
-  gap: 1rem; /* Optional spacing between columns */
-}
-
-.sheet-flexcol {
-  flex: 1 1 0;
-  min-width: 0; /* Allows proper shrinking inside flex */
   box-sizing: border-box;
 }
 
-.sheet-flexrow-modlogo {
+/* ------------------------------- */
+/* Middle Section Layout */
+/* ------------------------------- */
+.sheet-middle {
+  background: #d0cabe;
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* New: 3-column layout with Dice, Modifiers, Logo */
+.sheet-middle-3col {
   display: flex;
   flex-direction: row;
   width: 100%;
-  gap: 1rem; /* Optional spacing between columns */
-}
-
-.sheet-flexcol-1of3 {
-  flex: 1 1 33.33%;
   box-sizing: border-box;
-}
-
-.sheet-flexcol-2of3 {
-  flex: 2 1 66.66%;
-  box-sizing: border-box;
-}
-
-
-/* -------------------------------------------------------------------------- */
-
-.sheet-talent-section-head {
-  text-align: center;
-  margin: 0.5em 0;
-}
-
-.sheet-talent-header th {
-  background-color: #444; /* dark header for contrast */
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  padding: 4px;
+  background: #d0cabe;
   border: 1px solid black;
-  font-size: 90%;
+  margin: 0;
+  padding: 0;
+}
+/* --------------------------------------------- */
+/* Bottom Section: Tabs */
+/* (Already working, use existing tab CSS!) */
+/* --------------------------------------------- */
+
+.sheet-bottom {
+	background: #dcdcdc;
+	display: flex;
+	flex-direction: column;
 }
 
-.sheet-talent-header th:nth-child(1) {
-  width: 5%;
+/* ------------------------------- */
+/* End Section Layout */
+/* ------------------------------- */
+
+
+/* ------------------------------- */
+/* Investigator Info Section */
+/* ------------------------------- */
+/* Investigator Info Section Container */
+
+/* Main Investigator Info Grid */
+.sheet-grid-investigatorinfo {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-auto-rows: min-content;
+  gap: 0px;
+  padding: 0;
+  margin: 0;
+  background: #d0cabe; /* correct */
+  border: none;
+  box-sizing: border-box;
 }
 
-.sheet-talent-header th:nth-child(2) {
-  width: 40%;
-}
-
-.sheet-talent-header th:nth-child(3) {
-  width: 50%;
-}
-
-.sheet-talent-header th:nth-child(4) {
-  width: 5%;
-}
-
-.sheet-background-section-head {
-  text-align: center;
-  margin: 0.5em 0;
-  font-size: 1.1em;
+/* Investigator Info Labels */
+.sheet-info-label {
   font-weight: bold;
+  text-align: left;
+  padding: 2px 4px;
+  margin: 0;
+  background: #d0cabe; /* correct */
+  align-self: center;
+  color: black;
+  white-space: nowrap;
 }
 
-/* Hide all background blocks by default */
-.sheet-bgblock {
+/* Regular Input Fields */
+.sheet-grid-investigatorinfo input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 2px;
+  margin: 0;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  color: black;
+}
+
+/* Mini-grid for Age/Sex row */
+.sheet-grid-age-sex {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	width: 100%;
+	align-items: center;
+	gap: 2px;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+}
+
+.sheet-grid-age-sex input[type="text"] {
+	width: 100%;
+	min-width: 0;
+	padding: 2px;
+	margin: 0;
+	background: #f0f0f0;
+	border: 1px solid #999;
+	color: black;
+	box-sizing: border-box;
+}
+
+.sheet-grid-age-sex .sheet-info-label {
+	font-weight: bold;
+	text-align: center;
+	padding: 2px;
+	color: black;
+	background: transparent;
+	white-space: nowrap;
+}
+
+/* ------------------------------------------------ */
+
+/* ----------------- Characteristics -------------- */
+
+.sheet-grid-characteristics {
+    display: grid;
+    grid-template-columns:
+		1fr 2fr   /* STR */
+		1fr 2fr   /* DEX */
+		1fr 2fr   /* POW */
+		1em
+		1fr 1fr 1em 1fr; /* VIT */
+	width: 100%;
+    gap: 0px;
+    padding: 2px;
+    background: #d0cabe;
+    border: none;
+    box-sizing: border-box;
+}
+
+.sheet-grid-characteristics-lower {
+  display: grid;
+    grid-template-columns:
+		1fr 2fr   /* Build */
+		1fr 2fr   /* Move */
+		1fr 2fr   /* AC */
+		0.5em		  /* Divider */
+		1fr 2fr   /* Init */
+		1fr 2fr;  /* Luck */
+  gap: 0px;
+  padding: 2px 0px;
+  width: 100%;
+  background: #d0cabe;
+  box-sizing: border-box;
+  align-items: center;
+}
+.sheet-grid-characteristics-lower .sheet-grid-inline {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 0;
+	align-items: center;
+	gap: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.sheet-grid-characteristics-lower .sheet-grid-inline label {
+	color: black;
+	font-size: 0.97em;
+	padding: 0 4px;
+	gap: 0px;
+}
+
+.sheet-grid-characteristics-lower .sheet-grid-inline .sheet-checkbox-label {
+	color: black;
+	font-size: 1em;
+	white-space: nowrap;
+	text-align: left;
+}
+
+.sheet-grid-characteristics-lower .sheet-grid-inline .sheet-attr-input {
+	height: 40px;
+	width: 45px;
+}
+
+.sheet-grid-characteristics-lower .sheet-vertical-divider {
+  width: 1px;
+  background-color: #666;
+  margin: 0px 0px 0px 10px;
+  height: 40px; /* Or a fixed height like 100% or 40px */
+}
+
+/* ---------------------------- */
+/* Spenders Section Layout      */
+/* ---------------------------- */
+.sheet-grid-spenders {
+  display: grid;
+  grid-template-columns: 0.5fr auto 1em 0.5fr auto 1em;
+  align-items: center;
+  background: #d0cabe;
+  border: none;
+}
+
+/* Optional: consistent small labels */
+.sheet-info-label-small {
+  font-weight: bold;
+  text-align: left;
+  padding: 0px 4px;
+  font-size: 80%;
+  color: black;
+}
+
+/* Input style (reuse existing small input style if defined) */
+.sheet-grid-spenders input[readonly] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  text-align: center;
+  background: #e0e0e0;
+  border: 1px solid #999;
+  color: black;
+}
+
+/* ------------------------------Sheet Racials-------------------------------------------- */
+input.sheet-showracials::after {
+    float: left;
+    font-family: pictos;
+    content: "E";
+    opacity: 1.5;
+}
+
+input.sheet-showracials {
+    float: left;
+    font-family: pictos;
+    content: "E";
+    opacity: 0.5;
+}
+
+.charsheet .sheet-showracials:checked ~ div.sheet-section,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials1,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials2,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials3,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials4,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials5,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials6,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials7,
+.charsheet .sheet-showracials:checked ~ div.sheet-racials8 {
+    display: none;
+}
+
+/* ---------------------------- */
+/* Race and Damage Bonus Section Layout & Select */
+/* ---------------------------- */
+
+/* Outer Race Container */
+.sheet-race,
+.sheet-damage_bonus {
+    background: #d0cabe; /* Match combat/investigatorinfo/characteristics */
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+/* Required Roll20-specific name selector (ensures this works in sandbox) */
+select[name="attr_showracials"],
+select[name="attr_damage_bonus"] {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1em;
+  text-align: center;
+  border: 1px solid #999;
+  color: black;
+}
+
+/* ------------------------------ */
+/* Edit Mode Toggle Input Behavior */
+/* ------------------------------ */
+
+/* Grid layout for stat/luck sections */
+.sheet-grid-str,
+.sheet-grid-dex,
+.sheet-grid-pow,
+.sheet-grid-con,
+.sheet-grid-app,
+.sheet-grid-edu,
+.sheet-grid-siz,
+.sheet-grid-int,
+.sheet-grid-mag,
+.sheet-grid-initiative {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: #d0cabe;
+  padding-top: 4px;
+}
+
+/* Wrapper around each stat input + overlay roll */
+.sheet-luck-wrapper,
+.sheet-str-wrapper,
+.sheet-dex-wrapper,
+.sheet-pow-wrapper,
+.sheet-con-wrapper,
+.sheet-app-wrapper,
+.sheet-edu-wrapper,
+.sheet-siz-wrapper,
+.sheet-int-wrapper,
+.sheet-mag-wrapper,
+.sheet-move-wrapper,
+.sheet-init-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Invisible roll buttons (overlays) — default hidden */
+.sheet-luck-roll,
+.sheet-str-roll,
+.sheet-dex-roll,
+.sheet-pow-roll,
+.sheet-con-roll,
+.sheet-app-roll,
+.sheet-edu-roll,
+.sheet-siz-roll,
+.sheet-int-roll,
+.sheet-mag-roll,
+.sheet-move-roll,
+.sheet-init-roll-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: auto;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
   display: none;
 }
-
-/* =======================
-   Background Dropdown Display for Alteri
-   ======================= */
-input[name="attr_alteri_background_choice"][value="break_faced_radical"] ~ .sheet-section .sheet-bg-breakfaced,
-input[name="attr_alteri_background_choice"][value="ghostline_runner"] ~ .sheet-section .sheet-bg-ghostline,
-input[name="attr_alteri_background_choice"][value="legacy_bearer"] ~ .sheet-section .sheet-bg-legacy,
-input[name="attr_alteri_background_choice"][value="soft_year_drifter"] ~ .sheet-section .sheet-bg-softyear,
-input[name="attr_alteri_background_choice"][value="veilhaven_attendant"] ~ .sheet-section .sheet-bg-veilhaven {
-  display: block;
-}
-
-
-/* =======================
-   Background Dropdown Display for Draevi
-   ======================= */
-input[name="attr_draevi_background_choice"][value="forgeblood_scavenger"] ~ .sheet-section .sheet-bg-forgeblood,
-input[name="attr_draevi_background_choice"][value="horn_carved_wanderer"] ~ .sheet-section .sheet-bg-horncarved,
-input[name="attr_draevi_background_choice"][value="spiritbound_techshaper"] ~ .sheet-section .sheet-bg-techshaper,
-input[name="attr_draevi_background_choice"][value="tradition_keeper"] ~ .sheet-section .sheet-bg-tradition,
-input[name="attr_draevi_background_choice"][value="urban_tread"] ~ .sheet-section .sheet-bg-urban {
-  display: block;
-}
-
-
-/* =======================
-   Background Dropdown Display for Human
-   ======================= */
-input[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-section .sheet-bg-ashwar,
-input[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-section .sheet-bg-datahatched,
-input[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-section .sheet-bg-enclave,
-input[name="attr_human_background_choice"][value="gutter_fire_youth"] ~ .sheet-section .sheet-bg-gutterfire,
-input[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-section .sheet-bg-outpost,
-input[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-section .sheet-bg-scavsteel {
-  display: block;
-}
-
-
-/* Display rules for Lyranni Backgrounds */
-input[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-section .sheet-bg-aelvareth,
-input[name="attr_lyranni_background_choice"][value="echoborne"] ~ .sheet-section .sheet-bg-echoborne,
-input[name="attr_lyranni_background_choice"][value="glide_spire_scion"] ~ .sheet-section .sheet-bg-glide,
-input[name="attr_lyranni_background_choice"][value="whisper_walker"] ~ .sheet-section .sheet-bg-whisper,
-input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-section .sheet-bg-zureth {
-  display: block;
-}
-
-
-/* Table styling for racial talents and backgrounds */
-.talent-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 5px;
-}
-
-.sheet-talent-header th {
-  background-color: #444;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  padding: 4px;
-  border: 1px solid black;
-  font-size: 90%;
-}
-
-.sheet-talent-header th:nth-child(1),
-.col-a {
-  width: 5%;
-  text-align: center;
-}
-.sheet-talent-header th:nth-child(2),
-.col-benefit {
-  width: 40%;
-}
-.sheet-talent-header th:nth-child(3),
-.col-desc {
-  width: 50%;
-}
-.sheet-talent-header th:nth-child(4),
-.col-val {
-  width: 5%;
-  text-align: center;
-}
-
-/* Optional: Center talent section headers */
-.talent-center {
-  text-align: center;
-}
-
-.skill-tooltip {
-  font-size: 0.75em;
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_mov"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_mov"] {
+  pointer-events: none;
+  cursor: pointer;
+  background-color: #e0e0e0;
   color: #666;
-  background: transparent;
-  border: none;
+  border: 1px solid #999;
+}
+
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-move-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-move-roll {
+  display: block;
+  pointer-events: auto;
+  opacity: 0;
+  cursor: pointer;
+  border: 1px solid #999;
+}
+
+/* ------------------ */
+/* Edit Mode OFF rules */
+/* ------------------ */
+
+/* Input fields become readonly-like */
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_luck"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_str"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_dex"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_pow"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_con"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_app"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_edu"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_siz"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_int"],
+.sheet-layout .sheet-edit-controller[value="off"] ~ * input.sheet-edit-toggle-field[name="attr_mag"] {
+  pointer-events: none;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  color: #666;
+  border: 1px solid #999;
+}
+
+/* Show roll button overlays */
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-luck-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-str-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-dex-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-pow-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-con-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-app-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-edu-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-siz-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-int-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-mag-roll,
+.sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-init-roll-button  {
+  display: block;
+  pointer-events: auto;
+  opacity: 0;
+  cursor: pointer;
+  border: 1px solid #999;
+}
+
+/* ------------------ */
+/* Edit Mode ON rules */
+/* ------------------ */
+
+/* Inputs are editable */
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_luck"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_str"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_dex"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_pow"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_con"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_app"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_edu"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_siz"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_int"],
+.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_mag"] {
+  pointer-events: auto;
+  cursor: text;
+  background-color: #f0f0f0;
+  color: black;
+  border: 1px solid #999;
+}
+
+/* Hide roll button overlays */
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-luck-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-str-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-dex-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-pow-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-con-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-app-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-edu-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-siz-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-int-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-mag-roll,
+.sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-init-roll-button {
+  display: none;
   pointer-events: none;
 }
 
-.skill-label {
-  border: none;
-  background: transparent;
+.sheet-vertical-divider {
+  width: 1px;
+  background-color: #666;
+  margin: 0 10px;
+  height: auto; /* Or a fixed height like 100% or 40px */
+}
+
+/* ------------------------------ */
+/* Edit Mode Section & Button    */
+/* ------------------------------ */
+
+.sheet-edit-toggle {
+    background: #d0cabe; /* Match combat/investigatorinfo/characteristics */
+    box-sizing: border-box;
+}
+
+/* Edit Mode Button */
+.sheet-edit-toggle button[name="act_edit_mode"] {
+  width: 100%;
+  background-color: #444;        /* Default OFF = dark gray */
+  color: white;
   font-weight: bold;
-  pointer-events: auto;
-  cursor: help;
+  padding: 6px 0;
+  font-size: 90%;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid black;
 }
 
-input.tooltip-field {
-  width: 0;
-  padding: 0;
+/* Active Edit Mode ON = black with yellow text */
+.sheet-edit-toggle input[name="attr_edit_mode"][value="on"] ~ button[name="act_edit_mode"] {
+  background-color: black;
+  color: yellow;
+}
+
+/* ---------------------------- */
+/* HP, Strain, Vitality Grid & Layout             */
+/* ---------------------------- */
+/* Specific section widths */
+.sheet-top-5col > .sheet-section:nth-child(1) { flex: 0 0 25%; }    /* Vitality */
+.sheet-top-5col > .sheet-section:nth-child(2) { flex: 0 0 25%; }    /* Strain */
+.sheet-top-5col > .sheet-section:nth-child(3) { flex: 0 0 25%; }    /* Hit Points */
+.sheet-top-5col > .sheet-section:nth-child(4) { flex: 0 0 12%; }    /* Status */
+.sheet-top-5col > .sheet-section:nth-child(5) { flex: 0 0 13%; }    /* Luck */
+
+.sheet-top-5col > .sheet-section {
+	border: 1px solid black;
+	box-sizing: border-box;
+}
+
+/* Strain grid layout */
+.sheet-grid-hp ,
+.sheet-grid-strain,
+.sheet-grid-vitality {
+	display: grid;
+	grid-template-columns: 0.5fr 1em 0.5fr;
+	align-items: center;
+	width: 100%;
+	padding-top: 0px;
+	background: #d0cabe; /* match section background */
+}
+
+/* Slash styling */
+.sheet-hp-slash,
+.sheet-strain-slash,
+.sheet-vitality-slash,
+.sheet-luck-slash {
+	text-align: center;
+	font-size: 150%;
+	font-weight: bold;
+}
+
+/* -------------------- Status ----------------------------- */
+
+/* Inner grid for status checkboxes */
+.sheet-status-grid {
+  display: grid;
+  grid-template-columns: 14px auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  justify-content: center;
+  text-align: right;
+  background: #d0cabe;
+  padding: 0px;
+  font-size: 0.75em;
+  gap: 1px 2px;
+  height: 100%;
+}
+
+
+/* ------------------- Luck --------------------------------- */
+.sheet-grid-luck,
+.sheet-grid-initiative {
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding-top: 0px;
+	background: #d0cabe; /* match section background */
+}
+
+/* ----------------------- Dice and Logo ---------------------- */
+.sheet-dicerollsection {
+  background: #d9d9d9;
+  display: block;
+}
+
+.sheet-logo {
+  flex: 0 0 40%;
+  text-align: center;
+  background: linear-gradient(to bottom, #ffe600, #0000ff);
   margin: 0;
-  border: none;
-  background: transparent;
-  color: transparent;
+  padding: 0;
 }
 
-/* -------------------- end of Background and Talent ------------------------*/
+/* Dice Rolls (40%) */
+.sheet-dice {
+  flex: 0 0 44%;
+  min-width: 0;
+  background: #d0cabe;
+  margin: 0;
+  padding: 0;
+}
+
+.sheet-dice-roll-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Adjust minmax as needed */
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Each roll row */
+.sheet-dice-roll-wrapper {
+  position: relative;
+  height: 48px;
+  background: #d0cabe;
+  border: 1px solid #d9d9d9;
+  padding: 2px 4px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.sheet-dice-roll-wrapper button[type="roll"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.sheet-dice-roll-wrapper span {
+  z-index: 1;
+  font-weight: bold;
+  padding-left: 4px;
+}
+
+.sheet-dice-roll-wrapper button {
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+/* Custom roll row */
+.sheet-dice-custom {
+  grid-column: span 2;
+  display: flex;
+  justify-content: space-between; /* input left, button right */
+  align-items: center;
+  gap: 6px;
+  height: 100%;       /* ← ensure full height of the grid cell */
+  box-sizing: border-box;
+  padding: 0;         /* ensure no internal spacing */
+}
+
+/* Dice roll button */
+.sheet-dice-custom button {
+  color: #18650D;
+  background-color: #248c15;
+  font-weight: bold;
+  text-align: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid black;
+  line-height: 1;          /* ← fix icon overflow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* On hover */
+.sheet-dice-custom button:hover {
+  background-color: orange;
+  color: white;
+}
+.sheet-dice-custom input {
+  flex: 1;
+  width: 100%;
+  text-align: right;
+  background: #f5f5f5;
+  border: none;
+  padding: 2px 4px;
+  font-size: 0.9em;
+}
+
+/* ----------------------- Dice Modifiers ---------------------- */
+.sheet-dice_modifiers {
+  flex: 0 0 16%;
+  min-width: 0;
+  background: #d0cabe;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.sheet-dice-modifier-tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 0;
+}
+
+/* Modifier Button Base Style */
+.sheet-dice-modifier-tabs button[type="action"] {
+  flex: 0 0 24px;
+  font-weight: bold;
+  padding: 4px 6px;
+  color: black;
+  background: #d0cabe;
+  border: 1px solid #d0cabe;
+  text-align: center;
+  cursor: pointer;
+  height: 24px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Active Negative Modifier (Red) */
+.sheet-dice-modifier-tabs input[name="attr_dice_modifier_checkbox"][value="-20"] ~ button[name="act_-20"],
+.sheet-dice-modifier-tabs input[name="attr_dice_modifier_checkbox"][value="-10"] ~ button[name="act_-10"] {
+  background: #aa3333;
+  color: white;
+}
+
+/* Active Positive Modifier (Blue) */
+.sheet-dice-modifier-tabs input[name="attr_dice_modifier_checkbox"][value="10"] ~ button[name="act_10"],
+.sheet-dice-modifier-tabs input[name="attr_dice_modifier_checkbox"][value="20"] ~ button[name="act_20"] {
+  background: #3366aa;
+  color: white;
+}
+
+/* Reset all on 0 */
+.sheet-dice-modifier-tabs input[name="attr_dice_modifier_checkbox"][value="0"] ~ button {
+  background: #d0cabe;
+  color: black;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* Body hit Location */
+.sheet-rolltemplate-coc-body-hit-loc table {
+    width: 100%;
+    border: 1px solid black;
+    color: black;
+    background: #ffffff;
+    text-align: center;
+}
+.sheet-rolltemplate-coc-body-hit-loc caption {
+    text-align: center;
+    background: black;
+    color: white;
+    font-weight: bold;
+    padding: 2px;
+  border: 1px solid black;
+  line-height: 1.6em;
+}
+.sheet-rolltemplate-coc-body-hit-loc td {
+  padding: 2px;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+.sheet-rolltemplate-coc-body-hit-loc td.sheet-template_label {
+    font-weight: Bold;
+    text-align: center;
+}
+.sheet-rolltemplate-coc-body-hit-loc td.sheet-template_value {
+    text-align: center;
+}
+.sheet-rolltemplate-coc-body-hit-loc .inlinerollresult  {
+  display: inline-block;
+  min-width: 1.5em;
+  text-align: center;
+  border: 1px solid black;
+    background: #BEBEBE;
+}
+.sheet-rolltemplate-coc--body-hit-loc .inlinerollresult.importantroll {
+  border: 1px solid black;
+    background: #BEBEBE;
+    text-align: center;
+}
+
+/* -------------------------------------------------------------------------- */
 
 /* --------------------- Tabbed Selection Bar Start ------------------------------------------------------- */
 
@@ -342,12 +1106,348 @@ input.tooltip-field {
   background-color: #222;
 }
 
+/* ---------------------- Skill Section --------------------------------------------- */
+
+.sheet-skill-columns {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	column-gap: 8px;
+	max-width: 840px;
+	width: 100%;
+}
+
+.sheet-skill-column {
+	width: 32%;
+}
+
+.sheet-skill-grid-header {
+	display: grid;
+	grid-template-columns: 20px 1fr 30px 30px;
+	align-items: center;
+	background-color: #333;
+	color: white;
+	font-weight: bold;
+	border-bottom: 1px solid #000;
+	padding: 2px 0;
+	text-align: center;
+}
+
+.sheet-skill-grid {
+  display: grid;
+  grid-template-columns: 20px 1fr auto auto; /* last two are SP + Val */
+  column-gap: 0px;
+}
+
+.sheet-skill-grid > :nth-child(1),
+.sheet-skill-grid > :nth-child(2) {
+  margin-right: 4px; /* manual spacing for checkbox + label */
+}
+
+
+/* .sheet-skill-grid > div { border: 1px solid red; } */
+
+.sheet-val-roll-static {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Block interactions unless inside */
+  z-index: 0;
+}
+
+.sheet-val-roll-static input {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-color: rgba(255,255,255,0.5);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.sheet-val-roll-static button[type="roll"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.editmode .sheet-val-roll-static button[type="roll"] {
+  pointer-events: none; /* disables rolling in edit mode */
+}
+
+/* Fix for repeating section control buttons (drag & delete) */
+.repcontrol {
+  z-index: 10;
+  position: relative;
+}
+
+
+.sheet-skill-grid input[type="text"],
+.sheet-skill-grid input[type="number"] {
+  height: 20px;
+  width: 30px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input[type="text"].sheet-skill-name-input {
+    height:20px;
+	width: 162px;
+    text-align: left;
+    margin-bottom: 1px;
+}
+
+input[type="text"].sheet-narrow-input {
+    background-color: rgba(255,255,255,0.5);
+    color: black;
+    height: 16px;
+    text-align: center;
+    font-size: 85%;
+}
+
+.sheet-skill-spacer {
+	height: 8px; /* Approx half a row */
+}
+
+.skill-label-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sheet-improved-indicator {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+input[type="text"].sheet-improved-indicator {
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 14px;
+  text-align: center;
+  background-color: transparent;
+  color: #339;
+  border: 1px solid #666;
+  box-sizing: border-box;
+
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+
+.sheet-improved-indicator:focus {
+  outline: none;
+}
+
+/* ------------------------------- Background and Talent ------------------------------------------- */
+
+.sheet-talent-section-head {
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+.sheet-talent-header th {
+  background-color: #444; /* dark header for contrast */
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px;
+  border: 1px solid black;
+  font-size: 90%;
+}
+
+.sheet-talent-header th:nth-child(1) {
+  width: 5%;
+}
+
+.sheet-talent-header th:nth-child(2) {
+  width: 40%;
+}
+
+.sheet-talent-header th:nth-child(3) {
+  width: 50%;
+}
+
+.sheet-talent-header th:nth-child(4) {
+  width: 5%;
+}
+
+.sheet-background-section-head {
+  text-align: center;
+  margin: 0.5em 0;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+/* Hide all background blocks by default */
+.sheet-bgblock {
+  display: none;
+}
+
+/* =======================
+   Background Display for Alteri
+   ======================= */
+input[name="attr_alteri_background_choice"][value="break_faced_radical"] ~ .sheet-section .sheet-bg-breakfaced,
+input[name="attr_alteri_background_choice"][value="ghostline_runner"] ~ .sheet-section .sheet-bg-ghostline,
+input[name="attr_alteri_background_choice"][value="legacy_bearer"] ~ .sheet-section .sheet-bg-legacy,
+input[name="attr_alteri_background_choice"][value="soft_year_drifter"] ~ .sheet-section .sheet-bg-softyear,
+input[name="attr_alteri_background_choice"][value="veilhaven_attendant"] ~ .sheet-section .sheet-bg-veilhaven {
+  display: block;
+}
+
+
+/* =======================
+   Background Display for Draevi
+   ======================= */
+input[name="attr_draevi_background_choice"][value="forgeblood_scavenger"] ~ .sheet-section .sheet-bg-forgeblood,
+input[name="attr_draevi_background_choice"][value="horn_carved_wanderer"] ~ .sheet-section .sheet-bg-horncarved,
+input[name="attr_draevi_background_choice"][value="spiritbound_techshaper"] ~ .sheet-section .sheet-bg-techshaper,
+input[name="attr_draevi_background_choice"][value="tradition_keeper"] ~ .sheet-section .sheet-bg-tradition,
+input[name="attr_draevi_background_choice"][value="urban_tread"] ~ .sheet-section .sheet-bg-urban {
+  display: block;
+}
+
+
+/* =======================
+   Background  Display for Human
+   ======================= */
+input[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-section .sheet-bg-ashwar,
+input[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-section .sheet-bg-datahatched,
+input[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-section .sheet-bg-enclave,
+input[name="attr_human_background_choice"][value="gutter_fire_youth"] ~ .sheet-section .sheet-bg-gutterfire,
+input[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-section .sheet-bg-outpost,
+input[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-section .sheet-bg-scavsteel {
+  display: block;
+}
+
+
+/* Display rules for Lyranni Backgrounds */
+input[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-section .sheet-bg-aelvareth,
+input[name="attr_lyranni_background_choice"][value="echoborne"] ~ .sheet-section .sheet-bg-echoborne,
+input[name="attr_lyranni_background_choice"][value="glide_spire_scion"] ~ .sheet-section .sheet-bg-glide,
+input[name="attr_lyranni_background_choice"][value="whisper_walker"] ~ .sheet-section .sheet-bg-whisper,
+input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-section .sheet-bg-zureth {
+  display: block;
+}
+
+
+/* Table styling for racial talents and backgrounds */
+
+.sheet-talent-grid {
+  display: block;
+  width: 100%;
+  border: 1px solid black;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+/* Header row styles */
+.sheet-talent-header-row {
+  display: grid;
+  grid-template-columns:  30px 1fr 2fr 40px;
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid black;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+/* Data rows */
+.sheet-talent-row {
+  display: grid;
+  grid-template-columns: 30px 1fr 2fr 40px;
+  align-items: left;
+  padding: 0px 0;
+  margin: 0;
+  border-bottom: 1px solid #ccc;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+/* Cell formatting for consistent alignment */
+.sheet-talent-row .col-a,
+.sheet-talent-row .col-val {
+  text-align: center;
+}
+.col-val {
+  width: 40px;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Constrain input size in Val column */
+.col-val input {
+  width: 30px;            /* slightly less to account for padding/borders */
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 2px;
+  margin: 0;
+  height: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 0.85em;
+}
+
+.col-desc {
+  width: 200px;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.col-benefit {
+  width: 125px;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+}
+
+/* -------------------- end of Background and Talent ------------------------*/
+
 /* ------------------- Tabs - Background styling - Start ------------------------------------------------------- */
 
 /* Default hidden */
 .sheet-bgblock {
   display: none;
 }
+
+.sheet-racials1,
+.sheet-racials2,
+.sheet-racials3,
+.sheet-racials4,
+.sheet-racials5,
+.sheet-racials6,
+.sheet-racials7,
+.sheet-racials8 {
+  display: none;
+}
+
 
 .sheet-bgblock-flex {
   display: flex;
@@ -377,6 +1477,38 @@ input.tooltip-field {
   max-width: 100%;
   height: auto;
   object-fit: contain;
+}
+
+input[name="attr_showracials"][value="alteri"] ~ .sheet-racials1 {
+  display: block;
+}
+
+input[name="attr_showracials"][value="draevi"] ~ .sheet-racials2 {
+  display: block;
+}
+
+input[name="attr_showracials"][value="feran"] ~ .sheet-racials3 {
+  display: block;
+}
+
+input[name="attr_showracials"][value="human"] ~ .sheet-racials4 {
+  display: block;
+}
+
+input[name="attr_showracials"][value="khadra"] ~ .sheet-racials5 {
+  display: block;
+}
+
+input[name="attr_showracials"][value="kitsu"] ~ .sheet-racials6 {
+  display: block;
+}
+
+input[name="attr_showracials"][value="lyranni"] ~ .sheet-racials7 {
+  display: block;
+}
+
+input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
+  display: block;
 }
 
 /* Alteri Background Tab Display Logic */
@@ -455,6 +1587,70 @@ input.tooltip-field {
 
 /* --------------------- Tabs - Talent styling - Start ----------------------------------------------------- */
 
+.sheet-layout div.sheet-racials1 {
+    display: none;
+}
+
+.charsheet div.sheet-racials2 {
+    display: none;
+}
+
+.charsheet div.sheet-racials3 {
+    display: none;
+}
+
+.charsheet div.sheet-racials4 {
+    display: none;
+}
+
+.charsheet div.sheet-racials5 {
+    display: none;
+}
+
+.charsheet div.sheet-racials6 {
+    display: none;
+}
+
+.charsheet div.sheet-racials7 {
+    display: none;
+}
+
+.charsheet div.sheet-racials8 {
+    display: none;
+}
+
+.sheet-showracials[value="alteri"]:checked ~ div.sheet-racials1 {
+    display: block;
+}
+
+.sheet-showracials[value="draevi"]:checked ~ div.sheet-racials2 {
+    display: block;
+}
+
+.sheet-showracials[value="feran"]:checked ~ div.sheet-racials3 {
+    display: block;
+}
+
+.sheet-showracials[value="human"]:checked ~ div.sheet-racials4 {
+    display: block;
+}
+
+.sheet-showracials[value="khadra"]:checked ~ div.sheet-racials5 {
+    display: block;
+}
+
+.sheet-showracials[value="kitsu"]:checked ~ div.sheet-racials6 {
+    display: block;
+}
+
+.sheet-showracials[value="lyranni"]:checked ~ div.sheet-racials7 {
+    display: block;
+}
+
+.sheet-showracials[value="veyra"]:checked ~ div.sheet-racials8 {
+    display: block;
+}
+
 /* Talent tab layout styling */
 .sheet-talent-tab {
   display: none;
@@ -508,6 +1704,866 @@ input.tooltip-field {
 
 /* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
 
+/* ------------------------------- */
+/* Main tab content block for Combat */
+/* ------------------------------- */
+.sheet-tab-content.sheet-combat {
+  margin-top: 10px;
+  background: #d0cabe; /* Light tan/gray inside sections */
+  padding: 10px;
+  border: 1px solid black;
+}
+
+/* ------------------------------- */
+/* Inner row layout (within sections) */
+/* ------------------------------- */
+.sheet-combat .sheet-colrow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #d0cabe; /* Also needs to match section background */
+}
+
+/* ------------------------------- */
+/* Combat Section Header (h4 Section-Head) */
+/* ------------------------------- */
+.section-head {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  background-image: linear-gradient(black, #112749); /* Black to dark blue */
+  background-color: #112749; /* fallback */
+  color: white;
+  padding: 4px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+/* --------------------------------------- Combat ---------------------------------- */
+/* Main Combat Block */
+.sheet-tab-content.sheet-combat {
+  margin-top: 10px;
+  background: ##c3c9bd; /* darker gray like old layout */
+  padding: 10px;
+  border: 1px solid black;
+}
+
+/* Inner Row Layout */
+.sheet-combat .sheet-colrow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* ---------------- Combat Section Flex Layout ---------------- */
+
+/* Fieldset */
+fieldset.repeating_weaponsmdr {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* Container for all weapon entries */
+.repcontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+/* Each repeated weapon entry */
+.repitem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each flex-row inside weapon */
+.repitem .flex-row,
+.sheet-weapon-header .flex-row,
+.sheet-weapon-default .flex-row,
+.sheet-weapon-block .flex-row {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+}
+
+/* General Flex Cell */
+.flex-cell {
+  padding: 0; /* No padding inside cells */
+  margin: 0;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+}
+
+/* Flex Widths */
+.weapon-name { flex: 2 1 28%; }
+.weapon-roll { flex: 0 0 24px; }
+.weapon-skill { flex: 1.5 1 14%; }
+.weapon-damage { flex: 1 1 7%; }
+.weapon-damage-bonus { flex: 1 1 7%; }
+.weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 8%; }
+.weapon-malf, .weapon-strain { flex: 0.8 1 6%; }
+
+/* Inputs and Selects */
+.flex-cell input[type="text"],
+.flex-cell select {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  text-align: center;
+  background: #d9d9d9;
+}
+
+/* Specific text alignments */
+.weapon-name input { text-align: center; }
+.weapon-skill select, .weapon-skill input { text-align: center; }
+.weapon-damage input { text-align: right; }
+.weapon-damage-bonus select { text-align: left; }
+.weapon-range input, .weapon-attacks input, .weapon-ammo input, .weapon-malf input, .weapon-strain input { text-align: center; }
+
+/* Weapon Header Row (Weapon, Skill, Damage, etc.) */
+.sheet-weapon-header {
+  background: black;
+  color: white;
+  font-weight: bold;
+
+}
+
+.sheet-weapon-header .flex-cell {
+  background: black;
+  color: white;
+  text-align: center;
+  border: 1px solid black;
+}
+
+/* Disabled (Unarmed row) */
+.sheet-weapon-default input[disabled],
+.sheet-weapon-default select[disabled] {
+  background: #d9d9d9;
+  color: #666;
+  border: none;
+}
+
+/* Roll Button Style */
+button[type="roll"].new-roll {
+  color: #18650D;
+  background-color: #248c15;
+  font-weight: bold;
+  text-align: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid black;
+  line-height: 1;          /* ← fix icon overflow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* On hover */
+button[type="roll"]:hover.new-roll {
+  background-color: orange;
+  color: white;
+}
+
+/* Disabled roll button */
+.sheet-weapon-default .weapon-roll button[disabled] {
+  background: #BEBEBE;
+  border: 1px solid #999;
+}
+
+/* Hide both by default */
+.sheet-roll-noimpale,
+.sheet-roll-impale {
+  display: none;
+}
+
+/* Show impale only */
+.sheet-attack-toggle[value="impale"] + .sheet-roll-noimpale {
+  display: none;
+}
+.sheet-attack-toggle[value="impale"] + .sheet-roll-noimpale + .sheet-roll-impale {
+  display: inline-block;
+}
+
+/* Show noimpale only */
+.sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale {
+  display: inline-block;
+}
+.sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale + .sheet-roll-impale {
+  display: none;
+}
+
+/* ------------------------------- Spells ----------------------- */
+
+/* ---------- Layout ---------- */
+
+.sheet-spell-tracker {
+  width: 150px;
+  border: 1px solid black;
+  margin: 0 0 10px 0;
+  background-color: #d0cabe;
+  box-shadow: 0 0 2px rgba(0,0,0,0.4);
+  padding: 4px;
+}
+
+.sheet-spell-tracker-header {
+  background: linear-gradient(to bottom, #2f2f2f, #1a1a1a);
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  padding: 4px 8px;
+  font-size: 90%;
+  border-bottom: 1px solid black;
+}
+
+.sheet-spell-tracker-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 0px;
+}
+
+.spell-cost-input,
+.spell-capacity-input {
+  width: 67px;
+  height: 23px;
+  font-size: 90%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: black;
+  border: 1px solid #888;
+  box-sizing: border-box;
+}
+
+.slash-divider {
+  font-weight: bold;
+  font-size: 150%;
+  color: black;
+}
+.sheet-spell-row-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding-bottom: 0px;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+}
+
+/* Shift left column down to align with top of textarea */
+.sheet-spell-info-left {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  margin-top: 30px; /* <-- shift down */
+}
+
+.sheet-spell-info-right {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 4px;
+}
+
+.sheet-spell-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+/* Label block with fixed width */
+.sheet-spell-label {
+  font-weight: bold;
+  font-size: 100%;
+  white-space: nowrap;
+  color: black;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4px;
+}
+
+/* Special case for section heading (like "Description") */
+.sheet-spell-info-right > .sheet-spell-label {
+  width: auto;
+  margin-bottom: 4px;
+}
+
+.sheet-wide-input {
+  font-size: 100%;
+  height: 23px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  border: 1px solid #aaa;
+  padding: 2px;
+  box-sizing: border-box;
+}
+.sheet-spell-textarea {
+  width: 100%;
+  height: 70px;
+  font-size: 90%;
+  background-color: rgba(255, 255, 255, 0.5);
+  resize: vertical;
+  color: black;
+  border: 1px solid #666;
+  box-sizing: border-box;
+}
+
+/* ---------- Prepared Toggle Styling via Mirror ---------- */
+/* Match select width to input */
+.sheet-prepared-toggle {
+  width: 150px;
+  font-size: 100%;
+  text-align: center;
+  padding: 2px;
+  border: 1px solid black;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  box-sizing: border-box;
+}
+
+
+/* Mirror value selector styles */
+input.sheet-prepared-mirror[value="0"] ~ select.sheet-prepared-toggle {
+  background-color: #d3d3d3;
+  color: #000000;
+}
+input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
+  background-color: black;
+  color: #00ff00;
+}
+
+/* Default input style */
+.sheet-prep-cost-input {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Base style for the overflow-sensitive input */
+.sheet-overflow-sensitive {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Overflow warning */
+input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
+  background-color: red;
+  color: yellow;
+}
+
+/* ----------------- Gear and Inventory ---------------------- */
+
+.sheet-gear-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+
+/* Grid layout for Cash and Assets inputs */
+.sheet-cash-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px; /* <-- fix colon and increase padding */
+  background-color: #d0cabe; /* optional if needed for clarity */
+  border: 1px solid #aaa;     /* optional: visual frame */
+  box-sizing: border-box;
+}
+
+
+/* Each label/input or label/textarea pair */
+.sheet-cash-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Label column style */
+.sheet-cash-label {
+  width: 110px;
+  font-weight: bold;
+  font-size: 100%;
+  white-space: nowrap;
+  color: black;
+  padding: 4px;
+}
+
+.sheet-cash-grid input,
+.sheet-cash-grid textarea {
+  margin: 0; /* remove any unwanted margin */
+  padding: 4px; /* ensure inner spacing */
+  box-sizing: border-box;
+}
+
+.sheet-gear-textarea {
+  width: 100%;
+  height: 200px; /* or whatever you need */
+  font-size: 90%;
+  background-color: rgba(255, 255, 255, 0.5);
+  resize: vertical;
+  color: black;
+  border: 1px solid #666;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+
+
+/* ------------------- Backstory ----------------------------- */
+
+.sheet-backstory-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.sheet-backstory-col {
+  flex: 1 1 48%;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sheet-backstory-label {
+  font-weight: bold;
+  font-size: 100%;
+  color: black;
+  padding: 2px 0;
+}
+
+.sheet-backstory-textarea {
+  width: 100%;
+  height: 75px;
+  resize: vertical;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  padding: 4px;
+  border: 1px solid #666;
+  box-sizing: border-box;
+}
+
+/* ------------------ NPC Section Scoped Styles ------------------ */
+.sheet-companions .sheet-npc-content-left {
+  display: flex;
+  flex-direction: row; /* switch from column to row */
+  gap: 4px; /* spacing between each section */
+  flex-wrap: nowrap; /* optional: wrap if screen gets tight */
+}
+
+.sheet-companions .sheet-npcblock-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0px;
+  margin-top: 10px;
+}
+
+/* Left Column (Name, SAN, General Info, etc.) */
+.sheet-companions .sheet-npc-left {
+  flex: 1 1 55%;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Right Column (Attributes, Skills, Weapons) */
+.sheet-companions .sheet-npc-right {
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sheet-companions .sheet-npc-skills-section {
+  margin-top: 0;     /* Remove extra spacing above */
+  padding-top: 0;    /* Optional: also remove padding */
+}
+
+.sheet-companions .sheet-npc-mini-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex-wrap: nowrap; /* ⛔ Prevent wrapping */
+  align-items: flex-start;
+}
+
+.sheet-companions .sheet-npc-mini-flex .sheet-narrow-input {
+  width: 24px;
+  height: 20px;
+  padding: 1px 2px;
+  font-size: 85%;
+  text-align: center;
+  border: 1px solid #aaa;
+  background: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+
+.sheet-companions .sheet-npc-mini-flex .sheet-npc-row {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row; /* <— was column, this is the key fix */
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.sheet-companions .sheet-npc-mini-flex .sheet-npc-label {
+  flex: 0 0 60px;
+  font-weight: bold;
+  color: black;
+  font-size: 85%;
+}
+
+.sheet-companions .sheet-npc-mini-flex .sheet-npc-val {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+}
+
+
+/* Generic Row Layout */
+.sheet-companions .sheet-npc-row,
+.sheet-companions .sheet-npc-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+
+.sheet-companions .sheet-npc-label {
+  flex: 0 0 15%;
+  width: 60px;
+  font-weight: bold;
+  font-size: 100%;
+  color: black;
+  white-space: wrap;
+}
+
+.sheet-companions .sheet-npc-val {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.sheet-companions input[name="attr_minionmove"] {
+  width: 24px;         /* or whatever fixed width you want */
+  height: 20px;
+  padding: 1px 0px;
+  text-align: center;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+  color: black;
+  flex: 0 0 auto;       /* don't grow/shrink */
+}
+
+/* Inputs */
+.sheet-companions .sheet-wide-input {
+  flex: 1;
+  height: 23px;
+  width: 80px;
+  text-align: center;
+  font-size: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+}
+
+.sheet-companions .sheet-narrow-input {
+  width: 10%;
+  height: 23px;
+  text-align: center;
+  font-size: 90%;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+}
+
+/* Textareas */
+.sheet-companions .sheet-npc-textarea {
+  width: 100%;
+  height: 60px;
+  font-size: 90%;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  border: 1px solid #666;
+  resize: vertical;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+/* Roll Buttons */
+.sheet-companions .smallbutton-roll,
+.sheet-companions .smallnonskillbutton-roll {
+  height: 23px;
+  font-size: 90%;
+  margin-left: 4px;
+}
+
+.sheet-companions .sheet-npc-attribute-grid {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  column-gap: 4px;
+  padding-left: 4px;
+  margin-top: 2px;
+}
+
+.sheet-companions .sheet-npc-attribute-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 85%;
+  line-height: 1;
+}
+
+.sheet-companions .sheet-npc-attr-label {
+  width: 20px;
+  text-align: right;
+  font-weight: bold;
+  color: black;
+  margin: 0;
+}
+
+.sheet-companions .sheet-npc-attr-input {
+  width: 24px;
+  height: 10px;
+  padding: 1px 0px;
+  text-align: center;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+  color: black;
+}
+
+.sheet-companions .sheet-npc-attr-roll {
+  height: 20px;
+  width: auto;
+  padding: 0 2px;
+  margin: 0;
+}
+
+/* Skills Section */
+.sheet-companions .sheet-companion-info-header,
+.sheet-companions .sheet-companion-attr-header,
+.sheet-companions .sheet-companion-skill-header{
+  font-weight: bold;
+  margin-top: 0px;
+  padding-left: 4px;
+  color: black;
+}
+.sheet-companions .sheet-companion-info-header {
+	margin-bottom: 2px;
+}
+
+/* Final layout for Weapons section */
+.sheet-companions .sheet-npc-content-right {
+  background: transparent; /* remove dark background */
+  border: none;
+  padding: 0;
+  margin-top: 6px;
+}
+
+.sheet-companions .sheet-companion-weapon-header {
+  font-weight: bold;
+  margin-bottom: 2px;
+  padding-left: 4px;
+  color: black;
+}
+
+/* Each weapon row is side-by-side */
+.sheet-companions .sheet-npc-content-right .sheet-npc-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0px;
+}
+
+/* Inputs in weapons section */
+.sheet-companions .sheet-npc-content-right input.sheet-wide-input {
+  width: 100%;
+  max-width: 170px;
+}
+
+.sheet-companions .sheet-npc-content-right input.sheet-narrow-input {
+  width: 60px;
+}
+
+.sheet-companions .sheet-npc-content-right .smallbutton-roll {
+  height: 20px;
+  font-size: 85%;
+  padding: 0 4px;
+}
+
+
+.sheet-companions .sheet-npc-content-right .sheet-wide-input {
+  max-width: 48%;
+}
+
+.sheet-social-mode-toggle[value="0"] ~ .sheet-toggle-social-mode-on-bonus,
+.sheet-social-mode-toggle[value="0"] ~ .sheet-toggle-social-mode-on-penalty {
+  display: none;
+}
+
+.sheet-social-mode-toggle[value="1"] ~ .sheet-toggle-social-mode-off,
+.sheet-social-mode-toggle[value="1"] ~ .sheet-toggle-social-mode-on-bonus {
+  display: none;
+}
+
+.sheet-social-mode-toggle[value="2"] ~ .sheet-toggle-social-mode-off,
+.sheet-social-mode-toggle[value="2"] ~ .sheet-toggle-social-mode-on-penalty {
+  display: none;
+}
+
+.sheet-toggle-social-mode-off,
+.sheet-toggle-social-mode-on-bonus,
+.sheet-toggle-social-mode-on-penalty {
+  display: inline-block;
+}
+
+
+
+/* --------------------------- Vehicles -------------------------------------------------------------*/
+.sheet-vehicle-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+}
+
+.sheet-vehicle-column-right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sheet-vehicle-column-left {
+  width: 100%;
+  max-width: 100%;
+  flex: 1 1 auto;
+}
+
+.sheet-vehicle-info {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sheet-vehicle-info .sheet-wide-input {
+	height: 23px;
+	width: 25px;
+}
+
+.sheet-vehicle-info .sheet-name-row .sheet-wide-input{
+	height: 23px;
+	width: 195px;
+}
+
+.sheet-vehicle-row,
+.sheet-vehicle-grid-header {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  align-items: top;
+  gap: 0.5rem;
+}
+
+.sheet-wrapper .sheet-vehicle-col-label {
+  font-weight: bold;
+  color: black;
+}
+
+.sheet-vehicle-col-value {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.sheet-vehicle-textarea {
+  min-height: 40px;
+  resize: vertical;
+  padding: 4px;
+  width: 100%;
+}
+
+.sheet-vehicle-weaponblock {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.sheet-vehicle-impact-row {
+  display: flex;
+  align-items: flex-start; /* valid */
+  gap: 3px;
+}
+
+.sheet-vehicle-impact-row > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 1 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sheet-vehicle-impact-row > div > .sheet-vehicle-col-label {
+  height: 23px;
+  background-color: #f0f0f0;
+  text-align: center;
+  padding: 4px;
+  margin-bottom: 1px;
+  border: 1px solid #8b8680;
+  color: #a9a9a9;
+}
+
+.sheet-vehicles-wrapper .sheet-name-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: left;
+}
+
+
 
 /* --------------------- Tabbed Selection Bar - End  --------------------------------------------------------- */
 
@@ -528,30 +2584,6 @@ input.tooltip-field {
 }
 
 .sheet-togglearmor[value="1"]:checked ~ div.sheet-armorsection {
-    display: block;
-}
-
-/* -------------------------------------------------------------------------- */
-
-.charsheet .debug-output {
-  display: none;
-}
-
-input[name="attr_show_debug_output"][value="1"] ~ .debug-output {
-  display: block;
-}
-
-.charsheet div.sheet-dicemodifiersection {
-    display: none;
-}
-
-.sheet-toggledmod[value="1"]:checked ~ div.sheet-dicemodifiersection {
-    display: block;
-}
-
-/* -------------------------------------------------------------------------- */
-
-.charsheet div.sheet-dicerollsection {
     display: block;
 }
 
@@ -637,19 +2669,19 @@ input[name="attr_show_debug_output"][value="1"] ~ .debug-output {
 }
 
 .charsheet div.sheet-skills4 {
-    display: none;    
+    display: none;
 }
 
 .charsheet div.sheet-skills5 {
-    display: none;    
+    display: none;
 }
 
 .charsheet div.sheet-skills6 {
-    display: none;    
+    display: none;
 }
 
 .charsheet div.sheet-skills7 {
-    display: none;    
+    display: none;
 }
 
 .sheet-showskills[value="1"]:checked ~ div.sheet-skills1 {
@@ -680,71 +2712,7 @@ input[name="attr_show_debug_output"][value="1"] ~ .debug-output {
     display: block;
 }
 
-/* --------------------------------Racial Talents------------------------------------------ */
 
-.charsheet div.sheet-racials1 {
-    display: none;
-}
-
-.charsheet div.sheet-racials2 {
-    display: none;
-}
-
-.charsheet div.sheet-racials3 {
-    display: none;
-}
-
-.charsheet div.sheet-racials4 {
-    display: none;    
-}
-
-.charsheet div.sheet-racials5 {
-    display: none;    
-}
-
-.charsheet div.sheet-racials6 {
-    display: none;    
-}
-
-.charsheet div.sheet-racials7 {
-    display: none;    
-}
-
-.charsheet div.sheet-racials8 {
-    display: none;    
-}
-
-.sheet-showracials[value="alteri"]:checked ~ div.sheet-racials1 {
-    display: block;
-}
-
-.sheet-showracials[value="draevi"]:checked ~ div.sheet-racials2 {
-    display: block;
-}
-
-.sheet-showracials[value="feran"]:checked ~ div.sheet-racials3 {
-    display: block;
-}
-
-.sheet-showracials[value="human"]:checked ~ div.sheet-racials4 {
-    display: block;
-}
-
-.sheet-showracials[value="khadra"]:checked ~ div.sheet-racials5 {
-    display: block;
-}
-
-.sheet-showracials[value="kitsu"]:checked ~ div.sheet-racials6 {
-    display: block;
-}
-
-.sheet-showracials[value="lyranni"]:checked ~ div.sheet-racials7 {
-    display: block;
-}
-
-.sheet-showracials[value="veyra"]:checked ~ div.sheet-racials8 {
-    display: block;
-}
 
 /* ------------------------------Options Config-------------------------------------------- */
 .sheet-HideConfig:checked ~ *.sheet-config {
@@ -761,7 +2729,7 @@ input[name="attr_show_debug_output"][value="1"] ~ .debug-output {
 
 .charsheet span.sheet-is-config {
     text-align: center;
-    display: inline-block;    
+    display: inline-block;
     width: 5%;
     height: 16px;
     font-size: 9px;
@@ -770,14 +2738,13 @@ input[name="attr_show_debug_output"][value="1"] ~ .debug-output {
     background: black; /*#93537c;*/
 	color: white; /*white;*/
 	font-weight: bold;
-	border-radius: 4px;
 	margin-left: -5%;
 }
 
 .charsheet input.sheet-HideConfig {
      width: 5%;
     height: 16px;
-    cursor: pointer;	
+    cursor: pointer;
     margin-left: auto;
     margin-top: auto;
 	/*position: absolute;
@@ -788,14 +2755,13 @@ input[name="attr_show_debug_output"][value="1"] ~ .debug-output {
 
 .charsheet .sheet-HideConfig:checked + span.sheet-is-config {
     background: black;
-    border-radius: 4px;
 	color: white;
 }
 
 .charsheet label.sheet-configitem {
-    margin-left: 10px; 
-    width: 50px; 
-    font-size: .9em; 
+    margin-left: 10px;
+    width: 50px;
+    font-size: .9em;
     font-weight: normal
 }
 
@@ -827,34 +2793,6 @@ input.sheet-arrow {
     display: none;
 }
 
-/* ------------------------------Sheet Racials-------------------------------------------- */
-
-
-input.sheet-showracials::after {
-    float: left;
-    font-family: pictos;
-    content: "E";
-    opacity: 1.5;
-}
-
-input.sheet-showracials {
-    float: left;
-    font-family: pictos;
-    content: "E";
-    opacity: 0.5;
-}
-
-.charsheet .sheet-showracials:checked ~ div.sheet-section,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials1,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials2,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials3,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials4,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials5,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials6,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials7,
-.charsheet .sheet-showracials:checked ~ div.sheet-racials8 {
-    display: none;
-}
 
 /* -------------------------------Headers Coloring------------------------------------------- */
 
@@ -928,7 +2866,7 @@ input.sheet-showracials {
     border: 1px solid black;
 }
 
-.sheet-showpulp[value="1"]:checked ~ h4.sheet-section-head, 
+.sheet-showpulp[value="1"]:checked ~ h4.sheet-section-head,
 .sheet-showpulp[value="1"]:checked ~ div.sheet-pulphpsection h4.sheet-section-head,
 .sheet-showpulp[value="1"]:checked ~ div.sheet-heroinfo h4.sheet-section-head {
     background-image: linear-gradient(#750000, #800000);
@@ -942,238 +2880,6 @@ input.sheet-showracials {
 
 /* -------------------------------------------------------------------------- */
 
-h4.sheet-section-head {
-    background-color: black;
-    color: white;
-    text-align: center;
-    font-weight: normal;
-    font-style: normal;
-    border: 1px solid black;
-}
-
-hr { 
-  display: block;
-  margin-top: 0.7em;
-  margin-bottom: 0.7em;
-  border: 0;
-  height: 1px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
-}
-
-div.sheet-section {
-    background-color: #c4beb6; /* #c9c7c3  #d1cdc5 #c9c8c5   */
-    border: 2px solid black;
-    padding: 1%;
-    margin: 0 0 1% 0;
-}
-
-div.sheet-talent-section {
-    background-color: #c4beb6; /* #c9c7c3  #d1cdc5 #c9c8c5   */
-    border: 2px solid black;
-    padding: 1%;
-    margin: 0 0 1% 0;
-}
-
-table td.sheet-attr {
-    width: 13.33%;
-    height: 58px;
-}
-
-table td.sheet-attr-label {
-    height: 56px;
-    font-size: 120%; 
-    text-align: center;
-}
-
-table td.sheet-attr-label-small {
-    height: 56px;
-    font-size: 80%; 
-    text-align: center;
-}
-
-input[type="text"].sheet-attr-input {
-    width: 52px; 
-    height: 40px; 
-    font-size: 200%; 
-    text-align: center;
-}
-
-input[type="text"].sheet-attr-input-small {
-    width: 40px; 
-    height: 40px; 
-    font-size: 125%; 
-    text-align: center;
-}
-
-table td.sheet-attr-roll {
-    height: 56px;
-    text-align: center;
-}
-
-input.sheet-secondary-attr-input {
-    width: 100%;
-    text-align: center;
-}
-
-input[type="number"].sheet-secondary-attr-input {
-    width: 100%;
-    text-align: center;
-}
-
-table td.sheet-skill-label {
-    width: 100%;
-    height: 23px;
-}
-
-table td.sheet-talent-label {
-    width: 200px;
-    height: 23px;
-}
-
-
-input[type="text"].sheet-skill-input {
-    width: 30px;
-    height: 23px;
-    text-align: center;
-    background-color: rgba(255,255,255,0.5);
-    margin-bottom: 1px;
-}
-
-input[type="number"].sheet-skill-input {
-    width: 30px;
-    height: 23px;
-    text-align: center;
-    margin-bottom: 1px;
-}
-
-input[type="text"].sheet-skill-name-input {
-    height: 23px;
-    text-align: left;
-    margin-bottom: 1px;
-}
-
-td.sheet-otherskill-reminder {
-    font-size: 80%;
-}
-
-input[type="text"].sheet-narrow-input {
-    background-color: rgba(255,255,255,0.5);
-    color: black;
-    height: 16px;
-    text-align: center;
-    font-size: 85%;
-}
-
-texarea.sheet-backstory-box {
-    height: 75px;
-    background-color: rgba(255,255,255,0.5);
-}
-
-textarea {
-    background-color: rgba(255,255,255,0.5);
-    resize: vertical;
-    margin: 0 0 0 0;
-}
-
-input {
-    background-color: rgba(255,255,255,0.5);
-}
-
-/* ---------- Layout ---------- */
-.sheet-spell-info-left {
-  width: 35%;
-}
-.sheet-spell-info-right {
-  width: 63%;
-}
-.sheet-spell-meta-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-/* Spacer row before first input (for alignment) */
-.sheet-spell-name-spacer {
-  height: 12px; /* Half the height of the input row */
-}
-
-.sheet-spell-label {
-  font-size: 100%;
-  font-weight: bold;
-  white-space: nowrap;
-  width: 90px;
-
-}
-.sheet-wide-input {
-  flex: 1;
-  text-align: center;
-  font-size: 100%;
-  height: 23px;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
-.sheet-spell-textarea {
-  width: 95%;
-  height: 31px;
-  font-size: 80%;
-  background-color: rgba(255,255,255,0.5);
-  resize: vertical;
-}
-
-/* ---------- Prepared Toggle Styling via Mirror ---------- */
-.sheet-prepared-toggle {
-  flex: 1;
-  font-size: 100%;
-  text-align: center;
-  padding: 2px;
-  border: 1px solid black;
-  border-radius: 4px;
-}
-
-/* Mirror value selector styles */
-input.sheet-prepared-mirror[value="0"] ~ select.sheet-prepared-toggle {
-  background-color: #d3d3d3;
-  color: #000000;
-}
-input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
-  background-color: black;
-  color: #00ff00;
-}
-
-/* Default input style */
-.sheet-prep-cost-input {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
-
-/* Inputs inside the Arcane Tracker */
-.secondary-attr-input {
-  width: 100%;
-  text-align: center;
-  font-size: 100%;
-  height: 23px;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* Base style for the overflow-sensitive input */
-.sheet-overflow-sensitive {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
-
-/* Overflow warning */
-input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
-  background-color: red;
-  color: yellow;
-}
-
-
-
 /* ------------------------------------------ *//* Roll Templates *//* --------------------------------------- */
 
 /* BD/PD defence rolltemplate */
@@ -1181,7 +2887,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-defence caption {
     text-align: center;
@@ -1229,7 +2935,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-defence-1 caption {
     text-align: center;
@@ -1276,7 +2982,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-vehicleattack caption {
     text-align: center;
@@ -1319,50 +3025,153 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 
 /* PD/BD rolltemplate */
-.sheet-rolltemplate-coc table {
-    width: 100%;
-    border: 1px solid black;
-    color: black;
-    background: #FFFFFF;
+.sheet-rolltemplate-coc table,
+.sheet-rolltemplate-coc-penalty table,
+.sheet-rolltemplate-coc-bonus table {
+  width: 100%;
+  border: 1px solid black;
+  color: black;
+  background: #ffffff;
 }
-.sheet-rolltemplate-coc caption {
-    text-align: center;
-    background: black;
-    color: white;
-    font-weight: bold;
-    padding: 2px;
+
+.sheet-rolltemplate-coc caption,
+.sheet-rolltemplate-coc-penalty caption,
+.sheet-rolltemplate-coc-bonus caption {
+  text-align: center;
+  background: black;
+  color: white;
+  font-weight: bold;
+  padding: 2px;
   border: 1px solid black;
   line-height: 1.6em;
 }
-.sheet-rolltemplate-coc td {
+
+.sheet-rolltemplate-coc td,
+.sheet-rolltemplate-coc-penalty td,
+.sheet-rolltemplate-coc-bonus td {
   padding: 2px;
   border-bottom: 1px solid black;
 }
-.sheet-rolltemplate-coc td.sheet-template_label {
-    font-weight: bold;
+
+.sheet-rolltemplate-coc td.sheet-template_label,
+.sheet-rolltemplate-coc-penalty td.sheet-template_label,
+.sheet-rolltemplate-coc-bonus td.sheet-template_label {
+  font-weight: bold;
 }
-.sheet-rolltemplate-coc td.sheet-template_value {
-    text-align: center;
+
+.sheet-rolltemplate-coc td.sheet-template_value,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value {
+  text-align: center;
 }
-.sheet-rolltemplate-coc .inlinerollresult  {
+.sheet-rolltemplate-coc td.sheet-template_value,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value,
+.sheet-rolltemplate-coc td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_critical,
+.sheet-rolltemplate-coc td.sheet-template_value_success,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_success,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_success,
+.sheet-rolltemplate-coc td.sheet-template_value_hard,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_hard,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_hard,
+.sheet-rolltemplate-coc td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc td.sheet-template_value_fail,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_fail,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_fail,
+.sheet-rolltemplate-coc td.sheet-template_value_fumble,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_fumble,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_fumble {
+  text-align: center;
+}
+
+.sheet-rolltemplate-coc td.sheet-template_label,
+.sheet-rolltemplate-coc-penalty td.sheet-template_label,
+.sheet-rolltemplate-coc-bonus td.sheet-template_label,
+.sheet-rolltemplate-coc td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_critical,
+.sheet-rolltemplate-coc td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc td.sheet-template_value_fumble,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_fumble,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_fumble {
+  font-weight: bold;
+}
+
+.sheet-rolltemplate-coc td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_critical {
+  background: Lime;
+}
+
+.sheet-rolltemplate-coc td.sheet-template_value_success,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_success,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_success {
+  background: DarkGreen;
+}
+
+.sheet-rolltemplate-coc td.sheet-template_value_hard,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_hard,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_hard {
+  background: Green;
+}
+
+.sheet-rolltemplate-coc td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_extreme {
+  background: LightGreen;
+}
+
+.sheet-rolltemplate-coc td.sheet-template_value_fail,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_fail,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_fail {
+  background: Crimson;
+}
+
+.sheet-rolltemplate-coc td.sheet-template_value_fumble,
+.sheet-rolltemplate-coc-penalty td.sheet-template_value_fumble,
+.sheet-rolltemplate-coc-bonus td.sheet-template_value_fumble {
+  background: Red;
+}
+
+
+.sheet-rolltemplate-coc .inlinerollresult,
+.sheet-rolltemplate-coc-penalty .inlinerollresult,
+.sheet-rolltemplate-coc-bonus .inlinerollresult {
   display: inline-block;
   min-width: 1.5em;
   text-align: center;
   border: 2px solid black;
-    background: #BEBEBE;
+  color: white;
+  background: #BEBEBE;
 }
-.sheet-rolltemplate-coc .inlinerollresult.fullcrit {
+
+.sheet-rolltemplate-coc .inlinerollresult.fullcrit,
+.sheet-rolltemplate-coc-penalty .inlinerollresult.fullcrit,
+.sheet-rolltemplate-coc-bonus .inlinerollresult.fullcrit {
   border: 2px solid black;
-    background: #BEBEBE;
+  background: #BEBEBE;
 }
-.sheet-rolltemplate-coc .inlinerollresult.fullfail {
+
+.sheet-rolltemplate-coc .inlinerollresult.fullfail,
+.sheet-rolltemplate-coc-penalty .inlinerollresult.fullfail,
+.sheet-rolltemplate-coc-bonus .inlinerollresult.fullfail {
   border: 2px solid black;
-    background: #BEBEBE;
+  background: #BEBEBE;
 }
-.sheet-rolltemplate-coc .inlinerollresult.importantroll {
+
+.sheet-rolltemplate-coc .inlinerollresult.importantroll,
+.sheet-rolltemplate-coc-penalty .inlinerollresult.importantroll,
+.sheet-rolltemplate-coc-bonus .inlinerollresult.importantroll {
   border: 2px solid black;
-    background: #BEBEBE;
+  background: #BEBEBE;
 }
+
 
 /* -------------------------------------------------------------------------- */
 
@@ -1371,7 +3180,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-attack caption {
     text-align: center;
@@ -1490,79 +3299,148 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 /* -------------------------------------------------------------------------- */
 
-/* simple (no PD/BD) Attack rolltemplate */
+/* unified styles for regular, impale, and no-impale attack templates */
 
-.sheet-rolltemplate-coc-attack-1 table {
+.sheet-rolltemplate-coc-attack-1 table,
+.sheet-rolltemplate-coc-attack-1-impale table,
+.sheet-rolltemplate-coc-attack-1-noimpale table {
     width: 100%;
     border: 1px solid black;
     color: black;
     background: #FFFFFF;
 }
-.sheet-rolltemplate-coc-attack-1 caption {
+
+.sheet-rolltemplate-coc-attack-1 caption,
+.sheet-rolltemplate-coc-attack-1-impale caption,
+.sheet-rolltemplate-coc-attack-1-noimpale caption {
     text-align: center;
     background: black;
     color: white;
     font-weight: bold;
     padding: 2px;
-	border: 1px solid black;
-	line-height: 1.6em;
+    border: 1px solid black;
+    line-height: 1.6em;
 }
-.sheet-rolltemplate-coc-attack-1 tr.template_row_background {
+
+.sheet-rolltemplate-coc-attack-1 tr.template_row_background,
+.sheet-rolltemplate-coc-attack-1-impale tr.template_row_background,
+.sheet-rolltemplate-coc-attack-1-noimpale tr.template_row_background {
     background: #BEBEBE;
 }
-.sheet-rolltemplate-coc-attack-1 td {
-  padding: 2px;
-  border-bottom: 1px solid black;
+
+.sheet-rolltemplate-coc-attack-1 td,
+.sheet-rolltemplate-coc-attack-1-impale td,
+.sheet-rolltemplate-coc-attack-1-noimpale td {
+    padding: 2px;
+    border-bottom: 1px solid black;
 }
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_label {
+
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_label,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_label,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_label {
     font-weight: bold;
 }
+
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value,
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value_critical,
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value_success,
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value_hard,
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value_extreme,
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fail,
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fumble
- {
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fumble,
+
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_success,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_hard,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_fail,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_fumble,
+
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_success,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_hard,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_fail,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_fumble {
     text-align: center;
 }
+
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value_critical,
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value_extreme,
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fumble {
-	font-weight: bold;
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fumble,
+
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_fumble,
+
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_fumble {
+    font-weight: bold;
 }
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_critical {
-	background: Lime;
+
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_critical,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_critical {
+    background: Lime;
 }
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_success {
-	background: DarkGreen;
+
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_success,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_success,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_success {
+    background: DarkGreen;
 }
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_hard {
+
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_hard,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_hard,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_hard {
     background: Green;
 }
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_extreme {
-	background: LightGreen;
+
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_extreme,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_extreme {
+    background: LightGreen;
 }
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fail {
+
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fail,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_fail,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_fail {
     background: Crimson;
 }
-.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fumble {
-	background: Red;
+
+.sheet-rolltemplate-coc-attack-1 td.sheet-template_value_fumble,
+.sheet-rolltemplate-coc-attack-1-impale td.sheet-template_value_fumble,
+.sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_fumble {
+    background: Red;
 }
-.sheet-rolltemplate-coc-attack-1 .inlinerollresult  {
-	display: inline-block;
-	min-width: 1.5em;
-	text-align: center;
-	color:white;
-}
+
 .sheet-rolltemplate-coc-attack-1 .inlinerollresult,
-.sheet-rolltemplate-coc-attack-1 .inlinerollresult.fullcrit,
-.sheet-rolltemplate-coc-attack-1 .inlinerollresult.fullfail,
-.sheet-rolltemplate-coc-attack-1 .inlinerollresult.importantroll {
-	border: 2px solid black;
+.sheet-rolltemplate-coc-attack-1-impale .inlinerollresult,
+.sheet-rolltemplate-coc-attack-1-noimpale .inlinerollresult {
+    display: inline-block;
+    min-width: 1.5em;
+    text-align: center;
+    color: white;
+    border: 2px solid black;
     background: #BEBEBE;
 }
+
+.sheet-rolltemplate-coc-attack-1 .inlinerollresult.fullcrit,
+.sheet-rolltemplate-coc-attack-1-impale .inlinerollresult.fullcrit,
+.sheet-rolltemplate-coc-attack-1-noimpale .inlinerollresult.fullcrit,
+.sheet-rolltemplate-coc-attack-1 .inlinerollresult.fullfail,
+.sheet-rolltemplate-coc-attack-1-impale .inlinerollresult.fullfail,
+.sheet-rolltemplate-coc-attack-1-noimpale .inlinerollresult.fullfail,
+.sheet-rolltemplate-coc-attack-1 .inlinerollresult.importantroll,
+.sheet-rolltemplate-coc-attack-1-impale .inlinerollresult.importantroll,
+.sheet-rolltemplate-coc-attack-1-noimpale .inlinerollresult.importantroll {
+    border: 2px solid black;
+    background: #BEBEBE;
+}
+
 
 /* -------------------------------------------------------------------------- */
 
@@ -1572,7 +3450,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-dice-roll caption {
     text-align: center;
@@ -1613,7 +3491,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-bomadness-da-rt caption {
     text-align: center;
@@ -1633,7 +3511,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 }
 .sheet-rolltemplate-coc-bomadness-da-rt td.sheet-template_value {
     text-align: center;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-bomadness-da-rt .inlinerollresult  {
   display: inline-block;
@@ -1656,7 +3534,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-bomadness-rt caption {
     text-align: center;
@@ -1676,7 +3554,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 }
 .sheet-rolltemplate-coc-bomadness-rt td.sheet-template_value {
     text-align: center;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-bomadness-rt .inlinerollresult  {
   display: inline-block;
@@ -1699,7 +3577,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-pulp-bomadness-rt caption {
     text-align: center;
@@ -1719,7 +3597,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 }
 .sheet-rolltemplate-coc-pulp-bomadness-rt td.sheet-template_value {
     text-align: center;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-pulp-bomadness-rt .inlinerollresult  {
   display: inline-block;
@@ -1739,7 +3617,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-bomadness-da-summ caption {
     text-align: center;
@@ -1759,7 +3637,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 }
 .sheet-rolltemplate-coc-bomadness-da-summ td.sheet-template_value {
     text-align: center;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-bomadness-da-summ .inlinerollresult  {
   display: inline-block;
@@ -1782,7 +3660,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-bomadness-summ caption {
     text-align: center;
@@ -1802,7 +3680,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 }
 .sheet-rolltemplate-coc-bomadness-summ td.sheet-template_value {
     text-align: center;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-bomadness-summ .inlinerollresult  {
   display: inline-block;
@@ -1825,7 +3703,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-pulp-bomadness-summ caption {
     text-align: center;
@@ -1845,7 +3723,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 }
 .sheet-rolltemplate-coc-pulp-bomadness-summ td.sheet-template_value {
     text-align: center;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-pulp-bomadness-summ .inlinerollresult  {
   display: inline-block;
@@ -1906,7 +3784,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     width: 100%;
     border: 1px solid black;
     color: black;
-    background: #FFFFFF;
+    background: #ffffff;
 }
 .sheet-rolltemplate-coc-minionattack caption {
     text-align: center;
@@ -1986,51 +3864,60 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
     background: #c3c9bd;
 }
 
-/* -------------------------------------------------------------------------- */
+/* -------------------------------------------- *//* Buttons Start *//* ---------------------------------- */
 
-/* Body hit Location */
-.sheet-rolltemplate-coc-body-hit-loc table {
-    width: 100%;
-    border: 1px solid black;
-    color: black;
-    background: #FFFFFF;
-    text-align: center;
-}
-.sheet-rolltemplate-coc-body-hit-loc caption {
-    text-align: center;
-    background: black;
-    color: white;
-    font-weight: bold;
-    padding: 2px;
+/* Repeating Section Buttons - Unified Style */
+.sheet-layout .repcontrol_add,
+.sheet-layout .repcontrol_edit,
+.sheet-layout .repcontrol_del,
+.sheet-layout .repcontrol_move {
+  background: #333333; /* Dark gray for a clean, unified look */
+  color: white;
+  font-weight: bold;
+  font-size: 0.9em;
+  height: 1.5em;
+  width: 1.5em;
   border: 1px solid black;
-  line-height: 1.6em;
-}
-.sheet-rolltemplate-coc-body-hit-loc td {
-  padding: 2px;
-  border-bottom: 1px solid black;
+  border-radius: 4px;
   text-align: center;
-}
-.sheet-rolltemplate-coc-body-hit-loc td.sheet-template_label {
-    font-weight: Bold;
-    text-align: center;
-}
-.sheet-rolltemplate-coc-body-hit-loc td.sheet-template_value {
-    text-align: center;
-}
-.sheet-rolltemplate-coc-body-hit-loc .inlinerollresult  {
-  display: inline-block;
-  min-width: 1.5em;
-  text-align: center;
-  border: 2px solid black;
-    background: #BEBEBE;
-}
-.sheet-rolltemplate-coc--body-hit-loc .inlinerollresult.importantroll {
-  border: 2px solid black;
-    background: #BEBEBE;
-    text-align: center;
+  padding: 0;
+  margin: 2px; /* slight spacing for neatness */
+  box-shadow: none;
 }
 
-/* -------------------------------------------- *//* Buttons *//* ---------------------------------- */
+/* Specific Tweaks */
+.sheet-layout .repcontrol_add,
+.sheet-layout .repcontrol_edit {
+  width: auto; /* Add & Edit need flexible width for text */
+  padding: 0 6px;
+  cursor: pointer;
+}
+
+.sheet-layout .repcontrol_del {
+  background: #882222; /* Slightly muted red for delete */
+  cursor: pointer;
+}
+
+.sheet-layout .repcontrol_move {
+  cursor: grab;
+}
+
+/* Hover Effects (Optional, subtle) */
+.sheet-layout .repcontrol_add:hover,
+.sheet-layout .repcontrol_edit:hover {
+  background: #555555;
+}
+
+.sheet-layout .repcontrol_del:hover {
+  background: #aa3333;
+}
+
+.sheet-layout .repcontrol_move:hover {
+  background: #555555;
+}
+
+
+/* ------------------------------- */
 
 /* Button for PD/BD */
 button[type=roll].sheet-old-roll {
@@ -2056,18 +3943,19 @@ button[type=roll].sheet-new-roll {
   text-align: center;
   width: 20px;
   height: 20px;
-  margin: 0.0;
+  margin: auto;
   padding: 0.0em;
   border: 1px solid black;
   border-radius: 5px;
+  background: black;
 }
 
 /* -------------------------------------------------------------------------- */
 
 /* Button Small */
 button[type=roll].sheet-dice-roll {
-  color: #000000;
-  background-color: #000000;
+  color: #0000FF;
+  background-color: #0000FF;
   font-weight: bolder;
   text-align: center;
   width: 18px;
@@ -2082,7 +3970,7 @@ button[type=roll].sheet-dice-roll {
 
 /* Button Smaller */
 button[type=roll].sheet-smallbutton-roll {
-  color: #18650D; 
+  color: #18650D;
   background-color: #248c15;
   font-weight: bolder;
   font-size: 12px;
@@ -2099,8 +3987,8 @@ button[type=roll].sheet-smallbutton-roll {
 
 /* Non-Skill Button Smaller */
 button[type=roll].sheet-smallnonskillbutton-roll {
-  color: #000000; 
-  background-color: #000000;
+  color: #000000;
+  background-color: #FFFF00;
   font-weight: bolder;
   font-size: 12px;
   text-align: center;
@@ -2115,7 +4003,7 @@ button[type=roll].sheet-smallnonskillbutton-roll {
 
 /* Button Even Smaller */
 button[type=roll].sheet-evensmallerbutton-roll {
-  color: #000000; 
+  color: #008000;
   background-color: #1a1a1a;
   font-weight: bolder;
   font-size: 1px;
@@ -2126,3 +4014,4 @@ button[type=roll].sheet-evensmallerbutton-roll {
   border: 1px solid black;
   border-radius: 5px;
 }
+/* -------------------------------------------- *//*  Buttons End  *//* ---------------------------------- */

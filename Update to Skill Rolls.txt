@@ -1,0 +1,30 @@
+<button type="action" name="act_archery" class="sheet-skill-roll-button"></button>
+
+
+Object.values(skillMapTable).forEach(skill => {
+  const label = skill.label;          // e.g., "archery"
+  const bonusAttr = skill.bonus;      // e.g., "archery_mdr"
+  const displayName = skill.notes;    // e.g., "Archery"
+
+  on(`clicked:act_${label}`, () => {
+    getAttrs([bonusAttr, "dice_modifier_checkbox"], (values) => {
+      const base = parseInt(values[bonusAttr], 10) || 0;
+      const mod = parseInt(values.dice_modifier_checkbox, 10) || 0;
+      const total = base + mod;
+
+      const rollStr = `&{template:coc-1} ` +
+                      `{{name=@{${skill.label}_txt}}} ` +
+                      `{{modifier=[[${mod}]]}} ` +
+                      `{{success=[[${total}]]}} ` +
+                      `{{hard=[[floor(${total}/2)]]}} ` +
+                      `{{extreme=[[floor(${total}/5)]]}} ` +
+                      `{{roll1=[[1d100]]}}`;
+
+      startRoll(rollStr, (roll) => {
+        finishRoll(roll.rollId);
+      });
+    });
+  });
+});
+
+

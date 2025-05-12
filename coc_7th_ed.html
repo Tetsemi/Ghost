@@ -8717,12 +8717,16 @@ on("clicked:-20 clicked:-10 clicked:10 clicked:20", (event) => {
   });
 });
 
-on("clicked:strain_full_rest", function () {
-  console.log ("Starting [strain_full_rest]");
-  getAttrs(["strain_max"], function (values) {
-    const maxStrain = values.strain_max || "0";
-    setAttrs({
-      strain: maxStrain
+on("clicked:strain_full_rest", () => {
+  getAttrs(["strain_max", "name"], (values) => {
+    const maxStrain = parseInt(values.strain_max, 10) || 0;
+
+    // Use maxStrain in the roll template
+    const rollStr = `&{template:default} {{name=Full Rest - @{name}}} {{Recovered=[[${maxStrain}]]}}`;
+
+    startRoll(rollStr, (rollData) => {
+      setAttrs({ strain: maxStrain });
+      finishRoll(rollData.rollId);
     });
   });
 });

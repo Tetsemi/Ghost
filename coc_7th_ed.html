@@ -2734,10 +2734,10 @@
 							<span class="sheet-roll-label">Full Rest</span>
 							<button type="action" class="sheet-roll-hidden sheet-rest-button" name="act_strain_full_rest"></button>
 						</div>
-						<div class="sheet-roll-wrapper">
-							<span class="sheet-roll-label">Short Rest</span>
-							<button type="roll" name="roll_strain_short_rest" class="sheet-roll-hidden" value="&{template:default} {{name=Short Rest - @{name}}} {{Recovered=[[1d6]]}}"></button>
-						</div>
+<div class="sheet-roll-wrapper">
+  <span class="sheet-roll-label">Short Rest</span>
+  <button type="action" name="act_strain_short_rest" class="sheet-roll-hidden"></button>
+</div>
 					</div>
 				</div>
 				<hr/>
@@ -8724,6 +8724,21 @@ on("clicked:strain_full_rest", function () {
     setAttrs({
       strain: maxStrain
     });
+  });
+});
+
+on("clicked:strain_short_rest", () => {
+  startRoll("&{template:default} {{name=Short Rest - @{name}}} {{Recovered=[[1d6]]}}", (rollData) => {
+    const recovered = rollData.results.Recovered.result;
+
+    getAttrs(["strain", "strain_max"], (values) => {
+      const current = parseInt(values.strain, 10) || 0;
+      const max = parseInt(values.strain_max, 10) || 0;
+      const newStrain = Math.min(current + recovered, max);
+      setAttrs({ strain: newStrain });
+    });
+
+    finishRoll(rollData.rollId);
   });
 });
 

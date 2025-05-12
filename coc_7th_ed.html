@@ -283,8 +283,11 @@
 			<!-- Tab Buttons -->
 		<div class="sheet-tab-buttons">
 			<button type="action" name="act_skills">Skills</button>
+<!--    Disabled for now
 			<button type="action" name="act_background">Background</button>
+-->
 			<button type="action" name="act_talents">Talents</button>
+			<button type="action" name="act_careers">Careers</button>
 			<button type="action" name="act_combat">Combat</button>
 			<button type="action" name="act_spells">Spells</button>
 			<button type="action" name="act_inventory">Inventory</button>
@@ -2576,22 +2579,44 @@
 			</div>
 			<!-- Text Area -->
 			<div class="sheet-section">
-  <h4 class="section-head">Tiers</h4>
-  <div class="sheet-section sheet-talents-flex">
-    <div class="sheet-talent-label" name="attr_talent_tier1">Tier 1</div>
-    <textarea name="attr_talent_tier1" class="sheet-talent-textarea"></textarea>
+				<h4 class="section-head">Tiers</h4>
+				<div class="sheet-section sheet-talents-flex">
+					<div class="sheet-talent-label" name="attr_talent_tier1" data-i18n="tier1_talents-u">Tier 1</div>
+					<textarea name="attr_talent_tier1" class="sheet-talent-textarea"></textarea>
+					<div class="sheet-talent-label" name="attr_talent_tier2" data-i18n="tier2_talents-u">Tier 2</div>
+					<textarea name="attr_talent_tier2" class="sheet-talent-textarea"></textarea>
+					<div class="sheet-talent-label" name="attr_talent_tier3" data-i18n="tier3_talents-u">Tier 3</div>
+					<textarea name="attr_talent_tier3" class="sheet-talent-textarea"></textarea>
+					<div class="sheet-talent-label" name="attr_talent_tier4" data-i18n="tier4_talents-u">Tier 4</div>
+					<textarea name="attr_talent_tier4" class="sheet-talent-textarea"></textarea>
+				</div>
+			</div>
+		</div>
 
-    <div class="sheet-talent-label" name="attr_talent_tier2">Tier 2</div>
-    <textarea name="attr_talent_tier2" class="sheet-talent-textarea"></textarea>
-
-    <div class="sheet-talent-label" name="attr_talent_tier3">Tier 3</div>
-    <textarea name="attr_talent_tier3" class="sheet-talent-textarea"></textarea>
-
-    <div class="sheet-talent-label" name="attr_talent_tier4">Tier 4</div>
-    <textarea name="attr_talent_tier4" class="sheet-talent-textarea"></textarea>
-  </div>
-</div>
-
+		<!-- ------------------- Careers  -------------------- -->
+		<div class="sheet-tab-content sheet-careers">
+			<h4 class="section-head" data-i18n="careers-u">Careers</h4>
+			<div class="sheet-section">
+				<div class="sheet-career-label" name="attr_career1" data-i18n="careers1-u">Career 1</div>
+				<textarea name="attr_career1" class="sheet-career-textarea"></textarea>
+				<div class="sheet-career-label" name="attr_career2" data-i18n="careers2-u">Career 2</div>
+				<textarea name="attr_career2" class="sheet-career-textarea"></textarea>
+			</div>
+			<div class="sheet-section">
+				<h4 class="section-head">Tiers</h4>
+				<div class="sheet-section sheet-careers-flex">
+					<div class="sheet-career-label" name="attr_career_tier1" data-i18n="tier1_careers-u">Tier 1</div>
+					<textarea name="attr_career_tier1" class="sheet-career-textarea"></textarea>
+					<div class="sheet-career-label" name="attr_career_tier2" data-i18n="tier2_careers-u">Tier 2</div>
+					<textarea name="attr_career_tier2" class="sheet-career-textarea"></textarea>
+					<div class="sheet-career-label" name="attr_career_tier3" data-i18n="tier3_careers-u">Tier 3</div>
+					<textarea name="attr_career_tier3" class="sheet-career-textarea"></textarea>
+					<div class="sheet-career-label" name="attr_career_tier4" data-i18n="tier4_careers-u">Tier 4</div>
+					<textarea name="attr_career_tier4" class="sheet-career-textarea"></textarea>
+					<div class="sheet-career-label" name="attr_career_tier5" data-i18n="tier5_careers-u">Tier 5</div>
+					<textarea name="attr_career_tier5" class="sheet-career-textarea"></textarea>
+				</div>
+			</div>			
 		</div>
 
 		<!-- -------------------------- Modern Combat -------------------------- -->
@@ -2604,7 +2629,7 @@
 					<div class="sheet-weapon-header">
 						<div class="flex-row">
 							<div class="flex-cell weapon-name"><span data-i18n="weaponname-u">Weapon</span></div>
-							<div class="flex-cell weapon-impale"><!-- Empty for impale --></div>
+							<div class="flex-cell weapon-impale">I</div>
 							<div class="flex-cell weapon-roll"><!-- Empty for roll --></div>
 							<div class="flex-cell weapon-skill"><span data-i18n="skill-u">Skill</span></div>
 							<div class="flex-cell weapon-damage"><span data-i18n="damage-u">Damage</span></div>
@@ -8764,7 +8789,7 @@ on("clicked:strain_short_rest", () => {
   });
 });
 
-const tabList = ["skills", "background", "talents", "combat", "spells", "inventory", "backstory", "npcs", "vehicles"];
+const tabList = ["skills", "background", "talents", "careers", "combat", "spells", "inventory", "backstory", "npcs", "vehicles"];
 
 tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {

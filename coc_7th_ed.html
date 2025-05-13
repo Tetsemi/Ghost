@@ -138,7 +138,7 @@
 							<label class="sheet-attr-label" data-i18n="Move rate-u">Move rate</label>
 							<div class="sheet-grid-move">
 								<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_mov" />
-								<button class="sheet-move-roll" type="roll" name="roll_mov_check" value="&{template:default} {{name=Initiative (Chase) - @{name}}} {{result=[[1d10 + @{mov} &{tracker}]]}}"></button>
+								<button class="sheet-move-roll" type="roll" name="roll_mov_check" value="&{template:coc-dice-roll} {{name=Initiative (Chase) - @{name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{diceroll=[[1d10 + @{mov} &{tracker}]]}}"></button>
 							</div>
 						</div>
 
@@ -2823,7 +2823,7 @@
 							<input type="hidden" name="attr_spell_strain_mdr" value="0">
 							
 							<div class="flex-cell spell-name"><input type="text" name="attr_spell_name_mdr" placeholder="Spell Name"></div>
-							<div class="flex-cell spell-prepared"><input type="checkbox" name="attr_spell_prepared_mdr" placeholder="P"></div>
+							<div class="flex-cell spell-prepared"><input type="checkbox" name="attr_spell_prepared_mdr" value="1"></div>
 							<div class="flex-cell spell-roll">
 								<button type="roll" class="new-roll" name="roll_spell_mdr_attack" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
 							</div>
@@ -2888,13 +2888,19 @@
 							<div class="flex-cell program-effect"><span data-i18n="program_effect-u">Effect</span></div>						
 						</div>
 					</div>
-					<fieldset class="repeating_programs">
+					<fieldset class="repeating_programsmdr">
 						<div class="flex-row">
 							<input type="hidden" name="attr_damage_numdice" value="0">
 							<input type="hidden" name="attr_damage_dicesize" value="0">
 							<input type="hidden" name="attr_damage_bonus" value="0">
 							
-							
+							<div class="flex-cell program-name"><input type="text" name="attr_program_name_mdr" placeholder="Program Name"></div>
+							<div class="flex-cell program-active"><input type="checkbox" name="attr_program_active_mdr" value="1"></div>
+							<div class="flex-cell program-roll">
+								<button type="roll" class="new-roll" name="roll_program_mdr_attack" value="&{template:coc-dice-roll} {{name=Program - @{program_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{diceroll=[[@{program_damage_mdr}]]}} "></button>
+							</div>	
+							<div class="flex-cell program-damage"><input type="text" name="attr_program_damage_mdr"></div>
+							<div class="flex-cell program-effect"><input type="text" name="attr_program_affect_mdr" placeholder="-"></div>
 						</div>
 					</fieldset>
 				</div>	
@@ -3435,8 +3441,8 @@
         <caption>{{name}} | {{modifier}}</caption>
 		{{/^rollTotal() modifier 0}}
         <tr>
-		<td class="template_label" data-i18n="rolled">Rolled:</td><td class="template_value">{{diceroll}}</td>
-	</tr>
+			<td class="template_label" data-i18n="rolled">Rolled:</td><td class="template_value">{{diceroll}}</td>
+		</tr>
     </table>
 </rolltemplate>
 
@@ -8919,7 +8925,7 @@ on("clicked:strain_full_rest", () => {
     const maxStrain = parseInt(values.strain_max, 10) || 0;
 
     // Use maxStrain in the roll template
-    const rollStr = `&{template:default} {{name=Full Rest - @{name}}} {{Recovered=[[${maxStrain}]]}}`;
+    const rollStr = `&{template:coc-dice-roll} {{name=Full Rest - @{name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{diceroll=[[${maxStrain}]]}}`;
 
     startRoll(rollStr, (rollData) => {
       setAttrs({ strain: maxStrain });
@@ -8929,8 +8935,8 @@ on("clicked:strain_full_rest", () => {
 });
 
 on("clicked:strain_short_rest", () => {
-  startRoll("&{template:default} {{name=Short Rest - @{name}}} {{Recovered=[[1d6]]}}", (rollData) => {
-    const recovered = rollData.results.Recovered.result;
+  startRoll("&{template:coc-dice-roll} {{name=Short Rest - @{name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{diceroll=[[1d6]]}}", (rollData) => {
+    const recovered = rollData.results.diceroll.result;
 
     getAttrs(["strain", "strain_max"], (values) => {
       const current = parseInt(values.strain, 10) || 0;
@@ -9707,6 +9713,17 @@ on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
   getAttrs([`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`], function(values) {
     const damageString = values[`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`] || "";
     const updates = parseDamageString(damageString, `repeating_spellsmdr_${repeatingId}`);
+    setAttrs(updates);
+  });
+});
+
+// Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
+on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
+  const repeatingId = eventInfo.sourceAttribute.match(/repeating_programsmdr_([^_]+)_/)[1];
+  getAttrs([`repeating_programsmdr_${repeatingId}_program_damage_mdr`], function(values) {
+    const damageString = values[`repeating_programsmdr_${repeatingId}_program_damage_mdr`] || "";
+	console.log (`damageString: ${damageString}`);
+    const updates = parseDamageString(damageString, `repeating_programsmdr_${repeatingId}`);
     setAttrs(updates);
   });
 });

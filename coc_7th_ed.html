@@ -2621,9 +2621,56 @@
 
 		<!-- -------------------------- Modern Combat -------------------------- -->
 		<div class="sheet-tab-content sheet-combat">
-			<div class='sheet-colrow'>
+		<input type="checkbox" style="display:none" class="sheet-hide" name="attr_sheet-hide">
+			<div class="sheet-colrow">
+				<h4 class="section-head" data-i18n="armor-u">Armor</h4>
+				<div class="section">
+					<div class="sheet-armor-header">
+						<div class="flex-row">	
+							<div class="flex-cell armor-name"><span data-i18n="armorname-u">Armor</span></div>
+							<div class="flex-cell armor-equipped"><span data-i18n="armorequipped-u">E</span></div>
+							<div class="flex-cell armor-physical"><span data-i18n="armor_physical-u">Physical</span></div>
+							<div class="flex-cell armor-arcane"><span data-i18n="armor_arcane-u">Arcane</span></div>
+							<div class="flex-cell armor-layer"><span data-i18n="armor_layer-u">Layer</span></div>
+							<div class="flex-cell armor-category"><span data-i18n="armor_category-u">Category</span></div>
+							<div class="flex-cell armor-traits"><span data-i18n="armor_traits-u">Traits</span></div>
+						</div>
+					</div>
+					<div class="sheet-armor-default">
+						<div class="flex-row">
+							<div class="flex-cell armor-name"><input type="text" name="attr_armor1_name_mdr" placeholder="Armor Name"></div>
+							<div class="flex-cell armor-equipped"><input type="checkbox" name="attr_armor1_equipped_checkbox"></div>
+							<div class="flex-cell armor-physical"><input type="text" name="attr_armor1_physical_mdr" placeholder="P"></div>
+							<div class="flex-cell armor-arcane"><input type="text" name="attr_armor1_arcane_mdr" placeholder="A"></div>
+							<div class="flex-cell armor-layer"><input type="text" name="attr_armor1_layer_mdr" placeholder="Layer"></div>
+							<div class="flex-cell armor-category"><input type="text" name="attr_armor1_category_mdr" placeholder="Category"></div>
+							<div class="flex-cell armor-traits"><input type="text" name="attr_armor1_traits_mdr" placeholder="Traits"></div>
+						</div>
+						<div class="flex-row">
+							<div class="flex-cell armor-name"><input type="text" name="attr_armor2_name_mdr" placeholder="Armor Name"></div>
+							<div class="flex-cell armor-equipped"><input type="checkbox" name="attr_armor1_equipped_checkbox"></div>
+							<div class="flex-cell armor-physical"><input type="text" name="attr_armor2_physical_mdr" placeholder="P"></div>
+							<div class="flex-cell armor-arcane"><input type="text" name="attr_armor2_arcane_mdr" placeholder="A"></div>
+							<div class="flex-cell armor-layer"><input type="text" name="attr_armor2_layer_mdr" placeholder="Layer"></div>
+							<div class="flex-cell armor-category"><input type="text" name="attr_armor2_category_mdr" placeholder="Category"></div>
+							<div class="flex-cell armor-traits"><input type="text" name="attr_armor2_traits_mdr" placeholder="Traits"></div>
+						</div>
+					</div>
+					<fieldset class="repeating_armorsmdr">
+						<div class="flex-row">
+							<div class="flex-cell armor-name"><input type="text" name="attr_armor_name_mdr" placeholder="Armor Name"></div>
+							<div class="flex-cell armor-equipped"><input type="checkbox" name="attr_armor_equipped_checkbox"></div>
+							<div class="flex-cell armor-physical"><input type="text" name="attr_armor_physical_mdr" placeholder="P"></div>
+							<div class="flex-cell armor-arcane"><input type="text" name="attr_armor_arcane_mdr" placeholder="A"></div>
+							<div class="flex-cell armor-layer"><input type="text" name="attr_armor_layer_mdr" placeholder="Layer"></div>
+							<div class="flex-cell armor-category"><input type="text" name="attr_armor_category_mdr" placeholder="Category"></div>
+							<div class="flex-cell armor-traits"><input type="text" name="attr_armor_traits_mdr" placeholder="Traits"></div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="sheet-colrow">
 				<h4 class="section-head" data-i18n="combat-u">Combat</h4>
-				<input type="checkbox" style="display:none" class="sheet-hide" name="attr_sheet-hide">
 				<div class="section">
 					<!-- Header -->
 					<div class="sheet-weapon-header">
@@ -2666,7 +2713,7 @@
 							<input type="hidden" name="attr_weapon1_mdr_damage_bonus" value="0">
 							<input type="hidden" name="attr_weapon1_mdr_strain" value="0">
 							<div class="flex-cell weapon-name"><input type="text" name="attr_weapon1_mdr_name" placeholder="Weapon Name"></div>
-							<input type="checkbox" name="attr_roll_weapon1_mdr_attack_impale_checkbox" value="1" />
+							<input type="checkbox" class="flex-cell weapon-impale" name="attr_roll_weapon1_mdr_attack_impale_checkbox" value="1" />
 							<div class="flex-cell weapon-roll">
 								<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
 								<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weapon1_mdr_attack_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weapon1_mdr_name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weapon1_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weapon1_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[ @{weapon1_mdr_strain} + 0 ]]}}"></button>
@@ -2701,6 +2748,7 @@
 							<div class="flex-cell weapon-strain"><input type="text" name="attr_weapon1_mdr_strain" placeholder="Strain"></div>
 						</div>
 					</div>
+					<!-- Repeating Weapons -->
 					<fieldset class="repeating_weaponsmdr">
 						<div class="flex-row">
 							<input type="hidden" name="attr_damage_numdice" value="0">
@@ -2708,7 +2756,7 @@
 							<input type="hidden" name="attr_damage_bonus" value="0">
 							<input type="hidden" name="attr_weaponstrain_mdr" value="0">
 							<div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr"></div>
-							<input type="checkbox" name="attr_attack_impale_checkbox" value="1" />
+							<input type="checkbox" name="attr_attack_impale_checkbox" class="flex-cell weapon-impale" value="1" />
 							<div class="flex-cell weapon-roll">
 								<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
 								<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponskill_mdr_check_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
@@ -2744,6 +2792,9 @@
 						</div>
 					</fieldset>
 				</div>
+			</div>
+			<div class="sheet-colrow">
+				<h4 class="section-head" data-i18n="omnidecks-u">Omnidecks</h4>
 			</div>
 		</div>
 

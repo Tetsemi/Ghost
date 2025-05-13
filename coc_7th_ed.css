@@ -1733,7 +1733,7 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 /* ------------------------------- */
 /* Main tab content block for Combat */
 /* ------------------------------- */
-.sheet-tab-content.sheet-combat {
+.sheet-tab-content .sheet-combat {
   margin-top: 10px;
   background: #d0cabe; /* Light tan/gray inside sections */
   padding: 10px;
@@ -1769,7 +1769,7 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 
 /* --------------------------------------- Combat ---------------------------------- */
 /* Main Combat Block */
-.sheet-tab-content.sheet-combat {
+.sheet-tab-content .sheet-combat {
   margin-top: 10px;
   background: ##c3c9bd; /* darker gray like old layout */
   padding: 10px;
@@ -1789,6 +1789,12 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 
 /* Fieldset */
 fieldset.repeating_weaponsmdr {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+fieldset.repeating_armorsmdr {
   margin: 0;
   padding: 0;
   border: none;
@@ -1815,8 +1821,11 @@ fieldset.repeating_weaponsmdr {
 /* Each flex-row inside weapon */
 .repitem .flex-row,
 .sheet-weapon-header .flex-row,
+.sheet-armor-header .flex-row,
 .sheet-weapon-default .flex-row,
-.sheet-weapon-block .flex-row {
+.sheet-armor-default .flex-row,
+.sheet-weapon-block .flex-row,
+.sheet-armor-block .flex-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -1843,11 +1852,54 @@ fieldset.repeating_weaponsmdr {
 /* Flex Widths */
 .weapon-name { flex: 2 1 28%; }
 .weapon-roll { flex: 0 0 24px; }
+.weapon-impale { flex: 0 0 24px; }
 .weapon-skill { flex: 1.5 1 14%; }
 .weapon-damage { flex: 1 1 7%; }
 .weapon-damage-bonus { flex: 1 1 7%; }
 .weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 8%; }
 .weapon-malf, .weapon-strain { flex: 0.8 1 6%; }
+
+/* Flex Widths */
+.armor-name { flex: 2 1 28%; }
+.armor-equipped { flex: 0 0 24px; }
+.armor-physical { flex: 0.8 1 6%; }
+.armor-arcane { flex: 0.8 1 6%; }
+.armor-layer { flex: 1.5 1 18%; }
+.armor-category { flex: 1.5 1 18%; }
+.armor-traits { flex: 1.5 1 24%; }
+
+
+/* Specific text alignments */
+.weapon-name input { text-align: center; }
+.weapon-skill select, .weapon-skill input { text-align: center; }
+.weapon-damage input { text-align: right; }
+.weapon-damage-bonus select { text-align: left; }
+.weapon-range input, .weapon-attacks input, .weapon-ammo input, .weapon-malf input, .weapon-strain input { text-align: center; }
+
+/* Specific text alignments */
+.armor-name input,
+.armor-physical input,
+.armor-arcane input,
+.armor-layer input,
+.armor-category input,
+.armor-traits input { text-align: center; }
+
+/* Weapon Header Row (Weapon, Skill, Damage, etc.) */
+.sheet-weapon-header,
+.sheet-armor-header {
+  background: black;
+  color: white;
+  font-weight: bold;
+
+}
+
+.sheet-weapon-header .flex-cell,
+.sheet-armor-header .flex-cell {
+  background: black;
+  color: white;
+  text-align: center;
+  border: 1px solid black;
+}
 
 /* Inputs and Selects */
 .flex-cell input[type="text"],
@@ -1859,28 +1911,6 @@ fieldset.repeating_weaponsmdr {
   font-size: 0.9em;
   text-align: center;
   background: #d9d9d9;
-}
-
-/* Specific text alignments */
-.weapon-name input { text-align: center; }
-.weapon-skill select, .weapon-skill input { text-align: center; }
-.weapon-damage input { text-align: right; }
-.weapon-damage-bonus select { text-align: left; }
-.weapon-range input, .weapon-attacks input, .weapon-ammo input, .weapon-malf input, .weapon-strain input { text-align: center; }
-
-/* Weapon Header Row (Weapon, Skill, Damage, etc.) */
-.sheet-weapon-header {
-  background: black;
-  color: white;
-  font-weight: bold;
-
-}
-
-.sheet-weapon-header .flex-cell {
-  background: black;
-  color: white;
-  text-align: center;
-  border: 1px solid black;
 }
 
 /* Disabled (Unarmed row) */

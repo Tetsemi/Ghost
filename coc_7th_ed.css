@@ -1800,6 +1800,18 @@ fieldset.repeating_armorsmdr {
   border: none;
 }
 
+fieldset.repeating_spellssmdr {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+fieldset.repeating_omnideckssmdr {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
 /* Container for all weapon entries */
 .repcontainer {
   display: flex;
@@ -1822,10 +1834,16 @@ fieldset.repeating_armorsmdr {
 .repitem .flex-row,
 .sheet-weapon-header .flex-row,
 .sheet-armor-header .flex-row,
+.sheet-spell-header .flex-row,
+.sheet-omnideck-header .flex-row,
 .sheet-weapon-default .flex-row,
 .sheet-armor-default .flex-row,
+.sheet-spell-default .flex-row,
+.sheet-omnideck-default .flex-row,
 .sheet-weapon-block .flex-row,
-.sheet-armor-block .flex-row {
+.sheet-armor-block .flex-row,
+.sheet-spell-block .flex-row,
+.sheet-omnideck-block .flex-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -1868,6 +1886,15 @@ fieldset.repeating_armorsmdr {
 .armor-category { flex: 1.5 1 18%; }
 .armor-traits { flex: 1.5 1 24%; }
 
+/* Flex Widths */
+.spell-name { flex: 2 1 28%; }
+.spell-prepared { flex: 0 0 24px; }
+.spell-roll { flex: 0 0 24px; }
+.spell-skill { flex: 1.5 1 14%; }
+.spell-damage { flex: 1 1 7%; }
+.spell-concentration { flex: 1 1 7%; }
+.spell-range, .spell-attacks, .spell-element { flex: 1 1 8%; }
+.spell-strain, .spell-contested { flex: 0.8 1 6%; }
 
 /* Specific text alignments */
 .weapon-name input { text-align: center; }
@@ -1886,19 +1913,21 @@ fieldset.repeating_armorsmdr {
 
 /* Weapon Header Row (Weapon, Skill, Damage, etc.) */
 .sheet-weapon-header,
-.sheet-armor-header {
+.sheet-armor-header,
+.sheet-spell-header ,
+.sheet-omnideck-header  {
   background: black;
   color: white;
   font-weight: bold;
-
 }
 
 .sheet-weapon-header .flex-cell,
-.sheet-armor-header .flex-cell {
+.sheet-armor-header .flex-cell,
+.sheet-spell-header .flex-cell,
+.sheet-omnideck-header .flex-cell {
   background: black;
   color: white;
   text-align: center;
-  border: 1px solid black;
 }
 
 /* Inputs and Selects */
@@ -1911,6 +1940,14 @@ fieldset.repeating_armorsmdr {
   font-size: 0.9em;
   text-align: center;
   background: #d9d9d9;
+}
+
+.flex-cell select {
+  margin: 0;
+  padding: 2px 4px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  height: 100%; /* or a fixed height like 23px to match other inputs */	
 }
 
 /* Disabled (Unarmed row) */
@@ -1930,7 +1967,6 @@ button[type="roll"].new-roll {
   width: 24px;
   height: 24px;
   padding: 0;
-  border: 1px solid black;
   line-height: 1;          /* ← fix icon overflow */
   display: flex;
   align-items: center;
@@ -1947,7 +1983,6 @@ button[type="roll"]:hover.new-roll {
 /* Disabled roll button */
 .sheet-weapon-default .weapon-roll button[disabled] {
   background: #BEBEBE;
-  border: 1px solid #999;
 }
 
 /* Hide both by default */

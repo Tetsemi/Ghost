@@ -2627,8 +2627,8 @@
 				<div class="section">
 					<div class="sheet-armor-header">
 						<div class="flex-row">	
-							<div class="flex-cell armor-name"><span data-i18n="armorname-u">Armor</span></div>
-							<div class="flex-cell armor-equipped"><span data-i18n="armorequipped-u">E</span></div>
+							<div class="flex-cell armor-name"><span data-i18n="armor_name-u">Armor</span></div>
+							<div class="flex-cell armor-equipped"><span data-i18n="armor_equipped-u">E</span></div>
 							<div class="flex-cell armor-physical"><span data-i18n="armor_physical-u">Physical</span></div>
 							<div class="flex-cell armor-arcane"><span data-i18n="armor_arcane-u">Arcane</span></div>
 							<div class="flex-cell armor-layer"><span data-i18n="armor_layer-u">Layer</span></div>
@@ -2670,7 +2670,7 @@
 				</div>
 			</div>
 			<div class="sheet-colrow">
-				<h4 class="section-head" data-i18n="combat-u">Combat</h4>
+				<h4 class="section-head" data-i18n="weapons-u">Weapons</h4>
 				<div class="section">
 					<!-- Header -->
 					<div class="sheet-weapon-header">
@@ -2756,7 +2756,7 @@
 							<input type="hidden" name="attr_damage_bonus" value="0">
 							<input type="hidden" name="attr_weaponstrain_mdr" value="0">
 							<div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr"></div>
-							<input type="checkbox" name="attr_attack_impale_checkbox" class="flex-cell weapon-impale" value="1" />
+							<input type="checkbox" class="flex-cell weapon-impale" name="attr_attack_impale_checkbox" value="1" />
 							<div class="flex-cell weapon-roll">
 								<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
 								<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponskill_mdr_check_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
@@ -2794,7 +2794,67 @@
 				</div>
 			</div>
 			<div class="sheet-colrow">
+				<h4 class="section-head" data-i18n="spells-u">Spells</h4>
+				<div class="section">
+					<div class="sheet-spell-header">
+						<div class="flex-row">	
+							<div class="flex-cell spell-name"><span data-i18n="spell_name-u">Spell Name</span></div>
+							<div class="flex-cell spell-prepared"><span data-i18n="spell_prepared-u">P</span></div>
+							<div class="flex-cell spell-roll"><span data-i18n="spell_roll-u"><!-- Blank --></span></div>
+							<div class="flex-cell spell-skill"><span data-i18n="spell_skill-u">Skill</span></div>
+							<div class="flex-cell spell-damage"><span data-i18n="spell_damage-u">Damage</span></div>
+							<div class="flex-cell spell-concentration"><span data-i18n="spell_concentration-u">Concentration</span></div>
+							<div class="flex-cell spell-range"><span data-i18n="spell_range-u">Range</span></div>
+							<div class="flex-cell spell-attacks"><span data-i18n="spell_attacks-u">Attacks</span></div>
+							<div class="flex-cell spell-element"><span data-i18n="spell_element-u">Element</span></div>
+							<div class="flex-cell spell-contested"><span data-i18n="spell_contested-u">Contested</span></div>
+							<div class="flex-cell spell-strain"><span data-i18n="spell_strain-u">Strain</span></div>
+						</div>						
+					</div>
+					<fieldset class="repeating_spellsmdr">
+						<div class="flex-row">
+							<input type="hidden" name="attr_damage_numdice" value="0">
+							<input type="hidden" name="attr_damage_dicesize" value="0">
+							<input type="hidden" name="attr_damage_bonus" value="0">
+							<input type="hidden" name="attr_spell_strain_mdr" value="0">
+							
+							<div class="flex-cell spell-name"><input type="text" name="attr_spell_name_mdr" placeholder="Spell Name"></div>
+							<div class="flex-cell spell-prepared"><input type="checkbox" name="attr_spell_prepared_mdr" placeholder="P"></div>
+							<div class="flex-cell spell-roll">
+								<button type="roll" class="new-roll" name="roll_spell_mdr_attack" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
+							</div>
+							<div class="flex-cell spell-skill">
+								<select name="attr_spell_skill_mdr">
+									<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic Universal</option>
+								</select>
+							</div>
+							<div class="flex-cell spell-damage"><input type="text" name="attr_spell_damage_mdr"></div>
+							<div class="flex-cell spell-concentration"><input type="text" name="attr_spell_concentration_mdr" placeholder="No"></div>
+							<div class="flex-cell spell-range"><input type="text" name="attr_spell_range_mdr" placeholder="Short"></div>
+							<div class="flex-cell spell-attacks"><input type="text" name="attr_spell_attacks_mdr" placeholder="1"></div>
+							<div class="flex-cell spell-element"><input type="text" name="attr_spell_element_mdr" placeholder="Arcane"></div>
+							<div class="flex-cell spell-contested"><input type="text" name="attr_spell_contested_mdr" placeholder="-"></div>
+							<div class="flex-cell spell-strain"><input type="text" name="attr_spell_strain_mdr" placeholder="0"></div>
+						</div>
+					</fieldset>
+				</div>		
+			</div>
+			<div class="sheet-colrow">
 				<h4 class="section-head" data-i18n="omnidecks-u">Omnidecks</h4>
+				<div class="section">
+					<div class="sheet-omnideck-header">
+						<div class="flex-row">					
+						</div>
+					</div>
+					<div class="sheet-omnideck-default">
+						<div class="flex-row">
+						</div>
+					</div>
+					<fieldset class="repeating_omnidecksmdr">
+						<div class="flex-row">
+						</div>
+					</fieldset>
+				</div>	
 			</div>
 		</div>
 
@@ -9009,8 +9069,6 @@ on("change:total_spellcost change:ac", function () {
   });
 });
 
-
-
 function getAllBackgroundSkills(race) {
 		if (debug_on_trace) console.log ("[getAllBackgroundSkills] Start");
   const skills = new Set();
@@ -9566,6 +9624,7 @@ function parseDamageString(damageString, prefix) {
     const numDice = parseInt(match[1], 10) || 0;
     const diceSize = parseInt(match[2], 10) || 0;
     const bonus = parseInt(match[3] || "0", 10) || 0;
+	console.log (`prefix: ${prefix}, numDice: ${numDice}, diceSize: ${diceSize}, bonus: ${bonus}`);
 
     updates[`${prefix}_damage_numdice`] = numDice;
     updates[`${prefix}_damage_dicesize`] = diceSize;
@@ -9599,7 +9658,15 @@ on("change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
   });
 });
 
-
+// Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
+on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
+  const repeatingId = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/)[1];
+  getAttrs([`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`], function(values) {
+    const damageString = values[`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`] || "";
+    const updates = parseDamageString(damageString, `repeating_spellsmdr_${repeatingId}`);
+    setAttrs(updates);
+  });
+});
 
 // -------------------- working area end ----------------- //
 

@@ -1788,31 +1788,17 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 /* ---------------- Combat Section Flex Layout ---------------- */
 
 /* Fieldset */
-fieldset.repeating_weaponsmdr {
+fieldset.repeating_weaponsmdr,
+fieldset.repeating_armorsmdr,
+fieldset.repeating_spellssmdr,
+fieldset.repeating_omnidecksmdr,
+fieldset.repeating_programsmdr {
   margin: 0;
   padding: 0;
   border: none;
 }
 
-fieldset.repeating_armorsmdr {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-fieldset.repeating_spellssmdr {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-fieldset.repeating_omnideckssmdr {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-/* Container for all weapon entries */
+/* Container for all repeating entries */
 .repcontainer {
   display: flex;
   flex-direction: column;
@@ -1820,7 +1806,7 @@ fieldset.repeating_omnideckssmdr {
   gap: 0;
 }
 
-/* Each repeated weapon entry */
+/* Each repeated entry */
 .repitem {
   display: flex;
   flex-direction: row;
@@ -1836,14 +1822,17 @@ fieldset.repeating_omnideckssmdr {
 .sheet-armor-header .flex-row,
 .sheet-spell-header .flex-row,
 .sheet-omnideck-header .flex-row,
+.sheet-program-header .flex-row,
 .sheet-weapon-default .flex-row,
 .sheet-armor-default .flex-row,
 .sheet-spell-default .flex-row,
 .sheet-omnideck-default .flex-row,
+.sheet-program-default .flex-row,
 .sheet-weapon-block .flex-row,
 .sheet-armor-block .flex-row,
 .sheet-spell-block .flex-row,
-.sheet-omnideck-block .flex-row {
+.sheet-omnideck-block .flex-row,
+.sheet-program-block .flex-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -1896,26 +1885,24 @@ fieldset.repeating_omnideckssmdr {
 .spell-range, .spell-attacks, .spell-element { flex: 1 1 8%; }
 .spell-strain, .spell-contested { flex: 0.8 1 6%; }
 
-/* Specific text alignments */
-.weapon-name input { text-align: center; }
-.weapon-skill select, .weapon-skill input { text-align: center; }
-.weapon-damage input { text-align: right; }
-.weapon-damage-bonus select { text-align: left; }
-.weapon-range input, .weapon-attacks input, .weapon-ammo input, .weapon-malf input, .weapon-strain input { text-align: center; }
+/* Flex Widths */
+.omnideck-name { flex: 2 1 28%; }
+.omnideck-equipped { flex: 0 0 24px; }
+.omnideck-skill { flex: 1.5 1 14%; }
+.omnideck-ir, .omnideck-mr, .omnideck-fr, .omnideck-dic, .omnideck-dit, .omnideck-ar, .omnideck-prog_slots, .omnideck-mod_slots { flex: 1 1 7%; }
 
-/* Specific text alignments */
-.armor-name input,
-.armor-physical input,
-.armor-arcane input,
-.armor-layer input,
-.armor-category input,
-.armor-traits input { text-align: center; }
+/* Flex Widths */
+.program-name { flex: 2 1 28%; }
+.program-active { flex: 0 0 24px; }
+.program-damage { flex: 1 1 7%; }
+.program-effect { flex: 1 1 65%; }
 
-/* Weapon Header Row (Weapon, Skill, Damage, etc.) */
+/*  Header Row */
 .sheet-weapon-header,
 .sheet-armor-header,
 .sheet-spell-header ,
-.sheet-omnideck-header  {
+.sheet-omnideck-header,
+.sheet-programs-header {
   background: black;
   color: white;
   font-weight: bold;
@@ -1924,7 +1911,8 @@ fieldset.repeating_omnideckssmdr {
 .sheet-weapon-header .flex-cell,
 .sheet-armor-header .flex-cell,
 .sheet-spell-header .flex-cell,
-.sheet-omnideck-header .flex-cell {
+.sheet-omnideck-header .flex-cell,
+.sheet-program-header .flex-cell {
   background: black;
   color: white;
   text-align: center;

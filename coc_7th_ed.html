@@ -2693,7 +2693,7 @@
 						<div class="flex-row">
 							<div class="flex-cell weapon-name"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-z" readonly></div>
 							<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"></div>
-							<div class="flex-cell weapon-roll"><button type="roll" class="new-roll" name="@{weapon-name}" value="&{template:coc-attack-1} {{name=@{unarmed_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[1d3]]}} {{extremedamage=[[1d3+(1*3)]]}} {{strain=[[ 0 + 0 ]]}}" ></button></div>
+							<div class="flex-cell weapon-roll"><button type="roll" class="new-roll" name="@{weapon-name}" value="&{template:coc-attack-1-noimpale} {{name=@{unarmed_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[1d3]]}} {{extremedamage=[[1d3+(1*3)]]}} {{strain=[[ 0 + 0 ]]}}" ></button></div>
 							<div class="flex-cell weapon-skill"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-u" disabled="true"></div>
 							<div class="flex-cell weapon-damage"><input type="text" value="1d3" readonly></div>
 							<div class="flex-cell weapon-damage-bonus"><input type="text" value="+db" readonly></div>
@@ -2825,7 +2825,16 @@
 							</div>
 							<div class="flex-cell spell-skill">
 								<select name="attr_spell_skill_mdr">
-									<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic Universal</option>
+									<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Universal</option>
+									<option value="@{magic_alteration_mdr}" data-i18n="magic_alteration-u">Alteration</option>
+									<option value="@{magic_elemental_mdr}" data-i18n="magic_elemental-u">Elemental</option>
+									<option value="@{magic_enchantment_mdr}" data-i18n="magic_enchantment-u">Enchantment</option>
+									<option value="@{magic_illusion_mdr}" data-i18n="magic_illusion-u">Illusion</option>
+									<option value="@{magic_necromancy_mdr}" data-i18n="magic_necromancy-u">Necromancy</option>
+									<option value="@{magic_restoration_mdr}" data-i18n="magic_restoration-u">Restoration</option>
+									<option value="@{magic_summoning_mdr}" data-i18n="magic_summoning-u">Summoning</option>
+									<option value="@{magic_technomancy_mdr}" data-i18n="magic_technomancy-u">Technomancy</option>
+									<option value="@{magic_warding_mdr}" data-i18n="magic_warding-u">Warding</option>
 								</select>
 							</div>
 							<div class="flex-cell spell-damage"><input type="text" name="attr_spell_damage_mdr"></div>
@@ -2843,11 +2852,18 @@
 				<h4 class="section-head" data-i18n="omnidecks-u">Omnidecks</h4>
 				<div class="section">
 					<div class="sheet-omnideck-header">
-						<div class="flex-row">					
-						</div>
-					</div>
-					<div class="sheet-omnideck-default">
 						<div class="flex-row">
+							<div class="flex-cell omnideck-name"><span data-i18n="omnideck_name-u">Omnideck Name</span></div>
+							<div class="flex-cell omnideck-equipped"><span data-i18n="omnideck_equipped-u">E</span></div>
+							<div class="flex-cell omnideck-skill"><span data-i18n="omnideck_skill-u">Skill</span></div>
+							<div class="flex-cell omnideck-ir"><span data-i18n="omnideck_ir-u">IR</span></div>
+							<div class="flex-cell omnideck-mr"><span data-i18n="omnideck_mr-u">MR</span></div>
+							<div class="flex-cell omnideck-fr"><span data-i18n="omnideck_fr-u">FR</span></div>
+							<div class="flex-cell omnideck-dic"><span data-i18n="omnideck_dic-u">DIC</span></div>
+							<div class="flex-cell omnideck-dit"><span data-i18n="omnideck_dit-u">DIT</span></div>
+							<div class="flex-cell omnideck-ar"><span data-i18n="omnideck_ar-u">AR</span></div>
+							<div class="flex-cell omnideck-prog_slots"><span data-i18n="omnideck_prog_slots-u">Program Slots</span></div>
+							<div class="flex-cell omnideck-mod_slots"><span data-i18n="omnideck_mod_slots-u">Mod Slots</span></div>						
 						</div>
 					</div>
 					<fieldset class="repeating_omnidecksmdr">
@@ -2856,6 +2872,24 @@
 					</fieldset>
 				</div>	
 			</div>
+			<div class="sheet-colrow">
+				<h4 class="section-head" data-i18n="programs-u">Programs</h4>
+				<div class="section">
+					<div class="sheet-program-header">
+						<div class="flex-row">	
+							<div class="flex-cell program-name"><span data-i18n="program_name-u">Program Name</span></div>
+							<div class="flex-cell program-active"><span data-i18n="program_active-u">A</span></div>
+							<div class="flex-cell program-roll"><span data-i18n="program_roll-u"><!-- Blank --></span></div>
+							<div class="flex-cell program-damage"><span data-i18n="program_damage-u">Damage</span></div>
+							<div class="flex-cell program-effect"><span data-i18n="program_effect-u">Effect</span></div>						
+						</div>
+					</div>
+					<fieldset class="repeating_programs">
+						<div class="flex-row">
+						</div>
+					</fieldset>
+				</div>	
+			</div>			
 		</div>
 
 		<!-- -------------------------- Spells -------------------------- -->

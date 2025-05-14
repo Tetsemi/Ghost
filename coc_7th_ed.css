@@ -1166,6 +1166,15 @@ select[name="attr_damage_bonus"] {
   box-sizing: border-box;
 }
 
+.sheet-val-roll-static div {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-color: rgba(255,255,255,0.5);
+  text-align: center;
+  box-sizing: border-box;
+}
+
 .sheet-val-roll-static button[type="roll"] {
   position: absolute;
   top: 0;
@@ -1889,7 +1898,9 @@ fieldset.repeating_programsmdr {
 .omnideck-name { flex: 2 1 28%; }
 .omnideck-equipped { flex: 0 0 24px; }
 .omnideck-skill { flex: 1.5 1 14%; }
-.omnideck-ir, .omnideck-mr, .omnideck-fr, .omnideck-dic, .omnideck-dit, .omnideck-ar, .omnideck-prog_slots, .omnideck-mod_slots { flex: 1 1 7%; }
+.omnideck-ir, .omnideck-mr, .omnideck-fr, .omnideck-roll-wrapper { flex: 1 1 7%; }
+.omnideck-roll { flex: 0 0 24px; }
+.omnideck-dic, .omnideck-dit, .omnideck-ar, .omnideck-prog_slots, .omnideck-mod_slots { flex: 1 1 7%; }
 
 /* Flex Widths */
 .program-name { flex: 2 1 28%; }
@@ -1994,6 +2005,25 @@ button[type="roll"]:hover.new-roll {
 }
 .sheet-attack-toggle[value="noimpale"] + .sheet-roll-noimpale + .sheet-roll-impale {
   display: none;
+}
+
+.omnideck-roll-wrapper {
+  display: flex;
+  flex-direction: row;         /* Force row layout */
+  align-items: center;         /* Vertically center items */
+  gap: 0;                      /* No spacing between button/input unless desired */
+  width: 100%;                 /* Fill container */
+  height: 24px;                /* Match your standard row height */
+  box-sizing: border-box;
+}
+
+/* Optional: match your visual standard for cells */
+.omnideck-roll-wrapper .flex-cell {
+  flex: 1 1 auto;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 /* ------------------------------- Spells ----------------------- */

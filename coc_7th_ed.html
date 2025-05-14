@@ -2872,6 +2872,37 @@
 					</div>
 					<fieldset class="repeating_omnidecksmdr">
 						<div class="flex-row">
+							<div class="flex-cell omnideck-name"><input type="text" name="attr_omnideck_name" placeholder="Omnideck Name"></div>
+							<div class="flex-cell omnideck-equipped"><input type="checkbox" name="attr_omnideck_equipped" value="1"></div>
+							<div class="flex-cell omnideck-skill">
+								<select name="attr_omnideck_skill_mdr">
+									<option value="@{slicing_mdr}" data-i18n="slicing-u">Slicing</option>
+									<option value="@{computer_use_mdr}" data-i18n="computeruse-u">Computer Use</option>
+								</select>
+							</div>		
+							<div class="omnideck-roll-wrapper">
+								<div class="flex-cell omnideck-roll">
+									<button type="roll" class="new-roll" name="roll_omnideck_ir_mdr_attack" value="..."></button>
+								</div>
+								<div class="flex-cell omnideck-ir"><input name="attr_omnideck_ir" type="text" /></div>
+							</div>
+							<div class="omnideck-roll-wrapper">
+								<div class="flex-cell omnideck-roll">
+									<button type="roll" class="new-roll" name="roll_omnideck_mr_mdr_attack" value="..."></button>
+								</div>
+								<div class="flex-cell omnideck-mr"><input name="attr_omnideck_mr" type="text" /></div>
+							</div>
+							<div class="omnideck-roll-wrapper">
+								<div class="flex-cell omnideck-roll">
+									<button type="roll" class="new-roll" name="roll_omnideck_fr_mdr_attack" value="..."></button>
+								</div>
+								<div class="flex-cell omnideck-fr"><input name="attr_omnideck_fr" type="text" /></div>
+							</div>
+							<div class="flex-cell omnideck-dic"><input type="text" name="attr_omnideck_dic" placeholder="DIC"></div>
+							<div class="flex-cell omnideck-dit"><input type="text" name="attr_omnideck_dit" placeholder="DIT"></div>
+							<div class="flex-cell omnideck-ar"><input type="text" name="attr_omnideck_ar" placeholder="AR"></div>
+							<div class="flex-cell omnideck-prog_slots"><input type="text" name="attr_omnideck_prog_slots" placeholder="0"></div>
+							<div class="flex-cell omnideck-mod_slots"><input type="text" name="attr_omnideck_mod_slots" placeholder="0"></div>						
 						</div>
 					</fieldset>
 				</div>	
@@ -3354,6 +3385,7 @@
 <input type="hidden" name="attr_archaeology_txt" value="Archaeology Roll"/>
 <input type="hidden" name="attr_architecture_txt" value="Architecture Roll"/>
 <input type="hidden" name="attr_biology_txt" value="Biology Roll"/>
+<input type="hidden" name="attr_chant_txt" value="Chant Roll"/>
 <input type="hidden" name="attr_charm_txt" value="Charm Roll"/>
 <input type="hidden" name="attr_chemistry_txt" value="Chemistry Roll"/>
 <input type="hidden" name="attr_climb_txt" value="Climb Roll"/>
@@ -8620,7 +8652,7 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
+const debug_on = true;
 const debug_on_trace = false;
 
 // Maps //
@@ -9736,7 +9768,7 @@ on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
     "str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
     "accounting_txt", "alchemy_txt", "animalhandling_txt", "anthropology_txt", "appraise_txt", "arcana_txt",
     "archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
-    "charm_txt", "chemistry_txt", "climb_txt", "computeruse_txt", "creditrating_txt", "cthulhumythos_txt",
+    "chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computeruse_txt", "creditrating_txt", "cthulhumythos_txt",
     "cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "driveauto_txt",
     "drone_operation_txt", "elecrepair_txt", "engineering_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "fasttalk_txt",
     "fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "firearms_smg_txt", "first_aid_txt", "forbidden_lore_txt",

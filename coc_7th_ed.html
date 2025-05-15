@@ -2065,113 +2065,381 @@
 
 			<!-- Alteri Talents -->
 			<div class="sheet-racials1">
-				<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials"/>
-                <div class="sheet-section">
-					<!-- Alteri Talent Tab Controller -->
-                    <input type="hidden" name="attr_alteri_talent_tab" class="sheet-tab-controller" value="maskwrights_grace" />
-						<!-- Alteri Talent Tab Buttons -->
-					<div class="sheet-tab-buttons">
-						<button type="action" name="act_maskwrights_grace">Maskwright's Grace</button>
-                        <button type="action" name="act_shaped_for_subtlety">Shaped for Subtlety</button>
-                    </div>
-                    <!-- Maskwright's Grace -->
-                    <div class="sheet-bgblock sheet-talent-maskwrights_grace">
-						<h3 class="section-head sheet-background-section-head talent-center">Maskwright's Grace</h3>
-						<div class="sheet-bgblock-flex">
-							<div class="sheet-bg-content-left">
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-a">A</div>
-										<div class="col-benefit">Benefit</div>
-										<div class="col-desc">Description</div>
-										<div class="col-val">Val</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_disguise" />
-										</div>
-										<div class="col-benefit">Disguise +10%</div>
-										<div class="col-desc">Gain +10% Disguise Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_talent_disguise_bonus_mdr" readonly />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_impersonation" />
-										</div>
-										<div class="col-benefit">Impersonation +10%</div>
-										<div class="col-desc">Gain +10% Impersonation Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_talent_impersonation_bonus_mdr" readonly />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_insight" />
-										</div>
-										<div class="col-benefit">Insight +10%</div>
-										<div class="col-desc">Gain +10% Insight Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_talent_insight_bonus_mdr" readonly />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="sheet-bg-content-right">
-								<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Maskwright's Grace Logo" />
-							</div>
-						</div>
-					</div>
-					<!-- Shaped for Subtlety -->
-					<div class="sheet-bgblock sheet-talent-shaped_for_subtlety">
-						<h3 class="section-head sheet-background-section-head talent-center">Shaped for Subtlety</h3>
-						<div class="sheet-bgblock-flex">
-							<div class="sheet-bg-content-left">
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-a">A</div>
-										<div class="col-benefit">Benefit</div>
-										<div class="col-desc">Description</div>
-										<div class="col-val">Val</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_insight" />
-										</div>
-										<div class="col-benefit">Insight +10%</div>
-										<div class="col-desc">Gain +10% Insight Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_talent_insight_bonus_mdr" readonly />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_slicing" />
-										</div>
-										<div class="col-benefit">Slicing +10%</div>
-										<div class="col-desc">Gain +10% Slicing Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_talent_slicing_bonus_mdr" readonly />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_stealth" />
-										</div>
-										<div class="col-benefit">Stealth +10%</div>
-										<div class="col-desc">Gain +10% Stealth Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_talent_stealth_bonus_mdr" readonly />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="sheet-bg-content-right">
-								<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Shaped for Subtlety Logo" />
-							</div>
-						</div>
-					</div>
+<div class="sheet-xp-tracker">
+  <div class="sheet-xp-row">
+    <label>Total XP (Talent)</label>
+    <input type="number" name="attr_xp_pool_total_talent" class="sheet-xp-field" />
+  </div>
+  <div class="sheet-xp-row">
+    <label>Spent XP (Talent)</label>
+    <input type="text" name="attr_xp_spent_talent" class="sheet-xp-field sheet-readonly" readonly />
+  </div>
+  <div class="sheet-xp-row">
+	<label>Remaining XP (Talent)</label>
+    <input type="text" name="attr_xp_remaining_talent" class="sheet-xp-field sheet-readonly" readonly />
+  </div>
+</div>
+
+<div class="sheet-talent-summary">
+  <h3 class="sheet-talent-tier-header">Chosen Talents Summary</h3>
+  <span name="attr_talent_summary"></span>
+</div>
+
+<div class="sheet-talent-tier" data-tier="1">
+  <h3 class="sheet-talent-tier-header">Tier 1 Talents</h3>
+
+  <!-- Second Skin -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_second_skin_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_second_skin" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_second_skin_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_second_skin_description"></span></span>
+  </div>
+
+  <!-- Reflexive Shift -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_reflexive_shift_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_reflexive_shift" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_reflexive_shift_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_reflexive_shift_description"></span></span>
+  </div>
+
+  <!-- Echoed Voice -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_echoed_voice_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_echoed_voice" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_echoed_voice_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_echoed_voice_description"></span></span>
+  </div>
+
+<!-- Maskwright’s Grace -->
+<div class="sheet-talent-row">
+  <input type="hidden" name="attr_show_maskwrights_grace_bonus" value="0" />
+  <input type="hidden" name="attr_alteri_maskwrights_grace_lockflag" value="0" />
+  <input type="hidden" name="attr_alteri_maskwrights_grace_lockflag_skill" value="0" />
+
+  <input type="checkbox" name="attr_alteri_maskwrights_grace" value="1" class="sheet-talent-checkbox" />
+  <label class="sheet-talent-label"><span name="attr_alteri_maskwrights_grace_label"></span></label>
+  <span class="sheet-talent-description"><span name="attr_alteri_maskwrights_grace_description"></span></span>
+
+  <div class="sheet-skill-choice-placeholder">
+    <div class="sheet-skill-choice-options" name="attr_maskwrights_grace_choices">
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_disguise" />
+        <span>Disguise +10%</span>
+      </label>
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_impersonation" />
+        <span>Impersonation +10%</span>
+      </label>
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_insight" />
+        <span>Insight +10%</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+  <!-- Social Chameleon -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_social_chameleon_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_social_chameleon" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_social_chameleon_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_social_chameleon_description"></span></span>
+  </div>
+
+  <!-- Ghost Protocol -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_ghost_protocol_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_ghost_protocol" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_ghost_protocol_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_ghost_protocol_description"></span></span>
+  </div>
+
+<!-- Talent: Shaped for Subtlety -->
+<div class="sheet-talent-row">
+  <!-- Control Flags -->
+  <input type="hidden" name="attr_show_shaped_for_subtlety_bonus" value="0" />
+  <input type="hidden" name="attr_alteri_shaped_for_subtlety_lockflag" value="0" />
+  <input type="hidden" name="attr_alteri_shaped_for_subtlety_lockflag_skill" value="0" />
+
+  <!-- Main Talent Checkbox -->
+  <input type="checkbox" name="attr_alteri_shaped_for_subtlety" value="1" class="sheet-talent-checkbox" />
+  <label class="sheet-talent-label">
+    <span name="attr_alteri_shaped_for_subtlety_label"></span>
+  </label>
+  <span class="sheet-talent-description">
+    <span name="attr_alteri_shaped_for_subtlety_description"></span>
+  </span>
+
+  <!-- Skill Selection Grid -->
+  <div class="sheet-skill-choice-placeholder">
+    <div class="sheet-skill-choice-options" name="attr_shaped_for_subtlety_choices">
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_insight" />
+        <span>Insight +10%</span>
+      </label>
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_slicing" />
+        <span>Slicing +10%</span>
+      </label>
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_shaped_for_subtlety_mdr_checkbox" value="talent_stealth" />
+        <span>Stealth +10%</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+  <!-- Whisper-Touched -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_whisper_touched_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_whisper_touched" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_whisper_touched_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_whisper_touched_description"></span></span>
+  </div>
+
+  <!-- Grace of the Many -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_grace_of_the_many_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_grace_of_the_many" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_grace_of_the_many_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_grace_of_the_many_description"></span></span>
+  </div>
+</div>
+
+<div class="sheet-talent-tier" data-tier="2">
+  <h3 class="sheet-talent-tier-header">Tier 2 Talents</h3>
+
+  <!-- Facial Recalibration (depends on echoed_voice or second_skin) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_facial_recalibration_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_facial_recalibration_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_facial_recalibration" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_facial_recalibration_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_facial_recalibration_description"></span></span>
+  </div>
+
+  <!-- Adaptive Memory (depends on social_chameleon or maskwrights_grace) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_adaptive_memory_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_adaptive_memory_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_adaptive_memory" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_adaptive_memory_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_adaptive_memory_description"></span></span>
+  </div>
+
+  <!-- Shift Reflex (depends on reflexive_shift) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_shift_reflex_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_shift_reflex_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_shift_reflex" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_shift_reflex_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_shift_reflex_description"></span></span>
+  </div>
+
+<!-- Talent: Deep Mask Integration -->
+<div class="sheet-talent-row">
+  <!-- Control Flags -->
+  <input type="hidden" name="attr_show_deep_mask_integration_bonus" value="0" />
+  <input type="hidden" name="attr_alteri_deep_mask_integration_lockflag" value="0" />
+  <input type="hidden" name="attr_alteri_deep_mask_integration_lockflag_skill" value="0" />
+
+  <!-- Main Talent Checkbox -->
+  <input type="checkbox" name="attr_alteri_deep_mask_integration" value="1" class="sheet-talent-checkbox" />
+  <label class="sheet-talent-label">
+    <span name="attr_alteri_deep_mask_integration_label"></span>
+  </label>
+  <span class="sheet-talent-description">
+    <span name="attr_alteri_deep_mask_integration_description"></span>
+  </span>
+
+  <!-- Skill Selection Grid -->
+  <div class="sheet-skill-choice-placeholder">
+     <div class="sheet-skill-choice-options" name="attr_deep_mask_integration_choices">
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_deep_mask_integration_mdr_checkbox" value="talent_disguise" />
+        <span>Disguise +10%</span>
+      </label>
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_deep_mask_integration_mdr_checkbox" value="talent_insight" />
+        <span>Insight +10%</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Ghost Signature (depends on ghost_protocol) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_ghost_signature_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_ghost_signature_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_ghost_signature" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_ghost_signature_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_ghost_signature_description"></span></span>
+  </div>
+
+  <!-- Mirror Weave (depends on whisper_touched) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_mirror_weave_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_mirror_weave_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_mirror_weave" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_mirror_weave_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_mirror_weave_description"></span></span>
+  </div>
+
+  <!-- Persona Anchor (depends on grace_of_the_many) -->
+<div class="sheet-talent-row">
+  <!-- Control Flags -->
+  <input type="hidden" name="attr_show_persona_anchor_bonus" value="0" />
+  <input type="hidden" name="attr_alteri_persona_anchor_lockflag" value="0" />
+  <input type="hidden" name="attr_alteri_persona_anchor_lockflag_skill" value="0" />
+
+  <!-- Main Talent Checkbox -->
+  <input type="checkbox" name="attr_alteri_persona_anchor" value="1" class="sheet-talent-checkbox" />
+  <label class="sheet-talent-label">
+    <span name="attr_alteri_persona_anchor_label"></span>
+  </label>
+  <span class="sheet-talent-description">
+    <span name="attr_alteri_persona_anchor_description"></span>
+  </span>
+
+  <!-- Skill Selection Grid -->
+  <div class="sheet-skill-choice-placeholder">
+     <div class="sheet-skill-choice-options" name="attr_persona_anchor_choices">
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_persona_anchor_mdr_checkbox" value="talent_arcana" />
+        <span>Arcana +10%</span>
+      </label>
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_persona_anchor_mdr_checkbox" value="talent_impersonation" />
+        <span>Impersonation +10%</span>
+      </label>
+      <label class="sheet-skill-option">
+        <input type="checkbox" name="attr_alteri_persona_anchor_mdr_checkbox" value="talent_slicing" />
+        <span>Slicing +10%</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Veil Echo Memory (depends on whisper_touched or ghost_protocol) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_veil_echo_memory_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_veil_echo_memory_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_veil_echo_memory" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_veil_echo_memory_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_veil_echo_memory_description"></span></span>
+  </div>
+
+  <!-- Silent Archive (depends on deep_mask_integration) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_silent_archive_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_silent_archive_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_silent_archive" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_silent_archive_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_silent_archive_description"></span></span>
+  </div>
+</div>
+
+<div class="sheet-talent-tier" data-tier="3">
+  <h3 class="sheet-talent-tier-header">Tier 3 Talents</h3>
+
+  <!-- Perfect Mimicry (depends on facial_recalibration or echoed_voice) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_perfect_mimicry_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_perfect_mimicry_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_perfect_mimicry" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_perfect_mimicry_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_perfect_mimicry_description"></span></span>
+  </div>
+
+  <!-- Biometric Phantom (depends on ghost_signature) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_biometric_phantom_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_biometric_phantom_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_biometric_phantom" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_biometric_phantom_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_biometric_phantom_description"></span></span>
+  </div>
+
+  <!-- Memory Graft (depends on deep_mask_integration) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_memory_graft_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_memory_graft_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_memory_graft" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_memory_graft_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_memory_graft_description"></span></span>
+  </div>
+
+  <!-- Veil-Shaped Will (depends on mirror_weave or whisper_touched) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_veil_shaped_will_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_veil_shaped_will_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_veil_shaped_will" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_veil_shaped_will_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_veil_shaped_will_description"></span></span>
+  </div>
+
+  <!-- Social Echo (depends on social_chameleon or adaptive_memory) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_social_echo_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_social_echo_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_social_echo" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_social_echo_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_social_echo_description"></span></span>
+  </div>
+
+  <!-- Identity Cascade (depends on deep_mask_integration) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_identity_cascade_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_identity_cascade_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_identity_cascade" value="1" class="sheet-talent-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_identity_cascade_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_identity_cascade_description"></span></span>
+  </div>
+</div>
+
+<div class="sheet-talent-tier" data-tier="4">
+  <h3 class="sheet-talent-tier-header">Tier 4 Talents (Capstone)</h3>
+
+  <!-- Immaculate Impersonation (depends on perfect_mimicry or biometric_phantom) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_immaculate_impersonation_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_immaculate_impersonation_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_immaculate_impersonation" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_immaculate_impersonation_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_immaculate_impersonation_description"></span></span>
+  </div>
+
+  <!-- Living Mask Archive (depends on memory_graft or identity_cascade) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_living_mask_archive_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_living_mask_archive_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_living_mask_archive" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_living_mask_archive_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_living_mask_archive_description"></span></span>
+  </div>
+
+  <!-- Veil-Mirroring Ritual (depends on veil_shaped_will) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_veil_mirroring_ritual_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_veil_mirroring_ritual_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_veil_mirroring_ritual" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_veil_mirroring_ritual_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_veil_mirroring_ritual_description"></span></span>
+  </div>
+
+  <!-- Author of the Lie (depends on social_echo or deep_mask_integration) -->
+  <div class="sheet-talent-row">
+    <input type="hidden" name="attr_alteri_author_of_the_lie_enabled" value="0" />
+    <input type="hidden" name="attr_alteri_author_of_the_lie_lockflag" value="0" />
+    <input type="checkbox" name="attr_alteri_author_of_the_lie" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+    <label class="sheet-talent-label"><span name="attr_alteri_author_of_the_lie_label"></span></label>
+    <span class="sheet-talent-description"><span name="attr_alteri_author_of_the_lie_description"></span></span>
+  </div>
+</div>
 				</div>
 			</div>
 			<!-- Draevi Talents -->
@@ -8730,6 +8998,235 @@ const backgroundSkillMap = {
   }
 };
 
+const talentDataMap = {
+  alteri: {
+    second_skin: {
+      name: "Second Skin",
+      description: "You gain an additional Mask—a fully realized persona with a name, appearance, and backstory. Switching to this Mask takes 1 Action and no longer imposes Strain unless done under stress (GM discretion).",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+    reflexive_shift: {
+      name: "Reflexive Shift",
+      description: "Once per scene, as a Reaction, rapidly alter your appearance (hair, skin tone, voice, etc.) to avoid identification. Grants a bonus die to Disguise or deception-based Deception. Costs 1d4 Strain.",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+    echoed_voice: {
+      name: "Echoed Voice",
+      description: "Once per session, mimic the voice and speech of someone known to you or studied for at least one full scene. Grants a bonus die to Performance (Impersonation) or any roll to pass as the individual.",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+    maskwrights_grace: {
+      name: "Maskwright’s Grace",
+      description: "Choose one: gain +10% to Disguise, Insight, or Performance (Impersonation). This choice is permanent and may only be taken once.",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+    social_chameleon: {
+      name: "Social Chameleon",
+      description: "Use Charm in place of Deception or Persuade when navigating unfamiliar cultures or coded social environments.",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+    ghost_protocol: {
+      name: "Ghost Protocol",
+      description: "Once per session, erase your trail. Gain a bonus die to Stealth or Slicing when spoofing ID, bypassing basic surveillance, or escaping recognition. If followed by a successful Disguise, it leaves no trace.",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+    shaped_for_subtlety: {
+      name: "Shaped for Subtlety",
+      description: "Choose one: gain +10% to Stealth, Slicing, or Insight. This choice is permanent and may only be taken once.",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+    whisper_touched: {
+      name: "Whisper-Touched",
+      description: "Once per session, gain a bonus die when casting Illusion or Enchantment spells.",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+    grace_of_the_many: {
+      name: "Grace of the Many",
+      description: "Once per session, reroll a failed Disguise, Insight, or Stealth check. Take the better result.",
+      prerequisite: "",
+      tier: 1,
+      cost: "10",
+      capstone: false
+    },
+	facial_recalibration: {
+      name: "Facial Recalibration",
+      description: "Once per session, mimic a person’s face, posture, and speech after observing them for at least one turn. Grants a bonus die to Disguise or Performance (Impersonation). Costs 1 Strain.",
+      prerequisite: ["echoed_voice", "second_skin"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+    adaptive_memory: {
+      name: "Adaptive Memory",
+      description: "Once per session, recall useful details from a person you've interacted with in person. Gain a bonus die to a social roll involving deception or impersonation with them or their associates.",
+      prerequisite: ["social_chameleon", "maskwrights_grace"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+    shift_reflex: {
+      name: "Shift Reflex",
+      description: "Once per scene, use a Reaction to confuse a target mid-scan or strike. Gain a bonus die to Dodge or Stealth.",
+      prerequisite: ["reflexive_shift"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+    deep_mask_integration: {
+      name: "Deep Mask Integration",
+      description: "Gain +10% to Disguise or Insight (your choice). You may maintain two active Masks and switch between them without prep or Strain outside combat.",
+      prerequisite: ["second_skin"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+    ghost_signature: {
+      name: "Ghost Signature",
+      description: "Once per session, spoof or bypass a low-grade biometric scan (e.g., facial recognition, voiceprint, retinal) with a bonus die to Slicing or Electronics.",
+      prerequisite: ["ghost_protocol"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+    mirror_weave: {
+      name: "Mirror Weave",
+      description: "Once per session, illusions or enchantments you cast can deceive digital or mechanical observers. Costs 1 Strain per additional ally affected. Cannot deceive hostile systems.",
+      prerequisite: ["whisper_touched"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+    persona_anchor: {
+      name: "Persona Anchor",
+      description: "Choose one: gain +10% to Performance (Impersonation), Arcana, or Slicing. Reflects how your persona enhances certain skills.",
+      prerequisite: ["grace_of_the_many"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+    veil_echo_memory: {
+      name: "Veil Echo Memory",
+      description: "Once per session, gain a sensory impression or memory from a place or person you've touched. Grants a bonus die to the next Arcana, Insight, or Occult Lore roll. Costs 1 Strain.",
+      prerequisite: ["whisper_touched", "ghost_protocol"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+    silent_archive: {
+      name: "Silent Archive",
+      description: "Store a secondary identity with full recall: appearance, history, contacts, accent, and routine. Once per session, switch instantly. Costs 1d4 Strain if used during a scene. Free outside scenes.",
+      prerequisite: ["deep_mask_integration"],
+      tier: 2,
+      cost: "20",
+      capstone: false
+    },
+	perfect_mimicry: {
+      name: "Perfect Mimicry",
+      description: "Once per session, flawlessly replicate a person’s full persona (appearance, mannerisms, tone). Grants a bonus die to Disguise, Performance, or Deception.",
+      prerequisite: ["facial_recalibration", "echoed_voice"],
+      tier: 3,
+      cost: "30",
+      capstone: false
+    },
+    biometric_phantom: {
+      name: "Biometric Phantom",
+      description: "Once per session, spoof or override corporate-grade biometric or magitech ID systems if you've had contact with the target. Bonus die to Slicing or Electronics.",
+      prerequisite: ["ghost_signature"],
+      tier: 3,
+      cost: "30",
+      capstone: false
+    },
+    memory_graft: {
+      name: "Memory Graft",
+      description: "Once per session, tap into a stored Mask’s memory for insight. Gain a bonus die to one Arcana, Insight, or Performance (Impersonation) roll tied to that persona’s experience.",
+      prerequisite: ["deep_mask_integration"],
+      tier: 3,
+      cost: "30",
+      capstone: false
+    },
+    veil_shaped_will: {
+      name: "Veil-Shaped Will",
+      description: "Once per session, reroll a failed Illusion, Alteration, or Enchantment spellcasting. If successful, reduce the Strain die by one step (e.g., 1d6 → 1d4).",
+      prerequisite: ["mirror_weave", "whisper_touched"],
+      tier: 3,
+      cost: "30",
+      capstone: false
+    },
+    social_echo: {
+      name: "Social Echo",
+      description: "Once per session, adapt your behavior to match a target’s subconscious expectations. Gain a bonus die to Charm, Deception, or Persuade. Costs 1 Strain if targeting two or more people.",
+      prerequisite: ["social_chameleon", "adaptive_memory"],
+      tier: 3,
+      cost: "30",
+      capstone: false
+    },
+    identity_cascade: {
+      name: "Identity Cascade",
+      description: "Once per scene, switch Masks mid-encounter (even mid-dialogue or mid-combat). Grants a bonus die to Disguise or Insight. Costs 1d4 Strain if under pressure or direct observation.",
+      prerequisite: ["deep_mask_integration"],
+      tier: 3,
+      cost: "30",
+      capstone: false
+    },
+	immaculate_impersonation: {
+      name: "Immaculate Impersonation",
+      description: "Once per session, flawlessly impersonate a known target—down to retinal scan, bio-sig, and vocal cadence. Bonus die to all Disguise, Slicing, or Performance (Impersonation) checks for the entire scene.",
+      prerequisite: ["perfect_mimicry", "biometric_phantom"],
+      tier: 4,
+      cost: "40",
+      capstone: true
+    },
+    living_mask_archive: {
+      name: "Living Mask Archive",
+      description: "Maintain up to four active Masks. Once per session, instantly switch between any of them. Grants a bonus die to your next social or Stealth roll. Costs 1 Strain if used during a scene.",
+      prerequisite: ["memory_graft", "identity_cascade"],
+      tier: 4,
+      cost: "40",
+      capstone: true
+    },
+    veil_mirroring_ritual: {
+      name: "Veil-Mirroring Ritual",
+      description: "Once per session, reflect a single Illusion or Enchantment spell cast on you, or redirect it to another visible target. Spell must be reflectable by nature.",
+      prerequisite: ["veil_shaped_will"],
+      tier: 4,
+      cost: "40",
+      capstone: true
+    },
+    author_of_the_lie: {
+      name: "Author of the Lie",
+      description: "Once per session, automatically succeed on a Disguise, Performance, or Deception roll involving deception. You may declare one falsehood about your Mask as true for the rest of the scene. Costs 2 Strain if used under direct scrutiny or in a digital surveillance zone.",
+      prerequisite: ["social_echo", "deep_mask_integration"],
+      tier: 4,
+      cost: "40",
+      capstone: true
+    }
+  }
+};
+
 const talentSkillMap = {
   alteri: {
     maskwrights_grace: {
@@ -8737,7 +9234,13 @@ const talentSkillMap = {
     },
     shaped_for_subtlety: {
       insight: "Insight", slicing: "Slicing", stealth: "Stealth"
-    }
+    },
+	deep_mask_integration: {
+	  disguise: "Disguise", insight: "Insight"
+	},
+	persona_anchor: {
+	  arcana: "Arcana", impersonation: "Impersonation", slicing: "Slicing"
+	}
   },
   draevi: {
     clan_blooded: {
@@ -9095,6 +9598,7 @@ on("change:repeating_weaponsmdr:attack_impale_checkbox", function(eventInfo) {
 });
 
 
+//----------------------- Repeating Spells --------------------//
 
 // Mirror select dropdown value to hidden input (for CSS Wizardry styling)
 on("change:repeating_spells:spellprepared", function(eventInfo) {
@@ -9133,6 +9637,7 @@ on("change:repeating_spells:spellcost change:repeating_spells:spellprepared remo
   });
 });
 
+//----------------------- Spell Cost Calculation --------------------//
 // Update overflow flag when spellcost or AC changes
 on("change:total_spellcost change:ac", function () {
   if (debug_on_trace) console.log ("[change:total_spellcost change:ac] Start");
@@ -9150,6 +9655,8 @@ on("change:total_spellcost change:ac", function () {
   });
 });
 
+
+//----------------------- Skill, Backgrounds, and Talents --------------------//
 function getAllBackgroundSkills(race) {
 		if (debug_on_trace) console.log ("[getAllBackgroundSkills] Start");
   const skills = new Set();
@@ -9169,13 +9676,6 @@ function getAllTalentSkills(race) {
   });
   return [...skills];
 }
-
-// -------------------- working area start --------------- //
-
-// == Sheet Worker.js ==
-// Dependencies: skillMapTable, backgroundSkillMap, talentSkillMap, raceValueMap
-
-// === Helpers ===
 
 function resetAllMDRToBase(race, callback) {
 		if (debug_on_trace) console.log ("[resetAllMDRToBase] Start");
@@ -9207,48 +9707,225 @@ function applyAllSkillBonuses(race) {
 }
 
 on("change:showracials", () => {
-	if (debug_on_trace) console.log ("[change:showracials] Start");
-	getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
-		const race = values.showracials || "";
+  if (debug_on_trace) console.log("[change:showracials] Start");
 
-		if (!raceDataMap[race]) {
-			if (debug_on) console.log("[Skill Init] No race data for:", race);
-			return;
-		}
+  getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
+    const race = values.showracials || "";
 
-		const raceData = raceDataMap[race];
-		const racialLang = raceData.language || "Racial";
+    // === Race Data ===
+    if (!raceDataMap[race]) {
+      if (debug_on) console.log("[Skill Init] No race data for:", race);
+      return;
+    }
 
-		if (debug_on) {
-			console.log("[showracials handler] Race:", race);
-			console.log(`Racial Lang: ${racialLang}`);
-		}
+    const raceData = raceDataMap[race];
+    const racialLang = raceData.language || "Racial";
+    const otherLang = race === "human" ? "Other" : "Caltheran";
 
-		handleRaceChange(race);
+    if (debug_on) {
+      console.log("[showracials handler] Race:", race);
+      console.log(`Racial Lang: ${racialLang}`);
+    }
 
-		const otherLang = race === "human" ? "Other" : "Caltheran";
+    handleRaceChange(race);
 
-		const updates = {
-			language_own_txt: `${racialLang}(75%)`,
-			language_caltheran_txt: `${otherLang}(EDU)`
-		};
+    const updates = {
+      language_own_txt: `${racialLang}(75%)`,
+      language_caltheran_txt: `${otherLang}(EDU)`
+    };
 
-		setAttrs(updates);
-	});
+    // === Talent Labels and Descriptions ===
+    const raceTalents = talentDataMap[race];
+    if (raceTalents) {
+      for (let [key, data] of Object.entries(raceTalents)) {
+        updates[`${race}_${key}_label`] = data.name;
+        updates[`${race}_${key}_description`] = data.description;
+      }
+    }
+
+    setAttrs(updates);
+
+    // === Recalculate Enable/Lock Flags
+    if (raceTalents) {
+      updateTalentEnables(race);
+    }
+  });
 });
+
+// === Talent Prerequisite / Enable Watcher ===
+const registerPrerequisiteWatcher = () => {
+  on(allTalentChangeEvents.join(" "), function () {
+    getAttrs(["showracials"], function (values) {
+      const race = values.showracials;
+      updateTalentEnables(race);
+    });
+  });
+};
+
+const registerTalentSummaryWatcher = () => {
+  const allChangeEvents = Object.entries(talentDataMap)
+    .flatMap(([race, talents]) =>
+      Object.keys(talents).map(talentKey => `change:${race}_${talentKey}`)
+    );
+
+  on(allChangeEvents.join(" "), function () {
+    getAttrs(["showracials"], function (values) {
+      const race = values.showracials;
+      const raceTalents = talentDataMap[race];
+      if (!raceTalents) return;
+
+      const watchedTalentAttrs = Object.keys(raceTalents).map(k => `${race}_${k}`);
+
+      getAttrs(watchedTalentAttrs, function (talentValues) {
+        const summaryLines = [];
+
+        for (let [key, data] of Object.entries(raceTalents)) {
+          const fullKey = `${race}_${key}`;
+          if (talentValues[fullKey] === "1") {
+            summaryLines.push(`T${data.tier}: ${data.name} — ${data.description}`);
+          }
+        }
+
+        const summaryText = summaryLines.length
+          ? summaryLines.join("\n\n")
+          : " "; // Avoid Roll20 collapse on empty value
+
+        setAttrs({ talent_summary: summaryText });
+      });
+    });
+  });
+};
+
+// === Talent Uncheck Lock Enforcement ===
+const registerTalentUncheckGate = () => {
+  on(allTalentChangeEvents.join(" "), function (eventInfo) {
+    const attr = eventInfo.sourceAttribute;
+    const match = attr.match(/^([^_]+)_(.+)$/);
+    if (!match) return;
+
+    const [, race, changedTalent] = match;
+    const raceTalents = talentDataMap[race];
+    if (!raceTalents) return;
+
+    const allTalentKeys = Object.keys(raceTalents);
+    const allAttrs = allTalentKeys
+      .map(k => `${race}_${k}`)
+      .concat(Object.keys(talentSkillMap[race] || {}).map(talent => `${race}_${talent}_mdr_checkbox`));
+
+    getAttrs(allAttrs, function (values) {
+      const stillChecked = (key) => values[`${race}_${key}`] === "1";
+
+      const reverseMap = {};
+      for (let [key, data] of Object.entries(raceTalents)) {
+        if (Array.isArray(data.prerequisite)) {
+          data.prerequisite.forEach(pr => {
+            if (!reverseMap[pr]) reverseMap[pr] = new Set();
+            reverseMap[pr].add(key);
+          });
+        }
+      }
+
+      const isLocked = (target) => {
+        const visited = new Set();
+        const stack = [...(reverseMap[target] || [])];
+
+        while (stack.length) {
+          const current = stack.pop();
+          if (visited.has(current)) continue;
+          visited.add(current);
+
+          const talentSelected = stillChecked(current);
+          const prereqs = raceTalents[current]?.prerequisite || [];
+
+          const isSolelyDependent = talentSelected &&
+            prereqs.includes(target) &&
+            !prereqs.some(p => p !== target && stillChecked(p));
+
+          if (isSolelyDependent) return true;
+
+          if (reverseMap[current]) {
+            reverseMap[current].forEach(t => stack.push(t));
+          }
+        }
+        return false;
+      };
+
+      const updatedLocks = {};
+      for (let key of Object.keys(raceTalents)) {
+        let lock = isLocked(key) ? "1" : "0";
+
+        // Check skill lock
+        const skillMap = talentSkillMap[race] || {};
+        if (skillMap[key]) {
+          const skillCheckbox = values[`${race}_${key}_mdr_checkbox`] || "";
+          if (skillCheckbox !== "") lock = "1";
+        }
+
+        updatedLocks[`${race}_${key}_lockflag`] = lock;
+      }
+
+      setAttrs(updatedLocks);
+    });
+  });
+};
+
+const registerTalentSkillBonusWatchers = () => {
+  const races = Object.keys(talentSkillMap);
+
+  races.forEach(race => {
+    const talents = Object.keys(talentSkillMap[race]);
+
+    talents.forEach(talent => {
+      const checkboxAttr = `${race}_${talent}_mdr_checkbox`;
+      const talentAttr = `${race}_${talent}`;
+      const lockAttr = `${race}_${talent}_lockflag_skill`;
+      const showAttr = `show_${talent}_bonus`;
+
+      const watchedAttrs = [checkboxAttr, talentAttr];
+
+      on(`change:${checkboxAttr} change:${talentAttr}`, () => {
+        getAttrs(watchedAttrs.concat(["showracials"]), values => {
+          const isTalentChecked = values[talentAttr] === "1";
+          const skillChoice = values[checkboxAttr] || "0";
+
+          const shouldShow = isTalentChecked || skillChoice !== "0";
+          const isLocked = skillChoice !== "0"; // Lock if any skill choice is selected
+
+          console.log(`[Generic Bonus Watcher] ${race}.${talent}`);
+          console.log("Talent Checked:", isTalentChecked);
+          console.log("Skill Selected:", skillChoice);
+          console.log("→ Show Skills?", shouldShow ? "Yes" : "No");
+          console.log("→ Lock Talent?", isLocked ? "Yes" : "No");
+
+          const updates = {};
+          updates[showAttr] = shouldShow ? "1" : "0";
+          updates[lockAttr] = isLocked ? "1" : "0";
+
+          setAttrs(updates, () => {
+            const raceFromSheet = values.showracials;
+            updateTalentEnables(raceFromSheet);
+          });
+        });
+      });
+    });
+  });
+};
+
 
 const registeredRaces = new Set();
 
 function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
-		if (debug_on_trace) console.log ("[registerSkillHandler] Start");
+
+	if (debug_on_trace) console.log ("[registerSkillHandler] Start");
+
 	const key = `${racePrefix}`;
+
 	if (registeredRaces.has(key)) return;
+
 	registeredRaces.add(key);
 
 	const allSkills = Object.values(skillMapTable).map(s => s.label);
-
 	const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
-
 	const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
 		map[skill.label] = parseInt(skill.base || "0", 10);
 		return map;
@@ -9257,7 +9934,6 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	const magicSchools = Object.values(skillMapTable)
 	.filter(skill => skill.group === "Magic" && skill.label !== "magic_universal")
 	.map(skill => skill.bonus); // bonus field is like "magic_alteration_mdr", "magic_elemental_mdr", etc
-
 
 	const watched = [
 		`${racePrefix}_mdr_checkbox`,
@@ -9331,7 +10007,24 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				totalSkillPointsSpent += spent;
 
 				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+/*
 				const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
+*/
+const talentBonus = Object.entries(talentSkillMap[racePrefix] || {}).reduce((sum, [talentKey, skillMap]) => {
+  const selectedValue = values[`${racePrefix}_${talentKey}_mdr_checkbox`] || "";
+  const targetValue = `talent_${skill}`;
+
+  // Check if this talent is currently applying its bonus to this skill
+  if (selectedValue === targetValue) {
+    const attr = `${racePrefix}_talent_${skill}_bonus_mdr`;
+    const bonus = parseInt(values[attr] || "0", 10);
+    return sum + bonus;
+  }
+
+  return sum;
+}, 0);
+
+
 				let total = base + bgBonus + talentBonus;
 
 				if (skill === "dodge") {
@@ -9421,7 +10114,24 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			totalSkillPointsSpent += spent;
 
 			const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+/*			
 			const talentBonus = talentSkills.includes(skill) ? parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10) : 0;
+*/
+const talentBonus = Object.entries(talentSkillMap[racePrefix] || {}).reduce((sum, [talentKey, skillMap]) => {
+  const selectedValue = values[`${racePrefix}_${talentKey}_mdr_checkbox`] || "";
+  const targetValue = `talent_${skill}`;
+
+  // Check if this talent is currently applying its bonus to this skill
+  if (selectedValue === targetValue) {
+    const attr = `${racePrefix}_talent_${skill}_bonus_mdr`;
+    const bonus = parseInt(values[attr] || "0", 10);
+    return sum + bonus;
+  }
+
+  return sum;
+}, 0);
+
+
 			let total = base + bgBonus + talentBonus;
 
 			if (skill === "dodge") {
@@ -9506,6 +10216,132 @@ function setDefaultTalentBonuses(race) {
   return updates;
 }
 
+// Shared talent change watchers
+const allTalentChangeEvents = Object.entries(talentDataMap)
+  .flatMap(([race, talents]) =>
+    Object.keys(talents).map(talentKey => `change:${race}_${talentKey}`)
+  );
+
+// === XP Tracker (Total, Spent, Remaining) ===
+on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(" ")}`, function () {
+  getAttrs(["xp_pool_total_talent", "showracials"], function (values) {
+    const race = values.showracials || "alteri";
+    const raceTalents = talentDataMap[race];
+    if (!raceTalents) return;
+
+    const talentKeys = Object.keys(raceTalents);
+    const watchedAttrs = talentKeys.map(key => `${race}_${key}`);
+
+    getAttrs(watchedAttrs, function (talentValues) {
+      let spent = 0;
+      for (let key of talentKeys) {
+        const attrName = `${race}_${key}`;
+        const selected = talentValues[attrName] === "1";
+        const cost = parseInt(raceTalents[key].cost, 10) || 0;
+        if (selected) spent += cost;
+      }
+
+      const total = parseInt(values.xp_pool_total_talent, 10) || 0;
+      const remaining = Math.max(0, total - spent);
+
+      setAttrs({
+        xp_spent_talent: spent,
+        xp_remaining_talent: remaining
+      });
+    });
+  });
+});
+
+const updateTalentEnables = (race) => {
+  const raceTalents = talentDataMap[race];
+  if (!raceTalents) return;
+  
+  const skillLockKeys = Object.entries(raceTalents)
+    .map(([k]) => `${race}_${k}_lockflag_skill`);
+
+  const allPrereqKeys = Object.entries(raceTalents)
+    .filter(([_, t]) => Array.isArray(t.prerequisite))
+    .flatMap(([_, t]) => t.prerequisite);
+
+  const prereqAttrKeys = [...new Set(allPrereqKeys)].map(pr => `${race}_${pr}`);
+  const tier4Checkboxes = Object.entries(raceTalents)
+    .filter(([_, t]) => t.tier === 4)
+    .map(([k]) => `${race}_${k}`);
+
+  getAttrs([...prereqAttrKeys, ...tier4Checkboxes, ...skillLockKeys], function (values) {
+    const selected = new Set(
+      Object.entries(values)
+        .filter(([_, v]) => v === "1")
+        .map(([k]) => k.replace(`${race}_`, ""))
+    );
+
+    const updates = {};
+
+    // Enable logic
+    for (let [key, data] of Object.entries(raceTalents)) {
+      if (Array.isArray(data.prerequisite) && data.prerequisite.length > 0) {
+        const unlocked = data.prerequisite.some(pr => selected.has(pr));
+        updates[`${race}_${key}_enabled`] = unlocked ? "1" : "0";
+      }
+    }
+
+    // Tier 4 exclusivity lock
+    const selectedTier4 = tier4Checkboxes.filter(key => values[key] === "1");
+    const capstoneLock = selectedTier4.length > 0;
+    for (let key of tier4Checkboxes) {
+      updates[`${key}_lockflag`] = capstoneLock && values[key] !== "1" ? "1" : "0";
+    }
+
+    // Prerequisite-based lock calculation
+    const reverseMap = {};
+    for (let [key, data] of Object.entries(raceTalents)) {
+      if (Array.isArray(data.prerequisite)) {
+        data.prerequisite.forEach(pr => {
+          if (!reverseMap[pr]) reverseMap[pr] = new Set();
+          reverseMap[pr].add(key);
+        });
+      }
+    }
+
+    const stillChecked = (k) => values[`${race}_${k}`] === "1";
+
+    const isLocked = (target) => {
+      const visited = new Set();
+      const stack = [...(reverseMap[target] || [])];
+
+      while (stack.length) {
+        const current = stack.pop();
+        if (visited.has(current)) continue;
+        visited.add(current);
+
+        const talentSelected = stillChecked(current);
+        const prereqs = raceTalents[current]?.prerequisite || [];
+
+        const solelyDepends = talentSelected &&
+          prereqs.includes(target) &&
+          !prereqs.some(p => p !== target && stillChecked(p));
+
+        if (solelyDepends) return true;
+        if (reverseMap[current]) {
+          reverseMap[current].forEach(t => stack.push(t));
+        }
+      }
+      return false;
+    };
+
+    for (let [key] of Object.entries(raceTalents)) {
+      const prereqLock = isLocked(key) ? "1" : "0";
+      const skillLock = values[`${race}_${key}_lockflag_skill`] || "0";
+      updates[`${race}_${key}_lockflag_prereq`] = prereqLock;
+      const currentLock = updates[`${race}_${key}_lockflag`] || "0";
+	  const finalLock = currentLock === "1" || prereqLock === "1" || skillLock === "1" ? "1" : "0";
+	  updates[`${race}_${key}_lockflag`] = finalLock;
+    }
+
+    setAttrs(updates);
+  });
+}; 
+
 function applyRacialBaseStats(race) {
   if (!raceDataMap[race] || !raceDataMap[race].stats) {
     if (debug_on) console.log("[applyRacialBaseStats] No stats found for race:", race);
@@ -9555,6 +10391,10 @@ function handleRaceChange(race) {
   const talentList = Object.values(talentSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
 
   registerSkillHandler(race, skillList, talentList);
+  registerPrerequisiteWatcher();
+  registerTalentUncheckGate();
+  registerTalentSkillBonusWatchers(); 
+  registerTalentSummaryWatcher();
 }
 
 on("sheet:opened", function () {
@@ -9596,7 +10436,6 @@ on("sheet:opened", function () {
     });
   });
 });
-
 
 function registerStatHandler() {
 	if (debug_on_trace) console.log ("[registerStatHandler] Start");
@@ -9760,7 +10599,6 @@ on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
   });
 });
 
-// -------------------- working area end ----------------- //
 
   on('sheet:opened', function () {
 	  if (debug_on_trace) console.log ("[sheet:opened] Translation");

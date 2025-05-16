@@ -8919,7 +8919,7 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = true;
+const debug_on = false;
 const debug_on_trace = false;
 
 // Maps //
@@ -10527,7 +10527,7 @@ const registerTalentUncheckGate = () => {
       }
 
       setAttrs(updatedLocks, {}, () => {
-		console.log("[Talent Uncheck Gate] Locks applied:", updatedLocks);
+		if (debug_on) console.log("[Talent Uncheck Gate] Locks applied:", updatedLocks);
 	  });
 
     });
@@ -10556,11 +10556,11 @@ const registerTalentSkillBonusWatchers = () => {
           const shouldShow = isTalentChecked || skillChoice !== "0";
           const isLocked = skillChoice !== "0"; // Lock if any skill choice is selected
 
-          console.log(`[Generic Bonus Watcher] ${race}.${talent}`);
-          console.log("Talent Checked:", isTalentChecked);
-          console.log("Skill Selected:", skillChoice);
-          console.log("→ Show Skills?", shouldShow ? "Yes" : "No");
-          console.log("→ Lock Talent?", isLocked ? "Yes" : "No");
+          if (debug_on) console.log(`[Generic Bonus Watcher] ${race}.${talent}`);
+          if (debug_on) console.log("Talent Checked:", isTalentChecked);
+          if (debug_on) console.log("Skill Selected:", skillChoice);
+          if (debug_on) console.log("→ Show Skills?", shouldShow ? "Yes" : "No");
+          if (debug_on) console.log("→ Lock Talent?", isLocked ? "Yes" : "No");
 
           const updates = {};
           updates[showAttr] = shouldShow ? "1" : "0";
@@ -10918,7 +10918,7 @@ const updateTalentEnables = (race) => {
   if (!raceTalents) return;
 	
   const allTalentCheckboxes = Object.keys(raceTalents).map(k => `${race}_${k}`);
-  console.log("Fetched checkbox values:", allTalentCheckboxes);
+  if (debug_on) console.log("Fetched checkbox values:", allTalentCheckboxes);
 
   const skillLockKeys = Object.entries(raceTalents)
     .map(([k]) => `${race}_${k}_lockflag_skill`);
@@ -10938,7 +10938,7 @@ const updateTalentEnables = (race) => {
         .filter(([_, v]) => v === "1")
         .map(([k]) => k.replace(`${race}_`, ""))
     );
-	console.log ("getAttrs: ", values);
+	if (debug_on) console.log ("getAttrs: ", values);
 
     const updates = {};
 
@@ -10967,11 +10967,11 @@ const updateTalentEnables = (race) => {
         });
       }
     }
-	console.log("reverseMap:", reverseMap);
+	if (debug_on) console.log("reverseMap:", reverseMap);
 
 
     const stillChecked = (k) => values[`${race}_${k}`] === "1";
-	console.log("stillChecked(persona_anchor):", stillChecked("persona_anchor"));
+	if (debug_on) console.log("stillChecked(persona_anchor):", stillChecked("persona_anchor"));
 
     const isLocked = (target) => {
       const visited = new Set();
@@ -11012,7 +11012,7 @@ const updateTalentEnables = (race) => {
       Object.entries(updates)
         .filter(([k]) => k.includes("_lockflag") || k.includes("_enabled"))
     );
-    console.log("[updateTalentEnables] Final lock/enabled updates:", lockDebug);
+    if (debug_on) console.log("[updateTalentEnables] Final lock/enabled updates:", lockDebug);
 	
     setAttrs(updates);
   });

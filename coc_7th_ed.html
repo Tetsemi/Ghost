@@ -10526,7 +10526,10 @@ const registerTalentUncheckGate = () => {
         updatedLocks[`${race}_${key}_lockflag`] = lock;
       }
 
-      setAttrs(updatedLocks);
+      setAttrs(updatedLocks, {}, () => {
+		console.log("[Talent Uncheck Gate] Locks applied:", updatedLocks);
+	  });
+
     });
   });
 };
@@ -10912,8 +10915,10 @@ on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(
 
 const updateTalentEnables = (race) => {
   const raceTalents = talentDataMap[race];
-  if (debug_on) console.log (`raceTalents: ${raceTalents}`);
   if (!raceTalents) return;
+	
+  const allTalentCheckboxes = Object.keys(raceTalents).map(k => `${race}_${k}`);
+  console.log("Fetched checkbox values:", allTalentCheckboxes);
 
   const skillLockKeys = Object.entries(raceTalents)
     .map(([k]) => `${race}_${k}_lockflag_skill`);
@@ -10927,12 +10932,13 @@ const updateTalentEnables = (race) => {
     .filter(([_, t]) => t.tier === 4)
     .map(([k]) => `${race}_${k}`);
 
-  getAttrs([...prereqAttrKeys, ...tier4Checkboxes, ...skillLockKeys], function (values) {
+  getAttrs([...prereqAttrKeys, ...tier4Checkboxes, ...skillLockKeys, ...allTalentCheckboxes], function (values) {
     const selected = new Set(
       Object.entries(values)
         .filter(([_, v]) => v === "1")
         .map(([k]) => k.replace(`${race}_`, ""))
     );
+	console.log ("getAttrs: ", values);
 
     const updates = {};
 
@@ -10961,8 +10967,11 @@ const updateTalentEnables = (race) => {
         });
       }
     }
+	console.log("reverseMap:", reverseMap);
+
 
     const stillChecked = (k) => values[`${race}_${k}`] === "1";
+	console.log("stillChecked(persona_anchor):", stillChecked("persona_anchor"));
 
     const isLocked = (target) => {
       const visited = new Set();
@@ -10992,25 +11001,19 @@ const updateTalentEnables = (race) => {
       const prereqLock = isLocked(key) ? "1" : "0";
       const skillLock = values[`${race}_${key}_lockflag_skill`] || "0";
       updates[`${race}_${key}_lockflag_prereq`] = prereqLock;
-      const currentLock = updates[`${race}_${key}_lockflag`] || "0";
-	  const finalLock = currentLock === "1" || prereqLock === "1" || skillLock === "1" ? "1" : "0";
+      const existingLock = values[`${race}_${key}_lockflag`] || "0"; // from getAttrs
+	  const finalLock = (existingLock === "1" || prereqLock === "1" || skillLock === "1") ? "1" : "0";
 	  updates[`${race}_${key}_lockflag`] = finalLock;
     }
 
-console.log(`[updateTalentEnables] Race: ${race}`);
-Object.entries(raceTalents).forEach(([key]) => {
-  const skillLock = values[`${race}_${key}_lockflag_skill`] || "0";
-  const prereqLock = isLocked(key) ? "1" : "0";
-  const currentLock = values[`${race}_${key}_lockflag`] || "0";
-  const finalLock = prereqLock === "1" || skillLock === "1" ? "1" : "0";
 
-  console.log(`→ ${key}`);
-  console.log(`   Skill Lock: ${skillLock}`);
-  console.log(`   Prereq Lock: ${prereqLock}`);
-  console.log(`   Prev Lock: ${currentLock}`);
-  console.log(`   Final Lock: ${finalLock}`);
-});
-
+    // 🔍 Log all lockflag and enabled values before applying
+    const lockDebug = Object.fromEntries(
+      Object.entries(updates)
+        .filter(([k]) => k.includes("_lockflag") || k.includes("_enabled"))
+    );
+    console.log("[updateTalentEnables] Final lock/enabled updates:", lockDebug);
+	
     setAttrs(updates);
   });
 };

@@ -2060,9 +2060,9 @@
 		<div class="sheet-tab-content sheet-talents">
 			<input type="hidden" name="attr_showracials" class="sheet-tab-controller">
 			<h4 class="section-head" data-i18n="talents-u">Talents</h4>
+		
+			<div class="sheet-section">
 
-			<!-- Alteri Talents -->
-			<div class="sheet-racials1">
 				<div class="sheet-xp-tracker">
 					<div class="sheet-xp-row">
 						<label>Total XP (Talent)</label>
@@ -2082,6 +2082,10 @@
 					<h3 class="sheet-talent-tier-header">Chosen Talents Summary</h3>
 					<span name="attr_talent_summary"></span>
 				</div>
+			</div>
+
+			<!-- Alteri Talents -->
+			<div class="sheet-racials1">
 
 				<div class="sheet-talent-tier" data-tier="1">
 					<h3 class="sheet-talent-tier-header">Tier 1 Talents</h3>
@@ -2239,6 +2243,7 @@
 					<!-- Talent: Deep Mask Integration -->
 					<div class="sheet-talent-row">
 						<!-- Control Flags -->
+						<input type="hidden" name="attr_alteri_deep_mask_integration_enabled" value="0" />
 						<input type="hidden" name="attr_show_deep_mask_integration_bonus" value="0" />
 						<input type="hidden" name="attr_alteri_deep_mask_integration_lockflag" value="0" />
 						<input type="hidden" name="attr_alteri_deep_mask_integration_lockflag_skill" value="0" />
@@ -2288,6 +2293,7 @@
 					<!-- Persona Anchor (depends on grace_of_the_many) -->
 					<div class="sheet-talent-row">
 						<!-- Control Flags -->
+						<input type="hidden" name="attr_alteri_persona_anchor_enabled" value="0" />
 						<input type="hidden" name="attr_show_persona_anchor_bonus" value="0" />
 						<input type="hidden" name="attr_alteri_persona_anchor_lockflag" value="0" />
 						<input type="hidden" name="attr_alteri_persona_anchor_lockflag_skill" value="0" />
@@ -9512,7 +9518,7 @@ const talentDataMap = {
     quick_learner: {
       name: "Quick Learner",
       description: "When you succeed at a roll for an untrained skill (one not granted by your Race or Profession), gain a bonus die the next time you use that skill during this session.",
-      prerequisite: prerequisite: ["hard_lesson", "instinct_over_training", "makeshift_medic", "no_stranger_to_pain", "quick_fixer", "social_versatility", "battle_tested_gut", "skilled_focus"],
+      prerequisite: ["hard_lesson", "instinct_over_training", "makeshift_medic", "no_stranger_to_pain", "quick_fixer", "social_versatility", "battle_tested_gut", "skilled_focus"],
 
       tier: 2,
       cost: "20",
@@ -9917,9 +9923,9 @@ const talentSkillMap = {
       electronics: "Electronics", mechanics: "Mechanics", slicing: "Slicing"
     },
     echo_in_the_veins: {
-      chant: "Chant", dance: "Dance", impersonation: "Impersonation", instrument: "Instrument", singing: "Singing",  insight: "Insight", streetwise: "Streetwise"
+      chant: "Chant", dance: "Dance", impersonation: "Impersonation", instrument: "Instrument", singing: "Singing", insight: "Insight", streetwise: "Streetwise"
     },
-	veilsplice {
+	veilsplice : {
 	  electronics: "Electronics", slicing: "Slicing"
 	}
   }
@@ -10472,6 +10478,7 @@ const registerTalentUncheckGate = () => {
 
       const reverseMap = {};
       for (let [key, data] of Object.entries(raceTalents)) {
+	  
         if (Array.isArray(data.prerequisite)) {
           data.prerequisite.forEach(pr => {
             if (!reverseMap[pr]) reverseMap[pr] = new Set();
@@ -10905,6 +10912,7 @@ on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(
 
 const updateTalentEnables = (race) => {
   const raceTalents = talentDataMap[race];
+  if (debug_on) console.log (`raceTalents: ${raceTalents}`);
   if (!raceTalents) return;
 
   const skillLockKeys = Object.entries(raceTalents)
@@ -10989,6 +10997,20 @@ const updateTalentEnables = (race) => {
 	  updates[`${race}_${key}_lockflag`] = finalLock;
     }
 
+console.log(`[updateTalentEnables] Race: ${race}`);
+Object.entries(raceTalents).forEach(([key]) => {
+  const skillLock = values[`${race}_${key}_lockflag_skill`] || "0";
+  const prereqLock = isLocked(key) ? "1" : "0";
+  const currentLock = values[`${race}_${key}_lockflag`] || "0";
+  const finalLock = prereqLock === "1" || skillLock === "1" ? "1" : "0";
+
+  console.log(`→ ${key}`);
+  console.log(`   Skill Lock: ${skillLock}`);
+  console.log(`   Prereq Lock: ${prereqLock}`);
+  console.log(`   Prev Lock: ${currentLock}`);
+  console.log(`   Final Lock: ${finalLock}`);
+});
+
     setAttrs(updates);
   });
 };
@@ -11041,11 +11063,21 @@ function handleRaceChange(race) {
   const skillList = Object.values(backgroundSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
   const talentList = Object.values(talentSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
 
+  
   registerSkillHandler(race, skillList, talentList);
+  if (debug_on) console.log ("[registerSkillHandler] fired");
+  
   registerPrerequisiteWatcher();
+  if (debug_on) console.log ("[registerPrerequisiteWatcher] fired");
+  
   registerTalentUncheckGate();
+  if (debug_on) console.log ("[registerTalentUncheckGate] fired");
+  
   registerTalentSkillBonusWatchers();
+  if (debug_on) console.log ("[registerTalentSkillBonusWatchers] fired");
+  
   registerTalentSummaryWatcher();
+  if (debug_on) console.log ("[registerTalentSummaryWatcher] fired");
 }
 
 on("sheet:opened", function () {

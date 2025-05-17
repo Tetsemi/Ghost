@@ -1691,18 +1691,6 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
   display: none;
 }
 
-/* Show correct Alteri talent block */
-.sheet-tab-controller[name="attr_alteri_talent_tab"][value="maskwrights_grace"] ~ .sheet-talent-maskwrights_grace,
-.sheet-tab-controller[name="attr_alteri_talent_tab"][value="shaped_for_subtlety"] ~ .sheet-talent-shaped_for_subtlety {
-  display: block;
-}
-
-/* Highlight active Alteri tab button */
-.sheet-tab-controller[name="attr_alteri_talent_tab"][value="maskwrights_grace"] ~ .sheet-tab-buttons button[name="act_maskwrights_grace"],
-.sheet-tab-controller[name="attr_alteri_talent_tab"][value="shaped_for_subtlety"] ~ .sheet-tab-buttons button[name="act_shaped_for_subtlety"] {
-  background-color: #222;
-}
-
 /* Show correct Draevi talent block */
 .sheet-tab-controller[name="attr_draevi_talent_tab"][value="clan_blooded"] ~ .sheet-talent-clan_blooded,
 .sheet-tab-controller[name="attr_draevi_talent_tab"][value="scavengers_edge"] ~ .sheet-talent-scavengers_edge {
@@ -1738,6 +1726,241 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 }
 
 /* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
+
+/* --------------------- Tabs - New Talent styling - Start ----------------------------------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-xp-tracker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #1f1f1f;
+  border: 1px solid #666;
+  border-radius: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-xp-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-xp-field {
+  padding: 4px;
+  font-size: 100%;
+  background-color: #111;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 4px;
+  width: 60px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-xp-field[readonly] {
+  pointer-events: none;
+  background-color: #222;
+  color: #ccc;
+  font-size: 100%;
+  width: 40px;
+}
+.ui-dialog .tab-content .charsheet .sheet-talent-summary {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary-header {
+  font-size: 100%;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_talent_summary"] {
+  display: block;
+  white-space: pre-wrap;
+  color: #ddd;
+  font-size: 100%;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary-wrapper {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary-title {
+  font-weight: bold;
+  font-size: 100%;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  margin-bottom: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary-row {
+  display: grid;
+  grid-template-columns: 2.5rem 200px 1fr; /* Tier / Name / Description */
+  align-items: start;
+  column-gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary-tier {
+  color: #aaa;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary-name {
+  font-weight: bold;
+  color: #eee;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary-desc {
+  color: #aaa;
+  font-size: 100%;
+  white-space: normal;
+}
+
+/* Talent Tier Container */
+.ui-dialog .tab-content .charsheet .sheet-talent-tier {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: #151515;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+/* Header for Talent Tier */
+.ui-dialog .tab-content .charsheet .sheet-talent-tier-header {
+  font-size: 100%;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-row {
+  display: grid;
+  grid-template-columns: 28px 200px 1fr;
+  gap: 0.5rem;
+  align-items: start;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-checkbox {
+  margin: 0.35rem 0 0 0.25rem;
+  align-self: start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-label {
+  font-weight: bold;
+  font-size: 100%;
+  color: #eee;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-description {
+  font-size: 110%;
+  color: #aaa;
+  white-space: normal;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-choice-placeholder {
+  grid-column: 1 / -1; /* make sub-options span full width */
+  margin-top: 0.5rem;
+}
+
+
+/* Disable interaction via _enabled or _lockflag */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox {
+  pointer-events: none;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Grey out labels and description when disabled */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
+  opacity: 0.5;
+}
+
+/* Disable interaction and style on talent sub-option section if locked */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"] ~ .sheet-skill-choice-placeholder {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* Hide by default */
+.ui-dialog .tab-content .charsheet .sheet-skill-choice-placeholder {
+  display: none;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_maskwrights_grace_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_shaped_for_subtlety_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_deep_mask_integration_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_persona_anchor_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_scavengers_edge_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_clan_blooded_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_quick_fixer_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_skilled_focus_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_threadwalker_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_echo_in_the_veins_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_aether_override_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veilsplice_bonus"][value="1"] ~ .sheet-skill-choice-placeholder {
+  display: block;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-choice-options {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-option {
+  display: flex;
+  align-items: center;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 100%;
+  color: #ddd;
+}
+
+
+.ui-dialog .tab-content .charsheet .sheet-skill-option input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Fade label/description for locked Tier 4 */
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-description {
+  opacity: 0.5;
+}
+
+/* --------------------- Tabs - New Talent styling - End ----------------------------------------------------- */
 
 /* ------------------------------- */
 /* Main tab content block for Combat */

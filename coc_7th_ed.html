@@ -2927,100 +2927,279 @@
 			</div>
 			<!-- Human Talents -->
 			<div class="sheet-racials4">
-    			<input type="checkbox" style="display:none" class="sheet-showracials" name="attr_showracials" />
-    			<div class="sheet-section">
-        			<!-- Human Talent Tab Controller -->
-        			<input type="hidden" name="attr_human_talent_tab" class="sheet-tab-controller" value="quick_fixer" />
-        			<!-- Human Talent Tab Buttons -->
-        			<div class="sheet-tab-buttons">
-            			<button type="action" name="act_quick_fixer">Quick Fixer</button>
-            			<button type="action" name="act_skilled_focus">Skilled Focus</button>
-        			</div>
-        			<!-- Quick Fixer Talent Block -->
-        			<div class="sheet-bgblock sheet-talent-quick_fixer">
-            			<h3 class="section-head sheet-background-section-head talent-center">Quick Fixer</h3>
-            			<div class="sheet-bgblock-flex">
-                			<div class="sheet-bg-content-left">
-                    			<div class="sheet-talent-grid">
-                        			<div class="sheet-talent-header-row">
-                            			<div class="col-a">A</div>
-                            			<div class="col-benefit">Benefit</div>
-                            			<div class="col-desc">Description</div>
-                            			<div class="col-val">Val</div>
-                        			</div>
-                        			<div class="sheet-talent-row">
-                            			<div class="col-a">
-                                			<input type="checkbox" name="attr_human_quick_fixer_mdr_checkbox" value="talent_electronics" />
-                            			</div>
-                            			<div class="col-benefit">Electronics +10%</div>
-                            			<div class="col-desc">Gain +10% Electronics Skill</div>
-                            			<div class="col-val">
-                                			<input class="skill-input-small" type="text" name="attr_human_talent_electronics_bonus_mdr" readonly />
-                            			</div>
-                        			</div>
-                        			<div class="sheet-talent-row">
-                            			<div class="col-a">
-                                			<input type="checkbox" name="attr_human_quick_fixer_mdr_checkbox" value="talent_mechanics" />
-                            			</div>
-                            			<div class="col-benefit">Mechanics +10%</div>
-                            			<div class="col-desc">Gain +10% Mechanics Skill</div>
-                            			<div class="col-val">
-                                			<input class="skill-input-small" type="text" name="attr_human_talent_mechanics_bonus_mdr" readonly />
-                            			</div>
-                        			</div>
-                        			<div class="sheet-talent-row">
-                            			<div class="col-a">
-                                			<input type="checkbox" name="attr_human_quick_fixer_mdr_checkbox" value="talent_slicing" />
-                            			</div>
-                            			<div class="col-benefit">Slicing +10%</div>
-                            			<div class="col-desc">Gain +10% Slicing Skill</div>
-                            			<div class="col-val">
-                                			<input class="skill-input-small" type="text" name="attr_human_talent_slicing_bonus_mdr" readonly />
-                            			</div>
-                        			</div>
-                    			</div>
-                			</div>
-                			<div class="sheet-bg-content-right">
-                    			<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Quick Fixer Logo" />
-                			</div>
-            			</div>
-        			</div>
-        			<!-- Skilled Focus Talent Block -->
-        			<div class="sheet-bgblock sheet-talent-skilled_focus">
-            			<h3 class="section-head sheet-background-section-head talent-center">Skilled Focus</h3>
-            			<div class="sheet-bgblock-flex">
-                			<div class="sheet-bg-content-left">
-                    			<div class="sheet-talent-grid">
-                        			<div class="sheet-talent-header-row">
-                            			<div class="col-a">A</div>
-                            			<div class="col-benefit" colspan="3">Benefit / Description</div>
-                        			</div>
-                        			<div class="sheet-talent-row">
-                            			<div class="col-a">
-                                			<input type="checkbox" name="attr_skilled_focus_checkbox" value="placeholder1" />
-                            			</div>
-                            			<div class="col-benefit" colspan="3">Gain +10% to any non-combat, non-magic skill</div>
-                        			</div>
-                        			<div class="sheet-talent-row">
-                            			<div class="col-a">
-                                			<input type="checkbox" name="attr_skilled_focus_checkbox" value="placeholder2" />
-                            			</div>
-                            			<div class="col-benefit" colspan="3">Placeholder 2</div>
-                        			</div>
-                        			<div class="sheet-talent-row">
-                            			<div class="col-a">
-                                			<input type="checkbox" name="attr_skilled_focus_checkbox" value="placeholder3" />
-                            			</div>
-                            			<div class="col-benefit" colspan="3">Placeholder 3</div>
-                        			</div>
-                    			</div>
-                			</div>
-                			<div class="sheet-bg-content-right">
-                    			<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Skilled Focus Logo" />
-                			</div>
-            			</div>
-        			</div>
-    			</div>
+
+				<div class="sheet-talent-tier" data-tier="1">
+					<h3 class="sheet-talent-tier-header">Tier 1 Talents</h3>
+
+                    <!-- Tier 1: Hard Lesson -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_hard_lesson_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_hard_lesson" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_hard_lesson_label">Hard Lesson</span></label>
+                        <span class="sheet-talent-description">
+                            <span name="attr_human_hard_lesson_description">Once per session, reroll a failed skill check. You must take the second result. Optional: Spend 2 Strain to attempt a second reroll immediately after the first.</span>
+                        </span>
+                    </div>
+
+                    <!-- Tier 1: Instinct Over Training -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_instinct_over_training_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_instinct_over_training" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_instinct_over_training_label">Instinct Over Training</span></label>
+                        <span class="sheet-talent-description">
+                            <span name="attr_human_instinct_over_training_description">Use Education in place of any untrained knowledge skill (Arcana, Occult Lore, Forbidden Lore, History, Law, etc.) once per session, at one difficulty higher.</span>
+                        </span>
+                    </div>
+
+                    <!-- Tier 1: Makeshift Medic -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_makeshift_medic_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_makeshift_medic" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_makeshift_medic_label">Makeshift Medic</span></label>
+                        <span class="sheet-talent-description">
+                            <span name="attr_human_makeshift_medic_description">Once per session, when attempting a First Aid check without proper medical tools, gain a bonus die.</span>
+                        </span>
+                    </div>
+
+                    <!-- Tier 1: No Stranger to Pain -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_no_stranger_to_pain_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_no_stranger_to_pain" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_no_stranger_to_pain_label">No Stranger to Pain</span></label>
+                        <span class="sheet-talent-description">
+                            <span name="attr_human_no_stranger_to_pain_description">Once per session, roll with a bonus die when making a CON roll to stay conscious after suffering a major wound.</span>
+                        </span>
+                    </div>
+
+                    <!-- Tier 1: Quick Fixer (with skill selection) -->
+                    <div class="sheet-talent-row">
+                        <input name="attr_show_quick_fixer_bonus" type="hidden" value="0" />
+                        <input name="attr_human_quick_fixer_lockflag" type="hidden" value="0" />
+                        <input name="attr_human_quick_fixer_lockflag_skill" type="hidden" value="0" />
+                        <input class="sheet-talent-checkbox" name="attr_human_quick_fixer" type="checkbox" value="1" />
+                        <label class="sheet-talent-label">
+                            <span name="attr_human_quick_fixer_label">Quick Fixer</span>
+                        </label>
+                        <span class="sheet-talent-description">
+                            <span name="attr_human_quick_fixer_description">Choose one: gain +10% to Electronics, Mechanics, or Slicing. This choice is permanent and may only be taken once.</span>
+                        </span>
+                        <div class="sheet-skill-choice-placeholder">
+                            <div class="sheet-skill-choice-options" name="attr_quick_fixer_choices">
+                                <label class="sheet-skill-option">
+                                    <input name="attr_human_quick_fixer_mdr_checkbox" type="checkbox" value="talent_electronics" />
+                                    <span>Electronics +10%</span>
+                                </label>
+                                <label class="sheet-skill-option">
+                                    <input name="attr_human_quick_fixer_mdr_checkbox" type="checkbox" value="talent_mechanics" />
+                                    <span>Mechanics +10%</span>
+                                </label>
+                                <label class="sheet-skill-option">
+                                    <input name="attr_human_quick_fixer_mdr_checkbox" type="checkbox" value="talent_slicing" />
+                                    <span>Slicing +10%</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier 1: Social Versatility -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_social_versatility_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_social_versatility" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_social_versatility_label">Social Versatility</span></label>
+                        <span class="sheet-talent-description">
+                            <span name="attr_human_social_versatility_description">Once per session, reroll any failed Charm, Deception, or Persuade check.</span>
+                        </span>
+                    </div>
+
+                    <!-- Tier 1: Battle-Tested Gut -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_battle_tested_gut_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_battle_tested_gut" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_battle_tested_gut_label">Battle-Tested Gut</span></label>
+                        <span class="sheet-talent-description">
+                            <span name="attr_human_battle_tested_gut_description">Once per session, when entering a potentially dangerous situation, ask the GM: “Do I feel something is off?” The GM must answer truthfully (vaguely if appropriate).</span>
+                        </span>
+                    </div>
+
+                    <!-- Tier 1: Skilled Focus (with skill selection) -->
+                    <div class="sheet-talent-row">
+                        <input name="attr_show_skilled_focus_bonus" type="hidden" value="0" />
+                        <input name="attr_human_skilled_focus_lockflag" type="hidden" value="0" />
+                        <input name="attr_human_skilled_focus_lockflag_skill" type="hidden" value="0" />
+                        <input class="sheet-talent-checkbox" name="attr_human_skilled_focus" type="checkbox" value="1" />
+                        <label class="sheet-talent-label">
+                            <span name="attr_human_skilled_focus_label">Skilled Focus</span>
+                        </label>
+                        <span class="sheet-talent-description">
+                            <span name="attr_human_skilled_focus_description">Choose one: gain +10% to any non-combat, non-magic skill. This choice is permanent and may only be taken once.</span>
+                        </span>
+                    </div>
+				</div>
+				
+				<div class="sheet-talent-tier" data-tier="2">
+					<h3 class="sheet-talent-tier-header">Tier 2 Talents</h3>				
+
+                    <!-- Tier 2: Quick Learner -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_quick_learner_enabled" value="0" />
+                        <input type="hidden" name="attr_human_quick_learner_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_quick_learner" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_quick_learner_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_quick_learner_description"></span></span>
+                    </div>
+
+                    <!-- Tier 2: Situational Awareness -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_situational_awareness_enabled" value="0" />
+                        <input type="hidden" name="attr_human_situational_awareness_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_situational_awareness" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_situational_awareness_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_situational_awareness_description"></span></span>
+                    </div>
+
+                    <!-- Tier 2: Spontaneous Strategist -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_spontaneous_strategist_enabled" value="0" />
+                        <input type="hidden" name="attr_human_spontaneous_strategist_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_spontaneous_strategist" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_spontaneous_strategist_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_spontaneous_strategist_description"></span></span>
+                    </div>
+
+                    <!-- Tier 2: Lucky Timing -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_lucky_timing_enabled" value="0" />
+                        <input type="hidden" name="attr_human_lucky_timing_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_lucky_timing" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_lucky_timing_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_lucky_timing_description"></span></span>
+                    </div>
+
+                    <!-- Tier 2: Improvised Tools -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_improvised_tools_enabled" value="0" />
+                        <input type="hidden" name="attr_human_improvised_tools_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_improvised_tools" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_improvised_tools_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_improvised_tools_description"></span></span>
+                    </div>
+
+                    <!-- Tier 2: Defiant Resilience -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_defiant_resilience_enabled" value="0" />
+                        <input type="hidden" name="attr_human_defiant_resilience_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_defiant_resilience" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_defiant_resilience_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_defiant_resilience_description"></span></span>
+                    </div>
+
+                    <!-- Tier 2: Cross-Trained -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_cross_trained_enabled" value="0" />
+                        <input type="hidden" name="attr_human_cross_trained_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_cross_trained" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_cross_trained_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_cross_trained_description"></span></span>
+                    </div>
+				</div>
+				
+				<div class="sheet-talent-tier" data-tier="3">
+					<h3 class="sheet-talent-tier-header">Tier 3 Talents</h3>				
+
+                    <!-- Tier 3: Momentum Shift -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_momentum_shift_enabled" value="0" />
+                        <input type="hidden" name="attr_human_momentum_shift_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_momentum_shift" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_momentum_shift_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_momentum_shift_description"></span></span>
+                    </div>
+
+                    <!-- Tier 3: Pull From Memory -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_pull_from_memory_enabled" value="0" />
+                        <input type="hidden" name="attr_human_pull_from_memory_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_pull_from_memory" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_pull_from_memory_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_pull_from_memory_description"></span></span>
+                    </div>
+
+                    <!-- Tier 3: Chain of Luck -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_chain_of_luck_enabled" value="0" />
+                        <input type="hidden" name="attr_human_chain_of_luck_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_chain_of_luck" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_chain_of_luck_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_chain_of_luck_description"></span></span>
+                    </div>
+
+                    <!-- Tier 3: Dig Deep -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_dig_deep_enabled" value="0" />
+                        <input type="hidden" name="attr_human_dig_deep_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_dig_deep" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_dig_deep_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_dig_deep_description"></span></span>
+                    </div>
+
+                    <!-- Tier 3: Just Enough Prep -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_just_enough_prep_enabled" value="0" />
+                        <input type="hidden" name="attr_human_just_enough_prep_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_just_enough_prep" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_just_enough_prep_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_just_enough_prep_description"></span></span>
+                    </div>
+
+                    <!-- Tier 3: Break the Pattern -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_break_the_pattern_enabled" value="0" />
+                        <input type="hidden" name="attr_human_break_the_pattern_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_break_the_pattern" value="1" class="sheet-talent-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_break_the_pattern_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_break_the_pattern_description"></span></span>
+                    </div>
+				</div>
+
+				<div class="sheet-talent-tier" data-tier="4">
+					<h3 class="sheet-talent-tier-header">Tier 4 Talents (Capstone)</h3>				
+
+                    <!-- Tier 4: Tactical Improviser -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_tactical_improviser_enabled" value="0" />
+                        <input type="hidden" name="attr_human_tactical_improviser_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_tactical_improviser" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_tactical_improviser_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_tactical_improviser_description"></span></span>
+                    </div>
+
+                    <!-- Tier 4: Luck Bends for Me -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_luck_bends_for_me_enabled" value="0" />
+                        <input type="hidden" name="attr_human_luck_bends_for_me_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_luck_bends_for_me" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_luck_bends_for_me_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_luck_bends_for_me_description"></span></span>
+                    </div>
+
+                    <!-- Tier 4: Unshakable Focus -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_unshakable_focus_enabled" value="0" />
+                        <input type="hidden" name="attr_human_unshakable_focus_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_unshakable_focus" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_unshakable_focus_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_unshakable_focus_description"></span></span>
+                    </div>
+
+                    <!-- Tier 4: Master of None -->
+                    <div class="sheet-talent-row">
+                        <input type="hidden" name="attr_human_master_of_none_enabled" value="0" />
+                        <input type="hidden" name="attr_human_master_of_none_lockflag" value="0" />
+                        <input type="checkbox" name="attr_human_master_of_none" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+                        <label class="sheet-talent-label"><span name="attr_human_master_of_none_label"></span></label>
+                        <span class="sheet-talent-description"><span name="attr_human_master_of_none_description"></span></span>
+                    </div>
+				</div>
 			</div>
 			<!-- Khadra Talents -->
 			<div class="sheet-racials5">

@@ -2440,6 +2440,7 @@
 						<span class="sheet-talent-description"><span name="attr_alteri_author_of_the_lie_description"></span></span>
 					</div>
 				</div>
+			
 			</div>
 			<!-- Draevi Talents -->
 			<div class="sheet-racials2">
@@ -3200,6 +3201,7 @@
                         <span class="sheet-talent-description"><span name="attr_human_master_of_none_description"></span></span>
                     </div>
 				</div>
+			
 			</div>
 			<!-- Khadra Talents -->
 			<div class="sheet-racials5">
@@ -11199,7 +11201,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 
 			const update = {};
 			let totalSkillPointsSpent = 0;
-
+			
 			allSkills.forEach(skill => {
 				let base = parseInt(values[`${skill}_skill_mdr`], 10);
 				const defaultBase = baseSkillLookup[skill] || 0;
@@ -11210,6 +11212,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				}
 				const spent = base - defaultBase;
 				update[`${skill}_improved_label`] = spent > 0 ? "#" : spent < 0 ? "*" : "";
+				
 				totalSkillPointsSpent += spent;
 
 				const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
@@ -11260,9 +11263,9 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 				update[`${skill}_improved_label`] = spent > 0 ? "#" : spent < 0 ? "*" : "";
 				update[`${skill}_mdr`] = base;
 			});
-
-			const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
-			const iedu = parseInt(values.edu || "0", 10);
+			
+			const icaltheran = Math.min(75, parseInt(values.language_caltheran_skill_mdr || "0", 10));
+			const iedu = Math.min(75, parseInt(values.edu || "0", 10));
 			update["language_caltheran_mdr"] = icaltheran + iedu;
 
 			update["total_skill_points_spent"] = totalSkillPointsSpent;
@@ -11358,9 +11361,9 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			update[`${skill}_improved_label`] = spent > 0 ? "#" : spent < 0 ? "*" : "";
 			update[`${skill}_mdr`] = base;
 		});
-
-		const icaltheran = parseInt(values.language_caltheran_skill_mdr || "0", 10);
-		const iedu = parseInt(values.edu || "0", 10);
+		
+		const icaltheran = Math.min(75, parseInt(values.language_caltheran_skill_mdr || "0", 10));
+		const iedu = Math.min(75, parseInt(values.edu || "0", 10));
 		update["language_caltheran_mdr"] = icaltheran + iedu;
 
 		update["total_skill_points_spent"] = totalSkillPointsSpent;

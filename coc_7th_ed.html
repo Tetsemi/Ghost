@@ -2833,6 +2833,7 @@
 
                     <!-- Talent: Legacy Reforged -->
                     <div class="sheet-talent-row">
+						<input type="hidden" name="attr_draevi_legacy_reforged_sources" value="" />
 						<input type="hidden" name="attr_draevi_legacy_reforged_enabled" value="0" />
                         <input type="hidden" name="attr_draevi_legacy_reforged_lockflag" value="0" />
                         <input type="checkbox" name="attr_draevi_legacy_reforged" value="1" class="sheet-talent-checkbox" />
@@ -9722,7 +9723,7 @@ const talentDataMap = {
       cost: "20",
       capstone: false
     },
-	    spirit_touched_mastery: {
+	spirit_touched_mastery: {
       name: "Spirit-Touched Mastery",
       description: "Once per session, reroll a failed Spirit Lore or Magic (Summoning) roll. If successful, reduce the spell’s Strain cost by one die step.",
       prerequisite: ["echo_binders_rite"],
@@ -9773,7 +9774,8 @@ const talentDataMap = {
     legacy_reforged: {
       name: "Legacy Reforged",
       description: "Once per session, choose one Tier 1 Draevi Talent you possess. For the rest of the scene, it may be used twice without expending Strain. Optional: spend 1 Strain to immediately activate that Tier 1 talent now.",
-      prerequisite: ["hardened_trailwalker", "urban_tracker", "instinctive_counter", "veins_of_stone", "echo_binders_rite", "scent_the_shift", "tales_etched_in_horn", "root_stance_tenacity"],
+	  prerequisite: "",	  
+      prerequisiteAny: { tier: 2, count: 2 },
       tier: 3,
       cost: "30",
       capstone: false
@@ -11302,7 +11304,7 @@ const updateTalentEnables = (race) => {
 	if (debug_on) console.log ("getAttrs: ", values);
 
     const updates = {};
-
+	
     // Enable logic
     for (let [key, data] of Object.entries(raceTalents)) {
       if (Array.isArray(data.prerequisite) && data.prerequisite.length > 0) {
@@ -11310,6 +11312,36 @@ const updateTalentEnables = (race) => {
         updates[`${race}_${key}_enabled`] = unlocked ? "1" : "0";
       }
     }
+	
+	// --- Handle prerequisiteAny (e.g., Legacy Reforged) ---
+	for (let [key, data] of Object.entries(raceTalents)) {
+		if ( data && typeof data === "object" && "prerequisiteAny" in data && data.prerequisiteAny && typeof data.prerequisiteAny.tier === "number" && typeof data.prerequisiteAny.count === "number") {
+			const { tier, count } = data.prerequisiteAny;
+
+			const sameTierKeys = Object.entries(raceTalents)
+				.filter(([_, t]) => t && t.tier === tier)
+				.map(([k]) => `${race}_${k}`);
+
+			const checked = sameTierKeys.filter(attr => values[attr] === "1");
+			const selected = checked.slice(0, count);
+
+			updates[`${race}_${key}_enabled`] = checked.length >= count ? "1" : "0";
+			updates[`${race}_${key}_sources`] = selected.join(",");
+
+			if ( values[`${race}_${key}`] === "1" && checked.length === count) {
+				for (let src of selected) {
+					updates[`${src}_lockflag`] = "1";
+				}
+			}
+
+			if (debug_on) {
+				console.log(`[${key}] prerequisiteAny valid, tier ${tier}, count ${count}`);
+				console.log(` → Checked: ${checked}`);
+				console.log(` → Selected (locked if active): ${selected}`);
+			}
+		}
+	}
+
 
     // Tier 4 exclusivity lock
     const selectedTier4 = tier4Checkboxes.filter(key => values[key] === "1");

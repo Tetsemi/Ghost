@@ -1,5 +1,7 @@
 <!------------------------- Options Start ------------------------->
 <input type="hidden" name="attr_new_character_flag" value="1" />
+<input type="hidden" name="attr_skill_points_talent_refund" value="0" />
+
 <!-------------------------  Options End  ------------------------->
 
 <div class="sheet-layout">
@@ -11175,6 +11177,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		...magicSchools,
 		`${racePrefix}_mdr_checkbox`,
 		"showracials",
+		"skill_points_talent_refund",
 		...Object.keys(talentSkillMap[racePrefix] || {}).map(talent => `${racePrefix}_${talent}_mdr_checkbox`)
 	];
 
@@ -11267,6 +11270,11 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 			const icaltheran = Math.min(75, parseInt(values.language_caltheran_skill_mdr || "0", 10));
 			const iedu = Math.min(75, parseInt(values.edu || "0", 10));
 			update["language_caltheran_mdr"] = icaltheran + iedu;
+			
+			const refund = parseInt(values.skill_points_talent_refund, 10) || 0;
+			if (debug_on) console.log (`[Refund]: ${refund}`);
+			
+			totalSkillPointsSpent += refund;
 
 			update["total_skill_points_spent"] = totalSkillPointsSpent;
 
@@ -11365,7 +11373,11 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 		const icaltheran = Math.min(75, parseInt(values.language_caltheran_skill_mdr || "0", 10));
 		const iedu = Math.min(75, parseInt(values.edu || "0", 10));
 		update["language_caltheran_mdr"] = icaltheran + iedu;
-
+		
+		const refund = parseInt(values.skill_points_talent_refund, 10) || 0;
+		totalSkillPointsSpent += refund;
+		if (debug_on) console.log (`[Refund]: ${refund}`);
+			
 		update["total_skill_points_spent"] = totalSkillPointsSpent;
 
 		const schoolValues = magicSchools.slice(0, 9).map(attr => parseInt(values[attr], 10) || 0);
@@ -11437,26 +11449,64 @@ on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(
 
     const talentKeys = Object.keys(raceTalents);
     const watchedAttrs = talentKeys.map(key => `${race}_${key}`);
+	
+	const skillPointRefunds = {
+		draevi: {},
+		alteri: {},
+		human: {
+			skilled_focus: -10,
+			cross_trained: -10,
+			master_of_none: -30
+		}
+	};
 
-    getAttrs(watchedAttrs, function (talentValues) {
+    getAttrs([...watchedAttrs, "total_skill_points_spent", "skill_points_talent_refund"], function (talentValues) {
       let spent = 0;
+	  let refund = 0;
+	  
       for (let key of talentKeys) {
         const attrName = `${race}_${key}`;
         const selected = talentValues[attrName] === "1";
         const cost = parseInt(raceTalents[key].cost, 10) || 0;
-        if (selected) spent += cost;
-      }
+        if (selected) {
+			spent += cost;
+		
+			const raceRefundMap = skillPointRefunds[race] || {};
+			
+			if (raceRefundMap[key]) {
+				refund += raceRefundMap[key];
+				if (debug_on) console.log(`[XP Tracker Refund] ${key} gives ${raceRefundMap[key]}`);
+			}
+		}
+	  }
+
+	  const previousRefund = parseInt(talentValues["skill_points_talent_refund"], 10) || 0;
+	  const refundDelta = refund - previousRefund;
+
+	  const skillSpent = parseInt(talentValues["total_skill_points_spent"], 10) || 0;
+	  const adjustedSkillSpent = skillSpent + refundDelta;
 
       const total = parseInt(values.xp_pool_total_talent, 10) || 0;
       const remaining = Math.max(0, total - spent);
-
-      setAttrs({
-        xp_spent_talent: spent,
-        xp_remaining_talent: remaining
-      });
-    });
+	  
+	    if (debug_on) {
+			console.log(`[Old Refund]: ${previousRefund}`);
+			console.log(`[New Refund]: ${refund}`);
+			console.log(`[Delta Refund]: ${refundDelta}`);
+			console.log(`[Original Skill Points Spent]: ${skillSpent}`);
+			console.log(`[Adjusted Skill Points Spent]: ${adjustedSkillSpent}`);
+		}
+	  
+	  setAttrs({
+		xp_spent_talent: spent,
+		xp_remaining_talent: remaining,
+		skill_points_talent_refund: refund,
+		total_skill_points_spent: adjustedSkillSpent
+	  });	
+	});
   });
 });
+
 
 const updateTalentEnables = (race) => {
   const raceTalents = talentDataMap[race];

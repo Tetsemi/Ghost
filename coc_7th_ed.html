@@ -3726,9 +3726,11 @@
 						<div class="flex-row">
 							<div class="flex-cell weapon-name"><span data-i18n="weaponname-u">Weapon</span></div>
 							<div class="flex-cell weapon-impale">I</div>
-							<div class="flex-cell weapon-roll"><!-- Empty for roll --></div>
 							<div class="flex-cell weapon-skill"><span data-i18n="skill-u">Skill</span></div>
-							<div class="flex-cell weapon-skill-display"><span data-i18n="skill-display-u">Val</span></div>
+							<div class="flex-cell-wrapper">
+								<div class="flex-cell weapon-skill-display"><span data-i18n="skill-display-u">Val</span></div>
+								<div class="flex-cell weapon-roll"><!-- Empty for roll --></div>
+							</div>
 							<div class="flex-cell weapon-damage"><span data-i18n="damage-u">Damage</span></div>
 							<div class="flex-cell weapon-damage-bonus"><span>DB</span></div>
 							<div class="flex-cell weapon-range"><span data-i18n="range-u">Range</span></div>
@@ -3742,18 +3744,20 @@
 					<!-- Default Row (Unarmed) -->
 					<div class="sheet-weapon-default">
 						<div class="flex-row">
-							<div class="flex-cell weapon-name"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-z" readonly></div>
-							<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"></div>
-							<div class="flex-cell weapon-roll"><button type="roll" class="new-roll" name="@{weapon-name}" value="&{template:coc-attack-1-noimpale} {{name=@{unarmed_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[1d3]]}} {{extremedamage=[[0 + (1*3)]]}} {{strain=[[ 0 + 0 ]]}}" ></button></div>
+							<div class="flex-cell weapon-name sheet-readonly"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-z" ></div>
+							<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"></div>					
 							<div class="flex-cell weapon-skill"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-u" disabled="true"></div>
-							<div class="flex-cell weapon-skill-display"><input type="text" name="attr_unarmed_mdr" class="sheet-readonly" /></div>
-							<div class="flex-cell weapon-damage"><input type="text" value="1d3" readonly></div>
-							<div class="flex-cell weapon-damage-bonus"><input type="text" value="+db" readonly></div>
-							<div class="flex-cell weapon-range"><input type="text" value="" readonly></div>
-							<div class="flex-cell weapon-attacks"><input type="text" value="1" readonly></div>
-							<div class="flex-cell weapon-ammo"><input type="text" value="" readonly></div>
-							<div class="flex-cell weapon-malf"><input type="text" value="" readonly></div>
-							<div class="flex-cell weapon-contested"><input type="text" value="" readonly></div>
+							<div class="flex-cell-wrapper sheet-val-roll-static">
+								<input class="sheet-readonly" type="text" name="attr_unarmed_mdr" />
+								<button type="roll" class="new-roll" name="@{weapon-name}" value="&{template:coc-attack-1-noimpale} {{name=@{unarmed_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[1d3]]}} {{extremedamage=[[0 + (1*3)]]}} {{strain=[[ 0 + 0 ]]}}" ></button>
+							</div>
+							<div class="flex-cell weapon-damage sheet-readonly"><input type="text" value="1d3" ></div>
+							<div class="flex-cell weapon-damage-bonus sheet-readonly"><input type="text" value="+db" ></div>
+							<div class="flex-cell weapon-range sheet-readonly"><input type="text" value="" ></div>
+							<div class="flex-cell weapon-attacks sheet-readonly"><input type="text" value="1" ></div>
+							<div class="flex-cell weapon-ammo sheet-readonly"><input type="text" value="" ></div>
+							<div class="flex-cell weapon-malf sheet-readonly"><input type="text" value="" ></div>
+							<div class="flex-cell weapon-contested sheet-readonly"><input type="text" value="" ></div>
 							<div class="flex-cell weapon-strain"><input type="text" value="" readonly></div>
 						</div>
 					</div>
@@ -3895,7 +3899,7 @@
 									<option value="@{magic_warding_mdr}" data-i18n="magic_warding-u">Warding</option>
 								</select>
 							</div>
-							<div class="flex-cell weapon-skill-display"><input type="text" name="attr_spell_skill_mdr_display" class="sheet-readonly" /></div>
+							<div class="flex-cell spell-skill-display"><input type="text" name="attr_spell_skill_mdr_display" class="sheet-readonly" /></div>
 							<div class="flex-cell spell-damage"><input type="text" name="attr_spell_damage_mdr"></div>
 							<div class="flex-cell spell-concentration"><input type="text" name="attr_spell_concentration_mdr" placeholder="No"></div>
 							<div class="flex-cell spell-range"><input type="text" name="attr_spell_range_mdr" placeholder="Short"></div>
@@ -9711,6 +9715,7 @@ Body Hit Location---------------------------------------------------------------
 <script type="text/worker">
 const debug_on = false;
 const debug_on_trace = false;
+const debug_on_watcher = false;
 
 // Maps //
 const raceDataMap = {

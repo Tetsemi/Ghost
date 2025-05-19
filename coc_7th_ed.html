@@ -5,6 +5,7 @@
 <!-------------------------  Options End  ------------------------->
 
 <div class="sheet-layout">
+<input type="text" name="attr_omnideck_list" class="sheet-readonly" />
 <!-- Hidden Edit Mode Toggle Controller -->
 <input type="hidden" class="sheet-edit-controller" name="attr_edit_mode" value="off" />
 <!-- Hidden Edit Mode Toggle Controller -->
@@ -3727,6 +3728,7 @@
 							<div class="flex-cell weapon-impale">I</div>
 							<div class="flex-cell weapon-roll"><!-- Empty for roll --></div>
 							<div class="flex-cell weapon-skill"><span data-i18n="skill-u">Skill</span></div>
+							<div class="flex-cell weapon-skill-display"><span data-i18n="skill-display-u">Val</span></div>
 							<div class="flex-cell weapon-damage"><span data-i18n="damage-u">Damage</span></div>
 							<div class="flex-cell weapon-damage-bonus"><span>DB</span></div>
 							<div class="flex-cell weapon-range"><span data-i18n="range-u">Range</span></div>
@@ -3744,6 +3746,7 @@
 							<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"></div>
 							<div class="flex-cell weapon-roll"><button type="roll" class="new-roll" name="@{weapon-name}" value="&{template:coc-attack-1-noimpale} {{name=@{unarmed_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[1d3]]}} {{extremedamage=[[0 + (1*3)]]}} {{strain=[[ 0 + 0 ]]}}" ></button></div>
 							<div class="flex-cell weapon-skill"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-u" disabled="true"></div>
+							<div class="flex-cell weapon-skill-display"><input type="text" name="attr_unarmed_mdr" class="sheet-readonly" /></div>
 							<div class="flex-cell weapon-damage"><input type="text" value="1d3" readonly></div>
 							<div class="flex-cell weapon-damage-bonus"><input type="text" value="+db" readonly></div>
 							<div class="flex-cell weapon-range"><input type="text" value="" readonly></div>
@@ -3783,6 +3786,7 @@
 									<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
    							   </select>
 							</div>
+							<div class="flex-cell weapon-skill-display"><input type="text" name="attr_weapon1_skill_mdr_display" class="sheet-readonly" /></div>
 							<div class="flex-cell weapon-damage"><input type="text" name="attr_weapon1_mdr_damage" placeholder="Damage"></div>
 								<div class="flex-cell weapon-damage-bonus">
 									<select name="attr_weapon1_mdr_db">
@@ -3827,6 +3831,7 @@
 									<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
 								</select>
 							</div>
+							<div class="flex-cell weapon-skill-display"><input type="text" name="attr_weaponskill_mdr_display" class="sheet-readonly" /></div>
 							<div class="flex-cell weapon-damage"><input type="text" name="attr_weapondamage_mdr"></div>
 							<div class="flex-cell weapon-damage-bonus">
 								<select name="attr_weapondb_mdr">
@@ -3854,6 +3859,7 @@
 							<div class="flex-cell spell-prepared"><span data-i18n="spell_prepared-u">P</span></div>
 							<div class="flex-cell spell-roll"><span data-i18n="spell_roll-u"><!-- Blank --></span></div>
 							<div class="flex-cell spell-skill"><span data-i18n="spell_skill-u">Skill</span></div>
+							<div class="flex-cell spell-skill-display"><span data-i18n="skill-display-u">Val</span></div>
 							<div class="flex-cell spell-damage"><span data-i18n="spell_damage-u">Damage</span></div>
 							<div class="flex-cell spell-concentration"><span data-i18n="spell_concentration-u">Concentration</span></div>
 							<div class="flex-cell spell-range"><span data-i18n="spell_range-u">Range</span></div>
@@ -3889,6 +3895,7 @@
 									<option value="@{magic_warding_mdr}" data-i18n="magic_warding-u">Warding</option>
 								</select>
 							</div>
+							<div class="flex-cell weapon-skill-display"><input type="text" name="attr_spell_skill_mdr_display" class="sheet-readonly" /></div>
 							<div class="flex-cell spell-damage"><input type="text" name="attr_spell_damage_mdr"></div>
 							<div class="flex-cell spell-concentration"><input type="text" name="attr_spell_concentration_mdr" placeholder="No"></div>
 							<div class="flex-cell spell-range"><input type="text" name="attr_spell_range_mdr" placeholder="Short"></div>
@@ -12333,6 +12340,34 @@ on("change:weapon1_mdr_damage", function() {
   });
 });
 
+on("change:weapon1_skill_mdr", function () {
+  getAttrs(["weapon1_skill_mdr"], function (v) {
+    const referenceString = v.weapon1_skill_mdr; // e.g., "@{melee_weapons_mdr}"
+    const actualAttrName = referenceString.match(/@{([^}]+)}/)[1]; // "melee_weapons_mdr"
+
+    getAttrs([actualAttrName], function (values) {
+      setAttrs({ weapon1_skill_mdr_display: values[actualAttrName] || "0" });
+    });
+  });
+});
+
+on("change:repeating_weaponsmdr:weaponskill_mdr", function(eventInfo) {
+  const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
+  const skillAttr = `repeating_weaponsmdr_${repeatingId}_weaponskill_mdr`;
+
+  getAttrs([skillAttr], function(v) {
+    const referenceString = v[skillAttr]; // e.g., "@{melee_weapons_mdr}"
+    const actualAttrName = referenceString.match(/@{([^}]+)}/)[1]; // Extract "melee_weapons_mdr"
+
+    getAttrs([actualAttrName], function(values) {
+      const skillValue = values[actualAttrName] || "0";
+      const displayAttr = `repeating_weaponsmdr_${repeatingId}_weaponskill_mdr_display`;
+
+      setAttrs({ [displayAttr]: skillValue });
+    });
+  });
+});
+
 // Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
 on("change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
@@ -12344,7 +12379,24 @@ on("change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
   });
 });
 
-// Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
+on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
+  const repeatingId = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/)[1];
+  const skillAttr = `repeating_spellsmdr_${repeatingId}_spell_skill_mdr`;
+
+  getAttrs([skillAttr], function(v) {
+    const referenceString = v[skillAttr]; 
+    const actualAttrName = referenceString.match(/@{([^}]+)}/)[1];
+
+    getAttrs([actualAttrName], function(values) {
+      const skillValue = values[actualAttrName] || "0";
+      const displayAttr = `repeating_spellsmdr_${repeatingId}_spell_skill_mdr_display`;
+
+      setAttrs({ [displayAttr]: skillValue });
+    });
+  });
+});
+
+// Auto-calculate damage components for repeating spells (repeating_spellsmdr) - change only
 on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/)[1];
   getAttrs([`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`], function(values) {
@@ -12354,7 +12406,7 @@ on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
   });
 });
 
-// Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
+// Auto-calculate damage components for repeating programs (repeating_programsmdr) - change only
 on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_programsmdr_([^_]+)_/)[1];
   getAttrs([`repeating_programsmdr_${repeatingId}_program_damage_mdr`], function(values) {
@@ -12364,7 +12416,6 @@ on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
     setAttrs(updates);
   });
 });
-
 
   on('sheet:opened', function () {
 	  if (debug_on_trace) console.log ("[sheet:opened] Translation");

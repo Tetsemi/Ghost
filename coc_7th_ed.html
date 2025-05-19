@@ -3915,6 +3915,7 @@
 							<div class="flex-cell omnideck-name"><span data-i18n="omnideck_name-u">Omnideck Name</span></div>
 							<div class="flex-cell omnideck-equipped"><span data-i18n="omnideck_equipped-u">E</span></div>
 							<div class="flex-cell omnideck-skill"><span data-i18n="omnideck_skill-u">Skill</span></div>
+							<div class="flex-cell omni-skill-display"><span data-i18n="skill-display-u">Val</span></div>
 							<div class="flex-cell omnideck-ir"><span data-i18n="omnideck_ir-u">IR</span></div>
 							<div class="flex-cell omnideck-mr"><span data-i18n="omnideck_mr-u">MR</span></div>
 							<div class="flex-cell omnideck-fr"><span data-i18n="omnideck_fr-u">FR</span></div>
@@ -3935,6 +3936,7 @@
 									<option value="@{computer_use_mdr}" data-i18n="computeruse-u">Computer Use</option>
 								</select>
 							</div>
+							<div class="flex-cell omnideck-skill-display"><input type="text" name="attr_omnideck_skill_mdr_display" class="sheet-readonly" /></div>
 							<div class="omnideck-roll-wrapper">
 								<div class="flex-cell omnideck-roll">
 									<button type="roll" class="new-roll" name="roll_omnideck_ir_mdr_attack" value="&{template:coc-1} {{name=@{omnideck_name} - IR Roll}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[(floor(@{omnideck_skill_mdr}/5))+@{omnideck_ir}+@{dice_modifier_checkbox}]]}} {{hard=[[floor(((floor(@{omnideck_skill_mdr}/5))+@{omnideck_ir}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor(((floor(@{omnideck_skill_mdr}/5))+@{omnideck_ir}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
@@ -12403,6 +12405,23 @@ on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
     const damageString = values[`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`] || "";
     const updates = parseDamageString(damageString, `repeating_spellsmdr_${repeatingId}`);
     setAttrs(updates);
+  });
+});
+
+on("change:repeating_omnidecksmdr:omnideck_skill_mdr", function(eventInfo) {
+  const repeatingId = eventInfo.sourceAttribute.match(/repeating_omnidecksmdr_([^_]+)_/)[1];
+  const skillAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr`;
+
+  getAttrs([skillAttr], function(v) {
+    const referenceString = v[skillAttr]; 
+    const actualAttrName = referenceString.match(/@{([^}]+)}/)[1];
+
+    getAttrs([actualAttrName], function(values) {
+      const skillValue = values[actualAttrName] || "0";
+      const displayAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr_display`;
+
+      setAttrs({ [displayAttr]: skillValue });
+    });
   });
 });
 

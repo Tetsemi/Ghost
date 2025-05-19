@@ -3865,9 +3865,10 @@
 						<div class="flex-row">
 							<div class="flex-cell spell-name"><span data-i18n="spell_name-u">Spell Name</span></div>
 							<div class="flex-cell spell-prepared"><span data-i18n="spell_prepared-u">P</span></div>
-							<div class="flex-cell spell-roll"><span data-i18n="spell_roll-u"><!-- Blank --></span></div>
 							<div class="flex-cell spell-skill"><span data-i18n="spell_skill-u">Skill</span></div>
-							<div class="flex-cell spell-skill-display"><span data-i18n="skill-display-u">Val</span></div>
+							<div class="flex-cell-wrapper">
+								<div class="flex-cell spell-skill-display"><span data-i18n="skill-display-u">Val</span></div>
+							</div>
 							<div class="flex-cell spell-damage"><span data-i18n="spell_damage-u">Damage</span></div>
 							<div class="flex-cell spell-concentration"><span data-i18n="spell_concentration-u">Concentration</span></div>
 							<div class="flex-cell spell-range"><span data-i18n="spell_range-u">Range</span></div>
@@ -3886,9 +3887,6 @@
 
 							<div class="flex-cell spell-name"><input type="text" name="attr_spell_name_mdr" placeholder="Spell Name"></div>
 							<div class="flex-cell spell-prepared"><input type="checkbox" name="attr_spell_prepared_mdr" value="1"></div>
-							<div class="flex-cell spell-roll">
-								<button type="roll" class="new-roll" name="roll_spell_mdr_attack" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
-							</div>
 							<div class="flex-cell spell-skill">
 								<select name="attr_spell_skill_mdr">
 									<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Universal</option>
@@ -3903,7 +3901,10 @@
 									<option value="@{magic_warding_mdr}" data-i18n="magic_warding-u">Warding</option>
 								</select>
 							</div>
-							<div class="flex-cell spell-skill-display"><input type="text" name="attr_spell_skill_mdr_display" class="sheet-readonly" /></div>
+							<div class="flex-cell-wrapper sheet-val-roll-static">
+								<input type="text" name="attr_spell_skill_mdr_display" class="sheet-readonly" />
+								<button type="roll" class="new-roll" name="roll_spell_mdr_attack" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
+							</div>
 							<div class="flex-cell spell-damage"><input type="text" name="attr_spell_damage_mdr"></div>
 							<div class="flex-cell spell-concentration"><input type="text" name="attr_spell_concentration_mdr" placeholder="No"></div>
 							<div class="flex-cell spell-range"><input type="text" name="attr_spell_range_mdr" placeholder="Short"></div>

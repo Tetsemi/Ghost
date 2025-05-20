@@ -2093,7 +2093,7 @@ fieldset.repeating_programsmdr {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;	
+  height: 24px;
 }
 
 /* Flex Widths */
@@ -2181,7 +2181,7 @@ fieldset.repeating_programsmdr {
   padding: 2px 4px;
   box-sizing: border-box;
   vertical-align: middle;
-  height: 100%; /* or a fixed height like 23px to match other inputs */	
+  height: 100%; /* or a fixed height like 23px to match other inputs */
 }
 
 /* Disabled (Unarmed row) */
@@ -2520,12 +2520,154 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 /* ----------------- Gear and Inventory ---------------------- */
 
-.ui-dialog .tab-content .charsheet .sheet-inventory {
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
+.ui-dialog .tab-content .charsheet .sheet-inventory-item {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: #d0cabe; /* Also needs to match section background */	
+  background: #d0cabe; /* Also needs to match section background */
 }
+
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header,
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-header,
+.ui-dialog .tab-content .charsheet .ct-header-row {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+  background: black;
+  color: white;
+  font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
+.ui-dialog .tab-content .charsheet .sheet-inventory-item,
+.ui-dialog .tab-content .charsheet .ct-row,
+.ui-dialog .tab-content .charsheet .ct-effect-row {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+  background-color: #d0cabe;
+}
+.ui-dialog .tab-content .charsheet .ct-mod {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+  background-color: #d0cabe;
+}
+
+.ui-dialog .tab-content .charsheet .repeating_inventory-item-appl,
+.ui-dialog .tab-content .charsheet .repeating_inventory-item,
+.ui-dialog .tab-content .charsheet .repeating_ct {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: #d0cabe;
+}
+
+/* Container for all repeating entries */
+.ui-dialog .tab-content .charsheet .repcontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+/* Each repeated entry */
+.ui-dialog .tab-content .charsheet .repitem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-header .flex-row {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+  text-align: center;
+}
+.ui-dialog .tab-content .charsheet .ct-row,
+.ui-dialog .tab-content .charsheet .ct-effect-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto; /* Let content flow */
+  padding: 4px 0;
+}
+
+.ui-dialog .tab-content .charsheet .ct-effect-row textarea {
+  height: 30px;
+  resize: vertical;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 90%;
+}
+
+
+/* General Flex Cell */
+.ui-dialog .tab-content .charsheet .flex-cell {
+  padding: 0; /* No padding inside cells */
+  margin: 0;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  text-align: center;
+  background-color: inherit;
+}
+
+.ui-dialog .tab-content .charsheet .item-name, .ui-dialog .tab-content .charsheet .item-appl-name { flex: 2 1 20%; font-weight:bold; }
+
+.ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-appl-uses,
+.ui-dialog .tab-content .charsheet .item-appl-used, .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene,
+.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { flex: 1 1 6%; font-size:90% }
+
+.ui-dialog .tab-content .charsheet .item-description, .ui-dialog .tab-content .charsheet .item-appl-description { flex: 2 1 38%; }
+
+.ui-dialog .tab-content .charsheet .item-properties { flex: 2 1 36%; }
+
+.ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-qty { font-weight: bold; }
+
+.ui-dialog .tab-content .charsheet .item-appl-uses, .ui-dialog .tab-content .charsheet .item-appl-used { background-color: #444; color: #fff; }
+
+.ui-dialog .tab-content .charsheet .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene { background-color: #808080; color: #fff; }
+
+.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { background-color: #d3d3d3; color: #000; }
 
 .ui-dialog .tab-content .charsheet .sheet-gear-flex {
   display: flex;
@@ -2539,11 +2681,10 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   flex-direction: column;
   gap: 8px;
   padding: 8px;
-  background-color: #d0cabe; 
-  border: 1px solid #aaa;  
+  background-color: #d0cabe;
+  border: 1px solid #aaa;
   box-sizing: border-box;
 }
-
 
 /* Each label/input or label/textarea pair */
 .ui-dialog .tab-content .charsheet .sheet-cash-row {
@@ -2581,6 +2722,26 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   box-sizing: border-box;
 }
 
+/* Hide mod sections by default unless checkbox is checked */
+.ui-dialog .tab-content .charsheet .ct-mod-2,
+.ui-dialog .tab-content .charsheet .ct-mod-3,
+.ui-dialog .tab-content .charsheet .ct-mod-4,
+.ui-dialog .tab-content .charsheet .ct-mod-5,
+.ui-dialog .tab-content .charsheet .ct-mod-6,
+.ui-dialog .tab-content .charsheet .ct-mod-7,
+.ui-dialog .tab-content .charsheet .ct-mod-8 {
+  display: none;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod2"][value="1"]:checked ~ .ct-mod-2,
+.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod3"][value="1"]:checked ~ .ct-mod-3,
+.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod4"][value="1"]:checked ~ .ct-mod-4,
+.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod5"][value="1"]:checked ~ .ct-mod-5,
+.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod6"][value="1"]:checked ~ .ct-mod-6,
+.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod7"][value="1"]:checked ~ .ct-mod-7,
+.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod8"][value="1"]:checked ~ .ct-mod-8 {
+  display: block;
+}
 
 
 /* ------------------- Backstory ----------------------------- */

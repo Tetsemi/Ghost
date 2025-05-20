@@ -3744,12 +3744,12 @@
 					<div class="sheet-weapon-default">
 						<div class="flex-row">
 							<div class="flex-cell weapon-name sheet-readonly"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-z" ></div>
-							<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"></div>					
+							<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"></div>
 							<div class="flex-cell weapon-skill"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-u" disabled="true"></div>
 							<div class="flex-cell-wrapper sheet-val-roll-static">
 								<input class="sheet-readonly" type="text" name="attr_unarmed_mdr" />
 								<button type="roll" class="new-roll" name="@{weapon-name}" value="&{template:coc-attack-1-noimpale} {{name=@{unarmed_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{unarmed_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{unarmed_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[1d3]]}} {{extremedamage=[[0 + (1*3)]]}} {{strain=[[ 0 + 0 ]]}}" ></button>
-							</div>		
+							</div>
 							<div class="flex-cell weapon-damage sheet-readonly"><input type="text" value="1d3" ></div>
 							<div class="flex-cell weapon-damage-bonus sheet-readonly"><input type="text" value="+db" ></div>
 							<div class="flex-cell weapon-range sheet-readonly"><input type="text" value="" ></div>
@@ -3837,7 +3837,7 @@
 									<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
 									<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponskill_mdr_check_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
 									<button type="roll" class="new-roll sheet-roll-impale" name="roll_weaponskill_mdr_check_impale" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{weaponskill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{weaponstrain_mdr} + 0 ]]}}"></button>
-								</div>								
+								</div>
 							</div>
 							<div class="flex-cell weapon-damage"><input type="text" name="attr_weapondamage_mdr"></div>
 							<div class="flex-cell weapon-damage-bonus">
@@ -4079,6 +4079,7 @@
 
 		<!-- ------------------------- Gear and Possessions ------------------------- -->
 		<div class="sheet-tab-content sheet-inventory">
+		<input type="checkbox" style="display:none" class="sheet-hide" name="attr_sheet-hide">
 			<div class="sheet-2colrow">
 				<!-- Gear & Possessions Column -->
 				<div class="sheet-col">
@@ -4107,14 +4108,122 @@
 					</div>
 				</div>
 			</div>
-			<div class="sheet-col">
-				<h4 class="section-head" data-i18n="medical-u">Medical</h4>
-			</div>		
-			<div class="sheet-col">
+			<div class="sheet-colrow">
+				<h4 class="section-head" data-i18n="items-appl-u">Items w/Applications</h4>
+				<div class="section">
+					<div class="sheet-inventory-item-appl-header">
+						<div class="flex-row">
+							<div class="flex-cell item-appl-name"><span data-i18n="item_name-u">Item Name</span></div>
+							<div class="flex-cell item-appl-qty"><span data-i18n="quantity-u">Qty</span></div>
+							<div class="flex-cell item-appl-uses"><span data-i18n="uses-u">Uses</span></div>
+							<div class="flex-cell item-appl-used"><span data-i18n="used-u"># Used</span></div>
+							<div class="flex-cell item-appl-uses-scene"><span data-i18n="uses_scene-u">Uses/Scene</span></div>
+							<div class="flex-cell item-appl-used-scene"><span data-i18n="used_scene-u"># Used Scene</span></div>
+							<div class="flex-cell item-appl-uses-session"><span data-i18n="uses_session-u">Uses/Session</span></div>
+							<div class="flex-cell item-appl-used-session"><span data-i18n="used_session-u"># Used Session</span></div>
+							<div class="flex-cell item-appl-description"><span data-i18n="short_description-u">Short Description</span></div>
+						</div>
+					</div>
+					<fieldset class="repeating_inventory-item-appl">
+						<div class="sheet-inventory-item-appl">
+							<div class="flex-row">
+								<input class="flex-cell item-appl-name" type="text" name="attr_item_name" placeholder="Item Name" />
+								<input class="flex-cell item-appl-qty" type="number" name="attr_item_quantity" placeholder="0" />
+								<input class="flex-cell item-appl-uses" type="number" name="attr_item_uses" placeholder="0" />
+								<input class="flex-cell item-appl-used" type="number" name="attr_item_used" placeholder="0" />
+								<input class="flex-cell item-appl-uses-scene" type="number" name="attr_item_uses_scene" placeholder="0" />
+								<input class="flex-cell item-appl-used-scene" type="number" name="attr_item_used_scene" placeholder="0" />
+								<input class="flex-cell item-appl-uses-session" type="number" name="attr_item_uses_session" placeholder="0" />
+								<input class="flex-cell item-appl-used-session" type="number" name="attr_item_used_session" placeholder="0" />
+								<input class="flex-cell item-appl-description" type="text" name="attr_item_description" placeholder="Short Description" />
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="sheet-colrow">
+				<h4 class="section-head" data-i18n="items-u">Items</h4>
+				<div class="section">
+					<div class="sheet-inventory-item-header">
+						<div class="flex-row">
+							<div class="flex-cell item-name"><span data-i18n="item_name-u">Item Name</span></div>
+							<div class="flex-cell item-qty"><span data-i18n="item_quantity-u">Qty</span></div>
+							<div class="flex-cell item-description"><span data-i18n="item_short_description-u">Short Description</span></div>
+							<div class="flex-cell item-properties"><span data-i18n="item_properties-u">Properties</span></div>
+						</div>
+					</div>
+					<fieldset class="repeating_inventory-item">
+						<div class="sheet-inventory-item">
+							<div class="flex-row">
+								<input class="flex-cell item-name" type="text" name="attr_item_name" placeholder="Item Name" />
+								<input class="flex-cell item-qty" type="number" name="attr_item_quantity" placeholder="0" />
+								<input class="flex-cell item-description" type="text" name="attr_item_description" placeholder="Short Description" />
+								<input class="flex-cell item-properties" type="text" name="attr_item_properties" placeholder="Properties" />
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="sheet-colrow">
 				<h4 class="section-head" data-i18n="techcyber-u">Tech/Cyber</h4>
+				<div class="section">
+					<fieldset class="repeating_ct">
+						<!-- CT Core Info -->
+						  <div class="flex-row ct-header-row">
+							<div class="flex-cell"><span data-i18n="ct_name-u">CT Name</span></div>
+							<div class="flex-cell"><span data-i18n="ct_vitality-u">Vitality</span></div>
+							<div class="flex-cell"><span data-i18n="ct_level-u">Level</span></div>
+							<div class="flex-cell"><span data-i18n="ct_capacity-u">Capacity</span></div>
+							<div class="flex-cell"><span data-i18n="ct_description-u">Description</span></div>
+						</div>
+						
+						<div class="ct-row">
+							<div class="flex-row" >
+								<input class="flex-cell" type="text" name="attr_ct_name" placeholder="CT Name" />
+								<input class="flex-cell" type="number" name="attr_ct_vitality" placeholder="Vitality" />
+								<input class="flex-cell" type="text" name="attr_ct_level" placeholder="Level" />
+								<input class="flex-cell" type="text" name="attr_ct_capacity" placeholder="Capacity" />
+								<input class="flex-cell" type="text" name="attr_ct_description" placeholder="Description" />
+							</div>
+						</div>
+
+						<div class="ct-effect-row">
+							<textarea name="attr_ct_effect" placeholder="CT Effect"></textarea>
+						</div>
+	
+						<!-- CT Mod 1 -->
+						<div class="ct-mod ct-mod-1">
+							<div class="flex-row">
+								<input class="flex-cell" type="text" name="attr_ct_mod1_name" placeholder="Mod Name" />
+								<input class="flex-cell" type="number" name="attr_ct_mod1_capacity" placeholder="Capacity Req." />
+								<input class="flex-cell" type="text" name="attr_ct_mod1_requirements" placeholder="Requirements" />
+							</div>
+							<div class="flex-row">
+								<textarea class="flex-cell" name="attr_ct_mod1_effect" placeholder="Mod Effect"></textarea>
+							</div>
+							<div class="flex-row">
+								<label><input type="checkbox" name="attr_show_ct_mod2" value="1" /> Show Mod 2</label>
+							</div>
+						</div>
+
+						<!-- CT Mod 2 -->
+						<div class="ct-mod ct-mod-2">
+							<div class="flex-row">
+								<input class="flex-cell" type="text" name="attr_ct_mod2_name" placeholder="Mod Name" />
+								<input class="flex-cell" type="number" name="attr_ct_mod2_capacity" placeholder="Capacity Req." />
+								<input class="flex-cell" type="text" name="attr_ct_mod2_requirements" placeholder="Requirements" />
+							</div>
+							<div class="flex-row">
+								<textarea class="flex-cell" name="attr_ct_mod2_effect" placeholder="Mod Effect"></textarea>
+							</div>
+							<div class="flex-row">
+								<label><input type="checkbox" name="attr_show_ct_mod3" value="1" /> Show Mod 3</label>
+							</div>
+						</div>
+					</fieldset>
+				</div>
 			</div>
 		</div>
-
 		<!-- ------------------------- Backstory ------------------------- -->
 		<div class="sheet-tab-content sheet-backstory">
 			<h4 class="section-head" data-i18n="backstory-u">Backstory</h4>
@@ -12401,7 +12510,7 @@ on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
   const skillAttr = `repeating_spellsmdr_${repeatingId}_spell_skill_mdr`;
 
   getAttrs([skillAttr], function(v) {
-    const referenceString = v[skillAttr]; 
+    const referenceString = v[skillAttr];
     const actualAttrName = referenceString.match(/@{([^}]+)}/)[1];
 
     getAttrs([actualAttrName], function(values) {
@@ -12428,7 +12537,7 @@ on("change:repeating_omnidecksmdr:omnideck_skill_mdr", function(eventInfo) {
   const skillAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr`;
 
   getAttrs([skillAttr], function(v) {
-    const referenceString = v[skillAttr]; 
+    const referenceString = v[skillAttr];
     const actualAttrName = referenceString.match(/@{([^}]+)}/)[1];
 
     getAttrs([actualAttrName], function(values) {

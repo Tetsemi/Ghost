@@ -4164,79 +4164,245 @@
 					</fieldset>
 				</div>
 			</div>
-			<div class="sheet-colrow">
+			<div class="sheet-colrow sheet-tech">
 				<h4 class="section-head" data-i18n="techcyber-u">Tech/Cyber</h4>
 				<div class="section">
+
 					<fieldset class="repeating_ct">
-						<!-- CT Core Info -->
-						<div class="ct-header-row">
-							<div class="flex-row">
-								<div class="flex-cell"><span data-i18n="ct_name-u">CT Name</span></div>
-								<div class="flex-cell"><span data-i18n="ct_vitality-u">Vitality</span></div>
-								<div class="flex-cell"><span data-i18n="ct_level-u">Level</span></div>
-								<div class="flex-cell"><span data-i18n="ct_capacity-u">Capacity</span></div>
-								<div class="flex-cell"><span data-i18n="ct_description-u">Description</span></div>
-							</div>
+						<!-- Sibling checkbox that drives CSS but is visually hidden -->
+						<input type="hidden" name="attr_show_ct_mod1_proxy" value="0" />
+						<input type="hidden" name="attr_show_ct_mod2_proxy" value="0" />
+						<input type="hidden" name="attr_show_ct_mod3_proxy" value="0" />
+						<input type="hidden" name="attr_show_ct_mod4_proxy" value="0" />
+						<input type="hidden" name="attr_show_ct_mod5_proxy" value="0" />
+						<input type="hidden" name="attr_show_ct_mod6_proxy" value="0" />
+						<input type="hidden" name="attr_show_ct_mod7_proxy" value="0" />
+						<input type="hidden" name="attr_show_ct_mod8_proxy" value="0" />
+					<!-- CT Core Info -->
+					<div class="ct-header-row">
+						<div class="flex-row">
+							<div class="flex-cell ct-name"><span data-i18n="ct_name-u">CT Name</span></div>
+							<div class="flex-cell ct-vitality"><span data-i18n="ct_vitality-u">Vitality</span></div>
+							<div class="flex-cell ct-level"><span data-i18n="ct_level-u">Level</span></div>
+							<div class="flex-cell ct-capacity"><span data-i18n="ct_capacity-u">Capacity</span></div>
+							<div class="flex-cell ct-description"><span data-i18n="ct_description-u">Description</span></div>
 						</div>
-						
+					</div>						
 						<div class="ct-row">
 							<div class="flex-row" >
-								<input class="flex-cell" type="text" name="attr_ct_name" placeholder="CT Name" />
-								<input class="flex-cell" type="number" name="attr_ct_vitality" placeholder="Vitality" />
-								<input class="flex-cell" type="text" name="attr_ct_level" placeholder="Level" />
-								<input class="flex-cell" type="text" name="attr_ct_capacity" placeholder="Capacity" />
-								<input class="flex-cell" type="text" name="attr_ct_description" placeholder="Description" />
+								<input class="flex-cell ct-name" type="text" name="attr_ct_name" placeholder="CT Name" />
+								<input class="flex-cell ct-vitality" type="number" name="attr_ct_vitality" placeholder="Vitality" />
+								<input class="flex-cell ct-level" type="number" name="attr_ct_level" placeholder="Level" />
+								<input class="flex-cell ct-capacity" type="number" name="attr_ct_capacity" placeholder="Capacity" />
+								<input class="flex-cell ct-description" type="text" name="attr_ct_description" placeholder="Description" />
 							</div>
 						</div>
 
 						<div class="ct-effect-row">
-							<textarea class="flex-cell" name="attr_ct_effect" placeholder="CT Effect"></textarea>
-						</div>
-	
-						<!-- CT Mod 1 -->
-						<div class="ct-mod-header-row">
-							<div class="flex-row">
-								<div class="flex-cell"><span data-i18n="ct_mod_name-u">Mod Name</span></div>
-								<div class="flex-cell"><span data-i18n="ct_mod_capreq-u">Cap. Req.</span></div>
-								<div class="flex-cell"><span data-i18n="ct_mod_requirements-u">Requirements</span></div>
-							</div>
+							<textarea class="flex-cell ct-effect" name="attr_ct_effect" placeholder="CT Effect"></textarea>
 						</div>
 						
-						<div class="ct-mod">
-							<div class="ct-mod-1">
+						<div class="ct-mod-checkbox-row">
+							<div class="flex-row">
+								<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod1" value="1" />
+								<label class="flex-cell ct-mod-checkbox-label">Show Mod 1</label>
+							</div>
+						</div>
+
+						<div class="ct-mod-header-row">
+							<div class="flex-row">
+								<div class="flex-cell ct-mod-name"><span data-i18n="ct_mod_name-u">Mod Name</span></div>
+								<div class="flex-cell ct-mod-capreq"><span data-i18n="ct_mod_capreq-u">Cap. Req.</span></div>
+								<div class="flex-cell ct-mod-requirements"><span data-i18n="ct_mod_requirements-u">Requirements</span></div>
+							</div>
+						</div>
+
+						<!-- CT Mod 1 -->						
+						<div class="ct-mod-wrapper1" >
+							<div class="ct-mod">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod1_name" placeholder="Mod Name" />
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod1_capacity" placeholder="Capacity Req." />
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod1_requirements" placeholder="Requirements" />
+								</div>
+							</div>
+						
+							<div class="ct-mod-row">
+									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod1_effect" placeholder="Mod Effect"></textarea>
+							</div>
+						
+							<div class="ct-mod-checkbox-row">
 								<div class="flex-row">
-									<input class="flex-cell" type="text" name="attr_ct_mod1_name" placeholder="Mod Name" />
-									<input class="flex-cell" type="number" name="attr_ct_mod1_capacity" placeholder="Capacity Req." />
-									<input class="flex-cell" type="text" name="attr_ct_mod1_requirements" placeholder="Requirements" />
+									<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod2" value="1" />
+									<label class="flex-cell ct-mod-checkbox-label">Show Mod 2</label>
 								</div>
 							</div>
 						</div>
-						
-						<div class="ct-mod-row">
-								<textarea class="flex-cell" name="attr_ct_mod1_effect" placeholder="Mod Effect"></textarea>
-						</div>
-						
-						<div class="ct-checkbox-row">
-							<div class="flex-row">
-								<label><input class="flex-cell" type="checkbox" name="attr_show_ct_mod2" value="1" />Show Mod 2</label>
-							</div>
-						</div>
-
 
 						<!-- CT Mod 2 -->
-						<div class="ct-mod ct-mod-2">
-							<div class="flex-row">
-								<input class="flex-cell" type="text" name="attr_ct_mod2_name" placeholder="Mod Name" />
-								<input class="flex-cell" type="number" name="attr_ct_mod2_capacity" placeholder="Capacity Req." />
-								<input class="flex-cell" type="text" name="attr_ct_mod2_requirements" placeholder="Requirements" />
+						<div class="ct-mod-wrapper2">
+							<div class="ct-mod">
+								<div class="ct-mod-2">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod2_name" placeholder="Mod Name" />
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod2_capacity" placeholder="Capacity Req." />
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod2_requirements" placeholder="Requirements" />
+									</div>
+								</div>
 							</div>
+							
 							<div class="ct-mod-row">
-								<textarea class="flex-cell" name="attr_ct_mod2_effect" placeholder="Mod Effect"></textarea>
+								<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod2_effect" placeholder="Mod Effect"></textarea>
 							</div>
-							<div class="ct-checkbox-row">
-								<label><input class="flex-cell" type="checkbox" name="attr_show_ct_mod3" value="1" /> Show Mod 3</label>
-							</div>
+							
+							<div class="ct-mod-checkbox-row">
+								<div class="flex-row">
+									<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod3" value="1" />
+									<label class="flex-cell ct-mod-checkbox-label">Show Mod 3</label>
+								</div>
+							</div> 
 						</div>
+						<!-- CT Mod 3 -->
+						<div class="ct-mod-wrapper3">
+							<div class="ct-mod">
+								<div class="ct-mod-3">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod3_name" placeholder="Mod Name" />
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod3_capacity" placeholder="Capacity Req." />
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod3_requirements" placeholder="Requirements" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="ct-mod-row">
+								<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod3_effect" placeholder="Mod Effect"></textarea>
+							</div>
+							
+							<div class="ct-mod-checkbox-row">
+								<div class="flex-row">
+									<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod4" value="1" />
+									<label class="flex-cell ct-mod-checkbox-label">Show Mod 4</label>
+								</div>
+							</div> 
+						</div>
+						
+						<!-- CT Mod 4 -->
+						<div class="ct-mod-wrapper4">
+							<div class="ct-mod">
+								<div class="ct-mod-4">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod4_name" placeholder="Mod Name" />
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod4_capacity" placeholder="Capacity Req." />
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod4_requirements" placeholder="Requirements" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="ct-mod-row">
+								<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod4_effect" placeholder="Mod Effect"></textarea>
+							</div>
+							
+							<div class="ct-mod-checkbox-row">
+								<div class="flex-row">
+									<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod5" value="1" />
+									<label class="flex-cell ct-mod-checkbox-label">Show Mod 5</label>
+								</div>
+							</div> 
+						</div>
+						
+						<!-- CT Mod 5 -->
+						<div class="ct-mod-wrapper5">
+							<div class="ct-mod">
+								<div class="ct-mod-5">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod5_name" placeholder="Mod Name" />
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod5_capacity" placeholder="Capacity Req." />
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod5_requirements" placeholder="Requirements" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="ct-mod-row">
+								<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod5_effect" placeholder="Mod Effect"></textarea>
+							</div>
+							
+							<div class="ct-mod-checkbox-row">
+								<div class="flex-row">
+									<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod6" value="1" />
+									<label class="flex-cell ct-mod-checkbox-label">Show Mod 6</label>
+								</div>
+							</div> 
+						</div>
+						
+						<!-- CT Mod 6 -->
+						<div class="ct-mod-wrapper6">
+							<div class="ct-mod">
+								<div class="ct-mod-6">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod6_name" placeholder="Mod Name" />
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod6_capacity" placeholder="Capacity Req." />
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod6_requirements" placeholder="Requirements" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="ct-mod-row">
+								<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod6_effect" placeholder="Mod Effect"></textarea>
+							</div>
+							
+							<div class="ct-mod-checkbox-row">
+								<div class="flex-row">
+									<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod7" value="1" />
+									<label class="flex-cell ct-mod-checkbox-label">Show Mod 7</label>
+								</div>
+							</div> 
+						</div>
+						
+						<!-- CT Mod 7 -->
+						<div class="ct-mod-wrapper7">
+							<div class="ct-mod">
+								<div class="ct-mod-7">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod7_name" placeholder="Mod Name" />
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod7_capacity" placeholder="Capacity Req." />
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod7_requirements" placeholder="Requirements" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="ct-mod-row">
+								<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod7_effect" placeholder="Mod Effect"></textarea>
+							</div>
+							
+							<div class="ct-mod-checkbox-row">
+								<div class="flex-row">
+									<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod8" value="1" />
+									<label class="flex-cell ct-mod-checkbox-label">Show Mod 8</label>
+								</div>
+							</div> 
+						</div>
+						
+						<!-- CT Mod 8 -->
+						<div class="ct-mod-wrapper8">
+							<div class="ct-mod">
+								<div class="ct-mod-8">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod8_name" placeholder="Mod Name" />
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod8_capacity" placeholder="Capacity Req." />
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod8_requirements" placeholder="Requirements" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="ct-mod-row">
+								<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod8_effect" placeholder="Mod Effect"></textarea>
+							</div>
+							
+							<div class="ct-mod-checkbox-row">
+								<div class="flex-row">
+								</div>
+							</div> 
+						</div>						
 					</fieldset>
 				</div>
 			</div>
@@ -12574,6 +12740,23 @@ on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
 	console.log (`damageString: ${damageString}`);
     const updates = parseDamageString(damageString, `repeating_programsmdr_${repeatingId}`);
     setAttrs(updates);
+  });
+});
+
+on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:repeating_ct:show_ct_mod3 change:repeating_ct:show_ct_mod4 change:repeating_ct:show_ct_mod5 change:repeating_ct:show_ct_mod6 change:repeating_ct:show_ct_mod7 change:repeating_ct:show_ct_mod8", function (eventInfo) {
+  const match = eventInfo.sourceAttribute.match(/repeating_ct_([^_]+)_(show_ct_mod[0-9]+)/);
+  if (!match) return;
+
+  const rowId = match[1];
+  const field = match[2];
+
+  const proxy = `${field}_proxy`;
+  const fullField = `repeating_ct_${rowId}_${field}`;
+  const fullProxy = `repeating_ct_${rowId}_${proxy}`;
+
+  getAttrs([fullField], function (values) {
+    const checked = values[fullField] === "1" ? "1" : "0";
+    setAttrs({ [fullProxy]: checked });
   });
 });
 

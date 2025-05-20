@@ -2520,6 +2520,10 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 /* ----------------- Gear and Inventory ---------------------- */
 
+.ui-dialog .tab-content .charsheet .sheet-tech {
+  background: #d0cabe; /* Also needs to match section background */
+}
+
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
 .ui-dialog .tab-content .charsheet .sheet-inventory-item {
   display: flex;
@@ -2551,7 +2555,8 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 .ui-dialog .tab-content .charsheet .ct-row,
 .ui-dialog .tab-content .charsheet .ct-effect-row,
 .ui-dialog .tab-content .charsheet .ct-mod,
-.ui-dialog .tab-content .charsheet .ct-mod-row {
+.ui-dialog .tab-content .charsheet .ct-mod-row,
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -2594,12 +2599,22 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 .ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   gap: 4px;
 }
 
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem .flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  gap: 0;
+}
+
+
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-header .flex-row {
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-header .flex-row,
+.ui-dialog .tab-content .charsheet .ct-header-row .flex-row,
+.ui-dialog .tab-content .charsheet .ct-row .flex-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -2611,9 +2626,8 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   gap: 0;
   text-align: center;
 }
-.ui-dialog .tab-content .charsheet .ct-row,
+
 .ui-dialog .tab-content .charsheet .ct-effect-row,
-.ui-dialog .tab-content .charsheet .ct-mod,
 .ui-dialog .tab-content .charsheet .ct-mod-row {
   display: flex;
   flex-direction: column;
@@ -2631,19 +2645,28 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   font-size: 90%;
 }
 
-/* General Flex Cell */
 .ui-dialog .tab-content .charsheet .flex-cell {
-  padding: 0; /* No padding inside cells */
+  padding: 0;
   margin: 0;
   border: 1px solid black;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 24px;
-  text-align: center;
   background-color: inherit;
 }
+
+.ui-dialog .tab-content .charsheet .flex-cell input[type="text"],
+.ui-dialog .tab-content .charsheet .flex-cell input[type="number"] {
+  width: 100%;
+  height: 100%;
+  padding: 0 4px;
+  margin: 0;
+  border: none;
+  line-height: 24px; /* match parent height */
+  background: transparent;
+  font-size: 90%;
+  box-sizing: border-box;
+}
+
 
 .ui-dialog .tab-content .charsheet .item-name, .ui-dialog .tab-content .charsheet .item-appl-name { flex: 2 1 20%; font-weight:bold; }
 
@@ -2662,6 +2685,43 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 .ui-dialog .tab-content .charsheet .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene { background-color: #808080; color: #fff; }
 
 .ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { background-color: #d3d3d3; color: #000; }
+
+
+.ui-dialog .tab-content .charsheet .ct-name,
+.ui-dialog .tab-content .charsheet .ct-mod-name { flex: 2 1 20%; font-weight:bold; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .ct-vitality, 
+.ui-dialog .tab-content .charsheet .ct-level, 
+.ui-dialog .tab-content .charsheet .ct-capacity,
+.ui-dialog .tab-content .charsheet .ct-mod-capreq { flex: 0 1 8%; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .ct-description { flex: 2 1 56%; text-align: center; } 
+
+.ui-dialog .tab-content .charsheet .ct-mod-requirements { flex: 2 1 72%; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox { flex: 0 0 24px; }
+
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: #000; border: none; }
+
+.ui-dialog .tab-content .charsheet input.ct-mod-checkbox,
+.ui-dialog .tab-content .charsheet input.ct-mod-label {
+  height: 14px;
+  width: 14px;
+}
+
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper1,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper2,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper3,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper4,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper5,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper6,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper7,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper8 {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
 
 .ui-dialog .tab-content .charsheet .sheet-gear-flex {
   display: flex;
@@ -2717,23 +2777,24 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 }
 
 /* Hide mod sections by default unless checkbox is checked */
-.ui-dialog .tab-content .charsheet .ct-mod-2,
-.ui-dialog .tab-content .charsheet .ct-mod-3,
-.ui-dialog .tab-content .charsheet .ct-mod-4,
-.ui-dialog .tab-content .charsheet .ct-mod-5,
-.ui-dialog .tab-content .charsheet .ct-mod-6,
-.ui-dialog .tab-content .charsheet .ct-mod-7,
-.ui-dialog .tab-content .charsheet .ct-mod-8 {
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper1,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper2,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper3,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper4,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper5,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper6,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper7,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper8 {
   display: none;
 }
-
-.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod2"][value="1"]:checked ~ .ct-mod-2,
-.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod3"][value="1"]:checked ~ .ct-mod-3,
-.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod4"][value="1"]:checked ~ .ct-mod-4,
-.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod5"][value="1"]:checked ~ .ct-mod-5,
-.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod6"][value="1"]:checked ~ .ct-mod-6,
-.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod7"][value="1"]:checked ~ .ct-mod-7,
-.ui-dialog .tab-content .charsheet input[name="attr_show_ct_mod8"][value="1"]:checked ~ .ct-mod-8 {
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod1_proxy"][value="1"] ~ .ct-mod-wrapper1,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod2_proxy"][value="1"] ~ .ct-mod-wrapper2,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod3_proxy"][value="1"] ~ .ct-mod-wrapper3,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod4_proxy"][value="1"] ~ .ct-mod-wrapper4,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod5_proxy"][value="1"] ~ .ct-mod-wrapper5,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod6_proxy"][value="1"] ~ .ct-mod-wrapper6,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod7_proxy"][value="1"] ~ .ct-mod-wrapper7,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod8_proxy"][value="1"] ~ .ct-mod-wrapper8 {
   display: block;
 }
 

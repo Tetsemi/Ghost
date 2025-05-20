@@ -2148,7 +2148,7 @@ fieldset.repeating_programsmdr {
 .sheet-armor-header,
 .sheet-spell-header ,
 .sheet-omnideck-header,
-.sheet-programs-header {
+.sheet-program-header {
   background: black;
   color: white;
   font-weight: bold;
@@ -2534,8 +2534,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header,
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-header,
-.ui-dialog .tab-content .charsheet .ct-header-row,
-.ui-dialog .tab-content .charsheet .ct-mod-header-row {
+.ui-dialog .tab-content .charsheet .ct-header-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -2547,6 +2546,21 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   gap: 0;
   background: black;
   color: white;
+  font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .ct-mod-header-row {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+  background: #808080;
+  color: black;
   font-weight: bold;
 }
 
@@ -2572,8 +2586,8 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 .ui-dialog .tab-content .charsheet .repeating_inventory-item-appl,
 .ui-dialog .tab-content .charsheet .repeating_inventory-item,
 .ui-dialog .tab-content .charsheet .repeating_ct {
-  margin: 0;
-  padding: 0;
+  margin-bottom: 0px;
+  padding: 0px;
   border: none;
   background-color: #d0cabe;
 }
@@ -2584,6 +2598,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   flex-direction: column;
   width: 100%;
   gap: 0;
+  margin-bottom: 10px;
 }
 
 /* Each repeated entry */
@@ -2610,6 +2625,12 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   gap: 0;
 }
 
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid black;
+}
 
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-header .flex-row,
@@ -2643,7 +2664,18 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
   box-sizing: border-box;
   width: 100%;
   font-size: 90%;
+  color: black;
+  font-style: bold;
 }
+
+.ui-dialog .tab-content .charsheet .ct-effect-row textarea {
+  background: #e3e3f7;
+}
+
+.ui-dialog .tab-content .charsheet .ct-mod-row textarea {
+  background: #d3d3d3;
+}
+
 
 .ui-dialog .tab-content .charsheet .flex-cell {
   padding: 0;
@@ -2672,13 +2704,13 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 .ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-appl-uses,
 .ui-dialog .tab-content .charsheet .item-appl-used, .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene,
-.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { flex: 1 1 6%; font-size:90% }
+.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { flex: 1 1 6%; font-size:90%; text-align: center;}
 
 .ui-dialog .tab-content .charsheet .item-description, .ui-dialog .tab-content .charsheet .item-appl-description { flex: 2 1 38%; }
 
 .ui-dialog .tab-content .charsheet .item-properties { flex: 2 1 36%; }
 
-.ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-qty { font-weight: bold; }
+.ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-qty { font-weight: bold; text-align: center; }
 
 .ui-dialog .tab-content .charsheet .item-appl-uses, .ui-dialog .tab-content .charsheet .item-appl-used { background-color: #444; color: #fff; }
 
@@ -2701,13 +2733,12 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 .ui-dialog .tab-content .charsheet .ct-mod-checkbox { flex: 0 0 24px; }
 
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: #000; border: none; }
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: #000; border: none; font-size: 100%; }
 
 .ui-dialog .tab-content .charsheet input.ct-mod-checkbox,
 .ui-dialog .tab-content .charsheet input.ct-mod-label {
   height: 14px;
   width: 14px;
-  font-size: 75%;
 }
 
 .ui-dialog .tab-content .charsheet .ct-mod-wrapper1,
@@ -2722,6 +2753,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
+	border: 1px solid black;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-gear-flex {

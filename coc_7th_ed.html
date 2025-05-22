@@ -1179,7 +1179,7 @@
 							</div>
 						</div>
 					</div>
-				<!-- Ghostline Runner -->
+					<!-- Ghostline Runner -->
 					<div class="sheet-bgblock sheet-bg-ghostline_runner">
 						<div class="sheet-bgblock-flex">
 							<!-- Left column -->
@@ -1291,9 +1291,9 @@
 							<!-- Starting Talents -->
 							<div class="sheet-starting-talents">
 								<h4 data-i18n="starting_talents-u">Starting Talents</h4>
-								<label><input type="checkbox" name="attr_bg_alteri_talent" value="alteri_second_skin" class="sheet-talent-checkbox" /> <span data-i18n="second_skin-u">Second Skin</span></label>
-								<label><input type="checkbox" name="attr_bg_alteri_talent" value="alteri_reflexive_shift" class="sheet-talent-checkbox" /> <span data-i18n="reflexive_shift-u">Reflexive Shift</span></label>
-								<label><input type="checkbox" name="attr_bg_alteri_talent" value="alteri_grace_of_the_many" class="sheet-talent-checkbox" /> <span data-i18n="grace_of_the_many-u">Grace of the Many</span></label>
+								<label><input type="checkbox" name="attr_bg_alteri_talent" value="alteri_second_skin" class="sheet-talent-checkbox" /><input type="hidden" name="attr_alteri_second_skin_from_background" value="0" /><span data-i18n="second_skin-u">Second Skin</span></label>
+								<label><input type="checkbox" name="attr_bg_alteri_talent" value="alteri_reflexive_shift" class="sheet-talent-checkbox" /><input type="hidden" name="attr_alteri_reflexive_shift_from_background" value="0" /><span data-i18n="reflexive_shift-u">Reflexive Shift</span></label>
+								<label><input type="checkbox" name="attr_bg_alteri_talent" value="alteri_grace_of_the_many" class="sheet-talent-checkbox" /><input type="hidden" name="attr_alteri_grace_of_the_many_from_background" value="0" /><span data-i18n="grace_of_the_many-u">Grace of the Many</span></label>
 							</div>
 						</div>
 					</div>
@@ -12334,6 +12334,7 @@ const updateTalentEnables = (race) => {
   const allTalentCheckboxes = allTalentKeys.map(k => `${race}_${k}`);
   const skillLockKeys = allTalentKeys.map(k => `${race}_${k}_lockflag_skill`);
   const backgroundAttr = `bg_${race}_talent`;
+  const bgFlagAttrs = allTalentKeys.map(k => `${race}_${k}_from_background`);
 
   const allPrereqKeys = allTalentKeys
     .filter(k => Array.isArray(raceTalents[k]?.prerequisite))
@@ -12347,6 +12348,7 @@ const updateTalentEnables = (race) => {
     ...tier4Checkboxes,
     ...skillLockKeys,
     ...allTalentCheckboxes,
+    ...bgFlagAttrs,
     backgroundAttr
   ];
 
@@ -12369,7 +12371,6 @@ const updateTalentEnables = (race) => {
     const updates = {};
     const reverseMap = {};
 
-    // Reverse prereq map
     for (let [key, data] of Object.entries(raceTalents)) {
       if (Array.isArray(data.prerequisite)) {
         data.prerequisite.forEach(pr => {
@@ -12450,15 +12451,20 @@ const updateTalentEnables = (race) => {
     if (bgSelected) {
       const matchedTalent = bgSelected.replace(`${race}_`, "");
       if (raceTalents[matchedTalent]) {
-        updates[`${race}_${matchedTalent}`] = "1"; // Ensure talent is checked
+        updates[`${race}_${matchedTalent}`] = "1";
+        updates[`${race}_${matchedTalent}_from_background`] = "1";
       }
     }
 
     for (let [key, data] of Object.entries(raceTalents)) {
-      if (data.tier === 1 && `${race}_${key}` !== bgSelected) {
-        if (!stillChecked(key)) {
-          updates[`${race}_${key}`] = "0";
-        }
+      const isTier1 = data.tier === 1;
+      const isBG = `${race}_${key}` === bgSelected;
+      const wasBG = values[`${race}_${key}_from_background`] === "1";
+      const isLockedElsewhere = isLocked(key) || values[`${race}_${key}_lockflag_skill`] === "1";
+
+      if (isTier1 && !isBG && wasBG && !isLockedElsewhere) {
+        updates[`${race}_${key}`] = "0";
+        updates[`${race}_${key}_from_background`] = "0";
       }
     }
 

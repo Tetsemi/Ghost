@@ -10011,7 +10011,7 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
+const debug_on = true;
 const debug_on_trace = false;
 const debug_on_watcher = false;
 
@@ -11429,6 +11429,127 @@ const careerDataMap = {
     }
 };
 
+const backgroundDataMap = {
+  alteri: {
+    soft_year_drifter: {
+      trained_skills: ["coordination", "deception", "disguise", "impersonation", "insight", "stealth", "streetwise"],
+      starting_item: "mask_journal-u", 
+      starting_talents: ["second_skin", "reflexive_shift", "grace_of_the_many"]
+    },
+	veilhaven_attendant: { 
+	  trained_skills: ["arcana", "insight", "disguise", "history", "etiquette", "impersonation", "occult_lore"],
+	  starting_item: "kin_token-u", 
+	  starting_talents: ["maskwrights_grace", "whisper_touched", "social_chameleon"]
+	},
+	ghostline_runner: {
+	  trained_skills: ["slicing", "streetwise", "stealth", "electronics", "deception", "insight", "impersonation"],
+	  starting_item: "burner_id_package-u",
+	  starting_talents: ["ghost_protocol", "shaped_for_subtlety", "echoed_voice"]
+	},
+    legacy_bearer: {
+      trained_skills: ["impersonation", "history", "insight", "arcana", "etiquette", "disguise", "occult_lore"],
+      starting_item: "legacy_ritual_item-u",
+      starting_talents: ["echoed_voice", "maskwrights_grace", "second_skin"]
+    },
+    break_faced_radical: {
+      trained_skills: ["persuade", "deception", "impersonation", "insight", "streetwise", "disguise", "charm"],
+      starting_item: "digital_mask_manifest-u",
+      starting_talents: ["social_chameleon", "reflexive_shift", "shaped_for_subtlety"]
+    }
+  },
+  draevi: {
+    horn_carved_wanderer: {
+      trained_skills: ["veil_lore", "occult_lore", "survival", "first_aid", "insight", "track", "arcana"],
+      starting_item: "clan_ritual_token-u",
+      starting_talents: ["spirits_in_stone", "clan_blooded", "iron_stomach"]
+    },
+    spiritbound_techshaper: {
+      trained_skills: ["slicing", "spirit_lore", "electronics", "arcana", "insight", "mechanics", "streetwise"],
+      starting_item: "ram_shell_unfinished-u",
+      starting_talents: ["spirits_in_stone", "scavengers_edge", "clan_blooded"]
+    },
+    tradition_keeper: {
+      trained_skills: ["survival", "navigate", "perception", "athletics", "occult_lore", "track", "first_aid"],
+      starting_item: "rite_of_passage_horn-u",
+      starting_talents: ["trailborn_reflexes", "iron_stomach", "spirits_in_stone"]
+    },
+    urban_tread: {
+      trained_skills: ["athletics", "streetwise", "stealth", "coordination", "perception", "mechanics", "climb"],
+      starting_item: "repurposed_clan_token-u",
+      starting_talents: ["gutter_stalker", "urban_climber", "trailborn_reflexes"]
+    },
+    forgeblood_scavenger: {
+      trained_skills: ["mechanics", "electronics", "insight", "streetwise", "coordination", "perception", "survival"],
+      starting_item: "salvaged_veil_artifact-u",
+      starting_talents: ["scavengers_edge", "iron_stomach", "urban_climber"]
+    }
+  },
+  human: {
+    scavsteel_whelp: {
+      trained_skills: ["mechanics", "electronics", "streetwise", "insight", "slicing", "survival", "perception"],
+      starting_item: [ "trusted_toolset-u", "modded_wearable-u"],
+      starting_talents: ["quick_fixer", "hard_lesson", "skilled_focus"]
+    },
+    enclave_born: {
+      trained_skills: ["etiquette", "persuade", "insight", "voice", "charm", "bureaucracy", "history"],
+      starting_item: "pristine_id_code_uptier_zone-u",
+      starting_talents: ["social_versatility", "instinct_over_training", "battle_tested_gut"]
+    },
+    gutterfire_youth: {
+      trained_skills: ["stealth", "streetwise", "sleight_of_hand", "deception", "perception", "dodge", "slicing"],
+      starting_item: "personal_survival_kit-u",
+      starting_talents: ["social_versatility", "hard_lesson", "skilled_focus"]
+    },
+    outpost_raised: {
+      trained_skills: ["survival", "rifles_shotguns", "mechanics", "navigate", "first_aid", "insight", "drive"],
+      starting_item: "outpost_keepsake-u",
+      starting_talents: ["battle_tested_gut", "no_stranger_to_pain", "hard_lesson"]
+    },
+    data_hatched: {
+      trained_skills: ["slicing", "science", "electronics", "insight", "occult_lore", "bureaucracy", "recitation"],
+      starting_item: ["memory_shard-u", "ai_record-u"],
+      starting_talents: ["instinct_over_training", "quick_fixer", "skilled_focus"]
+    },
+    ash_war_refugee: {
+      trained_skills: ["first_aid", "insight", "athletics", "dodge", "willpower", "perception", "stealth"],
+      starting_item: "faded_token_of_past-u",
+      starting_talents: ["makeshift_medic", "no_stranger_to_pain", "hard_lesson"]
+    }
+  },
+  lyranni: {
+    whisper_walker: {
+      trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette", "dance", "deception"],
+      starting_item: "veil_threaded_accessory-u",
+      starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
+    },
+    zurethkai_flameborn: {
+      trained_skills: ["slicing", "technomancy", "electronics", "arcana", "deception", "illusion", "insight"],
+      starting_item: "symbolic_magitech_mod-u",
+      starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
+    },
+    aelvareth_devotee: {
+      trained_skills: ["occult_lore", "etiquette", "arcana", "chant", "warding", "bureaucracy", "veil_lore"],
+      starting_item: "aelvareth_veilmark-u",
+      starting_talents: ["threadwalker", "legacy_spark", "veilsight"]
+    },
+    veilbound_wanderer: {
+      trained_skills: ["perception", "occult_lore", "spirit_lore", "insight", "survival", "stealth", "warding"],
+      starting_item: "veilmark_living-sigil-u",
+      starting_talents: ["threadwalker", "veilsight", "veil_blooded_sense"]
+    },
+    echoborne: {
+      trained_skills: ["arcana", "etiquette", "occult_lore", "history", "insight", "voice", "bureaucracy"],
+      starting_item: "ancestral_veilmark-u",
+      starting_talents: ["legacy_spark", "veilsight", "threadwalker"]
+    },
+    glide_spire_scion: {
+      trained_skills: ["etiquette", "charm", "stealth", "performance", "deception", "insight", "perception"],
+      starting_item: "glide_spire_token-u",
+      starting_talents: ["social_ghost", "aether_override", "urban_climber"]
+    }
+  }
+};
+
 //----------------------- Tab Workers Start ----------------------//
 
 // --------------------------------------
@@ -11752,83 +11873,6 @@ const registerTalentSummaryWatcher = () => {
 
         setAttrs({ talent_summary: summaryText });
       });
-    });
-  });
-};
-
-// === Talent Uncheck Lock Enforcement ===
-const registerTalentUncheckGate = () => {
-  on(allTalentChangeEvents.join(" "), function (eventInfo) {
-    const attr = eventInfo.sourceAttribute;
-    const match = attr.match(/^([^_]+)_(.+)$/);
-    if (!match) return;
-
-    const [, race, changedTalent] = match;
-    const raceTalents = talentDataMap[race];
-    if (!raceTalents) return;
-
-    const allTalentKeys = Object.keys(raceTalents);
-    const allAttrs = allTalentKeys
-      .map(k => `${race}_${k}`)
-      .concat(Object.keys(talentSkillMap[race] || {}).map(talent => `${race}_${talent}_mdr_checkbox`));
-
-    getAttrs(allAttrs, function (values) {
-      const stillChecked = (key) => values[`${race}_${key}`] === "1";
-
-      const reverseMap = {};
-      for (let [key, data] of Object.entries(raceTalents)) {
-
-        if (Array.isArray(data.prerequisite)) {
-          data.prerequisite.forEach(pr => {
-            if (!reverseMap[pr]) reverseMap[pr] = new Set();
-            reverseMap[pr].add(key);
-          });
-        }
-      }
-
-      const isLocked = (target) => {
-        const visited = new Set();
-        const stack = [...(reverseMap[target] || [])];
-
-        while (stack.length) {
-          const current = stack.pop();
-          if (visited.has(current)) continue;
-          visited.add(current);
-
-          const talentSelected = stillChecked(current);
-          const prereqs = raceTalents[current]?.prerequisite || [];
-
-          const isSolelyDependent = talentSelected &&
-            prereqs.includes(target) &&
-            !prereqs.some(p => p !== target && stillChecked(p));
-
-          if (isSolelyDependent) return true;
-
-          if (reverseMap[current]) {
-            reverseMap[current].forEach(t => stack.push(t));
-          }
-        }
-        return false;
-      };
-
-      const updatedLocks = {};
-      for (let key of Object.keys(raceTalents)) {
-        let lock = isLocked(key) ? "1" : "0";
-
-        // Check skill lock
-        const skillMap = talentSkillMap[race] || {};
-        if (skillMap[key]) {
-          const skillCheckbox = values[`${race}_${key}_mdr_checkbox`] || "";
-          if (skillCheckbox !== "") lock = "1";
-        }
-
-        updatedLocks[`${race}_${key}_lockflag`] = lock;
-      }
-
-      setAttrs(updatedLocks, {}, () => {
-		if (debug_on) console.log("[Talent Uncheck Gate] Locks applied:", updatedLocks);
-	  });
-
     });
   });
 };
@@ -12187,11 +12231,32 @@ function setDefaultTalentBonuses(race) {
   return updates;
 }
 
-// Shared talent change watchers
 const allTalentChangeEvents = Object.entries(talentDataMap)
   .flatMap(([race, talents]) =>
     Object.keys(talents).map(talentKey => `change:${race}_${talentKey}`)
   );
+
+const backgroundTalentChangeEvents = Object.keys(talentDataMap)
+  .map(race => `change:bg_${race}_talent`);
+
+console.log ("[registerBackgroundTalentWatcher]", backgroundTalentChangeEvents);
+
+const registerBackgroundTalentWatcher = () => {
+  const watchers = Object.keys(talentDataMap)
+    .map(race => `change:bg_${race}_talent`);
+  
+  if (debug_on) console.log("[registerBackgroundTalentWatcher] Registered for:", watchers);
+
+  on(watchers.join(" "), function (eventInfo) {
+    if (debug_on) console.log("[registerBackgroundTalentWatcher] Event fired for:", eventInfo.sourceAttribute);
+
+    const match = eventInfo.sourceAttribute.match(/^bg_([^_]+)_talent$/);
+    if (!match) return;
+
+    const race = match[1];
+    updateTalentEnables(race);
+  });
+};
 
 // === XP Tracker (Total, Spent, Remaining) ===
 on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(" ")}`, function () {
@@ -12260,99 +12325,51 @@ on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(
   });
 });
 
-
+// === Unified Talent Enable + Lock Enforcement ===
 const updateTalentEnables = (race) => {
   const raceTalents = talentDataMap[race];
   if (!raceTalents) return;
 
-  const allTalentCheckboxes = Object.keys(raceTalents).map(k => `${race}_${k}`);
-  if (debug_on) console.log("Fetched checkbox values:", allTalentCheckboxes);
+  const allTalentKeys = Object.keys(raceTalents);
+  const allTalentCheckboxes = allTalentKeys.map(k => `${race}_${k}`);
+  const skillLockKeys = allTalentKeys.map(k => `${race}_${k}_lockflag_skill`);
+  const backgroundAttr = `bg_${race}_talent`;
 
-  const skillLockKeys = Object.entries(raceTalents)
-    .map(([k]) => `${race}_${k}_lockflag_skill`);
-
-  const allPrereqKeys = Object.entries(raceTalents)
-    .filter(([_, t]) => Array.isArray(t.prerequisite))
-    .flatMap(([_, t]) => t.prerequisite);
+  const allPrereqKeys = allTalentKeys
+    .filter(k => Array.isArray(raceTalents[k]?.prerequisite))
+    .flatMap(k => raceTalents[k].prerequisite);
 
   const prereqAttrKeys = [...new Set(allPrereqKeys)].map(pr => `${race}_${pr}`);
-  const tier4Checkboxes = Object.entries(raceTalents)
-    .filter(([_, t]) => t.tier === 4)
-    .map(([k]) => `${race}_${k}`);
+  const tier4Checkboxes = allTalentKeys.filter(k => raceTalents[k].tier === 4).map(k => `${race}_${k}`);
 
-  getAttrs([...prereqAttrKeys, ...tier4Checkboxes, ...skillLockKeys, ...allTalentCheckboxes], function (values) {
+  const attrsToGet = [
+    ...prereqAttrKeys,
+    ...tier4Checkboxes,
+    ...skillLockKeys,
+    ...allTalentCheckboxes,
+    backgroundAttr
+  ];
+
+  getAttrs(attrsToGet, function (values) {
     const selected = new Set(
       Object.entries(values)
-        .filter(([_, v]) => v === "1")
-        .map(([k]) => k.replace(`${race}_`, ""))
+        .filter(([k, v]) =>
+          v === "1" ||
+          v === `${race}_${k.replace(`${race}_`, "")}` ||
+          k === backgroundAttr
+        )
+        .map(([k, v]) => {
+          if (k === backgroundAttr && v.startsWith(`${race}_`)) {
+            return v.replace(`${race}_`, "");
+          }
+          return k.replace(`${race}_`, "");
+        })
     );
-	if (debug_on) console.log ("getAttrs: ", values);
 
     const updates = {};
-
-    // Enable logic
-    for (let [key, data] of Object.entries(raceTalents)) {
-      if (Array.isArray(data.prerequisite) && data.prerequisite.length > 0) {
-        const unlocked = data.prerequisite.some(pr => selected.has(pr));
-        updates[`${race}_${key}_enabled`] = unlocked ? "1" : "0";
-      }
-    }
-
-	// --- Handle prerequisiteAny (e.g., Legacy Reforged) and handle prerequisiteAny + prerequisite ---
-	for (let [key, data] of Object.entries(raceTalents)) {
-		if ( data && typeof data === "object" && data.prerequisiteAny && typeof data.prerequisiteAny.tier === "number" && typeof data.prerequisiteAny.count === "number") {
-			const { tier, count } = data.prerequisiteAny;
-			const hardPrereqs = Array.isArray(data.prerequisite) ? data.prerequisite : [];
-
-			// Gather all talents at the matching tier
-			const sameTierKeys = Object.entries(raceTalents)
-				.filter(([_, t]) => t && t.tier === tier)
-				.map(([k]) => `${race}_${k}`);
-
-			// Exclude the ones listed as static prerequisites
-			const filteredTierKeys = sameTierKeys.filter(attr => {
-				const keyPart = attr.replace(`${race}_`, "");
-				return !hardPrereqs.includes(keyPart);
-			});
-
-			const checked = filteredTierKeys.filter(attr => values[attr] === "1");
-			const selected = checked.slice(0, count);
-
-			const staticReqMet =
-				hardPrereqs.length === 0 ||
-				hardPrereqs.some(pr => values[`${race}_${pr}`] === "1");
-
-			const anyReqMet = checked.length >= count;
-
-			updates[`${race}_${key}_enabled`] = staticReqMet && anyReqMet ? "1" : "0";
-			updates[`${race}_${key}_sources`] = selected.join(",");
-
-			if (values[`${race}_${key}`] === "1" && anyReqMet && staticReqMet) {
-				for (let src of selected) {
-					updates[`${src}_lockflag`] = "1";
-				}
-			}
-
-			if (debug_on) {
-				console.log(`[${key}] prerequisiteAny valid, tier ${tier}, count ${count}`);
-				console.log(` → Static Prereqs: ${hardPrereqs}`);
-				console.log(` → Filtered Tier Pool: ${filteredTierKeys}`);
-				console.log(` → Checked: ${checked}`);
-				console.log(` → Selected (locked if active): ${selected}`);
-			}
-		}
-	}
-
-    // Tier 4 exclusivity lock
-    const selectedTier4 = tier4Checkboxes.filter(key => values[key] === "1");
-    const capstoneLock = selectedTier4.length > 0;
-    for (let key of tier4Checkboxes) {
-      updates[`${key}_lockflag`] = capstoneLock && values[key] !== "1" ? "1" : "0";
-    }
-	if (debug_on) console.log("tier4locks:", selectedTier4);
-
-    // Prerequisite-based lock calculation
     const reverseMap = {};
+
+    // Reverse prereq map
     for (let [key, data] of Object.entries(raceTalents)) {
       if (Array.isArray(data.prerequisite)) {
         data.prerequisite.forEach(pr => {
@@ -12361,54 +12378,116 @@ const updateTalentEnables = (race) => {
         });
       }
     }
-	if (debug_on) console.log("reverseMap:", reverseMap);
 
     const stillChecked = (k) => values[`${race}_${k}`] === "1";
 
     const isLocked = (target) => {
       const visited = new Set();
       const stack = [...(reverseMap[target] || [])];
-
       while (stack.length) {
         const current = stack.pop();
         if (visited.has(current)) continue;
         visited.add(current);
-
-        const talentSelected = stillChecked(current);
+        const selected = stillChecked(current);
         const prereqs = raceTalents[current]?.prerequisite || [];
-
-        const solelyDepends = talentSelected &&
+        const onlyThis = selected &&
           prereqs.includes(target) &&
           !prereqs.some(p => p !== target && stillChecked(p));
-
-        if (solelyDepends) return true;
-        if (reverseMap[current]) {
-          reverseMap[current].forEach(t => stack.push(t));
-        }
+        if (onlyThis) return true;
+        if (reverseMap[current]) reverseMap[current].forEach(t => stack.push(t));
       }
       return false;
     };
 
-    for (let [key] of Object.entries(raceTalents)) {
-      const prereqLock = isLocked(key) ? "1" : "0";
-      const skillLock = values[`${race}_${key}_lockflag_skill`] || "0";
-      updates[`${race}_${key}_lockflag_prereq`] = prereqLock;
-      const existingLock = updates[`${race}_${key}_lockflag`] || values[`${race}_${key}_lockflag`] || "0";
-	  const finalLock = (existingLock === "1" || prereqLock === "1" || skillLock === "1") ? "1" : "0";
-	  updates[`${race}_${key}_lockflag`] = finalLock;
+    const bgSelected = values[backgroundAttr];
+
+    // === Enable flags
+    for (let [key, data] of Object.entries(raceTalents)) {
+      if (Array.isArray(data.prerequisite) && data.prerequisite.length > 0) {
+        const unlocked = data.prerequisite.some(pr => selected.has(pr));
+        updates[`${race}_${key}_enabled`] = unlocked ? "1" : "0";
+        if (debug_on) console.log(`[Enable] ${key} => ${unlocked}`);
+      } else {
+        updates[`${race}_${key}_enabled`] = "1";
+        if (debug_on) console.log(`[Enable] ${key} => Tier 1 default`);
+      }
     }
 
+    // === prerequisiteAny logic
+    for (let [key, data] of Object.entries(raceTalents)) {
+      if (data?.prerequisiteAny?.tier != null && data?.prerequisiteAny?.count != null) {
+        const tier = data.prerequisiteAny.tier;
+        const count = data.prerequisiteAny.count;
+        const staticReqs = Array.isArray(data.prerequisite) ? data.prerequisite : [];
+        const sameTierKeys = allTalentKeys.filter(k => raceTalents[k].tier === tier && !staticReqs.includes(k));
+        const checked = sameTierKeys.filter(k => values[`${race}_${k}`] === "1");
+        const staticReqMet = staticReqs.length === 0 || staticReqs.some(p => values[`${race}_${p}`] === "1");
+        const anyReqMet = checked.length >= count;
 
-    // 🔍 Log all lockflag and enabled values before applying
+        updates[`${race}_${key}_enabled`] = staticReqMet && anyReqMet ? "1" : "0";
+        updates[`${race}_${key}_sources`] = checked.slice(0, count).map(k => `${race}_${k}`).join(",");
+
+        if (stillChecked(key) && staticReqMet && anyReqMet) {
+          for (let src of checked.slice(0, count)) {
+            updates[`${race}_${src}_lockflag`] = "1";
+          }
+        }
+
+        if (debug_on) {
+          console.log(`[PrereqAny] ${key} => static=${staticReqMet}, any=${anyReqMet}, checked=`, checked);
+        }
+      }
+    }
+
+    // === Capstone locks
+    const tier4Selected = tier4Checkboxes.filter(k => values[k] === "1");
+    const capstoneLock = tier4Selected.length > 0;
+    for (let key of tier4Checkboxes) {
+      updates[`${key}_lockflag`] = capstoneLock && values[key] !== "1" ? "1" : "0";
+    }
+
+    // === Background talent sync (check + uncheck)
+    if (bgSelected) {
+      const matchedTalent = bgSelected.replace(`${race}_`, "");
+      if (raceTalents[matchedTalent]) {
+        updates[`${race}_${matchedTalent}`] = "1"; // Ensure talent is checked
+      }
+    }
+
+    for (let [key, data] of Object.entries(raceTalents)) {
+      if (data.tier === 1 && `${race}_${key}` !== bgSelected) {
+        if (!stillChecked(key)) {
+          updates[`${race}_${key}`] = "0";
+        }
+      }
+    }
+
+    // === Final lock aggregation
+    for (let key of allTalentKeys) {
+      const prereqLock = isLocked(key) ? "1" : "0";
+      const skillLock = values[`${race}_${key}_lockflag_skill`] || "0";
+      const bgLock = bgSelected === `${race}_${key}` ? "1" : "0";
+      const capLock = tier4Checkboxes.includes(`${race}_${key}`) && capstoneLock && values[`${race}_${key}`] !== "1" ? "1" : "0";
+
+      const finalLock = [prereqLock, skillLock, bgLock, capLock].includes("1") ? "1" : "0";
+
+      updates[`${race}_${key}_lockflag_prereq`] = prereqLock;
+      updates[`${race}_${key}_lockflag`] = finalLock;
+
+      if (debug_on) {
+        console.log(`[Lock] ${key} => prereq:${prereqLock}, skill:${skillLock}, background:${bgLock}, capstone:${capLock}`);
+      }
+    }
+
     const lockDebug = Object.fromEntries(
-      Object.entries(updates)
-        .filter(([k]) => k.includes("_lockflag") || k.includes("_enabled"))
+      Object.entries(updates).filter(([k]) => k.includes("lockflag") || k.includes("enabled"))
     );
     if (debug_on) console.log("[updateTalentEnables] Final lock/enabled updates:", lockDebug);
 
     setAttrs(updates);
   });
 };
+
 
 function applyRacialBaseStats(race) {
   if (!raceDataMap[race] || !raceDataMap[race].stats) {
@@ -12464,9 +12543,12 @@ function handleRaceChange(race) {
 
   registerPrerequisiteWatcher();
   if (debug_on) console.log ("[registerPrerequisiteWatcher] fired");
+  
+  registerBackgroundTalentWatcher();
+  if (debug_on) console.log ("[registerBackgroundTalentWatcher] fired");
 
-  registerTalentUncheckGate();
-  if (debug_on) console.log ("[registerTalentUncheckGate] fired");
+  updateTalentEnables(race);
+  if (debug_on) console.log ("[updateTalentEnables] fired");
 
   registerTalentSkillBonusWatchers();
   if (debug_on) console.log ("[registerTalentSkillBonusWatchers] fired");

@@ -12488,7 +12488,6 @@ const updateTalentEnables = (race) => {
   });
 };
 
-
 function applyRacialBaseStats(race) {
   if (!raceDataMap[race] || !raceDataMap[race].stats) {
     if (debug_on) console.log("[applyRacialBaseStats] No stats found for race:", race);
@@ -12693,6 +12692,51 @@ function registerStatHandler() {
         });
     });
 }
+
+// === Background Skill Lock Enforcement (5 of 7) ===
+const registerBackgroundSkillLimiter = () => {
+  const skillLockMap = {}; // Map from checkbox name to lock field
+  const allWatchers = new Set();
+
+  // Build watcher list and skillLockMap from backgroundDataMap
+  Object.entries(backgroundDataMap).forEach(([race, backgrounds]) => {
+    Object.entries(backgrounds).forEach(([bgKey, data]) => {
+      if (!Array.isArray(data.trained_skills)) return;
+      data.trained_skills.forEach(skill => {
+        const attr = `bg_${skill}_mdr_checkbox`;
+        const lock = `bg_${skill}_mdr_checkbox_lock`;
+        skillLockMap[attr] = lock;
+        allWatchers.add(`change:${attr}`);
+      });
+    });
+  });
+
+  const watchedAttrs = Object.keys(skillLockMap);
+  const events = Array.from(allWatchers).join(" ");
+
+  on(events, function () {
+    getAttrs(watchedAttrs, function (values) {
+      const selected = watchedAttrs.filter(attr => values[attr] === "1");
+      const lockUpdates = {};
+
+      if (selected.length >= 5) {
+        // Lock all unchecked boxes
+        watchedAttrs.forEach(attr => {
+          const lock = skillLockMap[attr];
+          if (values[attr] !== "1") lockUpdates[lock] = "1";
+        });
+      } else {
+        // Unlock all
+        watchedAttrs.forEach(attr => {
+          const lock = skillLockMap[attr];
+          lockUpdates[lock] = "0";
+        });
+      }
+
+      setAttrs(lockUpdates);
+    });
+  });
+};
 
 // Common parser function
 function parseDamageString(damageString, prefix) {

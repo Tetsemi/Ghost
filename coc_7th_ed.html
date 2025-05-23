@@ -828,6 +828,16 @@
 								<button type="roll" class="sheet-toggle-social-mode-on-penalty" name="roll_disguise_mdr_check" value="&{template:coc-penalty} {{name=@{disguise_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{disguise_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{disguise_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{disguise_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
 								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_disguise_mdr_check" value="&{template:coc-bonus} {{name=@{disguise_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{disguise_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{disguise_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{disguise_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
 							</div>
+							<div><input type="checkbox" name="attr_etiquette_alteri_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_etiquette_alteri_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="etiquette_alteri-u">Etiquette(Lyranni)(10%)</span></div>
+							<div><input class="skill-input" type="text" name="attr_etiquette_alteri_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="sheet-skill-input" type="text" name="attr_etiquette_alteri_mdr" readonly />
+								<input type="hidden" name="attr_social_mode_toggle" class="sheet-social-mode-toggle" value="0"/>
+								<button type="roll" class="sheet-toggle-social-mode-off" name="roll_etiquette_alteri_mdr_check" value="&{template:coc-1} {{name=@{etiquette_alteri_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{etiquette_alteri_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+								<button type="roll" class="sheet-toggle-social-mode-on-penalty" name="roll_etiquette_alteri_mdr_check" value="&{template:coc-penalty} {{name=@{etiquette_alteri_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{etiquette_alteri_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
+								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_etiquette_alteri_mdr_check" value="&{template:coc-bonus} {{name=@{etiquette_alteri_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{etiquette_alteri_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
+							</div>
 							<div><input type="checkbox" name="attr_etiquette_high_society_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_etiquette_high_society_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="etiquette_high_society-u">Etiquette(H. Soc.)(10%)</span></div>
 							<div><input class="skill-input" type="text" name="attr_etiquette_high_society_skill_mdr" /></div>
@@ -1117,9 +1127,6 @@
 		</div>
 
 		<!-- ------------------- Backgrounds -------------------- -->
-		<!-- Disabled for now -->
-			<!-- <div class="sheet-tab-content sheet-background"> -->
-		<!-- Use above to re-enable -->
 		<div class="sheet-tab-content sheet-background">
 			<!-- Controls which racial section is shown -->
 			<input type="hidden" name="attr_showracials" class="sheet-tab-controller">
@@ -1138,136 +1145,247 @@
 						<button type="action" name="act_veilhaven_attendant">Veilhaven Attendant</button>
 					</div>
 
-					<!-- Break-Faced Radical Content -->
-					<div class="sheet-bgblock sheet-bg-break_faced_radical">
-						<div class="sheet-bgblock-flex">
-							<!-- Left column -->
-							<div class="sheet-bg-content-left">
-								<h3 class="section-head sheet-background-section-head talent-center">Break-Faced Radical</h3>
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-a">A</div>
-										<div class="col-benefit">Benefit</div>
-										<div class="col-desc">Description</div>
-										<div class="col-val">Val</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_mdr_checkbox" value="deception">
-										</div>
-										<div class="col-benefit">Deception +5%</div>
-										<div class="col-desc">Gain +5% Deception Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_deception_bonus_mdr" readonly>
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_mdr_checkbox" value="persuade">
-										</div>
-										<div class="col-benefit">Persuade +5%</div>
-										<div class="col-desc">Gain +5% Persuade Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_persuade_bonus_mdr" readonly>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Right column (Image) -->
-							<div class="sheet-bg-content-right">
-								<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Break-Faced Radical Logo">
-							</div>
-						</div>
-					</div>
-					<!-- Ghostline Runner -->
-					<div class="sheet-bgblock sheet-bg-ghostline_runner">
-						<div class="sheet-bgblock-flex">
-							<!-- Left column -->
-							<div class="sheet-bg-content-left">
-								<h3 class="section-head sheet-background-section-head talent-center">Ghostline Runner</h3>
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-a">A</div>
-										<div class="col-benefit">Benefit</div>
-										<div class="col-desc">Description</div>
-										<div class="col-val">Val</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_mdr_checkbox" value="slicing">
-										</div>
-										<div class="col-benefit">Slicing +5%</div>
-										<div class="col-desc">Gain +5% Slicing Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_slicing_bonus_mdr" readonly>
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_mdr_checkbox" value="streetwise">
-										</div>
-										<div class="col-benefit">Streetwise +5%</div>
-										<div class="col-desc">Gain +5% Streetwise Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_streetwise_bonus_mdr" readonly>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Right column (Image) -->
-							<div class="sheet-bg-content-right">
-								<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Ghostline Runner Logo">
-							</div>
-	  					</div>
-					</div>
-					<!-- Legacy-Bearer -->
-					<div class="sheet-bgblock sheet-bg-legacy_bearer">
-						<div class="sheet-bgblock-flex">
-							<!-- Left column -->
-							<div class="sheet-bg-content-left">
-								<h3 class="section-head sheet-background-section-head talent-center">Legacy-Bearer</h3>
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-a">A</div>
-										<div class="col-benefit">Benefit</div>
-										<div class="col-desc">Description</div>
-										<div class="col-val">Val</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_mdr_checkbox" value="history">
-										</div>
-										<div class="col-benefit">History +5%</div>
-										<div class="col-desc">Gain +5% History Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_history_bonus_mdr" readonly>
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_mdr_checkbox" value="impersonation">
-										</div>
-										<div class="col-benefit">Impersonation +5%</div>
-										<div class="col-desc">Gain +5% Impersonation Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_impersonation_bonus_mdr" readonly>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Right column (Image) -->
-							<div class="sheet-bg-content-right">
-								<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Legacy-Bearer Logo">
-							</div>
-						</div>
+                    <!-- Break-Faced Radical -->
+                    <div class="sheet-bgblock sheet-bg-break_faced_radical">
+                        <div class="sheet-bgblock-flex">
+                            <!-- Description -->
+                            <div class="bg-description">
+                                <span class="sheet-quote" data-i18n="background_break_faced_radical_quote-u">background quote</span>
+                                <span data-i18n="background_break_faced_radical-u">background</span>
+                            </div>
+
+                            <!-- Trained Skills Section -->
+                            <div class="sheet-trained-skills">
+                                <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                <div class="sheet-trained-skill-list">
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_persuade_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_persuade_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="persuade-u">Persuade</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_deception_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_deception_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="deception-u">Deception</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_streetwise_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_streetwise_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="streetwise-u">Streetwise</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_disguise_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_disguise_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="disguise-u">Disguise</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_charm_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_charm_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="charm-u">Charm</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Starting Item -->
+                            <div class="sheet-starting-item">
+                                <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                <span data-i18n="digital_mask_manifest-u">Digital Mask Manifest</span>
+                            </div>
+
+                            <!-- Starting Talents -->
+                            <div class="sheet-starting-talents">
+                                <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_social_chameleon" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_social_chameleon_from_background" value="0" />
+                                    <span data-i18n="social_chameleon-u">Social Chameleon</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_reflexive_shift" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_reflexive_shift_from_background" value="0" />
+                                    <span data-i18n="reflexive_shift-u">Reflexive Shift</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_shaped_for_subtlety" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_shaped_for_subtlety_from_background" value="0" />
+                                    <span data-i18n="shaped_for_subtlety-u">Shaped for Subtlety</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ghostline Runner -->
+                    <div class="sheet-bgblock sheet-bg-ghostline_runner">
+                        <div class="sheet-bgblock-flex">
+                            <!-- Description -->
+                            <div class="bg-description">
+								<span class="sheet-quote" data-i18n="background_ghostline_runner_quote-u">background quote</span>
+                                <span data-i18n="background_ghostline_runner-u">background</span>
+                            </div>
+
+                            <!-- Trained Skills Section -->
+                            <div class="sheet-trained-skills">
+                                <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                <div class="sheet-trained-skill-list">
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_slicing_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_slicing_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="slicing-u">Slicing</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_streetwise_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_streetwise_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="streetwise-u">Streetwise</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_stealth_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_stealth_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="stealth-u">Stealth</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_electronics_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_electronics_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="electronics-u">Electronics</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_deception_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_deception_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="deception-u">Deception</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Starting Item -->
+                            <div class="sheet-starting-item">
+                                <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                <span data-i18n="burner_id_package-u">Burner ID Package</span>
+                            </div>
+
+                            <!-- Starting Talents -->
+                            <div class="sheet-starting-talents">
+                                <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_ghost_protocol" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_ghost_protocol_from_background" value="0" />
+                                    <span data-i18n="ghost_protocol-u">Ghost Protocol</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_shaped_for_subtlety" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_shaped_for_subtlety_from_background" value="0" />
+                                    <span data-i18n="shaped_for_subtlety-u">Shaped for Subtlety</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_echoed_voice" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_echoed_voice_from_background" value="0" />
+                                    <span data-i18n="echoed_voice-u">Echoed Voice</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Legacy Bearer -->
+                    <div class="sheet-bgblock sheet-bg-legacy_bearer">
+                        <div class="sheet-bgblock-flex">
+                            <!-- Description -->
+                            <div class="bg-description">
+								<span class="sheet-quote" data-i18n="background_legacy_bearer_quote-u">background quote</span>
+                                <span data-i18n="background_legacy_bearer-u">background</span>
+                            </div>
+
+                            <!-- Trained Skills Section -->
+                            <div class="sheet-trained-skills">
+                                <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                <div class="sheet-trained-skill-list">
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_history_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_history_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="history-u">History</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_arcana_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_arcana_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="arcana-u">Arcana</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_etiquette_alteri_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_etiquette_alteri_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="etiquette_alteri-u">Etiquette (Alteri)</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_disguise_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_disguise_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="disguise-u">Disguise</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_occult_lore_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_occult_lore_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="occult_lore-u">Occult Lore</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Starting Item -->
+                            <div class="sheet-starting-item">
+                                <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                <span data-i18n="legacy_ritual_item-u">Legacy Ritual Item</span>
+                            </div>
+
+                            <!-- Starting Talents -->
+                            <div class="sheet-starting-talents">
+                                <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_echoed_voice" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_echoed_voice_from_background" value="0" />
+                                    <span data-i18n="echoed_voice-u">Echoed Voice</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_maskwrights_grace" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_maskwrights_grace_from_background" value="0" />
+                                    <span data-i18n="maskwrights_grace-u">Maskwright’s Grace</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_second_skin" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_second_skin_from_background" value="0" />
+                                    <span data-i18n="second_skin-u">Second Skin</span>
+                                </label>
+                            </div>
+                        </div>
 					</div>
 					<!-- Soft-Year Drifter -->
 					<div class="sheet-bgblock sheet-bg-soft_year_drifter">
 						<div class="sheet-bgblock-flex">
 							<div class="bg-description">
-								<span data-i18n="background_soft_year_drifter-u">background</span>
+								<span class="sheet-quote" data-i18n="background_soft_year_drifter_quote-u">background quote</span>
+                                <span data-i18n="background_soft_year_drifter-u">background</span>
 							</div>
-							
 							<!-- Trained Skills Section -->
 							<div class="sheet-trained-skills">
 								<h4 data-i18n="trained_skills-u">Trained Skills</h4>
@@ -1309,13 +1427,11 @@
 									</div>
 								</div>
 							</div>
-
 							<!-- Starting Item -->
 							<div class="sheet-starting-item">
 								<h4 data-i18n="starting_item-u">Starting Item</h4>
 								<span data-i18n="mask_journal-u">Veilbound Mask Journal</span>
 							</div>
-
 							<!-- Starting Talents -->
 							<div class="sheet-starting-talents">
 								<h4 data-i18n="starting_talents-u">Starting Talents</h4>
@@ -1325,47 +1441,84 @@
 							</div>
 						</div>
 					</div>
-					<!-- Veilhaven Attendant -->
-					<div class="sheet-bgblock sheet-bg-veilhaven_attendant">
-						<div class="sheet-bgblock-flex">
-							<!-- Left column -->
-							<div class="sheet-bg-content-left">
-								<h3 class="section-head sheet-background-section-head talent-center">Veilhaven Attendant</h3>
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-a">A</div>
-										<div class="col-benefit">Benefit</div>
-										<div class="col-desc">Description</div>
-										<div class="col-val">Val</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_mdr_checkbox" value="arcana">
-										</div>
-										<div class="col-benefit">Arcana +5%</div>
-										<div class="col-desc">Gain +5% Arcana Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_arcana_bonus_mdr" readonly>
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_alteri_mdr_checkbox" value="disguise">
-										</div>
-										<div class="col-benefit">Disguise +5%</div>
-										<div class="col-desc">Gain +5% Disguise Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_alteri_disguise_bonus_mdr" readonly>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Right column (Image) -->
-							<div class="sheet-bg-content-right">
-								<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Veilhaven Attendant Logo">
-							</div>
-						</div>
-					</div>
+                    <!-- Veilhaven Attendant -->
+                    <div class="sheet-bgblock sheet-bg-veilhaven_attendant">
+                        <div class="sheet-bgblock-flex">
+                            <!-- Description -->
+                            <div class="bg-description">
+								<span class="sheet-quote" data-i18n="background_veilhaven_attendant_quote-u">background quote</span>
+                                <span data-i18n="background_veilhaven_attendant-u">background</span>
+                            </div>
+
+                            <!-- Trained Skills Section -->
+                            <div class="sheet-trained-skills">
+                                <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                <div class="sheet-trained-skill-list">
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_arcana_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_arcana_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="arcana-u">Arcana</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_disguise_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_disguise_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="disguise-u">Disguise</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_history_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_history_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="history-u">History</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_etiquette_alteri_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_etiquette_alteri_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="etiquette_alteri-u">Etiquette</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_occult_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_occult_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="occult-u">Occult Lore</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Starting Item -->
+                            <div class="sheet-starting-item">
+                                <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                <span data-i18n="kin_token-u">Kin Token</span>
+                            </div>
+
+                            <!-- Starting Talents -->
+                            <div class="sheet-starting-talents">
+                                <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_maskwrights_grace" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_maskwrights_grace_from_background" value="0" />
+                                    <span data-i18n="maskwrights_grace-u">Maskwright’s Grace</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_whisper_touched" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_whisper_touched_from_background" value="0" />
+                                    <span data-i18n="whisper_touched-u">Whisper-Touched</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_alteri_talent" value="alteri_social_chameleon" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_alteri_social_chameleon_from_background" value="0" />
+                                    <span data-i18n="social_chameleon-u">Social Chameleon</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 			</div>
 			<!-- Draevi Backgrounds -->
@@ -10180,6 +10333,7 @@ const skillMapTable = {
  "Dance": { label: "dance", base: "5", skill: "dance_skill_mdr", bonus: "dance_mdr", group: "Social", notes: "Performance (Dance)" },
  "Deception": { label: "deception", base: "5", skill: "deception_skill_mdr", bonus: "deception_mdr", group: "Social", notes: "Deception" },
  "Disguise": { label: "disguise", base: "5", skill: "disguise_skill_mdr", bonus: "disguise_mdr", group: "Social", notes: "Disguise" },
+ "Etiquette (Alteri)": { label: "etiquette_alteri", base: "10", skill: "etiquette_alteri_skill_mdr", bonus: "etiquette_alteri_mdr", group: "Social", notes: "Etiquette (Alteri)" },
  "Etiquette (High Society)": { label: "etiquette_high_society", base: "10", skill: "etiquette_high_society_skill_mdr", bonus: "etiquette_high_society_mdr", group: "Social", notes: "Etiquette (High Society)" },
  "Etiquette (Lyranni)": { label: "etiquette_lyranni", base: "10", skill: "etiquette_lyranni_skill_mdr", bonus: "etiquette_lyranni_mdr", group: "Social", notes: "Etiquette (Lyranni)" },
  "Etiquette (Other)": { label: "etiquette_other", base: "10", skill: "etiquette_other_skill_mdr", bonus: "etiquette_other_mdr", group: "Social", notes: "Etiquette may be specialized: (Corporate), (Military), (Underworld), (Racial), etc." },
@@ -11465,7 +11619,7 @@ const backgroundDataMap = {
       starting_talents: ["second_skin", "reflexive_shift", "grace_of_the_many"]
     },
 	veilhaven_attendant: { 
-	  trained_skills: ["arcana", "insight", "disguise", "history", "etiquette", "impersonation", "occult_lore"],
+	  trained_skills: ["arcana", "insight", "disguise", "history", "etiquette_alteri", "impersonation", "occult_lore"],
 	  starting_item: "kin_token-u", 
 	  starting_talents: ["maskwrights_grace", "whisper_touched", "social_chameleon"]
 	},
@@ -11475,7 +11629,7 @@ const backgroundDataMap = {
 	  starting_talents: ["ghost_protocol", "shaped_for_subtlety", "echoed_voice"]
 	},
     legacy_bearer: {
-      trained_skills: ["impersonation", "history", "insight", "arcana", "etiquette", "disguise", "occult_lore"],
+      trained_skills: ["impersonation", "history", "insight", "arcana", "etiquette_alteri", "disguise", "occult_lore"],
       starting_item: "legacy_ritual_item-u",
       starting_talents: ["echoed_voice", "maskwrights_grace", "second_skin"]
     },
@@ -11519,7 +11673,7 @@ const backgroundDataMap = {
       starting_talents: ["quick_fixer", "hard_lesson", "skilled_focus"]
     },
     enclave_born: {
-      trained_skills: ["etiquette", "persuade", "insight", "voice", "charm", "bureaucracy", "history"],
+      trained_skills: ["etiquette_high_society", "persuade", "insight", "voice", "charm", "bureaucracy", "history"],
       starting_item: "pristine_id_code_uptier_zone-u",
       starting_talents: ["social_versatility", "instinct_over_training", "battle_tested_gut"]
     },
@@ -11546,7 +11700,7 @@ const backgroundDataMap = {
   },
   lyranni: {
     whisper_walker: {
-      trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette", "dance", "deception"],
+      trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette_lyranni", "dance", "deception"],
       starting_item: "veil_threaded_accessory-u",
       starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
     },
@@ -11556,7 +11710,7 @@ const backgroundDataMap = {
       starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
     },
     aelvareth_devotee: {
-      trained_skills: ["occult_lore", "etiquette", "arcana", "chant", "warding", "bureaucracy", "veil_lore"],
+      trained_skills: ["occult_lore", "etiquette_lyranni", "arcana", "chant", "warding", "bureaucracy", "veil_lore"],
       starting_item: "aelvareth_veilmark-u",
       starting_talents: ["threadwalker", "legacy_spark", "veilsight"]
     },
@@ -11566,12 +11720,12 @@ const backgroundDataMap = {
       starting_talents: ["threadwalker", "veilsight", "veil_blooded_sense"]
     },
     echoborne: {
-      trained_skills: ["arcana", "etiquette", "occult_lore", "history", "insight", "voice", "bureaucracy"],
+      trained_skills: ["arcana", "etiquette_lyranni", "occult_lore", "history", "insight", "voice", "bureaucracy"],
       starting_item: "ancestral_veilmark-u",
       starting_talents: ["legacy_spark", "veilsight", "threadwalker"]
     },
     glide_spire_scion: {
-      trained_skills: ["etiquette", "charm", "stealth", "performance", "deception", "insight", "perception"],
+      trained_skills: ["etiquette_lyranni", "charm", "stealth", "performance", "deception", "insight", "perception"],
       starting_item: "glide_spire_token-u",
       starting_talents: ["social_ghost", "aether_override", "urban_climber"]
     }

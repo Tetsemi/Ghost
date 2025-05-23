@@ -1272,13 +1272,13 @@
 							<div class="sheet-trained-skills">
 								<h4 data-i18n="trained_skills-u">Trained Skills</h4>
 								<div class="sheet-trained-skill-list">
-									<label><input type="checkbox" name="attr_bg_coordination_mdr_checkbox" /> <span data-i18n="coordination-u">Coordination</span></label>
-									<label><input type="checkbox" name="attr_bg_deception_mdr_checkbox" /> <span data-i18n="deception-u">Deception</span></label>
-									<label><input type="checkbox" name="attr_bg_disguise_mdr_checkbox" /> <span data-i18n="disguise-u">Disguise</span></label>
-									<label><input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" /> <span data-i18n="impersonation-u">Impersonation</span></label>
-									<label><input type="checkbox" name="attr_bg_insight_mdr_checkbox" /> <span data-i18n="insight-u">Insight</span></label>
-									<label><input type="checkbox" name="attr_bg_stealth_mdr_checkbox" /> <span data-i18n="stealth-u">Stealth</span></label>
-									<label><input type="checkbox" name="attr_bg_streetwise_mdr_checkbox" /> <span data-i18n="streetwise-u">Streetwise</span></label>
+									<label><input type="checkbox" name="attr_bg_coordination_mdr_checkbox" /><input type="hidden" name="attr_bg_coordination_mdr_checkbox_lock" value="1" /><span data-i18n="coordination-u">Coordination</span></label>
+									<label><input type="checkbox" name="attr_bg_deception_mdr_checkbox" /><input type="hidden" name="attr_bg_deception_mdr_checkbox_lock" value="1" /><span data-i18n="deception-u">Deception</span></label>
+									<label><input type="checkbox" name="attr_bg_disguise_mdr_checkbox" /><input type="hidden" name="attr_bg_disguise_mdr_checkbox_lock" value="1" /><span data-i18n="disguise-u">Disguise</span></label>
+									<label><input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" /><input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="1" /><span data-i18n="impersonation-u">Impersonation</span></label>
+									<label><input type="checkbox" name="attr_bg_insight_mdr_checkbox" /><input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="1" /><span data-i18n="insight-u">Insight</span></label>
+									<label><input type="checkbox" name="attr_bg_stealth_mdr_checkbox" /><input type="hidden" name="attr_bg_stealth_mdr_checkbox_lock" value="1" /><span data-i18n="stealth-u">Stealth</span></label>
+									<label><input type="checkbox" name="attr_bg_streetwise_mdr_checkbox" /><input type="hidden" name="attr_bg_streetwise_mdr_checkbox_lock" value="1" /><span data-i18n="streetwise-u">Streetwise</span></label>
 								</div>
 							</div>
 
@@ -12568,6 +12568,9 @@ function handleRaceChange(race) {
 
   registerTalentSummaryWatcher();
   if (debug_on) console.log ("[registerTalentSummaryWatcher] fired");
+  
+  registerBackgroundSkillLimiter();
+  if (debug_on) console.log ("[registerBackgroundSkillLimiter] fired");
 }
 
 on("sheet:opened", function () {
@@ -12709,45 +12712,40 @@ function registerStatHandler() {
 
 // === Background Skill Lock Enforcement (5 of 7) ===
 const registerBackgroundSkillLimiter = () => {
-  const skillLockMap = {}; // Map from checkbox name to lock field
-  const allWatchers = new Set();
+  const getCurrentBackgroundSkills = (race, background) => {
+    return backgroundDataMap[race]?.[background]?.trained_skills || [];
+  };
 
-  // Build watcher list and skillLockMap from backgroundDataMap
-  Object.entries(backgroundDataMap).forEach(([race, backgrounds]) => {
-    Object.entries(backgrounds).forEach(([bgKey, data]) => {
-      if (!Array.isArray(data.trained_skills)) return;
-      data.trained_skills.forEach(skill => {
-        const attr = `bg_${skill}_mdr_checkbox`;
-        const lock = `bg_${skill}_mdr_checkbox_lock`;
-        skillLockMap[attr] = lock;
-        allWatchers.add(`change:${attr}`);
-      });
-    });
-  });
+  const allSkillCheckboxes = Object.values(backgroundDataMap)
+    .flatMap(raceBGs =>
+      Object.values(raceBGs)
+        .flatMap(bg => (Array.isArray(bg.trained_skills) ? bg.trained_skills : []))
+        .map(skill => `bg_${skill}_mdr_checkbox`)
+    );
 
-  const watchedAttrs = Object.keys(skillLockMap);
-  const events = Array.from(allWatchers).join(" ");
+  const watchList = [
+    "showracials",
+    "bg_alteri_background",
+    "bg_draevi_background",
+    "bg_human_background",
+    "bg_lyranni_background",
+    ...allSkillCheckboxes
+  ];
 
-  on(events, function () {
-    getAttrs(watchedAttrs, function (values) {
-      const selected = watchedAttrs.filter(attr => values[attr] === "1");
-      const lockUpdates = {};
+  on(watchList.map(k => `change:${k}`).join(" "), () => {
+    getAttrs(watchList, values => {
+      const race = values["showracials"];
+      const bgKey = values[`bg_${race}_background`];
+      const skills = getCurrentBackgroundSkills(race, bgKey);
+      const selected = skills.filter(skill => values[`bg_${skill}_mdr_checkbox`] === "1");
 
-      if (selected.length >= 5) {
-        // Lock all unchecked boxes
-        watchedAttrs.forEach(attr => {
-          const lock = skillLockMap[attr];
-          if (values[attr] !== "1") lockUpdates[lock] = "1";
-        });
-      } else {
-        // Unlock all
-        watchedAttrs.forEach(attr => {
-          const lock = skillLockMap[attr];
-          lockUpdates[lock] = "0";
-        });
+      const updates = {};
+      for (let skill of skills) {
+        const lockAttr = `bg_${skill}_mdr_checkbox_lock`;
+        updates[lockAttr] = selected.length >= 5 && !selected.includes(skill) ? "1" : "0";
       }
 
-      setAttrs(lockUpdates);
+      setAttrs(updates);
     });
   });
 };

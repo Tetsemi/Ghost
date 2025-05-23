@@ -959,6 +959,16 @@
 								<button type="roll" class="sheet-toggle-social-mode-on-penalty" name="roll_streetwise_mdr_check" value="&{template:coc-penalty} {{name=@{streetwise_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{streetwise_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{streetwise_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{streetwise_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
 								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_streetwise_mdr_check" value="&{template:coc-bonus} {{name=@{streetwise_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{streetwise_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{streetwise_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{streetwise_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
 							</div>
+							<div><input type="checkbox" name="attr_voice_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_voice_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="voice-u">Voice(05%)</span></div>
+							<div><input class="skill-input" type="text" name="attr_voice_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="sheet-skill-input" type="text" name="attr_voice_mdr" readonly />
+								<input type="hidden" name="attr_social_mode_toggle" class="sheet-social-mode-toggle" value="0"/>
+								<button type="roll" class="sheet-toggle-social-mode-off" name="roll_voice_mdr_check" value="&{template:coc-1} {{name=@{voice_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{voice_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+								<button type="roll" class="sheet-toggle-social-mode-on-penalty" name="roll_voice_mdr_check" value="&{template:coc-penalty} {{name=@{voice_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{voice_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
+								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_voice_mdr_check" value="&{template:coc-bonus} {{name=@{voice_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{voice_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
+							</div>							
 							<div><input type="checkbox" name="attr_otherskill7_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_otherskill7_improved_label" class="sheet-improved-indicator" readonly /><input class="sheet-skill-name-input" type="text" name="attr_otherskill7_mdr_name" /></div>
 							<div><input class="skill-input" type="text" name="attr_otherskill7_skill_mdr" /></div>
@@ -2066,45 +2076,85 @@
 							</div>
 						</div>
 					</div>
-					<!-- Enclave Born -->
-					<div class="sheet-bgblock sheet-bg-enclave">
-						<h3 class="section-head sheet-background-section-head talent-center">Enclave Born</h3>
-						<div class="sheet-bgblock-flex">
-							<div class="sheet-bg-content-left">
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-a">A</div>
-										<div class="col-benefit">Benefit</div>
-										<div class="col-desc">Description</div>
-										<div class="col-val">Val</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_human_mdr_checkbox" value="etiquette_high_society" />
-										</div>
-										<div class="col-benefit">Etiquette(H. Soc.) +5%</div>
-										<div class="col-desc">Gain +5% Etiquette (High Society) Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_human_etiquette_high_society_bonus_mdr" readonly />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_human_mdr_checkbox" value="persuade" />
-										</div>
-										<div class="col-benefit">Persuade +5%</div>
-										<div class="col-desc">Gain +5% Persuade Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_human_persuade_bonus_mdr" readonly />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="sheet-bg-content-right">
-								<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Enclave Born Logo" />
-							</div>
-						</div>
-					</div>
+                    <!-- Enclave Born -->
+                    <div class="sheet-bgblock sheet-bg-enclave_born">
+                        <div class="sheet-bgblock-flex">
+                            <!-- Description -->
+                            <div class="bg-description">
+                                <span class="sheet-quote" data-i18n="background_enclave_born_quote-u">background quote</span>
+                                <span data-i18n="background_enclave_born-u">background</span>
+                            </div>
+
+                            <!-- Trained Skills Section -->
+                            <div class="sheet-trained-skills">
+                                <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                <div class="sheet-trained-skill-list">
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_etiquette_high_society_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_etiquette_high_society_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="etiquette_high_society-u">Etiquette (High Society)</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_persuade_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_persuade_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="persuade-u">Persuade</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_voice_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_voice_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="voice-u">Voice</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_charm_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_charm_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="charm-u">Charm</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_bureaucracy_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_bureaucracy_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="bureaucracy-u">Bureaucracy</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_history_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_history_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="history-u">History</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Starting Item -->
+                            <div class="sheet-starting-item">
+                                <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                <span data-i18n="pristine_id_code_uptier_zone-u">Pristine ID Code - Uptier Zone</span>
+                            </div>
+
+                            <!-- Starting Talents -->
+                            <div class="sheet-starting-talents">
+                                <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_human_talent" value="human_social_versatility" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_human_social_versatility_from_background" value="0" />
+                                    <span data-i18n="social_versatility-u">Social Versatility</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_human_talent" value="human_instinct_over_training" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_human_instinct_over_training_from_background" value="0" />
+                                    <span data-i18n="instinct_over_training-u">Instinct Over Training</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_human_talent" value="human_battle_tested_gut" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_human_battle_tested_gut_from_background" value="0" />
+                                    <span data-i18n="battle_tested_gut-u">Battle-Tested Gut</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
 					<!-- Gutterfire -->
 					<div class="sheet-bgblock sheet-bg-gutterfire">
 						<h3 class="section-head sheet-background-section-head talent-center">Gutterfire Youth</h3>
@@ -2183,45 +2233,86 @@
 							</div>
 						</div>
 					</div>
-					<!-- Scavsteel -->
-					<div class="sheet-bgblock sheet-bg-scavsteel">
-						<h3 class="section-head sheet-background-section-head talent-center">Scavsteel Whelp</h3>
-						<div class="sheet-bgblock-flex">
-							<div class="sheet-bg-content-left">
-								<div class="sheet-talent-grid">
-									<div class="sheet-talent-header-row">
-										<div class="col-a">A</div>
-										<div class="col-benefit">Benefit</div>
-										<div class="col-desc">Description</div>
-										<div class="col-val">Val</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_human_mdr_checkbox" value="electronics" />
-										</div>
-										<div class="col-benefit">Electronics +5%</div>
-										<div class="col-desc">Gain +5% Electronics Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_human_electronics_bonus_mdr" readonly />
-										</div>
-									</div>
-									<div class="sheet-talent-row">
-										<div class="col-a">
-											<input type="checkbox" name="attr_human_mdr_checkbox" value="mechanics" />
-										</div>
-										<div class="col-benefit">Mechanics +5%</div>
-										<div class="col-desc">Gain +5% Mechanics Skill</div>
-										<div class="col-val">
-											<input class="skill-input-small" type="text" name="attr_human_mechanics_bonus_mdr" readonly />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="sheet-bg-content-right">
-								<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Scavsteel Whelp Logo" />
-							</div>
-						</div>
-					</div>
+                    <!-- Scavsteel Whelp -->
+                    <div class="sheet-bgblock sheet-bg-scavsteel_whelp">
+                        <div class="sheet-bgblock-flex">
+                            <!-- Description -->
+                            <div class="bg-description">
+                                <span class="sheet-quote" data-i18n="background_scavsteel_whelp_quote-u">background quote</span>
+                                <span data-i18n="background_scavsteel_whelp-u">background</span>
+                            </div>
+
+                            <!-- Trained Skills Section -->
+                            <div class="sheet-trained-skills">
+                                <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                <div class="sheet-trained-skill-list">
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_mechanics_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_mechanics_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="mechanics-u">Mechanics</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_electronics_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_electronics_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="electronics-u">Electronics</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_streetwise_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_streetwise_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="streetwise-u">Streetwise</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_slicing_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_slicing_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="slicing-u">Slicing</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_survival_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_survival_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="survival-u">Survival</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_perception_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perception_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perception-u">Perception</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Starting Item -->
+                            <div class="sheet-starting-item">
+                                <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                <span data-i18n="trusted_toolset-u">Trusted Toolset</span>
+                                <span data-i18n="modded_wearable-u">Modded Wearable</span>
+                            </div>
+
+                            <!-- Starting Talents -->
+                            <div class="sheet-starting-talents">
+                                <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_human_talent" value="human_quick_fixer" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_human_quick_fixer_from_background" value="0" />
+                                    <span data-i18n="quick_fixer-u">Quick Fixer</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_human_talent" value="human_hard_lesson" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_human_hard_lesson_from_background" value="0" />
+                                    <span data-i18n="hard_lesson-u">Hard Lesson</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_human_talent" value="human_skilled_focus" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_human_skilled_focus_from_background" value="0" />
+                                    <span data-i18n="skilled_focus-u">Skilled Focus</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
 				</div>
 			</div>
 			<!-- Khadra Background -->
@@ -10572,6 +10663,7 @@ const skillMapTable = {
  "Persuade": { label: "persuade", base: "10", skill: "persuade_skill_mdr", bonus: "persuade_mdr", group: "Social", notes: "Persuade" },
  "Singing": { label: "singing", base: "5", skill: "singing_skill_mdr", bonus: "singing_mdr", group: "Social", notes: "Performance (Singing)" },
  "Streetwise": { label: "streetwise", base: "10", skill: "streetwise_skill_mdr", bonus: "streetwise_mdr", group: "Social", notes: "Streetwise" },
+ "Voice": { label: "voice", base: "5", skill: "voice_skill_mdr", bonus: "voice_mdr", group: "Social", notes: "Performance (Voice)" },
  "Animal Handling": { label: "animalhandling", base: "5", skill: "animalhandling_skill_mdr", bonus: "animalhandling_mdr", group: "Survival", notes: "Animal Handling" },
  "First Aid": { label: "first_aid", base: "30", skill: "first_aid_skill_mdr", bonus: "first_aid_mdr", group: "Survival", notes: "First Aid" },
  "Listen": { label: "listen", base: "20", skill: "listen_skill_mdr", bonus: "listen_mdr", group: "Survival", notes: "Listen" },

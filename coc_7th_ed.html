@@ -12267,6 +12267,7 @@ on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(
 
     const talentKeys = Object.keys(raceTalents);
     const watchedAttrs = talentKeys.map(key => `${race}_${key}`);
+    const bgFlags = talentKeys.map(key => `${race}_${key}_from_background`);
 
 	const skillPointRefunds = {
 		draevi: {},
@@ -12278,7 +12279,7 @@ on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(
 		}
 	};
 
-    getAttrs([...watchedAttrs, "total_skill_points_spent", "skill_points_talent_refund"], function (talentValues) {
+    getAttrs([...watchedAttrs, ...bgFlags, "total_skill_points_spent", "skill_points_talent_refund"], function (talentValues) {
       let spent = 0;
 	  let refund = 0;
 
@@ -12287,14 +12288,21 @@ on(`change:xp_pool_total_talent change:showracials ${allTalentChangeEvents.join(
         const selected = talentValues[attrName] === "1";
         const cost = parseInt(raceTalents[key].cost, 10) || 0;
         if (selected) {
-			spent += cost;
+          let actualCost = cost;
 
-			const raceRefundMap = skillPointRefunds[race] || {};
+          // Subtract background talent cost if this was granted by background
+          if (talentValues[`${race}_${key}_from_background`] === "1" && cost === 10) {
+            actualCost = 0;
+            if (debug_on) console.log(`[XP Tracker] ${key} granted by background, cost waived.`);
+          }
 
-			if (raceRefundMap[key]) {
-				refund += raceRefundMap[key];
-				if (debug_on) console.log(`[XP Tracker Refund] ${key} gives ${raceRefundMap[key]}`);
-			}
+		  spent += actualCost;
+
+		  const raceRefundMap = skillPointRefunds[race] || {};
+		  if (raceRefundMap[key]) {
+			refund += raceRefundMap[key];
+			if (debug_on) console.log(`[XP Tracker Refund] ${key} gives ${raceRefundMap[key]}`);
+		  }
 		}
 	  }
 

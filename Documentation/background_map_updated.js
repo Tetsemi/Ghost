@@ -92,7 +92,7 @@ const backgroundDataMap = {
       starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
     },
     zurethkai_flameborn: {
-      trained_skills: ["slicing", "technomancy", "electronics", "arcana", "deception", "illusion", "insight"],
+      trained_skills: ["slicing", "magic_technomancy", "electronics", "arcana", "deception", "magic_illusion", "insight"],
       starting_item: "symbolic_magitech_mod-u",
       starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
     },

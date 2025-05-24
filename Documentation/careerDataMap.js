@@ -148,7 +148,7 @@ const careerDataMap = {
                 cost: "15",
                 capstone: false
             },
-			command_injection: {
+            command_injection: {
                 name: "Command Injection",
                 description: "Once per scene, after casting a Technomancy spell or issuing a drone command, you may issue two distinct commands instead of one.",
                 prerequisite: "subroutine_leash",

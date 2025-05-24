@@ -80,41 +80,36 @@ const backgroundDataMap = {
       starting_talents: ["instinct_over_training", "quick_fixer", "skilled_focus"]
     },
     ash_war_refugee: {
-      trained_skills: ["first_aid", "insight", "athletics", "dodge", "willpower", "perception", "stealth"],
+      trained_skills: ["first_aid", "insight", "athletics", "dodge", "survival_urban", "perception", "stealth"],
       starting_item: "faded_token_of_past-u",
       starting_talents: ["makeshift_medic", "no_stranger_to_pain", "hard_lesson"]
     }
   },
   lyranni: {
-    whisper_walker: {
-      trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette_lyranni", "dance", "deception"],
-      starting_item: "veil_threaded_accessory-u",
-      starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
-    },
-    zurethkai_flameborn: {
-      trained_skills: ["slicing", "magic_technomancy", "electronics", "arcana", "deception", "magic_illusion", "insight"],
-      starting_item: "symbolic_magitech_mod-u",
-      starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
-    },
-    aelvareth_devotee: {
-      trained_skills: ["occult", "etiquette_lyranni", "arcana", "chant", "warding", "bureaucracy", "veil_lore"],
-      starting_item: "aelvareth_veilmark-u",
-      starting_talents: ["threadwalker", "legacy_spark", "veilsight"]
-    },
-    veilbound_wanderer: {
-      trained_skills: ["perception", "occult", "spirit_lore", "insight", "survival", "stealth", "warding"],
-      starting_item: "veilmark_living-sigil-u",
-      starting_talents: ["threadwalker", "veilsight", "veil_blooded_sense"]
-    },
+	whisper_walker: {
+		trained_skills: ["perception", "occult", "spirit_lore", "insight", "survival_wilderness", "stealth", "magic_warding"],
+		starting_item: "veilmark_living-sigil-u",
+		starting_talents: ["threadwalker", "veilsight", "veil_blooded_sense"]
+	},
+	zurethkai_flameborn: {
+		trained_skills: ["slicing", "magic_technomancy", "electronics", "arcana", "deception", "magic_illusion", "insight"],
+		starting_item: "symbolic_magitech_mod-u",
+		starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
+	},
+	aelvareth_devotee: {
+		trained_skills: ["occult", "etiquette_lyranni", "arcana", "chant", "magic_warding", "bureaucracy", "veil_lore"],
+		starting_item: "aelvareth_veilmark-u",
+		starting_talents: ["threadwalker", "legacy_spark", "veilsight"]
+	},
     echoborne: {
       trained_skills: ["arcana", "etiquette_lyranni", "occult", "history", "insight", "voice", "bureaucracy"],
       starting_item: "ancestral_veilmark-u",
       starting_talents: ["legacy_spark", "veilsight", "threadwalker"]
     },
-    glide_spire_scion: {
-      trained_skills: ["etiquette_lyranni", "charm", "stealth", "performance", "deception", "insight", "perception"],
-      starting_item: "glide_spire_token-u",
-      starting_talents: ["social_ghost", "aether_override", "urban_climber"]
-    }
+	glide_spire_scion: {
+		trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette_high_society", "dance", "deception"],
+		starting_item: "veil_threaded_accessory-u",
+		starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
+	}
   }
 };

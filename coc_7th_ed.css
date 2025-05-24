@@ -75,7 +75,7 @@
 
 .sheet-section {
   background: #d0cabe;
-  1px solid #999;
+  border: 1px solid #999;
 }
 
 .sheet-section-head {
@@ -1340,23 +1340,101 @@ input[name="attr_draevi_background_choice"][value="urban_tread"] ~ .sheet-sectio
 /* =======================
    Background  Display for Human
    ======================= */
-input[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-section .sheet-bg-ashwar,
-input[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-section .sheet-bg-datahatched,
-input[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-section .sheet-bg-enclave,
-input[name="attr_human_background_choice"][value="gutter_fire_youth"] ~ .sheet-section .sheet-bg-gutterfire,
-input[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-section .sheet-bg-outpost,
-input[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-section .sheet-bg-scavsteel {
+input[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-section .sheet-bg-ash_war_refugee,
+input[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-section .sheet-bg-data_hatched,
+input[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-section .sheet-bg-enclave_born,
+input[name="attr_human_background_choice"][value="gutterfire_youth"] ~ .sheet-section .sheet-bg-gutterfire_youth,
+input[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-section .sheet-bg-outpost_raised,
+input[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-section .sheet-bg-scavsteel_whelp {
   display: block;
 }
 
 
 /* Display rules for Lyranni Backgrounds */
-input[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-section .sheet-bg-aelvareth,
+input[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-section .sheet-bg-aelvareth_devotee,
 input[name="attr_lyranni_background_choice"][value="echoborne"] ~ .sheet-section .sheet-bg-echoborne,
-input[name="attr_lyranni_background_choice"][value="glide_spire_scion"] ~ .sheet-section .sheet-bg-glide,
-input[name="attr_lyranni_background_choice"][value="whisper_walker"] ~ .sheet-section .sheet-bg-whisper,
-input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-section .sheet-bg-zureth {
+input[name="attr_lyranni_background_choice"][value="glide_spire_scion"] ~ .sheet-section .sheet-bg-glide_spire_scion,
+input[name="attr_lyranni_background_choice"][value="whisper_walker"] ~ .sheet-section .sheet-bg-whisper_walker,
+input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-section .sheet-bg-zurethkai_flameborn {
   display: block;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bgblock-flex {
+  display: flex;
+  gap: 1rem; /* optional spacing between columns */
+  flex-wrap: wrap; /* just in case of narrow widths */
+}
+.ui-dialog .tab-content .charsheet .sheet-bg-skill-row {
+  display: flex;
+  align-items: center;
+}
+
+/* Skills first */
+.ui-dialog .tab-content .charsheet .sheet-trained-skills {
+  order: 1;
+  flex: 1;
+  border: 1px solid black; 
+}
+
+/* Talents second */
+.ui-dialog .tab-content .charsheet .sheet-starting-talents {
+  order: 2;
+  flex: 1;
+  border: 1px solid black;
+}
+
+/* Item third */
+.ui-dialog .tab-content .charsheet .sheet-starting-item {
+  order: 3;
+  flex: 1;
+  border: 1px solid black;
+}
+
+.ui-dialog .tab-content .charsheet input[name$="_lock"][value="1"] ~ input[type="checkbox"].sheet-bg-skill-checkbox {
+  pointer-events: none;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ui-dialog .tab-content .charsheet input[name$="_lock"][value="1"] ~ input[type="checkbox"].sheet-bg-skill-checkbox ~ label.sheet-bg-skill-label {
+  opacity: 0.5;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-trained-skills h4,
+.ui-dialog .tab-content .charsheet .sheet-starting-talents h4,
+.ui-dialog .tab-content .charsheet .sheet-starting-item h4 {
+	margin-bottom: 10px;
+	border: 1px solid black;
+	background: black;
+	color: white;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-starting-item span {
+	display: block;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-trained-skills label,
+.ui-dialog .tab-content .charsheet .sheet-starting-talents label,
+.ui-dialog .tab-content .charsheet .sheet-starting-item span {
+	color: black;
+	font-size: 100%;
+	padding: 0 0 0 4px;
+}
+
+.ui-dialog .tab-content .charsheet .bg-description {
+	display: block;
+	color: black;
+	font-size: 100%;
+	padding: 4px;
+	border: 1px solid black;
+}
+
+.ui-dialog .tab-content .charsheet .bg-description .sheet-quote {
+    display: block;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 0.2em; /* slight spacing if needed */
 }
 
 
@@ -1535,6 +1613,7 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 .sheet-tab-controller[name="attr_alteri_background_choice"][value="soft_year_drifter"] ~ .sheet-bg-soft_year_drifter,
 .sheet-tab-controller[name="attr_alteri_background_choice"][value="veilhaven_attendant"] ~ .sheet-bg-veilhaven_attendant {
   display: block;
+  background: #dce7ed;
 }
 
 .sheet-tab-controller[name="attr_alteri_background_choice"][value="break_faced_radical"] ~ .sheet-tab-buttons button[name="act_break_faced_radical"],
@@ -1549,46 +1628,51 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 .sheet-tab-controller[name="attr_draevi_background_choice"][value="forgeblood_scavenger"] ~ .sheet-bg-forgeblood_scavenger,
 .sheet-tab-controller[name="attr_draevi_background_choice"][value="horn_carved_wanderer"] ~ .sheet-bg-horn_carved_wanderer,
 .sheet-tab-controller[name="attr_draevi_background_choice"][value="spiritbound_techshaper"] ~ .sheet-bg-spiritbound_techshaper,
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="tradition_keeper"] ~ .sheet-bg-tradition_keeper {
+.sheet-tab-controller[name="attr_draevi_background_choice"][value="tradition_keeper"] ~ .sheet-bg-tradition_keeper,
+.sheet-tab-controller[name="attr_draevi_background_choice"][value="urban_tread"] ~ .sheet-bg-urban_tread  {
   display: block;
+  background: #e7e2d3;
 }
 
 /* Highlight active Draevi tab button */
 .sheet-tab-controller[name="attr_draevi_background_choice"][value="forgeblood_scavenger"] ~ .sheet-tab-buttons button[name="act_forgeblood_scavenger"],
 .sheet-tab-controller[name="attr_draevi_background_choice"][value="horn_carved_wanderer"] ~ .sheet-tab-buttons button[name="act_horn_carved_wanderer"],
 .sheet-tab-controller[name="attr_draevi_background_choice"][value="spiritbound_techshaper"] ~ .sheet-tab-buttons button[name="act_spiritbound_techshaper"],
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="tradition_keeper"] ~ .sheet-tab-buttons button[name="act_tradition_keeper"] {
+.sheet-tab-controller[name="attr_draevi_background_choice"][value="tradition_keeper"] ~ .sheet-tab-buttons button[name="act_tradition_keeper"],
+.sheet-tab-controller[name="attr_draevi_background_choice"][value="urban_tread"] ~ .sheet-tab-buttons button[name="act_urban_tread"] {
   background-color: #222;
 }
 
 
 /* Show correct background block */
-.sheet-tab-controller[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-bg-ashwar,
-.sheet-tab-controller[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-bg-datahatched,
-.sheet-tab-controller[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-bg-enclave,
-.sheet-tab-controller[name="attr_human_background_choice"][value="gutter_fire_youth"] ~ .sheet-bg-gutterfire,
-.sheet-tab-controller[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-bg-outpost,
-.sheet-tab-controller[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-bg-scavsteel {
+.sheet-tab-controller[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-bg-ash_war_refugee,
+.sheet-tab-controller[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-bg-data_hatched,
+.sheet-tab-controller[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-bg-enclave_born,
+.sheet-tab-controller[name="attr_human_background_choice"][value="gutterfire_youth"] ~ .sheet-bg-gutterfire_youth,
+.sheet-tab-controller[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-bg-outpost_raised,
+.sheet-tab-controller[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-bg-scavsteel_whelp {
   display: block;
+  background: #f0f0eb;
 }
 
 /* Display only the active human background section */
 .sheet-tab-controller[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-tab-buttons button[name="act_ash_war_refugee"],
 .sheet-tab-controller[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-tab-buttons button[name="act_data_hatched"],
 .sheet-tab-controller[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-tab-buttons button[name="act_enclave_born"],
-.sheet-tab-controller[name="attr_human_background_choice"][value="gutter_fire_youth"] ~ .sheet-tab-buttons button[name="act_gutter_fire_youth"],
+.sheet-tab-controller[name="attr_human_background_choice"][value="gutterfire_youth"] ~ .sheet-tab-buttons button[name="act_gutter_fire_youth"],
 .sheet-tab-controller[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-tab-buttons button[name="act_outpost_raised"],
 .sheet-tab-controller[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-tab-buttons button[name="act_scavsteel_whelp"] {
   background-color: #222;
 }
 
 /* Show correct Lyranni background block */
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-bg-aelvareth,
+.sheet-tab-controller[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-bg-aelvareth_devotee,
 .sheet-tab-controller[name="attr_lyranni_background_choice"][value="echoborne"] ~ .sheet-bg-echoborne,
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="glide_spire_scion"] ~ .sheet-bg-glide,
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="whisper_walker"] ~ .sheet-bg-whisper,
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-bg-zureth {
+.sheet-tab-controller[name="attr_lyranni_background_choice"][value="glide_spire_scion"] ~ .sheet-bg-glide_spire_scion,
+.sheet-tab-controller[name="attr_lyranni_background_choice"][value="whisper_walker"] ~ .sheet-bg-whisper_walker,
+.sheet-tab-controller[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-bg-zurethkai_flameborn {
   display: block;
+  background: #ede5f5;
 }
 
 /* Highlight active Lyranni tab button */
@@ -1734,7 +1818,6 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 /* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
 
 /* --------------------- Tabs - New Talent styling - Start ----------------------------------------------------- */
-
 .ui-dialog .tab-content .charsheet .sheet-xp-tracker {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

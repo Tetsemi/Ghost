@@ -1,6 +1,6 @@
 on('chat:message', function(msg) {
   if (msg.type !== 'api' || !msg.content.startsWith('!initdex')) return;
-  debug_on = false;
+  debug_on = true;
 
   const selected = msg.selected;
   if (!selected || selected.length === 0) {

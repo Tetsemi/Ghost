@@ -4825,37 +4825,40 @@
 			<!-- Prep Spell Cost / Arcane Capacity Tracker -->
 			<div class="sheet-section">
 				<div class="sheet-spell-tracker-wrapper">
-					<div class="sheet-spell-tracker">
-						<div>
-							<div class="sheet-spell-tracker-header">Prep Spell Cost / Arcane Capacity</div>
-							<div class="sheet-spell-tracker-box">
-								<input type="hidden" class="sheet-overflow-mirror" name="attr_spellcost_overflow" />
-								<input type="text" name="attr_total_spellcost" class="spell-cost-input sheet-overflow-sensitive" placeholder="0">
-								<span class="slash-divider">/</span>
-								<input type="text" name="attr_ac" class="spell-capacity-input" placeholder="60">
-							</div>
+					<div class="sheet-spell-tracker-grid-row">
+						<div class="sheet-spell-row">
+							<input type="hidden" class="sheet-overflow-mirror" name="attr_spellcost_overflow" />
+							<label>Prep Spell Cost</label>
+							<input class="sheet-attr-input-small sheet-spell-cost sheet-overflow-sensitive " type="text" name="attr_total_spellcost" placeholder="0" />
 						</div>
-						<div>
-							<div class="sheet-spell-tracker-header">Strain</div>
-							<div class="sheet-spell-tracker-box">
-								<input class="spell-cost-input sheet-edit-toggle-field" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current" />
-								<div class="sheet-strain-slash">/</div>
-								<input class="spell-capacity-input" type="text" name="attr_strain_max" placeholder="max" readonly />
-							</div>
+						<div class="sheet-spell-row">
+							<label>Arcane Capacity</label>
+							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_ac" placeholder="60" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Strain Current</label>
+							<input class="sheet-attr-input-small sheet-spell-cost" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Strain Max</label>
+							<input class="sheet-attr-input-small sheet-strain-max sheet-readonly" type="text" name="attr_strain_max" placeholder="max" />
 						</div>
 					</div>
-					<div class="sheet-strain-buttons">
-						<div class="sheet-rest-button-wrapper">
-							<span class="sheet-roll-label">Full Rest</span>
-							<button type="action" class="sheet-roll-hidden sheet-rest-button" name="act_strain_full_rest"></button>
-						</div>
+
+					<div class="sheet-strain-buttons-row">
 						<div class="sheet-roll-wrapper">
 							<span class="sheet-roll-label">Short Rest</span>
 							<button type="action" name="act_strain_short_rest" class="sheet-roll-hidden"></button>
 						</div>
+						<div class="sheet-rest-button-wrapper">
+							<span class="sheet-roll-label">Full Rest</span>
+							<button type="action" class="sheet-roll-hidden sheet-rest-button" name="act_strain_full_rest"></button>
+						</div>
 					</div>
 				</div>
-				<hr/>
+			</div>
+			
+			<div class="sheet-section">
 				<!-- Repeating Spells Block -->
 				<fieldset class="repeating_spells">
 					<div class="sheet-spell-row-wrapper">

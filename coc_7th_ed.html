@@ -4827,15 +4827,6 @@
 				<div class="sheet-spell-tracker-wrapper">
 					<div class="sheet-spell-tracker-grid-row">
 						<div class="sheet-spell-row">
-							<input type="hidden" class="sheet-overflow-mirror" name="attr_spellcost_overflow" />
-							<label>Prep Spell Cost</label>
-							<input class="sheet-attr-input-small sheet-spell-cost sheet-overflow-sensitive " type="text" name="attr_total_spellcost" placeholder="0" />
-						</div>
-						<div class="sheet-spell-row">
-							<label>Arcane Capacity</label>
-							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_ac" placeholder="60" />
-						</div>
-						<div class="sheet-spell-row">
 							<label>Strain Current</label>
 							<input class="sheet-attr-input-small sheet-spell-cost" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current" />
 						</div>
@@ -4843,8 +4834,42 @@
 							<label>Strain Max</label>
 							<input class="sheet-attr-input-small sheet-strain-max sheet-readonly" type="text" name="attr_strain_max" placeholder="max" />
 						</div>
+						<div class="sheet-spell-separator"></div>
+						
+						<div class="sheet-spell-row">
+							<input type="hidden" class="sheet-overflow-mirror" name="attr_spellcost_overflow" />
+							<label>Prep Spell Cost</label>
+							<input class="sheet-attr-input-small sheet-spell-cost sheet-overflow-sensitive sheet-readonly" type="text" name="attr_total_spellcost" placeholder="0" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Arcane Capacity</label>
+							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_ac" placeholder="60" />
+						</div>
+						<div class="sheet-spell-separator"></div>
+						<div class="sheet-spell-row">
+							<label>Primary Career XP</label>
+							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_primary_career_xp" placeholder="30" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Secondary Career XP</label>
+							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_secondary_career_xp" placeholder="0" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>XP -> Spells</label>
+							<input class="sheet-attr-input-small sheet-xp-gain sheet-readonly" type="text" name="attr_xpledger_spells_cost" placeholder="60" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Spell XP Spent</label>
+							<input class="sheet-attr-input-small sheet-xp-cost" type="text" name="attr_spell_ledger_xp_spent" placeholder="60" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Spell XP Remaining</label>
+							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_spell_xp_remaining" placeholder="0" />
+						</div>						
 					</div>
+					
 
+					
 					<div class="sheet-strain-buttons-row">
 						<div class="sheet-roll-wrapper">
 							<span class="sheet-roll-label">Short Rest</span>
@@ -13934,6 +13959,28 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
         });
     });
 });
+
+// === Spell XP Remaining Calculation ===
+on("change:primary_career_xp change:secondary_career_xp change:xpledger_spells_cost change:spell_ledger_xp_spent", function () {
+    getAttrs([
+        "primary_career_xp",
+        "secondary_career_xp",
+        "xpledger_spells_cost",
+        "spell_ledger_xp_spent"
+    ], function (values) {
+        const primary = parseInt(values["primary_career_xp"], 10) || 0;
+        const secondary = parseInt(values["secondary_career_xp"], 10) || 0;
+        const gained = parseInt(values["xpledger_spells_cost"], 10) || 0;
+        const spent = parseInt(values["spell_ledger_xp_spent"], 10) || 0;
+
+        const remaining = primary + secondary + gained - spent;
+
+        setAttrs({
+            spell_xp_remaining: remaining
+        });
+    });
+});
+
 
   on('sheet:opened', function () {
 	  if (debug_on_trace) console.log ("[sheet:opened] Translation");

@@ -157,7 +157,7 @@
 }
 
 /* Small Separator Line Between Attribute Sections */
-.sheet-attr-separator {
+.ui-dialog .tab-content .charsheet .sheet-attr-separator {
   width: 100%;
   height: 1px;
   background-color: #333; /* dark gray/black line to match our theme */
@@ -2373,49 +2373,97 @@ button[type="roll"]:hover.new-roll {
 
 /* ------------------------------- Spells ----------------------- */
 
-/* ---------- Layout ---------- */
-.sheet-spell-tracker-wrapper {
-  display: flex;
-  align-items: stretch;
-  gap: 10px;
-  margin: 0 0 10px 0;
-}
-
-.sheet-spell-tracker {
+/* === Spell Tracker Layout === */
+.ui-dialog .tab-content .charsheet .sheet-spell-tracker-grid-row {
   display: flex;
   flex-direction: row;
-  gap: 6px;
-  background-color: #d0cabe;
-  box-shadow: 0 0 2px rgba(0,0,0,0.4);
-  padding: 4px;
+  gap: 4px;
+  justify-content: flex-start;
+  align-items: flex-end; /* This aligns child items (input blocks) to bottom */
+  flex-wrap: wrap;
+  margin-bottom: 4px;
   border: 1px solid black;
+  padding: 4px;
 }
 
-.sheet-spell-tracker-header {
-  background: linear-gradient(to bottom, #2f2f2f, #1a1a1a);
-  color: white;
-  text-align: center;
-  font-weight: bold;
-  padding: 4px 8px;
-  font-size: 90%;
-  border-bottom: 1px solid black;
-}
 
-.sheet-spell-tracker-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  gap: 0px;
-}
-
-.sheet-spell-tracker > div {
+.ui-dialog .tab-content .charsheet .sheet-spell-tracker-grid-row .sheet-spell-row {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
-  border: 2px solid black;
+  align-items: flex-start;
+  width: 80px; /* Adjust width as needed */
+  gap: 2px;
 }
+
+.ui-dialog .tab-content .charsheet .sheet-spell-row input[type="text"] {
+	width: 100%;
+	max-width: 100%;
+	text-align: center;
+	font-size: 100%;
+	padding: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spell-row .sheet-strain-max,
+.ui-dialog .tab-content .charsheet .sheet-spell-row .sheet-spell-capacity {
+	background: #d4ecf9;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spell-row label {
+	font-size: 100%;
+	color: black;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spell-separator {
+  width: 1px;
+  height: auto; /* or a fixed height like 100% if needed */
+  background-color: #333; /* separator color */
+  margin: 0 6px; /* horizontal spacing around the line */
+  align-self: stretch; /* ensures it fills the height of the parent */
+}
+
+
+
+/* === Rest Buttons Row === */
+.ui-dialog .tab-content .charsheet .sheet-strain-buttons-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 5px;
+  padding: 4px;
+}
+
+
+/* === Optional Styling for Buttons === */
+.ui-dialog .tab-content .charsheet .sheet-rest-button-wrapper,
+.ui-dialog .tab-content .charsheet .sheet-roll-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Default input style */
+.ui-dialog .tab-content .charsheet .sheet-prep-cost-input {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Base style for the overflow-sensitive input */
+.ui-dialog .tab-content .charsheet .sheet-overflow-sensitive {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Overflow warning */
+.ui-dialog .tab-content .charsheet input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
+  background-color: red;
+  color: yellow;
+}
+
+
+/* ---------- Layout ---------- */
 
 .sheet-roll-wrapper,
 .sheet-rest-button-wrapper {
@@ -2463,19 +2511,6 @@ button[type="roll"]:hover.new-roll {
   box-sizing: border-box;
 }
 
-.slash-divider {
-  font-weight: bold;
-  font-size: 150%;
-  color: black;
-}
-
-.sheet-strain-buttons {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 6px;
-}
-
 .sheet-strain-buttons .sheet-tab-button {
   padding: 4px 6px;
   font-size: 90%;
@@ -2488,7 +2523,6 @@ button[type="roll"]:hover.new-roll {
   cursor: pointer;
   width: 100px;
 }
-
 
 .sheet-spell-row-wrapper {
   display: flex;
@@ -2585,23 +2619,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   color: #00ff00;
 }
 
-/* Default input style */
-.sheet-prep-cost-input {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
 
-/* Base style for the overflow-sensitive input */
-.sheet-overflow-sensitive {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
-
-/* Overflow warning */
-input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
-  background-color: red;
-  color: yellow;
-}
 
 /* ----------------- Gear and Inventory ---------------------- */
 

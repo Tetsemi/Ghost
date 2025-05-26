@@ -4825,37 +4825,66 @@
 			<!-- Prep Spell Cost / Arcane Capacity Tracker -->
 			<div class="sheet-section">
 				<div class="sheet-spell-tracker-wrapper">
-					<div class="sheet-spell-tracker">
-						<div>
-							<div class="sheet-spell-tracker-header">Prep Spell Cost / Arcane Capacity</div>
-							<div class="sheet-spell-tracker-box">
-								<input type="hidden" class="sheet-overflow-mirror" name="attr_spellcost_overflow" />
-								<input type="text" name="attr_total_spellcost" class="spell-cost-input sheet-overflow-sensitive" placeholder="0">
-								<span class="slash-divider">/</span>
-								<input type="text" name="attr_ac" class="spell-capacity-input" placeholder="60">
-							</div>
+					<div class="sheet-spell-tracker-grid-row">
+						<div class="sheet-spell-row">
+							<label>Strain Current</label>
+							<input class="sheet-attr-input-small sheet-spell-cost" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current" />
 						</div>
-						<div>
-							<div class="sheet-spell-tracker-header">Strain</div>
-							<div class="sheet-spell-tracker-box">
-								<input class="spell-cost-input sheet-edit-toggle-field" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current" />
-								<div class="sheet-strain-slash">/</div>
-								<input class="spell-capacity-input" type="text" name="attr_strain_max" placeholder="max" readonly />
-							</div>
+						<div class="sheet-spell-row">
+							<label>Strain Max</label>
+							<input class="sheet-attr-input-small sheet-strain-max sheet-readonly" type="text" name="attr_strain_max" placeholder="max" />
 						</div>
+						<div class="sheet-spell-separator"></div>
+						
+						<div class="sheet-spell-row">
+							<input type="hidden" class="sheet-overflow-mirror" name="attr_spellcost_overflow" />
+							<label>Prep Spell Cost</label>
+							<input class="sheet-attr-input-small sheet-spell-cost sheet-overflow-sensitive sheet-readonly" type="text" name="attr_total_spellcost" placeholder="0" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Arcane Capacity</label>
+							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_ac" placeholder="60" />
+						</div>
+						<div class="sheet-spell-separator"></div>
+						
+						<div class="sheet-spell-row">
+							<label>Primary Career XP</label>
+							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_primary_career_xp" placeholder="30" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Secondary Career XP</label>
+							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_secondary_career_xp" placeholder="0" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>XP -> Spells</label>
+							<input class="sheet-attr-input-small sheet-xp-gain sheet-readonly" type="text" name="attr_xpledger_spells_cost" placeholder="60" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Spell XP Spent</label>
+							<input class="sheet-attr-input-small sheet-xp-cost" type="text" name="attr_spell_ledger_xp_spent" placeholder="60" />
+						</div>
+						<div class="sheet-spell-row">
+							<label>Spell XP Remaining</label>
+							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_spell_xp_remaining" placeholder="0" />
+						</div>						
 					</div>
-					<div class="sheet-strain-buttons">
-						<div class="sheet-rest-button-wrapper">
-							<span class="sheet-roll-label">Full Rest</span>
-							<button type="action" class="sheet-roll-hidden sheet-rest-button" name="act_strain_full_rest"></button>
-						</div>
+					
+
+					
+					<div class="sheet-strain-buttons-row">
 						<div class="sheet-roll-wrapper">
 							<span class="sheet-roll-label">Short Rest</span>
 							<button type="action" name="act_strain_short_rest" class="sheet-roll-hidden"></button>
 						</div>
+						<div class="sheet-rest-button-wrapper">
+							<span class="sheet-roll-label">Full Rest</span>
+							<button type="action" class="sheet-roll-hidden sheet-rest-button" name="act_strain_full_rest"></button>
+						</div>
 					</div>
 				</div>
-				<hr/>
+			</div>
+			
+			<div class="sheet-section">
 				<!-- Repeating Spells Block -->
 				<fieldset class="repeating_spells">
 					<div class="sheet-spell-row-wrapper">
@@ -5562,6 +5591,10 @@
 						<input class="sheet-attr-input-small sheet-skill-base" type="text" name="attr_primary_career_skill_points" />
 					</div>
 					<div class="sheet-ledger-row">
+						<label>Sec. Career Skill -> XP</label>
+						<input class="sheet-attr-input-small sheet-skill-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_lost" />
+					</div>
+					<div class="sheet-ledger-row">
 						<label>Personal Skill Points</label>
 						<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_personal_skill_points" />
 					</div>
@@ -5661,6 +5694,7 @@
 							<select class="sheet-selection-full" name="attr_ledger_choice">
 								<option value="0" selected>-- Choose XP Option --</option>
 								<option value="xp_gained">XP Gained</option>
+								<option value="skill_xp">Car. Sec. Skill -> XP</option>
 								<option value="xp_skill">XP -> Skill</option>
 								<option value="xp_spells">XP -> Spells</option>
 								<option value="xp_credits">XP -> Credits</option>
@@ -13509,7 +13543,7 @@ function registerStatHandler() {
             const update = {};
 			
 			if ( ichar_lock === 0 ) {
-				update["personal_skill_points"] = iint;
+				update["personal_skill_points"] = iint * 2;
 			}
 
 			update["vitality_max"]= ipow;
@@ -13823,19 +13857,20 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain", function () {
+on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain change:xpledger_skill_point_lost", function () {
     getAttrs([
         "primary_career_skill_points",
         "personal_skill_points",
         "total_skill_points_spent",
-        "xpledger_skill_point_gain"
+        "xpledger_skill_point_gain",
+		"xpledger_skill_point_lost"
     ], function (values) {
         const primary = parseInt(values.primary_career_skill_points, 10) || 0;
         const personal = parseInt(values.personal_skill_points, 10) || 0;
         const spent = parseInt(values.total_skill_points_spent, 10) || 0;
         const ledgerGain = parseInt(values.xpledger_skill_point_gain, 10) || 0;
-
-        const remaining = primary + personal + ledgerGain - spent;
+		const ledgerLost = parseInt(values.xpledger_skill_point_lost, 10) || 0;
+        const remaining = primary + personal + ledgerGain - ledgerLost - spent;
 
         setAttrs({
             total_skill_points_remain: remaining
@@ -13895,6 +13930,7 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
         getAttrs(fieldNames, function (values) {
             const aggregates = {
                 xp_gained: 0,
+				skill_xp: 0,
                 xp_skill: 0,
                 xp_spells: 0,
                 xp_credits: 0,
@@ -13917,6 +13953,7 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
 
             const updates = {
                 xpledger_gained_xp: aggregates.xp_gained,
+				xpledger_skill_point_lost: aggregates.skill_xp,
                 xpledger_skill_point_gain: aggregates.xp_skill,
                 xpledger_spells_cost: aggregates.xp_spells,
                 xpledger_credits_cost: aggregates.xp_credits,
@@ -13928,6 +13965,27 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 xpledger_perks_cost: aggregates.xp_perks
             };
             setAttrs(updates);
+        });
+    });
+});
+
+// === Spell XP Remaining Calculation ===
+on("change:primary_career_xp change:secondary_career_xp change:xpledger_spells_cost change:spell_ledger_xp_spent", function () {
+    getAttrs([
+        "primary_career_xp",
+        "secondary_career_xp",
+        "xpledger_spells_cost",
+        "spell_ledger_xp_spent"
+    ], function (values) {
+        const primary = parseInt(values["primary_career_xp"], 10) || 0;
+        const secondary = parseInt(values["secondary_career_xp"], 10) || 0;
+        const gained = parseInt(values["xpledger_spells_cost"], 10) || 0;
+        const spent = parseInt(values["spell_ledger_xp_spent"], 10) || 0;
+
+        const remaining = primary + secondary + gained - spent;
+
+        setAttrs({
+            spell_xp_remaining: remaining
         });
     });
 });

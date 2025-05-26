@@ -4846,6 +4846,7 @@
 							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_ac" placeholder="60" />
 						</div>
 						<div class="sheet-spell-separator"></div>
+						
 						<div class="sheet-spell-row">
 							<label>Primary Career XP</label>
 							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_primary_career_xp" placeholder="30" />
@@ -5590,6 +5591,10 @@
 						<input class="sheet-attr-input-small sheet-skill-base" type="text" name="attr_primary_career_skill_points" />
 					</div>
 					<div class="sheet-ledger-row">
+						<label>Sec. Career Skill -> XP</label>
+						<input class="sheet-attr-input-small sheet-skill-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_lost" />
+					</div>
+					<div class="sheet-ledger-row">
 						<label>Personal Skill Points</label>
 						<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_personal_skill_points" />
 					</div>
@@ -5689,6 +5694,7 @@
 							<select class="sheet-selection-full" name="attr_ledger_choice">
 								<option value="0" selected>-- Choose XP Option --</option>
 								<option value="xp_gained">XP Gained</option>
+								<option value="skill_xp">Car. Sec. Skill -> XP</option>
 								<option value="xp_skill">XP -> Skill</option>
 								<option value="xp_spells">XP -> Spells</option>
 								<option value="xp_credits">XP -> Credits</option>
@@ -13537,7 +13543,7 @@ function registerStatHandler() {
             const update = {};
 			
 			if ( ichar_lock === 0 ) {
-				update["personal_skill_points"] = iint;
+				update["personal_skill_points"] = iint * 2;
 			}
 
 			update["vitality_max"]= ipow;
@@ -13851,19 +13857,20 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain", function () {
+on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain change:xpledger_skill_point_lost", function () {
     getAttrs([
         "primary_career_skill_points",
         "personal_skill_points",
         "total_skill_points_spent",
-        "xpledger_skill_point_gain"
+        "xpledger_skill_point_gain",
+		"xpledger_skill_point_lost"
     ], function (values) {
         const primary = parseInt(values.primary_career_skill_points, 10) || 0;
         const personal = parseInt(values.personal_skill_points, 10) || 0;
         const spent = parseInt(values.total_skill_points_spent, 10) || 0;
         const ledgerGain = parseInt(values.xpledger_skill_point_gain, 10) || 0;
-
-        const remaining = primary + personal + ledgerGain - spent;
+		const ledgerLost = parseInt(values.xpledger_skill_point_lost, 10) || 0;
+        const remaining = primary + personal + ledgerGain - ledgerLost - spent;
 
         setAttrs({
             total_skill_points_remain: remaining
@@ -13923,6 +13930,7 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
         getAttrs(fieldNames, function (values) {
             const aggregates = {
                 xp_gained: 0,
+				skill_xp: 0,
                 xp_skill: 0,
                 xp_spells: 0,
                 xp_credits: 0,
@@ -13945,6 +13953,7 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
 
             const updates = {
                 xpledger_gained_xp: aggregates.xp_gained,
+				xpledger_skill_point_lost: aggregates.skill_xp,
                 xpledger_skill_point_gain: aggregates.xp_skill,
                 xpledger_spells_cost: aggregates.xp_spells,
                 xpledger_credits_cost: aggregates.xp_credits,
@@ -13980,7 +13989,6 @@ on("change:primary_career_xp change:secondary_career_xp change:xpledger_spells_c
         });
     });
 });
-
 
   on('sheet:opened', function () {
 	  if (debug_on_trace) console.log ("[sheet:opened] Translation");

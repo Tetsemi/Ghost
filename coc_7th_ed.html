@@ -12563,7 +12563,7 @@ const careerDataMap = {
 				name: "+5% Stat Boost",
 				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
 				prerequisite: "",
-				prerequisiteAny: { tier: 4, count: 1 }
+				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
 				cost: "30",
 				capstone: true
@@ -12673,7 +12673,7 @@ const careerDataMap = {
 				name: "Memory Spike",
 				description: "Once per session, force a target to recall a vivid traumatic or confusing memory. They must succeed a POW roll or lose their next Maneuver.",
 				prerequisite: "",
-				prerequisiteAny: { tier: 1, count: 1 }
+				prerequisiteAny: { tier: 1, count: 1 },
 				tier: 2,
 				cost: "10",
 				capstone: false
@@ -12729,7 +12729,7 @@ const careerDataMap = {
 			resonant_persona: {
 				name: "Resonant Persona",
 				description: "Once per session, choose a target who previously failed a roll against you. For the rest of the scene, gain a bonus die on all attempts to influence or mislead them.",
-				prerequisite ["veil_laced_words", "echo_implantation"],
+				prerequisite: ["veil_laced_words", "echo_implantation"],
 				tier: 4,
 				cost: "20",
 				capstone: false
@@ -14380,6 +14380,7 @@ const updateTalentEnables = (race) => {
 
     const updates = {};
     const reverseMap = {};
+    const lockFromPrereqAny = {};
 
     for (let [key, data] of Object.entries(raceTalents)) {
       if (Array.isArray(data.prerequisite)) {
@@ -14441,6 +14442,8 @@ const updateTalentEnables = (race) => {
         if (stillChecked(key) && staticReqMet && anyReqMet) {
           for (let src of checked.slice(0, count)) {
             updates[`${race}_${src}_lockflag`] = "1";
+            if (!lockFromPrereqAny[src]) lockFromPrereqAny[src] = new Set();
+            lockFromPrereqAny[src].add(key);
           }
         }
 
@@ -14484,14 +14487,15 @@ const updateTalentEnables = (race) => {
       const skillLock = values[`${race}_${key}_lockflag_skill`] || "0";
       const bgLock = bgSelected === `${race}_${key}` ? "1" : "0";
       const capLock = tier4Checkboxes.includes(`${race}_${key}`) && capstoneLock && values[`${race}_${key}`] !== "1" ? "1" : "0";
+      const anyLock = lockFromPrereqAny[key] && lockFromPrereqAny[key].size > 0 ? "1" : "0";
 
-      const finalLock = [prereqLock, skillLock, bgLock, capLock].includes("1") ? "1" : "0";
+      const finalLock = [prereqLock, skillLock, bgLock, capLock, anyLock].includes("1") ? "1" : "0";
 
       updates[`${race}_${key}_lockflag_prereq`] = prereqLock;
       updates[`${race}_${key}_lockflag`] = finalLock;
 
       if (debug_on) {
-        console.log(`[Lock] ${key} => prereq:${prereqLock}, skill:${skillLock}, background:${bgLock}, capstone:${capLock}`);
+        console.log(`[Lock] ${key} => prereq:${prereqLock}, skill:${skillLock}, background:${bgLock}, capstone:${capLock}, any:${anyLock}`);
       }
     }
 

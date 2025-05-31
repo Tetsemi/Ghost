@@ -16856,7 +16856,7 @@ const registerPrimaryCareerXPWatcher = () => {
                 const skillToXP = parseInt(values["primary_career_skill_to_xp"], 10) || 0;
                 const spellXpTotal = parseInt(values["primary_career_spell_xp_total"], 10) || career.spell_xp_primary;
 
-                let talentXpSpent = 0;
+                let talentXpSpent = -5;
                 for (const [key, talent] of Object.entries(career.talents || {})) {
                     const attrName = `${selectedCareer}_${key}`;
                     if (values[attrName] === "1") {
@@ -17770,7 +17770,7 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 xp_spells: 0,
                 xp_credits: 0,
                 xp_allies: 0,
-                xp_contacts: 0,
+                xp_contacts: -10,
                 xp_reputation: 0,
                 xp_faction: 0,
                 xp_flaws: 0,

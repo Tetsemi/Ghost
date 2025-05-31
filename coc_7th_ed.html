@@ -12997,9 +12997,13 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = true;
-const debug_on_trace = false;
+const debug_on = false;
+const debug_on_trace = true;
 const debug_on_watcher = false;
+
+const registeredRaces = new Set();
+let talentWatchersRegistered = false;
+let backgroundTalentWatchersRegistered = false;
 
 on("sheet:opened", function () {
 	  if (debug_on_trace) console.log ("[sheet:opened] Translation");
@@ -13217,6 +13221,7 @@ const skillMapTable = {
  "Language(Caltheran)": { label: "language_caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" }
 };
 
+// Talent name, description, and prerequisites
 const talentDataMap = {
   alteri: {
     second_skin: {
@@ -14111,6 +14116,8 @@ const talentDataMap = {
   }
 };
 
+// Skills that Talents make available to add skill points.
+// This should be merged with talentDataMap to unify
 const talentSkillMap = {
   alteri: {
     maskwrights_grace: {
@@ -15894,7 +15901,7 @@ const registerTalentSummaryWatcher = () => {
     .flatMap(([race, talents]) =>
       Object.keys(talents).map(talentKey => `change:${race}_${talentKey}`)
     );
-
+	if (debug_on_trace) console.log ("[registerTalentSummaryWatcher] Start");
   on(allChangeEvents.join(" "), function () {
     getAttrs(["showracials"], function (values) {
       const race = values.showracials;
@@ -15924,6 +15931,7 @@ const registerTalentSummaryWatcher = () => {
 };
 
 const registerTalentSkillBonusWatchers = () => {
+  if (debug_on_trace) console.log ("[registerTalentSkillBonusWatchers] Start");
   const races = Object.keys(talentSkillMap);
 
   races.forEach(race => {
@@ -15965,9 +15973,8 @@ const registerTalentSkillBonusWatchers = () => {
   });
 };
 
-const registeredRaces = new Set();
-
 const calculateAndUpdateSkillValues = (racePrefix, values) => {
+  if (debug_on_trace) console.log ("[calculateAndUpdateSkillValues] Start"); 
   const allSkills = Object.values(skillMapTable).map(s => s.label);
   const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
   const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
@@ -16159,9 +16166,8 @@ function setDefaultTalentBonuses(race) {
   return updates;
 }
 
-let talentWatchersRegistered = false;
-
 const registerAllTalentChangeWatchers = () => {
+  if (debug_on_trace) console.log ("[registerAllTalentChangeWatchers] Start"); 
   if (talentWatchersRegistered) return;
   talentWatchersRegistered = true;
 
@@ -16182,9 +16188,8 @@ const registerAllTalentChangeWatchers = () => {
 	});
 };
 
-let backgroundTalentWatchersRegistered = false;
-
 const registerBackgroundTalentWatchers = () => {
+	if (debug_on_trace) console.log ("[registerBackgroundTalentWatchers] Start"); 
   if (backgroundTalentWatchersRegistered) return;
   backgroundTalentWatchersRegistered = true;
 
@@ -16199,6 +16204,7 @@ const registerBackgroundTalentWatchers = () => {
 };
 
 const registerBackgroundTalentWatcher = () => {
+if (debug_on_trace) console.log ("[registerBackgroundTalentWatcher] Start");
   const watchers = Object.keys(talentDataMap)
     .map(race => `change:bg_${race}_talent`);
 
@@ -16216,6 +16222,7 @@ const registerBackgroundTalentWatcher = () => {
 };
 
 const registerXPTrackerWatcher = () => {
+  if (debug_on_trace) console.log ("[registerXPTrackerWatcher] Start");
   const xpWatcherEvents = [
     "change:xp_pool_total_talent",
     "change:showracials",
@@ -16301,6 +16308,7 @@ const registerXPTrackerWatcher = () => {
 
 // === Unified Talent Enable + Lock Enforcement ===
 const updateTalentEnables = (race) => {
+  if (debug_on_trace) console.log ("[updateTalentEnables] Start");
   const raceTalents = talentDataMap[race];
   if (!raceTalents) return;
 
@@ -16473,6 +16481,7 @@ const updateTalentEnables = (race) => {
 };
 
 function applyRacialBaseStats(race) {
+  if (debug_on_trace) console.log ("[applyRacialBaseStats(race)] Start");
   if (!raceDataMap[race] || !raceDataMap[race].stats) {
     if (debug_on) console.log("[applyRacialBaseStats] No stats found for race:", race);
     return;
@@ -16542,6 +16551,7 @@ function handleRaceChange(race) {
 
 on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] New Character check");
+  if (debug_on_trace) console.log ("[sheet:opened] Start");
 
   // 🧠 Always register event watchers early
   registerAllTalentChangeWatchers();
@@ -16582,7 +16592,6 @@ on("sheet:opened", function () {
     });
   });
 });
-
 
 function registerStatHandler() {
 	if (debug_on_trace) console.log ("[registerStatHandler] Start");
@@ -16688,6 +16697,7 @@ function registerStatHandler() {
 
 // === Background Skill Lock Enforcement (5 of 7) ===
 const registerBackgroundSkillLimiter = () => {
+  if (debug_on_trace) console.log ("[registerBackgroundSkillLimiter] Start");
   const getBackgroundSkillAttrs = (race, background) => {
     const bgData = backgroundDataMap[race]?.[background];
     if (!bgData || !Array.isArray(bgData.trained_skills)) return [];
@@ -16759,6 +16769,7 @@ const registerBackgroundSkillLimiter = () => {
 
 // Common parser function
 function parseDamageString(damageString, prefix) {
+  if (debug_on_trace) console.log ("[parseDamageString] Start");
   const updates = {};
 
   const match = damageString.match(/^(\d+)[dD](\d+)([+\-]\d+)?$/);
@@ -16782,9 +16793,9 @@ function parseDamageString(damageString, prefix) {
 }
 
 // ----------------------------------- Careers Secion START -----------------------------------
-
 // === Primary Career XP Calculation ===
 const registerPrimaryCareerXPWatcher = () => {
+  if (debug_on_trace) console.log ("[registerPrimaryCareerXPWatcher] Start");
     const talentChangeEvents = Object.entries(careerDataMap)
         .flatMap(([careerKey, careerData]) =>
             Object.keys(careerData.talents || {}).map(talentKey => `change:${careerKey}_${talentKey}`)
@@ -16878,6 +16889,7 @@ const registerPrimaryCareerXPWatcher = () => {
 
 // === Secondary Career XP Calculation (Live + Accurate) ===
 const registerSecondaryCareerXPWatcher = () => {
+  if (debug_on_trace) console.log ("[registerSecondaryCareerXPWatcher] Start");
     const talentChangeEvents = Object.entries(careerDataMap)
         .flatMap(([careerKey, careerData]) =>
             Object.keys(careerData.talents || {}).map(talentKey => `change:${careerKey}_${talentKey}`)
@@ -16967,6 +16979,7 @@ const registerSecondaryCareerXPWatcher = () => {
 
 Object.keys(careerDataMap).forEach(career => {
     if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
+  if (debug_on_trace) console.log ("[Object.keys(careerDataMap)] Start");
     on(`clicked:${career}`, () => {
 		if (debug_on) console.log ("Object.keys(careerDataMap) Clicked: ", career);
         setAttrs({ selected_career: career });
@@ -16975,6 +16988,7 @@ Object.keys(careerDataMap).forEach(career => {
 
 // === Career Talent Summary Watcher (Static + Repeating) ===
 const registerCareerTalentSummaryWatcher = () => {
+  if (debug_on_trace) console.log ("[registerCareerTalentSummaryWatcher] Start");
   const staticCareerEvents = Object.entries(careerDataMap)
     .flatMap(([career, data]) => Object.keys(data.talents || {}).map(tk => `change:${career}_${tk}`));
 
@@ -17034,6 +17048,7 @@ const registerCareerTalentSummaryWatcher = () => {
 
 // === Unified Career Talent Enable + Lock Enforcement ===
 const updateCareerTalentEnables = (career) => {
+  if (debug_on_trace) console.log ("[updateCareerTalentEnables] Start");
     const careerTalents = careerDataMap[career]?.talents;
     if (!careerTalents) return;
 
@@ -17171,6 +17186,7 @@ const updateCareerTalentEnables = (career) => {
 };
 
 on("clicked:toggle_career_skills", () => {
+  if (debug_on_trace) console.log ("[clicked:toggle_career_skills] Start");
   getAttrs(["show_career_skills"], values => {
     setAttrs({
       show_career_skills: values.show_career_skills === "1" ? "0" : "1"
@@ -17180,6 +17196,7 @@ on("clicked:toggle_career_skills", () => {
 
 // === Career Skill Lock Enforcement ===
 const registerCareerSkillLimiter = () => {
+  if (debug_on_trace) console.log ("[registerCareerSkillLimiter] Start");
   getAttrs(["primary_career"], values => {
     const primaryCareer = values["primary_career"] || "[None]";
     if (debug_on) console.log("[Career Debug] Primary Career:", primaryCareer);
@@ -17282,6 +17299,7 @@ const registerCareerSkillLimiter = () => {
 
 // === Watcher for Primary Career Exclusive Secondary Skills ===
 const registerPrimaryExclusiveSkillWatchers = () => {
+  if (debug_on_trace) console.log ("[registerPrimaryExclusiveSkillWatchers] Start");
   getAttrs(["primary_career"], values => {
     const primaryCareer = values.primary_career;
     const careerData = careerDataMap[primaryCareer];
@@ -17301,6 +17319,7 @@ const registerPrimaryExclusiveSkillWatchers = () => {
 
 // === Dynamic Watcher for Secondary Skill Checkboxes ===
 const registerActiveSecondaryCareerWatchers = () => {
+  if (debug_on_trace) console.log ("[registerActiveSecondaryCareerWatchers] Start");
   const watchEvents = [];
 
   Object.entries(careerDataMap).forEach(([career, data]) => {
@@ -17318,6 +17337,7 @@ const registerActiveSecondaryCareerWatchers = () => {
 };
 
 const updateCareerReadyState = (callback) => {
+  if (debug_on_trace) console.log ("[updateCareerReadyState] Start");
   const allCareers = Object.keys(careerDataMap);
   const output = {};
 
@@ -17362,6 +17382,7 @@ const updateCareerReadyState = (callback) => {
 
 // === Skill Mirror Watcher (deterministic and precise) ===
 const mirrorSkillCheckboxes = () => {
+  if (debug_on_trace) console.log ("[mirrorSkillCheckboxes] Start");
   const skillMap = {};  // skill → [checkbox attr names]
   const skillAttrs = [];
 
@@ -17409,6 +17430,7 @@ const mirrorSkillCheckboxes = () => {
 };
 
 const registerMirrorSkillWatcher = () => {
+  if (debug_on_trace) console.log ("[registerMirrorSkillWatcher] Start");
   const csAttrs = Object.keys(careerDataMap)
     .flatMap(career => {
       const careerSkills = [
@@ -17430,6 +17452,7 @@ const registerMirrorSkillWatcher = () => {
 };
 
 const cleanupInactiveCareers = () => {
+  if (debug_on_trace) console.log ("[cleanupInactiveCareers] Start");
   const readyKeys = Object.keys(careerDataMap).map(c => `${c}_ready`);
   getAttrs(readyKeys, values => {
     const updates = {};
@@ -17460,6 +17483,7 @@ let careerWatcherInitialized = false;
 
 on("clicked:background clicked:careers", () => {
 	if (debug_on) console.log ("[clicked:background clicked:careers] Fired");
+  if (debug_on_trace) console.log ("[clicked:background clicked:careers] Start");
 	if (careerWatcherInitialized) return;
 	careerWatcherInitialized = true;
 
@@ -17507,6 +17531,7 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
      .join(" "), function () {
 
   if (debug_on) console.log("[Career Talent Watcher]");
+    if (debug_on_trace) console.log ("[Career Talent Watcher] Start");
 
   getAttrs(["primary_career"], (values) => {
     const primary = values.primary_career;
@@ -17532,6 +17557,7 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
 
 // Auto-calculate damage components for fixed weapon (weapon1_mdr)
 on("change:weapon1_mdr_damage", function() {
+    if (debug_on_trace) console.log ("[change:weapon1_mdr_damage] Start");
   getAttrs(["weapon1_mdr_damage"], function(values) {
     const damageString = values.weapon1_mdr_damage || "";
     const updates = parseDamageString(damageString, "weapon1_mdr");
@@ -17540,6 +17566,7 @@ on("change:weapon1_mdr_damage", function() {
 });
 
 on("change:weapon1_skill_mdr", function () {
+    if (debug_on_trace) console.log ("[change:weapon1_skill_mdr] Start");
   getAttrs(["weapon1_skill_mdr"], function (v) {
     const referenceString = v.weapon1_skill_mdr; // e.g., "@{melee_weapons_mdr}"
     const actualAttrName = referenceString.match(/@{([^}]+)}/)[1]; // "melee_weapons_mdr"
@@ -17551,6 +17578,7 @@ on("change:weapon1_skill_mdr", function () {
 });
 
 on("change:repeating_weaponsmdr:weaponskill_mdr", function(eventInfo) {
+    if (debug_on_trace) console.log ("[change:repeating_weaponsmdr:weaponskill_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
   const skillAttr = `repeating_weaponsmdr_${repeatingId}_weaponskill_mdr`;
 
@@ -17569,6 +17597,7 @@ on("change:repeating_weaponsmdr:weaponskill_mdr", function(eventInfo) {
 
 // Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
 on("change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
+    if (debug_on_trace) console.log ("[change:repeating_weaponsmdr:weapondamage_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
 
   getAttrs([`repeating_weaponsmdr_${repeatingId}_weapondamage_mdr`], function(values) {
@@ -17579,6 +17608,7 @@ on("change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
 });
 
 on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
+    if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spell_skill_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/)[1];
   const skillAttr = `repeating_spellsmdr_${repeatingId}_spell_skill_mdr`;
 
@@ -17597,6 +17627,7 @@ on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
 
 // Auto-calculate damage components for repeating spells (repeating_spellsmdr) - change only
 on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
+    if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spell_damage_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/)[1];
   getAttrs([`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`], function(values) {
     const damageString = values[`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`] || "";
@@ -17606,6 +17637,7 @@ on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
 });
 
 on("change:repeating_omnidecksmdr:omnideck_skill_mdr", function(eventInfo) {
+    if (debug_on_trace) console.log ("[change:repeating_omnidecksmdr:omnideck_skill_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_omnidecksmdr_([^_]+)_/)[1];
   const skillAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr`;
 
@@ -17624,6 +17656,7 @@ on("change:repeating_omnidecksmdr:omnideck_skill_mdr", function(eventInfo) {
 
 // Auto-calculate damage components for repeating programs (repeating_programsmdr) - change only
 on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
+    if (debug_on_trace) console.log ("[change:repeating_programsmdr:program_damage_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_programsmdr_([^_]+)_/)[1];
   getAttrs([`repeating_programsmdr_${repeatingId}_program_damage_mdr`], function(values) {
     const damageString = values[`repeating_programsmdr_${repeatingId}_program_damage_mdr`] || "";
@@ -17634,6 +17667,7 @@ on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
 });
 
 on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:repeating_ct:show_ct_mod3 change:repeating_ct:show_ct_mod4 change:repeating_ct:show_ct_mod5 change:repeating_ct:show_ct_mod6 change:repeating_ct:show_ct_mod7 change:repeating_ct:show_ct_mod8", function (eventInfo) {
+    if (debug_on_trace) console.log ("[change:repeating_ct:show_ct_mod1] Start");
   const match = eventInfo.sourceAttribute.match(/repeating_ct_([^_]+)_(show_ct_mod[0-9]+)/);
   if (!match) return;
 
@@ -17651,6 +17685,7 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
 });
 
 on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain change:xpledger_skill_point_lost", function () {
+    if (debug_on_trace) console.log ("[change:primary_career_skill_points] Start");
     getAttrs([
         "primary_career_skill_points",
         "personal_skill_points",
@@ -17673,6 +17708,7 @@ on("change:primary_career_skill_points change:personal_skill_points change:total
 
 // === XP Remaining Calculation ===
 on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost", function () {
+    if (debug_on_trace) console.log ("[change:background_xp] Start");
     getAttrs([
         "background_xp",
         "xpledger_gained_xp",
@@ -17714,6 +17750,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
 
 // === Repeating Ledger XP Category Aggregator ===
 on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value remove:repeating_ledger", function () {
+    if (debug_on_trace) console.log ("[change:repeating_ledger:ledger_choice] Start");
     getSectionIDs("repeating_ledger", function (ids) {
         const fieldNames = ids.flatMap(id => [
             `repeating_ledger_${id}_ledger_choice`,
@@ -17764,6 +17801,7 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
 
 // === Spell XP Remaining Calculation ===
 on("change:primary_career_xp change:secondary_career_xp change:xpledger_spells_cost change:spell_ledger_xp_spent", function () {
+    if (debug_on_trace) console.log ("[change:primary_career_xp");
     getAttrs([
         "primary_career_xp",
         "secondary_career_xp",

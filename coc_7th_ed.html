@@ -6833,11 +6833,11 @@
 						
 						<div class="sheet-spell-row">
 							<label>Primary Career XP</label>
-							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_primary_career_xp" placeholder="30" />
+							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_primary_career_spell_xp_total" placeholder="30" />
 						</div>
 						<div class="sheet-spell-row">
 							<label>Secondary Career XP</label>
-							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_secondary_career_xp" placeholder="0" />
+							<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_secondary_career_spell_xp_total" placeholder="0" />
 						</div>
 						<div class="sheet-spell-row">
 							<label>XP -> Spells</label>
@@ -16549,6 +16549,7 @@ function handleRaceChange(race) {
   registerXPTrackerWatcher();
 }
 
+
 on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] New Character check");
   if (debug_on_trace) console.log ("[sheet:opened] Start");
@@ -16572,6 +16573,7 @@ on("sheet:opened", function () {
         updates[`${label}_note`] = notes || "";
       });
       updates.new_character_flag = "0";
+	  populateCareerTalentDescriptions();
 
       if (debug_on) console.log("[New Character Skill Init]", updates);
     }
@@ -16985,6 +16987,17 @@ Object.keys(careerDataMap).forEach(career => {
         setAttrs({ selected_career: career });
     });
 });
+
+const populateCareerTalentDescriptions = () => {
+  const updates = {};
+  Object.entries(careerDataMap).forEach(([career, data]) => {
+    Object.entries(data.talents || {}).forEach(([key, talent]) => {
+      updates[`${career}_${key}_label`] = talent.name;
+      updates[`${career}_${key}_description`] = talent.description;
+    });
+  });
+  setAttrs(updates);
+};
 
 // === Career Talent Summary Watcher (Static + Repeating) ===
 const registerCareerTalentSummaryWatcher = () => {
@@ -17487,17 +17500,9 @@ on("clicked:background clicked:careers", () => {
 	if (careerWatcherInitialized) return;
 	careerWatcherInitialized = true;
 
-	const updates = {};
-	  
-    // Populate talent labels/descriptions
-    Object.entries(careerDataMap).forEach(([career, data]) => {
-      Object.entries(data.talents || {}).forEach(([key, talent]) => {
-        updates[`${career}_${key}_label`] = talent.name;
-        updates[`${career}_${key}_description`] = talent.description;
-      });
-    });
-
-	setAttrs(updates, () => {
+	populateCareerTalentDescriptions();
+	
+	setAttrs({}, () => {
 		registerCareerTalentSummaryWatcher();
 		registerPrimaryCareerXPWatcher();
 		registerSecondaryCareerXPWatcher();
@@ -17800,16 +17805,16 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
 });
 
 // === Spell XP Remaining Calculation ===
-on("change:primary_career_xp change:secondary_career_xp change:xpledger_spells_cost change:spell_ledger_xp_spent", function () {
-    if (debug_on_trace) console.log ("[change:primary_career_xp");
+on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:spell_ledger_xp_spent", function () {
+    if (debug_on_trace) console.log ("[change:primary_career_spell_xp_total");
     getAttrs([
-        "primary_career_xp",
-        "secondary_career_xp",
+        "primary_career_spell_xp_total",
+        "secondary_career_spell_xp_total",
         "xpledger_spells_cost",
         "spell_ledger_xp_spent"
     ], function (values) {
-        const primary = parseInt(values["primary_career_xp"], 10) || 0;
-        const secondary = parseInt(values["secondary_career_xp"], 10) || 0;
+        const primary = parseInt(values["primary_career_spell_xp_total"], 10) || 0;
+        const secondary = parseInt(values["secondary_career_spell_xp_total"], 10) || 0;
         const gained = parseInt(values["xpledger_spells_cost"], 10) || 0;
         const spent = parseInt(values["spell_ledger_xp_spent"], 10) || 0;
 

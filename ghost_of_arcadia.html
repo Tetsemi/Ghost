@@ -13010,7 +13010,7 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
+const debug_on = true;
 const debug_on_trace = false;
 const debug_on_watcher = false;
 
@@ -15906,6 +15906,7 @@ on("change:showracials", () => {
     if (raceTalents) {
       updateTalentEnables(race);
     }
+	
   });
 });
 
@@ -16822,8 +16823,9 @@ const registerPrimaryCareerXPWatcher = () => {
         "change:primary_career_spell_xp_total",
         "change:str", "change:dex", "change:pow", "change:con",
         "change:app", "change:edu", "change:siz", "change:int", "change:mag",
-		"change:char_creation_lock"
-    ];
+		"change:char_creation_lock",
+		"change:showracials"
+		];
 
     const allEvents = [...talentChangeEvents, ...otherTriggers];
 
@@ -16843,13 +16845,15 @@ const registerPrimaryCareerXPWatcher = () => {
                 "primary_career_skill_to_xp",
                 "primary_career_spell_xp_total",
                 "secondary_career_xp_total",
-				"char_creation_lock"
+				"char_creation_lock",
+				"showracials"
             ];
 
             getAttrs(allKeysToGet, function (values) {
 
 				const ichar_lock = parseInt(values.char_creation_lock) || 0;
 				console.log (`Character lock: ${ichar_lock}`);
+				const race = values.showracials || "";
 
 					const statLookup = {};
 					for (const stat of statKeys) {
@@ -16865,6 +16869,11 @@ const registerPrimaryCareerXPWatcher = () => {
 							baseSkillPoints += (statLookup[attr] || 0) * multiplier;
 						}
 					}
+					
+				if (race === "human") {
+					baseSkillPoints += 20;
+					if (debug_on) console.log("[Primary Career] +20 Human racial bonus applied to skill points");
+				}
 
                 const skillToXP = parseInt(values["primary_career_skill_to_xp"], 10) || 0;
                 const spellXpTotal = parseInt(values["primary_career_spell_xp_total"], 10) || career.spell_xp_primary;
@@ -17381,7 +17390,7 @@ const updateCareerReadyState = (callback) => {
 
     getSectionIDs("repeating_secondarycareer", ids => {
       if (ids.length === 0) {
-        console.log("[updateCareerReadyState] Final Output:", output);
+        if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
         setAttrs(output);
         return;
       }

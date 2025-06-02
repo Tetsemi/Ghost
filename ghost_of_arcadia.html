@@ -7593,7 +7593,11 @@
 					<div class="sheet-ledger-row">
 						<label>XP->Skill Points (Roll) Total</label>
 						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_xpledger_skill_point_roll_gain_skill" />
-					</div>					
+					</div>
+					<div class="sheet-ledger-row">
+						<label>Perk -> Linguist</label>
+						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_perk_linguist" />
+					</div>						
 					<div class="sheet-ledger-row">
 						<label>Skill Points Remaining</label>
 						<input class="sheet-attr-input-small sheet-skill-remain sheet-readonly" type="text" name="attr_total_skill_points_remain" />
@@ -7698,6 +7702,7 @@
 								<option value="xp_faction">XP -> Faction</option>
 								<option value="xp_flaws">XP -> Flaws</option>
 								<option value="xp_perks">XP -> Perks</option>
+								<option value="perk_linguist">Perk -> Linguist</option>
 							</select>
 						</div>
 						<div class="flex-cell ledger-value">
@@ -17711,7 +17716,7 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain_skill change:xpledger_skill_point_lost", function () {
+on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain_skill change:xpledger_skill_point_lost change:perk_linguist", function () {
     if (debug_on_trace) console.log ("[change:primary_career_skill_points] Start");
     getAttrs([
         "primary_career_skill_points",
@@ -17719,7 +17724,8 @@ on("change:primary_career_skill_points change:personal_skill_points change:total
         "total_skill_points_spent",
         "xpledger_skill_point_gain",
 		"xpledger_skill_point_roll_gain_skill",
-		"xpledger_skill_point_lost"
+		"xpledger_skill_point_lost",
+		"perk_linguist"
     ], function (values) {
         const primary = parseInt(values.primary_career_skill_points, 10) || 0;
         const personal = parseInt(values.personal_skill_points, 10) || 0;
@@ -17727,8 +17733,9 @@ on("change:primary_career_skill_points change:personal_skill_points change:total
         const ledgerGain = parseInt(values.xpledger_skill_point_gain, 10) || 0;
 		const ledgerGainRoll = parseInt(values.xpledger_skill_point_roll_gain_skill, 10) || 0;
 		const ledgerLost = parseInt(values.xpledger_skill_point_lost, 10) || 0;
+		const perk_linguist = parseInt(values.perk_linguist, 10) || 0;
 		
-        const remaining = primary + personal + ledgerGain + ledgerGainRoll - ledgerLost - spent;
+        const remaining = primary + personal + ledgerGain + ledgerGainRoll - ledgerLost - spent + perk_linguist;
 
         setAttrs({
             total_skill_points_remain: remaining
@@ -17737,7 +17744,7 @@ on("change:primary_career_skill_points change:personal_skill_points change:total
 });
 
 // === XP Remaining Calculation ===
-on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost", function () {
+on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
     if (debug_on_trace) console.log ("[change:background_xp] Start");
     getAttrs([
         "background_xp",
@@ -17753,7 +17760,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         "xpledger_reuptation_cost",
         "xpledger_faction_cost",
         "xpledger_flaws_gain",
-        "xpledger_perks_cost"
+        "xpledger_perks_cost",
     ], function(values) {
         const toInt = v => parseInt(v, 10) || 0;
 
@@ -17805,7 +17812,8 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 xp_reputation: 0,
                 xp_faction: 0,
                 xp_flaws: 0,
-                xp_perks: 0
+                xp_perks: 0,
+				perk_linguist: 0
             };
 
             ids.forEach(id => {
@@ -17819,6 +17827,9 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 if (choice === "xp_skill_roll") {
                     aggregates.xp_skill_roll += val;
                     aggregates.xp_skill_roll_skill += valSkill;
+				} else if (choice === "perk_linguist") {
+					aggregates.xp_perks += val;
+					aggregates.perk_linguist += valSkill;	
                 } else if (aggregates.hasOwnProperty(choice)) {
                     aggregates[choice] += val;
                 }
@@ -17837,7 +17848,8 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 xpledger_reuptation_cost: aggregates.xp_reputation,
                 xpledger_faction_cost: aggregates.xp_faction,
                 xpledger_flaws_gain: aggregates.xp_flaws,
-                xpledger_perks_cost: aggregates.xp_perks
+                xpledger_perks_cost: aggregates.xp_perks,
+				perk_linguist: aggregates.perk_linguist
             };
             setAttrs(updates);
         });

@@ -7591,6 +7591,10 @@
 						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_xpledger_skill_point_gain" />
 					</div>
 					<div class="sheet-ledger-row">
+						<label>XP->Skill Points (Roll) Total</label>
+						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_xpledger_skill_point_roll_gain_skill" />
+					</div>					
+					<div class="sheet-ledger-row">
 						<label>Skill Points Remaining</label>
 						<input class="sheet-attr-input-small sheet-skill-remain sheet-readonly" type="text" name="attr_total_skill_points_remain" />
 					</div>
@@ -7626,11 +7630,15 @@
 						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_gain" />
 					</div>
 					<div class="sheet-ledger-row">
-						<label>XP -> Credits Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_credits_cost" />
-					</div>			
+						<label>XP -> Skill Points (Roll) Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_roll_gain" />
+					</div>		
 				</div>
 				<div class="sheet-ledger-xp">
+					<div class="sheet-ledger-row">
+						<label>XP -> Credits Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_credits_cost" />
+					</div>				
 					<div class="sheet-ledger-row">
 						<label>XP -> Allies Total</label>
 						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_allies_cost" />
@@ -7669,6 +7677,7 @@
 					<div class="sheet-repeating-ledger-row">
 						<div class="flex-cell ledger-choice"><span>Ledger Choice</span></div>
 						<div class="flex-cell ledger-value-header">Value</div>
+						<div class="flex-cell ledger-value-header">SP</div>
 						<div class="flex-cell ledger-description"><span>Ledger Description</span></div>
 					</div>
 				</div>
@@ -7680,6 +7689,7 @@
 								<option value="xp_gained">XP Gained</option>
 								<option value="skill_xp">Car. Sec. Skill -> XP</option>
 								<option value="xp_skill">XP -> Skill</option>
+								<option value="xp_skill_roll">XP -> Skill (Roll)</option>
 								<option value="xp_spells">XP -> Spells</option>
 								<option value="xp_credits">XP -> Credits</option>
 								<option value="xp_allies">XP -> Allies</option>
@@ -7692,6 +7702,9 @@
 						</div>
 						<div class="flex-cell ledger-value">
 							<input class="sheet-attr-input-small" type="text" name="attr_ledger_choice_value" />
+						</div>
+						<div class="flex-cell ledger-value">
+							<input class="sheet-attr-input-small" type="text" name="attr_ledger_choice_value_skill" />
 						</div>
 						<div class="flex-cell ledger-description">
 							<input class="sheet-attr-input-wide" type="text" name="attr_ledger_choice_description" />
@@ -17689,21 +17702,24 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain change:xpledger_skill_point_lost", function () {
+on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_skill_point_lost", function () {
     if (debug_on_trace) console.log ("[change:primary_career_skill_points] Start");
     getAttrs([
         "primary_career_skill_points",
         "personal_skill_points",
         "total_skill_points_spent",
         "xpledger_skill_point_gain",
+		"xpledger_skill_point_roll_gain_skill",
 		"xpledger_skill_point_lost"
     ], function (values) {
         const primary = parseInt(values.primary_career_skill_points, 10) || 0;
         const personal = parseInt(values.personal_skill_points, 10) || 0;
         const spent = parseInt(values.total_skill_points_spent, 10) || 0;
         const ledgerGain = parseInt(values.xpledger_skill_point_gain, 10) || 0;
+		const ledgerGainRoll = parseInt(values.xpledger_skill_point_roll_gain_skill, 10) || 0;
 		const ledgerLost = parseInt(values.xpledger_skill_point_lost, 10) || 0;
-        const remaining = primary + personal + ledgerGain - ledgerLost - spent;
+		
+        const remaining = primary + personal + ledgerGain + ledgerGainRoll - ledgerLost - spent;
 
         setAttrs({
             total_skill_points_remain: remaining
@@ -17712,7 +17728,7 @@ on("change:primary_career_skill_points change:personal_skill_points change:total
 });
 
 // === XP Remaining Calculation ===
-on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost", function () {
+on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost", function () {
     if (debug_on_trace) console.log ("[change:background_xp] Start");
     getAttrs([
         "background_xp",
@@ -17721,6 +17737,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         "xp_spent_career_talent",
         "xpledger_spells_cost",
         "xpledger_skill_point_gain",
+		"xpledger_skill_point_roll_gain",
         "xpledger_credits_cost",
         "xpledger_allies_cost",
         "xpledger_contacts_cost",
@@ -17737,6 +17754,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         const xpSpentCareerTalent = toInt(values["xp_spent_career_talent"]);
         const spellsCost = toInt(values["xpledger_spells_cost"]);
         const skillPointGain = toInt(values["xpledger_skill_point_gain"]);
+		const skillPointGainRoll = toInt(values["xpledger_skill_point_roll_gain"]);
         const creditsCost = toInt(values["xpledger_credits_cost"]);
         const alliesCost = toInt(values["xpledger_allies_cost"]);
         const contactsCost = toInt(values["xpledger_contacts_cost"]);
@@ -17745,7 +17763,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         const flawsGain = toInt(values["xpledger_flaws_gain"]);
         const perksCost = toInt(values["xpledger_perks_cost"]);
 
-        const xpRemaining = backgroundXP + ledgerGainedXP - xpSpentTalent - xpSpentCareerTalent - spellsCost - skillPointGain - creditsCost - alliesCost - contactsCost - reputationCost - factionCost + flawsGain - perksCost;
+        const xpRemaining = backgroundXP + ledgerGainedXP - xpSpentTalent - xpSpentCareerTalent - spellsCost - skillPointGain - skillPointGainRoll - creditsCost - alliesCost - contactsCost - reputationCost - factionCost + flawsGain - perksCost;
 
         setAttrs({
             xp_remaining: xpRemaining
@@ -17754,19 +17772,23 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
 });
 
 // === Repeating Ledger XP Category Aggregator ===
-on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value remove:repeating_ledger", function () {
-    if (debug_on_trace) console.log ("[change:repeating_ledger:ledger_choice] Start");
+on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {
+    if (debug_on_trace) console.log("[change:repeating_ledger:ledger_choice] Start");
+
     getSectionIDs("repeating_ledger", function (ids) {
         const fieldNames = ids.flatMap(id => [
             `repeating_ledger_${id}_ledger_choice`,
-            `repeating_ledger_${id}_ledger_choice_value`
+            `repeating_ledger_${id}_ledger_choice_value`,
+            `repeating_ledger_${id}_ledger_choice_value_skill`
         ]);
 
         getAttrs(fieldNames, function (values) {
             const aggregates = {
                 xp_gained: 0,
-				skill_xp: 0,
+                skill_xp: 0,
                 xp_skill: 0,
+                xp_skill_roll: 0,
+                xp_skill_roll_skill: 0,
                 xp_spells: 0,
                 xp_credits: 0,
                 xp_allies: 0,
@@ -17779,17 +17801,26 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
 
             ids.forEach(id => {
                 const choice = values[`repeating_ledger_${id}_ledger_choice`];
-                const raw = values[`repeating_ledger_${id}_ledger_choice_value`];
-                const val = parseInt(raw, 10) || 0;
-                if (aggregates.hasOwnProperty(choice)) {
+                const value = values[`repeating_ledger_${id}_ledger_choice_value`];
+                const skillValue = values[`repeating_ledger_${id}_ledger_choice_value_skill`];
+
+                const val = parseInt(value, 10) || 0;
+                const valSkill = parseInt(skillValue, 10) || 0;
+
+                if (choice === "xp_skill_roll") {
+                    aggregates.xp_skill_roll += val;
+                    aggregates.xp_skill_roll_skill += valSkill;
+                } else if (aggregates.hasOwnProperty(choice)) {
                     aggregates[choice] += val;
                 }
             });
 
             const updates = {
                 xpledger_gained_xp: aggregates.xp_gained,
-				xpledger_skill_point_lost: aggregates.skill_xp,
+                xpledger_skill_point_lost: aggregates.skill_xp,
                 xpledger_skill_point_gain: aggregates.xp_skill,
+                xpledger_skill_point_roll_gain: aggregates.xp_skill_roll,
+                xpledger_skill_point_roll_gain_skill: aggregates.xp_skill_roll_skill,
                 xpledger_spells_cost: aggregates.xp_spells,
                 xpledger_credits_cost: aggregates.xp_credits,
                 xpledger_allies_cost: aggregates.xp_allies,
@@ -17803,6 +17834,7 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
         });
     });
 });
+
 
 // === Spell XP Remaining Calculation ===
 on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:spell_ledger_xp_spent", function () {

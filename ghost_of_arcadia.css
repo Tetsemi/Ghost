@@ -157,7 +157,7 @@
 }
 
 /* Small Separator Line Between Attribute Sections */
-.sheet-attr-separator {
+.ui-dialog .tab-content .charsheet .sheet-attr-separator {
   width: 100%;
   height: 1px;
   background-color: #333; /* dark gray/black line to match our theme */
@@ -1367,6 +1367,7 @@ input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .she
   flex-wrap: wrap; /* just in case of narrow widths */
 }
 .ui-dialog .tab-content .charsheet .sheet-bg-skill-row {
+  margin: 4px 0 0 0.25rem;
   display: flex;
   align-items: center;
 }
@@ -2053,6 +2054,384 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 
 /* --------------------- Tabs - New Talent styling - End ----------------------------------------------------- */
 
+/* --------------------- Tabs - Careers - Start ----------------------------------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-career-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(8, 1fr);
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-header {
+  font-weight: bold;
+  background-color: #ccc;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-grid label {
+  font-weight: bold;
+  font-size: 0.85em;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-grid input,
+.ui-dialog .tab-content .charsheet .sheet-career-grid select {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-grid select {
+  width: 100%;
+  margin: 0;
+  padding: 2px 4px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  height: 100%; /* or a fixed height like 23px to match other inputs */	
+}
+
+/* --------------------- Career Tabs (Inside Careers Tab) -------------------------- */
+
+/* Hide all career sub-tabs by default */
+.sheet-career-tabs-container > .sheet-career-tab {
+    display: none;
+}
+
+/* Show selected career tab */
+input[name="attr_selected_career"][value="codeweaver"] ~ .sheet-career-tabs-container .sheet-tab-codeweaver,
+input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs-container .sheet-tab-combat_medic,
+input[name="attr_selected_career"][value="mindbender"] ~ .sheet-career-tabs-container .sheet-tab-mindbender,
+input[name="attr_selected_career"][value="sigilbound"] ~ .sheet-career-tabs-container .sheet-tab-sigilbound,
+input[name="attr_selected_career"][value="stormweaver"] ~ .sheet-career-tabs-container .sheet-tab-stormweaver,
+input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs-container .sheet-tab-street_ronin {
+    display: block;
+}
+
+/* Sub-tab button bar inside the Careers tab */
+.ui-dialog .tab-content .charsheet .sheet-career-tabs {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+/* Style each career button */
+.ui-dialog .tab-content .charsheet .sheet-career-tabs button {
+    flex: 1;
+    background-color: #666;
+    color: white;
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 4px 0;
+    font-size: 85%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Highlight selected sub-tab */
+input[name="attr_selected_career"][value="codeweaver"] ~ .sheet-career-tabs button[name="act_codeweaver"],
+input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs button[name="act_combat_medic"],
+input[name="attr_selected_career"][value="mindbender"] ~ .sheet-career-tabs button[name="act_mindbender"],
+input[name="attr_selected_career"][value="sigilbound"] ~ .sheet-career-tabs button[name="act_sigilbound"],
+input[name="attr_selected_career"][value="stormweaver"] ~ .sheet-career-tabs button[name="act_stormweaver"],
+input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs button[name="act_street_ronin"] {
+    background-color: #333;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-header,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-header {
+  font-size: 100%;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_primary_career_talent_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_secondary_career_talent_summary"] {
+  display: block;
+  white-space: pre-wrap;
+  color: #ddd;
+  font-size: 100%;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-wrapper,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-wrapper {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-title,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-title {
+  font-weight: bold;
+  font-size: 100%;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  margin-bottom: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-body,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-row,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-row {
+  display: grid;
+  grid-template-columns: 2.5rem 200px 1fr; /* Tier / Name / Description */
+  align-items: start;
+  column-gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-tier,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-tier {
+  color: #aaa;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-name,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-name {
+  font-weight: bold;
+  color: #eee;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-desc,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-desc {
+  color: #aaa;
+  font-size: 100%;
+  white-space: normal;
+}
+
+/* Disable checkbox interaction if _enabled=0 or _lockflag=1 */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox {
+  pointer-events: none;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Grey out label and description if locked or disabled */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description {
+  opacity: 0.5;
+}
+
+/* Tier 5 capstone visual fade (optional match for career Tier 5) */
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier5-checkbox ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier5-checkbox ~ .sheet-career-talent-description {
+  opacity: 0.5;
+}
+
+/* Talent Tier Container */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-tier {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: #151515;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+/* Header for Talent Tier */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-tier-header {
+  font-size: 100%;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.25rem;
+}
+
+/* Header row styles */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-header-row {
+  display: grid;
+  grid-template-columns:  30px 1fr 2fr 40px;
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid black;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+/* Data rows */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-row {
+  display: grid;
+  grid-template-columns: 28px 200px 1fr;
+  gap: 0.5rem;
+  align-items: start;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-talent-label {
+  font-weight: bold;
+  font-size: 100%;
+  color: #eee;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-talent-description {
+  font-size: 110%;
+  color: #aaa;
+  white-space: normal;
+}
+
+/* Skill Columns Layout */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-columns {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+/* Each Column */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border: 1px solid black;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-skill-header {
+	padding: 0px 0px 0px 2px;
+}
+
+/* Wrapper for each skill (checkbox + label) */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Optional: Match checkbox and label spacing */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-wrapper input[type="checkbox"] {
+  margin-left: 4px;
+}
+
+/* Optional: Label styling */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-wrapper label {
+  font-size: 90%;
+  color: black;
+}
+
+/* Lock behavior (already defined in your CSS) remains unchanged */
+
+
+
+.ui-dialog .tab-content .charsheet .sheet-career-skill-block {
+  display: none;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] ~ .sheet-career-skill-block {
+  display: block;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] ~ .sheet-career-tabs button[name="act_toggle_career_skills"] {
+    background-color: #333;
+}
+
+/* Locking career skill checkboxes using *_lock hidden inputs */
+.ui-dialog .tab-content .charsheet input[type="checkbox"][name$="_mdr_checkbox"] {
+  pointer-events: auto;
+}
+
+.ui-dialog .tab-content .charsheet input[type="checkbox"][name$="_mdr_checkbox"] + label {
+  cursor: pointer;
+}
+
+/* Locked state: when corresponding lock input is set to "1" */
+.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_mdr_checkbox_lock"][value="1"]
+  + input[type="checkbox"][name$="_mdr_checkbox"] {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_mdr_checkbox_lock"][value="1"]  + input[type="checkbox"][name$="_mdr_checkbox"] + label {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === SHOW overlay when career is NOT active === */
+.ui-dialog .tab-content .charsheet .sheet-career-tab {
+  position: relative;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="0"] 
+~ .sheet-career-locked-overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  z-index: 10;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="0"] ~ .sheet-career-interactive-block {
+  pointer-events: none;
+  opacity: 0.4;
+  filter: grayscale(80%);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="1"] ~ .sheet-career-interactive-block {
+  pointer-events: auto;
+  opacity: 1;
+  filter: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-codeweaver input[name="attr_codeweaver_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-combat_medic input[name="attr_combat_medic_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-mindbender input[name="attr_mindbender_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-sigilbound input[name="attr_sigilbound_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-stormweaver input[name="attr_stormweaver_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-street_ronin input[name="attr_street_ronin_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+
+/* --------------------- Tabs - Careers - End ----------------------------------------------------- */
+
 /* ------------------------------- */
 /* Main tab content block for Combat */
 /* ------------------------------- */
@@ -2146,7 +2525,8 @@ fieldset.repeating_programsmdr {
 .sheet-armor-block .flex-row,
 .sheet-spell-block .flex-row,
 .sheet-omnideck-block .flex-row,
-.sheet-program-block .flex-row {
+.sheet-program-block .flex-row,
+.repeating_spellsmdr .flex-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -2202,15 +2582,23 @@ fieldset.repeating_programsmdr {
 .armor-traits { flex: 1.5 1 24%; }
 
 /* Flex Widths */
-.spell-name { flex: 2 1 28%; }
+.spell-name { flex: 2 1 30%; }
 .spell-prepared { flex: 0 0 24px; }
+.spell-skill { flex: 1.5 1 20%; }
+.spell-skill-display { flex: 1 1 10%; }
 .spell-roll { flex: 0 0 24px; }
-.spell-skill { flex: 1.5 1 14%; }
-.spell-skill-display { flex: 1 1 6%; }
-.spell-damage { flex: 1 1 7%; }
-.spell-concentration { flex: 1 1 7%; }
-.spell-range, .spell-attacks, .spell-element { flex: 1 1 8%; }
-.spell-strain, .spell-contested { flex: 0.8 1 6%; }
+.spell-type { flex: 1 1 10%; }
+.spell-contested { flex: 1 1 10%; }
+.spell-damage { flex: 1 1 10%; }
+.spell-strain { flex: 1 1 10%; }
+
+.spell-xp-cost { flex: 1 1 7%; }
+.spell-rarity { flex: 1 1 7%; }
+.spell-ac-cost { flex: 1 1 7%; }
+.spell-range { flex: 1 1 7%; }
+.spell-cast-time { flex: 1 1 7%; }
+.spell-duration { flex: 1 1 7%; }
+.spell-element { flex: 1 1 7%; }
 
 /* Flex Widths */
 .omnideck-name { flex: 2 1 28%; }
@@ -2372,50 +2760,117 @@ button[type="roll"]:hover.new-roll {
 
 
 /* ------------------------------- Spells ----------------------- */
-
-/* ---------- Layout ---------- */
-.sheet-spell-tracker-wrapper {
-  display: flex;
-  align-items: stretch;
-  gap: 10px;
-  margin: 0 0 10px 0;
-}
-
-.sheet-spell-tracker {
-  display: flex;
-  flex-direction: row;
-  gap: 6px;
-  background-color: #d0cabe;
-  box-shadow: 0 0 2px rgba(0,0,0,0.4);
-  padding: 4px;
-  border: 1px solid black;
-}
-
-.sheet-spell-tracker-header {
-  background: linear-gradient(to bottom, #2f2f2f, #1a1a1a);
-  color: white;
-  text-align: center;
-  font-weight: bold;
-  padding: 4px 8px;
-  font-size: 90%;
-  border-bottom: 1px solid black;
-}
-
-.sheet-spell-tracker-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  gap: 0px;
-}
-
-.sheet-spell-tracker > div {
+/* Container for all repeating entries */
+.ui-dialog .tab-content .charsheet .sheet-spells .repcontainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
-  border: 2px solid black;
+  width: 100%;
+  gap: 0;
 }
+
+/* Each repeated entry */
+.ui-dialog .tab-content .charsheet .sheet-spells .repitem {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* === Spell Tracker Layout === */
+.ui-dialog .tab-content .charsheet .sheet-spell-tracker-grid-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  justify-content: flex-start;
+  align-items: flex-end; /* This aligns child items (input blocks) to bottom */
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+  border: 1px solid black;
+  padding: 4px;
+}
+
+
+.ui-dialog .tab-content .charsheet .sheet-spell-tracker-grid-row .sheet-spell-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 80px; /* Adjust width as needed */
+  gap: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spell-row input[type="text"] {
+	width: 100%;
+	max-width: 100%;
+	text-align: center;
+	font-size: 100%;
+	padding: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spell-row .sheet-strain-max,
+.ui-dialog .tab-content .charsheet .sheet-spell-row .sheet-spell-capacity {
+	background: #d4ecf9;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spell-row label {
+	font-size: 100%;
+	color: black;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spell-separator {
+  width: 1px;
+  height: auto; /* or a fixed height like 100% if needed */
+  background-color: #333; /* separator color */
+  margin: 0 6px; /* horizontal spacing around the line */
+  align-self: stretch; /* ensures it fills the height of the parent */
+}
+
+
+
+/* === Rest Buttons Row === */
+.ui-dialog .tab-content .charsheet .sheet-strain-buttons-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 5px;
+  padding: 4px;
+}
+
+
+/* === Optional Styling for Buttons === */
+.ui-dialog .tab-content .charsheet .sheet-rest-button-wrapper,
+.ui-dialog .tab-content .charsheet .sheet-roll-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Default input style */
+.ui-dialog .tab-content .charsheet .sheet-prep-cost-input {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Base style for the overflow-sensitive input */
+.ui-dialog .tab-content .charsheet .sheet-overflow-sensitive {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+/* Overflow warning */
+.ui-dialog .tab-content .charsheet input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
+  background-color: red;
+  color: yellow;
+}
+
+
+/* ---------- Layout ---------- */
 
 .sheet-roll-wrapper,
 .sheet-rest-button-wrapper {
@@ -2463,19 +2918,6 @@ button[type="roll"]:hover.new-roll {
   box-sizing: border-box;
 }
 
-.slash-divider {
-  font-weight: bold;
-  font-size: 150%;
-  color: black;
-}
-
-.sheet-strain-buttons {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 6px;
-}
-
 .sheet-strain-buttons .sheet-tab-button {
   padding: 4px 6px;
   font-size: 90%;
@@ -2488,7 +2930,6 @@ button[type="roll"]:hover.new-roll {
   cursor: pointer;
   width: 100px;
 }
-
 
 .sheet-spell-row-wrapper {
   display: flex;
@@ -2585,23 +3026,173 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   color: #00ff00;
 }
 
-/* Default input style */
-.sheet-prep-cost-input {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
+/* --------------- Spell Input Section (Repeating) ------------------ */
+/* === Main spell block container === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px;
+  margin-bottom: 4px;
+  border: 1px solid #666;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-sizing: border-box;
 }
 
-/* Base style for the overflow-sensitive input */
-.sheet-overflow-sensitive {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
+.ui-dialog .tab-content .charsheet .sheet-spellblock-advanced {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 4px;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-sizing: border-box;
 }
 
-/* Overflow warning */
-input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
-  background-color: red;
-  color: yellow;
+/* === Field wrapper (general) === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  flex-basis: 60px;
+  min-width: 0;
+  gap: 2px;
+  box-sizing: border-box;
 }
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-element {
+	 flex-basis: 65px;
+}
+
+/* === Spell Name Field === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-name {
+  flex-basis: 240px;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-name input[type="text"] {
+  width: 100%;
+}
+
+/* === Label (default) === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row label {
+  font-size: 85%;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Prepared checkbox: shrink label and center checkbox === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared {
+  flex-basis: 20px;
+  align-items: center;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared label {
+  font-size: 70%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  align-self: center;
+}
+
+/* === Input & select shared style === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row input[type="text"],
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row select {
+  height: 24px;
+  font-size: 90%;
+  text-align: center;
+  background-color: rgba(255,255,255,0.9);
+  color: black;
+  border: 1px solid #888;
+  padding: 2px 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-skill {
+  flex-basis: 120px; /* or whatever width you prefer */
+}
+
+/* === Skill Val + Button === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.sheet-val-roll-wrapper {
+  position: relative;
+  flex-basis: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* ← ensures input and button fill the full area */
+  justify-content: flex-start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.sheet-val-roll-wrapper button.new-roll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* ← covers entire wrapper now */
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+
+
+/* === Description: Full row, not inline === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.full-width {
+  width: 100%;
+  flex-basis: 100%;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.full-width label {
+  margin-bottom: 2px;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.full-width textarea {
+  width: 100%;
+  height: 35px;
+  font-size: 90%;
+  background-color: rgba(255,255,255,0.9);
+  border: 1px solid #888;
+  padding: 4px;
+  resize: vertical;
+  color: black;
+  box-sizing: border-box;
+}
+
+/* Hide by default */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-advanced {
+  display: none;
+}
+
+/* Show if value = 1 */
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_spell_advanced"][value="1"] ~ .sheet-spellblock-advanced {
+  display: flex; /* or block, depending on layout */
+  flex-wrap: wrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-toggle-button {
+  font-size: 14px;
+  height: 24px;
+  width: 24px;
+  padding: 0;
+  background: #444;
+  color: white;
+  border: 1px solid #222;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.sheet-toggle-wrapper {
+  flex-basis: 28px;
+  align-self: center; /* ← vertically align the entire row to bottom */
+  padding: 0;
+  margin-top: 6px; 
+}
+
 
 /* ----------------- Gear and Inventory ---------------------- */
 
@@ -3181,35 +3772,84 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 
 .sheet-companions .sheet-companion-weapon-header {
   font-weight: bold;
+  font-size: 120%;
   margin-bottom: 2px;
   padding-left: 4px;
   color: black;
 }
 
 /* Each weapon row is side-by-side */
-.sheet-companions .sheet-npc-content-right .sheet-npc-row {
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 0px;
+  gap: 4px;
+  flex-wrap: wrap; /* Optional if items wrap on small screens */
 }
+
+.ui-dialog .tab-content .charsheet .sheet-npc-val input,
+.ui-dialog .tab-content .charsheet .sheet-npc-val button {
+  margin: 0;
+}
+
+/* Header spans — explicit widths matching their inputs/buttons */
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-name {
+  width: 170px;
+  height: 24px;
+  color: black;
+  font-size: 100%;
+}
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-dmg,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-maxdmg,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-malf,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-strain {
+  width: 50px;
+  height: 24px;
+  color: black;
+  font-size: 100%;
+}
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-noimproll,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-improll {
+  height: 24px;
+  width: 24px;
+  color: black;
+  font-size: 80%;
+}
+.ui-dialog .tab-content .charsheet .sheet-npc-row .smallbutton-roll {
+  height: 24px;
+  width: 24px;
+  color: black;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-col {
+  width: 60px;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-col:first-child {
+  width: 170px;
+}
+
+/* Optional: style inputs/buttons/spans inside */
+.ui-dialog .tab-content .charsheet .sheet-col input,
+.ui-dialog .tab-content .charsheet .sheet-col button,
+.ui-dialog .tab-content .charsheet .sheet-col span {
+  width: 100%;
+  height: 24px;
+}
+
 
 /* Inputs in weapons section */
 .sheet-companions .sheet-npc-content-right input.sheet-wide-input {
   width: 100%;
   max-width: 170px;
+  height: 24px;
 }
 
 .sheet-companions .sheet-npc-content-right input.sheet-narrow-input {
   width: 60px;
+  height: 24px;
 }
-
-.sheet-companions .sheet-npc-content-right .smallbutton-roll {
-  height: 20px;
-  font-size: 85%;
-  padding: 0 4px;
-}
-
 
 .sheet-companions .sheet-npc-content-right .sheet-wide-input {
   max-width: 48%;
@@ -3235,6 +3875,15 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 .sheet-toggle-social-mode-on-penalty {
   display: inline-block;
 }
+
+.sheet-initdexnpc-wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
 
 
 
@@ -3354,6 +4003,7 @@ input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 	display: flex;
 	flex-direction: row;
 	justify-content: start;
+	align-items: flex-end;
 	gap: 8px;
 	padding: 4px 0;
 }

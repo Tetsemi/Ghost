@@ -1367,6 +1367,7 @@ input[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .she
   flex-wrap: wrap; /* just in case of narrow widths */
 }
 .ui-dialog .tab-content .charsheet .sheet-bg-skill-row {
+  margin: 4px 0 0 0.25rem;
   display: flex;
   align-items: center;
 }
@@ -2052,6 +2053,384 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 }
 
 /* --------------------- Tabs - New Talent styling - End ----------------------------------------------------- */
+
+/* --------------------- Tabs - Careers - Start ----------------------------------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-career-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(8, 1fr);
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-header {
+  font-weight: bold;
+  background-color: #ccc;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-grid label {
+  font-weight: bold;
+  font-size: 0.85em;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-grid input,
+.ui-dialog .tab-content .charsheet .sheet-career-grid select {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-grid select {
+  width: 100%;
+  margin: 0;
+  padding: 2px 4px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  height: 100%; /* or a fixed height like 23px to match other inputs */	
+}
+
+/* --------------------- Career Tabs (Inside Careers Tab) -------------------------- */
+
+/* Hide all career sub-tabs by default */
+.sheet-career-tabs-container > .sheet-career-tab {
+    display: none;
+}
+
+/* Show selected career tab */
+input[name="attr_selected_career"][value="codeweaver"] ~ .sheet-career-tabs-container .sheet-tab-codeweaver,
+input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs-container .sheet-tab-combat_medic,
+input[name="attr_selected_career"][value="mindbender"] ~ .sheet-career-tabs-container .sheet-tab-mindbender,
+input[name="attr_selected_career"][value="sigilbound"] ~ .sheet-career-tabs-container .sheet-tab-sigilbound,
+input[name="attr_selected_career"][value="stormweaver"] ~ .sheet-career-tabs-container .sheet-tab-stormweaver,
+input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs-container .sheet-tab-street_ronin {
+    display: block;
+}
+
+/* Sub-tab button bar inside the Careers tab */
+.ui-dialog .tab-content .charsheet .sheet-career-tabs {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+/* Style each career button */
+.ui-dialog .tab-content .charsheet .sheet-career-tabs button {
+    flex: 1;
+    background-color: #666;
+    color: white;
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 4px 0;
+    font-size: 85%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Highlight selected sub-tab */
+input[name="attr_selected_career"][value="codeweaver"] ~ .sheet-career-tabs button[name="act_codeweaver"],
+input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs button[name="act_combat_medic"],
+input[name="attr_selected_career"][value="mindbender"] ~ .sheet-career-tabs button[name="act_mindbender"],
+input[name="attr_selected_career"][value="sigilbound"] ~ .sheet-career-tabs button[name="act_sigilbound"],
+input[name="attr_selected_career"][value="stormweaver"] ~ .sheet-career-tabs button[name="act_stormweaver"],
+input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs button[name="act_street_ronin"] {
+    background-color: #333;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-header,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-header {
+  font-size: 100%;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_primary_career_talent_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_secondary_career_talent_summary"] {
+  display: block;
+  white-space: pre-wrap;
+  color: #ddd;
+  font-size: 100%;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-wrapper,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-wrapper {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-title,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-title {
+  font-weight: bold;
+  font-size: 100%;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  margin-bottom: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-body,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-row,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-row {
+  display: grid;
+  grid-template-columns: 2.5rem 200px 1fr; /* Tier / Name / Description */
+  align-items: start;
+  column-gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-tier,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-tier {
+  color: #aaa;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-name,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-name {
+  font-weight: bold;
+  color: #eee;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-desc,
+.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-desc {
+  color: #aaa;
+  font-size: 100%;
+  white-space: normal;
+}
+
+/* Disable checkbox interaction if _enabled=0 or _lockflag=1 */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox {
+  pointer-events: none;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Grey out label and description if locked or disabled */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description {
+  opacity: 0.5;
+}
+
+/* Tier 5 capstone visual fade (optional match for career Tier 5) */
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier5-checkbox ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier5-checkbox ~ .sheet-career-talent-description {
+  opacity: 0.5;
+}
+
+/* Talent Tier Container */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-tier {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: #151515;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+/* Header for Talent Tier */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-tier-header {
+  font-size: 100%;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.25rem;
+}
+
+/* Header row styles */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-header-row {
+  display: grid;
+  grid-template-columns:  30px 1fr 2fr 40px;
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid black;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+/* Data rows */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-row {
+  display: grid;
+  grid-template-columns: 28px 200px 1fr;
+  gap: 0.5rem;
+  align-items: start;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-talent-label {
+  font-weight: bold;
+  font-size: 100%;
+  color: #eee;
+  white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-talent-description {
+  font-size: 110%;
+  color: #aaa;
+  white-space: normal;
+}
+
+/* Skill Columns Layout */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-columns {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+/* Each Column */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border: 1px solid black;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-skill-header {
+	padding: 0px 0px 0px 2px;
+}
+
+/* Wrapper for each skill (checkbox + label) */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Optional: Match checkbox and label spacing */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-wrapper input[type="checkbox"] {
+  margin-left: 4px;
+}
+
+/* Optional: Label styling */
+.ui-dialog .tab-content .charsheet .sheet-career-skill-wrapper label {
+  font-size: 90%;
+  color: black;
+}
+
+/* Lock behavior (already defined in your CSS) remains unchanged */
+
+
+
+.ui-dialog .tab-content .charsheet .sheet-career-skill-block {
+  display: none;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] ~ .sheet-career-skill-block {
+  display: block;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] ~ .sheet-career-tabs button[name="act_toggle_career_skills"] {
+    background-color: #333;
+}
+
+/* Locking career skill checkboxes using *_lock hidden inputs */
+.ui-dialog .tab-content .charsheet input[type="checkbox"][name$="_mdr_checkbox"] {
+  pointer-events: auto;
+}
+
+.ui-dialog .tab-content .charsheet input[type="checkbox"][name$="_mdr_checkbox"] + label {
+  cursor: pointer;
+}
+
+/* Locked state: when corresponding lock input is set to "1" */
+.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_mdr_checkbox_lock"][value="1"]
+  + input[type="checkbox"][name$="_mdr_checkbox"] {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_mdr_checkbox_lock"][value="1"]  + input[type="checkbox"][name$="_mdr_checkbox"] + label {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === SHOW overlay when career is NOT active === */
+.ui-dialog .tab-content .charsheet .sheet-career-tab {
+  position: relative;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="0"] 
+~ .sheet-career-locked-overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  z-index: 10;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="0"] ~ .sheet-career-interactive-block {
+  pointer-events: none;
+  opacity: 0.4;
+  filter: grayscale(80%);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="1"] ~ .sheet-career-interactive-block {
+  pointer-events: auto;
+  opacity: 1;
+  filter: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-codeweaver input[name="attr_codeweaver_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-combat_medic input[name="attr_combat_medic_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-mindbender input[name="attr_mindbender_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-sigilbound input[name="attr_sigilbound_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-stormweaver input[name="attr_stormweaver_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-street_ronin input[name="attr_street_ronin_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+
+/* --------------------- Tabs - Careers - End ----------------------------------------------------- */
 
 /* ------------------------------- */
 /* Main tab content block for Combat */
@@ -3199,35 +3578,84 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 
 .sheet-companions .sheet-companion-weapon-header {
   font-weight: bold;
+  font-size: 120%;
   margin-bottom: 2px;
   padding-left: 4px;
   color: black;
 }
 
 /* Each weapon row is side-by-side */
-.sheet-companions .sheet-npc-content-right .sheet-npc-row {
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 0px;
+  gap: 4px;
+  flex-wrap: wrap; /* Optional if items wrap on small screens */
 }
+
+.ui-dialog .tab-content .charsheet .sheet-npc-val input,
+.ui-dialog .tab-content .charsheet .sheet-npc-val button {
+  margin: 0;
+}
+
+/* Header spans — explicit widths matching their inputs/buttons */
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-name {
+  width: 170px;
+  height: 24px;
+  color: black;
+  font-size: 100%;
+}
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-dmg,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-maxdmg,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-malf,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-strain {
+  width: 50px;
+  height: 24px;
+  color: black;
+  font-size: 100%;
+}
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-noimproll,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-improll {
+  height: 24px;
+  width: 24px;
+  color: black;
+  font-size: 80%;
+}
+.ui-dialog .tab-content .charsheet .sheet-npc-row .smallbutton-roll {
+  height: 24px;
+  width: 24px;
+  color: black;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-col {
+  width: 60px;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-col:first-child {
+  width: 170px;
+}
+
+/* Optional: style inputs/buttons/spans inside */
+.ui-dialog .tab-content .charsheet .sheet-col input,
+.ui-dialog .tab-content .charsheet .sheet-col button,
+.ui-dialog .tab-content .charsheet .sheet-col span {
+  width: 100%;
+  height: 24px;
+}
+
 
 /* Inputs in weapons section */
 .sheet-companions .sheet-npc-content-right input.sheet-wide-input {
   width: 100%;
   max-width: 170px;
+  height: 24px;
 }
 
 .sheet-companions .sheet-npc-content-right input.sheet-narrow-input {
   width: 60px;
+  height: 24px;
 }
-
-.sheet-companions .sheet-npc-content-right .smallbutton-roll {
-  height: 20px;
-  font-size: 85%;
-  padding: 0 4px;
-}
-
 
 .sheet-companions .sheet-npc-content-right .sheet-wide-input {
   max-width: 48%;
@@ -3253,6 +3681,15 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .sheet-toggle-social-mode-on-penalty {
   display: inline-block;
 }
+
+.sheet-initdexnpc-wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
 
 
 
@@ -3372,6 +3809,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	display: flex;
 	flex-direction: row;
 	justify-content: start;
+	align-items: flex-end;
 	gap: 8px;
 	padding: 4px 0;
 }

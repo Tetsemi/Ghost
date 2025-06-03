@@ -2525,7 +2525,8 @@ fieldset.repeating_programsmdr {
 .sheet-armor-block .flex-row,
 .sheet-spell-block .flex-row,
 .sheet-omnideck-block .flex-row,
-.sheet-program-block .flex-row {
+.sheet-program-block .flex-row,
+.repeating_spellsmdr .flex-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -2581,15 +2582,23 @@ fieldset.repeating_programsmdr {
 .armor-traits { flex: 1.5 1 24%; }
 
 /* Flex Widths */
-.spell-name { flex: 2 1 28%; }
+.spell-name { flex: 2 1 30%; }
 .spell-prepared { flex: 0 0 24px; }
+.spell-skill { flex: 1.5 1 20%; }
+.spell-skill-display { flex: 1 1 10%; }
 .spell-roll { flex: 0 0 24px; }
-.spell-skill { flex: 1.5 1 14%; }
-.spell-skill-display { flex: 1 1 6%; }
-.spell-damage { flex: 1 1 7%; }
-.spell-concentration { flex: 1 1 7%; }
-.spell-range, .spell-attacks, .spell-element { flex: 1 1 8%; }
-.spell-strain, .spell-contested { flex: 0.8 1 6%; }
+.spell-type { flex: 1 1 10%; }
+.spell-contested { flex: 1 1 10%; }
+.spell-damage { flex: 1 1 10%; }
+.spell-strain { flex: 1 1 10%; }
+
+.spell-xp-cost { flex: 1 1 7%; }
+.spell-rarity { flex: 1 1 7%; }
+.spell-ac-cost { flex: 1 1 7%; }
+.spell-range { flex: 1 1 7%; }
+.spell-cast-time { flex: 1 1 7%; }
+.spell-duration { flex: 1 1 7%; }
+.spell-element { flex: 1 1 7%; }
 
 /* Flex Widths */
 .omnideck-name { flex: 2 1 28%; }
@@ -2751,6 +2760,25 @@ button[type="roll"]:hover.new-roll {
 
 
 /* ------------------------------- Spells ----------------------- */
+/* Container for all repeating entries */
+.ui-dialog .tab-content .charsheet .sheet-spells .repcontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+/* Each repeated entry */
+.ui-dialog .tab-content .charsheet .sheet-spells .repitem {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
 
 /* === Spell Tracker Layout === */
 .ui-dialog .tab-content .charsheet .sheet-spell-tracker-grid-row {

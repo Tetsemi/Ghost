@@ -3026,6 +3026,172 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   color: #00ff00;
 }
 
+/* --------------- Spell Input Section (Repeating) ------------------ */
+/* === Main spell block container === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px;
+  margin-bottom: 4px;
+  border: 1px solid #666;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-advanced {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 4px;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-sizing: border-box;
+}
+
+/* === Field wrapper (general) === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  flex-basis: 60px;
+  min-width: 0;
+  gap: 2px;
+  box-sizing: border-box;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-element {
+	 flex-basis: 65px;
+}
+
+/* === Spell Name Field === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-name {
+  flex-basis: 240px;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-name input[type="text"] {
+  width: 100%;
+}
+
+/* === Label (default) === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row label {
+  font-size: 85%;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Prepared checkbox: shrink label and center checkbox === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared {
+  flex-basis: 20px;
+  align-items: center;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared label {
+  font-size: 70%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  align-self: center;
+}
+
+/* === Input & select shared style === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row input[type="text"],
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row select {
+  height: 24px;
+  font-size: 90%;
+  text-align: center;
+  background-color: rgba(255,255,255,0.9);
+  color: black;
+  border: 1px solid #888;
+  padding: 2px 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-skill {
+  flex-basis: 120px; /* or whatever width you prefer */
+}
+
+/* === Skill Val + Button === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.sheet-val-roll-wrapper {
+  position: relative;
+  flex-basis: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* ← ensures input and button fill the full area */
+  justify-content: flex-start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.sheet-val-roll-wrapper button.new-roll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* ← covers entire wrapper now */
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+
+
+/* === Description: Full row, not inline === */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.full-width {
+  width: 100%;
+  flex-basis: 100%;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.full-width label {
+  margin-bottom: 2px;
+}
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.full-width textarea {
+  width: 100%;
+  height: 35px;
+  font-size: 90%;
+  background-color: rgba(255,255,255,0.9);
+  border: 1px solid #888;
+  padding: 4px;
+  resize: vertical;
+  color: black;
+  box-sizing: border-box;
+}
+
+/* Hide by default */
+.ui-dialog .tab-content .charsheet .sheet-spellblock-advanced {
+  display: none;
+}
+
+/* Show if value = 1 */
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_spell_advanced"][value="1"] ~ .sheet-spellblock-advanced {
+  display: flex; /* or block, depending on layout */
+  flex-wrap: wrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-toggle-button {
+  font-size: 14px;
+  height: 24px;
+  width: 24px;
+  padding: 0;
+  background: #444;
+  color: white;
+  border: 1px solid #222;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.sheet-toggle-wrapper {
+  flex-basis: 28px;
+  align-self: center; /* ← vertically align the entire row to bottom */
+  padding: 0;
+  margin-top: 6px; 
+}
 
 
 /* ----------------- Gear and Inventory ---------------------- */

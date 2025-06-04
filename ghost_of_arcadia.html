@@ -6853,10 +6853,19 @@
 									<option value="@{magic_warding_mdr}" data-i18n="magic_warding-u">Warding</option>
 								</select>
 							</div>
+							<input type="hidden" name="attr_spell_type_mdr" class="sheet-spelltype-mirror" />
 							<div class="sheet-spellblock-row sheet-val-roll-wrapper">
 								<label data-i18n="skill_display-u">Val</label>
 								<input type="text" name="attr_spell_skill_mdr_display" class="sheet-readonly" />
-								<button type="roll" class="new-roll" name="roll_spell_mdr_attack" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr} +0]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
+<!-- Uncontested / Area (Uncontested) -->
+<button type="roll" name="roll_strain" class="sheet-roll-uncontested" value="&{template:coc-dice-roll} {{name=@{spell_name_mdr} - Strain}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{diceroll=[[@{spell_strain_mdr}]]}}" />
+
+<!-- Targeted -->
+<button type="roll" name="roll_spell_mdr_attack_targeted" class="sheet-roll-targeted" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr} +0]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
+
+<!-- Contested / Area (Contested) -->
+<button type="roll" name="roll_spell_mdr_attack_contested" class="sheet-roll-contested" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr} vs. @{spell_contested_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr} +0]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
+
 							</div>
 
 							<!-- Type / Contested / Damage / Strain -->

@@ -3197,6 +3197,31 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   margin-top: 6px; 
 }
 
+/* Hide all buttons by default */
+.ui-dialog .tab-content .charsheet .sheet-roll-uncontested,
+.ui-dialog .tab-content .charsheet .sheet-roll-targeted,
+.ui-dialog .tab-content .charsheet .sheet-roll-contested {
+	display: none;
+}
+
+/* Conditional show based on mirrored input */
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-spelltype-mirror[value="spell_type_uncontested"] ~ .sheet-val-roll-wrapper .sheet-roll-uncontested,
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-spelltype-mirror[value="spell_type_area_uncontested"] ~ .sheet-val-roll-wrapper .sheet-roll-uncontested,
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-spelltype-mirror[value="spell_type_targeted"] ~ .sheet-val-roll-wrapper .sheet-roll-targeted,
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-spelltype-mirror[value="spell_type_contested"] ~ .sheet-val-roll-wrapper .sheet-roll-contested,
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-spelltype-mirror[value="spell_type_area_contested"] ~ .sheet-val-roll-wrapper .sheet-roll-contested {
+	display: inline-block;
+	  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+  pointer-events: auto;
+}
+
 
 /* ----------------- Gear and Inventory ---------------------- */
 

@@ -6517,6 +6517,7 @@
 					</fieldset>
 				</div>
 			</div>
+
 			<div class="sheet-colrow">
 				<h4 class="section-head" data-i18n="weapons-u">Weapons</h4>
 				<div class="section">
@@ -6527,7 +6528,7 @@
 							<div class="flex-cell weapon-impale">I</div>
 							<div class="flex-cell weapon-skill"><span data-i18n="skill-u">Skill</span></div>
 							<div class="flex-cell-wrapper">
-								<div class="flex-cell weapon-skill-display"><span data-i18n="skill-display-u">Val</span></div>
+								<div class="flex-cell weapon-skill-display"><span data-i18n="skill_display-u">Val</span></div>
 								<div class="flex-cell weapon-roll"><!-- Empty for roll --></div>
 							</div>
 							<div class="flex-cell weapon-damage"><span data-i18n="damage-u">Damage</span></div>
@@ -6657,64 +6658,7 @@
 					</fieldset>
 				</div>
 			</div>
-			<div class="sheet-colrow">
-				<h4 class="section-head" data-i18n="spells-u">Spells</h4>
-				<div class="section">
-					<div class="sheet-spell-header">
-						<div class="flex-row">
-							<div class="flex-cell spell-name"><span data-i18n="spell_name-u">Spell Name</span></div>
-							<div class="flex-cell spell-prepared"><span data-i18n="spell_prepared-u">P</span></div>
-							<div class="flex-cell spell-skill"><span data-i18n="spell_skill-u">Skill</span></div>
-							<div class="flex-cell-wrapper">
-								<div class="flex-cell spell-skill-display"><span data-i18n="skill-display-u">Val</span></div>
-							</div>
-							<div class="flex-cell spell-damage"><span data-i18n="spell_damage-u">Damage</span></div>
-							<div class="flex-cell spell-concentration"><span data-i18n="spell_concentration-u">Concentration</span></div>
-							<div class="flex-cell spell-range"><span data-i18n="spell_range-u">Range</span></div>
-							<div class="flex-cell spell-attacks"><span data-i18n="spell_attacks-u">Attacks</span></div>
-							<div class="flex-cell spell-element"><span data-i18n="spell_element-u">Element</span></div>
-							<div class="flex-cell spell-contested"><span data-i18n="spell_contested-u">Contested</span></div>
-							<div class="flex-cell spell-strain"><span data-i18n="spell_strain-u">Strain</span></div>
-						</div>
-					</div>
-					<fieldset class="repeating_spellsmdr">
-						<div class="flex-row">
-							<input type="hidden" name="attr_damage_numdice" value="0" />
-							<input type="hidden" name="attr_damage_dicesize" value="0" />
-							<input type="hidden" name="attr_damage_bonus" value="0" />
-							<input type="hidden" name="attr_spell_strain_mdr" value="0" />
 
-							<div class="flex-cell spell-name"><input type="text" name="attr_spell_name_mdr" placeholder="Spell Name" /></div>
-							<div class="flex-cell spell-prepared"><input type="checkbox" name="attr_spell_prepared_mdr" value="1" /></div>
-							<div class="flex-cell spell-skill">
-								<select name="attr_spell_skill_mdr">
-									<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Universal</option>
-									<option value="@{magic_alteration_mdr}" data-i18n="magic_alteration-u">Alteration</option>
-									<option value="@{magic_elemental_mdr}" data-i18n="magic_elemental-u">Elemental</option>
-									<option value="@{magic_enchantment_mdr}" data-i18n="magic_enchantment-u">Enchantment</option>
-									<option value="@{magic_illusion_mdr}" data-i18n="magic_illusion-u">Illusion</option>
-									<option value="@{magic_necromancy_mdr}" data-i18n="magic_necromancy-u">Necromancy</option>
-									<option value="@{magic_restoration_mdr}" data-i18n="magic_restoration-u">Restoration</option>
-									<option value="@{magic_summoning_mdr}" data-i18n="magic_summoning-u">Summoning</option>
-									<option value="@{magic_technomancy_mdr}" data-i18n="magic_technomancy-u">Technomancy</option>
-									<option value="@{magic_warding_mdr}" data-i18n="magic_warding-u">Warding</option>
-								</select>
-							</div>
-							<div class="flex-cell-wrapper sheet-val-roll-static">
-								<input type="text" name="attr_spell_skill_mdr_display" class="sheet-readonly" />
-								<button type="roll" class="new-roll" name="roll_spell_mdr_attack" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
-							</div>
-							<div class="flex-cell spell-damage"><input type="text" name="attr_spell_damage_mdr" /></div>
-							<div class="flex-cell spell-concentration"><input type="text" name="attr_spell_concentration_mdr" placeholder="No" /></div>
-							<div class="flex-cell spell-range"><input type="text" name="attr_spell_range_mdr" placeholder="Short" /></div>
-							<div class="flex-cell spell-attacks"><input type="text" name="attr_spell_attacks_mdr" placeholder="1" /></div>
-							<div class="flex-cell spell-element"><input type="text" name="attr_spell_element_mdr" placeholder="Arcane" /></div>
-							<div class="flex-cell spell-contested"><input type="text" name="attr_spell_contested_mdr" placeholder="-" /></div>
-							<div class="flex-cell spell-strain"><input type="text" name="attr_spell_strain_mdr" placeholder="0" /></div>
-						</div>
-					</fieldset>
-				</div>
-			</div>
 			<div class="sheet-colrow">
 				<h4 class="section-head" data-i18n="omnidecks-u">Omnidecks</h4>
 				<div class="section">
@@ -6723,7 +6667,7 @@
 							<div class="flex-cell omnideck-name"><span data-i18n="omnideck_name-u">Omnideck Name</span></div>
 							<div class="flex-cell omnideck-equipped"><span data-i18n="omnideck_equipped-u">E</span></div>
 							<div class="flex-cell omnideck-skill"><span data-i18n="omnideck_skill-u">Skill</span></div>
-							<div class="flex-cell omni-skill-display"><span data-i18n="skill-display-u">Val</span></div>
+							<div class="flex-cell omni-skill-display"><span data-i18n="skill_display-u">Val</span></div>
 							<div class="flex-cell omnideck-ir"><span data-i18n="omnideck_ir-u">IR</span></div>
 							<div class="flex-cell omnideck-mr"><span data-i18n="omnideck_mr-u">MR</span></div>
 							<div class="flex-cell omnideck-fr"><span data-i18n="omnideck_fr-u">FR</span></div>
@@ -6772,6 +6716,7 @@
 					</fieldset>
 				</div>
 			</div>
+
 			<div class="sheet-colrow">
 				<h4 class="section-head" data-i18n="programs-u">Programs</h4>
 				<div class="section">
@@ -6827,7 +6772,7 @@
 						</div>
 						<div class="sheet-spell-row">
 							<label>Arcane Capacity</label>
-							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_ac" placeholder="60" />
+							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_ac" placeholder="30" />
 						</div>
 						<div class="sheet-spell-separator"></div>
 						
@@ -6845,7 +6790,7 @@
 						</div>
 						<div class="sheet-spell-row">
 							<label>Spell XP Spent</label>
-							<input class="sheet-attr-input-small sheet-xp-cost" type="text" name="attr_spell_ledger_xp_spent" placeholder="60" />
+							<input class="sheet-attr-input-small sheet-xp-cost" type="text" name="attr_spell_xp_spent" placeholder="0" />
 						</div>
 						<div class="sheet-spell-row">
 							<label>Spell XP Remaining</label>
@@ -6868,41 +6813,131 @@
 				</div>
 			</div>
 			
-			<div class="sheet-section">
-				<!-- Repeating Spells Block -->
-				<fieldset class="repeating_spells">
-					<div class="sheet-spell-row-wrapper">
-						<!-- Left Column -->
-						<div class="sheet-spell-info-left">
-							<div class="sheet-spell-meta-row">
-								<div class="sheet-spell-label" data-i18n="spellname-u">Spell Name</div>
-								<input class="sheet-wide-input" type="text" name="attr_spellname" />
+			<div class="sheet-colrow">
+				<h4 class="section-head" data-i18n="spells-u">Spells</h4>
+				<div class="sheet-spells-section">
+					<fieldset class="repeating_spellsmdr">
+
+						<div class="sheet-spellblock-grid-row">
+							<input type="hidden" name="attr_damage_numdice" value="0" />
+							<input type="hidden" name="attr_damage_dicesize" value="0" />
+							<input type="hidden" name="attr_damage_bonus" value="0" />
+							<input type="hidden" name="attr_spell_damage_mdr" value="0" />
+							
+							<input type="hidden" name="attr_show_spell_advanced" value="0" />
+							<!-- Spell Name -->
+							<div class="sheet-spellblock-row spell-name">
+								<label data-i18n="spell_name-u">Spell Name</label>
+								<input type="text" name="attr_spell_name_mdr" placeholder="Spell Name" />
 							</div>
-							<div class="sheet-spell-meta-row">
-								<div class="sheet-spell-label" data-i18n="cost-u">Cost</div>
-								<input class="sheet-wide-input" type="text" name="attr_spellcost" />
+
+							<!-- Prepared Checkbox -->
+							<div class="sheet-spellblock-row prepared">
+								<label data-i18n="spell_prepared-u">P</label>
+								<input type="checkbox" name="attr_spell_prepared_mdr" value="1" />
 							</div>
-							<div class="sheet-spell-meta-row">
-								<div class="sheet-spell-label" data-i18n="castime-u">Casting Time</div>
-								<input class="sheet-wide-input" type="text" name="attr_spellcastime" />
-							</div>
-							<div class="sheet-spell-meta-row">
-								<div class="sheet-spell-label" data-i18n="prepared-u">Prepared</div>
-								<input type="hidden" class="sheet-prepared-mirror" name="attr_spellprepared_mirror" />
-								<select name="attr_spellprepared" class="sheet-prepared-toggle">
-									<option value="0" selected>Off</option>
-									<option value="1">On</option>
+
+							<!-- Skill + Display -->
+							<div class="sheet-spellblock-row spell-skill">
+								<label data-i18n="spell_skill-u">Skill</label>
+								<select name="attr_spell_skill_mdr">
+									<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Universal</option>
+									<option value="@{magic_alteration_mdr}" data-i18n="magic_alteration-u">Alteration</option>
+									<option value="@{magic_elemental_mdr}" data-i18n="magic_elemental-u">Elemental</option>
+									<option value="@{magic_enchantment_mdr}" data-i18n="magic_enchantment-u">Enchantment</option>
+									<option value="@{magic_illusion_mdr}" data-i18n="magic_illusion-u">Illusion</option>
+									<option value="@{magic_necromancy_mdr}" data-i18n="magic_necromancy-u">Necromancy</option>
+									<option value="@{magic_restoration_mdr}" data-i18n="magic_restoration-u">Restoration</option>
+									<option value="@{magic_summoning_mdr}" data-i18n="magic_summoning-u">Summoning</option>
+									<option value="@{magic_technomancy_mdr}" data-i18n="magic_technomancy-u">Technomancy</option>
+									<option value="@{magic_warding_mdr}" data-i18n="magic_warding-u">Warding</option>
 								</select>
 							</div>
+							<input type="hidden" name="attr_spell_type_mdr" class="sheet-spelltype-mirror" />
+							<div class="sheet-spellblock-row sheet-val-roll-wrapper">
+								<label data-i18n="skill_display-u">Val</label>
+								<input type="text" name="attr_spell_skill_mdr_display" class="sheet-readonly" />
+								<!-- Uncontested / Area (Uncontested) -->
+								<button type="roll" name="roll_strain" class="sheet-roll-uncontested" value="&{template:coc-dice-roll} {{name=@{spell_name_mdr} - Strain}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{diceroll=[[@{spell_strain_mdr}]]}}" />
+
+								<!-- Targeted -->
+								<button type="roll" name="roll_spell_mdr_attack_targeted" class="sheet-roll-targeted" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr} +0]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
+
+								<!-- Contested / Area (Contested) -->
+								<button type="roll" name="roll_spell_mdr_attack_contested" class="sheet-roll-contested" value="&{template:coc-attack-1-noimpale} {{name=@{spell_name_mdr} vs. @{spell_contested_mdr}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{spell_skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{spell_skill_mdr} + @{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{spell_damage_mdr} +0]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[ @{spell_strain_mdr} + 0 ]]}}"></button>
+
+							</div>
+
+							<!-- Type / Contested / Damage / Strain -->
+							<div class="sheet-spellblock-row spell-type">
+								<label data-i18n="spell_type-u">Type</label>
+								<select name="attr_spell_type_mdr">
+									<option value="" data-i18n="spell_pick-u">-- Pick Type --</option> 													<!--Default -->
+									<option value="spell_type_uncontested" data-i18n="spell_type_uncontested-u">Uncontested</option> 					<!-- No roll needed -->
+									<option value="spell_type_targeted" data-i18n="spell_type_targeted-u">Targeted</option>								<!-- Spellcasting roll to hit -->
+									<option value="spell_type_contested" data-i18n="spell_type_contested-u">Contested</option>							<!-- Spellcasting roll vs. Stat -->
+									<option value="spell_type_area_uncontested" data-i18n="spell_type_area_uncontested-u">Area (Uncontested)</option>	<!-- No roll needed -->
+									<option value="spell_type_area_contested" data-i18n="spell_type_area_contested-u">Area (Contested)</option>			<!-- Spellcasting roll vs. Stat -->
+								</select>
+							</div>
+							<div class="sheet-spellblock-row">
+								<label data-i18n="spell_contested-u">Contested</label>
+								<input type="text" name="attr_spell_contested_mdr" placeholder="-" />
+							</div>
+							<div class="sheet-spellblock-row">
+								<label data-i18n="spell_damage-u">Damage</label>
+								<input type="text" name="attr_spell_damage_mdr" />
+							</div>
+							<div class="sheet-spellblock-row">
+								<label data-i18n="spell_strain-u">Strain</label>
+								<input type="text" name="attr_spell_strain_mdr" placeholder="0" />
+							</div>
+							<div class="sheet-spellblock-row">
+								<label data-i18n="spell_range-u">Range</label>
+								<input type="text" name="attr_spell_range_mdr" placeholder="Short" />
+							</div>
+			
+							<div class="sheet-spellblock-row sheet-toggle-wrapper">
+								<button type="action" name="act_spelladvanced" class="sheet-toggle-button">▼</button>
+							</div>
+			
+							<div class="sheet-spellblock-advanced">
+								<!-- XP / AC / Cost / Etc -->
+								<div class="sheet-spellblock-row">
+									<label data-i18n="spell_ac_cost-u">AC Cost</label>
+									<input type="text" name="attr_spellcost" placeholder="0" />
+								</div>
+
+								<div class="sheet-spellblock-row">
+									<label data-i18n="spell_cast_time-u">Cast Time</label>
+									<input type="text" name="attr_spell_cast_time_mdr" placeholder="1" />
+								</div>
+								<div class="sheet-spellblock-row">
+									<label data-i18n="spell_duration-u">Duration</label>
+									<input type="text" name="attr_spell_duration_mdr" placeholder="1" />
+								</div>
+								<div class="sheet-spellblock-row spell-element">
+									<label data-i18n="spell_element-u">Element</label>
+									<input type="text" name="attr_spell_element_mdr" placeholder="Arcane" />
+								</div>
+								<div class="sheet-spellblock-row">
+									<label data-i18n="spell_xp_cost-u">XP Cost</label>
+									<input type="text" name="attr_xp_cost_mdr" placeholder="0" />
+								</div>
+								<div class="sheet-spellblock-row">
+									<label data-i18n="spell_rarity-u">Rarity</label>
+									<input type="text" name="attr_spell_rarity_mdr" placeholder="C" />
+								</div>
+
+								<!-- Description -->
+								<div class="sheet-spellblock-row full-width">
+									<label data-i18n="spell_description-u">Description</label>
+									<textarea name="attr_spell_description_mdr" class="sheet-spell-textarea" placeholder="Spell description..."></textarea>
+								</div>
+							</div>
 						</div>
-						<!-- Right Column -->
-						<div class="sheet-spell-info-right">
-							<div class="sheet-spell-label" data-i18n="description-u">Description</div>
-							<textarea name="attr_spelldescription" class="sheet-spell-textarea"></textarea>
-						</div>
-					</div>
-					<hr />
-				</fieldset>
+					</fieldset>
+				</div>
 			</div>
 		</div>
 
@@ -7741,6 +7776,7 @@
 				</fieldset>
 			</div>
 		</div>
+
 	</div>
 </div>
 
@@ -7859,7 +7895,8 @@
         <caption>{{name}} | {{modifier}}</caption>
 		{{/^rollTotal() modifier 0}}
         <tr>
-			<td class="template_label" data-i18n="rolled">Rolled:</td><td class="template_value">{{diceroll}}</td>
+			<td class="template_label" data-i18n="rolled">Rolled:</td>
+			<td class="template_value">{{diceroll}}</td>
 		</tr>
     </table>
 </rolltemplate>
@@ -15798,14 +15835,14 @@ on("change:repeating_weaponsmdr:attack_impale_checkbox", function(eventInfo) {
 //----------------------- Repeating Spells --------------------//
 
 // Mirror select dropdown value to hidden input (for CSS Wizardry styling)
-on("change:repeating_spells:spellprepared", function(eventInfo) {
-  if (debug_on_trace) console.log ("[change:repeating_spells:spellprepared] Start");
-  const match = eventInfo.sourceAttribute.match(/repeating_spells_([^_]+)_/);
+on("change:repeating_spellsmdr:spell_prepared_mdr", function(eventInfo) {
+  if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spell_prepared_mdr] Start");
+  const match = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/);
   if (!match) return;
 
   const rowId = match[1];
-  const sourceAttr = `repeating_spells_${rowId}_spellprepared`;
-  const mirrorAttr = `repeating_spells_${rowId}_spellprepared_mirror`;
+  const sourceAttr = `repeating_spellsmdr_${rowId}_spell_prepared_mdr`;
+  const mirrorAttr = `repeating_spellsmdr_${rowId}_spell_prepared_mdr_mirror`;
 
   getAttrs([sourceAttr], function(values) {
     const mirrorValue = values[sourceAttr] === "1" ? "1" : "0";
@@ -15814,19 +15851,19 @@ on("change:repeating_spells:spellprepared", function(eventInfo) {
 });
 
 // Sum spellcosts only for prepared spells
-on("change:repeating_spells:spellcost change:repeating_spells:spellprepared remove:repeating_spells", function() {
-  if (debug_on_trace) console.log ("[change:repeating_spells:spellcost change:repeating_spells:spellprepared remove:repeating_spells] Start");
-  getSectionIDs("repeating_spells", function(ids) {
+on("change:repeating_spellsmdr:spellcost change:repeating_spellsmdr:spell_prepared_mdr remove:repeating_spellsmdr", function() {
+  if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spellcost change:repeating_spellsmdr:spell_prepared_mdr remove:repeating_spellsmdr] Start");
+  getSectionIDs("repeating_spellsmdr", function(ids) {
     const attrsToGet = ids.flatMap(id => [
-      `repeating_spells_${id}_spellcost`,
-      `repeating_spells_${id}_spellprepared`
+      `repeating_spellsmdr_${id}_spellcost`,
+      `repeating_spellsmdr_${id}_spell_prepared_mdr`
     ]);
 
     getAttrs(attrsToGet, function(values) {
       let total = 0;
       ids.forEach(id => {
-        const cost = parseFloat(values[`repeating_spells_${id}_spellcost`] || 0);
-        const isPrepared = values[`repeating_spells_${id}_spellprepared`] === "1";
+        const cost = parseFloat(values[`repeating_spellsmdr_${id}_spellcost`] || 0);
+        const isPrepared = values[`repeating_spellsmdr_${id}_spell_prepared_mdr`] === "1";
         if (isPrepared) total += cost;
       });
       setAttrs({ total_spellcost: total });
@@ -17610,6 +17647,23 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
 
 // ----------------------------------- Careers Section END -----------------------------------
 
+// ----------------------------------- Spells ------------------------------------------------
+
+on("clicked:repeating_spellsmdr:spelladvanced", function(eventInfo) {
+	console.log("[clicked:repeating_spellsmdr:spelladvanced]");
+
+	const match = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/);
+	if (!match) return;
+
+	const rowId = match[1];
+	const attr = `repeating_spellsmdr_${rowId}_show_spell_advanced`;
+
+	getAttrs([attr], function(values) {
+		const isShown = values[attr] === "1";
+		setAttrs({ [attr]: isShown ? "0" : "1" });
+	});
+});
+
 // Auto-calculate damage components for fixed weapon (weapon1_mdr)
 on("change:weapon1_mdr_damage", function() {
     if (debug_on_trace) console.log ("[change:weapon1_mdr_damage] Start");
@@ -17715,7 +17769,6 @@ on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_programsmdr_([^_]+)_/)[1];
   getAttrs([`repeating_programsmdr_${repeatingId}_program_damage_mdr`], function(values) {
     const damageString = values[`repeating_programsmdr_${repeatingId}_program_damage_mdr`] || "";
-	console.log (`damageString: ${damageString}`);
     const updates = parseDamageString(damageString, `repeating_programsmdr_${repeatingId}`);
     setAttrs(updates);
   });
@@ -17881,26 +17934,37 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
 
 
 // === Spell XP Remaining Calculation ===
-on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:spell_ledger_xp_spent", function () {
-    if (debug_on_trace) console.log ("[change:primary_career_spell_xp_total");
-    getAttrs([
-        "primary_career_spell_xp_total",
-        "secondary_career_spell_xp_total",
-        "xpledger_spells_cost",
-        "spell_ledger_xp_spent"
-    ], function (values) {
-        const primary = parseInt(values["primary_career_spell_xp_total"], 10) || 0;
-        const secondary = parseInt(values["secondary_career_spell_xp_total"], 10) || 0;
-        const gained = parseInt(values["xpledger_spells_cost"], 10) || 0;
-        const spent = parseInt(values["spell_ledger_xp_spent"], 10) || 0;
+on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr", function () {
+    if (debug_on_trace) console.log("[XP Calc] Triggered");
 
-        const remaining = primary + secondary + gained - spent;
+    getSectionIDs("repeating_spellsmdr", function (ids) {
+        const fields = ids.map(id => `repeating_spellsmdr_${id}_xp_cost_mdr`);
+        getAttrs([
+            "primary_career_spell_xp_total",
+            "secondary_career_spell_xp_total",
+            "xpledger_spells_cost",
+            ...fields
+        ], function (values) {
+            const primary = parseInt(values["primary_career_spell_xp_total"], 10) || 0;
+            const secondary = parseInt(values["secondary_career_spell_xp_total"], 10) || 0;
+            const gained = parseInt(values["xpledger_spells_cost"], 10) || 0;
 
-        setAttrs({
-            spell_xp_remaining: remaining
+            // Sum XP costs from all repeating spells
+            let spent = 0;
+            fields.forEach(field => {
+                spent += parseInt(values[field], 10) || 0;
+            });
+
+            const remaining = primary + secondary + gained - spent;
+
+            setAttrs({
+                spell_xp_spent: spent,
+                spell_xp_remaining: remaining
+            });
         });
     });
 });
+
 
 
 </script>

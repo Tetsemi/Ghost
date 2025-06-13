@@ -1078,19 +1078,20 @@ select[name="attr_damage_bonus"] {
 .sheet-tab-controller[value="backstory"] ~ .sheet-backstory,
 .sheet-tab-controller[value="npcs"] ~ .sheet-npcs,
 .sheet-tab-controller[value="vehicles"] ~ .sheet-vehicles,
-.sheet-tab-controller[value="ledger"] ~ .sheet-ledger {
+.sheet-tab-controller[value="ledger"] ~ .sheet-ledger,
+.sheet-tab-controller[value="tracker"] ~ .sheet-tracker {
   display: block;
 }
 
 /* Tab Button Bar Styling */
-.sheet-tab-buttons {
+.ui-dialog .tab-content .charsheet .sheet-tab-buttons {
   display: flex;
   width: 100%;
   justify-content: space-around;
   margin-bottom: 5px;
 }
 
-.sheet-tab-buttons button {
+.ui-dialog .tab-content .charsheet .sheet-tab-buttons button {
   flex: 1;
   background-color: #444;
   color: white;
@@ -1112,7 +1113,8 @@ select[name="attr_damage_bonus"] {
 .sheet-tab-controller[value="backstory"] ~ .sheet-tab-buttons button[name="act_backstory"],
 .sheet-tab-controller[value="npcs"] ~ .sheet-tab-buttons button[name="act_npcs"],
 .sheet-tab-controller[value="vehicles"] ~ .sheet-tab-buttons button[name="act_vehicles"],
-.sheet-tab-controller[value="ledger"] ~ .sheet-tab-buttons button[name="act_ledger"] {
+.sheet-tab-controller[value="ledger"] ~ .sheet-tab-buttons button[name="act_ledger"],
+.sheet-tab-controller[value="tracker"] ~ .sheet-tab-buttons button[name="act_tracker"] {
   background-color: #222;
 }
 
@@ -3572,6 +3574,292 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   box-sizing: border-box;
 }
 
+/* ------------------ Tracker ------------------ */
+.ui-dialog .tab-content .charsheet .sheet-tracker-section {
+  display: flex;
+  gap: 1em;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-item {
+  display: none; 
+  align-items: center;
+  gap: 0.5em;
+  padding: 4px 0;
+}
+
+/* Racial Talent Tracker - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_identity_cascade"][value="1"] ~ .sheet-alteri-identity-cascade,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_reflexive_shift"][value="1"] ~ .sheet-alteri-reflexive-shift,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_shift_reflex"][value="1"] ~ .sheet-alteri-shift-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_instinctive_counter"][value="1"] ~ .sheet-draevi-instinctive-counter,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_silent_step_sharp_ear"][value="1"] ~ .sheet-draevi-silent-step-sharp-ear,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_trailborn_reflexes"][value="1"] ~ .sheet-draevi-trailborn-reflexes,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_spontaneous_strategist"][value="1"] ~ .sheet-human-spontaneous-strategist,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_glimmerstep"][value="1"] ~ .sheet-lyranni-glimmerstep,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_illuminated_touch"][value="1"] ~ .sheet-lyranni-illuminated-touch,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_resonant_poise"][value="1"] ~ .sheet-lyranni-resonant-poise,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_shadow_echo_step"][value="1"] ~ .sheet-lyranni-shadow-echo-step,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_true_veilsight"][value="1"] ~ .sheet-lyranni-true-veilsight,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veil_laced_command"][value="1"] ~ .sheet-lyranni-veil-laced-command,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veilsight"][value="1"] ~ .sheet-lyranni-veilsight {
+  display: flex;
+}
+
+/* Racial Talent Tracker - Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_echoed_voice"][value="1"] ~ .sheet-alteri-echoed-voice,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_ghost_protocol"][value="1"] ~ .sheet-alteri-ghost-protocol,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_whisper_touched"][value="1"] ~ .sheet-alteri-whisper-touched,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_grace_of_the_many"][value="1"] ~ .sheet-alteri-grace-of-the-many,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_facial_recalibration"][value="1"] ~ .sheet-alteri-facial-recalibration,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_adaptive_memory"][value="1"] ~ .sheet-alteri-adaptive-memory,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_ghost_signature"][value="1"] ~ .sheet-alteri-ghost-signature,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_mirror_weave"][value="1"] ~ .sheet-alteri-mirror-weave,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_veil_echo_memory"][value="1"] ~ .sheet-alteri-veil-echo-memory,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_silent_archive"][value="1"] ~ .sheet-alteri-silent-archive,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_perfect_mimicry"][value="1"] ~ .sheet-alteri-perfect-mimicry,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_biometric_phantom"][value="1"] ~ .sheet-alteri-biometric-phantom,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_memory_graft"][value="1"] ~ .sheet-alteri-memory-graft,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_veil_shaped_will"][value="1"] ~ .sheet-alteri-veil-shaped-will,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_social_echo"][value="1"] ~ .sheet-alteri-social-echo,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_immaculate_impersonation"][value="1"] ~ .sheet-alteri-immaculate-impersonation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_living_mask_archive"][value="1"] ~ .sheet-alteri-living-mask-archive,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_veil_mirroring_ritual"][value="1"] ~ .sheet-alteri-veil-mirroring-ritual,
+.ui-dialog .tab-content .charsheet input[name="attr_show_alteri_author_of_the_lie"][value="1"] ~ .sheet-alteri-author-of-the-lie {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_urban_climber"][value="1"] ~ .sheet-draevi-urban-climber,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_spirits_in_stone"][value="1"] ~ .sheet-draevi-spirits-in-stone,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_gutter_stalker"][value="1"] ~ .sheet-draevi-gutter-stalker,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_bone_sung_memory"][value="1"] ~ .sheet-draevi-bone-sung-memory,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_hardened_trailwalker"][value="1"] ~ .sheet-draevi-hardened-trailwalker,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_veins_of_stone"][value="1"] ~ .sheet-draevi-veins-of-stone,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_echo_binders_rite"][value="1"] ~ .sheet-draevi-echo-binders-rite,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_scent_the_shift"][value="1"] ~ .sheet-draevi-scent-the-shift,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_tales_etched_in_horn"][value="1"] ~ .sheet-draevi-tales-etched-in-horn,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_root_stance_tenacity"][value="1"] ~ .sheet-draevi-root-stance-tenacity,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_spirit_touched_mastery"][value="1"] ~ .sheet-draevi-spirit-touched-mastery,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_spiritual_vanguard"][value="1"] ~ .sheet-draevi-spiritual-vanguard,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_emberlash_retaliation"][value="1"] ~ .sheet-draevi-emberlash-retaliation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_ancestors_pulse"][value="1"] ~ .sheet-draevi-ancestors-pulse,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_pathfinders_edge"][value="1"] ~ .sheet-draevi-pathfinders-edge,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_wild_tamers_gaze"][value="1"] ~ .sheet-draevi-wild-tamers-gaze,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_legacy_reforged"][value="1"] ~ .sheet-draevi-legacy-reforged,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_soul_of_the_wild_hunt"][value="1"] ~ .sheet-draevi-soul-of-the-wild-hunt,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_echo_flame_warden"][value="1"] ~ .sheet-draevi-echo-flame-warden,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_ancestral_mirror"][value="1"] ~ .sheet-draevi-ancestral-mirror,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_path_of_the_remembered"][value="1"] ~ .sheet-draevi-path-of-the-remembered {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_hard_lesson"][value="1"] ~ .sheet-human-hard-lesson,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_instinct_over_training"][value="1"] ~ .sheet-human-instinct-over-training,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_makeshift_medic"][value="1"] ~ .sheet-human-makeshift-medic,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_no_stranger_to_pain"][value="1"] ~ .sheet-human-no-stranger-to-pain,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_social_versatility"][value="1"] ~ .sheet-human-social-versatility,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_battle_tested_gut"][value="1"] ~ .sheet-human-battle-tested-gut,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_quick_learner"][value="1"] ~ .sheet-human-quick-learner,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_situational_awareness"][value="1"] ~ .sheet-human-situational-awareness,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_lucky_timing"][value="1"] ~ .sheet-human-lucky-timing,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_improvised_tools"][value="1"] ~ .sheet-human-improvised-tools,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_defiant_resilience"][value="1"] ~ .sheet-human-defiant-resilience,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_cross_trained"][value="1"] ~ .sheet-human-cross-trained,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_momentum_shift"][value="1"] ~ .sheet-human-momentum-shift,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_pull_from_memory"][value="1"] ~ .sheet-human-pull-from-memory,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_chain_of_luck"][value="1"] ~ .sheet-human-chain-of-luck,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_dig_deep"][value="1"] ~ .sheet-human-dig-deep,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_just_enough_prep"][value="1"] ~ .sheet-human-just-enough-prep,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_break_the_pattern"][value="1"] ~ .sheet-human-break-the-pattern,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_tactical_improviser"][value="1"] ~ .sheet-human-tactical-improviser,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_luck_bends_for_me"][value="1"] ~ .sheet-human-luck-bends-for-me,
+.ui-dialog .tab-content .charsheet input[name="attr_show_human_unshakable_focus"][value="1"] ~ .sheet-human-unshakable-focus {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_legacy_spark"][value="1"] ~ .sheet-lyranni-legacy-spark,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veil_blooded_sense"][value="1"] ~ .sheet-lyranni-veil-blooded-sense,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_whispers_beyond"][value="1"] ~ .sheet-lyranni-whispers-beyond,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veil_dancer"][value="1"] ~ .sheet-lyranni-veil-dancer,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_rite_bound"][value="1"] ~ .sheet-lyranni-rite-bound,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_words_like_silk"][value="1"] ~ .sheet-lyranni-words-like-silk,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_memory_bound_echo"][value="1"] ~ .sheet-lyranni-memory-bound-echo,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_subtle_authority"][value="1"] ~ .sheet-lyranni-subtle-authority,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_echo_binding"][value="1"] ~ .sheet-lyranni-echo-binding,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_voice_of_the_ancestors"][value="1"] ~ .sheet-lyranni-voice-of-the-ancestors,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veil_linked_will"][value="1"] ~ .sheet-lyranni-veil-linked-will,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_echo_of_elegance"][value="1"] ~ .sheet-lyranni-echo-of-elegance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_breath_of_the_veil"][value="1"] ~ .sheet-lyranni-breath-of-the-veil {
+  display: flex;
+}
+
+/* Career Talent Tracker - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_signal_sync"][value="1"] ~ .sheet-codeweaver-signal-sync,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_veil_thread_tap"][value="1"] ~ .sheet-codeweaver-veil-thread-tap,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_hardlight_override"][value="1"] ~ .sheet-codeweaver-hardlight-override,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_recursive_pulse"][value="1"] ~ .sheet-codeweaver-recursive-pulse,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_code_injection"][value="1"] ~ .sheet-codeweaver-code-injection,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_arc_thread_override"][value="1"] ~ .sheet-codeweaver-arc-thread-override,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_synthetic_harmony"][value="1"] ~ .sheet-codeweaver-synthetic-harmony,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_command_injection"][value="1"] ~ .sheet-codeweaver-command-injection,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_backdoor_ritual"][value="1"] ~ .sheet-codeweaver-backdoor-ritual {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_field_stabilizer"][value="1"] ~ .sheet-combat_medic-field-stabilizer,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_pain_doesnt_matter"][value="1"] ~ .sheet-combat_medic-pain-doesnt-matter,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_trauma_team_reflexes"][value="1"] ~ .sheet-combat_medic-trauma-team-reflexes,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_injector_harness"][value="1"] ~ .sheet-combat_medic-injector-harness,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_vital_scan_overlay"][value="1"] ~ .sheet-combat_medic-vital-scan-overlay,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_stay_with_me"][value="1"] ~ .sheet-combat_medic-stay-with-me,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_medical_override"][value="1"] ~ .sheet-combat_medic-medical-override,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_quickdraw_injector"][value="1"] ~ .sheet-combat_medic-quickdraw-injector,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_reactive_trauma_surge"][value="1"] ~ .sheet-combat_medic-reactive-trauma-surge {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_suggestive_echo"][value="1"] ~ .sheet-mindbender-suggestive-echo,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_thread_of_doubt"][value="1"] ~ .sheet-mindbender-thread-of-doubt,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_veil_of_intent"][value="1"] ~ .sheet-mindbender-veil-of-intent,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_mental_static"][value="1"] ~ .sheet-mindbender-mental-static,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_cognitive_rewire"][value="1"] ~ .sheet-mindbender-cognitive-rewire,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_prey_on_instinct"][value="1"] ~ .sheet-mindbender-prey-on-instinct,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_synaptic_lag"][value="1"] ~ .sheet-mindbender-synaptic-lag,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_cognitive_fortress"][value="1"] ~ .sheet-mindbender-cognitive-fortress {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_runesight"][value="1"] ~ .sheet-sigilbound-runesight,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_arcane_lock"][value="1"] ~ .sheet-sigilbound-arcane-lock,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_reflective_ward"][value="1"] ~ .sheet-sigilbound-reflective-ward,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_sigil_of_anchoring"][value="1"] ~ .sheet-sigilbound-sigil-of-anchoring,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_warded_advance"][value="1"] ~ .sheet-sigilbound-warded-advance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_null_field"][value="1"] ~ .sheet-sigilbound-null-field,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_sigil_pulse"][value="1"] ~ .sheet-sigilbound-sigil-pulse,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_sigil_reservoir"][value="1"] ~ .sheet-sigilbound-sigil-reservoir {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_elemental_channeling"][value="1"] ~ .sheet-stormweaver-elemental-channeling,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_veil_shocked"][value="1"] ~ .sheet-stormweaver-veil-shocked,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_stormpulse_drive"][value="1"] ~ .sheet-stormweaver-stormpulse-drive,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_pulse_detonation"][value="1"] ~ .sheet-stormweaver-pulse-detonation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_reactive_veilwalk"][value="1"] ~ .sheet-stormweaver-reactive-veilwalk {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_combat_rhythm"][value="1"] ~ .sheet-street-ronin-combat-rhythm,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_disciplined_focus"][value="1"] ~ .sheet-street-ronin-disciplined-focus,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_urban_footwork"][value="1"] ~ .sheet-street-ronin-urban-footwork,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_interception_cut"][value="1"] ~ .sheet-street-ronin-interception-cut,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_posture_breaker"][value="1"] ~ .sheet-street-ronin-posture-breaker,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_counterguard_precision"][value="1"] ~ .sheet-street-ronin-counterguard-precision,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_ghost_step"][value="1"] ~ .sheet-street-ronin-ghost-step {
+    display: flex;
+}
+
+/* Career Talent Tracker - Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_clean_loop_feedback"][value="1"] ~ .sheet-codeweaver-clean-loop-feedback,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_crash_field"][value="1"] ~ .sheet-codeweaver-crash-field,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_live_patch_redirect"][value="1"] ~ .sheet-codeweaver-live-patch-redirect,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_magelock_cascade"][value="1"] ~ .sheet-codeweaver-magelock-cascade,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_veil_reactor_stabilizer"][value="1"] ~ .sheet-codeweaver-veil-reactor-stabilizer,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_overcode_detonation"][value="1"] ~ .sheet-codeweaver-overcode-detonation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_signal_possession"][value="1"] ~ .sheet-codeweaver-signal-possession,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_reality_patch"][value="1"] ~ .sheet-codeweaver-reality-patch {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_pressure_seal"][value="1"] ~ .sheet-combat_medic-pressure-seal,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_surgical_clarity"][value="1"] ~ .sheet-combat_medic-surgical-clarity,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_combat_revive"][value="1"] ~ .sheet-combat_medic-combat-revive,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_veil_immunologist"][value="1"] ~ .sheet-combat_medic-veil-immunologist,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_emergency_triage_net"][value="1"] ~ .sheet-combat_medic-emergency-triage-net,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_ghost_of_the_er"][value="1"] ~ .sheet-combat_medic-ghost-of-the-er,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_field_expeditor"][value="1"] ~ .sheet-combat_medic-field-expeditor,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_no_one_dies_today"][value="1"] ~ .sheet-combat_medic-no-one-dies-today,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_miracle_protocol"][value="1"] ~ .sheet-combat_medic-miracle-protocol,
+.ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_adrenal_shield_matrix"][value="1"] ~ .sheet-combat_medic-adrenal-shield-matrix {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_memory_spike"][value="1"] ~ .sheet-mindbender-memory-spike,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_echo_implantation"][value="1"] ~ .sheet-mindbender-echo-implantation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_false_memory"][value="1"] ~ .sheet-mindbender-false-memory,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_neural_whiplash"][value="1"] ~ .sheet-mindbender-neural-whiplash,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_hollow_gaze"][value="1"] ~ .sheet-mindbender-hollow-gaze,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_resonant_persona"][value="1"] ~ .sheet-mindbender-resonant-persona,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_emotion_override_field"][value="1"] ~ .sheet-mindbender-emotion-override-field,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_compromise_anchor"][value="1"] ~ .sheet-mindbender-compromise-anchor,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_puppetmaster_protocol"][value="1"] ~ .sheet-mindbender-puppetmaster-protocol,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_emotional_collapse"][value="1"] ~ .sheet-mindbender-emotional-collapse,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_scene_fracture"][value="1"] ~ .sheet-mindbender-scene-fracture {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_counterglyph"][value="1"] ~ .sheet-sigilbound-counterglyph,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_arcane_reversal"][value="1"] ~ .sheet-sigilbound-arcane-reversal,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_mirror_sigil"][value="1"] ~ .sheet-sigilbound-mirror-sigil,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_veil_seal"][value="1"] ~ .sheet-sigilbound-veil-seal,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_runesovereign"][value="1"] ~ .sheet-sigilbound-runesovereign,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_wardmasters_command"][value="1"] ~ .sheet-sigilbound-wardmasters-command,
+.ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_sigilburst_protocol"][value="1"] ~ .sheet-sigilbound-sigilburst-protocol {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_tinder_spark"][value="1"] ~ .sheet-stormweaver-tinder-spark,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_voltaic_reflex"][value="1"] ~ .sheet-stormweaver-voltaic-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_volcanic_path"][value="1"] ~ .sheet-stormweaver-volcanic-path,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_shockstep_conduit"][value="1"] ~ .sheet-stormweaver-shockstep-conduit,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_flashfire_assault"][value="1"] ~ .sheet-stormweaver-flashfire-assault,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_surge_engine"][value="1"] ~ .sheet-stormweaver-surge-engine,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_eye_of_the_storm"][value="1"] ~ .sheet-stormweaver-eye-of-the-storm,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_stormpiercer"][value="1"] ~ .sheet-stormweaver-stormpiercer,
+.ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_veilburn_protocol"][value="1"] ~ .sheet-stormweaver-veilburn-protocol {
+  display: flex;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_steel_reflex"][value="1"] ~ .sheet-street-ronin-steel-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_reactive_flow"][value="1"] ~ .sheet-street-ronin-reactive-flow,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_breath_before_the_cut"][value="1"] ~ .sheet-street-ronin-breath-before-the-cut,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_draw_cut"][value="1"] ~ .sheet-street-ronin-draw-cut,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_the_line_you_do_not_cross"][value="1"] ~ .sheet-street-ronin-the-line-you-do-not-cross,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_moment_severed"][value="1"] ~ .sheet-street-ronin-moment-severed,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_no_second_strike"][value="1"] ~ .sheet-street-ronin-no-second-strike,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_steel_anchored_calm"][value="1"] ~ .sheet-street-ronin-steel-anchored-calm,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_flow_reversal"][value="1"] ~ .sheet-street-ronin-flow-reversal,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_deflective_form"][value="1"] ~ .sheet-street-ronin-deflective-form,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_final_cut_doctrine"][value="1"] ~ .sheet-street-ronin-final-cut-doctrine,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_ghost_walk_execution"][value="1"] ~ .sheet-street-ronin-ghost-walk-execution,
+.ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_duelmasters_claim"][value="1"] ~ .sheet-street-ronin-duelmasters-claim {
+    display: flex;
+}
+
+/* Tab Button Bar Styling */
+.ui-dialog .tab-content .charsheet .sheet-tracker .sheet-tab-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 5px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker button.sheet-tab-buttons {
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
+  padding: 6px 0;
+  font-size: 90%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+
 /* ------------------ NPC Section Scoped Styles ------------------ */
 .sheet-companions .sheet-npc-content-left {
   display: flex;
@@ -3614,7 +3902,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
   flex-direction: row;
   gap: 8px;
-  flex-wrap: nowrap; /* ⛔ Prevent wrapping */
+  flex-wrap: nowrap; 
   align-items: flex-start;
 }
 

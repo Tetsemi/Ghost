@@ -3033,19 +3033,13 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet .sheet-spellblock-grid-row {
   display: flex;
   flex-wrap: wrap;
+  width: 820px;            /* Match the advanced block width */
+  min-width: 820px;
+  max-width: 100%;  
   gap: 2px;
   padding: 4px;
   margin-bottom: 4px;
   border: 1px solid #666;
-  background-color: rgba(255, 255, 255, 0.04);
-  box-sizing: border-box;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-spellblock-advanced {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px;
-  margin-bottom: 4px;
   background-color: rgba(255, 255, 255, 0.04);
   box-sizing: border-box;
 }
@@ -3152,7 +3146,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   flex-basis: 100%;
 }
 .ui-dialog .tab-content .charsheet .sheet-spellblock-row.full-width label {
-  margin-bottom: 2px;
+  margin: 4px 0;
 }
 .ui-dialog .tab-content .charsheet .sheet-spellblock-row.full-width textarea {
   width: 100%;
@@ -3169,12 +3163,18 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 /* Hide by default */
 .ui-dialog .tab-content .charsheet .sheet-spellblock-advanced {
   display: none;
+  width: 800px;               /* ← Enforce a fixed row width */
+  max-width: 100%;            /* ← Prevent overflow if container is smaller */
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 4px;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-sizing: border-box;
 }
 
 /* Show if value = 1 */
 .ui-dialog .tab-content .charsheet .repitem input[name="attr_show_spell_advanced"][value="1"] ~ .sheet-spellblock-advanced {
   display: flex; /* or block, depending on layout */
-  flex-wrap: wrap;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-toggle-button {
@@ -3198,6 +3198,9 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   padding: 0;
   margin-top: 6px; 
 }
+
+
+
 
 /* Hide all buttons by default */
 .ui-dialog .tab-content .charsheet .sheet-roll-uncontested,

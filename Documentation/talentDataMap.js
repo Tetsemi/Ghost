@@ -1,3 +1,4 @@
+// Talent name, description, and prerequisites
 const talentDataMap = {
   alteri: {
     second_skin: {
@@ -6,7 +7,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     reflexive_shift: {
       name: "Reflexive Shift",
@@ -14,7 +16,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     echoed_voice: {
       name: "Echoed Voice",
@@ -22,7 +25,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     maskwrights_grace: {
       name: "Maskwright’s Grace",
@@ -30,7 +34,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     social_chameleon: {
       name: "Social Chameleon",
@@ -38,7 +43,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     ghost_protocol: {
       name: "Ghost Protocol",
@@ -46,7 +52,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     shaped_for_subtlety: {
       name: "Shaped for Subtlety",
@@ -54,7 +61,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     whisper_touched: {
       name: "Whisper-Touched",
@@ -62,7 +70,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     grace_of_the_many: {
       name: "Grace of the Many",
@@ -70,7 +79,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
 	facial_recalibration: {
       name: "Facial Recalibration",
@@ -78,7 +88,8 @@ const talentDataMap = {
       prerequisite: ["echoed_voice", "second_skin"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+	  usage_limit: "session"
     },
     adaptive_memory: {
       name: "Adaptive Memory",
@@ -86,7 +97,8 @@ const talentDataMap = {
       prerequisite: ["social_chameleon", "maskwrights_grace"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     shift_reflex: {
       name: "Shift Reflex",
@@ -94,7 +106,8 @@ const talentDataMap = {
       prerequisite: ["reflexive_shift"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     deep_mask_integration: {
       name: "Deep Mask Integration",
@@ -102,7 +115,8 @@ const talentDataMap = {
       prerequisite: ["second_skin"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     ghost_signature: {
       name: "Ghost Signature",
@@ -110,7 +124,8 @@ const talentDataMap = {
       prerequisite: ["ghost_protocol"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     mirror_weave: {
       name: "Mirror Weave",
@@ -118,7 +133,8 @@ const talentDataMap = {
       prerequisite: ["whisper_touched"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     persona_anchor: {
       name: "Persona Anchor",
@@ -126,7 +142,8 @@ const talentDataMap = {
       prerequisite: ["grace_of_the_many"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     veil_echo_memory: {
       name: "Veil Echo Memory",
@@ -134,7 +151,8 @@ const talentDataMap = {
       prerequisite: ["whisper_touched", "ghost_protocol"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     silent_archive: {
       name: "Silent Archive",
@@ -142,7 +160,8 @@ const talentDataMap = {
       prerequisite: ["deep_mask_integration"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
 	perfect_mimicry: {
       name: "Perfect Mimicry",
@@ -150,7 +169,8 @@ const talentDataMap = {
       prerequisite: ["facial_recalibration", "echoed_voice"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+	  usage_limit: "session"
     },
     biometric_phantom: {
       name: "Biometric Phantom",
@@ -158,7 +178,8 @@ const talentDataMap = {
       prerequisite: ["ghost_signature"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     memory_graft: {
       name: "Memory Graft",
@@ -166,7 +187,8 @@ const talentDataMap = {
       prerequisite: ["deep_mask_integration"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     veil_shaped_will: {
       name: "Veil-Shaped Will",
@@ -174,7 +196,8 @@ const talentDataMap = {
       prerequisite: ["mirror_weave", "whisper_touched"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     social_echo: {
       name: "Social Echo",
@@ -182,7 +205,8 @@ const talentDataMap = {
       prerequisite: ["social_chameleon", "adaptive_memory"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     identity_cascade: {
       name: "Identity Cascade",
@@ -190,7 +214,8 @@ const talentDataMap = {
       prerequisite: ["deep_mask_integration"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
 	immaculate_impersonation: {
       name: "Immaculate Impersonation",
@@ -198,7 +223,8 @@ const talentDataMap = {
       prerequisite: ["perfect_mimicry", "biometric_phantom"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+	  usage_limit: "session"
     },
     living_mask_archive: {
       name: "Living Mask Archive",
@@ -206,7 +232,8 @@ const talentDataMap = {
       prerequisite: ["memory_graft", "identity_cascade"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     veil_mirroring_ritual: {
       name: "Veil-Mirroring Ritual",
@@ -214,7 +241,8 @@ const talentDataMap = {
       prerequisite: ["veil_shaped_will"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     author_of_the_lie: {
       name: "Author of the Lie",
@@ -222,7 +250,8 @@ const talentDataMap = {
       prerequisite: ["social_echo", "deep_mask_integration"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+	  usage_limit: "session"
     }
   },
   draevi: {
@@ -232,7 +261,8 @@ const talentDataMap = {
 	  prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     clan_blooded: {
       name: "Clan-Blooded",
@@ -240,7 +270,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     urban_climber: {
       name: "Urban Climber",
@@ -248,7 +279,8 @@ const talentDataMap = {
 	  prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     scavengers_edge: {
       name: "Scavenger’s Edge",
@@ -256,7 +288,8 @@ const talentDataMap = {
 	  prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     spirits_in_stone: {
       name: "Spirits-in-Stone",
@@ -264,7 +297,8 @@ const talentDataMap = {
 	  prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     trailborn_reflexes: {
       name: "Trailborn Reflexes",
@@ -272,7 +306,8 @@ const talentDataMap = {
 	  prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     gutter_stalker: {
       name: "Gutter-Stalker",
@@ -280,7 +315,8 @@ const talentDataMap = {
 	  prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     bone_sung_memory: {
       name: "Bone-Sung Memory",
@@ -288,7 +324,8 @@ const talentDataMap = {
 	  prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     silent_step_sharp_ear: {
       name: "Silent Step, Sharp Ear",
@@ -296,7 +333,8 @@ const talentDataMap = {
 	  prerequisite: "",
       tier: 1,
       cost: 10,
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     hardened_trailwalker: {
       name: "Hardened Trailwalker",
@@ -304,7 +342,8 @@ const talentDataMap = {
       prerequisite: ["iron_stomach", "trailborn_reflexes"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     urban_tracker: {
       name: "Urban Tracker",
@@ -312,7 +351,8 @@ const talentDataMap = {
       prerequisite: ["gutter_stalker"],
       tier: 2,
       cost: "20",
-	  capstone: false
+	  capstone: false,
+      usage_limit: ""
     },
     instinctive_counter: {
       name: "Instinctive Counter",
@@ -320,7 +360,8 @@ const talentDataMap = {
       prerequisite: ["trailborn_reflexes"],
       tier: 2,
       cost: "20",
-	  capstone: false
+	  capstone: false,
+      usage_limit: "scene"
     },
     veins_of_stone: {
       name: "Veins of Stone",
@@ -328,7 +369,8 @@ const talentDataMap = {
       prerequisite: ["iron_stomach", "clan_blooded"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     echo_binders_rite: {
       name: "Echo-Binder’s Rite",
@@ -336,7 +378,8 @@ const talentDataMap = {
       prerequisite: ["spirits_in_stone"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     scent_the_shift: {
       name: "Scent the Shift",
@@ -344,7 +387,8 @@ const talentDataMap = {
       prerequisite: ["trailborn_reflexes", "spirits_in_stone"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     tales_etched_in_horn: {
       name: "Tales Etched in Horn",
@@ -352,7 +396,8 @@ const talentDataMap = {
       prerequisite: ["clan_blooded"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     root_stance_tenacity: {
       name: "Root-Stance Tenacity",
@@ -360,7 +405,8 @@ const talentDataMap = {
       prerequisite: ["iron_stomach", "clan_blooded"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
 	spirit_touched_mastery: {
       name: "Spirit-Touched Mastery",
@@ -368,7 +414,8 @@ const talentDataMap = {
       prerequisite: ["echo_binders_rite"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+	  usage_limit: "session"
     },
     spiritual_vanguard: {
       name: "Spiritual Vanguard",
@@ -376,7 +423,8 @@ const talentDataMap = {
       prerequisite: ["scent_the_shift", "tales_etched_in_horn"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     emberlash_retaliation: {
       name: "Emberlash Retaliation",
@@ -384,7 +432,8 @@ const talentDataMap = {
       prerequisite: ["instinctive_counter"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     ancestors_pulse: {
       name: "Ancestor’s Pulse",
@@ -392,7 +441,8 @@ const talentDataMap = {
       prerequisite: ["tales_etched_in_horn"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     pathfinders_edge: {
       name: "Pathfinder’s Edge",
@@ -400,7 +450,8 @@ const talentDataMap = {
       prerequisite: ["hardened_trailwalker", "veins_of_stone"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     wild_tamers_gaze: {
       name: "Wild Tamer’s Gaze",
@@ -408,7 +459,8 @@ const talentDataMap = {
       prerequisite: ["echo_binders_rite", "ancestors_pulse"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     legacy_reforged: {
       name: "Legacy Reforged",
@@ -417,7 +469,8 @@ const talentDataMap = {
       prerequisiteAny: { tier: 2, count: 2 },
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     soul_of_the_wild_hunt: {
       name: "Soul of the Wild Hunt",
@@ -425,7 +478,8 @@ const talentDataMap = {
       prerequisite: ["pathfinders_edge", "emberlash_retaliation"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     echo_flame_warden: {
       name: "Echo-Flame Warden",
@@ -433,7 +487,8 @@ const talentDataMap = {
       prerequisite: ["veins_of_stone", "spiritual_vanguard"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     ancestral_mirror: {
       name: "Ancestral Mirror",
@@ -441,7 +496,8 @@ const talentDataMap = {
       prerequisite: ["spirit_touched_mastery", "echo_binders_rite"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     path_of_the_remembered: {
       name: "Path of the Remembered",
@@ -449,7 +505,8 @@ const talentDataMap = {
       prerequisite: ["ancestors_pulse", "tales_etched_in_horn"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+	  usage_limit: "session"
     }
   },
   human : {
@@ -459,7 +516,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     instinct_over_training: {
       name: "Instinct Over Training",
@@ -467,7 +525,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     makeshift_medic: {
       name: "Makeshift Medic",
@@ -475,7 +534,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     no_stranger_to_pain: {
       name: "No Stranger to Pain",
@@ -483,7 +543,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     quick_fixer: {
       name: "Quick Fixer",
@@ -491,7 +552,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     social_versatility: {
       name: "Social Versatility",
@@ -499,7 +561,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     battle_tested_gut: {
       name: "Battle-Tested Gut",
@@ -507,7 +570,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     skilled_focus: {
       name: "Skilled Focus",
@@ -515,16 +579,17 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     quick_learner: {
       name: "Quick Learner",
       description: "When you succeed at a roll for an untrained skill (one not granted by your Race or Profession), gain a bonus die the next time you use that skill during this session.",
       prerequisite: ["hard_lesson", "instinct_over_training", "makeshift_medic", "no_stranger_to_pain", "quick_fixer", "social_versatility", "battle_tested_gut", "skilled_focus"],
-
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     situational_awareness: {
       name: "Situational Awareness",
@@ -532,7 +597,8 @@ const talentDataMap = {
       prerequisite: ["battle_tested_gut", "instinct_over_training"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     spontaneous_strategist: {
       name: "Spontaneous Strategist",
@@ -540,7 +606,8 @@ const talentDataMap = {
       prerequisite: ["hard_lesson"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     lucky_timing: {
       name: "Lucky Timing",
@@ -548,7 +615,8 @@ const talentDataMap = {
       prerequisite: ["social_versatility", "skilled_focus"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     improvised_tools: {
       name: "Improvised Tools",
@@ -556,7 +624,8 @@ const talentDataMap = {
       prerequisite: ["quick_fixer"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     defiant_resilience: {
       name: "Defiant Resilience",
@@ -564,7 +633,8 @@ const talentDataMap = {
       prerequisite: ["no_stranger_to_pain"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     cross_trained: {
       name: "Cross-Trained",
@@ -572,7 +642,8 @@ const talentDataMap = {
       prerequisite: ["skilled_focus", "quick_learner"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     momentum_shift: {
       name: "Momentum Shift",
@@ -580,7 +651,8 @@ const talentDataMap = {
       prerequisite: ["spontaneous_strategist", "quick_learner"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     pull_from_memory: {
       name: "Pull From Memory",
@@ -588,7 +660,8 @@ const talentDataMap = {
       prerequisite: ["instinct_over_training"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     chain_of_luck: {
       name: "Chain of Luck",
@@ -596,7 +669,8 @@ const talentDataMap = {
       prerequisite: ["lucky_timing", "hard_lesson"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     dig_deep: {
       name: "Dig Deep",
@@ -604,7 +678,8 @@ const talentDataMap = {
       prerequisite: ["defiant_resilience"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     just_enough_prep: {
       name: "Just Enough Prep",
@@ -612,7 +687,8 @@ const talentDataMap = {
       prerequisite: ["situational_awareness", "improvised_tools"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     break_the_pattern: {
       name: "Break the Pattern",
@@ -620,7 +696,8 @@ const talentDataMap = {
       prerequisite: ["social_versatility", "lucky_timing"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     tactical_improviser: {
       name: "Tactical Improviser",
@@ -628,7 +705,8 @@ const talentDataMap = {
       prerequisite: ["momentum_shift", "just_enough_prep"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     luck_bends_for_me: {
       name: "Luck Bends for Me",
@@ -636,7 +714,8 @@ const talentDataMap = {
       prerequisite: ["chain_of_luck", "hard_lesson"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     unshakable_focus: {
       name: "Unshakable Focus",
@@ -644,7 +723,8 @@ const talentDataMap = {
       prerequisite: ["dig_deep", "defiant_resilience"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     master_of_none: {
       name: "Master of None",
@@ -652,7 +732,8 @@ const talentDataMap = {
       prerequisite: ["cross_trained", "skilled_focus"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: ""
     }
   },
   lyranni :{
@@ -662,7 +743,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     threadwalker: {
       name: "Threadwalker",
@@ -670,7 +752,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     legacy_spark: {
       name: "Legacy Spark",
@@ -678,7 +761,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     social_ghost: {
       name: "Social Ghost",
@@ -686,7 +770,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     aether_override: {
       name: "Aether Override",
@@ -694,7 +779,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     echo_in_the_veins: {
       name: "Echo in the Veins",
@@ -702,7 +788,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     veil_blooded_sense: {
       name: "Veil-Blooded Sense",
@@ -710,7 +797,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     glimmerstep: {
       name: "Glimmerstep",
@@ -718,7 +806,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     resonant_poise: {
       name: "Resonant Poise",
@@ -726,7 +815,8 @@ const talentDataMap = {
       prerequisite: "",
       tier: 1,
       cost: "10",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     spirit_favored: {
       name: "Spirit-Favored",
@@ -734,7 +824,8 @@ const talentDataMap = {
       prerequisite: ["veilsight"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     whispers_beyond: {
       name: "Whispers Beyond",
@@ -742,7 +833,8 @@ const talentDataMap = {
       prerequisite: ["veilsight"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     ancestral_resonance: {
       name: "Ancestral Resonance",
@@ -750,7 +842,8 @@ const talentDataMap = {
       prerequisite: ["legacy_spark"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     veil_dancer: {
       name: "Veil Dancer",
@@ -758,7 +851,8 @@ const talentDataMap = {
       prerequisite: ["echo_in_the_veins"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     rite_bound: {
       name: "Rite-Bound",
@@ -766,7 +860,8 @@ const talentDataMap = {
       prerequisite: ["veil_blooded_sense"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     veilsplice: {
       name: "Veilsplice",
@@ -774,7 +869,8 @@ const talentDataMap = {
       prerequisite: ["aether_override"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     illuminated_touch: {
       name: "Illuminated Touch",
@@ -782,7 +878,8 @@ const talentDataMap = {
       prerequisite: ["veilsight", "threadwalker"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     words_like_silk: {
       name: "Words Like Silk",
@@ -790,7 +887,8 @@ const talentDataMap = {
       prerequisite: ["social_ghost"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     memory_bound_echo: {
       name: "Memory-Bound Echo",
@@ -798,7 +896,8 @@ const talentDataMap = {
       prerequisite: ["legacy_spark"],
       tier: 2,
       cost: "20",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     true_veilsight: {
       name: "True Veilsight",
@@ -806,7 +905,8 @@ const talentDataMap = {
       prerequisite: ["veilsight"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     blood_rite_channeling: {
       name: "Blood Rite Channeling",
@@ -814,7 +914,8 @@ const talentDataMap = {
       prerequisite: ["spirit_favored", "whispers_beyond", "ancestral_resonance", "veil_dancer", "rite_bound", "veilsplice", "illuminated_touch", "words_like_silk", "memory_bound_echo"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     lyranni_discipline: {
       name: "Lyranni Discipline",
@@ -822,7 +923,8 @@ const talentDataMap = {
       prerequisite: ["spirit_favored", "whispers_beyond", "ancestral_resonance", "veil_dancer", "rite_bound", "veilsplice", "illuminated_touch", "words_like_silk", "memory_bound_echo"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: ""
     },
     subtle_authority: {
       name: "Subtle Authority",
@@ -830,7 +932,8 @@ const talentDataMap = {
       prerequisite: ["social_ghost"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     veil_laced_command: {
       name: "Veil-Laced Command",
@@ -838,7 +941,8 @@ const talentDataMap = {
       prerequisite: ["spirit_favored", "words_like_silk"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     shadow_echo_step: {
       name: "Shadow Echo Step",
@@ -846,7 +950,8 @@ const talentDataMap = {
       prerequisite: ["glimmerstep", "veil_dancer"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "scene"
     },
     echo_binding: {
       name: "Echo Binding",
@@ -854,7 +959,8 @@ const talentDataMap = {
       prerequisite: ["memory_bound_echo", "rite_bound"],
       tier: 3,
       cost: "30",
-      capstone: false
+      capstone: false,
+      usage_limit: "session"
     },
     voice_of_the_ancestors: {
       name: "Voice of the Ancestors",
@@ -862,7 +968,8 @@ const talentDataMap = {
       prerequisite: ["spirit_favored", "ancestral_resonance"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     veil_linked_will: {
       name: "Veil-Linked Will",
@@ -870,7 +977,8 @@ const talentDataMap = {
       prerequisite: ["lyranni_discipline"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
     echo_of_elegance: {
       name: "Echo of Elegance",
@@ -878,7 +986,8 @@ const talentDataMap = {
       prerequisite: ["subtle_authority"],
       tier: 4,
       cost: "40",
-      capstone: true
+      capstone: true,
+      usage_limit: "session"
     },
 	breath_of_the_veil: {
 	  name: "Breath of the Veil",
@@ -887,7 +996,8 @@ const talentDataMap = {
 	  prerequisiteAny: { tier: 3, count: 1},
 	  tier: 4,
 	  cost: "40",
-	  capstone: true
+	  capstone: true,
+      usage_limit: "session"
 	}
   }
 };

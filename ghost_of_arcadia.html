@@ -290,9 +290,11 @@
 			<button type="action" name="act_spells">Spells</button>
 			<button type="action" name="act_inventory">Inventory</button>
 			<button type="action" name="act_backstory">Backstory</button>
+			<button type="action" name="act_ledger">Ledger</button>
+			<button type="action" name="act_tracker">Tracker</button>
 			<button type="action" name="act_npcs">NPCs</button>
 			<button type="action" name="act_vehicles">Vehicles</button>
-			<button type="action" name="act_ledger">Ledger</button>
+
 		</div>
 
 		<!-- ------------------- SKILLS -------------------- -->
@@ -6900,7 +6902,7 @@
 							<div class="sheet-spellblock-row sheet-toggle-wrapper">
 								<button type="action" name="act_spelladvanced" class="sheet-toggle-button">▼</button>
 							</div>
-			
+
 							<div class="sheet-spellblock-advanced">
 								<!-- XP / AC / Cost / Etc -->
 								<div class="sheet-spellblock-row">
@@ -7308,6 +7310,1927 @@
 			</div>
 		</div>
 
+		<!-- ------------------------- Ledger ------------------------- -->
+		<div class="sheet-tab-content sheet-ledger">
+			<h4 class="section-head" data-i18n="character_ledger-u">Character Ledger</h4>
+			<div class="sheet-section">
+				<div class="sheet-character-lock">
+					<label>Character Creation Done - Lock</label>
+					<input class="sheet-attr-input-small sheet-skill-base" type="checkbox" name="attr_char_creation_lock" value="1" />
+				</div>
+			</div>
+			
+			<div class="sheet-section">
+				<h4 class="section-head" data-i18n="skill_point_tracker-u">Skill Point Tracker</h4>
+				<div class="sheet-ledger-skill-points">
+					<div class="sheet-ledger-row">
+						<label>Career Skill Points</label>
+						<input class="sheet-attr-input-small sheet-skill-base" type="text" name="attr_primary_career_skill_points" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>Sec. Career Skill -> XP</label>
+						<input class="sheet-attr-input-small sheet-skill-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_lost" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>Personal Skill Points</label>
+						<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_personal_skill_points" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>Skill Points Spent</label>
+						<input class="sheet-attr-input-small sheet-skill-cost sheet-readonly" type="text" name="attr_total_skill_points_spent" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP->Skill Points Total</label>
+						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_xpledger_skill_point_gain" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP->Skill Points (Roll) Total</label>
+						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_xpledger_skill_point_roll_gain_skill" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>Perk -> Linguist</label>
+						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_perk_linguist" />
+					</div>						
+					<div class="sheet-ledger-row">
+						<label>Skill Points Remaining</label>
+						<input class="sheet-attr-input-small sheet-skill-remain sheet-readonly" type="text" name="attr_total_skill_points_remain" />
+					</div>
+				</div>
+			</div>
+
+			<!-- XP Tracker -->
+			<div class="sheet-section">
+				<h4 class="section-head" data-i18n="xp_point_tracker-u">XP Point Tracker</h4>
+				<div class="sheet-ledger-xp">
+					<div class="sheet-ledger-row">
+						<label>Background XP Start</label>
+						<input class="sheet-attr-input-small sheet-xp-base sheet-readonly" type="text" name="attr_background_xp" value=0 />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP Gained Total</label>
+						<input class="sheet-attr-input-small sheet-xp-gain sheet-readonly" type="text" name="attr_xpledger_gained_xp" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>Racial Talent XP Spent</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xp_spent_talent" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>Career Talent XP Spent</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xp_spent_career_talent" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP -> Spells Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_spells_cost" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP -> Skill Points Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_gain" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP -> Skill Points (Roll) Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_roll_gain" />
+					</div>		
+				</div>
+				<div class="sheet-ledger-xp">
+					<div class="sheet-ledger-row">
+						<label>XP -> Credits Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_credits_cost" />
+					</div>				
+					<div class="sheet-ledger-row">
+						<label>XP -> Allies Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_allies_cost" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP -> Contacts Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_contacts_cost" />
+					</div>	
+					<div class="sheet-ledger-row">
+						<label>XP -> Rep. Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_reuptation_cost" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP -> Factions Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_faction_cost" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP -> Flaws Total</label>
+						<input class="sheet-attr-input-small sheet-xp-gain sheet-readonly" type="text" name="attr_xpledger_flaws_gain" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP -> Perks Total</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_perks_cost" />
+					</div>
+					<div class="sheet-ledger-row">
+						<label>XP Pool Remaining</label>
+						<input class="sheet-attr-input-small sheet-xp-remain sheet-readonly" type="text" name="attr_xp_remaining" />
+					</div>
+				</div>
+			</div>
+
+			<!-- Ledger Repeating -->
+			<div class="sheet-section">
+				<h4 class="section-head" data-i18n="ledger-u">Ledger</h4>
+				<div class="sheet-ledger-header">
+					<div class="sheet-repeating-ledger-row">
+						<div class="flex-cell ledger-choice"><span>Ledger Choice</span></div>
+						<div class="flex-cell ledger-value-header">Value</div>
+						<div class="flex-cell ledger-value-header">SP</div>
+						<div class="flex-cell ledger-description"><span>Ledger Description</span></div>
+					</div>
+				</div>
+				<fieldset class="repeating_ledger">
+					<div class="sheet-repeating-ledger-row">
+						<div class="flex-cell ledger-choice">
+							<select class="sheet-selection-full" name="attr_ledger_choice">
+								<option value="0" selected>-- Choose XP Option --</option>
+								<option value="xp_gained">XP Gained</option>
+								<option value="skill_xp">Car. Sec. Skill -> XP</option>
+								<option value="xp_skill">XP -> Skill</option>
+								<option value="xp_skill_roll">XP -> Skill (Roll)</option>
+								<option value="xp_spells">XP -> Spells</option>
+								<option value="xp_credits">XP -> Credits</option>
+								<option value="xp_allies">XP -> Allies</option>
+								<option value="xp_contacts">XP -> Contacts</option>
+								<option value="xp_reputation">XP -> Reputation</option>
+								<option value="xp_faction">XP -> Faction</option>
+								<option value="xp_flaws">XP -> Flaws</option>
+								<option value="xp_perks">XP -> Perks</option>
+								<option value="perk_linguist">Perk -> Linguist</option>
+							</select>
+						</div>
+						<div class="flex-cell ledger-value">
+							<input class="sheet-attr-input-small" type="text" name="attr_ledger_choice_value" />
+						</div>
+						<div class="flex-cell ledger-value">
+							<input class="sheet-attr-input-small" type="text" name="attr_ledger_choice_value_skill" />
+						</div>
+						<div class="flex-cell ledger-description">
+							<input class="sheet-attr-input-wide" type="text" name="attr_ledger_choice_description" />
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+
+		<!-- ------------------------- Tracker ------------------------- -->
+		<div class="sheet-tab-content sheet-tracker">
+		
+			<div class="sheet-tracker-section">
+			
+				<h4>Scene-Limited</h4>
+				<div class="sheet-tracker-column">
+					<button type="action" name="act_clear_scene_uses" class="sheet-tab-buttons">Clear Scene</button>
+
+					<!-- Racial Talent Scene Start -->
+					
+                    <!-- Racial Talent: Identity Cascade (scene) -->
+                    <input type="hidden" name="attr_show_alteri_identity_cascade" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-alteri-identity-cascade">
+                        <input type="checkbox" name="attr_used_scene_alteri_identity_cascade" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_identity_cascade_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Reflexive Shift (scene) -->
+                    <input type="hidden" name="attr_show_alteri_reflexive_shift" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-alteri-reflexive-shift">
+                        <input type="checkbox" name="attr_used_scene_alteri_reflexive_shift" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_reflexive_shift_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Shift Reflex (scene) -->
+                    <input type="hidden" name="attr_show_alteri_shift_reflex" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-alteri-shift-reflex">
+                        <input type="checkbox" name="attr_used_scene_alteri_shift_reflex" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_shift_reflex_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Instinctive Counter (scene) -->
+                    <input type="hidden" name="attr_show_draevi_instinctive_counter" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-draevi-instinctive-counter">
+                        <input type="checkbox" name="attr_used_scene_draevi_instinctive_counter" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_instinctive_counter_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Silent Step, Sharp Ear (scene) -->
+                    <input type="hidden" name="attr_show_draevi_silent_step_sharp_ear" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-draevi-silent-step-sharp-ear">
+                        <input type="checkbox" name="attr_used_scene_draevi_silent_step_sharp_ear" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_silent_step_sharp_ear_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Trailborn Reflexes (scene) -->
+                    <input type="hidden" name="attr_show_draevi_trailborn_reflexes" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-draevi-trailborn-reflexes">
+                        <input type="checkbox" name="attr_used_scene_draevi_trailborn_reflexes" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_trailborn_reflexes_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Spontaneous Strategist (scene) -->
+                    <input type="hidden" name="attr_show_human_spontaneous_strategist" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-human-spontaneous-strategist">
+                        <input type="checkbox" name="attr_used_scene_human_spontaneous_strategist" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_spontaneous_strategist_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Glimmerstep (scene) -->
+                    <input type="hidden" name="attr_show_lyranni_glimmerstep" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-glimmerstep">
+                        <input type="checkbox" name="attr_used_scene_lyranni_glimmerstep" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_glimmerstep_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Illuminated Touch (scene) -->
+                    <input type="hidden" name="attr_show_lyranni_illuminated_touch" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-illuminated-touch">
+                        <input type="checkbox" name="attr_used_scene_lyranni_illuminated_touch" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_illuminated_touch_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Resonant Poise (scene) -->
+                    <input type="hidden" name="attr_show_lyranni_resonant_poise" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-resonant-poise">
+                        <input type="checkbox" name="attr_used_scene_lyranni_resonant_poise" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_resonant_poise_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Shadow Echo Step (scene) -->
+                    <input type="hidden" name="attr_show_lyranni_shadow_echo_step" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-shadow-echo-step">
+                        <input type="checkbox" name="attr_used_scene_lyranni_shadow_echo_step" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_shadow_echo_step_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: True Veilsight (scene) -->
+                    <input type="hidden" name="attr_show_lyranni_true_veilsight" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-true-veilsight">
+                        <input type="checkbox" name="attr_used_scene_lyranni_true_veilsight" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_true_veilsight_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veil-Laced Command (scene) -->
+                    <input type="hidden" name="attr_show_lyranni_veil_laced_command" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-veil-laced-command">
+                        <input type="checkbox" name="attr_used_scene_lyranni_veil_laced_command" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_veil_laced_command_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veilsight (scene) -->
+                    <input type="hidden" name="attr_show_lyranni_veilsight" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-veilsight">
+                        <input type="checkbox" name="attr_used_scene_lyranni_veilsight" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_veilsight_label"></span>
+                        </span>
+                    </div>
+					<!-- Racial Talent Scene End -->
+					
+					<!-- Career Talent Scene Start -->
+					
+                    <!-- Career Talent: Signal Sync (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_signal_sync" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-signal-sync">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_signal_sync" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_signal_sync_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Veil Thread Tap (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_veil_thread_tap" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-veil-thread-tap">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_veil_thread_tap" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_veil_thread_tap_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Hardlight Override (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_hardlight_override" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-hardlight-override">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_hardlight_override" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_hardlight_override_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Recursive Pulse (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_recursive_pulse" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-recursive-pulse">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_recursive_pulse" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_recursive_pulse_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Code Injection (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_code_injection" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-code-injection">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_code_injection" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_code_injection_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Arc-Thread Override (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_arc_thread_override" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-arc-thread-override">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_arc_thread_override" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_arc_thread_override_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Synthetic Harmony (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_synthetic_harmony" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-synthetic-harmony">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_synthetic_harmony" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_synthetic_harmony_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Command Injection (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_command_injection" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-command-injection">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_command_injection" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_command_injection_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Backdoor Ritual (scene) -->
+                    <input type="hidden" name="attr_show_codeweaver_backdoor_ritual" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-codeweaver-backdoor-ritual">
+                        <input type="checkbox" name="attr_used_scene_codeweaver_backdoor_ritual" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_backdoor_ritual_label"></span>
+                        </span>
+                    </div>
+					
+                    <!-- Career Talent: Field Stabilizer (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_field_stabilizer" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-field-stabilizer">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_field_stabilizer" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_field_stabilizer_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Pain Doesn’t Matter (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_pain_doesnt_matter" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-pain-doesnt-matter">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_pain_doesnt_matter" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_pain_doesnt_matter_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Trauma Team Reflexes (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_trauma_team_reflexes" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-trauma-team-reflexes">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_trauma_team_reflexes" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_trauma_team_reflexes_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Injector Harness (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_injector_harness" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-injector-harness">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_injector_harness" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_injector_harness_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Vital Scan Overlay (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_vital_scan_overlay" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-vital-scan-overlay">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_vital_scan_overlay" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_vital_scan_overlay_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Stay With Me! (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_stay_with_me" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-stay-with-me">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_stay_with_me" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_stay_with_me_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Medical Override (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_medical_override" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-medical-override">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_medical_override" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_medical_override_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Quickdraw Injector (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_quickdraw_injector" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-quickdraw-injector">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_quickdraw_injector" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_quickdraw_injector_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Reactive Trauma Surge (scene) -->
+                    <input type="hidden" name="attr_show_combat_medic_reactive_trauma_surge" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-combat_medic-reactive-trauma-surge">
+                        <input type="checkbox" name="attr_used_scene_combat_medic_reactive_trauma_surge" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_reactive_trauma_surge_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Suggestive Echo (scene) -->
+                    <input type="hidden" name="attr_show_mindbender_suggestive_echo" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-mindbender-suggestive-echo">
+                        <input type="checkbox" name="attr_used_scene_mindbender_suggestive_echo" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_suggestive_echo_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Thread of Doubt (scene) -->
+                    <input type="hidden" name="attr_show_mindbender_thread_of_doubt" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-mindbender-thread-of-doubt">
+                        <input type="checkbox" name="attr_used_scene_mindbender_thread_of_doubt" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_thread_of_doubt_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Veil of Intent (scene) -->
+                    <input type="hidden" name="attr_show_mindbender_veil_of_intent" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-mindbender-veil-of-intent">
+                        <input type="checkbox" name="attr_used_scene_mindbender_veil_of_intent" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_veil_of_intent_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Mental Static (scene) -->
+                    <input type="hidden" name="attr_show_mindbender_mental_static" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-mindbender-mental-static">
+                        <input type="checkbox" name="attr_used_scene_mindbender_mental_static" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_mental_static_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Cognitive Rewire (scene) -->
+                    <input type="hidden" name="attr_show_mindbender_cognitive_rewire" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-mindbender-cognitive-rewire">
+                        <input type="checkbox" name="attr_used_scene_mindbender_cognitive_rewire" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_cognitive_rewire_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Prey on Instinct (scene) -->
+                    <input type="hidden" name="attr_show_mindbender_prey_on_instinct" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-mindbender-prey-on-instinct">
+                        <input type="checkbox" name="attr_used_scene_mindbender_prey_on_instinct" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_prey_on_instinct_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Synaptic Lag (scene) -->
+                    <input type="hidden" name="attr_show_mindbender_synaptic_lag" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-mindbender-synaptic-lag">
+                        <input type="checkbox" name="attr_used_scene_mindbender_synaptic_lag" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_synaptic_lag_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Cognitive Fortress (scene) -->
+                    <input type="hidden" name="attr_show_mindbender_cognitive_fortress" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-mindbender-cognitive-fortress">
+                        <input type="checkbox" name="attr_used_scene_mindbender_cognitive_fortress" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_cognitive_fortress_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Runesight (scene) -->
+                    <input type="hidden" name="attr_show_sigilbound_runesight" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-sigilbound-runesight">
+                        <input type="checkbox" name="attr_used_scene_sigilbound_runesight" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_runesight_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Arcane Lock (scene) -->
+                    <input type="hidden" name="attr_show_sigilbound_arcane_lock" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-sigilbound-arcane-lock">
+                        <input type="checkbox" name="attr_used_scene_sigilbound_arcane_lock" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_arcane_lock_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Reflective Ward (scene) -->
+                    <input type="hidden" name="attr_show_sigilbound_reflective_ward" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-sigilbound-reflective-ward">
+                        <input type="checkbox" name="attr_used_scene_sigilbound_reflective_ward" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_reflective_ward_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Sigil of Anchoring (scene) -->
+                    <input type="hidden" name="attr_show_sigilbound_sigil_of_anchoring" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-sigilbound-sigil-of-anchoring">
+                        <input type="checkbox" name="attr_used_scene_sigilbound_sigil_of_anchoring" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_sigil_of_anchoring_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Warded Advance (scene) -->
+                    <input type="hidden" name="attr_show_sigilbound_warded_advance" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-sigilbound-warded-advance">
+                        <input type="checkbox" name="attr_used_scene_sigilbound_warded_advance" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_warded_advance_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Null Field (scene) -->
+                    <input type="hidden" name="attr_show_sigilbound_null_field" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-sigilbound-null-field">
+                        <input type="checkbox" name="attr_used_scene_sigilbound_null_field" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_null_field_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Sigil Pulse (scene) -->
+                    <input type="hidden" name="attr_show_sigilbound_sigil_pulse" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-sigilbound-sigil-pulse">
+                        <input type="checkbox" name="attr_used_scene_sigilbound_sigil_pulse" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_sigil_pulse_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Sigil Reservoir (scene) -->
+                    <input type="hidden" name="attr_show_sigilbound_sigil_reservoir" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-sigilbound-sigil-reservoir">
+                        <input type="checkbox" name="attr_used_scene_sigilbound_sigil_reservoir" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_sigil_reservoir_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Elemental Channeling (scene) -->
+                    <input type="hidden" name="attr_show_stormweaver_elemental_channeling" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-stormweaver-elemental-channeling">
+                        <input type="checkbox" name="attr_used_scene_stormweaver_elemental_channeling" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_elemental_channeling_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Veil-Shocked (scene) -->
+                    <input type="hidden" name="attr_show_stormweaver_veil_shocked" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-stormweaver-veil-shocked">
+                        <input type="checkbox" name="attr_used_scene_stormweaver_veil_shocked" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_veil_shocked_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Stormpulse Drive (scene) -->
+                    <input type="hidden" name="attr_show_stormweaver_stormpulse_drive" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-stormweaver-stormpulse-drive">
+                        <input type="checkbox" name="attr_used_scene_stormweaver_stormpulse_drive" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_stormpulse_drive_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Pulse Detonation (scene) -->
+                    <input type="hidden" name="attr_show_stormweaver_pulse_detonation" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-stormweaver-pulse-detonation">
+                        <input type="checkbox" name="attr_used_scene_stormweaver_pulse_detonation" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_pulse_detonation_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Reactive Veilwalk (scene) -->
+                    <input type="hidden" name="attr_show_stormweaver_reactive_veilwalk" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-stormweaver-reactive-veilwalk">
+                        <input type="checkbox" name="attr_used_scene_stormweaver_reactive_veilwalk" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_reactive_veilwalk_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Combat Rhythm (scene) -->
+                    <input type="hidden" name="attr_show_street_ronin_combat_rhythm" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-street-ronin-combat-rhythm">
+                        <input type="checkbox" name="attr_used_scene_street_ronin_combat_rhythm" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_combat_rhythm_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Disciplined Focus (scene) -->
+                    <input type="hidden" name="attr_show_street_ronin_disciplined_focus" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-street-ronin-disciplined-focus">
+                        <input type="checkbox" name="attr_used_scene_street_ronin_disciplined_focus" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_disciplined_focus_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Urban Footwork (scene) -->
+                    <input type="hidden" name="attr_show_street_ronin_urban_footwork" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-street-ronin-urban-footwork">
+                        <input type="checkbox" name="attr_used_scene_street_ronin_urban_footwork" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_urban_footwork_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Interception Cut (scene) -->
+                    <input type="hidden" name="attr_show_street_ronin_interception_cut" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-street-ronin-interception-cut">
+                        <input type="checkbox" name="attr_used_scene_street_ronin_interception_cut" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_interception_cut_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Posture Breaker (scene) -->
+                    <input type="hidden" name="attr_show_street_ronin_posture_breaker" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-street-ronin-posture-breaker">
+                        <input type="checkbox" name="attr_used_scene_street_ronin_posture_breaker" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_posture_breaker_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Counterguard Precision (scene) -->
+                    <input type="hidden" name="attr_show_street_ronin_counterguard_precision" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-street-ronin-counterguard-precision">
+                        <input type="checkbox" name="attr_used_scene_street_ronin_counterguard_precision" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_counterguard_precision_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Ghost Step (scene) -->
+                    <input type="hidden" name="attr_show_street_ronin_ghost_step" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-street-ronin-ghost-step">
+                        <input type="checkbox" name="attr_used_scene_street_ronin_ghost_step" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_ghost_step_label"></span>
+                        </span>
+                    </div>
+					
+					<!-- Career Talent Scene End -->
+				</div>
+
+				<h4>Session-Limited</h4>
+				<div class="sheet-tracker-column">
+					<button type="action" name="act_clear_session_uses" class="sheet-tab-buttons">Clear Session</button>
+					
+					<!-- Racial Talent Session Start -->
+                    <!-- Racial Talent: Echoed Voice (session) -->
+                    <input type="hidden" name="attr_show_alteri_echoed_voice" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-echoed-voice">
+                        <input type="checkbox" name="attr_used_session_alteri_echoed_voice" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_echoed_voice_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Ghost Protocol (session) -->
+                    <input type="hidden" name="attr_show_alteri_ghost_protocol" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-ghost-protocol">
+                        <input type="checkbox" name="attr_used_session_alteri_ghost_protocol" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_ghost_protocol_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Whisper-Touched (session) -->
+                    <input type="hidden" name="attr_show_alteri_whisper_touched" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-whisper-touched">
+                        <input type="checkbox" name="attr_used_session_alteri_whisper_touched" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_whisper_touched_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Grace of the Many (session) -->
+                    <input type="hidden" name="attr_show_alteri_grace_of_the_many" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-grace-of-the-many">
+                        <input type="checkbox" name="attr_used_session_alteri_grace_of_the_many" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_grace_of_the_many_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Facial Recalibration (session) -->
+                    <input type="hidden" name="attr_show_alteri_facial_recalibration" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-facial-recalibration">
+                        <input type="checkbox" name="attr_used_session_alteri_facial_recalibration" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_facial_recalibration_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Adaptive Memory (session) -->
+                    <input type="hidden" name="attr_show_alteri_adaptive_memory" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-adaptive-memory">
+                        <input type="checkbox" name="attr_used_session_alteri_adaptive_memory" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_adaptive_memory_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Ghost Signature (session) -->
+                    <input type="hidden" name="attr_show_alteri_ghost_signature" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-ghost-signature">
+                        <input type="checkbox" name="attr_used_session_alteri_ghost_signature" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_ghost_signature_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Mirror Weave (session) -->
+                    <input type="hidden" name="attr_show_alteri_mirror_weave" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-mirror-weave">
+                        <input type="checkbox" name="attr_used_session_alteri_mirror_weave" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_mirror_weave_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veil Echo Memory (session) -->
+                    <input type="hidden" name="attr_show_alteri_veil_echo_memory" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-veil-echo-memory">
+                        <input type="checkbox" name="attr_used_session_alteri_veil_echo_memory" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_veil_echo_memory_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Silent Archive (session) -->
+                    <input type="hidden" name="attr_show_alteri_silent_archive" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-silent-archive">
+                        <input type="checkbox" name="attr_used_session_alteri_silent_archive" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_silent_archive_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Perfect Mimicry (session) -->
+                    <input type="hidden" name="attr_show_alteri_perfect_mimicry" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-perfect-mimicry">
+                        <input type="checkbox" name="attr_used_session_alteri_perfect_mimicry" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_perfect_mimicry_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Biometric Phantom (session) -->
+                    <input type="hidden" name="attr_show_alteri_biometric_phantom" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-biometric-phantom">
+                        <input type="checkbox" name="attr_used_session_alteri_biometric_phantom" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_biometric_phantom_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Memory Graft (session) -->
+                    <input type="hidden" name="attr_show_alteri_memory_graft" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-memory-graft">
+                        <input type="checkbox" name="attr_used_session_alteri_memory_graft" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_memory_graft_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veil-Shaped Will (session) -->
+                    <input type="hidden" name="attr_show_alteri_veil_shaped_will" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-veil-shaped-will">
+                        <input type="checkbox" name="attr_used_session_alteri_veil_shaped_will" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_veil_shaped_will_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Social Echo (session) -->
+                    <input type="hidden" name="attr_show_alteri_social_echo" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-social-echo">
+                        <input type="checkbox" name="attr_used_session_alteri_social_echo" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_social_echo_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Immaculate Impersonation (session) -->
+                    <input type="hidden" name="attr_show_alteri_immaculate_impersonation" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-immaculate-impersonation">
+                        <input type="checkbox" name="attr_used_session_alteri_immaculate_impersonation" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_immaculate_impersonation_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Living Mask Archive (session) -->
+                    <input type="hidden" name="attr_show_alteri_living_mask_archive" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-living-mask-archive">
+                        <input type="checkbox" name="attr_used_session_alteri_living_mask_archive" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_living_mask_archive_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veil-Mirroring Ritual (session) -->
+                    <input type="hidden" name="attr_show_alteri_veil_mirroring_ritual" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-veil-mirroring-ritual">
+                        <input type="checkbox" name="attr_used_session_alteri_veil_mirroring_ritual" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_veil_mirroring_ritual_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Author of the Lie (session) -->
+                    <input type="hidden" name="attr_show_alteri_author_of_the_lie" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-author-of-the-lie">
+                        <input type="checkbox" name="attr_used_session_alteri_author_of_the_lie" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_alteri_author_of_the_lie_label"></span>
+                        </span>
+                    </div>
+                    <!-- Racial Talent: Urban Climber (session) -->
+                    <input type="hidden" name="attr_show_draevi_urban_climber" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-urban-climber">
+                        <input type="checkbox" name="attr_used_session_draevi_urban_climber" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_urban_climber_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Spirits-in-Stone (session) -->
+                    <input type="hidden" name="attr_show_draevi_spirits_in_stone" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-spirits-in-stone">
+                        <input type="checkbox" name="attr_used_session_draevi_spirits_in_stone" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_spirits_in_stone_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Gutter-Stalker (session) -->
+                    <input type="hidden" name="attr_show_draevi_gutter_stalker" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-gutter-stalker">
+                        <input type="checkbox" name="attr_used_session_draevi_gutter_stalker" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_gutter_stalker_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Bone-Sung Memory (session) -->
+                    <input type="hidden" name="attr_show_draevi_bone_sung_memory" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-bone-sung-memory">
+                        <input type="checkbox" name="attr_used_session_draevi_bone_sung_memory" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_bone_sung_memory_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Hardened Trailwalker (session) -->
+                    <input type="hidden" name="attr_show_draevi_hardened_trailwalker" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-hardened-trailwalker">
+                        <input type="checkbox" name="attr_used_session_draevi_hardened_trailwalker" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_hardened_trailwalker_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veins of Stone (session) -->
+                    <input type="hidden" name="attr_show_draevi_veins_of_stone" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-veins-of-stone">
+                        <input type="checkbox" name="attr_used_session_draevi_veins_of_stone" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_veins_of_stone_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Echo-Binder’s Rite (session) -->
+                    <input type="hidden" name="attr_show_draevi_echo_binders_rite" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-echo-binders-rite">
+                        <input type="checkbox" name="attr_used_session_draevi_echo_binders_rite" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_echo_binders_rite_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Scent the Shift (session) -->
+                    <input type="hidden" name="attr_show_draevi_scent_the_shift" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-scent-the-shift">
+                        <input type="checkbox" name="attr_used_session_draevi_scent_the_shift" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_scent_the_shift_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Tales Etched in Horn (session) -->
+                    <input type="hidden" name="attr_show_draevi_tales_etched_in_horn" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-tales-etched-in-horn">
+                        <input type="checkbox" name="attr_used_session_draevi_tales_etched_in_horn" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_tales_etched_in_horn_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Root-Stance Tenacity (session) -->
+                    <input type="hidden" name="attr_show_draevi_root_stance_tenacity" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-root-stance-tenacity">
+                        <input type="checkbox" name="attr_used_session_draevi_root_stance_tenacity" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_root_stance_tenacity_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Spirit-Touched Mastery (session) -->
+                    <input type="hidden" name="attr_show_draevi_spirit_touched_mastery" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-spirit-touched-mastery">
+                        <input type="checkbox" name="attr_used_session_draevi_spirit_touched_mastery" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_spirit_touched_mastery_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Spiritual Vanguard (session) -->
+                    <input type="hidden" name="attr_show_draevi_spiritual_vanguard" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-spiritual-vanguard">
+                        <input type="checkbox" name="attr_used_session_draevi_spiritual_vanguard" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_spiritual_vanguard_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Emberlash Retaliation (session) -->
+                    <input type="hidden" name="attr_show_draevi_emberlash_retaliation" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-emberlash-retaliation">
+                        <input type="checkbox" name="attr_used_session_draevi_emberlash_retaliation" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_emberlash_retaliation_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Ancestor’s Pulse (session) -->
+                    <input type="hidden" name="attr_show_draevi_ancestors_pulse" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-ancestors-pulse">
+                        <input type="checkbox" name="attr_used_session_draevi_ancestors_pulse" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_ancestors_pulse_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Pathfinder’s Edge (session) -->
+                    <input type="hidden" name="attr_show_draevi_pathfinders_edge" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-pathfinders-edge">
+                        <input type="checkbox" name="attr_used_session_draevi_pathfinders_edge" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_pathfinders_edge_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Wild Tamer’s Gaze (session) -->
+                    <input type="hidden" name="attr_show_draevi_wild_tamers_gaze" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-wild-tamers-gaze">
+                        <input type="checkbox" name="attr_used_session_draevi_wild_tamers_gaze" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_wild_tamers_gaze_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Legacy Reforged (session) -->
+                    <input type="hidden" name="attr_show_draevi_legacy_reforged" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-legacy-reforged">
+                        <input type="checkbox" name="attr_used_session_draevi_legacy_reforged" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_legacy_reforged_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Soul of the Wild Hunt (session) -->
+                    <input type="hidden" name="attr_show_draevi_soul_of_the_wild_hunt" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-soul-of-the-wild-hunt">
+                        <input type="checkbox" name="attr_used_session_draevi_soul_of_the_wild_hunt" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_soul_of_the_wild_hunt_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Echo-Flame Warden (session) -->
+                    <input type="hidden" name="attr_show_draevi_echo_flame_warden" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-echo-flame-warden">
+                        <input type="checkbox" name="attr_used_session_draevi_echo_flame_warden" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_echo_flame_warden_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Ancestral Mirror (session) -->
+                    <input type="hidden" name="attr_show_draevi_ancestral_mirror" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-ancestral-mirror">
+                        <input type="checkbox" name="attr_used_session_draevi_ancestral_mirror" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_ancestral_mirror_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Path of the Remembered (session) -->
+                    <input type="hidden" name="attr_show_draevi_path_of_the_remembered" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-path-of-the-remembered">
+                        <input type="checkbox" name="attr_used_session_draevi_path_of_the_remembered" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_draevi_path_of_the_remembered_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Hard Lesson (session) -->
+                    <input type="hidden" name="attr_show_human_hard_lesson" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-hard-lesson">
+                        <input type="checkbox" name="attr_used_session_human_hard_lesson" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_hard_lesson_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Instinct Over Training (session) -->
+                    <input type="hidden" name="attr_show_human_instinct_over_training" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-instinct-over-training">
+                        <input type="checkbox" name="attr_used_session_human_instinct_over_training" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_instinct_over_training_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Makeshift Medic (session) -->
+                    <input type="hidden" name="attr_show_human_makeshift_medic" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-makeshift-medic">
+                        <input type="checkbox" name="attr_used_session_human_makeshift_medic" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_makeshift_medic_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: No Stranger to Pain (session) -->
+                    <input type="hidden" name="attr_show_human_no_stranger_to_pain" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-no-stranger-to-pain">
+                        <input type="checkbox" name="attr_used_session_human_no_stranger_to_pain" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_no_stranger_to_pain_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Social Versatility (session) -->
+                    <input type="hidden" name="attr_show_human_social_versatility" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-social-versatility">
+                        <input type="checkbox" name="attr_used_session_human_social_versatility" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_social_versatility_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Battle-Tested Gut (session) -->
+                    <input type="hidden" name="attr_show_human_battle_tested_gut" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-battle-tested-gut">
+                        <input type="checkbox" name="attr_used_session_human_battle_tested_gut" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_battle_tested_gut_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Quick Learner (session) -->
+                    <input type="hidden" name="attr_show_human_quick_learner" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-quick-learner">
+                        <input type="checkbox" name="attr_used_session_human_quick_learner" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_quick_learner_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Situational Awareness (session) -->
+                    <input type="hidden" name="attr_show_human_situational_awareness" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-situational-awareness">
+                        <input type="checkbox" name="attr_used_session_human_situational_awareness" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_situational_awareness_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Lucky Timing (session) -->
+                    <input type="hidden" name="attr_show_human_lucky_timing" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-lucky-timing">
+                        <input type="checkbox" name="attr_used_session_human_lucky_timing" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_lucky_timing_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Improvised Tools (session) -->
+                    <input type="hidden" name="attr_show_human_improvised_tools" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-improvised-tools">
+                        <input type="checkbox" name="attr_used_session_human_improvised_tools" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_improvised_tools_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Defiant Resilience (session) -->
+                    <input type="hidden" name="attr_show_human_defiant_resilience" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-defiant-resilience">
+                        <input type="checkbox" name="attr_used_session_human_defiant_resilience" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_defiant_resilience_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Cross-Trained (session) -->
+                    <input type="hidden" name="attr_show_human_cross_trained" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-cross-trained">
+                        <input type="checkbox" name="attr_used_session_human_cross_trained" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_cross_trained_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Momentum Shift (session) -->
+                    <input type="hidden" name="attr_show_human_momentum_shift" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-momentum-shift">
+                        <input type="checkbox" name="attr_used_session_human_momentum_shift" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_momentum_shift_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Pull From Memory (session) -->
+                    <input type="hidden" name="attr_show_human_pull_from_memory" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-pull-from-memory">
+                        <input type="checkbox" name="attr_used_session_human_pull_from_memory" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_pull_from_memory_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Chain of Luck (session) -->
+                    <input type="hidden" name="attr_show_human_chain_of_luck" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-chain-of-luck">
+                        <input type="checkbox" name="attr_used_session_human_chain_of_luck" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_chain_of_luck_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Dig Deep (session) -->
+                    <input type="hidden" name="attr_show_human_dig_deep" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-dig-deep">
+                        <input type="checkbox" name="attr_used_session_human_dig_deep" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_dig_deep_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Just Enough Prep (session) -->
+                    <input type="hidden" name="attr_show_human_just_enough_prep" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-just-enough-prep">
+                        <input type="checkbox" name="attr_used_session_human_just_enough_prep" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_just_enough_prep_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Break the Pattern (session) -->
+                    <input type="hidden" name="attr_show_human_break_the_pattern" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-break-the-pattern">
+                        <input type="checkbox" name="attr_used_session_human_break_the_pattern" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_break_the_pattern_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Tactical Improviser (session) -->
+                    <input type="hidden" name="attr_show_human_tactical_improviser" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-tactical-improviser">
+                        <input type="checkbox" name="attr_used_session_human_tactical_improviser" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_tactical_improviser_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Luck Bends for Me (session) -->
+                    <input type="hidden" name="attr_show_human_luck_bends_for_me" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-luck-bends-for-me">
+                        <input type="checkbox" name="attr_used_session_human_luck_bends_for_me" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_luck_bends_for_me_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Unshakable Focus (session) -->
+                    <input type="hidden" name="attr_show_human_unshakable_focus" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-human-unshakable-focus">
+                        <input type="checkbox" name="attr_used_session_human_unshakable_focus" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_human_unshakable_focus_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Legacy Spark (session) -->
+                    <input type="hidden" name="attr_show_lyranni_legacy_spark" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-legacy-spark">
+                        <input type="checkbox" name="attr_used_session_lyranni_legacy_spark" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_legacy_spark_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veil-Blooded Sense (session) -->
+                    <input type="hidden" name="attr_show_lyranni_veil_blooded_sense" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-veil-blooded-sense">
+                        <input type="checkbox" name="attr_used_session_lyranni_veil_blooded_sense" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_veil_blooded_sense_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Whispers Beyond (session) -->
+                    <input type="hidden" name="attr_show_lyranni_whispers_beyond" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-whispers-beyond">
+                        <input type="checkbox" name="attr_used_session_lyranni_whispers_beyond" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_whispers_beyond_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veil Dancer (session) -->
+                    <input type="hidden" name="attr_show_lyranni_veil_dancer" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-veil-dancer">
+                        <input type="checkbox" name="attr_used_session_lyranni_veil_dancer" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_veil_dancer_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Rite-Bound (session) -->
+                    <input type="hidden" name="attr_show_lyranni_rite_bound" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-rite-bound">
+                        <input type="checkbox" name="attr_used_session_lyranni_rite_bound" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_rite_bound_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Words Like Silk (session) -->
+                    <input type="hidden" name="attr_show_lyranni_words_like_silk" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-words-like-silk">
+                        <input type="checkbox" name="attr_used_session_lyranni_words_like_silk" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_words_like_silk_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Memory-Bound Echo (session) -->
+                    <input type="hidden" name="attr_show_lyranni_memory_bound_echo" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-memory-bound-echo">
+                        <input type="checkbox" name="attr_used_session_lyranni_memory_bound_echo" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_memory_bound_echo_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Subtle Authority (session) -->
+                    <input type="hidden" name="attr_show_lyranni_subtle_authority" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-subtle-authority">
+                        <input type="checkbox" name="attr_used_session_lyranni_subtle_authority" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_subtle_authority_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Echo Binding (session) -->
+                    <input type="hidden" name="attr_show_lyranni_echo_binding" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-echo-binding">
+                        <input type="checkbox" name="attr_used_session_lyranni_echo_binding" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_echo_binding_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Voice of the Ancestors (session) -->
+                    <input type="hidden" name="attr_show_lyranni_voice_of_the_ancestors" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-voice-of-the-ancestors">
+                        <input type="checkbox" name="attr_used_session_lyranni_voice_of_the_ancestors" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_voice_of_the_ancestors_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Veil-Linked Will (session) -->
+                    <input type="hidden" name="attr_show_lyranni_veil_linked_will" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-veil-linked-will">
+                        <input type="checkbox" name="attr_used_session_lyranni_veil_linked_will" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_veil_linked_will_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Echo of Elegance (session) -->
+                    <input type="hidden" name="attr_show_lyranni_echo_of_elegance" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-echo-of-elegance">
+                        <input type="checkbox" name="attr_used_session_lyranni_echo_of_elegance" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_echo_of_elegance_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Racial Talent: Breath of the Veil (session) -->
+                    <input type="hidden" name="attr_show_lyranni_breath_of_the_veil" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-breath-of-the-veil">
+                        <input type="checkbox" name="attr_used_session_lyranni_breath_of_the_veil" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_lyranni_breath_of_the_veil_label"></span>
+                        </span>
+                    </div>
+
+					<!-- Racial Talent Session End -->
+					
+					<!-- Career Talent Session Start -->
+					
+                    <!-- Career Talent: Clean Loop Feedback (session) -->
+                    <input type="hidden" name="attr_show_codeweaver_clean_loop_feedback" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-clean-loop-feedback">
+                        <input type="checkbox" name="attr_used_session_codeweaver_clean_loop_feedback" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_clean_loop_feedback_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Crash Field (session) -->
+                    <input type="hidden" name="attr_show_codeweaver_crash_field" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-crash-field">
+                        <input type="checkbox" name="attr_used_session_codeweaver_crash_field" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_crash_field_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Live Patch Redirect (session) -->
+                    <input type="hidden" name="attr_show_codeweaver_live_patch_redirect" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-live-patch-redirect">
+                        <input type="checkbox" name="attr_used_session_codeweaver_live_patch_redirect" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_live_patch_redirect_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Magelock Cascade (session) -->
+                    <input type="hidden" name="attr_show_codeweaver_magelock_cascade" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-magelock-cascade">
+                        <input type="checkbox" name="attr_used_session_codeweaver_magelock_cascade" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_magelock_cascade_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Veil-Reactor Stabilizer (session) -->
+                    <input type="hidden" name="attr_show_codeweaver_veil_reactor_stabilizer" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-veil-reactor-stabilizer">
+                        <input type="checkbox" name="attr_used_session_codeweaver_veil_reactor_stabilizer" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_veil_reactor_stabilizer_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Overcode Detonation (session) -->
+                    <input type="hidden" name="attr_show_codeweaver_overcode_detonation" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-overcode-detonation">
+                        <input type="checkbox" name="attr_used_session_codeweaver_overcode_detonation" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_overcode_detonation_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Signal Possession (session) -->
+                    <input type="hidden" name="attr_show_codeweaver_signal_possession" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-signal-possession">
+                        <input type="checkbox" name="attr_used_session_codeweaver_signal_possession" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_signal_possession_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Reality Patch (session) -->
+                    <input type="hidden" name="attr_show_codeweaver_reality_patch" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-reality-patch">
+                        <input type="checkbox" name="attr_used_session_codeweaver_reality_patch" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_codeweaver_reality_patch_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Pressure Seal (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_pressure_seal" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-pressure-seal">
+                        <input type="checkbox" name="attr_used_session_combat_medic_pressure_seal" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_pressure_seal_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Surgical Clarity (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_surgical_clarity" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-surgical-clarity">
+                        <input type="checkbox" name="attr_used_session_combat_medic_surgical_clarity" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_surgical_clarity_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Combat Revive (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_combat_revive" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-combat-revive">
+                        <input type="checkbox" name="attr_used_session_combat_medic_combat_revive" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_combat_revive_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Veil Immunologist (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_veil_immunologist" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-veil-immunologist">
+                        <input type="checkbox" name="attr_used_session_combat_medic_veil_immunologist" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_veil_immunologist_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Emergency Triage Net (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_emergency_triage_net" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-emergency-triage-net">
+                        <input type="checkbox" name="attr_used_session_combat_medic_emergency_triage_net" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_emergency_triage_net_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Ghost of the ER (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_ghost_of_the_er" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-ghost-of-the-er">
+                        <input type="checkbox" name="attr_used_session_combat_medic_ghost_of_the_er" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_ghost_of_the_er_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Field Expeditor (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_field_expeditor" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-field-expeditor">
+                        <input type="checkbox" name="attr_used_session_combat_medic_field_expeditor" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_field_expeditor_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: No One Dies Today (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_no_one_dies_today" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-no-one-dies-today">
+                        <input type="checkbox" name="attr_used_session_combat_medic_no_one_dies_today" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_no_one_dies_today_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Miracle Protocol (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_miracle_protocol" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-miracle-protocol">
+                        <input type="checkbox" name="attr_used_session_combat_medic_miracle_protocol" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_miracle_protocol_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Adrenal Shield Matrix (session) -->
+                    <input type="hidden" name="attr_show_combat_medic_adrenal_shield_matrix" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-combat_medic-adrenal-shield-matrix">
+                        <input type="checkbox" name="attr_used_session_combat_medic_adrenal_shield_matrix" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_combat_medic_adrenal_shield_matrix_label"></span>
+                        </span>
+                    </div>
+					
+                    <!-- Career Talent: Memory Spike (session) -->
+                    <input type="hidden" name="attr_show_mindbender_memory_spike" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-memory-spike">
+                        <input type="checkbox" name="attr_used_session_mindbender_memory_spike" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_memory_spike_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Echo Implantation (session) -->
+                    <input type="hidden" name="attr_show_mindbender_echo_implantation" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-echo-implantation">
+                        <input type="checkbox" name="attr_used_session_mindbender_echo_implantation" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_echo_implantation_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: False Memory (session) -->
+                    <input type="hidden" name="attr_show_mindbender_false_memory" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-false-memory">
+                        <input type="checkbox" name="attr_used_session_mindbender_false_memory" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_false_memory_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Neural Whiplash (session) -->
+                    <input type="hidden" name="attr_show_mindbender_neural_whiplash" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-neural-whiplash">
+                        <input type="checkbox" name="attr_used_session_mindbender_neural_whiplash" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_neural_whiplash_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Hollow Gaze (session) -->
+                    <input type="hidden" name="attr_show_mindbender_hollow_gaze" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-hollow-gaze">
+                        <input type="checkbox" name="attr_used_session_mindbender_hollow_gaze" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_hollow_gaze_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Resonant Persona (session) -->
+                    <input type="hidden" name="attr_show_mindbender_resonant_persona" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-resonant-persona">
+                        <input type="checkbox" name="attr_used_session_mindbender_resonant_persona" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_resonant_persona_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Emotion Override Field (session) -->
+                    <input type="hidden" name="attr_show_mindbender_emotion_override_field" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-emotion-override-field">
+                        <input type="checkbox" name="attr_used_session_mindbender_emotion_override_field" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_emotion_override_field_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Compromise Anchor (session) -->
+                    <input type="hidden" name="attr_show_mindbender_compromise_anchor" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-compromise-anchor">
+                        <input type="checkbox" name="attr_used_session_mindbender_compromise_anchor" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_compromise_anchor_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Puppetmaster Protocol (session) -->
+                    <input type="hidden" name="attr_show_mindbender_puppetmaster_protocol" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-puppetmaster-protocol">
+                        <input type="checkbox" name="attr_used_session_mindbender_puppetmaster_protocol" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_puppetmaster_protocol_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Emotional Collapse (session) -->
+                    <input type="hidden" name="attr_show_mindbender_emotional_collapse" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-emotional-collapse">
+                        <input type="checkbox" name="attr_used_session_mindbender_emotional_collapse" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_emotional_collapse_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Scene Fracture (session) -->
+                    <input type="hidden" name="attr_show_mindbender_scene_fracture" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-mindbender-scene-fracture">
+                        <input type="checkbox" name="attr_used_session_mindbender_scene_fracture" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_mindbender_scene_fracture_label"></span>
+                        </span>
+                    </div>				
+
+                    <!-- Career Talent: Counterglyph (session) -->
+                    <input type="hidden" name="attr_show_sigilbound_counterglyph" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-sigilbound-counterglyph">
+                        <input type="checkbox" name="attr_used_session_sigilbound_counterglyph" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_counterglyph_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Arcane Reversal (session) -->
+                    <input type="hidden" name="attr_show_sigilbound_arcane_reversal" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-sigilbound-arcane-reversal">
+                        <input type="checkbox" name="attr_used_session_sigilbound_arcane_reversal" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_arcane_reversal_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Mirror Sigil (session) -->
+                    <input type="hidden" name="attr_show_sigilbound_mirror_sigil" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-sigilbound-mirror-sigil">
+                        <input type="checkbox" name="attr_used_session_sigilbound_mirror_sigil" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_mirror_sigil_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Veil Seal (session) -->
+                    <input type="hidden" name="attr_show_sigilbound_veil_seal" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-sigilbound-veil-seal">
+                        <input type="checkbox" name="attr_used_session_sigilbound_veil_seal" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_veil_seal_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Runesovereign (session) -->
+                    <input type="hidden" name="attr_show_sigilbound_runesovereign" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-sigilbound-runesovereign">
+                        <input type="checkbox" name="attr_used_session_sigilbound_runesovereign" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_runesovereign_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Wardmaster’s Command (session) -->
+                    <input type="hidden" name="attr_show_sigilbound_wardmasters_command" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-sigilbound-wardmasters-command">
+                        <input type="checkbox" name="attr_used_session_sigilbound_wardmasters_command" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_wardmasters_command_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Sigilburst Protocol (session) -->
+                    <input type="hidden" name="attr_show_sigilbound_sigilburst_protocol" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-sigilbound-sigilburst-protocol">
+                        <input type="checkbox" name="attr_used_session_sigilbound_sigilburst_protocol" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_sigilbound_sigilburst_protocol_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Tinder Spark (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_tinder_spark" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-tinder-spark">
+                        <input type="checkbox" name="attr_used_session_stormweaver_tinder_spark" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_tinder_spark_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Voltaic Reflex (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_voltaic_reflex" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-voltaic-reflex">
+                        <input type="checkbox" name="attr_used_session_stormweaver_voltaic_reflex" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_voltaic_reflex_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Volcanic Path (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_volcanic_path" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-volcanic-path">
+                        <input type="checkbox" name="attr_used_session_stormweaver_volcanic_path" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_volcanic_path_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Shockstep Conduit (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_shockstep_conduit" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-shockstep-conduit">
+                        <input type="checkbox" name="attr_used_session_stormweaver_shockstep_conduit" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_shockstep_conduit_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Flashfire Assault (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_flashfire_assault" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-flashfire-assault">
+                        <input type="checkbox" name="attr_used_session_stormweaver_flashfire_assault" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_flashfire_assault_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Surge Engine (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_surge_engine" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-surge-engine">
+                        <input type="checkbox" name="attr_used_session_stormweaver_surge_engine" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_surge_engine_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Eye of the Storm (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_eye_of_the_storm" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-eye-of-the-storm">
+                        <input type="checkbox" name="attr_used_session_stormweaver_eye_of_the_storm" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_eye_of_the_storm_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Stormpiercer (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_stormpiercer" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-stormpiercer">
+                        <input type="checkbox" name="attr_used_session_stormweaver_stormpiercer" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_stormpiercer_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Veilburn Protocol (session) -->
+                    <input type="hidden" name="attr_show_stormweaver_veilburn_protocol" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-veilburn-protocol">
+                        <input type="checkbox" name="attr_used_session_stormweaver_veilburn_protocol" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_stormweaver_veilburn_protocol_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Steel Reflex (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_steel_reflex" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-steel-reflex">
+                        <input type="checkbox" name="attr_used_session_street_ronin_steel_reflex" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_steel_reflex_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Reactive Flow (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_reactive_flow" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-reactive-flow">
+                        <input type="checkbox" name="attr_used_session_street_ronin_reactive_flow" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_reactive_flow_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Breath Before the Cut (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_breath_before_the_cut" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-breath-before-the-cut">
+                        <input type="checkbox" name="attr_used_session_street_ronin_breath_before_the_cut" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_breath_before_the_cut_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Draw Cut (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_draw_cut" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-draw-cut">
+                        <input type="checkbox" name="attr_used_session_street_ronin_draw_cut" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_draw_cut_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: The Line You Do Not Cross (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_the_line_you_do_not_cross" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-the-line-you-do-not-cross">
+                        <input type="checkbox" name="attr_used_session_street_ronin_the_line_you_do_not_cross" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_the_line_you_do_not_cross_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Moment Severed (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_moment_severed" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-moment-severed">
+                        <input type="checkbox" name="attr_used_session_street_ronin_moment_severed" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_moment_severed_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: No Second Strike (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_no_second_strike" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-no-second-strike">
+                        <input type="checkbox" name="attr_used_session_street_ronin_no_second_strike" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_no_second_strike_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Steel Anchored Calm (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_steel_anchored_calm" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-steel-anchored-calm">
+                        <input type="checkbox" name="attr_used_session_street_ronin_steel_anchored_calm" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_steel_anchored_calm_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Flow Reversal (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_flow_reversal" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-flow-reversal">
+                        <input type="checkbox" name="attr_used_session_street_ronin_flow_reversal" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_flow_reversal_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Deflective Form (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_deflective_form" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-deflective-form">
+                        <input type="checkbox" name="attr_used_session_street_ronin_deflective_form" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_deflective_form_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Final Cut Doctrine (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_final_cut_doctrine" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-final-cut-doctrine">
+                        <input type="checkbox" name="attr_used_session_street_ronin_final_cut_doctrine" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_final_cut_doctrine_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Ghost Walk Execution (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_ghost_walk_execution" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-ghost-walk-execution">
+                        <input type="checkbox" name="attr_used_session_street_ronin_ghost_walk_execution" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_ghost_walk_execution_label"></span>
+                        </span>
+                    </div>
+
+                    <!-- Career Talent: Duelmaster's Claim (session) -->
+                    <input type="hidden" name="attr_show_street_ronin_duelmasters_claim" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-street-ronin-duelmasters-claim">
+                        <input type="checkbox" name="attr_used_session_street_ronin_duelmasters_claim" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label">
+                            <span name="attr_street_ronin_duelmasters_claim_label"></span>
+                        </span>
+                    </div>
+					
+					<!-- Career Talent Session End -->
+				</div>	
+	
+			</div>	
+		</div>
+
 		<!-- ------------------------- NPC Companions (Converted to Grid/Flex Layout) -->
 		<div class="sheet-tab-content sheet-npcs">
 			<div class="sheet-companions">
@@ -7615,167 +9538,7 @@
 			</div>
 		</div>
 
-		<!-- ------------------------- Ledger ------------------------- -->
-		<div class="sheet-tab-content sheet-ledger">
-			<h4 class="section-head" data-i18n="character_ledger-u">Character Ledger</h4>
-			<div class="sheet-section">
-				<div class="sheet-character-lock">
-					<label>Character Creation Done - Lock</label>
-					<input class="sheet-attr-input-small sheet-skill-base" type="checkbox" name="attr_char_creation_lock" value="1" />
-				</div>
-			</div>
-			
-			<div class="sheet-section">
-				<h4 class="section-head" data-i18n="skill_point_tracker-u">Skill Point Tracker</h4>
-				<div class="sheet-ledger-skill-points">
-					<div class="sheet-ledger-row">
-						<label>Career Skill Points</label>
-						<input class="sheet-attr-input-small sheet-skill-base" type="text" name="attr_primary_career_skill_points" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>Sec. Career Skill -> XP</label>
-						<input class="sheet-attr-input-small sheet-skill-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_lost" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>Personal Skill Points</label>
-						<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_personal_skill_points" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>Skill Points Spent</label>
-						<input class="sheet-attr-input-small sheet-skill-cost sheet-readonly" type="text" name="attr_total_skill_points_spent" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP->Skill Points Total</label>
-						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_xpledger_skill_point_gain" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP->Skill Points (Roll) Total</label>
-						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_xpledger_skill_point_roll_gain_skill" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>Perk -> Linguist</label>
-						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_perk_linguist" />
-					</div>						
-					<div class="sheet-ledger-row">
-						<label>Skill Points Remaining</label>
-						<input class="sheet-attr-input-small sheet-skill-remain sheet-readonly" type="text" name="attr_total_skill_points_remain" />
-					</div>
-				</div>
-			</div>
 
-			<!-- XP Tracker -->
-			<div class="sheet-section">
-				<h4 class="section-head" data-i18n="xp_point_tracker-u">XP Point Tracker</h4>
-				<div class="sheet-ledger-xp">
-					<div class="sheet-ledger-row">
-						<label>Background XP Start</label>
-						<input class="sheet-attr-input-small sheet-xp-base sheet-readonly" type="text" name="attr_background_xp" value=0 />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP Gained Total</label>
-						<input class="sheet-attr-input-small sheet-xp-gain sheet-readonly" type="text" name="attr_xpledger_gained_xp" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>Racial Talent XP Spent</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xp_spent_talent" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>Career Talent XP Spent</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xp_spent_career_talent" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP -> Spells Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_spells_cost" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP -> Skill Points Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_gain" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP -> Skill Points (Roll) Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_roll_gain" />
-					</div>		
-				</div>
-				<div class="sheet-ledger-xp">
-					<div class="sheet-ledger-row">
-						<label>XP -> Credits Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_credits_cost" />
-					</div>				
-					<div class="sheet-ledger-row">
-						<label>XP -> Allies Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_allies_cost" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP -> Contacts Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_contacts_cost" />
-					</div>	
-					<div class="sheet-ledger-row">
-						<label>XP -> Rep. Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_reuptation_cost" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP -> Factions Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_faction_cost" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP -> Flaws Total</label>
-						<input class="sheet-attr-input-small sheet-xp-gain sheet-readonly" type="text" name="attr_xpledger_flaws_gain" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP -> Perks Total</label>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_perks_cost" />
-					</div>
-					<div class="sheet-ledger-row">
-						<label>XP Pool Remaining</label>
-						<input class="sheet-attr-input-small sheet-xp-remain sheet-readonly" type="text" name="attr_xp_remaining" />
-					</div>
-				</div>
-			</div>
-
-			<!-- Ledger Repeating -->
-			<div class="sheet-section">
-				<h4 class="section-head" data-i18n="ledger-u">Ledger</h4>
-				<div class="sheet-ledger-header">
-					<div class="sheet-repeating-ledger-row">
-						<div class="flex-cell ledger-choice"><span>Ledger Choice</span></div>
-						<div class="flex-cell ledger-value-header">Value</div>
-						<div class="flex-cell ledger-value-header">SP</div>
-						<div class="flex-cell ledger-description"><span>Ledger Description</span></div>
-					</div>
-				</div>
-				<fieldset class="repeating_ledger">
-					<div class="sheet-repeating-ledger-row">
-						<div class="flex-cell ledger-choice">
-							<select class="sheet-selection-full" name="attr_ledger_choice">
-								<option value="0" selected>-- Choose XP Option --</option>
-								<option value="xp_gained">XP Gained</option>
-								<option value="skill_xp">Car. Sec. Skill -> XP</option>
-								<option value="xp_skill">XP -> Skill</option>
-								<option value="xp_skill_roll">XP -> Skill (Roll)</option>
-								<option value="xp_spells">XP -> Spells</option>
-								<option value="xp_credits">XP -> Credits</option>
-								<option value="xp_allies">XP -> Allies</option>
-								<option value="xp_contacts">XP -> Contacts</option>
-								<option value="xp_reputation">XP -> Reputation</option>
-								<option value="xp_faction">XP -> Faction</option>
-								<option value="xp_flaws">XP -> Flaws</option>
-								<option value="xp_perks">XP -> Perks</option>
-								<option value="perk_linguist">Perk -> Linguist</option>
-							</select>
-						</div>
-						<div class="flex-cell ledger-value">
-							<input class="sheet-attr-input-small" type="text" name="attr_ledger_choice_value" />
-						</div>
-						<div class="flex-cell ledger-value">
-							<input class="sheet-attr-input-small" type="text" name="attr_ledger_choice_value_skill" />
-						</div>
-						<div class="flex-cell ledger-description">
-							<input class="sheet-attr-input-wide" type="text" name="attr_ledger_choice_description" />
-						</div>
-					</div>
-				</fieldset>
-			</div>
-		</div>
 
 	</div>
 </div>
@@ -16010,7 +17773,7 @@ on("clicked:strain_short_rest", () => {
   });
 });
 
-const tabList = ["skills", "background", "careers", "talents",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "ledger"];
+const tabList = ["skills", "background", "careers", "talents",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "ledger", "tracker"];
 
 tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
@@ -16802,7 +18565,14 @@ const updateTalentEnables = (race) => {
         console.log(`[Lock] ${key} => prereq:${prereqLock}, skill:${skillLock}, background:${bgLock}, capstone:${capLock}, any:${anyLock}`);
       }
     }
-
+	
+    // === Tracker visibility mirror
+    for (let key of allTalentKeys) {
+      const checked = values[`${race}_${key}`] === "1";
+      updates[`show_${race}_${key}`] = checked ? "1" : "0";
+	  if (debug_on) console.log(`update: show_${race}_${key} checked: ${checked}`);
+    }
+	
     const lockDebug = Object.fromEntries(
       Object.entries(updates).filter(([k]) => k.includes("lockflag") || k.includes("enabled"))
     );
@@ -17527,13 +19297,15 @@ const updateCareerTalentEnables = (career) => {
             const skillLock = values[`${career}_${key}_lockflag_skill`] || "0";
             const capLock = tier5Checkboxes.includes(`${career}_${key}`) && capstoneLock && values[`${career}_${key}`] !== "1" ? "1" : "0";
             const prereqAnyLock = lockFromPrereqAny.has(key) ? "1" : "0";
+			const checked = values[`${career}_${key}`] === "1";
 
             const finalLock = [prereqLock, skillLock, capLock, prereqAnyLock].includes("1") ? "1" : "0";
 
             updates[`${career}_${key}_lockflag_prereq`] = prereqLock;
             updates[`${career}_${key}_lockflag`] = finalLock;
+			updates[`show_${career}_${key}`] = checked ? "1" : "0";
         }
-
+		
         setAttrs(updates);
     });
 };
@@ -17831,6 +19603,45 @@ const cleanupInactiveCareers = () => {
     if (debug_on) console.log("[Career Cleanup] Inactive careers cleared:", updates);
   });
 };
+
+const getUsageLimitedTalentNames = (limitType) => {
+  const names = [];
+
+  // Racial talents
+  for (let race in talentDataMap) {
+    const talents = talentDataMap[race];
+    for (let key in talents) {
+      if (talents[key].usage_limit === limitType) {
+        names.push(`used_${limitType}_${race}_${key}`);
+      }
+    }
+  }
+
+  // Career talents
+  for (let career in careerDataMap) {
+    const talents = careerDataMap[career]?.talents || {};
+    for (let key in talents) {
+      if (talents[key].usage_limit === limitType) {
+        names.push(`used_${limitType}_${career}_${key}`);
+      }
+    }
+  }
+
+  return names;
+};
+
+on("clicked:clear_scene_uses", () => {
+  const sceneUses = getUsageLimitedTalentNames("scene");
+  const updates = Object.fromEntries(sceneUses.map(name => [name, "0"]));
+  setAttrs(updates);
+});
+
+on("clicked:clear_session_uses", () => {
+  const sessionUses = getUsageLimitedTalentNames("session");
+  const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
+  setAttrs(updates);
+});
+
 
 let careerWatcherInitialized = false;
 

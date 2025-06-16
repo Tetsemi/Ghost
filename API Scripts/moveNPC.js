@@ -1,10 +1,21 @@
 on('chat:message', function(msg) {
-  if (msg.type !== 'api' || !msg.content.startsWith('!movenpc')) return;
+  if (msg.type !== 'api' || !/^!movenpc($|\s)/.test(msg.content)) return;
 
-  const args = msg.content.split(' ');
-  const name = args[1] || "Unnamed";
-  const moveStat = parseInt(args[2], 10) || 0;
 
+  const args = msg.content.trim().split(/\s+/).slice(1); // remove "!movenpc"
+
+  if (args.length < 2) {
+    sendChat("System", "/w gm Usage: !movenpc Name MoveStat");
+    return;
+  }
+
+  const moveStat = parseInt(args[args.length - 1], 10);
+  if (isNaN(moveStat)) {
+    sendChat("System", "/w gm Error: Move stat must be a number. Usage: !movenpc Name MoveStat");
+    return;
+  }
+
+  const name = args.slice(0, -1).join(' ');
   const roll = randomInteger(10); // 1d10
   const total = roll + moveStat;
 

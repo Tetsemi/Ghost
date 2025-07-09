@@ -2590,6 +2590,7 @@ fieldset.repeating_programsmdr {
 .spell-skill-display { flex: 1 1 10%; }
 .spell-roll { flex: 0 0 24px; }
 .spell-type { flex: 1 1 10%; }
+.spell-reflexive { flex: 0 0 24px; }
 .spell-contested { flex: 1 1 10%; }
 .spell-damage { flex: 1 1 10%; }
 .spell-strain { flex: 1 1 10%; }
@@ -3060,8 +3061,8 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 
 /* === Spell Name Field === */
 .ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-name {
-  flex-basis: 215px;
-}
+  flex-basis: 195px;
+  }
 .ui-dialog .tab-content .charsheet .sheet-spellblock-row.spell-name input[type="text"] {
   width: 100%;
 }
@@ -3077,24 +3078,31 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   padding: 0;
 }
 
-/* === Prepared checkbox: shrink label and center checkbox === */
-.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared {
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared,
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.reflexive {
+  display: flex;
+  flex-direction: column; /* Stack label and checkbox vertically */
+  justify-content: start; /* Center both vertically in cell */
+  align-items: center;     /* Center horizontally */
   flex-basis: 20px;
-  align-items: center;
 }
-.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared label {
-  font-size: 70%;
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared label,
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.reflexive label {
+  font-size: 85%;
   text-align: center;
   padding: 0;
-  margin: 0;
   line-height: 1;
+  margin-top: 1px;
+  margin-bottom: 5px;
 }
-.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared input[type="checkbox"] {
+
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.prepared input[type="checkbox"],
+.ui-dialog .tab-content .charsheet .sheet-spellblock-row.reflexive input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  margin: auto;
-  align-self: center;
 }
+
 
 /* === Input & select shared style === */
 .ui-dialog .tab-content .charsheet .sheet-spellblock-row input[type="text"],

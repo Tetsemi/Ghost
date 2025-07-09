@@ -19666,13 +19666,23 @@ on("clicked:clear_scene_uses", () => {
     });
 });
 
-
 on("clicked:clear_session_uses", () => {
-  const sessionUses = getUsageLimitedTalentNames("session");
-  const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
-  setAttrs(updates);
-});
+    // Clear static session checkboxes first
+    const sessionUses = getUsageLimitedTalentNames("session");
+    const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
 
+    // Get all repeating_session row IDs
+    getSectionIDs("repeating_session", ids => {
+        ids.forEach(id => {
+            // Build attribute name for checkbox in each row
+            const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
+            updates[attrName] = "0";
+        });
+
+        // Apply all updates
+        setAttrs(updates);
+    });
+});
 
 let careerWatcherInitialized = false;
 

@@ -8027,6 +8027,15 @@
                     </div>
 					
 					<!-- Career Talent Scene End -->
+					<fieldset class="repeating_scene">
+						<div class="sheet-tracker-row">
+							<!-- Used Checkbox -->
+							<div class="sheet-tracker-scene scene-item-name-wrapper">
+								<input type="checkbox" name="attr_used_scene_item_name_mdr" class="sheet-tracker-checkbox" />
+								<input type="text" name="attr_scene_item_name_mdr" placeholder="Scene Item Name" />
+							</div>
+						</div>
+					</fieldset>
 				</div>
 
 				<h4>Session-Limited</h4>
@@ -9226,6 +9235,15 @@
                     </div>
 					
 					<!-- Career Talent Session End -->
+					<fieldset class="repeating_session">
+						<div class="sheet-tracker-row">
+							<!-- Used Checkbox -->
+							<div class="sheet-tracker-session session-item-name-wrapper">
+								<input type="checkbox" name="attr_used_session_item_name_mdr" class="sheet-tracker-checkbox" />
+								<input type="text" name="attr_session_item_name_mdr" placeholder="Session Item Name" />
+							</div>
+						</div>
+					</fieldset>				
 				</div>	
 	
 			</div>	
@@ -19631,10 +19649,23 @@ const getUsageLimitedTalentNames = (limitType) => {
 };
 
 on("clicked:clear_scene_uses", () => {
-  const sceneUses = getUsageLimitedTalentNames("scene");
-  const updates = Object.fromEntries(sceneUses.map(name => [name, "0"]));
-  setAttrs(updates);
+    // Clear static scene checkboxes first
+    const sceneUses = getUsageLimitedTalentNames("scene");
+    const updates = Object.fromEntries(sceneUses.map(name => [name, "0"]));
+
+    // Get all repeating_scene row IDs
+    getSectionIDs("repeating_scene", ids => {
+        ids.forEach(id => {
+            // Build attribute name for checkbox in each row
+            const attrName = `repeating_scene_${id}_used_scene_item_name_mdr`;
+            updates[attrName] = "0";
+        });
+
+        // Apply all updates
+        setAttrs(updates);
+    });
 });
+
 
 on("clicked:clear_session_uses", () => {
   const sessionUses = getUsageLimitedTalentNames("session");

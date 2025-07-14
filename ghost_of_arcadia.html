@@ -154,7 +154,7 @@
 						<div class="sheet-grid-inline sheet-init-wrapper">
 							<label class="sheet-attr-label" data-i18n="initiative-u">Init</label>
 							<div class="sheet-grid-initiative">
-								<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_dex" />
+								<input class="sheet-attr-input sheet-readonly" type="text" name="attr_dex" />
 								<button class="sheet-init-roll-button" type="roll" name="roll_initdex" value="!initdex" ></button>
 							</div>
 						</div>
@@ -18674,7 +18674,6 @@ function handleRaceChange(race) {
   registerXPTrackerWatcher();
 }
 
-
 on("sheet:opened", function () {
   if (debug_on) console.log("[sheet:opened] New Character check");
   if (debug_on_trace) console.log ("[sheet:opened] Start");
@@ -18720,11 +18719,66 @@ on("sheet:opened", function () {
   });
 });
 
+function finalizeStrain(careerList, ipow, icon, update) {
+    const bufferAttrs = careerList.map(career => `${career}_strain_buffer`);
+    getAttrs(bufferAttrs, (bufferValues) => {
+        const strainBuffer = bufferAttrs.reduce((sum, attr) => {
+            return sum + parseInt(bufferValues[attr] || 0, 10);
+        }, 0);
+
+        const baseStrain = Math.floor((ipow + icon) / 5);
+        update["strain_max"] = baseStrain + strainBuffer;
+
+        if (debug_on) {
+            console.log("[Strain Calc] Base:", baseStrain, "Buffer:", strainBuffer, "Total:", update.strain_max);
+        }
+		
+		// Set attributes now that strain_max is finalized
+		setAttrs(update);
+    });
+
+}
+
+function calculateStrainMax(ipow, icon, update) {
+    getAttrs(["primary_career"], (values) => {
+        const careers = [];
+
+        if (values.primary_career) {
+            careers.push(values.primary_career);
+        }
+
+        getSectionIDs("repeating_secondarycareer", (ids) => {
+            if (ids.length === 0) {
+                finalizeStrain(careers, ipow, icon, update);
+            } else {
+                const secCareerAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+                getAttrs(secCareerAttrs, (secValues) => {
+                    ids.forEach(id => {
+                        const careerName = secValues[`repeating_secondarycareer_${id}_secondary_career`];
+                        if (careerName) {
+                            careers.push(careerName);
+                        }
+                    });
+                    finalizeStrain(careers, ipow, icon, update);
+                });
+            }
+        });
+    });
+}
+
 function registerStatHandler() {
 	if (debug_on_trace) console.log ("[registerStatHandler] Start");
-    const watched = [
-        "age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", "char_creation_lock"
-    ];
+	
+	const watched = [
+		"age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", "char_creation_lock",
+		"primary_career",                         // Watch primary career changes
+		"repeating_secondarycareer:secondary_career" // Watch for changes to career name
+	];
+
+	// Dynamically pull all strain buffer fields from careerDataMap
+	Object.keys(careerDataMap).forEach(career => {
+		watched.push(`${career}_strain_buffer`);
+	});
 
     if (debug_on) console.log("[registerStatHandler Init] Watching:", watched);
 
@@ -18751,7 +18805,9 @@ function registerStatHandler() {
 
 			update["vitality_max"]= ipow;
 			update["pulphp_max"] = Math.floor((icon + isiz)/5);
-			update["strain_max"] = Math.floor((ipow + icon)/5);
+			
+			// Calculate strain max with career strain buffer
+            calculateStrainMax(ipow, icon, update);
 
 			update["social_mode_toggle"] = (iapp <= 40 ) ? 1 : ( iapp >= 70 ) ? 2 : 0;
 
@@ -19733,7 +19789,7 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
      .join(" "), function () {
 
   if (debug_on) console.log("[Career Talent Watcher]");
-    if (debug_on_trace) console.log ("[Career Talent Watcher] Start");
+  if (debug_on_trace) console.log ("[Career Talent Watcher] Start");
 
   getAttrs(["primary_career"], (values) => {
     const primary = values.primary_career;
@@ -20042,7 +20098,6 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
     });
 });
 
-
 // === Spell XP Remaining Calculation ===
 on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr", function () {
     if (debug_on_trace) console.log("[XP Calc] Triggered");
@@ -20074,7 +20129,5 @@ on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total 
         });
     });
 });
-
-
 
 </script>

@@ -844,23 +844,15 @@ select[name="attr_damage_bonus"] {
 	background: #d0cabe; /* match section background */
 }
 
-/* ----------------------- Dice and Logo ---------------------- */
+/* ----------------------- Dice, Wounds, and Statuses ---------------------- */
 .sheet-dicerollsection {
   background: #d9d9d9;
   display: block;
 }
 
-.sheet-logo {
-  flex: 0 0 40%;
-  text-align: center;
-  background: linear-gradient(to bottom, #ffe600, #0000ff);
-  margin: 0;
-  padding: 0;
-}
-
 /* Dice Rolls (40%) */
 .sheet-dice {
-  flex: 0 0 44%;
+  flex: 0 0 34%;
   min-width: 0;
   background: #d0cabe;
   margin: 0;
@@ -879,7 +871,7 @@ select[name="attr_damage_bonus"] {
 /* Each roll row */
 .sheet-dice-roll-wrapper {
   position: relative;
-  height: 48px;
+  height: 32px;
   background: #d0cabe;
   border: 1px solid #d9d9d9;
   padding: 2px 4px;
@@ -1058,6 +1050,87 @@ select[name="attr_damage_bonus"] {
 }
 
 /* -------------------------------------------------------------------------- */
+
+/* --------------------------- Wounds Start --------------------------------------- */
+.ui-dialog .tab-content .charsheet .sheet-wounds {
+  flex: 0 0 25%;
+  text-align: center;
+  background: #d0cabe;
+  margin: 0;
+  padding: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-wounds-tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 0;
+}
+
+/* Modifier Button Base Style */
+.ui-dialog .tab-content .charsheet .sheet-wounds-tabs button[type="action"] {
+  flex: 0 0 24px;
+  font-weight: bold;
+  color: black;
+  background: #d0cabe;
+  border: 1px solid #d0cabe;
+  text-align: start;
+  cursor: pointer;
+  height: 30px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Active state */
+.ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_major_wounds_checkbox"][value="1"] + button[name="act_major_wounds"],
+.ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_unconcious_checkbox"][value="1"] + button[name="act_unconcious"],
+.ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_dying_checkbox"][value="1"] + button[name="act_dying"] {
+  background: #aa3333;
+  color: white;
+}
+
+/* Default state */
+.ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_major_wounds_checkbox"][value="0"] + button[name="act_major_wounds"],
+.ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_unconcious_checkbox"][value="0"] + button[name="act_unconcious"],
+.ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_dying_checkbox"][value="0"] + button[name="act_dying"] {
+  background: #d0cabe;
+  color: black;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-wounds-wrapper {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  background: #d0cabe;
+  border: none;
+  align-items: center;
+  padding: 2px 0 0 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-wounds label {
+  font-size: 100%;
+  color: black;
+  padding: 2px 0 0 4px;
+  text-align: start;
+  height: 24px;
+  margin: 0;
+  gap: 0;
+}
+
+/* ---------------------------- Wounds End ---------------------------------------- */
+
+/* ---------------------------- Statuses Start ---------------------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-statuses {
+  flex: 0 0 25%;
+  text-align: center;
+  background: #d0cabe;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------------------------- Statuses End ---------------------------------------- */
+
 
 /* --------------------- Tabbed Selection Bar Start ------------------------------------------------------- */
 

@@ -233,9 +233,8 @@
 
 	<!-- Middle Section -->
 	<div class="sheet-middle">
-		<!-- Combined 3-Column Layout: Dice Rolls (40%), Modifiers (20%), Logo (40%) -->
+		<!-- Combined 3-Column Layout: Dice Rolls (34%), Modifiers (16%), Wounds (25%), Statuses (25%) -->
 		<div class="sheet-middle-3col">
-			<!-- Dice Rolls (40%) -->
 			<div class="sheet-dice">
 			<h4 class="sheet-section-head" data-i18n="dicerolls-u">Dice Rolls</h4>
 				<div class="sheet-dice-roll-grid">
@@ -255,7 +254,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- Dice Modifiers (20%) -->
 
 			<div class="sheet-dice_modifiers">
 				<div class="sheet-dice-modifier-tabs">
@@ -269,9 +267,32 @@
 					<button type="action" name="act_-20">-20 target number</button>
 				</div>
 			</div>
-			<!-- Logo (40%) -->
-			<div class="sheet-logo">
-				<img src="https://raw.githubusercontent.com/Tetsemi/Ghost/refs/heads/main/Ghost_Logo.png" alt="Ghost Logo" style="max-width: 100%; height: 115px;" />
+
+			<div class="sheet-wounds">
+				<h4 class="sheet-section-head" data-i18n="wounds-u">Wounds</h4>
+				<div class="sheet-wounds-tabs">
+
+										
+					<div class="sheet-wounds-wrapper">
+						<input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_major_wounds" />
+						<input type="hidden" name="attr_major_wounds_checkbox" value="0" />
+						<button type="action" name="act_major_wounds">Major Wounds</button>
+					</div>
+					<div class="sheet-wounds-wrapper">
+						<div></div>
+						<input type="hidden" name="attr_unconcious_checkbox" value="0" />
+						<button type="action" name="act_unconcious">Unconcious</button>
+					</div>
+					<div class="sheet-wounds-wrapper">
+						<div></div>
+						<input type="hidden" name="attr_dying_checkbox" value="0" />
+						<button type="action" name="act_dying">Dying</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="sheet-statuses">
+				<h4 class="sheet-section-head" data-i18n="statuses-u">Statuses</h4>
 			</div>
 		</div>
 	</div>
@@ -17767,6 +17788,38 @@ on("clicked:-20 clicked:-10 clicked:10 clicked:20", (event) => {
   });
 });
 
+// Major Wound Handler
+on("clicked:major_wounds", (event) => {
+  const clicked = 1;
+  getAttrs(["major_wounds_checkbox"], (values) => {
+    const current = values.major_wounds_checkbox || "0";
+    const next = current === clicked ? "0" : clicked;
+    setAttrs({ major_wounds_checkbox: next });
+  });
+});
+
+// Unconcious Handler
+on("clicked:unconcious", (event) => {
+  const clicked = 1;
+  getAttrs(["unconcious_checkbox"], (values) => {
+    const current = values.unconcious_checkbox || "0";
+    const next = current === clicked ? "0" : clicked;
+    setAttrs({ unconcious_checkbox: next });
+  });
+});
+
+// Dying Handler
+on("clicked:dying", (event) => {
+  const clicked = 1;
+  getAttrs(["dying_checkbox"], (values) => {
+    const current = values.dying_checkbox || "0";
+    const next = current === clicked ? "0" : clicked;
+    setAttrs({ dying_checkbox: next });
+  });
+});
+
+
+
 on("clicked:strain_full_rest", () => {
   getAttrs(["strain_max", "name"], (values) => {
     const maxStrain = parseInt(values.strain_max, 10) || 0;
@@ -18770,7 +18823,7 @@ function registerStatHandler() {
 	if (debug_on_trace) console.log ("[registerStatHandler] Start");
 	
 	const watched = [
-		"age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", "char_creation_lock",
+		"age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", "char_creation_lock", "major_wounds",
 		"primary_career",                         // Watch primary career changes
 		"repeating_secondarycareer:secondary_career" // Watch for changes to career name
 	];
@@ -18795,6 +18848,7 @@ function registerStatHandler() {
             const iint = parseInt(values.int) || 0;
             const imag = parseInt(values.mag) || 0;
             const ivit = parseInt(values.vitality) || 0;
+			const iwound = parseInt(values.major_wounds) || 0;
 			const ichar_lock = parseInt(values.char_creation_lock) || 0;
 
             const update = {};
@@ -18805,6 +18859,7 @@ function registerStatHandler() {
 
 			update["vitality_max"]= ipow;
 			update["pulphp_max"] = Math.floor((icon + isiz)/5);
+			update["major_wounds"]= Math.floor(((icon + isiz)/5)/2);
 			
 			// Calculate strain max with career strain buffer
             calculateStrainMax(ipow, icon, update);
@@ -20130,4 +20185,9 @@ on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total 
     });
 });
 
+on("add:repeating_secondarycareer remove:repeating_secondarycareer", () => {
+    if (debug_on_trace) console.log("[Repeating Section Change] Secondary career row added or removed");
+    // Re-run stat updates
+    registerStatHandler();
+});
 </script>

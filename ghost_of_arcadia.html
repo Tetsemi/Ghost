@@ -908,6 +908,16 @@
 								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_forgery_mdr_check" value="&{template:coc-bonus} {{name=@{forgery_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{forgery_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{forgery_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{forgery_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
 
 							</div>
+							<div><input type="checkbox" name="attr_leadership_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_leadership_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="leadership-u">Leadership(10%)</span></div>
+							<div><input class="skill-input" type="text" name="attr_leadership_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="sheet-skill-input" type="text" name="attr_leadership_mdr" readonly />
+								<input type="hidden" name="attr_social_mode_toggle" class="sheet-social-mode-toggle" value="0"/>
+								<button type="roll" class="sheet-toggle-social-mode-off" name="roll_leadership_mdr_check" value="&{template:coc-1} {{name=@{leadership_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{leadership_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{leadership_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{leadership_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+								<button type="roll" class="sheet-toggle-social-mode-on-penalty" name="roll_leadership_mdr_check" value="&{template:coc-penalty} {{name=@{leadership_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{leadership_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{leadership_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{leadership_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
+								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_leadership_mdr_check" value="&{template:coc-bonus} {{name=@{leadership_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{leadership_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{leadership_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{leadership_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
+							</div>
 							<div><input type="checkbox" name="attr_impersonation_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_impersonation_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="impersonation-u">Impersonation(05%)</span></div>
 							<div><input class="skill-input" type="text" name="attr_impersonation_skill_mdr" /></div>
@@ -14941,7 +14951,7 @@ on("sheet:opened", function () {
     "drone_operation_txt", "elecrepair_txt", "engineering_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "fasttalk_txt",
     "fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "firearms_smg_txt", "first_aid_txt", "forbidden_lore_txt",
     "forgery_txt", "gunnery_txt", "heavy_weapons_txt", "history_txt", "impersonation_txt", "instrument_txt",
-    "intimidate_txt", "interrogation_txt", "insight_txt", "investigation_txt", "jump_txt", "law_txt", "libraryuse_txt",
+    "intimidate_txt", "interrogation_txt", "insight_txt", "investigation_txt", "jump_txt", "law_txt", "leadership_txt", "libraryuse_txt",
     "listen_txt", "locksmith_txt", "magic_alteration_txt", "magic_elemental_txt", "magic_enchantment_txt",
     "magic_illusion_txt", "magic_necromancy_txt", "magic_restoration_txt", "magic_summoning_txt", "magic_technomancy_txt",
     "magic_warding_txt", "magic_universal_txt", "mechrepair_txt", "mechanics_txt", "medicine_txt", "melee_weapons_txt",
@@ -15121,6 +15131,7 @@ const skillMapTable = {
  "Etiquette (High Society)": { label: "etiquette_high_society", base: "10", skill: "etiquette_high_society_skill_mdr", bonus: "etiquette_high_society_mdr", group: "Social", notes: "Etiquette (High Society)" },
  "Etiquette (Lyranni)": { label: "etiquette_lyranni", base: "10", skill: "etiquette_lyranni_skill_mdr", bonus: "etiquette_lyranni_mdr", group: "Social", notes: "Etiquette (Lyranni)" },
  "Etiquette (Other)": { label: "etiquette_other", base: "10", skill: "etiquette_other_skill_mdr", bonus: "etiquette_other_mdr", group: "Social", notes: "Etiquette may be specialized: (Corporate), (Military), (Underworld), (Racial), etc." },
+ "Leadership": { label: "leadership", base: "10", skill: "leadership_skill_mdr", bonus: "leadership_mdr", group: "Social", notes: "Leadership" },
  "Forgery": { label: "forgery", base: "1", skill: "forgery_skill_mdr", bonus: "forgery_mdr", group: "Social", notes: "Creating falsified documents, IDs, credentials physical or digital." },
  "Impersonation": { label: "impersonation", base: "5", skill: "impersonation_skill_mdr", bonus: "impersonation_mdr", group: "Social", notes: "Performance (Impersonation)" },
  "Insight": { label: "insight", base: "10", skill: "insight_skill_mdr", bonus: "insight_mdr", group: "Social", notes: "Insight" },
@@ -18904,8 +18915,9 @@ function registerStatHandler() {
 			// Calculate strain max with career strain buffer
             calculateStrainMax(ipow, icon, update);
 
-			update["social_mode_toggle"] = (iapp <= 40 ) ? 1 : ( iapp >= 70 ) ? 2 : 0;
-
+//			update["social_mode_toggle"] = (iapp <= 40 ) ? 1 : ( iapp >= 70 ) ? 2 : 0;
+//			This is for using the template:coc-penalty and template:coc-bonus rolls. Changing the values so it's no longer using the extra roll without having to remove a bumch of code, till later.
+			update["social_mode_toggle"] = (iapp <= 0 ) ? 1 : ( iapp >= 101 ) ? 2 : 0;
 			// Attribute Points Total Calculation
 			const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag"];
 

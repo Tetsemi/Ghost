@@ -1998,6 +1998,93 @@
 				<div class="sheet-section">
 					<!-- Feran Background Tab Controller -->
 					<input type="hidden" name="attr_feran_background_choice" class="sheet-tab-controller" />
+					<!-- Tab Buttons -->					
+					<div class="sheet-tab-buttons">
+						<button type="action" name="act_clawbound_kin_warder">Clawbound Kin-Warder</button>					
+						<button type="action" name="act_packborn_drifter">Packborn Drifter</button>
+						<button type="action" name="act_scorchborn_fugitive">Scorchborn Fugitive</button>
+						<button type="action" name="act_urban_stalkkit">Urban Stalkkit</button>
+						<button type="action" name="act_veil_hunters_cub">Veil-Hunter's Cub</button>
+					</div>
+                    <!-- Packborn Drifter -->
+                    <div class="sheet-bgblock sheet-bg-packborn_drifter">
+                        <div class="sheet-bgblock-flex">
+                            <!-- Description -->
+                            <div class="bg-description">
+                                <span class="sheet-quote" data-i18n="background_packborn_drifter_quote-u">background quote</span>
+                                <span data-i18n="background_packborn_drifter-u">background</span>
+                            </div>
+
+                            <!-- Trained Skills Section -->
+                            <div class="sheet-trained-skills">
+                                <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                <div class="sheet-trained-skill-list">
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_athletics_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_athletics_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="athletics-u">Athletics</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_dodge_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_dodge_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="dodge-u">Dodge</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_navigate_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_navigate_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="navigate-u">Navigate</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_perception_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perception_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perception-u">Perception</label>
+                                    </div>
+									<div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_stealth_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_stealth_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="stealth-u">Stealth</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_survival_wilderness_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_survival_wilderness_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="survival_wilderness-u">Survival</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Starting Item -->
+                            <div class="sheet-starting-item">
+                                <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                <span data-i18n="scent_marked_scrap-u">Scent Marked Scrap</span>
+                            </div>
+
+                            <!-- Starting Talents -->
+                            <div class="sheet-starting-talents">
+                                <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_feran_talent" value="feran_pack_bond_reflex" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_feran_pack_bond_reflex_from_background" value="0" />
+                                    <span data-i18n="pack_bond_reflex-u">Pack-Bond Reflex</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_feran_talent" value="feran_threadrunners_poise" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_feran_threadrunners_poise_from_background" value="0" />
+                                    <span data-i18n="threadrunners_poise-u">Threadrunner's Poise</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_feran_talent" value="feran_wallrunners_step" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_feran_wallrunners_step_from_background" value="0" />
+                                    <span data-i18n="wallrunners_step-u">Wallrunner's Step</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+					
 				</div>
 			</div>
 			<!-- Human Background -->
@@ -14932,8 +15019,8 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
-const debug_on_trace = false;
+const debug_on = true;
+const debug_on_trace = true;
 const debug_on_watcher = false;
 
 const registeredRaces = new Set();
@@ -15012,7 +15099,7 @@ const raceDataMap = {
   },
   "feran": {
     label: "Feran",
-    language: "A",
+    language: "Halvrenn",
     stats: {
       str: { base: 15, max: 80 }, dex: { base: 15, max: 90 }, con: { base: 15, max: 80 },
       siz: { base: 35, max: 70 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
@@ -15155,6 +15242,149 @@ const skillMapTable = {
  "Track": { label: "track", base: "10", skill: "track_skill_mdr", bonus: "track_mdr", group: "Survival", notes: "Track" },
  "Language(Racial)": { label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
  "Language(Caltheran)": { label: "language_caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" }
+};
+
+const backgroundDataMap = {
+  alteri: {
+    soft_year_drifter: {
+      trained_skills: ["coordination", "deception", "disguise", "impersonation", "insight", "stealth", "streetwise"],
+      starting_item: "mask_journal-u",
+      starting_talents: ["second_skin", "reflexive_shift", "grace_of_the_many"]
+    },
+	veilhaven_attendant: {
+	  trained_skills: ["arcana", "insight", "disguise", "history", "etiquette_alteri", "impersonation", "occult"],
+	  starting_item: "kin_token-u",
+	  starting_talents: ["maskwrights_grace", "whisper_touched", "social_chameleon"]
+	},
+	ghostline_runner: {
+	  trained_skills: ["slicing", "streetwise", "stealth", "electronics", "deception", "insight", "impersonation"],
+	  starting_item: "burner_id_package-u",
+	  starting_talents: ["ghost_protocol", "shaped_for_subtlety", "echoed_voice"]
+	},
+    legacy_bearer: {
+      trained_skills: ["impersonation", "history", "insight", "arcana", "etiquette_alteri", "disguise", "occult"],
+      starting_item: "legacy_ritual_item-u",
+      starting_talents: ["echoed_voice", "maskwrights_grace", "second_skin"]
+    },
+    break_faced_radical: {
+      trained_skills: ["persuade", "deception", "impersonation", "insight", "streetwise", "disguise", "charm"],
+      starting_item: "digital_mask_manifest-u",
+      starting_talents: ["social_chameleon", "reflexive_shift", "shaped_for_subtlety"]
+    }
+  },
+  draevi: {
+    horn_carved_wanderer: {
+      trained_skills: ["veil_lore", "occult", "survival_wilderness", "first_aid", "insight", "track", "arcana"],
+      starting_item: "clan_ritual_token-u",
+      starting_talents: ["spirits_in_stone", "clan_blooded", "iron_stomach"]
+    },
+    spiritbound_techshaper: {
+      trained_skills: ["slicing", "spirit_lore", "electronics", "arcana", "insight", "mechanics", "streetwise"],
+      starting_item: "ram_shell_unfinished-u",
+      starting_talents: ["spirits_in_stone", "scavengers_edge", "clan_blooded"]
+    },
+    tradition_keeper: {
+      trained_skills: ["survival_wilderness", "navigate", "perception", "athletics", "occult", "track", "first_aid"],
+      starting_item: "rite_of_passage_horn-u",
+      starting_talents: ["trailborn_reflexes", "iron_stomach", "spirits_in_stone"]
+    },
+    urban_tread: {
+      trained_skills: ["athletics", "streetwise", "stealth", "coordination", "perception", "mechanics", "climb"],
+      starting_item: "repurposed_clan_token-u",
+      starting_talents: ["gutter_stalker", "urban_climber", "trailborn_reflexes"]
+    },
+    forgeblood_scavenger: {
+      trained_skills: ["mechanics", "electronics", "insight", "streetwise", "coordination", "perception", "survival_wilderness"],
+      starting_item: "salvaged_veil_artifact-u",
+      starting_talents: ["scavengers_edge", "iron_stomach", "urban_climber"]
+    }
+  },
+  feran: {
+    clawbound_kinwarder: {
+      trained_skills: ["athletics", "unarmed", "first_aid", "insight", "perception", "streetwise", "track"],
+      starting_item: "claw_etched_oathstone-u",
+      starting_talents: ["trailborn_reflexes", "iron_stomach", "spirits_in_stone"]
+    },
+    packborn_drifter: {
+      trained_skills: ["athletics", "dodge", "insight", "navigate", "perception", "stealth", "survival_wilderness"],
+      starting_item: "scent_marked_scrap-u",
+      starting_talents: ["pack_bond_reflex", "threadrunners_poise", "wallrunners_step"]
+    },
+    scorchborn_fugitive: {
+      trained_skills: ["deception", "dodge", "insight", "stealth", "streetwise", "survival_wilderness", "track"],
+      starting_item: "blade_or_relic_salvaged-u",
+      starting_talents: ["sharpclaw_training", "threadrunners_poise", "wallrunners_step"]
+    },
+    urban_stalkkit: {
+      trained_skills: ["athletics", "coordination", "dodge", "navigate", "sleight_of_hand", "stealth", "streetwise"],
+      starting_item: "harness_rig-u",
+      starting_talents: ["sharpclaw_training", "wallrunners_step", "threadrunners_poise"]
+    },
+    veil_hunters_cub: {
+      trained_skills: ["arcana", "athletics", "firearms_rifle", "insight", "perception", "survival_wilderness", "track"],
+      starting_item: "veil_creature_token-u",
+      starting_talents: ["pack_bond_reflex", "sharpclaw_training", "threadrunners_poise"]
+    }
+  },  
+  human: {
+    scavsteel_whelp: {
+      trained_skills: ["mechanics", "electronics", "streetwise", "insight", "slicing", "survival_urban", "perception"],
+      starting_item: [ "trusted_toolset-u", "modded_wearable-u"],
+      starting_talents: ["quick_fixer", "hard_lesson", "skilled_focus"]
+    },
+    enclave_born: {
+      trained_skills: ["etiquette_high_society", "persuade", "insight", "voice", "charm", "bureaucracy", "history"],
+      starting_item: "pristine_id_code_uptier_zone-u",
+      starting_talents: ["social_versatility", "instinct_over_training", "battle_tested_gut"]
+    },
+    gutterfire_youth: {
+      trained_skills: ["stealth", "streetwise", "sleight_of_hand", "deception", "perception", "dodge", "slicing"],
+      starting_item: "personal_survival_kit-u",
+      starting_talents: ["social_versatility", "hard_lesson", "skilled_focus"]
+    },
+    outpost_raised: {
+      trained_skills: ["survival_wilderness", "firearms_rifle", "mechanics", "navigate", "first_aid", "insight", "drive"],
+      starting_item: "outpost_keepsake-u",
+      starting_talents: ["battle_tested_gut", "no_stranger_to_pain", "hard_lesson"]
+    },
+    data_hatched: {
+      trained_skills: ["slicing", "science", "electronics", "insight", "occult", "bureaucracy", "recitation"],
+      starting_item: ["memory_shard-u", "ai_record-u"],
+      starting_talents: ["instinct_over_training", "quick_fixer", "skilled_focus"]
+    },
+    ash_war_refugee: {
+      trained_skills: ["first_aid", "insight", "athletics", "dodge", "survival_urban", "perception", "stealth"],
+      starting_item: "faded_token_of_past-u",
+      starting_talents: ["makeshift_medic", "no_stranger_to_pain", "hard_lesson"]
+    }
+  },
+  lyranni: {
+	whisper_walker: {
+		trained_skills: ["perception", "occult", "spirit_lore", "insight", "survival_wilderness", "stealth", "magic_warding"],
+		starting_item: "veilmark_living-sigil-u",
+		starting_talents: ["threadwalker", "veilsight", "veil_blooded_sense"]
+	},
+	zurethkai_flameborn: {
+		trained_skills: ["slicing", "magic_technomancy", "electronics", "arcana", "deception", "magic_illusion", "insight"],
+		starting_item: "symbolic_magitech_mod-u",
+		starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
+	},
+	aelvareth_devotee: {
+		trained_skills: ["occult", "etiquette_lyranni", "arcana", "chant", "magic_warding", "bureaucracy", "veil_lore"],
+		starting_item: "aelvareth_veilmark-u",
+		starting_talents: ["threadwalker", "legacy_spark", "veilsight"]
+	},
+    echoborne: {
+      trained_skills: ["arcana", "etiquette_lyranni", "occult", "history", "insight", "voice", "bureaucracy"],
+      starting_item: "ancestral_veilmark-u",
+      starting_talents: ["legacy_spark", "veilsight", "threadwalker"]
+    },
+	glide_spire_scion: {
+		trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette_high_society", "dance", "deception"],
+		starting_item: "veil_threaded_accessory-u",
+		starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
+	}
+  }
 };
 
 // Talent name, description, and prerequisites
@@ -16212,122 +16442,6 @@ const talentSkillMap = {
     },
 	veilsplice : {
 	  electronics: "Electronics", slicing: "Slicing"
-	}
-  }
-};
-
-const backgroundDataMap = {
-  alteri: {
-    soft_year_drifter: {
-      trained_skills: ["coordination", "deception", "disguise", "impersonation", "insight", "stealth", "streetwise"],
-      starting_item: "mask_journal-u",
-      starting_talents: ["second_skin", "reflexive_shift", "grace_of_the_many"]
-    },
-	veilhaven_attendant: {
-	  trained_skills: ["arcana", "insight", "disguise", "history", "etiquette_alteri", "impersonation", "occult"],
-	  starting_item: "kin_token-u",
-	  starting_talents: ["maskwrights_grace", "whisper_touched", "social_chameleon"]
-	},
-	ghostline_runner: {
-	  trained_skills: ["slicing", "streetwise", "stealth", "electronics", "deception", "insight", "impersonation"],
-	  starting_item: "burner_id_package-u",
-	  starting_talents: ["ghost_protocol", "shaped_for_subtlety", "echoed_voice"]
-	},
-    legacy_bearer: {
-      trained_skills: ["impersonation", "history", "insight", "arcana", "etiquette_alteri", "disguise", "occult"],
-      starting_item: "legacy_ritual_item-u",
-      starting_talents: ["echoed_voice", "maskwrights_grace", "second_skin"]
-    },
-    break_faced_radical: {
-      trained_skills: ["persuade", "deception", "impersonation", "insight", "streetwise", "disguise", "charm"],
-      starting_item: "digital_mask_manifest-u",
-      starting_talents: ["social_chameleon", "reflexive_shift", "shaped_for_subtlety"]
-    }
-  },
-  draevi: {
-    horn_carved_wanderer: {
-      trained_skills: ["veil_lore", "occult", "survival_wilderness", "first_aid", "insight", "track", "arcana"],
-      starting_item: "clan_ritual_token-u",
-      starting_talents: ["spirits_in_stone", "clan_blooded", "iron_stomach"]
-    },
-    spiritbound_techshaper: {
-      trained_skills: ["slicing", "spirit_lore", "electronics", "arcana", "insight", "mechanics", "streetwise"],
-      starting_item: "ram_shell_unfinished-u",
-      starting_talents: ["spirits_in_stone", "scavengers_edge", "clan_blooded"]
-    },
-    tradition_keeper: {
-      trained_skills: ["survival_wilderness", "navigate", "perception", "athletics", "occult", "track", "first_aid"],
-      starting_item: "rite_of_passage_horn-u",
-      starting_talents: ["trailborn_reflexes", "iron_stomach", "spirits_in_stone"]
-    },
-    urban_tread: {
-      trained_skills: ["athletics", "streetwise", "stealth", "coordination", "perception", "mechanics", "climb"],
-      starting_item: "repurposed_clan_token-u",
-      starting_talents: ["gutter_stalker", "urban_climber", "trailborn_reflexes"]
-    },
-    forgeblood_scavenger: {
-      trained_skills: ["mechanics", "electronics", "insight", "streetwise", "coordination", "perception", "survival_wilderness"],
-      starting_item: "salvaged_veil_artifact-u",
-      starting_talents: ["scavengers_edge", "iron_stomach", "urban_climber"]
-    }
-  },
-  human: {
-    scavsteel_whelp: {
-      trained_skills: ["mechanics", "electronics", "streetwise", "insight", "slicing", "survival_urban", "perception"],
-      starting_item: [ "trusted_toolset-u", "modded_wearable-u"],
-      starting_talents: ["quick_fixer", "hard_lesson", "skilled_focus"]
-    },
-    enclave_born: {
-      trained_skills: ["etiquette_high_society", "persuade", "insight", "voice", "charm", "bureaucracy", "history"],
-      starting_item: "pristine_id_code_uptier_zone-u",
-      starting_talents: ["social_versatility", "instinct_over_training", "battle_tested_gut"]
-    },
-    gutterfire_youth: {
-      trained_skills: ["stealth", "streetwise", "sleight_of_hand", "deception", "perception", "dodge", "slicing"],
-      starting_item: "personal_survival_kit-u",
-      starting_talents: ["social_versatility", "hard_lesson", "skilled_focus"]
-    },
-    outpost_raised: {
-      trained_skills: ["survival_wilderness", "firearms_rifle", "mechanics", "navigate", "first_aid", "insight", "drive"],
-      starting_item: "outpost_keepsake-u",
-      starting_talents: ["battle_tested_gut", "no_stranger_to_pain", "hard_lesson"]
-    },
-    data_hatched: {
-      trained_skills: ["slicing", "science", "electronics", "insight", "occult", "bureaucracy", "recitation"],
-      starting_item: ["memory_shard-u", "ai_record-u"],
-      starting_talents: ["instinct_over_training", "quick_fixer", "skilled_focus"]
-    },
-    ash_war_refugee: {
-      trained_skills: ["first_aid", "insight", "athletics", "dodge", "survival_urban", "perception", "stealth"],
-      starting_item: "faded_token_of_past-u",
-      starting_talents: ["makeshift_medic", "no_stranger_to_pain", "hard_lesson"]
-    }
-  },
-  lyranni: {
-	whisper_walker: {
-		trained_skills: ["perception", "occult", "spirit_lore", "insight", "survival_wilderness", "stealth", "magic_warding"],
-		starting_item: "veilmark_living-sigil-u",
-		starting_talents: ["threadwalker", "veilsight", "veil_blooded_sense"]
-	},
-	zurethkai_flameborn: {
-		trained_skills: ["slicing", "magic_technomancy", "electronics", "arcana", "deception", "magic_illusion", "insight"],
-		starting_item: "symbolic_magitech_mod-u",
-		starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
-	},
-	aelvareth_devotee: {
-		trained_skills: ["occult", "etiquette_lyranni", "arcana", "chant", "magic_warding", "bureaucracy", "veil_lore"],
-		starting_item: "aelvareth_veilmark-u",
-		starting_talents: ["threadwalker", "legacy_spark", "veilsight"]
-	},
-    echoborne: {
-      trained_skills: ["arcana", "etiquette_lyranni", "occult", "history", "insight", "voice", "bureaucracy"],
-      starting_item: "ancestral_veilmark-u",
-      starting_talents: ["legacy_spark", "veilsight", "threadwalker"]
-    },
-	glide_spire_scion: {
-		trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette_high_society", "dance", "deception"],
-		starting_item: "veil_threaded_accessory-u",
-		starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
 	}
   }
 };
@@ -17869,8 +17983,6 @@ on("clicked:dying", (event) => {
   });
 });
 
-
-
 on("clicked:strain_full_rest", () => {
   getAttrs(["strain_max", "name"], (values) => {
     const maxStrain = parseInt(values.strain_max, 10) || 0;
@@ -17925,6 +18037,16 @@ draeviBackgroundTabs.forEach(tab => {
 	on(`clicked:${tab}`, () => {
 		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ draevi_background_choice: tab });
+		race_default_trigger: Date.now() // Triggers recalculation and is watched
+	});
+});
+
+const feranBackgroundTabs = ["packborn_drifter", "urban_stalkkit", "clawbound_kin_warder", "scorchborn_fugitive", "veil_hunters_cub"];
+
+feranBackgroundTabs.forEach(tab => {
+	on(`clicked:${tab}`, () => {
+		if (debug_on)  console.log("Clicked tab", tab);
+		setAttrs({ feran_background_choice: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
 	});
 });

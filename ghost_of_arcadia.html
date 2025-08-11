@@ -5073,18 +5073,33 @@
 			</div>
 
 			<div class="sheet-section">
-                <!-- === CAREER TAB CONTROLLER === -->
-                <input type="hidden" name="attr_selected_career" class="sheet-tab-controller" value="codeweaver" />
+				<!-- === CAREER TAB CONTROLLER === -->
+				<input type="hidden" name="attr_selected_career" class="sheet-tab-controller" value="codeweaver" />
 
-                <!-- === CAREER TAB BUTTONS === -->
-                <div class="sheet-career-tabs sheet-tab-buttons">
-                    <button type="action" name="act_codeweaver">Codeweaver</button>
-                    <button type="action" name="act_combat_medic">Combat Medic</button>
-                    <button type="action" name="act_mindbender">Mindbender</button>
-                    <button type="action" name="act_sigilbound">Sigilbound</button>
-                    <button type="action" name="act_stormweaver">Stormweaver</button>
-                    <button type="action" name="act_street_ronin">Street Ronin</button>
-                </div>
+				<!-- === CAREER TAB BUTTONS === -->
+				<!-- Arcane -->
+				<div class="sheet-career-tabs sheet-tab-buttons">
+					<button type="action" name="act_codeweaver">Codeweaver</button>		
+					<button type="action" name="act_mindbender">Mindbender</button>
+					<button type="action" name="act_sigilbound">Sigilbound</button>
+					<button type="action" name="act_stormweaver">Stormweaver</button>						
+				</div>
+				
+				<!-- Standard -->
+				<div class="sheet-career-tabs sheet-tab-buttons">
+					<button type="action" name="act_combat_medic">Combat Medic</button>
+					<button type="action" name="act_icon">Icon</button>
+					<button type="action" name="act_mechanic">Mechanic</button>
+					<button type="action" name="act_operator">Operator</button>
+					<button type="action" name="act_shadowblade">Shadowblade</button>
+					<button type="action" name="act_slicer">Slicer</button>
+					<button type="action" name="act_street_ronin">Street Ronin</button>
+				</div>		
+				
+				<!-- Prestige -->
+				<div class="sheet-career-tabs sheet-tab-buttons">
+					<button type="action" name="act_arcane_gunslinger">Arcane Gunslinger</button>
+				</div>
 
                 <!-- === CAREER TABS CONTAINER === -->
                 <div class="sheet-career-tabs-container">
@@ -16890,6 +16905,7 @@ const talentSkillMap = {
 };
 
 const careerDataMap = {
+	/* Arcane Career */
 	codeweaver: {
         name: "Codeweaver",
         career_type: "arcane",
@@ -17139,252 +17155,6 @@ const careerDataMap = {
             }
         }
     },
-	combat_medic: {
-		name: "Combat Medic",
-		career_type: "support",
-		career_type_name: "Support",
-		skill_points_primary_formula: {
-			attributes: ["EDU"],
-			multipliers: [4]
-		},
-		skill_points_primary_display: "EDU × 4",
-		skill_points_secondary: 20,
-		spell_xp_primary: 0,
-		spell_xp_secondary: 0,
-		primary_skills: {
-			first_aid: "First Aid",
-			medicine: "Medicine",
-			coordination: "Coordination",
-			dodge: "Dodge"
-		},
-		secondary_skills: {
-			firearms_handgun: "Pistols",
-			insight: "Insight",
-			electronics: "Electronics",
-			athletics: "Athletics",
-			perception: "Perception",
-			security: "Security Systems"
-		},
-		talents: {
-			field_stabilizer: {
-				name: "Field Stabilizer",
-				description: "Once per scene, gain a bonus die when using Medicine or First Aid on an unconscious or dying ally.",
-				prerequisite: "",
-				tier: 1,
-				cost: "5",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			pain_doesnt_matter: {
-				name: "Pain Doesn’t Matter",
-				description: "Once per scene, make a Medicine check to restore consciousness to an ally who is unconscious or who failed a CON check after suffering a major wound.",
-				prerequisite: "",
-				tier: 1,
-				cost: "5",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			trauma_team_reflexes: {
-				name: "Trauma Team Reflexes",
-				description: "Once per scene, you may trade Initiative order with an ally. Both characters must not have acted yet.",
-				prerequisite: "",
-				tier: 1,
-				cost: "5",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			injector_harness: {
-				name: "Injector Harness",
-				description: "Once per scene, you may perform a First Aid, stim, or injector-based action as a maneuver instead of an action.",
-				prerequisite: "",
-				tier: 1,
-				cost: "5",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			vital_scan_overlay: {
-				name: "Vital Scan Overlay",
-				description: "Once per scene, gain a bonus die on a First Aid or Medicine roll if the target is below half HP. You may also detect hidden conditions (e.g., internal bleeding, toxin exposure) with a successful check.",
-				prerequisite: "",
-				tier: 1,
-				cost: "5",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			pressure_seal: {
-				name: "Pressure Seal",
-				description: "Once per session, you may automatically stabilize a bleeding-out ally below 0 HP. No roll required.",
-				prerequisite: "field_stabilizer",
-				tier: 2,
-				cost: "10",
-				capstone: false,
-			    usage_limit: "session"
-			},
-			painkiller_protocol: {
-				name: "Painkiller Protocol",
-				description: "After healing an ally, they gain a bonus die on their next action during the same scene.",
-				prerequisite: "injector_harness",
-				tier: 2,
-				cost: "10",
-				capstone: false,
-			    usage_limit: ""
-			},
-			stay_with_me: {
-				name: "Stay With Me!",
-				description: "Once per scene, when an ally within engaged or short-range drops to 0 HP, you may immediately make a First Aid check as a reaction to stabilize them.",
-				prerequisite: "field_stabilizer",
-				tier: 2,
-				cost: "10",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			tactical_redeployment: {
-				name: "Tactical Redeployment",
-				description: "As a reaction, when an ally within medium range takes damage, you may move one range band closer toward them.",
-				prerequisite: "trauma_team_reflexes",
-				tier: 2,
-				cost: "10",
-				capstone: false,
-			    usage_limit: ""
-			},
-			medical_override: {
-				name: "Medical Override",
-				description: "Once per scene, spend 2 Strain to double the HP healed by your next First Aid or Medicine check.",
-				prerequisite: [ "pain_doesnt_matter" ,"injector_harness"],
-				tier: 2,
-				cost: "10",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			surgical_clarity: {
-				name: "Surgical Clarity",
-				description: "Once per session, reroll a failed Medicine or First Aid check with a bonus die. If successful, the action takes half the usual time.",
-				prerequisite: [ "stay_with_me" ,"pressure_seal"],
-				tier: 3,
-				cost: "15",
-				capstone: false,
-			    usage_limit: "session"
-			},
-			combat_revive: {
-				name: "Combat Revive",
-				description: "Once per session, you may revive a stabilized ally within engaged range, restoring up to half their HP. Requires a full action and physical contact.",
-				prerequisite: "medical_override",
-				tier: 3,
-				cost: "15",
-				capstone: false,
-			    usage_limit: "session"
-			},
-			quickdraw_injector: {
-				name: "Quickdraw Injector",
-				description: "Once per scene, you may use a stim or injector as a reaction on yourself or an ally in engaged range.",
-				prerequisite: [ "injector_harness", "painkiller_protocol"],
-				tier: 3,
-				cost: "15",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			overwatch_healer: {
-				name: "Overwatch Healer",
-				description: "While providing overwatch for an injured ally, gain a bonus die on your next attack against an enemy who attacks that ally.",
-				prerequisite: "tactical_redeployment",
-				tier: 3,
-				cost: "15",
-				capstone: false,
-			    usage_limit: ""
-			},
-			veil_immunologist: {
-				name: "Veil Immunologist",
-				description: "Once per session, make a Medicine check to reduce Veil Corruption in an ally who suffered corruption this scene. You also gain a bonus die on Medicine checks against arcane or Veil-based afflictions.",
-				prerequisite: ["pressure_seal", "vital_scan_overlay"],
-				tier: 3,
-				cost: "15",
-				capstone: false,
-			    usage_limit: "session"
-			},
-			endurance_conditioning: {
-				name: "Endurance Conditioning",
-				description: "Gain +2 maximum HP. This bonus is permanent.",
-				prerequisite: [ "surgical_clarity" ,"combat_revive" ],
-				tier: 4,
-				cost: "20",
-				capstone: false,
-			    usage_limit: ""
-			},
-			emergency_triage_net: {
-				name: "Emergency Triage Net",
-				description: "Once per session, select up to two allies within short range. You may divide the result of one successful Medicine check between them (each must receive at least 1 HP).",
-				prerequisite: "overwatch_healer",
-				tier: 4,
-				cost: "20",
-				capstone: false,
-			    usage_limit: "session"
-			},
-			ghost_of_the_er: {
-				name: "Ghost of the ER",
-				description: "Once per session, you may move through a danger zone to reach an injured ally. You do not provoke Overwatch attacks or reactions, and enemies suffer a penalty die when targeting you until your next turn.",
-				prerequisite: "overwatch_healer",
-				tier: 4,
-				cost: "20",
-				capstone: false,
-			    usage_limit: "session"
-			},
-			field_expeditor: {
-				name: "Field Expeditor",
-				description: "Once per session, you may perform a First Aid or Medicine check as a free action instead of a full action.",
-				prerequisite: "combat_revive",
-				tier: 4,
-				cost: "20",
-				capstone: false,
-			    usage_limit: "session"
-			},
-			reactive_trauma_surge: {
-				name: "Reactive Trauma Surge",
-				description: "Once per scene, when an ally within short range drops below half HP, you may move to them and perform a First Aid check as a free action. If successful, they gain a bonus die on their next action.",
-				prerequisite: "surgical_clarity",
-				tier: 4,
-				cost: "20",
-				capstone: false,
-			    usage_limit: "scene"
-			},
-			no_one_dies_today: {
-				name: "No One Dies Today",
-				description: "Once per session, when an ally you can see would die from an attack or effect, they instead remain alive at 1 HP and may act normally for the remainder of the scene.",
-				prerequisite: "emergency_triage_net",
-				tier: 5,
-				cost: "30",
-				capstone: true,
-			    usage_limit: "session"
-			},
-			miracle_protocol: {
-				name: "Miracle Protocol",
-				description: "Once per session, make a Medicine check that automatically succeeds. On success, you may also remove one condition or one level of Veil Corruption from the target.",
-				prerequisite: ["field_expeditor" ,"ghost_of_the_er"],
-				tier: 5,
-				cost: "30",
-				capstone: true,
-			    usage_limit: "session"
-			},
-			stat_boost: {
-				name: "+5% Stat Boost",
-				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
-				prerequisite: "",
-				prerequisiteAny: { tier: 4, count: 1 },
-				tier: 5,
-				cost: "30",
-				capstone: true,
-			    usage_limit: ""
-			},
-			adrenal_shield_matrix: {
-				name: "Adrenal Shield Matrix",
-				description: "Once per session, when healing an ally, they also gain 1d6 temporary HP that lasts for the remainder of the scene.",
-				prerequisite: "endurance_conditioning",
-				tier: 5,
-				cost: "30",
-				capstone: true,
-				usage_limit: "session"
-			}
-		}
-	},
 	mindbender: {
 		name: "Mindbender",
 		career_type: "arcane",
@@ -18115,6 +17885,263 @@ const careerDataMap = {
 			}
 		}
 	},
+	/* Standard Career */
+	combat_medic: {
+		name: "Combat Medic",
+		career_type: "support",
+		career_type_name: "Support",
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [4]
+		},
+		skill_points_primary_display: "EDU × 4",
+		skill_points_secondary: 20,
+		spell_xp_primary: 0,
+		spell_xp_secondary: 0,
+		primary_skills: {
+			first_aid: "First Aid",
+			medicine: "Medicine",
+			coordination: "Coordination",
+			dodge: "Dodge"
+		},
+		secondary_skills: {
+			firearms_handgun: "Pistols",
+			insight: "Insight",
+			electronics: "Electronics",
+			athletics: "Athletics",
+			perception: "Perception",
+			security: "Security Systems"
+		},
+		talents: {
+			field_stabilizer: {
+				name: "Field Stabilizer",
+				description: "Once per scene, gain a bonus die when using Medicine or First Aid on an unconscious or dying ally.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			pain_doesnt_matter: {
+				name: "Pain Doesn’t Matter",
+				description: "Once per scene, make a Medicine check to restore consciousness to an ally who is unconscious or who failed a CON check after suffering a major wound.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			trauma_team_reflexes: {
+				name: "Trauma Team Reflexes",
+				description: "Once per scene, you may trade Initiative order with an ally. Both characters must not have acted yet.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			injector_harness: {
+				name: "Injector Harness",
+				description: "Once per scene, you may perform a First Aid, stim, or injector-based action as a maneuver instead of an action.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			vital_scan_overlay: {
+				name: "Vital Scan Overlay",
+				description: "Once per scene, gain a bonus die on a First Aid or Medicine roll if the target is below half HP. You may also detect hidden conditions (e.g., internal bleeding, toxin exposure) with a successful check.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			pressure_seal: {
+				name: "Pressure Seal",
+				description: "Once per session, you may automatically stabilize a bleeding-out ally below 0 HP. No roll required.",
+				prerequisite: "field_stabilizer",
+				tier: 2,
+				cost: "10",
+				capstone: false,
+			    usage_limit: "session"
+			},
+			painkiller_protocol: {
+				name: "Painkiller Protocol",
+				description: "After healing an ally, they gain a bonus die on their next action during the same scene.",
+				prerequisite: "injector_harness",
+				tier: 2,
+				cost: "10",
+				capstone: false,
+			    usage_limit: ""
+			},
+			stay_with_me: {
+				name: "Stay With Me!",
+				description: "Once per scene, when an ally within engaged or short-range drops to 0 HP, you may immediately make a First Aid check as a reaction to stabilize them.",
+				prerequisite: "field_stabilizer",
+				tier: 2,
+				cost: "10",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			tactical_redeployment: {
+				name: "Tactical Redeployment",
+				description: "As a reaction, when an ally within medium range takes damage, you may move one range band closer toward them.",
+				prerequisite: "trauma_team_reflexes",
+				tier: 2,
+				cost: "10",
+				capstone: false,
+			    usage_limit: ""
+			},
+			medical_override: {
+				name: "Medical Override",
+				description: "Once per scene, spend 2 Strain to double the HP healed by your next First Aid or Medicine check.",
+				prerequisite: [ "pain_doesnt_matter" ,"injector_harness"],
+				tier: 2,
+				cost: "10",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			surgical_clarity: {
+				name: "Surgical Clarity",
+				description: "Once per session, reroll a failed Medicine or First Aid check with a bonus die. If successful, the action takes half the usual time.",
+				prerequisite: [ "stay_with_me" ,"pressure_seal"],
+				tier: 3,
+				cost: "15",
+				capstone: false,
+			    usage_limit: "session"
+			},
+			combat_revive: {
+				name: "Combat Revive",
+				description: "Once per session, you may revive a stabilized ally within engaged range, restoring up to half their HP. Requires a full action and physical contact.",
+				prerequisite: "medical_override",
+				tier: 3,
+				cost: "15",
+				capstone: false,
+			    usage_limit: "session"
+			},
+			quickdraw_injector: {
+				name: "Quickdraw Injector",
+				description: "Once per scene, you may use a stim or injector as a reaction on yourself or an ally in engaged range.",
+				prerequisite: [ "injector_harness", "painkiller_protocol"],
+				tier: 3,
+				cost: "15",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			overwatch_healer: {
+				name: "Overwatch Healer",
+				description: "While providing overwatch for an injured ally, gain a bonus die on your next attack against an enemy who attacks that ally.",
+				prerequisite: "tactical_redeployment",
+				tier: 3,
+				cost: "15",
+				capstone: false,
+			    usage_limit: ""
+			},
+			veil_immunologist: {
+				name: "Veil Immunologist",
+				description: "Once per session, make a Medicine check to reduce Veil Corruption in an ally who suffered corruption this scene. You also gain a bonus die on Medicine checks against arcane or Veil-based afflictions.",
+				prerequisite: ["pressure_seal", "vital_scan_overlay"],
+				tier: 3,
+				cost: "15",
+				capstone: false,
+			    usage_limit: "session"
+			},
+			endurance_conditioning: {
+				name: "Endurance Conditioning",
+				description: "Gain +2 maximum HP. This bonus is permanent.",
+				prerequisite: [ "surgical_clarity" ,"combat_revive" ],
+				tier: 4,
+				cost: "20",
+				capstone: false,
+			    usage_limit: ""
+			},
+			emergency_triage_net: {
+				name: "Emergency Triage Net",
+				description: "Once per session, select up to two allies within short range. You may divide the result of one successful Medicine check between them (each must receive at least 1 HP).",
+				prerequisite: "overwatch_healer",
+				tier: 4,
+				cost: "20",
+				capstone: false,
+			    usage_limit: "session"
+			},
+			ghost_of_the_er: {
+				name: "Ghost of the ER",
+				description: "Once per session, you may move through a danger zone to reach an injured ally. You do not provoke Overwatch attacks or reactions, and enemies suffer a penalty die when targeting you until your next turn.",
+				prerequisite: "overwatch_healer",
+				tier: 4,
+				cost: "20",
+				capstone: false,
+			    usage_limit: "session"
+			},
+			field_expeditor: {
+				name: "Field Expeditor",
+				description: "Once per session, you may perform a First Aid or Medicine check as a free action instead of a full action.",
+				prerequisite: "combat_revive",
+				tier: 4,
+				cost: "20",
+				capstone: false,
+			    usage_limit: "session"
+			},
+			reactive_trauma_surge: {
+				name: "Reactive Trauma Surge",
+				description: "Once per scene, when an ally within short range drops below half HP, you may move to them and perform a First Aid check as a free action. If successful, they gain a bonus die on their next action.",
+				prerequisite: "surgical_clarity",
+				tier: 4,
+				cost: "20",
+				capstone: false,
+			    usage_limit: "scene"
+			},
+			no_one_dies_today: {
+				name: "No One Dies Today",
+				description: "Once per session, when an ally you can see would die from an attack or effect, they instead remain alive at 1 HP and may act normally for the remainder of the scene.",
+				prerequisite: "emergency_triage_net",
+				tier: 5,
+				cost: "30",
+				capstone: true,
+			    usage_limit: "session"
+			},
+			miracle_protocol: {
+				name: "Miracle Protocol",
+				description: "Once per session, make a Medicine check that automatically succeeds. On success, you may also remove one condition or one level of Veil Corruption from the target.",
+				prerequisite: ["field_expeditor" ,"ghost_of_the_er"],
+				tier: 5,
+				cost: "30",
+				capstone: true,
+			    usage_limit: "session"
+			},
+			stat_boost: {
+				name: "+5% Stat Boost",
+				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
+				prerequisite: "",
+				prerequisiteAny: { tier: 4, count: 1 },
+				tier: 5,
+				cost: "30",
+				capstone: true,
+			    usage_limit: ""
+			},
+			adrenal_shield_matrix: {
+				name: "Adrenal Shield Matrix",
+				description: "Once per session, when healing an ally, they also gain 1d6 temporary HP that lasts for the remainder of the scene.",
+				prerequisite: "endurance_conditioning",
+				tier: 5,
+				cost: "30",
+				capstone: true,
+				usage_limit: "session"
+			}
+		}
+	},
+	icon: {
+	},
+	mechanic: {
+	},
+	operator: {
+	},
+	shadowblade: {
+	},
+	slicer: {
+	},
 	street_ronin: {
 		name: "Street Ronin",
 		career_type: "martial",
@@ -18368,6 +18395,9 @@ const careerDataMap = {
 			    usage_limit: ""				
 			}
 		}
+	},
+	/* Prestige Career */
+	arcane_gunslinger: {
 	}
 };
 //----------------------- Tab Workers Start ----------------------//

@@ -613,6 +613,7 @@
 								<input class="skill-input" type="text" name="attr_otherskill11_mdr" readonly />
 								<button type="roll" name="roll_otherskill11_mdr_check" value="&{template:coc-1} {{name=@{otherskill11_mdr_name} Roll}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{otherskill11_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill11_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill11_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
 							</div>
+<!-- START: Old skills to remove -->
 							<div><input type="checkbox" name="attr_chant_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_chant_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="chant-u">Chant(05%)</span></div>
 							<div><input class="skill-input" type="text" name="attr_chant_skill_mdr" /></div>
@@ -682,7 +683,8 @@
 								<button type="roll" class="sheet-toggle-social-mode-off" name="roll_voice_mdr_check" value="&{template:coc-1} {{name=@{voice_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{voice_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
 								<button type="roll" class="sheet-toggle-social-mode-on-penalty" name="roll_voice_mdr_check" value="&{template:coc-penalty} {{name=@{voice_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{voice_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
 								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_voice_mdr_check" value="&{template:coc-bonus} {{name=@{voice_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{voice_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{voice_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
-							</div>							
+							</div>		
+<!-- END: Old skills to remove -->							
 						</div>
 					</div>
 					<div class="sheet-skill-column">
@@ -1297,9 +1299,9 @@
                                         <label class="sheet-bg-skill-label" data-i18n="deception-u">Deception</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+                                        <input type="hidden" name="attr_bg_perform_impersonation_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_impersonation-u">Perform (Impersonation)</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
@@ -1395,9 +1397,9 @@
                                         <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+                                        <input type="hidden" name="attr_bg_perform_impersonation_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_impersonation-u">Perform (Impersonation)</label>
                                     </div>
                                 </div>
                             </div>
@@ -1443,9 +1445,9 @@
                                 <h4 data-i18n="trained_skills-u">Trained Skills</h4>
                                 <div class="sheet-trained-skill-list">
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+                                        <input type="hidden" name="attr_bg_perform_impersonation_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_impersonation-u">Perform (Impersonation)</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_history_mdr_checkbox_lock" value="0" />
@@ -1534,9 +1536,9 @@
   										<label class="sheet-bg-skill-label" data-i18n="disguise-u">Disguise</label>
 									</div>
 									<div class="sheet-bg-skill-row">
-  										<input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
-  										<input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-  										<label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+  										<input type="hidden" name="attr_bg_perform_impersonation_mdr_checkbox_lock" value="0" />
+  										<input type="checkbox" name="attr_bg_perform_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+  										<label class="sheet-bg-skill-label" data-i18n="perform_impersonation-u">Perform (Impersonation)</label>
 									</div>
 									<div class="sheet-bg-skill-row">
   										<input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
@@ -1608,9 +1610,9 @@
                                         <label class="sheet-bg-skill-label" data-i18n="etiquette_alteri-u">Etiquette</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_impersonation_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="impersonation-u">Impersonation</label>
+                                        <input type="hidden" name="attr_bg_perform_impersonation_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_impersonation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_impersonation-u">Perform (Impersonation)</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_occult_mdr_checkbox_lock" value="0" />
@@ -1912,7 +1914,7 @@
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_survival_wilderness_mdr_checkbox_lock" value="0" />
                                         <input type="checkbox" name="attr_bg_survival_wilderness_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="survival_wildnerness-u">Survival</label>
+                                        <label class="sheet-bg-skill-label" data-i18n="survival_wilderness-u">Survival</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_navigate_mdr_checkbox_lock" value="0" />
@@ -2598,9 +2600,9 @@
                                         <label class="sheet-bg-skill-label" data-i18n="bureaucracy-u">Bureaucracy</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_recitation_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_recitation_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="recitation-u">Recitation</label>
+                                        <input type="hidden" name="attr_bg_perform_vocal_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_vocal_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_vocal-u">Perform (Recitation)</label>
                                     </div>
                                 </div>
                             </div>
@@ -2662,9 +2664,9 @@
                                         <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_voice_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_voice_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="voice-u">Voice</label>
+                                        <input type="hidden" name="attr_bg_perform_vocal_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_vocal_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_vocal-u">Perform (Vocal)</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_charm_mdr_checkbox_lock" value="0" />
@@ -3006,9 +3008,9 @@
                                         <label class="sheet-bg-skill-label" data-i18n="arcana-u">Arcana</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_chant_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_chant_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="chant-u">Performance (Chant)</label>
+                                        <input type="hidden" name="attr_bg_perform_vocal_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_vocal_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_vocal-u">Performance (Vocal)</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_magic_warding_mdr_checkbox_lock" value="0" />
@@ -3094,9 +3096,9 @@
                                         <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_voice_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_voice_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="voice-u">Voice</label>
+                                        <input type="hidden" name="attr_bg_perform_vocal_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_vocal_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_vocal-u">Perform (Voice)</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_bureaucracy_mdr_checkbox_lock" value="0" />
@@ -3172,9 +3174,9 @@
                                         <label class="sheet-bg-skill-label" data-i18n="etiquette_high_society-u">Etiquette (High Society)</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_dance_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_dance_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="dance-u">Performance (Dance)</label>
+                                        <input type="hidden" name="attr_bg_perform_dance_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_perform_dance_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="perform_dance-u">Performance (Dance)</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_deception_mdr_checkbox_lock" value="0" />
@@ -3448,8 +3450,8 @@
 									<span>Disguise +10%</span>
 								</label>
 								<label class="sheet-skill-option">
-									<input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_impersonation" />
-									<span>Impersonation +10%</span>
+									<input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_perform_impersonation" />
+									<span>Perform (Impersonation) +10%</span>
 								</label>
 								<label class="sheet-skill-option">
 									<input type="checkbox" name="attr_alteri_maskwrights_grace_mdr_checkbox" value="talent_insight" />
@@ -3631,8 +3633,8 @@
 									<span>Arcana +10%</span>
 								</label>
 								<label class="sheet-skill-option">
-									<input type="checkbox" name="attr_alteri_persona_anchor_mdr_checkbox" value="talent_impersonation" />
-									<span>Impersonation +10%</span>
+									<input type="checkbox" name="attr_alteri_persona_anchor_mdr_checkbox" value="talent_perform_impersonation" />
+									<span>Perform (Impersonation) +10%</span>
 								</label>
 								<label class="sheet-skill-option">
 									<input type="checkbox" name="attr_alteri_persona_anchor_mdr_checkbox" value="talent_slicing" />
@@ -4757,24 +4759,24 @@
                         <div class="sheet-skill-choice-placeholder">
                             <div class="sheet-skill-choice-options" name="attr_echo_in_the_veins_choices">
 								<label class="sheet-skill-option">
-										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_chant" />
-										<span>Chant +10%</span>
+										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_perform_acting" />
+										<span>Perform (Acting) +10%</span>
 								</label>
 								<label class="sheet-skill-option">
-										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_dance" />
-										<span>Dance +10%</span>
+										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_perform_dance" />
+										<span>Perform (Dance) +10%</span>
 								</label>
 								<label class="sheet-skill-option">
-										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_impersonation" />
-										<span>Impersonation +10%</span>
+										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_perform_impersonation" />
+										<span>Perform (Impersonation) +10%</span>
 								</label>
 								<label class="sheet-skill-option">
-										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_instrument" />
-										<span>Instrument +10%</span>
+										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_perform_instrument" />
+										<span>Perform (Instrument) +10%</span>
 								</label>
 								<label class="sheet-skill-option">
-										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_singing" />
-										<span>Singing +10%</span>
+										<input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_perform_vocal" />
+										<span>Perform (Vocal) +10%</span>
 								</label>
                                 <label class="sheet-skill-option">
                                     <input type="checkbox" name="attr_lyranni_echo_in_the_veins_mdr_checkbox" value="talent_insight" />
@@ -5864,8 +5866,8 @@
 											<label>Etiquette (High Society)</label>
 										</div>
 										<div class="sheet-career-skill-wrapper">
-											<input type="hidden" name="attr_cs_mindbender_impersonation_mdr_checkbox_lock" value="0" />
-											<input type="checkbox" name="attr_cs_mindbender_impersonation_mdr_checkbox" value="1" />
+											<input type="hidden" name="attr_cs_mindbender_perform_impersonation_mdr_checkbox_lock" value="0" />
+											<input type="checkbox" name="attr_cs_mindbender_perform_impersonation_mdr_checkbox" value="1" />
 											<label>Performance (Impersonation)</label>
 										</div>
 										<div class="sheet-career-skill-wrapper">
@@ -15545,27 +15547,27 @@ const skillMapTable = {
 const backgroundDataMap = {
   alteri: {
     soft_year_drifter: {
-      trained_skills: ["coordination", "deception", "disguise", "impersonation", "insight", "stealth", "streetwise"],
+      trained_skills: ["coordination", "deception", "disguise", "perform_impersonation", "insight", "stealth", "streetwise"],
       starting_item: "mask_journal-u",
       starting_talents: ["second_skin", "reflexive_shift", "grace_of_the_many"]
     },
 	veilhaven_attendant: {
-	  trained_skills: ["arcana", "insight", "disguise", "history", "etiquette_alteri", "impersonation", "occult"],
+	  trained_skills: ["arcana", "insight", "disguise", "history", "etiquette_alteri", "perform_impersonation", "occult"],
 	  starting_item: "kin_token-u",
 	  starting_talents: ["maskwrights_grace", "whisper_touched", "social_chameleon"]
 	},
 	ghostline_runner: {
-	  trained_skills: ["slicing", "streetwise", "stealth", "electronics", "deception", "insight", "impersonation"],
+	  trained_skills: ["slicing", "streetwise", "stealth", "electronics", "deception", "insight", "perform_impersonation"],
 	  starting_item: "burner_id_package-u",
 	  starting_talents: ["ghost_protocol", "shaped_for_subtlety", "echoed_voice"]
 	},
     legacy_bearer: {
-      trained_skills: ["impersonation", "history", "insight", "arcana", "etiquette_alteri", "disguise", "occult"],
+      trained_skills: ["perform_impersonation", "history", "insight", "arcana", "etiquette_alteri", "disguise", "occult"],
       starting_item: "legacy_ritual_item-u",
       starting_talents: ["echoed_voice", "maskwrights_grace", "second_skin"]
     },
     break_faced_radical: {
-      trained_skills: ["persuade", "deception", "impersonation", "insight", "streetwise", "disguise", "charm"],
+      trained_skills: ["persuade", "deception", "perform_impersonation", "insight", "streetwise", "disguise", "charm"],
       starting_item: "digital_mask_manifest-u",
       starting_talents: ["social_chameleon", "reflexive_shift", "shaped_for_subtlety"]
     }
@@ -15631,7 +15633,7 @@ const backgroundDataMap = {
       starting_talents: ["quick_fixer", "hard_lesson", "skilled_focus"]
     },
     enclave_born: {
-      trained_skills: ["etiquette_high_society", "persuade", "insight", "voice", "charm", "bureaucracy", "history"],
+      trained_skills: ["etiquette_high_society", "persuade", "insight", "perform_vocal", "charm", "bureaucracy", "history"],
       starting_item: "pristine_id_code_uptier_zone-u",
       starting_talents: ["social_versatility", "instinct_over_training", "battle_tested_gut"]
     },
@@ -15646,7 +15648,7 @@ const backgroundDataMap = {
       starting_talents: ["battle_tested_gut", "no_stranger_to_pain", "hard_lesson"]
     },
     data_hatched: {
-      trained_skills: ["slicing", "science", "electronics", "insight", "occult", "bureaucracy", "recitation"],
+      trained_skills: ["slicing", "science", "electronics", "insight", "occult", "bureaucracy", "perform_vocal"],
       starting_item: ["memory_shard-u", "ai_record-u"],
       starting_talents: ["instinct_over_training", "quick_fixer", "skilled_focus"]
     },
@@ -15672,17 +15674,17 @@ const backgroundDataMap = {
 		starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
 	},
 	aelvareth_devotee: {
-		trained_skills: ["occult", "etiquette_lyranni", "arcana", "chant", "magic_warding", "bureaucracy", "veil_lore"],
+		trained_skills: ["occult", "etiquette_lyranni", "arcana", "perform_vocal", "magic_warding", "bureaucracy", "veil_lore"],
 		starting_item: "aelvareth_veilmark-u",
 		starting_talents: ["threadwalker", "legacy_spark", "veilsight"]
 	},
     echoborne: {
-      trained_skills: ["arcana", "etiquette_lyranni", "occult", "history", "insight", "voice", "bureaucracy"],
+      trained_skills: ["arcana", "etiquette_lyranni", "occult", "history", "insight", "perform_vocal", "bureaucracy"],
       starting_item: "ancestral_veilmark-u",
       starting_talents: ["legacy_spark", "veilsight", "threadwalker"]
     },
 	glide_spire_scion: {
-		trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette_high_society", "dance", "deception"],
+		trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette_high_society", "perform_dance", "deception"],
 		starting_item: "veil_threaded_accessory-u",
 		starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
 	}
@@ -16926,7 +16928,7 @@ const talentDataMap = {
 const talentSkillMap = {
   alteri: {
     maskwrights_grace: {
-      disguise: "Disguise", impersonation: "Impersonation", insight: "Insight"
+      disguise: "Disguise", perform_impersonation: "Perform (Impersonation)", insight: "Insight"
     },
     shaped_for_subtlety: {
       insight: "Insight", slicing: "Slicing", stealth: "Stealth"
@@ -16935,7 +16937,7 @@ const talentSkillMap = {
 	  disguise: "Disguise", insight: "Insight"
 	},
 	persona_anchor: {
-	  arcana: "Arcana", impersonation: "Impersonation", slicing: "Slicing"
+	  arcana: "Arcana", perform_impersonation: "Perform (Impersonation)", slicing: "Slicing"
 	}
   },
   draevi: {
@@ -16977,7 +16979,7 @@ const talentSkillMap = {
       electronics: "Electronics", mechanics: "Mechanics", slicing: "Slicing"
     },
     echo_in_the_veins: {
-      chant: "Chant", dance: "Dance", impersonation: "Impersonation", instrument: "Instrument", singing: "Singing", insight: "Insight", streetwise: "Streetwise"
+      perform_acting: "Perform (Acting)", perform_dance: "Perform (Dance)", perform_impersonation: "Perform (Impersonation)", perform_instrument: "Perform (Instrument)", perform_vocal: "Perform (Vocal)", insight: "Insight", streetwise: "Streetwise"
     },
 	veilsplice : {
 	  electronics: "Electronics", slicing: "Slicing"
@@ -17261,7 +17263,7 @@ const careerDataMap = {
 			charm: "Charm",
 			intimidate: "Intimidate",
 			etiquette_high_society: "Etiquette (High Society)",
-			impersonation: "Performance (Impersonation)",
+			perform_impersonation: "Performance (Impersonation)",
 			interrogation: "Interrogation"
 		},
 		talents: {

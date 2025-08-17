@@ -330,6 +330,7 @@
 				<h4 class="section-head" data-i18n="investigatorskills-u">Skills</h4>
 				<div class="sheet-skill-columns">
 					<div class="sheet-skill-column">
+						<!-- Section: Combat -->
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Combat</div>
@@ -416,6 +417,38 @@
 							</div>
 						</div>
 						<div class="sheet-skill-spacer"></div>
+						<!-- Section: Language -->												
+						<div class="sheet-skill-grid-header">
+							<div class="sheet-skill-col">T</div>
+							<div class="sheet-skill-col">Language</div>
+							<div class="sheet-skill-col">SP</div>
+							<div class="sheet-skill-col">Val</div>
+						</div>
+						<div class="sheet-skill-grid">
+							<div><input type="checkbox" name="attr_language_own_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_language_own_improved_label" class="sheet-improved-indicator" readonly /><div class="skill-label"><span name="attr_language_own_txt"></span></div></div>
+							<div><input class="skill-input" type="text" name="attr_language_own_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="sheet-skill-input" type="text" name="attr_language_own_mdr" readonly />
+								<button type="roll" name="roll_language_own_mdr_check" value="&{template:coc-1} {{name=@{language_own_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{language_own_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{language_own_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{language_own_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+							</div>
+							<div><input type="checkbox" name="attr_language_caltheran_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_language_caltheran_improved_label" class="sheet-improved-indicator" readonly /><div class="skill-label"><span name="attr_language_caltheran_txt"></span></div></div>
+							<div><input class="skill-input" type="text" name="attr_language_caltheran_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="sheet-skill-input" type="text" name="attr_language_caltheran_mdr" readonly />
+								<button type="roll" name="roll_language_caltheran_mdr_check" value="&{template:coc-1} {{name=@{language_caltheran_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{language_caltheran_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{language_caltheran_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{language_caltheran_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+							</div>
+							<div><input type="checkbox" name="attr_otherskill3_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_otherskill3_improved_label" class="sheet-improved-indicator" readonly /><input class="sheet-skill-name-input" type="text" name="attr_otherskill3_mdr_name" /></div>
+							<div><input class="skill-input" type="text" name="attr_otherskill3_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="sheet-skill-input" type="text" name="attr_otherskill3_mdr" readonly />
+								<button type="roll" name="roll_otherskill3_mdr_check" value="&{template:coc-1} {{name=@{otherskill3_mdr_name} Roll}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{otherskill3_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill3_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill3_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+							</div>
+						</div>
+						<div class="sheet-spacer-row"></div>
+						<!-- Section: Magic -->												
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Magic</div>
@@ -502,36 +535,7 @@
 							</div>
 						</div>
 						<div class="sheet-skill-spacer"></div>
-						<div class="sheet-skill-grid-header">
-							<div class="sheet-skill-col">T</div>
-							<div class="sheet-skill-col">Language</div>
-							<div class="sheet-skill-col">SP</div>
-							<div class="sheet-skill-col">Val</div>
-						</div>
-						<div class="sheet-skill-grid">
-							<div><input type="checkbox" name="attr_language_own_mdr_checkbox" value="1" /></div>
-							<div class="skill-label-wrapper"><input type="text" name="attr_language_own_improved_label" class="sheet-improved-indicator" readonly /><div class="skill-label"><span name="attr_language_own_txt"></span></div></div>
-							<div><input class="skill-input" type="text" name="attr_language_own_skill_mdr" /></div>
-							<div class="sheet-val-roll-static">
-								<input class="sheet-skill-input" type="text" name="attr_language_own_mdr" readonly />
-								<button type="roll" name="roll_language_own_mdr_check" value="&{template:coc-1} {{name=@{language_own_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{language_own_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{language_own_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{language_own_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
-							</div>
-							<div><input type="checkbox" name="attr_language_caltheran_mdr_checkbox" value="1" /></div>
-							<div class="skill-label-wrapper"><input type="text" name="attr_language_caltheran_improved_label" class="sheet-improved-indicator" readonly /><div class="skill-label"><span name="attr_language_caltheran_txt"></span></div></div>
-							<div><input class="skill-input" type="text" name="attr_language_caltheran_skill_mdr" /></div>
-							<div class="sheet-val-roll-static">
-								<input class="sheet-skill-input" type="text" name="attr_language_caltheran_mdr" readonly />
-								<button type="roll" name="roll_language_caltheran_mdr_check" value="&{template:coc-1} {{name=@{language_caltheran_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{language_caltheran_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{language_caltheran_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{language_caltheran_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
-							</div>
-							<div><input type="checkbox" name="attr_otherskill3_mdr_checkbox" value="1" /></div>
-							<div class="skill-label-wrapper"><input type="text" name="attr_otherskill3_improved_label" class="sheet-improved-indicator" readonly /><input class="sheet-skill-name-input" type="text" name="attr_otherskill3_mdr_name" /></div>
-							<div><input class="skill-input" type="text" name="attr_otherskill3_skill_mdr" /></div>
-							<div class="sheet-val-roll-static">
-								<input class="sheet-skill-input" type="text" name="attr_otherskill3_mdr" readonly />
-								<button type="roll" name="roll_otherskill3_mdr_check" value="&{template:coc-1} {{name=@{otherskill3_mdr_name} Roll}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{otherskill3_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill3_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill3_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
-							</div>
-						</div>
-						<div class="sheet-spacer-row"></div>
+						<!-- Section: Other -->						
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Other</div>
@@ -559,6 +563,25 @@
 							</div>
 						</fieldset>
 						<div class="sheet-skill-spacer"></div>
+						<!-- Section: Perform -->
+						<div class="sheet-skill-grid-header">
+							<div class="sheet-skill-col">T</div>
+							<div class="sheet-skill-col">Perform</div>
+							<div class="sheet-skill-col">SP</div>
+							<div class="sheet-skill-col">Val</div>
+						</div>						
+						<div class="sheet-skill-grid">
+							<div><input type="checkbox" name="attr_otherskill11_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_otherskill11_improved_label" class="sheet-improved-indicator" readonly /><input class="sheet-skill-name-input" type="text" name="attr_otherskill11_mdr_name" /></div>
+							<div><input class="skill-input" type="text" name="attr_otherskill11_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="skill-input" type="text" name="attr_otherskill11_mdr" readonly />
+								<button type="roll" name="roll_otherskill11_mdr_check" value="&{template:coc-1} {{name=@{otherskill11_mdr_name} Roll}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{otherskill11_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill11_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill11_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
+							</div>
+						</div>
+					</div>
+					<div class="sheet-skill-column">
+						<!-- Section: Physical -->												
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Physical</div>
@@ -596,6 +619,7 @@
 							</div>
 						</div>
 						<div class="sheet-skill-spacer"></div>
+						<!-- Section: Pilot -->												
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Pilot</div>
@@ -646,8 +670,8 @@
 								<button type="roll" name="roll_otherskill5_mdr_check" value="&{template:coc-1} {{name=@{otherskill5_mdr_name} Roll}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{otherskill5_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill5_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill5_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
 							</div>
 						</div>
-					</div>
-					<div class="sheet-skill-column">
+						<div class="sheet-skill-spacer"></div>					
+						<!-- Section: Science/Knowledge -->											
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Science/Knowledge</div>
@@ -789,7 +813,9 @@
 								<button type="roll" name="roll_otherskill6_mdr_check" value="&{template:coc-1} {{name=@{otherskill6_mdr_name} Roll}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{otherskill6_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill6_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill6_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" />
 							</div>
 						</div>
-						<div class="sheet-skill-spacer"></div>
+					</div>
+					<div class="sheet-skill-column">
+						<!-- Section: Social -->												
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Social</div>
@@ -1029,8 +1055,8 @@
 								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_otherskill7_mdr_check" value="&{template:coc-bonus} {{name=@{otherskill7_mdr_name} Roll}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{otherskill7_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{otherskill7_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{otherskill7_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" />
 							</div>
 						</div>
-					</div>
-					<div class="sheet-skill-column">
+						<div class="sheet-skill-spacer"></div>
+						<!-- Section: Survival -->											
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Survival</div>
@@ -1117,6 +1143,7 @@
 							</div>
 						</div>
 						<div class="sheet-skill-spacer"></div>
+						<!-- Section: Tech/Cyber -->												
 						<div class="sheet-skill-grid-header">
 							<div class="sheet-skill-col">T</div>
 							<div class="sheet-skill-col">Tech/Cyber</div>
@@ -15370,6 +15397,7 @@ const raceDataMap = {
 };
 
 const skillMapTable = {
+ /* Combat */
  "Archery": { label: "archery", base: "10", skill: "archery_skill_mdr", bonus: "archery_mdr", group: "Combat", notes: "Archery" },
  "Dodge (DEX/2)": { label: "dodge", base: "0", skill: "dodge_skill_mdr", bonus: "dodge_mdr", group: "Combat", notes: "Half of your DEX score" },
  "Gunnery": { label: "gunnery", base: "10", skill: "gunnery_skill_mdr", bonus: "gunnery_mdr", group: "Combat", notes: "Vehicle-mounted or automated weapons" },
@@ -15380,9 +15408,10 @@ const skillMapTable = {
  "Submachine Guns (SMGs)": { label: "firearms_smg", base: "15", skill: "firearms_smg_skill_mdr", bonus: "firearms_smg_mdr", group: "Combat", notes: "Submachine Guns (SMGs)" },
  "Thrown Weapons": { label: "throw", base: "20", skill: "throw_skill_mdr", bonus: "throw_mdr", group: "Combat", notes: "Thrown Weapons" },
  "Unarmed": { label: "unarmed", base: "25", skill: "unarmed_skill_mdr", bonus: "unarmed_mdr", group: "Combat", notes: "Unarmed combat" },
- "Athletics": { label: "athletics", base: "20", skill: "athletics_skill_mdr", bonus: "athletics_mdr", group: "Physical", notes: "Running, jumping, climbing, endurance" },
- "Coordination": { label: "coordination", base: "20", skill: "coordination_skill_mdr", bonus: "coordination_mdr", group: "Physical", notes: "Balance, agility, acrobatics" },
- "Swim": { label: "swim", base: "20", skill: "swim_skill_mdr", bonus: "swim_mdr", group: "Physical", notes: "Swim" },
+ /* Language */
+ "Language(Racial)": { label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
+ "Language(Caltheran)": { label: "language_caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" },
+ /* Magic */
  "Alteration": { label: "magic_alteration", base: "0", skill: "magic_alteration_skill_mdr", bonus: "magic_alteration_mdr", group: "Magic", notes: "Enhances physical attributes or alters the physical world. Includes speed, strength, resilience, and spatial shifts." },
  "Elemental": { label: "magic_elemental", base: "0", skill: "magic_elemental_skill_mdr", bonus: "magic_elemental_mdr", group: "Magic", notes: "The art of shaping and controlling natural elements such as fire, water, air, and earth through arcane force. Focuses on raw power and environmental manipulation." },
  "Enchantment": { label: "magic_enchantment", base: "0", skill: "magic_enchantment_skill_mdr", bonus: "magic_enchantment_mdr", group: "Magic", notes: "Mental influencing magic that alters thoughts, emotions, or behavior. Includes charms, compulsions, and emotional sway." },
@@ -15393,19 +15422,23 @@ const skillMapTable = {
  "Technomancy": { label: "magic_technomancy", base: "0", skill: "magic_technomancy_skill_mdr", bonus: "magic_technomancy_mdr", group: "Magic", notes: "The fusion of magic with technology. Enables interaction with archanotech, digital constructs, and spell-driven machines." },
  "Warding": { label: "magic_warding", base: "0", skill: "magic_warding_skill_mdr", bonus: "magic_warding_mdr", group: "Magic", notes: "Protective magic used to shield, block, or dispel incoming threats both physical and magical." },
  "Universal": { label: "magic_universal", base: "0", skill: "magic_universal_skill_mdr", bonus: "magic_universal_mdr", group: "Magic", notes: "Covers basic arcane techniques used across traditions detecting, sensing, or disrupting magical phenomena." },
- "Archanotech": { label: "archanotech", base: "1", skill: "archanotech_skill_mdr", bonus: "archanotech_mdr", group: "Tech/Cyber", notes: "Construction, repair, and interfacing with arcane-tech hybrids" },
- "Computer Use": { label: "computer_use", base: "10", skill: "computer_use_skill_mdr", bonus: "computer_use_mdr", group: "Tech/Cyber", notes: "General software and system operation" },
- "Cybernetics": { label: "cybernetics", base: "1", skill: "cybernetics_skill_mdr", bonus: "cybernetics_mdr", group: "Tech/Cyber", notes: "Installing and maintaining cyberware" },
- "Demolitions": { label: "demolitions", base: "1", skill: "demolitions_skill_mdr", bonus: "demolitions_mdr", group: "Tech/Cyber", notes: "Demolitions" },
- "Electronics": { label: "electronics", base: "10", skill: "electronics_skill_mdr", bonus: "electronics_mdr", group: "Tech/Cyber", notes: "circuitry, electronic repair" },
- "Mechanics": { label: "mechanics", base: "10", skill: "mechanics_skill_mdr", bonus: "mechanics_mdr", group: "Tech/Cyber", notes: "Mechanics" },
- "Security Systems": { label: "security", base: "1", skill: "security_skill_mdr", bonus: "security_mdr", group: "Tech/Cyber", notes: "Understanding and bypassing surveillance, sensors, magitech security, and physical/digital alarm systems." },
- "Slicing": { label: "slicing", base: "5", skill: "slicing_skill_mdr", bonus: "slicing_mdr", group: "Tech/Cyber", notes: "Digital infiltration, cybersecurity" },
+ /* Perform */ 
+ "Perform Acting": { label: "perform_acting", base: "5", skill: "perform_acting_skill_mdr", bonus: "perform_acting_mdr", group: "Perform", notes: "Acting" },
+ "Perform Dance": { label: "perform_dance", base: "5", skill: "perform_dance_skill_mdr", bonus: "perform_dance_mdr", group: "Perform", notes: "Dance" },
+ "Perform Impersonation": { label: "perform_impersonation", base: "5", skill: "perform_impersonation_skill_mdr", bonus: "perform_impersonation_mdr", group: "Perform", notes: "Impersonation" },
+ "Perform Instrument": { label: "perform_instrument", base: "5", skill: "perform_instrument_skill_mdr", bonus: "perform_instrument_mdr", group: "Perform", notes: "Instrument" },
+ "Perform Vocal": { label: "perform_vocal", base: "5", skill: "perform_vocal_skill_mdr", bonus: "perform_vocal_mdr", group: "Perform", notes: "Vocal" },
+ /* Physical */
+ "Athletics": { label: "athletics", base: "20", skill: "athletics_skill_mdr", bonus: "athletics_mdr", group: "Physical", notes: "Running, jumping, climbing, endurance" },
+ "Coordination": { label: "coordination", base: "20", skill: "coordination_skill_mdr", bonus: "coordination_mdr", group: "Physical", notes: "Balance, agility, acrobatics" },
+ "Swim": { label: "swim", base: "20", skill: "swim_skill_mdr", bonus: "swim_mdr", group: "Physical", notes: "Swim" },
+ /* Pilot */
  "Drive (Ground Vehicles)": { label: "drive_auto", base: "20", skill: "drive_auto_skill_mdr", bonus: "drive_auto_mdr", group: "Pilot", notes: "Drive (Ground Vehicles)" },
  "Drone Operation": { label: "drone_operation", base: "10", skill: "drone_operation_skill_mdr", bonus: "drone_operation_mdr", group: "Pilot", notes: "Drone Operation" },
  "Pilot (Aircraft)": { label: "pilotaircraft", base: "1", skill: "pilotaircraft_skill_mdr", bonus: "pilotaircraft_mdr", group: "Pilot", notes: "Pilot (Aircraft)" },
  "Pilot (ARC)": { label: "pilotarc", base: "5", skill: "pilotarc_skill_mdr", bonus: "pilotarc_mdr", group: "Pilot", notes: "Pilot (ARC)" },
  "Pilot (Boat)": { label: "pilotboat", base: "1", skill: "pilotboat_skill_mdr", bonus: "pilotboat_mdr", group: "Pilot", notes: "Pilot (Boat)" },
+ /* Science/Knowledge */
  "Alchemy": { label: "alchemy", base: "1", skill: "alchemy_skill_mdr", bonus: "alchemy_mdr", group: "Science/Knowledge", notes: "Science (Alchemy)" },
  "Anthropology": { label: "anthropology", base: "1", skill: "anthropology_skill_mdr", bonus: "anthropology_mdr", group: "Science/Knowledge", notes: "Science(Anthropology)" },
  "Arcana": { label: "arcana", base: "5", skill: "arcana_skill_mdr", bonus: "arcana_mdr", group: "Science/Knowledge", notes: "Understanding of magical theory and principles" },
@@ -15424,6 +15457,7 @@ const skillMapTable = {
  "Physics": { label: "physics", base: "1", skill: "physics_skill_mdr", bonus: "physics_mdr", group: "Science/Knowledge", notes: "Science (Physics)" },
  "Spirit Lore": { label: "spirit_lore", base: "5", skill: "spirit_lore_skill_mdr", bonus: "spirit_lore_mdr", group: "Science/Knowledge", notes: "Spirit Lore" },
  "Veil Lore": { label: "veil_lore", base: "5", skill: "veil_lore_skill_mdr", bonus: "veil_lore_mdr", group: "Science/Knowledge", notes: "Veil Lore" },
+ /* Social */
  "Bureaucracy": { label: "bureaucracy", base: "5", skill: "bureaucracy_skill_mdr", bonus: "bureaucracy_mdr", group: "Social", notes: "Understanding and navigating administrative, legal, and governmental systems." },
  "Chant": { label: "chant", base: "5", skill: "chant_skill_mdr", bonus: "chant_mdr", group: "Social", notes: "Chant" },
  "Charm": { label: "charm", base: "15", skill: "charm_skill_mdr", bonus: "charm_mdr", group: "Social", notes: "Charm" },
@@ -15446,6 +15480,7 @@ const skillMapTable = {
  "Singing": { label: "singing", base: "5", skill: "singing_skill_mdr", bonus: "singing_mdr", group: "Social", notes: "Performance (Singing)" },
  "Streetwise": { label: "streetwise", base: "10", skill: "streetwise_skill_mdr", bonus: "streetwise_mdr", group: "Social", notes: "Streetwise" },
  "Voice": { label: "voice", base: "5", skill: "voice_skill_mdr", bonus: "voice_mdr", group: "Social", notes: "Performance (Voice)" },
+ /* Survival */
  "Animal Handling": { label: "animalhandling", base: "5", skill: "animalhandling_skill_mdr", bonus: "animalhandling_mdr", group: "Survival", notes: "Animal Handling" },
  "First Aid": { label: "first_aid", base: "30", skill: "first_aid_skill_mdr", bonus: "first_aid_mdr", group: "Survival", notes: "First Aid" },
  "Listen": { label: "listen", base: "20", skill: "listen_skill_mdr", bonus: "listen_mdr", group: "Survival", notes: "Listen" },
@@ -15456,8 +15491,15 @@ const skillMapTable = {
  "Survival (Urban)": { label: "survival_urban", base: "10", skill: "survival_urban_skill_mdr", bonus: "survival_urhan_mdr", group: "Survival", notes: "Survival (Urban)" },
  "Survival (Wilderness)": { label: "survival_wilderness", base: "10", skill: "survival_wilderness_skill_mdr", bonus: "survival_wilderness_mdr", group: "Survival", notes: "Survival (Wilderness)" },
  "Track": { label: "track", base: "10", skill: "track_skill_mdr", bonus: "track_mdr", group: "Survival", notes: "Track" },
- "Language(Racial)": { label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
- "Language(Caltheran)": { label: "language_caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" }
+ /* Tech/Cyber */
+ "Archanotech": { label: "archanotech", base: "1", skill: "archanotech_skill_mdr", bonus: "archanotech_mdr", group: "Tech/Cyber", notes: "Construction, repair, and interfacing with arcane-tech hybrids" },
+ "Computer Use": { label: "computer_use", base: "10", skill: "computer_use_skill_mdr", bonus: "computer_use_mdr", group: "Tech/Cyber", notes: "General software and system operation" },
+ "Cybernetics": { label: "cybernetics", base: "1", skill: "cybernetics_skill_mdr", bonus: "cybernetics_mdr", group: "Tech/Cyber", notes: "Installing and maintaining cyberware" },
+ "Demolitions": { label: "demolitions", base: "1", skill: "demolitions_skill_mdr", bonus: "demolitions_mdr", group: "Tech/Cyber", notes: "Demolitions" },
+ "Electronics": { label: "electronics", base: "10", skill: "electronics_skill_mdr", bonus: "electronics_mdr", group: "Tech/Cyber", notes: "circuitry, electronic repair" },
+ "Mechanics": { label: "mechanics", base: "10", skill: "mechanics_skill_mdr", bonus: "mechanics_mdr", group: "Tech/Cyber", notes: "Mechanics" },
+ "Security Systems": { label: "security", base: "1", skill: "security_skill_mdr", bonus: "security_mdr", group: "Tech/Cyber", notes: "Understanding and bypassing surveillance, sensors, magitech security, and physical/digital alarm systems." },
+ "Slicing": { label: "slicing", base: "5", skill: "slicing_skill_mdr", bonus: "slicing_mdr", group: "Tech/Cyber", notes: "Digital infiltration, cybersecurity" } 
 };
 
 const backgroundDataMap = {
@@ -17889,8 +17931,8 @@ const careerDataMap = {
 	/* Standard Career */
 	combat_medic: {
 		name: "Combat Medic",
-		career_type: "support",
-		career_type_name: "Support",
+		career_type: "standard",
+		career_type_name: "Standard",
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
 			multipliers: [4]
@@ -18134,6 +18176,259 @@ const careerDataMap = {
 		}
 	},
 	icon: {
+		name: "Icon",
+		career_type: "standard",
+		career_type_name: "Standard",
+		skill_points_primary_formula: {
+			attributes: ["APP", "EDU"],
+			multipliers: [2, 2]
+		},
+		skill_points_primary_display: "APP × 2 + EDU × 2",
+		skill_points_secondary: 20,
+		spell_xp_primary: 0,
+		spell_xp_secondary: 0,
+		primary_skills: {
+			charm: "Charm",
+			insight: "Insight",
+			perform: "Perform",
+			persuade: "Persuade"
+		},
+		secondary_skills: {
+			coordination: "Coordination",
+			deception: "Deception",			
+			disguise: "Disguise",
+			electronics: "Electronics",
+			leadership: "Leadership",
+			streetwise: "Streetwise"
+		},
+		talents: {
+			command_the_stage: {
+				name: "Command the Stage",
+				description: "Once per scene, when you perform before a group (live or broadcast), choose one: gain a bonus die to Charm, Persuade, or Leadership for the rest of the scene or impose a penalty die on audience hostility for 1 round.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+				usage_limit: "scene"
+			},	
+			neurolinked_presence: {
+				name: "Neurolinked Presence",
+				description: "While performing through a DreamFeed or emotion-sync venue, gain +10 to Perform or Charm during the scene. Applies to both live and recorded feeds.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+				usage_limit: ""
+			},		
+			strain_buffer: {
+				name: "Strain Buffer",
+				description: "Increase your maximum Strain by +1. This talent may appear in multiple Career trees.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+				usage_limit: ""
+			},	
+			encore_effect: {
+				name: "Encore Effect",
+				description: "Once per scene, reroll a failed Perform check. If the reroll succeeds, grant +10 to the next roll of any one ally or NPC who observed it.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+				usage_limit: "scene"
+			},		
+			showstopper: {
+				name: "Showstopper",
+				description: "When initiating a performance or attempting to seize attention, you may roll Perform instead of Deception or Intimidate to distract, misdirect, or engage a crowd.",
+				prerequisite: "",
+				tier: 1,
+				cost: "5",
+				capstone: false,
+				usage_limit: ""
+			},	
+			stagecraft: {
+				name: "Stagecraft",
+				description: "Gain +10 to downtime performance-based rolls to earn credits or build influence. May also apply to artistic Networking scenes at GM discretion.",
+				prerequisite: ["command_the_stage"],
+				tier: 2,
+				cost: "10",
+				capstone: false,
+				usage_limit: ""
+			},
+			pulse_of_the_crowd: {
+				name: "Pulse of the Crowd",
+				description: "Once per session, after a successful live or broadcast performance, regain 1d4 Strain.",
+				prerequisite: ["encore_effect"],
+				tier: 2,
+				cost: "10",
+				capstone: false,
+				usage_limit: "session"
+			},
+			crowd_momentum: {
+				name: "Crowd Momentum",
+				description: "After a successful Perform check that captures audience attention, gain a bonus die to your next Persuade, Charm, or Leadership roll this scene.",
+				prerequisite: ["showstopper"],
+				tier: 2,
+				cost: "10",
+				capstone: false,
+				usage_limit: "scene"
+			},
+			emotional_contagion: {
+				name: "Emotional Contagion",
+				description: "Once per session, when you successfully sway an audience, one NPC observer shifts from Neutral to Friendly for the rest of the scene.",
+				prerequisite: ["command_the_stage"],
+				tier: 2,
+				cost: "10",
+				capstone: false,
+				usage_limit: "session"
+			},
+			street_stage_discipline: {
+				name: "Street Stage Discipline",
+				description: "Ignore 1 penalty die to Perform checks when performing in chaotic, crowded, or dangerous environments (e.g., combat zones, underground clubs, protests).",
+				prerequisite: ["showstopper"],
+				tier: 2,
+				cost: "10",
+				capstone: false,
+				usage_limit: ""
+			},
+			burn_it_brighter: {
+				name: "Burn It Brighter",
+				description: "When you are below 50% of your maximum HP or Strain, additional Maneuvers cost only 2 Strain each instead of the usual 3. If your HP or Strain are restored above 50%, this benefit ends until the condition is met again.",
+				prerequisite: ["street_stage_discipline"],
+				tier: 3,
+				cost: "15",
+				capstone: false,
+				usage_limit: ""
+			},
+			voice_of_the_moment: {
+				name: "Voice of the Moment",
+				description: "Once per session, during a high-stakes moment (negotiation, crisis, or rally), spend 2 Strain to grant +10 to all allies’ next social roll this scene.",
+				prerequisite: ["crowd_momentum"],
+				tier: 3,
+				cost: "15",
+				capstone: false,
+				usage_limit: "session"
+			},		
+			shared_spotlight: {
+				name: "Shared Spotlight",
+				description: "Once per session, spend 2 Strain to deliver a closing performance or rallying speech at the end of a scene. All allies who witnessed it may recover an additional 1d4 Strain during their next short rest.",
+				prerequisite: ["pulse_of_the_crowd"],
+				tier: 3,
+				cost: "15",
+				capstone: false,
+				usage_limit: "session"
+			},		
+			endurance_conditioning: {
+				name: "Endurance Conditioning",
+				description: "Gain +2 maximum HP. This bonus is permanent, reflecting the physical demands of stage work, emotional burnout, and neural strain.",
+				prerequisite: ["street_stage_discipline"],
+				tier: 3,
+				cost: "15",
+				capstone: false,
+				usage_limit: ""
+			},	
+			resonant_persona: {
+				name: "Resonant Persona",
+				description: "Create a named performance persona with a distinct look, theme, or emotional arc. While performing in-character as this persona, gain +10 to Perform, Charm, or Persuade. You may only benefit from one active Persona at a time. This talent may be taken again to maintain an additional Persona.",
+				prerequisite: ["emotional_contagion"],
+				tier: 3,
+				cost: "15",
+				capstone: false,
+				usage_limit: ""
+			},		
+			cultural_gravity: {
+				name: "Cultural Gravity",
+				description: "Gain +20 to downtime performance rolls to earn credits, build audiences, or influence venues. Applies to DreamFeed contracts, underground showcases, or professional bookings.",
+				prerequisite: ["resonant_persona"],
+				tier: 4,
+				cost: "20",
+				capstone: false,
+				usage_limit: ""
+			},
+			all_eyes_on_me: {
+				name: "All Eyes on Me",
+				description: "Once per scene, spend 3 Strain to seize the emotional spotlight. All NPCs within Medium range who can hear or see you must roll POW. On a failure, they are compelled to direct their next verbal or physical action toward you if applicable, or suffer the Impaired condition for one round. NPCs already engaged in hostile combat may resist with Advantage.",
+				prerequisite: ["voice_of_the_moment"],
+				tier: 4,
+				cost: "20",
+				capstone: false,
+				usage_limit: "scene"
+			},
+			iconic_rally: {
+				name: "Iconic Rally",
+				description: "Once per session, spend 2 Strain to grant all allies within Medium range who can hear or see you an instant recovery of 1d4 Strain.",
+				prerequisite: ["shared_spotlight"],
+				tier: 4,
+				cost: "20",
+				capstone: false,
+				usage_limit: "session"
+			},
+			encore_of_will: {
+				name: "Encore of Will",
+				description: "Once per session, spend 2 Strain to remove the Panicked and Suppressed condition from all allies within Medium range who can see or hear you.",
+				prerequisite: ["voice_of_the_moment"],
+				tier: 4,
+				cost: "20",
+				capstone: false,
+				usage_limit: "session"
+			},
+			burning_signature: {
+				name: "Burning Signature",
+				description: "Once per session, you gain +20% to all social skill rolls made to manipulate, persuade, or mislead a character who has encountered you before. This effect lasts for the remainder of the scene.",
+				prerequisite: ["resonant_persona"],
+				tier: 4,
+				cost: "20",
+				capstone: false,
+				usage_limit: "session"
+			},
+			stat_boost_icon: {
+				name: "+5% Stat Boost",
+				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. This bonus is permanent. May only be taken once.",
+				prerequisite: "",
+				prerequisiteAny: { tier: 4, count: 1 },
+				tier: 5,
+				cost: "30",
+				capstone: true,
+				usage_limit: ""
+			},		
+			living_legend: {
+				name: "Living Legend",
+				description: "While in your active stage persona, anyone familiar with your niche (e.g., revolutionary speech, underground DreamFeeds, emotion-pop performance) has a 50% chance to recognize your name, voice, or work. Gain a bonus die to Influence, Perform, or Persuade when interacting with such individuals.",
+				prerequisite: ["burning_signature"],
+				tier: 5,
+				cost: "30",
+				capstone: true,
+				usage_limit: ""
+			},	
+			echo_beyond_the_feed: {
+				name: "Echo Beyond the Feed",
+				description: "Once per session, after a scene in which you performed or left a strong impression, you may invoke that memory to automatically succeed on a Charm, Persuade, or Deception roll against someone who witnessed it (live or via feed).",
+				prerequisite: ["burning_signature"],
+				tier: 5,
+				cost: "30",
+				capstone: true,
+				usage_limit: "session"
+			},	
+			crowdcarver: {
+				name: "Crowdcarver",
+				description: "Once per session, you may declare an emotional tone (e.g., fear, reverence, defiance, serenity) during a scene involving a group. That group adopts the emotional atmosphere for the remainder of the scene unless hostile individuals succeed a POW roll. This doesn’t compel behavior, but alters how the group reacts to persuasion, fear, and influence.",
+				prerequisite: ["encore_of_will"],
+				tier: 5,
+				cost: "30",
+				capstone: true,
+				usage_limit: "session"
+			},
+			signature_crescendo: {
+				name: "Signature Crescendo",
+				description: "Once per session, spend 3 Strain to transform a Perform or Persuade roll into a defining moment. If the roll succeeds, all targets influenced by it become more receptive: you gain +10 to all further social rolls with them for the rest of the session. The moment becomes a lasting emotional impression in their memory.",
+				prerequisite: ["iconic_rally"],
+				tier: 5,
+				cost: "30",
+				capstone: true,
+				usage_limit: "session"
+			}
+		}
 	},
 	mechanic: {
 	},
@@ -18147,8 +18442,8 @@ const careerDataMap = {
 	},
 	street_ronin: {
 		name: "Street Ronin",
-		career_type: "martial",
-		career_type_name: "Martial",
+		career_type: "standard",
+		career_type_name: "Standard",
 		skill_points_primary_formula: {
 			attributes: ["EDU", "DEX"],
 			multipliers: [2, 2]

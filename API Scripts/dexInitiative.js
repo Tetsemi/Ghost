@@ -1,7 +1,7 @@
 on('chat:message', function(msg) {
   if (msg.type !== 'api' || !/^!initdex($|\s)/.test(msg.content)) return;
 
-  debug_on = true;
+  debug_on = false;
 
   const playerName = msg.who.replace(" (GM)", "").trim();
 

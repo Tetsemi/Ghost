@@ -8350,9 +8350,13 @@
 				<h4 class="section-head" data-i18n="skill_point_tracker-u">Skill Point Tracker</h4>
 				<div class="sheet-ledger-skill-points">
 					<div class="sheet-ledger-row">
-						<label>Career Skill Points</label>
+						<label>Primary Career Skill Points</label>
 						<input class="sheet-attr-input-small sheet-skill-base" type="text" name="attr_primary_career_skill_points" />
 					</div>
+					<div class="sheet-ledger-row">
+						<label>Secondary Career(s) Skill Points</label>
+						<input class="sheet-attr-input-small sheet-skill-base" type="text" name="attr_secondary_career_skill_points" />
+					</div>					
 					<div class="sheet-ledger-row">
 						<label>Sec. Career Skill -> XP</label>
 						<input class="sheet-attr-input-small sheet-skill-cost sheet-readonly" type="text" name="attr_xpledger_skill_point_lost" />
@@ -21464,32 +21468,48 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-on("change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain_skill change:xpledger_skill_point_lost change:perk_linguist", function () {
-    if (debug_on_trace) console.log ("[change:primary_career_skill_points] Start");
-    getAttrs([
+on(
+  "change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent " +
+  "change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain_skill change:xpledger_skill_point_lost change:perk_linguist " +
+  "change:repeating_secondarycareer:secondary_career change:repeating_secondarycareer:secondary_career_skill_points " +
+  "change:repeating_secondarycareer:secondary_career_skill_to_xp add:repeating_secondarycareer remove:repeating_secondarycareer",
+  function () {
+    if (debug_on_trace) console.log("[change:primary_career_skill_points] Start");
+
+    getSectionIDs("repeating_secondarycareer", function (ids) {
+      const secAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career_skill_points`);
+	  const secSkillXPAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career_skill_to_xp`);
+      const baseAttrs = [
         "primary_career_skill_points",
         "personal_skill_points",
         "total_skill_points_spent",
         "xpledger_skill_point_gain",
-		"xpledger_skill_point_roll_gain_skill",
-		"xpledger_skill_point_lost",
-		"perk_linguist"
-    ], function (values) {
-        const primary = parseInt(values.primary_career_skill_points, 10) || 0;
-        const personal = parseInt(values.personal_skill_points, 10) || 0;
-        const spent = parseInt(values.total_skill_points_spent, 10) || 0;
-        const ledgerGain = parseInt(values.xpledger_skill_point_gain, 10) || 0;
-		const ledgerGainRoll = parseInt(values.xpledger_skill_point_roll_gain_skill, 10) || 0;
-		const ledgerLost = parseInt(values.xpledger_skill_point_lost, 10) || 0;
-		const perk_linguist = parseInt(values.perk_linguist, 10) || 0;
-		
-        const remaining = primary + personal + ledgerGain + ledgerGainRoll - ledgerLost - spent + perk_linguist;
+        "xpledger_skill_point_roll_gain_skill",
+        "xpledger_skill_point_lost",
+        "perk_linguist",
+        ...secAttrs,
+		...secSkillXPAttrs
+      ];
 
-        setAttrs({
-            total_skill_points_remain: remaining
-        });
+      getAttrs(baseAttrs, function (values) {
+        const primary       = parseInt(values.primary_career_skill_points, 10) || 0;
+        const personal      = parseInt(values.personal_skill_points, 10) || 0;
+        const spent         = parseInt(values.total_skill_points_spent, 10) || 0;
+        const ledgerGain    = parseInt(values.xpledger_skill_point_gain, 10) || 0;
+        const ledgerGainRoll= parseInt(values.xpledger_skill_point_roll_gain_skill, 10) || 0;
+        const perk_linguist = parseInt(values.perk_linguist, 10) || 0;
+
+        const secondary = secAttrs.reduce((sum, a) => sum + (parseInt(values[a], 10) || 0), 0);
+		
+		const ledgerLost = secSkillXPAttrs.reduce((sum, a) => sum + (parseInt(values[a], 10) || 0), 0);
+
+        const remaining = primary + personal + secondary + ledgerGain + ledgerGainRoll - ledgerLost - spent + perk_linguist;
+
+        setAttrs({ total_skill_points_remain: remaining, secondary_career_skill_points: secondary, xpledger_skill_point_lost: ledgerLost });
+      });
     });
-});
+  }
+);
 
 // === XP Remaining Calculation ===
 on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {

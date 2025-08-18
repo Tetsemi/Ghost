@@ -19354,7 +19354,7 @@ function resetAllMDRToBase(race, callback) {
   getAttrs(attrsToGet, values => {
     const updates = {};
     skills.forEach(skill => {
-      const base = parseInt(values[`${skill}_skill_mdr`] || "0", 10);
+      const base = parseInt(values[`${skill}_skill_mdr`], 10) || 0;
       updates[`${skill}_mdr`] = base;
     });
     if (debug_on) console.log("[resetAllMDRToBase]", updates);
@@ -19503,7 +19503,7 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
   const allSkills = Object.values(skillMapTable).map(s => s.label);
   const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
   const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
-    map[skill.label] = parseInt(skill.base || "0", 10);
+    map[skill.label] = parseInt(skill.base, 10) || 0;
     return map;
   }, {});
   const magicSchools = Object.values(skillMapTable)
@@ -19532,13 +19532,13 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
     totalSkillPointsSpent += spent;
     update[`${skill}_improved_label`] = spent > 0 ? "#" : spent < 0 ? "*" : "";
 
-    const bgBonus = bgSkill === skill ? parseInt(values[`${racePrefix}_${skill}_bonus_mdr`] || "0", 10) : 0;
+    const bgBonus = bgSkill === skill ? (parseInt(values[`${racePrefix}_${skill}_bonus_mdr`], 10) || 0 ) : 0;
 
     const talentBonus = Object.entries(talentSkillMap[racePrefix] || {}).reduce((sum, [talentKey]) => {
       const selectedValue = values[`${racePrefix}_${talentKey}_mdr_checkbox`] || "";
       const targetValue = `talent_${skill}`;
       if (selectedValue === targetValue) {
-        const bonus = parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`] || "0", 10);
+        const bonus = parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`], 10) || 0;
         return sum + bonus;
       }
       return sum;
@@ -19547,15 +19547,15 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
     let total = base + bgBonus + talentBonus;
 
     if (skill === "dodge") {
-      const idex = parseInt(values.dex || "0", 10);
+      const idex = parseInt(values.dex, 10) || 0;
       const dexBonus = Math.floor(idex / 2);
       total += dexBonus;
       if (debug_on) console.log(`[Dodge] DEX=${idex}, +${dexBonus}`);
     }
 
     if (skill === "athletics") {
-      const athletics = parseInt(values.athletics_skill_mdr || "0", 10);
-      const idex = parseInt(values.dex || "0", 10);
+      const athletics = parseInt(values.athletics_skill_mdr, 10) || 0;
+      const idex = parseInt(values.dex, 10) || 0;
       update.mov = Math.min(14, Math.floor((idex + athletics) / 10));
     }
 
@@ -19570,8 +19570,8 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
   });
 
   update.language_caltheran_mdr =
-    Math.min(75, parseInt(values.language_caltheran_skill_mdr || "0", 10)) +
-    Math.min(75, parseInt(values.edu || "0", 10));
+    Math.min(75, parseInt(values.language_caltheran_skill_mdr, 10) || 0) +
+    Math.min(75, parseInt(values.edu, 10)  || 0);
 
   const refund = parseInt(values.skill_points_talent_refund, 10) || 0;
   totalSkillPointsSpent += refund;
@@ -19597,7 +19597,7 @@ function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
 	const allSkills = Object.values(skillMapTable).map(s => s.label);
 	const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
 	const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
-		map[skill.label] = parseInt(skill.base || "0", 10);
+		map[skill.label] = parseInt(skill.base, 10) || 0;
 		return map;
 	}, {});
 
@@ -20027,7 +20027,7 @@ function applyRacialBaseStats(race) {
 
     statKeys.forEach(stat => {
       const currentRaw = values[stat];
-      const current = parseInt(currentRaw, 10);
+      const current = parseInt(currentRaw, 10) || 0;
       const racialBase = raceStats[stat]?.base;
 
       if (isNaN(current) || current < racialBase) {
@@ -20195,19 +20195,19 @@ function registerStatHandler() {
 
     on(watched.map(s => `change:${s}`).join(" "), () => {
         getAttrs(watched, values => {
-		    const iage = parseInt(values.age) || 0;
-			const istr = parseInt(values.str) || 0;
-			const idex = parseInt(values.dex) || 0;
-			const ipow = parseInt(values.pow) || 0;
-            const icon = parseInt(values.con) || 0;
-			const iapp = parseInt(values.app) || 0;
-            const iedu = parseInt(values.edu) || 0;
-            const isiz = parseInt(values.siz) || 0;
-            const iint = parseInt(values.int) || 0;
-            const imag = parseInt(values.mag) || 0;
-            const ivit = parseInt(values.vitality) || 0;
-			const iwound = parseInt(values.major_wounds) || 0;
-			const ichar_lock = parseInt(values.char_creation_lock) || 0;
+		    const iage = parseInt(values.age, 10) || 0;
+			const istr = parseInt(values.str, 10) || 0;
+			const idex = parseInt(values.dex, 10) || 0;
+			const ipow = parseInt(values.pow, 10) || 0;
+            const icon = parseInt(values.con, 10) || 0;
+			const iapp = parseInt(values.app, 10) || 0;
+            const iedu = parseInt(values.edu, 10) || 0;
+            const isiz = parseInt(values.siz, 10) || 0;
+            const iint = parseInt(values.int, 10) || 0;
+            const imag = parseInt(values.mag, 10) || 0;
+            const ivit = parseInt(values.vitality, 10) || 0;
+			const iwound = parseInt(values.major_wounds, 10) || 0;
+			const ichar_lock = parseInt(values.char_creation_lock, 10) || 0;
 
             const update = {};
 			
@@ -20374,7 +20374,7 @@ function parseDamageString(damageString, prefix) {
   if (match) {
     const numDice = parseInt(match[1], 10) || 0;
     const diceSize = parseInt(match[2], 10) || 0;
-    const bonus = parseInt(match[3] || "0", 10) || 0;
+    const bonus = parseInt(match[3], 10) || 0;
 	console.log (`prefix: ${prefix}, numDice: ${numDice}, diceSize: ${diceSize}, bonus: ${bonus}`);
 
     updates[`${prefix}_damage_numdice`] = numDice;
@@ -20432,7 +20432,7 @@ const registerPrimaryCareerXPWatcher = () => {
 
             getAttrs(allKeysToGet, function (values) {
 
-				const ichar_lock = parseInt(values.char_creation_lock) || 0;
+				const ichar_lock = parseInt(values.char_creation_lock, 10) || 0;
 				console.log (`Character lock: ${ichar_lock}`);
 				const race = values.showracials || "";
 

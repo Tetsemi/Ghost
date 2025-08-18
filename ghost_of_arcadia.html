@@ -20908,6 +20908,57 @@ on("clicked:toggle_career_skills", () => {
   });
 });
 
+// Apply exclusive-skill-set behavior to a list of skills for a given career/context
+const applyExclusiveToSkillList = (careerKey, skills, makeAttrName) => {
+  if (debug_on_trace) console.log ("[applyExclusiveToSkillList] Start");
+    const sets = (careerDataMap[careerKey]?.exclusive_skill_sets || [])
+        .map(set => set.filter(s => skills.includes(s)))   // keep only skills from this list
+        .filter(set => set.length > 1);                    // ignore singletons / empties
+    if (!sets.length) return;
+
+    const want = [];
+    sets.forEach(set => set.forEach(skill => {
+        const n = makeAttrName(skill);
+        want.push(n, `${n}_lock`);
+    }));
+
+    getAttrs(want, values => {
+        const update = {};
+        sets.forEach(set => {
+            const checked = set.filter(skill => values[makeAttrName(skill)] === "1");
+
+            if (checked.length === 1) {
+                // one chosen → lock the rest, leave the chosen unlocked
+                const chosen = checked[0];
+                set.forEach(skill => {
+                    const n = makeAttrName(skill);
+                    update[`${n}_lock`] = (skill === chosen) ? "0" : "1";
+                });
+            } else if (checked.length > 1) {
+                // more than one → keep the first, uncheck+lock the others
+                const chosen = checked[0];
+                set.forEach(skill => {
+                    const n = makeAttrName(skill);
+                    if (skill === chosen) {
+                        update[`${n}_lock`] = "0";
+                    } else {
+                        update[n] = "0";
+                        update[`${n}_lock`] = "1";
+                    }
+                });
+            } else {
+                // none chosen → unlock all members of the set
+                set.forEach(skill => {
+                    const n = makeAttrName(skill);
+                    update[`${n}_lock`] = "0";
+                });
+            }
+        });
+
+        if (Object.keys(update).length) setAttrs(update, { silent: true });
+    });
+};
+
 // === Career Skill Lock Enforcement ===
 const registerCareerSkillLimiter = () => {
   if (debug_on_trace) console.log ("[registerCareerSkillLimiter] Start");
@@ -20931,6 +20982,16 @@ const registerCareerSkillLimiter = () => {
       const exclusiveSets = careerDataMap[primaryCareer]?.exclusive_skill_sets || [];
       const exclusiveSkills = new Set(exclusiveSets.flat());
 
+      // NEW: Apply exclusive-set behavior to PRIMARY skills (if defined)
+      if (exclusiveSets.length) {
+        const priSkills = Object.keys(careerDataMap[primaryCareer]?.primary_skills || {});
+        applyExclusiveToSkillList(
+          primaryCareer,
+          priSkills,
+          (skill) => `cs_${primaryCareer}_${skill}_mdr_checkbox`
+        );
+      }
+
       getAttrs([...priAttrs, ...secAttrs, ...lockAttrs], values => {
         const updates = {};
 
@@ -20938,22 +20999,26 @@ const registerCareerSkillLimiter = () => {
         if (debug_on) console.log("  → Primary Attrs:", priAttrs);
         if (debug_on) console.log("  → Secondary Attrs:", secAttrs);
 
-        priAttrs.forEach(attr => {
-          updates[attr] = "1";
-        });
+        // REMOVED: force-checking of primary skills (handled by applyExclusiveToSkillList when present)
+        if (!exclusiveSets.length) {
+          // Fallback: preserve old behavior if no exclusive sets exist
+          priAttrs.forEach(attr => {
+            updates[attr] = "1";
+          });
+        }
 
-        // === Enforce Exclusive Skill Set Logic Only ===
+        // === Enforce Exclusive Skill Set Logic Only (SECONDARY skills) ===
         exclusiveSets.forEach(set => {
           const checkedSkill = set.find(skill => values[`cs_${primaryCareer}_${skill}_mdr_checkbox`] === "1");
           set.forEach(skill => {
             const checkbox = `cs_${primaryCareer}_${skill}_mdr_checkbox`;
             const lock = `${checkbox}_lock`;
-			if (checkedSkill && skill !== checkedSkill) {
-				updates[checkbox] = "0";
-				updates[lock] = "1";
-			} else {
-				updates[lock] = "0";
-			}
+            if (checkedSkill && skill !== checkedSkill) {
+              updates[checkbox] = "0";
+              updates[lock] = "1";
+            } else {
+              updates[lock] = "0";
+            }
           });
         });
 
@@ -20984,6 +21049,17 @@ const registerCareerSkillLimiter = () => {
           const lockAttrs = getLockAttrs(secAttrs);
           const allAttrs = [...priAttrs, ...secAttrs, ...lockAttrs];
 
+          // NEW: Apply exclusive-set behavior to PRIMARY skills for this secondary career (if defined)
+          const scExclusiveSets = careerDataMap[secCareer]?.exclusive_skill_sets || [];
+          if (scExclusiveSets.length) {
+            const scPriSkills = Object.keys(careerDataMap[secCareer]?.primary_skills || {});
+            applyExclusiveToSkillList(
+              secCareer,
+              scPriSkills,
+              (skill) => `cs_${secCareer}_${skill}_mdr_checkbox`
+            );
+          }
+
           getAttrs(allAttrs, values => {
             const updates = {};
 
@@ -20991,16 +21067,20 @@ const registerCareerSkillLimiter = () => {
             if (debug_on) console.log("  → Primary Attrs:", priAttrs);
             if (debug_on) console.log("  → Secondary Attrs:", secAttrs);
 
-            priAttrs.forEach(attr => {
-              updates[attr] = "1";
+            // REMOVED: force-checking of primary skills (handled by applyExclusiveToSkillList when present)
+            if (!scExclusiveSets.length) {
+              // Fallback: preserve old behavior if no exclusive sets exist
+              priAttrs.forEach(attr => {
+                updates[attr] = "1";
+              });
+            }
+
+            // Existing "choose 1" lock logic across ALL secondary skills for this row
+            const selected = secAttrs.filter(attr => values[attr] === "1");
+            secAttrs.forEach(attr => {
+              const lock = `${attr}_lock`;
+              updates[lock] = selected.length >= 1 && values[attr] !== "1" ? "1" : "0";
             });
-
-			const selected = secAttrs.filter(attr => values[attr] === "1");
-
-			secAttrs.forEach(attr => {
-				const lock = `${attr}_lock`;
-				updates[lock] = selected.length >= 1 && values[attr] !== "1" ? "1" : "0";
-			});
 
             if (debug_on) console.log("  → Updates (Secondary):", updates);
             setAttrs(updates);
@@ -21031,23 +21111,31 @@ const registerPrimaryExclusiveSkillWatchers = () => {
   });
 };
 
-// === Dynamic Watcher for Secondary Skill Checkboxes ===
+// === Dynamic Watcher for Career Skill Checkboxes (primary + secondary; base + repeating) ===
 const registerActiveSecondaryCareerWatchers = () => {
   if (debug_on_trace) console.log ("[registerActiveSecondaryCareerWatchers] Start");
   const watchEvents = [];
 
   Object.entries(careerDataMap).forEach(([career, data]) => {
+    const priSkills = Object.keys(data.primary_skills || {});
     const secSkills = Object.keys(data.secondary_skills || {});
-    secSkills.forEach(skill => {
-      watchEvents.push(`change:cs_${career}_${skill}_mdr_checkbox`);
-    });
+
+    // Non-repeating (Primary Career block)
+    priSkills.forEach(skill => watchEvents.push(`change:cs_${career}_${skill}_mdr_checkbox`));
+    secSkills.forEach(skill => watchEvents.push(`change:cs_${career}_${skill}_mdr_checkbox`));
+
+    // Repeating (Secondary Careers block)
+    priSkills.forEach(skill => watchEvents.push(`change:repeating_secondarycareer:cs_${career}_${skill}_mdr_checkbox`));
+    secSkills.forEach(skill => watchEvents.push(`change:repeating_secondarycareer:cs_${career}_${skill}_mdr_checkbox`));
   });
 
-  if (debug_on) console.log("[Career Lock] Registering watchers for ALL secondary skill checkboxes:", watchEvents);
-  on(watchEvents.join(" "), () => {
-    if (debug_on) console.log("[Career Lock] Secondary Skill checkbox changed");
-    registerCareerSkillLimiter();
-  });
+  if (debug_on) console.log("[Career Lock] Registering watchers for ALL career skill checkboxes:", watchEvents);
+  if (watchEvents.length) {
+    on(watchEvents.join(" "), () => {
+      if (debug_on) console.log("[Career Lock] Career skill checkbox changed");
+      registerCareerSkillLimiter();
+    });
+  }
 };
 
 const updateCareerReadyState = (callback) => {

@@ -19456,8 +19456,13 @@ function getAllTalentSkills(race) {
 }
 
 function resetAllMDRToBase(race, callback) {
-		if (debug_on_trace) console.log ("[resetAllMDRToBase] Start");
-  const skills = Object.keys(skillMapTable);
+  if (debug_on_trace) console.log ("[resetAllMDRToBase] Start");
+  
+  // Use internal ids for attribute names
+  const skills = Object.values(skillMapTable || {})
+    .map(s => s && s.label)
+    .filter(Boolean);
+
   const attrsToGet = skills.map(skill => `${skill}_skill_mdr`).concat(skills.map(skill => `${skill}_mdr`));
 
   getAttrs(attrsToGet, values => {
@@ -19466,8 +19471,7 @@ function resetAllMDRToBase(race, callback) {
       const base = parseInt(values[`${skill}_skill_mdr`], 10) || 0;
       updates[`${skill}_mdr`] = base;
     });
-    if (debug_on) console.log("[resetAllMDRToBase]", updates);
-    setAttrs(updates, callback);
+    setAttrs(updates, callback); // optionally `{ silent: true }`
   });
 }
 

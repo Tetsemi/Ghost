@@ -15770,25 +15770,25 @@ let talentWatchersRegistered = false;
 let backgroundTalentWatchersRegistered = false;
 
 on("sheet:opened", function () {
-	  if (debug_on_trace) console.log ("[sheet:opened] Translation");
-  const translationFields = [
-    "str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
-    "accounting_txt", "alchemy_txt", "animalhandling_txt", "anthropology_txt", "appraise_txt", "arcana_txt",
-    "archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
-    "chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computeruse_txt", "creditrating_txt", "cthulhumythos_txt",
-    "cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "driveauto_txt",
-    "drone_operation_txt", "elecrepair_txt", "engineering_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "fasttalk_txt",
-    "fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "firearms_smg_txt", "first_aid_txt", "forbidden_lore_txt",
-    "forgery_txt", "gunnery_txt", "heavy_weapons_txt", "history_txt", "impersonation_txt", "instrument_txt",
-    "intimidate_txt", "interrogation_txt", "insight_txt", "investigation_txt", "jump_txt", "law_txt", "leadership_txt", "libraryuse_txt",
-    "listen_txt", "locksmith_txt", "magic_alteration_txt", "magic_elemental_txt", "magic_enchantment_txt",
-    "magic_illusion_txt", "magic_necromancy_txt", "magic_restoration_txt", "magic_summoning_txt", "magic_technomancy_txt",
-    "magic_warding_txt", "magic_universal_txt", "mechrepair_txt", "mechanics_txt", "medicine_txt", "melee_weapons_txt",
-    "naturalworld_txt", "navigate_txt", "occult_txt", "ophvmachine_txt", "perception_txt", "persuade_txt", "physics_txt",
-    "pilotaircraft_txt", "pilotarc_txt", "pilotboat_txt", "psychology_txt", "psychoanalysis_txt", "ride_txt", "security_txt",
-    "singing_txt", "sleightofhand_txt", "slicing_txt", "spirit_lore_txt", "spothidden_txt", "stealth_txt", "streetwise_txt",
-    "survival_wilderness_txt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt"
-  ];
+	if (debug_on_trace) console.log ("[sheet:opened] Translation");
+	const translationFields = [
+		"str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
+		"accounting_txt", "alchemy_txt", "animalhandling_txt", "anthropology_txt", "appraise_txt", "arcana_txt",
+		"archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
+		"chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computeruse_txt", "creditrating_txt", "cthulhumythos_txt",
+		"cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "driveauto_txt",
+		"drone_operation_txt", "elecrepair_txt", "engineering_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "fasttalk_txt",
+		"fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "firearms_smg_txt", "first_aid_txt", "forbidden_lore_txt",
+		"forgery_txt", "gunnery_txt", "heavy_weapons_txt", "history_txt", "impersonation_txt", "instrument_txt",
+		"intimidate_txt", "interrogation_txt", "insight_txt", "investigation_txt", "jump_txt", "law_txt", "leadership_txt", "libraryuse_txt",
+		"listen_txt", "locksmith_txt", "magic_alteration_txt", "magic_elemental_txt", "magic_enchantment_txt",
+		"magic_illusion_txt", "magic_necromancy_txt", "magic_restoration_txt", "magic_summoning_txt", "magic_technomancy_txt",
+		"magic_warding_txt", "magic_universal_txt", "mechrepair_txt", "mechanics_txt", "medicine_txt", "melee_weapons_txt",
+		"naturalworld_txt", "navigate_txt", "occult_txt", "ophvmachine_txt", "perception_txt", "persuade_txt", "physics_txt",
+		"pilotaircraft_txt", "pilotarc_txt", "pilotboat_txt", "psychology_txt", "psychoanalysis_txt", "ride_txt", "security_txt",
+		"singing_txt", "sleightofhand_txt", "slicing_txt", "spirit_lore_txt", "spothidden_txt", "stealth_txt", "streetwise_txt",
+		"survival_wilderness_txt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt"
+	];
 
   getAttrs(translationFields, values => {
     const updates = {};
@@ -20222,6 +20222,10 @@ on("sheet:opened", function () {
       }
 
       registerStatHandler();
+	  
+	  getAttrs(['selected_tab'], v => {
+		if (v.selected_tab === 'careers') registerCareerTabWatchers();
+	  });
     });
   });
 });
@@ -20678,14 +20682,21 @@ const registerSecondaryCareerXPWatcher = () => {
     });
 };
 
-Object.keys(careerDataMap).forEach(career => {
-    if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
+// One-time registrar for per-career tab clicks
+let careerTabWatchersReady = false;
+const registerCareerTabWatchers = () => {
+  if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
   if (debug_on_trace) console.log ("[Object.keys(careerDataMap)] Start");
+  if (careerTabWatchersReady) return;
+  careerTabWatchersReady = true;
+
+  Object.keys(careerDataMap).forEach(career => {
     on(`clicked:${career}`, () => {
-		if (debug_on) console.log ("Object.keys(careerDataMap) Clicked: ", career);
-        setAttrs({ selected_career: career });
+      if (debug_on_trace) console.log(`[career tab click] ${career}`);
+      setAttrs({ selected_career: career });
     });
-});
+  });
+};
 
 const populateCareerTalentDescriptions = () => {
   const updates = {};
@@ -21388,6 +21399,8 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
 
   if (debug_on) console.log("[Career Talent Watcher]");
   if (debug_on_trace) console.log ("[Career Talent Watcher] Start");
+  
+  registerCareerTabWatchers();
 
   getAttrs(["primary_career"], (values) => {
     const primary = values.primary_career;

@@ -3765,6 +3765,9 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
   gap: 1em;
 }
+.ui-dialog .tab-content .charsheet .sheet-tracker-section-spacer {
+	height: 20px;
+}
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-column {
   flex: 1;
@@ -4104,6 +4107,66 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   transition: background-color 0.2s ease;
 }
 
+/* Hide by default; reveal when show-flag is 1 */
+.ui-dialog .tab-content .charsheet .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet .sheet-health-meter {
+  display: none; 
+  width: 396px;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_strain_meter"][value="1"] ~ .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet input[name="attr_show_health_meter"][value="1"] ~ .sheet-health-meter
+ { display: flex; }
+
+/* Row tweaks */
+.ui-dialog .tab-content .charsheet .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet .sheet-health-meter 
+{ gap: 0.75em; }
+
+/* Pip group + individual pip */
+.ui-dialog .tab-content .charsheet .sheet-health-pips,
+.ui-dialog .tab-content .charsheet .sheet-strain-pips {
+    display: flex;
+    gap: 10px;
+}
+.ui-dialog .tab-content .charsheet .sheet-health-pip,
+.ui-dialog .tab-content .charsheet .sheet-strain-pip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+}
+
+/* Checkbox size matches your small tracker boxes */
+.ui-dialog .tab-content .charsheet .sheet-strain-pip .sheet-tracker-checkbox,
+.ui-dialog .tab-content .charsheet .sheet-health-pip .sheet-tracker-checkbox {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+/* Under-label */
+.ui-dialog .tab-content .charsheet .sheet-strain-pip-label,
+.ui-dialog .tab-content .charsheet .sheet-health-pip-label {
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-strain-meter .sheet-tracker-label,
+.ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
+	font-style: bold;
+	font-size: 110%;
+	width: 100px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
+	color: red;
+}
+	
+.ui-dialog .tab-content .charsheet .sheet-strain-meter .sheet-tracker-label {
+	color: blue;
+	margin-right: 10px;
+}		
 
 /* ------------------ NPC Section Scoped Styles ------------------ */
 .sheet-companions .sheet-npc-content-left {

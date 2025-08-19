@@ -175,7 +175,7 @@
 				<div class="sheet-section">
 					<div class="sheet-race">
 						<h4 class="sheet-section-head" data-i18n="race-u">Race</h4>
-						<select class="sheet-selection-full" name="attr_showracials">
+						<select class="sheet-select-full" name="attr_showracials">
 							<option value="cr">-- Choose Race --</option>
 							<option value="alteri">Alteri</option>
 							<option value="draevi">Draevi</option>
@@ -15769,6 +15769,19 @@ const registeredRaces = new Set();
 let talentWatchersRegistered = false;
 let backgroundTalentWatchersRegistered = false;
 
+// === Unified guard utilities (single source of truth) ===
+let IS_BOOTSTRAPPING = false;   // short, synchronous batches
+let SILENT_DEPTH = 0;           // async-safe silencing across setAttrs bursts
+
+const beginSilent = () => { SILENT_DEPTH += 1; };
+const endSilent   = () => { SILENT_DEPTH = Math.max(0, SILENT_DEPTH - 1); };
+
+// Use this in ALL watcher callbacks
+const guarded = (fn) => (...args) => {
+  if (IS_BOOTSTRAPPING || SILENT_DEPTH > 0) return;
+  fn(...args);
+};
+
 on("sheet:opened", function () {
 	if (debug_on_trace) console.log ("[sheet:opened] Translation");
 	const translationFields = [
@@ -19470,59 +19483,52 @@ function applyAllSkillBonuses(race) {
   setAttrs(updates);
 }
 
-on("change:showracials", () => {
+on("change:showracials", (evt) => {
   if (debug_on_trace) console.log("[change:showracials] Start");
+  const race = (evt && evt.newValue) || "";
 
-  getAttrs(["showracials", "language_own_txt", "language_caltheran_txt"], values => {
-    const race = values.showracials || "";
+  if (!raceDataMap || !raceDataMap[race] || race === "cr" || race === "unknown" || race === "0") {
+    if (debug_on) console.log("[showracials] Unselected/invalid race:", race);
+    return;
+  }
 
-    // === Race Data ===
-    if (!raceDataMap[race]) {
-      if (debug_on) console.log("[Skill Init] No race data for:", race);
-      return;
-    }
+  ensureRaceWatchers(race);
+  initializeRaceState(race); // does one recompute at the end
 
-    const raceData = raceDataMap[race];
-    const racialLang = raceData.language || "Racial";
-    const otherLang = race === "human" ? "Other" : "Caltheran";
+  // --- Language + talent labels (silent) ---
+  const raceData   = raceDataMap[race];
+  const racialLang = raceData.language || "Racial";
+  const otherLang  = race === "human" ? "Other" : "Caltheran";
 
-    if (debug_on) {
-      console.log("[showracials handler] Race:", race);
-      console.log(`Racial Lang: ${racialLang}`);
-    }
+  const updates = {
+    language_own_txt: racialLang,
+    language_caltheran_txt: otherLang
+  };
 
-    handleRaceChange(race);
+  const raceTalents = (talentDataMap && talentDataMap[race]) || {};
+  for (const [key, data] of Object.entries(raceTalents)) {
+    updates[`${race}_${key}_label`]       = data.name || "";
+    updates[`${race}_${key}_description`] = data.description || "";
+  }
 
-    const updates = {
-      language_own_txt: `${racialLang}`,
-      language_caltheran_txt: `${otherLang}`
-    };
-
-    // === Talent Labels and Descriptions ===
-    const raceTalents = talentDataMap[race];
-    if (raceTalents) {
-      for (let [key, data] of Object.entries(raceTalents)) {
-        updates[`${race}_${key}_label`] = data.name;
-        updates[`${race}_${key}_description`] = data.description;
-      }
-    }
-
-    setAttrs(updates);
-
-    // === Recalculate Enable/Lock Flags
-    if (raceTalents) {
-      updateTalentEnables(race);
-    }
-	
+  beginSilent();
+  setAttrs(updates, () => {
+    if (typeof updateTalentEnables === "function") updateTalentEnables(race);
+    endSilent();
+    // no extra calc here; initializeRaceState already did one
   });
 });
 
-const registerTalentSummaryWatcher = () => {
+const talentSummaryRegistered = new Set();
+
+function registerTalentSummaryWatcher(race){
+  if (talentSummaryRegistered.has(race)) return;
+  if (debug_on_trace) console.log ("[registerTalentSummaryWatcher] Start");
   const allChangeEvents = Object.entries(talentDataMap)
     .flatMap(([race, talents]) =>
       Object.keys(talents).map(talentKey => `change:${race}_${talentKey}`)
     );
-	if (debug_on_trace) console.log ("[registerTalentSummaryWatcher] Start");
+	
   on(allChangeEvents.join(" "), function () {
     getAttrs(["showracials"], function (values) {
       const race = values.showracials;
@@ -19680,92 +19686,94 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
   setAttrs(update);
 };
 
-function registerSkillHandler(racePrefix, triggerSkills, talentSources = []) {
+function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources = []) {
+  if (!racePrefix) return;
+  if (debug_on_trace) console.log("[registerSkillHandler] Start", { racePrefix });
 
-	if (debug_on_trace) console.log ("[registerSkillHandler] Start");
+  // idempotent per race
+  const key = `${racePrefix}`;
+  if (registeredRaces.has(key)) return;
+  registeredRaces.add(key);
 
-	const key = `${racePrefix}`;
+  // ---- derive lists safely (no flatMap) ----
+  const allSkills = Object.values(skillMapTable || [])
+    .map(s => s && s.label)
+    .filter(Boolean);
 
-	if (registeredRaces.has(key)) return;
+  const triggerSkills = (Array.isArray(triggerSkillsArg) && triggerSkillsArg.length)
+    ? triggerSkillsArg
+    : allSkills; // default to all skills so we never hit undefined
 
-	registeredRaces.add(key);
+  const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
 
-	const allSkills = Object.values(skillMapTable).map(s => s.label);
-	const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
-	const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
-		map[skill.label] = parseInt(skill.base, 10) || 0;
-		return map;
-	}, {});
+  const magicSchools = Object.values(skillMapTable || [])
+    .filter(s => s && s.group === "Magic" && s.label !== "magic_universal")
+    .map(s => s && s.bonus)
+    .filter(Boolean); // e.g., "magic_alteration_mdr"
 
-	const magicSchools = Object.values(skillMapTable)
-	.filter(skill => skill.group === "Magic" && skill.label !== "magic_universal")
-	.map(skill => skill.bonus); // bonus field is like "magic_alteration_mdr", "magic_elemental_mdr", etc
+  const talentKeys = Object.keys((talentSkillMap && talentSkillMap[racePrefix]) || {});
 
-	const watched = [
-		`${racePrefix}_mdr_checkbox`,
-		"dex",
-		"edu",
-		"language_caltheran_skill_mdr",
-		...magicSchools,
-		...allSkills.map(skill => `${skill}_skill_mdr`),
-		...otherSkills.map(skill => `${skill}_skill_mdr`),
-		...triggerSkills.flatMap(skill => [
-			`${racePrefix}_${skill}_bonus_mdr`,
-			`${racePrefix}_talent_${skill}_bonus_mdr`
-		]),
-		...Object.keys(talentSkillMap[racePrefix]).map(talentKey => `${racePrefix}_${talentKey}_mdr_checkbox`)
-	];
+  // watched attrs
+  const watched = new Set([
+    `${racePrefix}_mdr_checkbox`,
+    "dex",
+    "edu",
+    "language_caltheran_skill_mdr",
+    ...magicSchools
+  ]);
+  allSkills.forEach(skill => watched.add(`${skill}_skill_mdr`));
+  otherSkills.forEach(skill => watched.add(`${skill}_skill_mdr`));
+  triggerSkills.forEach(skill => {
+    watched.add(`${racePrefix}_${skill}_bonus_mdr`);
+    watched.add(`${racePrefix}_talent_${skill}_bonus_mdr`);
+  });
+  talentKeys.forEach(t => watched.add(`${racePrefix}_${t}_mdr_checkbox`));
 
-	const skillsToAttrs = allSkills.reduce((map, skill) => {
-		map[skill] = [
-			`${skill}_skill_mdr`,
-			`${skill}_mdr`,
-			`${racePrefix}_${skill}_bonus_mdr`,
-			`${racePrefix}_talent_${skill}_bonus_mdr`
-		];
-		return map;
-	}, {});
+  if (debug_on) console.log("[registerSkillHandler Init]", { watched: Array.from(watched) });
 
-	const globalAttrs = [
-		"dex",
-		"edu",
-		"language_caltheran_skill_mdr",
-		...magicSchools,
-		`${racePrefix}_mdr_checkbox`,
-		"showracials",
-		"skill_points_talent_refund",
-		...Object.keys(talentSkillMap[racePrefix] || {}).map(talent => `${racePrefix}_${talent}_mdr_checkbox`)
-	];
+  // attrs to read
+  const skillsToAttrs = {};
+  allSkills.forEach(skill => {
+    skillsToAttrs[skill] = [
+      `${skill}_skill_mdr`,
+      `${skill}_mdr`,
+      `${racePrefix}_${skill}_bonus_mdr`,
+      `${racePrefix}_talent_${skill}_bonus_mdr`
+    ];
+  });
 
-	if (debug_on) console.log("[registerSkillHandler Init]", { watched });
+  const globalAttrs = [
+    "dex",
+    "edu",
+    "language_caltheran_skill_mdr",
+    ...magicSchools,
+    `${racePrefix}_mdr_checkbox`,
+    "showracials",
+    "skill_points_talent_refund",
+    ...talentKeys.map(t => `${racePrefix}_${t}_mdr_checkbox`)
+  ];
 
-	const otherSkillAttrs = otherSkills.flatMap(skill => [
-		`${skill}_skill_mdr`,
-		`${skill}_mdr`
-		]);
+  const otherSkillAttrs = [];
+  otherSkills.forEach(s => { otherSkillAttrs.push(`${s}_skill_mdr`, `${s}_mdr`); });
 
-	// BEGIN Sheet Worker Watcher
-	on([...new Set(watched)].map(s => `change:${s}`).join(" "), () => {
-		getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs), otherSkillAttrs), values => {
-			const activeRace = values.showracials || "unknown";
-			if (activeRace !== racePrefix) return;
-		calculateAndUpdateSkillValues(racePrefix, values);
-		});
-	});
-	// END Sheet Worker Watcher
+  const skillAttrList = [];
+  Object.values(skillsToAttrs).forEach(arr => arr.forEach(a => skillAttrList.push(a)));
 
-	if (debug_on) {
-		console.log("[registerSkillHandler] Manual initialization on load");
-		console.log("[registerSkillHandler] Skills to initialize:", triggerSkills);
-	}
+  const allReadAttrs = Array.from(new Set([...globalAttrs, ...skillAttrList, ...otherSkillAttrs]));
+  const changeEvents = Array.from(watched).map(s => `change:${s}`).join(" ");
 
-	// BEGIN Manual Initialization
-	getAttrs(globalAttrs.concat(...Object.values(skillsToAttrs), otherSkillAttrs), values => {
-		const activeRace = values.showracials || "unknown";
-		if (activeRace !== racePrefix) return;
-		calculateAndUpdateSkillValues(racePrefix, values);
-	});
-	// END Manual Initialization
+  const isUnselectedRace = r => !r || r === "unknown" || r === "0" || r === "cr";
+
+  const runCalc = () => {
+    getAttrs(allReadAttrs, values => {
+      const activeRace = values.showracials || "unknown";
+      if (activeRace !== racePrefix || isUnselectedRace(activeRace)) return;
+      calculateAndUpdateSkillValues(racePrefix, values);
+    });
+  };
+
+  on(changeEvents, (typeof guarded === "function") ? guarded(runCalc) : runCalc);
+  runCalc(); // manual init once
 }
 
 function setDefaultTalentBonuses(race) {
@@ -20141,93 +20149,150 @@ function applyRacialBaseStats(race) {
 let lastRaceHandled = null;
 
 function handleRaceChange(race) {
-  if (debug_on_trace) console.log ("[handleRaceChange] Start");
+  if (debug_on_trace) console.log("[handleRaceChange] Start", { race });
+
+  // ignore placeholder / unknown
+  if (!raceDataMap || !raceDataMap[race] || race === "cr" || race === "unknown" || race === "0") return;
+
+  // optional: keep your duplicate guard
   if (race === lastRaceHandled) {
     if (debug_on) console.log(`[handleRaceChange] Skipped duplicate init for race: ${race}`);
     return;
   }
   lastRaceHandled = race;
 
-//  if (debug_on) console.log("[handleRaceChange]", race);
+  // Register race-scoped watchers once (idempotent elsewhere)
+  ensureRaceWatchers(race);
 
-  resetAllMDRToBase();
-  applyRacialBaseStats(race);
-  applyAllSkillBonuses(race);
+  // Pure state apply (no registrations inside)
+  initializeRaceState(race);
 
-  const talentList = Object.values(talentSkillMap[race] || {}).flatMap(obj => Object.keys(obj));
-
-  registerSkillHandler(race, talentList);
-  if (debug_on) console.log ("[registerSkillHandler] fired");
-
-  registerBackgroundTalentWatcher();
-  if (debug_on) console.log ("[registerBackgroundTalentWatcher] fired");
-
-  updateTalentEnables(race);
-  if (debug_on) console.log ("[updateTalentEnables] fired");
-
-  registerTalentSkillBonusWatchers();
-  if (debug_on) console.log ("[registerTalentSkillBonusWatchers] fired");
-
-  registerTalentSummaryWatcher();
-  if (debug_on) console.log ("[registerTalentSummaryWatcher] fired");
-
-  registerBackgroundSkillLimiter();
-  if (debug_on) console.log ("[registerBackgroundSkillLimiter] fired");
-  
-  registerXPTrackerWatcher();
+  // Re-evaluate enables/locks once
+  if (typeof updateTalentEnables === "function") updateTalentEnables(race);
 }
 
-on("sheet:opened", function () {
-  if (debug_on) console.log("[sheet:opened] New Character check");
-  if (debug_on_trace) console.log ("[sheet:opened] Start");
+// === Helpers & guards ===
+let WATCHERS_BOOTSTRAPPED = false;
 
-  // 易 Always register event watchers early
-  registerAllTalentChangeWatchers();
-  registerBackgroundTalentWatchers();
+const isUnselectedRace = (r) => !r || r === "unknown" || r === "0" || r === "cr";
 
-  getAttrs(["showracials", "new_character_flag", "background_xp"], values => {
-    const isNew = values.new_character_flag === "1";
-    const race = values.showracials || "unknown";
+// Register race-scoped watchers when needed (idempotent via your existing handlers)
+function ensureRaceWatchers(race) {
+  if (registeredRaces.has(race)) return;
+
+  // already in place
+  if (typeof registerSkillHandler === "function") registerSkillHandler(race);
+
+  // ADD THESE TWO LINES (race-scoped; idempotent inside each)
+  if (typeof registerBackgroundSkillLimiter === "function") registerBackgroundSkillLimiter(race);
+  if (typeof registerTalentSummaryWatcher === "function") registerTalentSummaryWatcher(race);
+
+  registeredRaces.add(race);
+}
+
+// Apply race defaults/state (NO watcher registrations here)
+function initializeRaceState(race) {
+  if (!race || race === "cr" || race === "unknown" || race === "0") return;
+  if (debug_on_trace) console.log("[initializeRaceState] Start", { race });
+
+  // Hold the guard ON while bulk setAttrs run (they're async)
+  beginSilent();
+  resetAllMDRToBase();
+  applyRacialBaseStats(race);
+  setDefaultTalentBonuses(race);
+
+  // After bulk updates, do exactly ONE recompute and then release the guard
+  const allSkills = Object.values(skillMapTable || {}).map(s => s && s.label).filter(Boolean);
+  const magicSchools = Object.values(skillMapTable || {})
+    .filter(s => s && s.group === "Magic" && s.label !== "magic_universal")
+    .map(s => s && s.bonus).filter(Boolean);
+
+  const toRead = new Set([
+    "showracials",
+    "dex",
+    "edu",
+    "language_caltheran_skill_mdr",
+    `${race}_mdr_checkbox`,
+    ...magicSchools
+  ]);
+  allSkills.forEach(skill => {
+    toRead.add(`${skill}_skill_mdr`);
+    toRead.add(`${skill}_mdr`);
+    toRead.add(`${race}_${skill}_bonus_mdr`);
+    toRead.add(`${race}_talent_${skill}_bonus_mdr`);
+  });
+
+  getAttrs(Array.from(toRead), (values) => {
+    calculateAndUpdateSkillValues(race, values); // single, intentional recompute
+    endSilent(); // <-- release AFTER calc completes
+  });
+}
+
+// Build default skills + clear new flag (used once on first open with a real race)
+const initNewCharacterSkills = () => {
     const updates = {};
-
-    if (debug_on) console.log("[sheet:opened]", { race, isNew });
-	
-	if (race === "cr") {
-		return;
-	}
-
-    if (isNew) {
-      Object.entries(skillMapTable).forEach(([key, { label, base, notes }]) => {
+    Object.entries(skillMapTable || {}).forEach(([_, { label, base, notes }]) => {
         const val = parseInt(base, 10) || 0;
         updates[`${label}_skill_mdr`] = val;
-        updates[`${label}_mdr`] = val;
-        updates[`${label}_note`] = notes || "";
-      });
-      updates.new_character_flag = "0";
-	  populateCareerTalentDescriptions();
+        updates[`${label}_mdr`]       = val;
+        updates[`${label}_note`]      = notes || "";
+    });
+    updates.new_character_flag = "0";
+    if (debug_on) console.log("[New Character Skill Init]", updates);
+    return updates;
+};
 
-      if (debug_on) console.log("[New Character Skill Init]", updates);
+on("sheet:opened", () => {
+    if (debug_on)       console.log("[sheet:opened] New Character check");
+    if (debug_on_trace) console.log("[sheet:opened] Start");
+
+    // Register global (race-agnostic) watchers ONCE
+    if (!WATCHERS_BOOTSTRAPPED) {
+        WATCHERS_BOOTSTRAPPED = true;
+        registerAllTalentChangeWatchers();
+		registerBackgroundTalentWatcher();
+        registerBackgroundTalentWatchers();
+		registerTalentSkillBonusWatchers();
+		registerXPTrackerWatcher();
+        registerStatHandler();
     }
 
-	if ( !values.background_xp || parseInt(values.background_xp, 10) !== 30 ) {
-		updates["background_xp"] = 30;
-		if (debug_on) console.log("Setting background_xp to 30");
-	}
-	
-    setAttrs(updates, () => {
-      if (debug_on) console.log("[sheet:opened] Checking for undefined or unknown race");
-      if (race && race !== "unknown" && race !== "0") {
-        if (debug_on) console.log(`[sheet:opened] Race: "${race}" being initialized`);
-        handleRaceChange(race);
-      }
+    // Initial attribute normalization
+    getAttrs(["showracials", "new_character_flag", "background_xp", "selected_tab"], values => {
+        const race  = values.showracials || "unknown";
+        const isNew = values.new_character_flag === "1";
+        const updates = {};
 
-      registerStatHandler();
-	  
-	  getAttrs(['selected_tab'], v => {
-		if (v.selected_tab === 'careers') registerCareerTabWatchers();
-	  });
+        if (debug_on) console.log("[sheet:opened]", { race, isNew });
+
+        // Only run new-character init when a real race is selected
+        if (!isUnselectedRace(race) && isNew) {
+            Object.assign(updates, initNewCharacterSkills()); // builds skill defaults & clears flag
+        }
+
+        // Ensure background XP is 30 (diff-only)
+        const xp = parseInt(values.background_xp || "0", 10);
+        if (xp !== 30) {
+            updates.background_xp = 30;
+            if (debug_on) console.log("Setting background_xp to 30");
+        }
+
+        const afterSet = () => {
+            if (!isUnselectedRace(race)) {
+                ensureRaceWatchers(race);     // minimal, on-demand
+                initializeRaceState(race);    // pure state apply + recompute
+                if (isNew) populateCareerTalentDescriptions();
+            }
+
+            // If Careers tab is already selected, wire its extras now
+            if (values.selected_tab === "careers" && typeof registerCareerTabWatchers === "function") {
+                registerCareerTabWatchers();
+            }
+        };
+
+        if (Object.keys(updates).length) setAttrs(updates, afterSet);
+        else afterSet();
     });
-  });
 });
 
 function finalizeStrain(careerList, ipow, icon, update) {
@@ -20393,8 +20458,14 @@ function registerStatHandler() {
 }
 
 // === Background Skill Lock Enforcement (5 of 7) ===
-const registerBackgroundSkillLimiter = () => {
-  if (debug_on_trace) console.log ("[registerBackgroundSkillLimiter] Start");
+const bgLimiterRegistered = new Set();
+
+function registerBackgroundSkillLimiter(race){
+  if (bgLimiterRegistered.has(race)) return;
+  if (debug_on_trace) console.log ("[registerBackgroundSkillLimiter] Start"); 
+  
+  bgLimiterRegistered.add(race);
+  
   const getBackgroundSkillAttrs = (race, background) => {
     const bgData = backgroundDataMap[race]?.[background];
     if (!bgData || !Array.isArray(bgData.trained_skills)) return [];
@@ -20684,6 +20755,7 @@ const registerSecondaryCareerXPWatcher = () => {
 
 // One-time registrar for per-career tab clicks
 let careerTabWatchersReady = false;
+
 const registerCareerTabWatchers = () => {
   if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
   if (debug_on_trace) console.log ("[Object.keys(careerDataMap)] Start");

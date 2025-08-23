@@ -1,43 +1,4 @@
 /* -------------------------------------------------------------------------- */
-/*                         THEME COLOR PALETTE - MASTER                      */
-/* -------------------------------------------------------------------------- */
-
-/* --- Sheet Background and Borders --- */
--- Main Sheet Background:      #888888  /* Entire character sheet background (charsheet) */
--- Sheet Border:                black    /* Border around the sheet */
-
-/* --- Section Backgrounds --- */
--- Section Block Background:   #f0f0f0  /* Section content blocks (e.g., Combat, Skills) */
--- Section Block Border:        black    /* Section border */
-
-/* --- Section Headers (h4, .section-head) --- */
--- Section Header Background:  Gradient (black -> #112749)  /* Section header bars */
--- Section Header Border:       black    /* Header border */
--- Section Header Text:         white    /* Header font color */
-
-/* --- Weapon Headers --- */
--- Weapon Block Header:         #E0E0E0  /* Background for Weapon header rows */
--- Weapon Block Border:         black    /* Border under Weapon header */
-
-/* --- Disabled Inputs --- */
--- Disabled Input Background:  #D9D9D9  /* Background for disabled fields (e.g., Unarmed row) */
--- Disabled Input Text:         #666666  /* Text color for disabled fields */
--- Disabled Input Border:       #999999  /* Border color for disabled fields */
-
-/* --- Roll Buttons (Skill/Combat Rolls) --- */
--- Enabled Roll Button Background:  #248c15  /* Normal roll buttons (e.g., green for rolls) */
--- Enabled Roll Button Text:        #18650D  /* Roll button text */
--- Roll Button Border:              black    /* Border for roll buttons */
--- Disabled Roll Button Background: #BEBEBE  /* Background for disabled roll buttons */
--- Disabled Roll Button Border:     #999999  /* Border for disabled roll buttons */
-
-/* --- Repeating Section Controls (Add/Edit/Delete/Move) --- */
--- Repeating Button Background:     #333333  /* Base for add/edit/move buttons */
--- Repeating Button Text:            white    /* Text color for repeating buttons */
--- Delete Button Background:         #882222  /* Background for delete (danger button) */
--- Repeating Button Border:          black    /* Border for all repeating buttons */
-
-/* -------------------------------------------------------------------------- */
 /* Notes:
    - All colors are centralized here for easy theme changes.
    - Gradients use linear-gradient where applicable (headers).
@@ -1903,40 +1864,6 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
   display: none;
 }
 
-/* Show correct Draevi talent block */
-.sheet-tab-controller[name="attr_draevi_talent_tab"][value="clan_blooded"] ~ .sheet-talent-clan_blooded,
-.sheet-tab-controller[name="attr_draevi_talent_tab"][value="scavengers_edge"] ~ .sheet-talent-scavengers_edge {
-  display: block;
-}
-
-/* Highlight active Draevi tab button */
-.sheet-tab-controller[name="attr_draevi_talent_tab"][value="clan_blooded"] ~ .sheet-tab-buttons button[name="act_clan_blooded"],
-.sheet-tab-controller[name="attr_draevi_talent_tab"][value="scavengers_edge"] ~ .sheet-tab-buttons button[name="act_scavengers_edge"] {
-  background-color: #222;
-}
-
-.sheet-tab-controller[name="attr_human_talent_tab"][value="quick_fixer"] ~ .sheet-talent-quick_fixer,
-.sheet-tab-controller[name="attr_human_talent_tab"][value="skilled_focus"] ~ .sheet-talent-skilled_focus {
-  display: block;
-}
-
-.sheet-tab-controller[name="attr_human_talent_tab"][value="quick_fixer"] ~ .sheet-tab-buttons button[name="act_quick_fixer"],
-.sheet-tab-controller[name="attr_human_talent_tab"][value="skilled_focus"] ~ .sheet-tab-buttons button[name="act_skilled_focus"] {
-  background-color: #222;
-}
-
-/* Show correct Lyranni talent block */
-.sheet-tab-controller[name="attr_lyranni_talent_tab"][value="aether_override"] ~ .sheet-talent-aether_override,
-.sheet-tab-controller[name="attr_lyranni_talent_tab"][value="echo_in_the_veins"] ~ .sheet-talent-echo_in_the_veins {
-  display: block;
-}
-
-/* Highlight active Lyranni tab button */
-.sheet-tab-controller[name="attr_lyranni_talent_tab"][value="aether_override"] ~ .sheet-tab-buttons button[name="act_aether_override"],
-.sheet-tab-controller[name="attr_lyranni_talent_tab"][value="echo_in_the_veins"] ~ .sheet-tab-buttons button[name="act_echo_in_the_veins"] {
-  background-color: #222;
-}
-
 /* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
 
 /* --------------------- Tabs - New Talent styling - Start ----------------------------------------------------- */
@@ -2132,6 +2059,7 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 .ui-dialog .tab-content .charsheet input[name="attr_show_persona_anchor_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
 .ui-dialog .tab-content .charsheet input[name="attr_show_scavengers_edge_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
 .ui-dialog .tab-content .charsheet input[name="attr_show_clan_blooded_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_scavengers_instinct_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
 .ui-dialog .tab-content .charsheet input[name="attr_show_quick_fixer_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
 .ui-dialog .tab-content .charsheet input[name="attr_show_skilled_focus_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
 .ui-dialog .tab-content .charsheet input[name="attr_show_threadwalker_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
@@ -2220,11 +2148,18 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 
 /* Show selected career tab */
 input[name="attr_selected_career"][value="codeweaver"] ~ .sheet-career-tabs-container .sheet-tab-codeweaver,
-input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs-container .sheet-tab-combat_medic,
 input[name="attr_selected_career"][value="mindbender"] ~ .sheet-career-tabs-container .sheet-tab-mindbender,
 input[name="attr_selected_career"][value="sigilbound"] ~ .sheet-career-tabs-container .sheet-tab-sigilbound,
 input[name="attr_selected_career"][value="stormweaver"] ~ .sheet-career-tabs-container .sheet-tab-stormweaver,
-input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs-container .sheet-tab-street_ronin {
+input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs-container .sheet-tab-combat_medic,
+input[name="attr_selected_career"][value="icon"] ~ .sheet-career-tabs-container .sheet-tab-icon,
+input[name="attr_selected_career"][value="mechanic"] ~ .sheet-career-tabs-container .sheet-tab-mechanic,
+input[name="attr_selected_career"][value="operator"] ~ .sheet-career-tabs-container .sheet-tab-operator,
+input[name="attr_selected_career"][value="pilot"] ~ .sheet-career-tabs-container .sheet-tab-pilot,
+input[name="attr_selected_career"][value="shadowblade"] ~ .sheet-career-tabs-container .sheet-tab-shadowblade,
+input[name="attr_selected_career"][value="slicer"] ~ .sheet-career-tabs-container .sheet-tab-slicer,
+input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs-container .sheet-tab-street_ronin,
+input[name="attr_selected_career"][value="arcane_gunslinger"] ~ .sheet-career-tabs-container .sheet-tab-arcane_gunslinger {
     display: block;
 }
 
@@ -2251,11 +2186,18 @@ input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs-co
 
 /* Highlight selected sub-tab */
 input[name="attr_selected_career"][value="codeweaver"] ~ .sheet-career-tabs button[name="act_codeweaver"],
-input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs button[name="act_combat_medic"],
 input[name="attr_selected_career"][value="mindbender"] ~ .sheet-career-tabs button[name="act_mindbender"],
 input[name="attr_selected_career"][value="sigilbound"] ~ .sheet-career-tabs button[name="act_sigilbound"],
 input[name="attr_selected_career"][value="stormweaver"] ~ .sheet-career-tabs button[name="act_stormweaver"],
-input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs button[name="act_street_ronin"] {
+input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs button[name="act_combat_medic"],
+input[name="attr_selected_career"][value="icon"] ~ .sheet-career-tabs button[name="act_icon"],
+input[name="attr_selected_career"][value="mechanic"] ~ .sheet-career-tabs button[name="act_mechanic"],
+input[name="attr_selected_career"][value="operator"] ~ .sheet-career-tabs button[name="act_operator"],
+input[name="attr_selected_career"][value="pilot"] ~ .sheet-career-tabs button[name="act_pilot"],
+input[name="attr_selected_career"][value="shadowblade"] ~ .sheet-career-tabs button[name="act_shadowblade"],
+input[name="attr_selected_career"][value="slicer"] ~ .sheet-career-tabs button[name="act_slicer"],
+input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs button[name="act_street_ronin"],
+input[name="attr_selected_career"][value="arcane_gunslinger"] ~ .sheet-career-tabs button[name="act_arcane_gunslinger"] {
     background-color: #333;
 }
 
@@ -2534,6 +2476,9 @@ input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs bu
   display: none;
 }
 .ui-dialog .tab-content .charsheet .sheet-tab-combat_medic input[name="attr_combat_medic_ready"][value="1"] ~ .sheet-career-locked-overlay {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tab-icon input[name="attr_icon_ready"][value="1"] ~ .sheet-career-locked-overlay {
   display: none;
 }
 .ui-dialog .tab-content .charsheet .sheet-tab-mindbender input[name="attr_mindbender_ready"][value="1"] ~ .sheet-career-locked-overlay {
@@ -3820,6 +3765,9 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
   gap: 1em;
 }
+.ui-dialog .tab-content .charsheet .sheet-tracker-section-spacer {
+	height: 20px;
+}
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-column {
   flex: 1;
@@ -3841,6 +3789,8 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_draevi_instinctive_counter"][value="1"] ~ .sheet-draevi-instinctive-counter,
 .ui-dialog .tab-content .charsheet input[name="attr_show_draevi_silent_step_sharp_ear"][value="1"] ~ .sheet-draevi-silent-step-sharp-ear,
 .ui-dialog .tab-content .charsheet input[name="attr_show_draevi_trailborn_reflexes"][value="1"] ~ .sheet-draevi-trailborn-reflexes,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_scent_of_the_kill"][value="1"] ~ .sheet-feran-scent-of-the-kill,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_ambush_instincts"][value="1"] ~ .sheet-feran-ambush-instincts,
 .ui-dialog .tab-content .charsheet input[name="attr_show_human_spontaneous_strategist"][value="1"] ~ .sheet-human-spontaneous-strategist,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_glimmerstep"][value="1"] ~ .sheet-lyranni-glimmerstep,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_illuminated_touch"][value="1"] ~ .sheet-lyranni-illuminated-touch,
@@ -3852,7 +3802,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
-/* Racial Talent Tracker - Session */
+/* Racial Talent Tracker - Alteri - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_alteri_echoed_voice"][value="1"] ~ .sheet-alteri-echoed-voice,
 .ui-dialog .tab-content .charsheet input[name="attr_show_alteri_ghost_protocol"][value="1"] ~ .sheet-alteri-ghost-protocol,
 .ui-dialog .tab-content .charsheet input[name="attr_show_alteri_whisper_touched"][value="1"] ~ .sheet-alteri-whisper-touched,
@@ -3875,6 +3825,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Racial Talent Tracker - Draevi - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_draevi_urban_climber"][value="1"] ~ .sheet-draevi-urban-climber,
 .ui-dialog .tab-content .charsheet input[name="attr_show_draevi_spirits_in_stone"][value="1"] ~ .sheet-draevi-spirits-in-stone,
 .ui-dialog .tab-content .charsheet input[name="attr_show_draevi_gutter_stalker"][value="1"] ~ .sheet-draevi-gutter-stalker,
@@ -3899,6 +3850,32 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Racial Talent Tracker - Feran - Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_predators_focus"][value="1"] ~ .sheet-feran-predators-focus,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_wallrunners_step"][value="1"] ~ .sheet-feran-wallrunners-step,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_razorstep_pounce"][value="1"] ~ .sheet-feran-razorstep-pounce,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_silent_leap"][value="1"] ~ .sheet-feran-silent-leap,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_threadrunners_poise"][value="1"] ~ .sheet-feran-threadrunners-poise,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_pounce_and_break"][value="1"] ~ .sheet-feran-pounce-and-break,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_predators_patience"][value="1"] ~ .sheet-feran-predators-patience,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_threadwalkers_rhythm"][value="1"] ~ .sheet-feran-threadwalkers-rhythm,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_pack_sense_reversal"][value="1"] ~ .sheet-feran-pack-sense-reversal,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_scentlock_tactics"][value="1"] ~ .sheet-feran-scentlock-tactics,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_bloodrushed_recovery"][value="1"] ~ .sheet-feran-bloodrushed-recovery,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_apex_reflex"][value="1"] ~ .sheet-feran-apex-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_stalkers_cascade"][value="1"] ~ .sheet-feran-stalkers-cascade,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_predators_terrain"][value="1"] ~ .sheet-feran-predators-terrain,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_pack_alphas_demand"][value="1"] ~ .sheet-feran-pack-alphas-demand,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_chain_strike_instinct"][value="1"] ~ .sheet-feran-chain-strike-instinct,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_battle_rush_clarity"][value="1"] ~ .sheet-feran-battle-rush-clarity,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_ghostclaw_alpha"][value="1"] ~ .sheet-feran-ghostclaw-alpha,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_pack_memory_living_instinct"][value="1"] ~ .sheet-feran-pack-memory-living-instinct,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_pulse_lock_drive"][value="1"] ~ .sheet-feran-pulse-lock-drive,
+.ui-dialog .tab-content .charsheet input[name="attr_show_feran_threadbound_mastery"][value="1"] ~ .sheet-feran-threadbound-mastery {
+    display: flex;
+}
+
+/* Racial Talent Tracker - Human - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_human_hard_lesson"][value="1"] ~ .sheet-human-hard-lesson,
 .ui-dialog .tab-content .charsheet input[name="attr_show_human_instinct_over_training"][value="1"] ~ .sheet-human-instinct-over-training,
 .ui-dialog .tab-content .charsheet input[name="attr_show_human_makeshift_medic"][value="1"] ~ .sheet-human-makeshift-medic,
@@ -3923,6 +3900,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Racial Talent Tracker - Lyranni - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_legacy_spark"][value="1"] ~ .sheet-lyranni-legacy-spark,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veil_blooded_sense"][value="1"] ~ .sheet-lyranni-veil-blooded-sense,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_whispers_beyond"][value="1"] ~ .sheet-lyranni-whispers-beyond,
@@ -3939,7 +3917,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
-/* Career Talent Tracker - Scene */
+/* Career Talent Tracker - Codeweaver - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_signal_sync"][value="1"] ~ .sheet-codeweaver-signal-sync,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_veil_thread_tap"][value="1"] ~ .sheet-codeweaver-veil-thread-tap,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_hardlight_override"][value="1"] ~ .sheet-codeweaver-hardlight-override,
@@ -3951,7 +3929,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_backdoor_ritual"][value="1"] ~ .sheet-codeweaver-backdoor-ritual {
   display: flex;
 }
-
+/* Career Talent Tracker - Combat Medic - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_field_stabilizer"][value="1"] ~ .sheet-combat_medic-field-stabilizer,
 .ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_pain_doesnt_matter"][value="1"] ~ .sheet-combat_medic-pain-doesnt-matter,
 .ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_trauma_team_reflexes"][value="1"] ~ .sheet-combat_medic-trauma-team-reflexes,
@@ -3964,6 +3942,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Career Talent Tracker - Mindbender - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_suggestive_echo"][value="1"] ~ .sheet-mindbender-suggestive-echo,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_thread_of_doubt"][value="1"] ~ .sheet-mindbender-thread-of-doubt,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_veil_of_intent"][value="1"] ~ .sheet-mindbender-veil-of-intent,
@@ -3975,6 +3954,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Career Talent Tracker - Sigilbound - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_runesight"][value="1"] ~ .sheet-sigilbound-runesight,
 .ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_arcane_lock"][value="1"] ~ .sheet-sigilbound-arcane-lock,
 .ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_reflective_ward"][value="1"] ~ .sheet-sigilbound-reflective-ward,
@@ -3986,6 +3966,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Career Talent Tracker - Stormweaver - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_elemental_channeling"][value="1"] ~ .sheet-stormweaver-elemental-channeling,
 .ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_veil_shocked"][value="1"] ~ .sheet-stormweaver-veil-shocked,
 .ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_stormpulse_drive"][value="1"] ~ .sheet-stormweaver-stormpulse-drive,
@@ -3993,7 +3974,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_reactive_veilwalk"][value="1"] ~ .sheet-stormweaver-reactive-veilwalk {
   display: flex;
 }
-
+/* Career Talent Tracker - Street Ronin - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_combat_rhythm"][value="1"] ~ .sheet-street-ronin-combat-rhythm,
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_disciplined_focus"][value="1"] ~ .sheet-street-ronin-disciplined-focus,
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_urban_footwork"][value="1"] ~ .sheet-street-ronin-urban-footwork,
@@ -4004,7 +3985,13 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
     display: flex;
 }
 
-/* Career Talent Tracker - Session */
+/* Career Talent Tracker - Icon - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_command_the_stage"][value="1"] ~ .sheet-icon-command-the-stage,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_all_eyes_on_me"][value="1"] ~ .sheet-icon-all-eyes-on-me {
+    display: flex;
+}
+
+/* Career Talent Tracker - Codeweaver - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_clean_loop_feedback"][value="1"] ~ .sheet-codeweaver-clean-loop-feedback,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_crash_field"][value="1"] ~ .sheet-codeweaver-crash-field,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_live_patch_redirect"][value="1"] ~ .sheet-codeweaver-live-patch-redirect,
@@ -4016,6 +4003,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Career Talent Tracker - Combat Medic - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_pressure_seal"][value="1"] ~ .sheet-combat_medic-pressure-seal,
 .ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_surgical_clarity"][value="1"] ~ .sheet-combat_medic-surgical-clarity,
 .ui-dialog .tab-content .charsheet input[name="attr_show_combat_medic_combat_revive"][value="1"] ~ .sheet-combat_medic-combat-revive,
@@ -4029,6 +4017,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Career Talent Tracker - Mindbender - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_memory_spike"][value="1"] ~ .sheet-mindbender-memory-spike,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_echo_implantation"][value="1"] ~ .sheet-mindbender-echo-implantation,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_false_memory"][value="1"] ~ .sheet-mindbender-false-memory,
@@ -4043,6 +4032,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Career Talent Tracker - Sigilbound - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_counterglyph"][value="1"] ~ .sheet-sigilbound-counterglyph,
 .ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_arcane_reversal"][value="1"] ~ .sheet-sigilbound-arcane-reversal,
 .ui-dialog .tab-content .charsheet input[name="attr_show_sigilbound_mirror_sigil"][value="1"] ~ .sheet-sigilbound-mirror-sigil,
@@ -4053,6 +4043,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Career Talent Tracker - Stormweaver - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_tinder_spark"][value="1"] ~ .sheet-stormweaver-tinder-spark,
 .ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_voltaic_reflex"][value="1"] ~ .sheet-stormweaver-voltaic-reflex,
 .ui-dialog .tab-content .charsheet input[name="attr_show_stormweaver_volcanic_path"][value="1"] ~ .sheet-stormweaver-volcanic-path,
@@ -4065,6 +4056,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
 }
 
+/* Career Talent Tracker - Street Ronin - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_steel_reflex"][value="1"] ~ .sheet-street-ronin-steel-reflex,
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_reactive_flow"][value="1"] ~ .sheet-street-ronin-reactive-flow,
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_breath_before_the_cut"][value="1"] ~ .sheet-street-ronin-breath-before-the-cut,
@@ -4078,6 +4070,21 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_final_cut_doctrine"][value="1"] ~ .sheet-street-ronin-final-cut-doctrine,
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_ghost_walk_execution"][value="1"] ~ .sheet-street-ronin-ghost-walk-execution,
 .ui-dialog .tab-content .charsheet input[name="attr_show_street_ronin_duelmasters_claim"][value="1"] ~ .sheet-street-ronin-duelmasters-claim {
+    display: flex;
+}
+
+/* Career Talent Tracker - Icon - Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_encore_effect"][value="1"] ~ .sheet-icon-encore-effect,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_pulse_of_the_crowd"][value="1"] ~ .sheet-icon-pulse-of-the-crowd,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_emotional_contagion"][value="1"] ~ .sheet-icon-emotional-contagion,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_voice_of_the_moment"][value="1"] ~ .sheet-icon-voice-of-the-moment,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_shared_spotlight"][value="1"] ~ .sheet-icon-shared-spotlight,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_iconic_rally"][value="1"] ~ .sheet-icon-iconic-rally,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_encore_of_will"][value="1"] ~ .sheet-icon-encore-of-will,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_burning_signature"][value="1"] ~ .sheet-icon-burning-signature,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_echo_beyond_the_feed"][value="1"] ~ .sheet-icon-echo-beyond-the-feed,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_crowdcarver"][value="1"] ~ .sheet-icon-crowdcarver,
+.ui-dialog .tab-content .charsheet input[name="attr_show_icon_signature_crescendo"][value="1"] ~ .sheet-icon-signature-crescendo {
     display: flex;
 }
 
@@ -4100,6 +4107,66 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   transition: background-color 0.2s ease;
 }
 
+/* Hide by default; reveal when show-flag is 1 */
+.ui-dialog .tab-content .charsheet .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet .sheet-health-meter {
+  display: none; 
+  width: 396px;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_strain_meter"][value="1"] ~ .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet input[name="attr_show_health_meter"][value="1"] ~ .sheet-health-meter
+ { display: flex; }
+
+/* Row tweaks */
+.ui-dialog .tab-content .charsheet .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet .sheet-health-meter 
+{ gap: 0.75em; }
+
+/* Pip group + individual pip */
+.ui-dialog .tab-content .charsheet .sheet-health-pips,
+.ui-dialog .tab-content .charsheet .sheet-strain-pips {
+    display: flex;
+    gap: 10px;
+}
+.ui-dialog .tab-content .charsheet .sheet-health-pip,
+.ui-dialog .tab-content .charsheet .sheet-strain-pip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+}
+
+/* Checkbox size matches your small tracker boxes */
+.ui-dialog .tab-content .charsheet .sheet-strain-pip .sheet-tracker-checkbox,
+.ui-dialog .tab-content .charsheet .sheet-health-pip .sheet-tracker-checkbox {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+/* Under-label */
+.ui-dialog .tab-content .charsheet .sheet-strain-pip-label,
+.ui-dialog .tab-content .charsheet .sheet-health-pip-label {
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-strain-meter .sheet-tracker-label,
+.ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
+	font-style: bold;
+	font-size: 110%;
+	width: 100px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
+	color: red;
+}
+	
+.ui-dialog .tab-content .charsheet .sheet-strain-meter .sheet-tracker-label {
+	color: blue;
+	margin-right: 10px;
+}		
 
 /* ------------------ NPC Section Scoped Styles ------------------ */
 .sheet-companions .sheet-npc-content-left {
@@ -4990,7 +5057,7 @@ input.sheet-arrow {
 
 /* -------------------------------------------------------------------------- */
 
-/* ------------------------------------------ *//* Roll Templates *//* --------------------------------------- */
+/* ------------------------------------------  Roll Templates --------------------------------------- */
 
 /* BD/PD defence rolltemplate */
 .sheet-rolltemplate-coc-defence table {
@@ -5974,7 +6041,7 @@ input.sheet-arrow {
     background: #c3c9bd;
 }
 
-/* -------------------------------------------- *//* Buttons Start *//* ---------------------------------- */
+/* -------------------------------------------- Buttons Start ---------------------------------- */
 
 /* Repeating Section Buttons - Unified Style */
 .sheet-layout .repcontrol_add,
@@ -6124,4 +6191,4 @@ button[type=roll].sheet-evensmallerbutton-roll {
   border: 1px solid black;
   border-radius: 5px;
 }
-/* -------------------------------------------- *//*  Buttons End  *//* ---------------------------------- */
+/* -------------------------------------------- Buttons End ---------------------------------- */

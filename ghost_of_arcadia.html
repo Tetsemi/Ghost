@@ -15813,7 +15813,7 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
+const debug_on = true;
 const debug_on_trace = true;
 const debug_on_watcher = false;
 
@@ -15928,7 +15928,7 @@ const raceDataMap = {
     stats: {
       str: { base: 15, max: 90 }, dex: { base: 15, max: 70 }, con: { base: 15, max: 80 },
       siz: { base: 50, max: 90 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
-      pow: { base: 15, max: 80 }, app: { base: 15, max: 70 }, mag: { base: 0, max: 80 }
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 70 }
     }
   },
   "kitsu": {
@@ -17174,6 +17174,269 @@ const talentDataMap = {
     }
   },
   khadra: {
+	oathbound_grit: {
+		name: "Oathbound Grit",
+		description: "Once per session, after failing a Willpower or Constitution roll, you may reroll with a bonus die if the action supports a sworn duty, protective vow, or personal code.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	anchorpoint: {
+		name: "Anchorpoint",
+		description: "Once per session, gain a bonus die to resist being knocked prone, disarmed, or forcibly moved by terrain, shockwaves, or hostile powers.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	measured_advance: {
+	name: "Measured Advance",
+		description: "Once per scene, ignore all movement penalties from rubble, elevation shifts, or difficult terrain for one round. Also negate the first point of falling damage.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "scene"
+	},
+	steady_as_stone: {
+		name: "Steady as Stone",
+		description: "Once per session, gain a bonus die to an Athletics or Coordination roll made to resist being staggered, tripped, or destabilized.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	still_as_judgment: {
+		name: "Still as Judgment",
+		description: "Once per session, gain a bonus die to Insight, Interrogation, or Etiquette (Military) when acting from a position of command or formal authority.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	legacy_of_iron: {
+		name: "Legacy of Iron",
+		description: "Choose one: gain +10% to Mechanics, Security Systems, or First Aid. Reflects the practical traditions of Khadra strongholds and Stonebound service.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: ""
+	},
+	unbreakable_focus: {
+		name: "Unbreakable Focus",
+		description: "Once per session, ignore one penalty die from pain, distraction, or ambient stress while performing a task requiring careful precision.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	slow_to_bleed: {
+		name: "Slow to Bleed",
+		description: "Once per session, when you suffer a major wound, you may delay the effects until the end of the next round. This does not reduce damage—only postpones collapse.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	rooted_in_purpose: {
+		name: "Rooted in Purpose",
+		description: "Once per session, when using Fight Back in melee or unarmed combat against two or more attackers in the same round, you may do so without suffering a penalty die on the second attack.",
+		prerequisite: ["steady_as_stone"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	hold_the_line: {
+		name: "Hold the Line",
+		description: "Once per session, when an adjacent ally is targeted by an attack, you may intercept the blow. Gain a bonus die to Dodge, or activate Weight of Stone to resist the damage from the attack.",
+		prerequisite: ["anchorpoint"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},	
+	ancestral_echo_guard: {
+		name: "Ancestral Echo Guard",
+		description: "Once per scene, when rolling Willpower or Arcana to resist a magical effect, you may call on ancestral resilience and gain a bonus die to resist the effect.",
+		prerequisite: ["unbreakable_focus"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "scene"
+	},	
+	shield_of_legacy: {
+		name: "Shield of Legacy",
+		description: "Once per scene, reduce incoming physical damage by 1d6. You must be aware of the attack and may not have moved during your turn to activate this effect.",
+		prerequisite: ["anchorpoint", "measured_advance"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "scene"
+	},	
+	stonewalk_rhythm: {
+		name: "Stonewalk Rhythm",
+		description: "Once per session, after failing a Navigate check in a natural or ruined environment, you may choose to ignore the failure and proceed as though you had succeeded.",
+		prerequisite: ["measured_advance"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	oath_echo_discipline: {
+		name: "Oath Echo Discipline",
+		description: "Once per session, reroll a failed First Aid or Mechanics check if the action fulfills an oath, duty, or promise. Optional: spend 1 Strain to gain a bonus die instead of rerolling.",
+		prerequisite: ["legacy_of_iron"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	weight_everlasting: {
+		name: "Weight Everlasting",
+		description: "When Weight of Stone is activated, you gain an additional +1 Damage Reduction.",
+		prerequisite: ["anchorpoint"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: ""
+	},
+	path_of_the_immovable: {
+		name: "Path of the Immovable",
+		description: "Once per session, when resisting forced movement or knockdown, treat a failed Constitution or Athletics roll as a success.",
+		prerequisite: ["anchorpoint", "steady_as_stone"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	stonecut_precision: {
+		name: "Stonecut Precision",
+		description: "Once per session, gain a bonus die to any Unarmed Combat or Melee Weapons attack made while not moving that round.",
+		prerequisite: ["anchorpoint", "steady_as_stone"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	/* === Khadra — Tier 3 (30 XP) === */
+	last_wall_protocol: {
+	  name: "Last Wall Protocol",
+	  description: "Once per session, when you would be reduced to 0 HP or below by a physical attack, you may instead roll Constitution with a bonus die. On a success, you are reduced to 1 HP instead of 0, and any excess damage is ignored.",
+	  prerequisite: ["hold_the_line", "rooted_in_purpose"], // OR
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	echo_resonant_will: {
+	  name: "Echo-Resonant Will",
+	  description: "Once per session, after succeeding on a Willpower or Arcana roll to resist a magical or spiritual effect, regain 1d6 Strain and gain a bonus die on your next roll.",
+	  prerequisite: ["ancestral_echo_guard"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	stonewarden_tactician: {
+	  name: "Stonewarden Tactician",
+	  description: "Once per scene, designate an ally within Short range. Until the end of the scene, whenever that ally would suffer an attack while within Short range of you, you may take the hit instead.",
+	  prerequisite: ["shield_of_legacy"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "scene"
+	},
+	weight_makes_the_weapon: {
+	  name: "Weight Makes the Weapon",
+	  description: "Once per session, when making a Melee or Unarmed Combat attack after remaining stationary on your last turn, you may add a bonus die and force the target to roll with a penalty die to resist knockback or disarm effects.",
+	  prerequisite: ["rooted_in_purpose"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	stonewalk_continuum: {
+	  name: "Stonewalk Continuum",
+	  description: "Once per session, you may automatically pass a Navigate or Survival (Wilderness) check to reach a destination under extreme conditions. Additionally, you and one ally ignore terrain penalties for the remainder of the scene.",
+	  prerequisite: ["stonewalk_rhythm"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	legacy_chainstrike: {
+	  name: "Legacy Chainstrike",
+	  description: "Once per session, after hitting an enemy with a melee or unarmed attack, you may immediately make a second attack against a different enemy within engaged range by spending 2 Strain.",
+	  prerequisite: ["rooted_in_purpose"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	resolve_unyielding: {
+	  name: "Resolve Unyielding",
+	  description: "Once per session, ignore all penalty dice for a full round. You may also reroll a failed Constitution or Willpower check once during that round with a bonus die.",
+	  prerequisite: ["hold_the_line"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	verdict_of_stone: {
+	  name: "Verdict of Stone",
+	  description: "Once per session, when issuing a formal challenge, ultimatum, or order in combat or a high-stakes negotiation, you may force all enemies within Short range to roll Insight or Willpower vs your Intimidate or Etiquette (Military). If they fail, they suffer a penalty die on their next aggressive action, and you gain a bonus die to any action enforcing your command during the same round.",
+	  prerequisite: ["rooted_in_purpose"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	/* === Khadra — Tier 4 Capstones (40 XP, choose one) === */
+	bastion_unyielding: {
+	  name: "Bastion Unyielding",
+	  description: "Once per session, activate as a free action. Until the end of the current round: • Gain +3 Damage Reduction (Physical), stacking with any other sources. • You cannot be pushed, pulled, or knocked prone.",
+	  prerequisite: ["last_wall_protocol", "resolve_unyielding"], // OR
+	  tier: 4,
+	  cost: "40",
+	  capstone: true,
+	  usage_limit: "session"
+	},
+	oath_of_the_deep_hold: {
+	  name: "Oath of the Deep Hold",
+	  description: "Once per session, when an ally within Short range is about to be hit by a melee or ranged attack, you may spend 3 Strain as a reaction to move to Engaged range and become the new target of the attack. If already Engaged, no movement or spending of Strain is required. You gain a bonus die to Dodge or may use Weight of Stone against the incoming attack.",
+	  prerequisite: ["stonewarden_tactician", "last_wall_protocol"], // OR
+	  tier: 4,
+	  cost: "40",
+	  capstone: true,
+	  usage_limit: "session"
+	},
+	echo_of_the_first_stone: {
+	  name: "Echo of the First Stone",
+	  description: "Once per session, call on the legacy of the Old Holds. For the rest of the scene, you gain a bonus die to all Constitution and Willpower rolls, and automatically succeed on any roll to remain conscious from wounds or magical shock. This effect ends early if you are reduced to 0 HP.",
+	  prerequisite: ["echo_resonant_will", "resolve_unyielding"], // OR
+	  tier: 4,
+	  cost: "40",
+	  capstone: true,
+	  usage_limit: "session"
+	},
+	stone_sung_authority: {
+	  name: "Stone-Sung Authority",
+	  description: "Once per session, issue a command as a free action at the start of combat or during a tense social exchange. One ally within Short range gains a bonus die on all Willpower or Dodge checks for the rest of the scene. You also gain a bonus die to Persuade or Intimidate rolls made to enforce your command.",
+	  prerequisite: ["verdict_of_stone", "stonewarden_tactician"], // OR
+	  tier: 4,
+	  cost: "40",
+	  capstone: true,
+	  usage_limit: "session"
+	}
   },
   kitsu: {
   },
@@ -17406,7 +17669,7 @@ const talentDataMap = {
     voice_of_the_ancestors: {
       name: "Voice of the Ancestors",
       description: "Once per session, gain a bonus die on any social skill roll or spell targeting spirits or Veil entities. You also roll with a bonus die when banishing a hostile spirit.",
-      prerequisite: ["spirit_favored", "ancestral_resonance"],
+	  prerequisiteAll: ["spirit_favored", "ancestral_resonance"],
       tier: 4,
       cost: "40",
       capstone: true,
@@ -17434,7 +17697,7 @@ const talentDataMap = {
 	  name: "Breath of the Veil",
 	  description: "Once per session, spend 3 Strain to enter a state of deep arcane attunement. For the rest of the scene, gain a bonus die to Arcana, Spirit Lore, and Magic (Illusion or Enchantment) . If used in a formal ritual, the result is considered exceptional (GM discretion).",
 	  prerequisite: ["true_veilsight"],
-	  prerequisiteAny: { tier: 3, count: 1},
+	  prerequisiteAny: { tier: 3, count: 1 },
 	  tier: 4,
 	  cost: "40",
 	  capstone: true,
@@ -17919,6 +18182,7 @@ const careerDataMap = {
 			hollow_gaze: {
 				name: "Hollow Gaze",
 				description: "Once per session, lock eyes with a single target. For one round, they suffer a penalty die on any action that opposes or harms you, unless they succeed a POW roll.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 2, count: 1 },
 				tier: 3,
 				cost: "15",
@@ -18000,6 +18264,7 @@ const careerDataMap = {
 			stat_boost: {
 				name: "+5% Stat Boost",
 				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
+				prerequisite: "",				
 				prerequisiteAny: { tier: 4,	count: 1 },
 				tier: 5,
 				cost: "30",
@@ -18145,6 +18410,7 @@ const careerDataMap = {
 			sanctum_sigil: {
 				name: "Sanctum Sigil",
 				description: "Spend 3 Strain to create a warded zone around you. Allies inside gain a bonus die to CON or POW rolls vs. magical or Veil effects. Lasts one scene.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 2, count: 1 },
 				tier: 3,
 				cost: "15",
@@ -18235,6 +18501,7 @@ const careerDataMap = {
 			stat_boost: {
 				name: "+5% Stat Boost",
 				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
 				cost: "30",
@@ -18358,6 +18625,7 @@ const careerDataMap = {
 			tempest_anchor: {
 				name: "Tempest Anchor",
 				description: "Spend 2 Strain to root yourself for one scene. While active, you ignore forced movement and gain a bonus die to CON rolls that resist knockdown or shoves.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 1, count: 1 },
 				tier: 2,
 				cost: "10",
@@ -18385,6 +18653,7 @@ const careerDataMap = {
 			crackling_focus: {
 				name: "Crackling Focus",
 				description: "If you remain stationary for two full rounds, gain a bonus die to all lightning-tagged Elemental spells for the rest of the scene.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 2, count: 1 },
 				tier: 3,
 				cost: "15",
@@ -18439,6 +18708,7 @@ const careerDataMap = {
 			surge_engine: {
 				name: "Surge Engine",
 				description: "Cast your next Elemental spell for 0 Strain. Usable once per session. Cannot be combined with other talents that alter spell cost or effect.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 3, count: 1 },
 				tier: 4,
 				cost: "20",
@@ -18475,6 +18745,7 @@ const careerDataMap = {
 			stat_boost: {
 				name: "+5% Stat Boost",
 				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
 				cost: "30",
@@ -19113,6 +19384,7 @@ const careerDataMap = {
 			steel_reflex: {
 				name: "Steel Reflex",
 				description: "Once per session, when targeted by a ranged attack and you're either in cover or engaged range, spend 2 Strain to reduce the damage by 1d6. This is a free action, used after the roll but before damage is applied.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 1, count: 1 },
 				tier: 2,
 				cost: "10",
@@ -19248,6 +19520,7 @@ const careerDataMap = {
 			duelmasters_claim: {
 				name: "Duelmaster’s Claim",
 				description: "Once per session, declare a single opponent as your focused rival. For the rest of the scene, gain a bonus die on all Melee, Dodge, and reaction-based talents against that target. If you reduce them to 0 HP, choose one: Make a free melee attack against another target in engaged range, or regain 2 Strain.",
+				prerequisite: "",
 				prerequisiteAll: ["the_line_you_do_not_cross", "moment_severed"],
 				tier: 5,
 				cost: "30",
@@ -20003,9 +20276,16 @@ const updateTalentEnables = (race) => {
   const backgroundAttr = `bg_${race}_talent`;
   const bgFlagAttrs = allTalentKeys.map(k => `${race}_${k}_from_background`);
 
-  const allPrereqKeys = allTalentKeys
-    .filter(k => Array.isArray(raceTalents[k]?.prerequisite))
-    .flatMap(k => raceTalents[k].prerequisite);
+  // Collect ALL prerequisite keys we must read: prerequisite (string or array) + prerequisiteAll (array)
+  const allPrereqKeys = allTalentKeys.flatMap(k => {
+    const t = raceTalents[k];
+	const base = [];
+	if (Array.isArray(t?.prerequisite)) base.push(...t.prerequisite);
+	else if (typeof t?.prerequisite === "string" && t.prerequisite !== "") base.push(t.prerequisite);
+	if (Array.isArray(t?.prerequisiteAll)) base.push(...t.prerequisiteAll);
+	return base;
+  });
+
 
   const prereqAttrKeys = [...new Set(allPrereqKeys)].map(pr => `${race}_${pr}`);
   const tier4Checkboxes = allTalentKeys.filter(k => raceTalents[k].tier === 4).map(k => `${race}_${k}`);
@@ -20081,6 +20361,15 @@ const updateTalentEnables = (race) => {
         if (debug_on) console.log(`[Enable] ${key} => Tier 1 default`);
       }
     }
+
+	// === prerequisiteAll logic
+	for (let [key, data] of Object.entries(raceTalents)) {
+		if (Array.isArray(data.prerequisiteAll)) {
+			const allMet = data.prerequisiteAll.every(pr => selected.has(pr));
+			updates[`${race}_${key}_enabled`] = allMet ? "1" : "0";
+			if (debug_on) console.log(`[PrereqAll] ${key} => ${allMet} (requires: ${data.prerequisiteAll.join(",")})`);
+		}
+	}
 
     // === prerequisiteAny logic
     for (let [key, data] of Object.entries(raceTalents)) {

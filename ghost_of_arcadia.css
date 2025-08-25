@@ -1750,6 +1750,25 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
   background-color: #222;
 }
 
+/* Show the selected Khadra background block (set background color to your Khadra palette) */
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="stonehold_disciple"] ~ .sheet-bg-stonehold_disciple,
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="cliffborn_laborer"] ~ .sheet-bg-cliffborn_laborer,
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="oathbreakers_kin"] ~ .sheet-bg-oathbreakers_kin,
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="wardens_apprentice"] ~ .sheet-bg-wardens_apprentice,
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="dust_seer_novice"] ~ .sheet-bg-dust_seer_novice {
+  display: block;
+  background: #d9d7cf; /* Khadra: stone-gray (adjust to your final palette) */
+}
+
+/* Highlight the active Khadra tab button */
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="stonehold_disciple"] ~ .sheet-tab-buttons button[name="act_stonehold_disciple"],
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="cliffborn_laborer"] ~ .sheet-tab-buttons button[name="act_cliffborn_laborer"],
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="oathbreakers_kin"] ~ .sheet-tab-buttons button[name="act_oathbreakers_kin"],
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="wardens_apprentice"] ~ .sheet-tab-buttons button[name="act_wardens_apprentice"],
+.sheet-tab-controller[name="attr_khadra_background_choice"][value="dust_seer_novice"] ~ .sheet-tab-buttons button[name="act_dust_seer_novice"] {
+  background-color: #222;
+}
+
 /* Show correct Lyranni background block */
 .sheet-tab-controller[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-bg-aelvareth_devotee,
 .sheet-tab-controller[name="attr_lyranni_background_choice"][value="echoborne"] ~ .sheet-bg-echoborne,
@@ -3841,6 +3860,10 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_feran_scent_of_the_kill"][value="1"] ~ .sheet-feran-scent-of-the-kill,
 .ui-dialog .tab-content .charsheet input[name="attr_show_feran_ambush_instincts"][value="1"] ~ .sheet-feran-ambush-instincts,
 .ui-dialog .tab-content .charsheet input[name="attr_show_human_spontaneous_strategist"][value="1"] ~ .sheet-human-spontaneous-strategist,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_measured_advance"][value="1"] ~ .sheet-tracker-item.sheet-khadra-measured-advance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_ancestral_echo_guard"][value="1"] ~ .sheet-tracker-item.sheet-khadra-ancestral-echo-guard,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_shield_of_legacy"][value="1"] ~ .sheet-tracker-item.sheet-khadra-shield-of-legacy,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_stonewarden_tactician"][value="1"] ~ .sheet-tracker-item.sheet-khadra-stonewarden-tactician,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_glimmerstep"][value="1"] ~ .sheet-lyranni-glimmerstep,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_illuminated_touch"][value="1"] ~ .sheet-lyranni-illuminated-touch,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_resonant_poise"][value="1"] ~ .sheet-lyranni-resonant-poise,
@@ -3948,6 +3971,35 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_human_unshakable_focus"][value="1"] ~ .sheet-human-unshakable-focus {
   display: flex;
 }
+
+/* ---------------- Khadra — Session-Limited Talent Trackers (visibility only) ---------------- */
+/* Show when the corresponding hidden show_* flag is set to 1 (base tracker CSS handles layout) */
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_oathbound_grit"][value="1"] ~ .sheet-tracker-item.sheet-khadra-oathbound-grit,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_anchorpoint"][value="1"] ~ .sheet-tracker-item.sheet-khadra-anchorpoint,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_steady_as_stone"][value="1"] ~ .sheet-tracker-item.sheet-khadra-steady-as-stone,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_still_as_judgment"][value="1"] ~ .sheet-tracker-item.sheet-khadra-still-as-judgment,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_unbreakable_focus"][value="1"] ~ .sheet-tracker-item.sheet-khadra-unbreakable-focus,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_slow_to_bleed"][value="1"] ~ .sheet-tracker-item.sheet-khadra-slow-to-bleed,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_rooted_in_purpose"][value="1"] ~ .sheet-tracker-item.sheet-khadra-rooted-in-purpose,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_hold_the_line"][value="1"] ~ .sheet-tracker-item.sheet-khadra-hold-the-line,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_stonewalk_rhythm"][value="1"] ~ .sheet-tracker-item.sheet-khadra-stonewalk-rhythm,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_oath_echo_discipline"][value="1"] ~ .sheet-tracker-item.sheet-khadra-oath-echo-discipline,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_path_of_the_immovable"][value="1"] ~ .sheet-tracker-item.sheet-khadra-path-of-the-immovable,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_stonecut_precision"][value="1"] ~ .sheet-tracker-item.sheet-khadra-stonecut-precision,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_last_wall_protocol"][value="1"] ~ .sheet-tracker-item.sheet-khadra-last-wall-protocol,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_echo_resonant_will"][value="1"] ~ .sheet-tracker-item.sheet-khadra-echo-resonant-will,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_weight_makes_the_weapon"][value="1"] ~ .sheet-tracker-item.sheet-khadra-weight-makes-the-weapon,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_stonewalk_continuum"][value="1"] ~ .sheet-tracker-item.sheet-khadra-stonewalk-continuum,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_legacy_chainstrike"][value="1"] ~ .sheet-tracker-item.sheet-khadra-legacy-chainstrike,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_resolve_unyielding"][value="1"] ~ .sheet-tracker-item.sheet-khadra-resolve-unyielding,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_verdict_of_stone"][value="1"] ~ .sheet-tracker-item.sheet-khadra-verdict-of-stone,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_bastion_unyielding"][value="1"] ~ .sheet-tracker-item.sheet-khadra-bastion-unyielding,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_oath_of_the_deep_hold"][value="1"] ~ .sheet-tracker-item.sheet-khadra-oath-of-the-deep-hold,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_echo_of_the_first_stone"][value="1"] ~ .sheet-tracker-item.sheet-khadra-echo-of-the-first-stone,
+.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_stone_sung_authority"][value="1"] ~ .sheet-tracker-item.sheet-khadra-stone-sung-authority {
+  display: flex;
+}
+
 
 /* Racial Talent Tracker - Lyranni - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_legacy_spark"][value="1"] ~ .sheet-lyranni-legacy-spark,

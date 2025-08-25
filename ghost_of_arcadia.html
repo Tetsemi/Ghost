@@ -735,11 +735,11 @@
 						</div>
 						<div class="sheet-skill-grid">
 							<div><input type="checkbox" name="attr_drive_auto_mdr_checkbox" value="1" /></div>
-							<div class="skill-label-wrapper"><input type="text" name="attr_drive_auto_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="driveauto-u">Drive Auto(20%)</span></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_drive_auto_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="drive_auto-u">Drive Auto(20%)</span></div>
 							<div><input class="skill-input" type="text" name="attr_drive_auto_skill_mdr" /></div>
 							<div class="sheet-val-roll-static">
 								<input class="sheet-skill-input" type="text" name="attr_drive_auto_mdr" readonly />
-								<button type="roll" name="roll_drive_auto_mdr_check" value="&{template:coc-1} {{name=@{driveauto_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{drive_auto_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{drive_auto_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{drive_auto_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" ></button>
+								<button type="roll" name="roll_drive_auto_mdr_check" value="&{template:coc-1} {{name=@{drive_auto_txt}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{drive_auto_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{drive_auto_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{drive_auto_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}" ></button>
 							</div>
 							<div><input type="checkbox" name="attr_drone_operation_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_drone_operation_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="drone_operation-u">Drone Operation(10%)</span></div>
@@ -2956,6 +2956,411 @@
 				<div class="sheet-section">
 					<!-- Khadra Background Tab Controller -->
 					<input type="hidden" name="attr_khadra_background_choice" class="sheet-tab-controller" />
+					
+					<!-- Tab Buttons -->
+					<div class="sheet-tab-buttons">
+						<button type="action" name="act_cliffborn_laborer">Cliffborn Laborer</button>
+						<button type="action" name="act_dust_seer_novice">Dust-Seer Novice</button>
+						<button type="action" name="act_oathbreakers_kin">Oathbreaker’s Kin</button>
+    					<button type="action" name="act_stonehold_disciple">Stonehold Disciple</button>
+    					<button type="action" name="act_wardens_apprentice">Warden’s Apprentice</button>		
+					</div>	
+					
+                    <!-- Cliffborn Laborer -->
+                    <div class="sheet-bgblock sheet-bg-cliffborn_laborer">
+                         <div class="sheet-bgblock-flex">
+                              <!-- Description -->
+                              <div class="bg-description">
+                                   <span class="sheet-quote" data-i18n="background_cliffborn_laborer_quote-u">“The world doesn’t care what you break. It remembers what you build.” —Kael Thorne, Archival Mason of Skyreach</span>
+                                   <span data-i18n="background_cliffborn_laborer-u">You weren’t trained in combat. You were trained in balance, in leverage, in shaping weight into permanence. Whether as a builder, hauler, or structural code-welder, your youth was spent beneath scaffolds or atop sun-baked ridgelines.</span>
+                              </div>
+                    
+                              <!-- Trained Skills -->
+                              <div class="sheet-trained-skills">
+                                   <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                   <div class="sheet-trained-skill-list">
+                                        <div class="sheet-bg-skill-row">
+                                             <input type="hidden" name="attr_bg_athletics_mdr_checkbox_lock" value="0" />
+                                             <input type="checkbox" name="attr_bg_athletics_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                             <label class="sheet-bg-skill-label" data-i18n="athletics-u">Athletics</label>
+                                        </div>
+                                        <div class="sheet-bg-skill-row">
+                                             <input type="hidden" name="attr_bg_coordination_mdr_checkbox_lock" value="0" />
+                                             <input type="checkbox" name="attr_bg_coordination_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                             <label class="sheet-bg-skill-label" data-i18n="coordination-u">Coordination</label>
+                                        </div>										
+                                        <div class="sheet-bg-skill-row">
+                                             <input type="hidden" name="attr_bg_drive_auto_mdr_checkbox_lock" value="0" />
+                                             <input type="checkbox" name="attr_bg_drive_auto_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                             <label class="sheet-bg-skill-label" data-i18n="drive_auto-u">Drive (Ground Vehicles)</label>
+                                        </div>										
+                                        <div class="sheet-bg-skill-row">
+                                             <input type="hidden" name="attr_bg_history_mdr_checkbox_lock" value="0" />
+                                             <input type="checkbox" name="attr_bg_history_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                             <label class="sheet-bg-skill-label" data-i18n="history-u">History</label>
+                                        </div>										
+                                        <div class="sheet-bg-skill-row">
+                                             <input type="hidden" name="attr_bg_mechanics_mdr_checkbox_lock" value="0" />
+                                             <input type="checkbox" name="attr_bg_mechanics_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                             <label class="sheet-bg-skill-label" data-i18n="mechanics-u">Mechanics</label>
+                                        </div>
+                                        <div class="sheet-bg-skill-row">
+                                             <input type="hidden" name="attr_bg_perception_mdr_checkbox_lock" value="0" />
+                                             <input type="checkbox" name="attr_bg_perception_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                             <label class="sheet-bg-skill-label" data-i18n="perception-u">Perception</label>
+                                        </div>
+                                        <div class="sheet-bg-skill-row">
+                                             <input type="hidden" name="attr_bg_survival_urban_mdr_checkbox_lock" value="0" />
+                                             <input type="checkbox" name="attr_bg_survival_urban_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                             <label class="sheet-bg-skill-label" data-i18n="survival_urban-u">Survival (Urban)</label>
+                                        </div>
+                                   </div>
+                              </div>
+                    
+                              <!-- Starting Item -->
+                              <div class="sheet-starting-item">
+                                   <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                   <span data-i18n="cliffborn_work_harness-u">A reinforced harness or work belt etched with clan-marks, worn and familiar from years of use.</span>
+                              </div>
+                    
+                              <!-- Starting Talents -->
+                              <div class="sheet-starting-talents">
+                                   <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                   <label>
+                                        <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_anchorpoint" class="sheet-talent-checkbox" />
+                                        <input type="hidden" name="attr_khadra_anchorpoint_from_background" value="0" />
+                                        <span data-i18n="anchorpoint-u">Anchorpoint</span>
+                                   </label>								   
+                                   <label>
+                                        <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_legacy_of_iron" class="sheet-talent-checkbox" />
+                                        <input type="hidden" name="attr_khadra_legacy_of_iron_from_background" value="0" />
+                                        <span data-i18n="legacy_of_iron-u">Legacy of Iron</span>
+                                   </label>
+                                   <label>
+                                        <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_measured_advance" class="sheet-talent-checkbox" />
+                                        <input type="hidden" name="attr_khadra_measured_advance_from_background" value="0" />
+                                        <span data-i18n="measured_advance-u">Measured Advance</span>
+                                   </label>
+                              </div>
+                         </div>
+                    </div>
+                    
+                    <!-- Dust-Seer Novice -->
+                    <div class="sheet-bgblock sheet-bg-dust_seer_novice">
+                      <div class="sheet-bgblock-flex">
+                        <!-- Description -->
+                        <div class="bg-description">
+                          <span class="sheet-quote" data-i18n="background_dust_seer_novice_quote-u">“The wind may bury names—but not all voices fade.” —Kaeli Sunshale, Veilwarden of the Last Outpost</span>
+                          <span data-i18n="background_dust_seer_novice-u">You were raised in one of the ancient desert enclaves—where the winds whisper the names of the dead and diviners trace futures in ash and sand. Whether you walked the outer dunes or tended relic-shrines, the Veil was never far from you.</span>
+                        </div>
+                    
+                        <!-- Trained Skills -->
+                        <div class="sheet-trained-skills">
+                          <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                          <div class="sheet-trained-skill-list">
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_arcana_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_arcana_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="arcana-u">Arcana</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_history_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_history_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="history-u">History</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_magic_warding_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_magic_warding_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="magic_warding-u">Magic (Warding)</label>
+                            </div>							
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_occult_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_occult_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="occult-u">Occult Lore</label>
+                            </div>
+							<div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_survival_wilderness_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_survival_wilderness_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="survival_wilderness-u">Survival (Wilderness)</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_veil_lore_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_veil_lore_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="veil_lore-u">Veil Lore</label>
+                            </div>
+                          </div>
+                        </div>
+                    
+                        <!-- Starting Item -->
+                        <div class="sheet-starting-item">
+                          <h4 data-i18n="starting_item-u">Starting Item</h4>
+                          <span data-i18n="dust_seer_focus_stone-u">A rune-dusted focus stone or bone-scratched prayer ring used in your first divination rite.</span>
+                        </div>
+                    
+                        <!-- Starting Talents -->
+                        <div class="sheet-starting-talents">
+                          <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_legacy_of_iron" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_legacy_of_iron_from_background" value="0" />
+                            <span data-i18n="legacy_of_iron-u">Legacy of Iron</span>
+                          </label>
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_oathbound_grit" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_oathbound_grit_from_background" value="0" />
+                            <span data-i18n="oathbound_grit-u">Oathbound Grit</span>
+                          </label>
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_still_as_judgment" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_still_as_judgment_from_background" value="0" />
+                            <span data-i18n="still_as_judgment-u">Still as Judgment</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+      					
+                    <!-- Oathbreaker's Kin -->
+                    <div class="sheet-bgblock sheet-bg-oathbreakers_kin">
+                        <div class="sheet-bgblock-flex">
+                            <!-- Description -->
+                            <div class="bg-description">
+                                <span class="sheet-quote" data-i18n="background_oathbreakers_kin_quote-u">“A name can be redeemed. But only if it’s carried like a blade.” —Thava Rimehand, Blacklist Sentinel</span>
+                                <span data-i18n="background_oathbreakers_kin-u">Your family bears a mark—betrayal, failure, exile. You weren’t born into glory, but into expectation: to fix what came before. You learned to fight harder, speak less, and carry your shame without complaint. Redemption isn’t given. It’s carved out.</span>
+                            </div>
+                    
+                            <!-- Trained Skills -->
+                            <div class="sheet-trained-skills">
+                                <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                                <div class="sheet-trained-skill-list">
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_dodge_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_dodge_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="dodge-u">Dodge</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_first_aid_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_first_aid_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="first_aid-u">First Aid</label>
+                                    </div>									
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_intimidate_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_intimidate_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="intimidate-u">Intimidate</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_streetwise_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_streetwise_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="streetwise-u">Streetwise</label>
+                                    </div>									
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_survival_urban_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_survival_urban_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="survival_urban-u">Survival (Urban)</label>
+                                    </div>
+                                    <div class="sheet-bg-skill-row">
+                                        <input type="hidden" name="attr_bg_unarmed_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_unarmed_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="unarmed-u">Unarmed</label>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <!-- Starting Item -->
+                            <div class="sheet-starting-item">
+                                <h4 data-i18n="starting_item-u">Starting Item</h4>
+                                <span data-i18n="oathbreakers_kin_oathstone-u">A broken oath-stone or defaced emblem—kept not as shame, but as reminder.</span>
+                            </div>
+                    
+                            <!-- Starting Talents -->
+                            <div class="sheet-starting-talents">
+                                <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_slow_to_bleed" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_khadra_slow_to_bleed_from_background" value="0" />
+                                    <span data-i18n="slow_to_bleed-u">Slow to Bleed</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_steady_as_stone" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_khadra_steady_as_stone_from_background" value="0" />
+                                    <span data-i18n="steady_as_stone-u">Steady as Stone</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_unbreakable_focus" class="sheet-talent-checkbox" />
+                                    <input type="hidden" name="attr_khadra_unbreakable_focus_from_background" value="0" />
+                                    <span data-i18n="unbreakable_focus-u">Unbreakable Focus</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stonehold Disciple -->
+                    <div class="sheet-bgblock sheet-bg-stonehold_disciple">
+                      <div class="sheet-bgblock-flex">
+                        <!-- Description -->
+                        <div class="bg-description">
+                          <span class="sheet-quote" data-i18n="background_stonehold_disciple_quote-u">“A shield is only heavy if you doubt its purpose.” —Irran Vel-Korr, Warden of the Tern Spire</span>
+                          <span data-i18n="background_stonehold_disciple-u">You were raised in the quiet halls of a traditional clan bastion, where each stone bore a name and every sunrise began with stillness. Your life was one of rituals, sparring drills, and the steady hum of ward-chants echoing through reinforced corridors.</span>
+                        </div>
+                    
+                        <!-- Trained Skills -->
+                        <div class="sheet-trained-skills">
+                          <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                          <div class="sheet-trained-skill-list">
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_athletics_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_athletics_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="athletics-u">Athletics</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_dodge_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_dodge_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="dodge-u">Dodge</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_first_aid_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_first_aid_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="first_aid-u">First Aid</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_history_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_history_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="history-u">History</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_melee_weapons_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_melee_weapons_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="melee_weapons-u">Melee Weapons</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_survival_wilderness_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_survival_wilderness_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="survival_wilderness-u">Survival</label>
+                            </div>
+                          </div>
+                        </div>
+                    
+                        <!-- Starting Item -->
+                        <div class="sheet-starting-item">
+                          <h4 data-i18n="starting_item-u">Starting Item</h4>
+                          <span data-i18n="stonehold_ward_token-u">A carved stone amulet or ward-braided arm wrap, passed down by a senior keeper of your hold.</span>
+                        </div>
+                    
+                        <!-- Starting Talents -->
+                        <div class="sheet-starting-talents">
+                          <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_oathbound_grit" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_oathbound_grit_from_background" value="0" />
+                            <span data-i18n="oathbound_grit-u">Oathbound Grit</span>
+                          </label>
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_still_as_judgment" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_still_as_judgment_from_background" value="0" />
+                            <span data-i18n="still_as_judgment-u">Still as Judgment</span>
+                          </label>
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_unbreakable_focus" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_unbreakable_focus_from_background" value="0" />
+                            <span data-i18n="unbreakable_focus-u">Unbreakable Focus</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>					
+                   
+                    <!-- Warden’s Apprentice -->
+                    <div class="sheet-bgblock sheet-bg-wardens_apprentice">
+                      <div class="sheet-bgblock-flex">
+                        <!-- Description -->
+                        <div class="bg-description">
+                          <span class="sheet-quote" data-i18n="background_wardens_apprentice_quote-u">“Judgment is the weight you carry after the blade is put away.” —Ruhm Dask, Nightwatch Captain</span>
+                          <span data-i18n="background_wardens_apprentice-u">You were trained for service: a watchtower observer, guard in a sacred enclave, or escort to emissaries across dangerous ground. You learned the value of silence, observation, and standing still while others flinched.</span>
+                        </div>
+                    
+                        <!-- Trained Skills -->
+                        <div class="sheet-trained-skills">
+                          <h4 data-i18n="trained_skills-u">Trained Skills</h4>
+                          <div class="sheet-trained-skill-list">
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_dodge_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_dodge_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="dodge-u">Dodge</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_insight_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_insight_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="insight-u">Insight</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_intimidate_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_intimidate_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="intimidate-u">Intimidate</label>
+                            </div>	
+							<div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_law_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_law_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="law-u">Law</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_melee_weapons_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_melee_weapons_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="melee_weapons-u">Melee Weapons</label>
+                            </div>							
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_perception_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_perception_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="perception-u">Perception</label>
+                            </div>
+                            <div class="sheet-bg-skill-row">
+                              <input type="hidden" name="attr_bg_track_mdr_checkbox_lock" value="0" />
+                              <input type="checkbox" name="attr_bg_track_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                              <label class="sheet-bg-skill-label" data-i18n="track-u">Track</label>
+                            </div>
+                          </div>
+                        </div>
+                    
+                        <!-- Starting Item -->
+                        <div class="sheet-starting-item">
+                          <h4 data-i18n="starting_item-u">Starting Item</h4>
+                          <span data-i18n="wardens_apprentice_discipline_token-u">A discipline token—flat stone etched with the name of your first post.</span>
+                        </div>
+                    
+                        <!-- Starting Talents -->
+                        <div class="sheet-starting-talents">
+                          <h4 data-i18n="starting_talents-u">Starting Talents</h4>
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_anchorpoint" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_anchorpoint_from_background" value="0" />
+                            <span data-i18n="anchorpoint-u">Anchorpoint</span>
+                          </label>	
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_steady_as_stone" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_steady_as_stone_from_background" value="0" />
+                            <span data-i18n="steady_as_stone-u">Steady as Stone</span>
+                          </label>						  
+                          <label>
+                            <input type="checkbox" name="attr_bg_khadra_talent" value="khadra_still_as_judgment" class="sheet-talent-checkbox" />
+                            <input type="hidden" name="attr_khadra_still_as_judgment_from_background" value="0" />
+                            <span data-i18n="still_as_judgment-u">Still as Judgment</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                                					
 				</div>
 			</div>
 			<!-- Kitsu Background -->
@@ -4600,24 +5005,294 @@
 			</div>
 			<!-- Khadra Talents -->
 			<div class="sheet-racials5">
+			
 				<div class="sheet-talent-tier" data-tier="1">
 					<h3 class="sheet-talent-tier-header">Tier 1 Talents</h3>
 					
+					<!-- Oathbound Grit -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_oathbound_grit_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_oathbound_grit" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_oathbound_grit_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_oathbound_grit_description"></span>
+					</div>
+
+					<!-- Anchorpoint -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_anchorpoint_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_anchorpoint" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_anchorpoint_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_anchorpoint_description"></span>
+					</div>
+
+					<!-- Measured Advance -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_measured_advance_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_measured_advance" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_measured_advance_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_measured_advance_description"></span>
+					</div>
+
+					<!-- Steady as Stone -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_steady_as_stone_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_steady_as_stone" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_steady_as_stone_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_steady_as_stone_description"></span>
+					</div>
+
+					<!-- Still as Judgment -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_still_as_judgment_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_still_as_judgment" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_still_as_judgment_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_still_as_judgment_description"></span>
+					</div>
+
+					<!-- Legacy of Iron (with skill selection) -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_show_legacy_of_iron_bonus" value="0" />
+					  <input type="hidden" name="attr_khadra_legacy_of_iron_lockflag" value="0" />
+					  <input type="hidden" name="attr_khadra_legacy_of_iron_lockflag_skill" value="0" />
+					  <input type="checkbox" name="attr_khadra_legacy_of_iron" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_legacy_of_iron_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_legacy_of_iron_description"></span>
+
+					  <!-- Appears when the hidden show_ attr flips to 1 (same pattern as Alteri) -->
+					  <div class="sheet-skill-choice-placeholder">
+					    <div class="sheet-skill-choice-options" name="attr_legacy_of_iron_choices">
+					      <label class="sheet-skill-option">
+					        <input type="checkbox" name="attr_khadra_legacy_of_iron_mdr_checkbox" value="talent_mechanics" />
+					        <span>Mechanics +10%</span>
+					      </label>
+					      <label class="sheet-skill-option">
+					        <input type="checkbox" name="attr_khadra_legacy_of_iron_mdr_checkbox" value="talent_security" />
+					        <span>Security Systems +10%</span>
+					      </label>
+					      <label class="sheet-skill-option">
+					        <input type="checkbox" name="attr_khadra_legacy_of_iron_mdr_checkbox" value="talent_first_aid" />
+					        <span>First Aid +10%</span>
+					      </label>
+					    </div>
+					  </div>
+					</div>
+
+					<!-- Unbreakable Focus -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_unbreakable_focus_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_unbreakable_focus" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_unbreakable_focus_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_unbreakable_focus_description"></span>
+					</div>	
+
+					<!-- Slow To Bleed -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_slow_to_bleed_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_slow_to_bleed" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_slow_to_bleed_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_slow_to_bleed_description"></span>
+					</div>								
 				</div>
 
 				<div class="sheet-talent-tier" data-tier="2">
 					<h3 class="sheet-talent-tier-header">Tier 2 Talents</h3>
-					
+
+					<!-- Talent: Rooted in Purpose -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_rooted_in_purpose_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_rooted_in_purpose_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_rooted_in_purpose" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_rooted_in_purpose_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_rooted_in_purpose_description"></span>
+					</div>
+
+					<!-- Talent: Hold the Line -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_hold_the_line_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_hold_the_line_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_hold_the_line" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_hold_the_line_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_hold_the_line_description"></span>
+					</div>
+
+					<!-- Talent: Ancestral Echo Guard -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_ancestral_echo_guard_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_ancestral_echo_guard_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_ancestral_echo_guard" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_ancestral_echo_guard_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_ancestral_echo_guard_description"></span>
+					</div>
+
+					<!-- Talent: Shield of Legacy -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_shield_of_legacy_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_shield_of_legacy_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_shield_of_legacy" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_shield_of_legacy_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_shield_of_legacy_description"></span>
+					</div>
+
+					<!-- Talent: Stonewalk Rhythm -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_stonewalk_rhythm_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_stonewalk_rhythm_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_stonewalk_rhythm" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_stonewalk_rhythm_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_stonewalk_rhythm_description"></span>
+					</div>
+
+					<!-- Talent: Oath Echo Discipline -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_oath_echo_discipline_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_oath_echo_discipline_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_oath_echo_discipline" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_oath_echo_discipline_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_oath_echo_discipline_description"></span>
+					</div>
+
+					<!-- Talent: Weight Everlasting -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_weight_everlasting_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_weight_everlasting_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_weight_everlasting" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_weight_everlasting_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_weight_everlasting_description"></span>
+					</div>
+
+					<!-- Talent: Path of the Immovable -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_path_of_the_immovable_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_path_of_the_immovable_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_path_of_the_immovable" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_path_of_the_immovable_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_path_of_the_immovable_description"></span>
+					</div>
+
+					<!-- Talent: Stonecut Precision -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_stonecut_precision_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_stonecut_precision_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_stonecut_precision" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_stonecut_precision_label"></span></label>
+					  <span class="sheet-talent-description" name="attr_khadra_stonecut_precision_description"></span>
+					</div>					
 				</div>
 
 				<div class="sheet-talent-tier" data-tier="3">
 					<h3 class="sheet-talent-tier-header">Tier 3 Talents</h3>
-					
+
+					<!-- Last Wall Protocol -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_last_wall_protocol_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_last_wall_protocol_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_last_wall_protocol" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_last_wall_protocol_label"></span></label>
+					  <span class="sheet-talent-description"><span name="attr_khadra_last_wall_protocol_description"></span></span>
+					</div>
+
+					<!-- Echo-Resonant Will -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_echo_resonant_will_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_echo_resonant_will_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_echo_resonant_will" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_echo_resonant_will_label"></span></label>
+					  <span class="sheet-talent-description"><span name="attr_khadra_echo_resonant_will_description"></span></span>
+					</div>
+
+					<!-- Stonewarden Tactician -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_stonewarden_tactician_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_stonewarden_tactician_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_stonewarden_tactician" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_stonewarden_tactician_label"></span></label>
+					  <span class="sheet-talent-description"><span name="attr_khadra_stonewarden_tactician_description"></span></span>
+					</div>
+
+					<!-- Weight Makes the Weapon -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_weight_makes_the_weapon_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_weight_makes_the_weapon_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_weight_makes_the_weapon" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_weight_makes_the_weapon_label"></span></label>
+					  <span class="sheet-talent-description"><span name="attr_khadra_weight_makes_the_weapon_description"></span></span>
+					</div>
+
+					<!-- Stonewalk Continuum -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_stonewalk_continuum_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_stonewalk_continuum_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_stonewalk_continuum" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_stonewalk_continuum_label"></span></label>
+					  <span class="sheet-talent-description"><span name="attr_khadra_stonewalk_continuum_description"></span></span>
+					</div>
+
+					<!-- Legacy Chainstrike -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_legacy_chainstrike_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_legacy_chainstrike_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_legacy_chainstrike" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_legacy_chainstrike_label"></span></label>
+					  <span class="sheet-talent-description"><span name="attr_khadra_legacy_chainstrike_description"></span></span>
+					</div>
+
+					<!-- Resolve Unyielding -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_resolve_unyielding_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_resolve_unyielding_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_resolve_unyielding" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_resolve_unyielding_label"></span></label>
+					  <span class="sheet-talent-description"><span name="attr_khadra_resolve_unyielding_description"></span></span>
+					</div>
+
+					<!-- Verdict of Stone -->
+					<div class="sheet-talent-row">
+					  <input type="hidden" name="attr_khadra_verdict_of_stone_enabled" value="0" />
+					  <input type="hidden" name="attr_khadra_verdict_of_stone_lockflag" value="0" />
+					  <input type="checkbox" name="attr_khadra_verdict_of_stone" value="1" class="sheet-talent-checkbox" />
+					  <label class="sheet-talent-label"><span name="attr_khadra_verdict_of_stone_label"></span></label>
+					  <span class="sheet-talent-description"><span name="attr_khadra_verdict_of_stone_description"></span></span>
+					</div>					
 				</div>
 
 				<div class="sheet-talent-tier" data-tier="4">
 					<h3 class="sheet-talent-tier-header">Tier 4 Talents</h3>
-					
+
+					  <!-- Bastion Unyielding -->
+					  <div class="sheet-talent-row">
+					      <input type="hidden" name="attr_khadra_bastion_unyielding_enabled" value="0" />
+					      <input type="hidden" name="attr_khadra_bastion_unyielding_lockflag" value="0" />
+					      <input type="checkbox" name="attr_khadra_bastion_unyielding" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+					      <label class="sheet-talent-label"><span name="attr_khadra_bastion_unyielding_label"></span></label>
+					      <span class="sheet-talent-description"><span name="attr_khadra_bastion_unyielding_description"></span></span>
+					  </div>
+
+					  <!-- Oath of the Deep Hold -->
+					  <div class="sheet-talent-row">
+					      <input type="hidden" name="attr_khadra_oath_of_the_deep_hold_enabled" value="0" />
+					      <input type="hidden" name="attr_khadra_oath_of_the_deep_hold_lockflag" value="0" />
+					      <input type="checkbox" name="attr_khadra_oath_of_the_deep_hold" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+					      <label class="sheet-talent-label"><span name="attr_khadra_oath_of_the_deep_hold_label"></span></label>
+					      <span class="sheet-talent-description"><span name="attr_khadra_oath_of_the_deep_hold_description"></span></span>
+					  </div>
+
+					  <!-- Echo of the First Stone -->
+					  <div class="sheet-talent-row">
+					      <input type="hidden" name="attr_khadra_echo_of_the_first_stone_enabled" value="0" />
+					      <input type="hidden" name="attr_khadra_echo_of_the_first_stone_lockflag" value="0" />
+					      <input type="checkbox" name="attr_khadra_echo_of_the_first_stone" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+					      <label class="sheet-talent-label"><span name="attr_khadra_echo_of_the_first_stone_label"></span></label>
+					      <span class="sheet-talent-description"><span name="attr_khadra_echo_of_the_first_stone_description"></span></span>
+					  </div>
+
+					  <!-- Stone-Sung Authority -->
+					  <div class="sheet-talent-row">
+					      <input type="hidden" name="attr_khadra_stone_sung_authority_enabled" value="0" />
+					      <input type="hidden" name="attr_khadra_stone_sung_authority_lockflag" value="0" />
+					      <input type="checkbox" name="attr_khadra_stone_sung_authority" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox" />
+					      <label class="sheet-talent-label"><span name="attr_khadra_stone_sung_authority_label"></span></label>
+					      <span class="sheet-talent-description"><span name="attr_khadra_stone_sung_authority_description"></span></span>
+					  </div>					  
 				</div>
 			</div>
 			<!-- Kitsu Talents -->
@@ -8628,6 +9303,34 @@
                         <span class="sheet-tracker-label" name="attr_human_spontaneous_strategist_label"></span>
                     </div>
 
+                    <!-- Khadra Talent: Measured Advance (scene) -->
+                    <input type="hidden" name="attr_show_khadra_measured_advance" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-khadra-measured-advance">
+                      <input type="checkbox" name="attr_used_scene_khadra_measured_advance" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_measured_advance_label"></span>
+                    </div>
+                    
+                    <!-- Khadra Talent: Ancestral Echo Guard (scene) -->
+                    <input type="hidden" name="attr_show_khadra_ancestral_echo_guard" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-khadra-ancestral-echo-guard">
+                      <input type="checkbox" name="attr_used_scene_khadra_ancestral_echo_guard" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_ancestral_echo_guard_label"></span>
+                    </div>
+                    
+                    <!-- Khadra Talent: Shield of Legacy (scene) -->
+                    <input type="hidden" name="attr_show_khadra_shield_of_legacy" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-khadra-shield-of-legacy">
+                      <input type="checkbox" name="attr_used_scene_khadra_shield_of_legacy" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_shield_of_legacy_label"></span>
+                    </div>
+                    
+                    <!-- Khadra Talent: Stonewarden Tactician (scene) -->
+                    <input type="hidden" name="attr_show_khadra_stonewarden_tactician" />
+                    <div class="sheet-tracker-item sheet-tracker-scene sheet-khadra-stonewarden-tactician">
+                      <input type="checkbox" name="attr_used_scene_khadra_stonewarden_tactician" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_stonewarden_tactician_label"></span>
+                    </div>
+
                     <!-- Racial Talent: Glimmerstep (scene) -->
                     <input type="hidden" name="attr_show_lyranni_glimmerstep" />
                     <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-glimmerstep">
@@ -9608,6 +10311,167 @@
                         <span class="sheet-tracker-label" name="attr_human_unshakable_focus_label"></span>
                     </div>
 
+                    <!-- Oathbound Grit -->
+                    <input type="hidden" name="attr_show_khadra_oathbound_grit" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-oathbound-grit">
+                      <input type="checkbox" name="attr_used_session_khadra_oathbound_grit" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_oathbound_grit_label"></span>
+                    </div>
+                    
+                    <!-- Anchorpoint -->
+                    <input type="hidden" name="attr_show_khadra_anchorpoint" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-anchorpoint">
+                      <input type="checkbox" name="attr_used_session_khadra_anchorpoint" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_anchorpoint_label"></span>
+                    </div>
+                    
+                    <!-- Steady as Stone -->
+                    <input type="hidden" name="attr_show_khadra_steady_as_stone" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-steady-as-stone">
+                      <input type="checkbox" name="attr_used_session_khadra_steady_as_stone" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_steady_as_stone_label"></span>
+                    </div>
+                    
+                    <!-- Still as Judgment -->
+                    <input type="hidden" name="attr_show_khadra_still_as_judgment" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-still-as-judgment">
+                      <input type="checkbox" name="attr_used_session_khadra_still_as_judgment" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_still_as_judgment_label"></span>
+                    </div>
+                    
+                    <!-- Unbreakable Focus -->
+                    <input type="hidden" name="attr_show_khadra_unbreakable_focus" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-unbreakable-focus">
+                      <input type="checkbox" name="attr_used_session_khadra_unbreakable_focus" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_unbreakable_focus_label"></span>
+                    </div>
+                    
+                    <!-- Slow to Bleed -->
+                    <input type="hidden" name="attr_show_khadra_slow_to_bleed" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-slow-to-bleed">
+                      <input type="checkbox" name="attr_used_session_khadra_slow_to_bleed" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_slow_to_bleed_label"></span>
+                    </div>
+                                       
+                    <!-- Rooted in Purpose -->
+                    <input type="hidden" name="attr_show_khadra_rooted_in_purpose" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-rooted-in-purpose">
+                      <input type="checkbox" name="attr_used_session_khadra_rooted_in_purpose" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_rooted_in_purpose_label"></span>
+                    </div>
+                    
+                    <!-- Hold the Line -->
+                    <input type="hidden" name="attr_show_khadra_hold_the_line" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-hold-the-line">
+                      <input type="checkbox" name="attr_used_session_khadra_hold_the_line" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_hold_the_line_label"></span>
+                    </div>
+                    
+                    <!-- Stonewalk Rhythm -->
+                    <input type="hidden" name="attr_show_khadra_stonewalk_rhythm" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-stonewalk-rhythm">
+                      <input type="checkbox" name="attr_used_session_khadra_stonewalk_rhythm" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_stonewalk_rhythm_label"></span>
+                    </div>
+                    
+                    <!-- Oath Echo Discipline -->
+                    <input type="hidden" name="attr_show_khadra_oath_echo_discipline" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-oath-echo-discipline">
+                      <input type="checkbox" name="attr_used_session_khadra_oath_echo_discipline" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_oath_echo_discipline_label"></span>
+                    </div>
+                    
+                    <!-- Path of the Immovable -->
+                    <input type="hidden" name="attr_show_khadra_path_of_the_immovable" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-path-of-the-immovable">
+                      <input type="checkbox" name="attr_used_session_khadra_path_of_the_immovable" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_path_of_the_immovable_label"></span>
+                    </div>
+                    
+                    <!-- Stonecut Precision -->
+                    <input type="hidden" name="attr_show_khadra_stonecut_precision" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-stonecut-precision">
+                      <input type="checkbox" name="attr_used_session_khadra_stonecut_precision" class="sheet-tracker-checkbox" />
+                      <span class="sheet-tracker-label" name="attr_khadra_stonecut_precision_label"></span>
+                    </div>
+                    
+                    <!-- Last Wall Protocol (session) -->
+                    <input type="hidden" name="attr_show_khadra_last_wall_protocol" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-last-wall-protocol">
+                        <input type="checkbox" name="attr_used_session_khadra_last_wall_protocol" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_last_wall_protocol_label"></span>
+                    </div>
+                    
+                    <!-- Echo-Resonant Will (session) -->
+                    <input type="hidden" name="attr_show_khadra_echo_resonant_will" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-echo-resonant-will">
+                        <input type="checkbox" name="attr_used_session_khadra_echo_resonant_will" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_echo_resonant_will_label"></span>
+                    </div>
+                    
+                    <!-- Weight Makes the Weapon (session) -->
+                    <input type="hidden" name="attr_show_khadra_weight_makes_the_weapon" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-weight-makes-the-weapon">
+                        <input type="checkbox" name="attr_used_session_khadra_weight_makes_the_weapon" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_weight_makes_the_weapon_label"></span>
+                    </div>
+                    
+                    <!-- Stonewalk Continuum (session) -->
+                    <input type="hidden" name="attr_show_khadra_stonewalk_continuum" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-stonewalk-continuum">
+                        <input type="checkbox" name="attr_used_session_khadra_stonewalk_continuum" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_stonewalk_continuum_label"></span>
+                    </div>
+                    
+                    <!-- Legacy Chainstrike (session) -->
+                    <input type="hidden" name="attr_show_khadra_legacy_chainstrike" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-legacy-chainstrike">
+                        <input type="checkbox" name="attr_used_session_khadra_legacy_chainstrike" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_legacy_chainstrike_label"></span>
+                    </div>
+                    
+                    <!-- Resolve Unyielding (session) -->
+                    <input type="hidden" name="attr_show_khadra_resolve_unyielding" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-resolve-unyielding">
+                        <input type="checkbox" name="attr_used_session_khadra_resolve_unyielding" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_resolve_unyielding_label"></span>
+                    </div>
+                    
+                    <!-- Verdict of Stone (session) -->
+                    <input type="hidden" name="attr_show_khadra_verdict_of_stone" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-verdict-of-stone">
+                        <input type="checkbox" name="attr_used_session_khadra_verdict_of_stone" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_verdict_of_stone_label"></span>
+                    </div>
+                    
+                    <!-- Bastion Unyielding (session, capstone) -->
+                    <input type="hidden" name="attr_show_khadra_bastion_unyielding" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-bastion-unyielding">
+                        <input type="checkbox" name="attr_used_session_khadra_bastion_unyielding" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_bastion_unyielding_label"></span>
+                    </div>
+                    
+                    <!-- Oath of the Deep Hold (session, capstone) -->
+                    <input type="hidden" name="attr_show_khadra_oath_of_the_deep_hold" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-oath-of-the-deep-hold">
+                        <input type="checkbox" name="attr_used_session_khadra_oath_of_the_deep_hold" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_oath_of_the_deep_hold_label"></span>
+                    </div>
+                    
+                    <!-- Echo of the First Stone (session, capstone) -->
+                    <input type="hidden" name="attr_show_khadra_echo_of_the_first_stone" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-echo-of-the-first-stone">
+                        <input type="checkbox" name="attr_used_session_khadra_echo_of_the_first_stone" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_echo_of_the_first_stone_label"></span>
+                    </div>
+                    
+                    <!-- Stone-Sung Authority (session, capstone) -->
+                    <input type="hidden" name="attr_show_khadra_stone_sung_authority" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-stone-sung-authority">
+                        <input type="checkbox" name="attr_used_session_khadra_stone_sung_authority" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_khadra_stone_sung_authority_label"></span>
+                    </div>
+                    
                     <!-- Racial Talent: Legacy Spark (session) -->
                     <input type="hidden" name="attr_show_lyranni_legacy_spark" />
                     <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-legacy-spark">
@@ -10549,7 +11413,7 @@
 <input type="hidden" name="attr_demolitions_txt" value="Demolitions Roll"/>
 <input type="hidden" name="attr_disguise_txt" value="Disguise Roll"/>
 <input type="hidden" name="attr_dodge_txt" value="Dodge Roll"/>
-<input type="hidden" name="attr_driveauto_txt" value="Drive Auto"/>
+<input type="hidden" name="attr_drive_auto_txt" value="Drive Auto"/>
 <input type="hidden" name="attr_drone_operation_txt" value="Drone Operation Roll"/>
 <input type="hidden" name="attr_elecrepair_txt" value="Elec. Repair Roll"/>
 <input type="hidden" name="attr_electronics_txt" value="Electronics Roll"/>
@@ -15813,7 +16677,7 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
+const debug_on = true;
 const debug_on_trace = true;
 const debug_on_watcher = false;
 
@@ -15841,7 +16705,7 @@ on("sheet:opened", function () {
 		"accounting_txt", "alchemy_txt", "animalhandling_txt", "anthropology_txt", "appraise_txt", "arcana_txt",
 		"archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
 		"chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computeruse_txt", "creditrating_txt", "cthulhumythos_txt",
-		"cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "driveauto_txt",
+		"cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "drive_auto_txt",
 		"drone_operation_txt", "elecrepair_txt", "engineering_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "fasttalk_txt",
 		"fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "firearms_smg_txt", "first_aid_txt", "forbidden_lore_txt",
 		"forgery_txt", "gunnery_txt", "heavy_weapons_txt", "history_txt", "impersonation_txt", "instrument_txt",
@@ -15928,7 +16792,7 @@ const raceDataMap = {
     stats: {
       str: { base: 15, max: 90 }, dex: { base: 15, max: 70 }, con: { base: 15, max: 80 },
       siz: { base: 50, max: 90 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
-      pow: { base: 15, max: 80 }, app: { base: 15, max: 70 }, mag: { base: 0, max: 80 }
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 70 }
     }
   },
   "kitsu": {
@@ -16181,6 +17045,31 @@ const backgroundDataMap = {
     }
   },
   khadra: {
+	stonehold_disciple: {
+	  trained_skills: ["athletics", "dodge", "insight", "history", "melee_weapons", "first_aid", "survival_wilderness"],
+	  starting_item: "stonehold_ward_token-u",
+	  starting_talents: ["oathbound_grit", "still_as_judgment", "unbreakable_focus"]
+	},
+	cliffborn_laborer: {
+	  trained_skills: ["mechanics", "athletics", "perception", "coordination", "survival_urban", "drive_auto", "history"],
+	  starting_item: "cliffborn_work_harness-u",
+	  starting_talents: ["measured_advance", "legacy_of_iron", "anchorpoint"]
+	},
+	oathbreakers_kin: {
+	  trained_skills: ["unarmed", "streetwise", "insight", "intimidate", "dodge", "survival_urban", "first_aid"],
+	  starting_item: "oathbreakers_kin_oathstone-u",
+	  starting_talents: ["slow_to_bleed", "unbreakable_focus", "steady_as_stone"]
+	},
+	wardens_apprentice: {
+	  trained_skills: ["perception", "insight", "intimidate", "dodge", "law", "melee_weapons", "track"],
+	  starting_item: "wardens_apprentice_discipline_token-u",
+	  starting_talents: ["still_as_judgment", "anchorpoint", "steady_as_stone"]
+	},
+	dust_seer_novice: {
+	  trained_skills: ["veil_lore", "arcana", "insight", "history", "survival_wilderness", "occult_lore", "magic_warding"],
+	  starting_item: "dust_seer_focus_stone-u",
+	  starting_talents: ["oathbound_grit", "legacy_of_iron", "still_as_judgment"]
+	}
   },
   kitsu: {
   },  
@@ -17174,6 +18063,269 @@ const talentDataMap = {
     }
   },
   khadra: {
+	oathbound_grit: {
+		name: "Oathbound Grit",
+		description: "Once per session, after failing a Willpower or Constitution roll, you may reroll with a bonus die if the action supports a sworn duty, protective vow, or personal code.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	anchorpoint: {
+		name: "Anchorpoint",
+		description: "Once per session, gain a bonus die to resist being knocked prone, disarmed, or forcibly moved by terrain, shockwaves, or hostile powers.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	measured_advance: {
+	name: "Measured Advance",
+		description: "Once per scene, ignore all movement penalties from rubble, elevation shifts, or difficult terrain for one round. Also negate the first point of falling damage.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "scene"
+	},
+	steady_as_stone: {
+		name: "Steady as Stone",
+		description: "Once per session, gain a bonus die to an Athletics or Coordination roll made to resist being staggered, tripped, or destabilized.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	still_as_judgment: {
+		name: "Still as Judgment",
+		description: "Once per session, gain a bonus die to Insight, Interrogation, or Etiquette (Military) when acting from a position of command or formal authority.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	legacy_of_iron: {
+		name: "Legacy of Iron",
+		description: "Choose one: gain +10% to Mechanics, Security Systems, or First Aid. Reflects the practical traditions of Khadra strongholds and Stonebound service.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: ""
+	},
+	unbreakable_focus: {
+		name: "Unbreakable Focus",
+		description: "Once per session, ignore one penalty die from pain, distraction, or ambient stress while performing a task requiring careful precision.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	slow_to_bleed: {
+		name: "Slow to Bleed",
+		description: "Once per session, when you suffer a major wound, you may delay the effects until the end of the next round. This does not reduce damage—only postpones collapse.",
+		prerequisite: "",
+		tier: 1,
+		cost: "10",
+		capstone: false,
+		usage_limit: "session"
+	},
+	rooted_in_purpose: {
+		name: "Rooted in Purpose",
+		description: "Once per session, when using Fight Back in melee or unarmed combat against two or more attackers in the same round, you may do so without suffering a penalty die on the second attack.",
+		prerequisite: ["steady_as_stone"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	hold_the_line: {
+		name: "Hold the Line",
+		description: "Once per session, when an adjacent ally is targeted by an attack, you may intercept the blow. Gain a bonus die to Dodge, or activate Weight of Stone to resist the damage from the attack.",
+		prerequisite: ["anchorpoint"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},	
+	ancestral_echo_guard: {
+		name: "Ancestral Echo Guard",
+		description: "Once per scene, when rolling Willpower or Arcana to resist a magical effect, you may call on ancestral resilience and gain a bonus die to resist the effect.",
+		prerequisite: ["unbreakable_focus"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "scene"
+	},	
+	shield_of_legacy: {
+		name: "Shield of Legacy",
+		description: "Once per scene, reduce incoming physical damage by 1d6. You must be aware of the attack and may not have moved during your turn to activate this effect.",
+		prerequisite: ["anchorpoint", "measured_advance"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "scene"
+	},	
+	stonewalk_rhythm: {
+		name: "Stonewalk Rhythm",
+		description: "Once per session, after failing a Navigate check in a natural or ruined environment, you may choose to ignore the failure and proceed as though you had succeeded.",
+		prerequisite: ["measured_advance"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	oath_echo_discipline: {
+		name: "Oath Echo Discipline",
+		description: "Once per session, reroll a failed First Aid or Mechanics check if the action fulfills an oath, duty, or promise. Optional: spend 1 Strain to gain a bonus die instead of rerolling.",
+		prerequisite: ["legacy_of_iron"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	weight_everlasting: {
+		name: "Weight Everlasting",
+		description: "When Weight of Stone is activated, you gain an additional +1 Damage Reduction.",
+		prerequisite: ["anchorpoint"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: ""
+	},
+	path_of_the_immovable: {
+		name: "Path of the Immovable",
+		description: "Once per session, when resisting forced movement or knockdown, treat a failed Constitution or Athletics roll as a success.",
+		prerequisite: ["anchorpoint", "steady_as_stone"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	stonecut_precision: {
+		name: "Stonecut Precision",
+		description: "Once per session, gain a bonus die to any Unarmed Combat or Melee Weapons attack made while not moving that round.",
+		prerequisite: ["anchorpoint", "steady_as_stone"],
+		tier: 2,
+		cost: "20",
+		capstone: false,
+		usage_limit: "session"
+	},
+	/* === Khadra — Tier 3 (30 XP) === */
+	last_wall_protocol: {
+	  name: "Last Wall Protocol",
+	  description: "Once per session, when you would be reduced to 0 HP or below by a physical attack, you may instead roll Constitution with a bonus die. On a success, you are reduced to 1 HP instead of 0, and any excess damage is ignored.",
+	  prerequisite: ["hold_the_line", "rooted_in_purpose"], // OR
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	echo_resonant_will: {
+	  name: "Echo-Resonant Will",
+	  description: "Once per session, after succeeding on a Willpower or Arcana roll to resist a magical or spiritual effect, regain 1d6 Strain and gain a bonus die on your next roll.",
+	  prerequisite: ["ancestral_echo_guard"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	stonewarden_tactician: {
+	  name: "Stonewarden Tactician",
+	  description: "Once per scene, designate an ally within Short range. Until the end of the scene, whenever that ally would suffer an attack while within Short range of you, you may take the hit instead.",
+	  prerequisite: ["shield_of_legacy"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "scene"
+	},
+	weight_makes_the_weapon: {
+	  name: "Weight Makes the Weapon",
+	  description: "Once per session, when making a Melee or Unarmed Combat attack after remaining stationary on your last turn, you may add a bonus die and force the target to roll with a penalty die to resist knockback or disarm effects.",
+	  prerequisite: ["rooted_in_purpose"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	stonewalk_continuum: {
+	  name: "Stonewalk Continuum",
+	  description: "Once per session, you may automatically pass a Navigate or Survival (Wilderness) check to reach a destination under extreme conditions. Additionally, you and one ally ignore terrain penalties for the remainder of the scene.",
+	  prerequisite: ["stonewalk_rhythm"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	legacy_chainstrike: {
+	  name: "Legacy Chainstrike",
+	  description: "Once per session, after hitting an enemy with a melee or unarmed attack, you may immediately make a second attack against a different enemy within engaged range by spending 2 Strain.",
+	  prerequisite: ["rooted_in_purpose"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	resolve_unyielding: {
+	  name: "Resolve Unyielding",
+	  description: "Once per session, ignore all penalty dice for a full round. You may also reroll a failed Constitution or Willpower check once during that round with a bonus die.",
+	  prerequisite: ["hold_the_line"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	verdict_of_stone: {
+	  name: "Verdict of Stone",
+	  description: "Once per session, when issuing a formal challenge, ultimatum, or order in combat or a high-stakes negotiation, you may force all enemies within Short range to roll Insight or Willpower vs your Intimidate or Etiquette (Military). If they fail, they suffer a penalty die on their next aggressive action, and you gain a bonus die to any action enforcing your command during the same round.",
+	  prerequisite: ["rooted_in_purpose"],
+	  tier: 3,
+	  cost: "30",
+	  capstone: false,
+	  usage_limit: "session"
+	},
+	/* === Khadra — Tier 4 Capstones (40 XP, choose one) === */
+	bastion_unyielding: {
+	  name: "Bastion Unyielding",
+	  description: "Once per session, activate as a free action. Until the end of the current round: • Gain +3 Damage Reduction (Physical), stacking with any other sources. • You cannot be pushed, pulled, or knocked prone.",
+	  prerequisite: ["last_wall_protocol", "resolve_unyielding"], // OR
+	  tier: 4,
+	  cost: "40",
+	  capstone: true,
+	  usage_limit: "session"
+	},
+	oath_of_the_deep_hold: {
+	  name: "Oath of the Deep Hold",
+	  description: "Once per session, when an ally within Short range is about to be hit by a melee or ranged attack, you may spend 3 Strain as a reaction to move to Engaged range and become the new target of the attack. If already Engaged, no movement or spending of Strain is required. You gain a bonus die to Dodge or may use Weight of Stone against the incoming attack.",
+	  prerequisite: ["stonewarden_tactician", "last_wall_protocol"], // OR
+	  tier: 4,
+	  cost: "40",
+	  capstone: true,
+	  usage_limit: "session"
+	},
+	echo_of_the_first_stone: {
+	  name: "Echo of the First Stone",
+	  description: "Once per session, call on the legacy of the Old Holds. For the rest of the scene, you gain a bonus die to all Constitution and Willpower rolls, and automatically succeed on any roll to remain conscious from wounds or magical shock. This effect ends early if you are reduced to 0 HP.",
+	  prerequisite: ["echo_resonant_will", "resolve_unyielding"], // OR
+	  tier: 4,
+	  cost: "40",
+	  capstone: true,
+	  usage_limit: "session"
+	},
+	stone_sung_authority: {
+	  name: "Stone-Sung Authority",
+	  description: "Once per session, issue a command as a free action at the start of combat or during a tense social exchange. One ally within Short range gains a bonus die on all Willpower or Dodge checks for the rest of the scene. You also gain a bonus die to Persuade or Intimidate rolls made to enforce your command.",
+	  prerequisite: ["verdict_of_stone", "stonewarden_tactician"], // OR
+	  tier: 4,
+	  cost: "40",
+	  capstone: true,
+	  usage_limit: "session"
+	}
   },
   kitsu: {
   },
@@ -17406,7 +18558,7 @@ const talentDataMap = {
     voice_of_the_ancestors: {
       name: "Voice of the Ancestors",
       description: "Once per session, gain a bonus die on any social skill roll or spell targeting spirits or Veil entities. You also roll with a bonus die when banishing a hostile spirit.",
-      prerequisite: ["spirit_favored", "ancestral_resonance"],
+	  prerequisiteAll: ["spirit_favored", "ancestral_resonance"],
       tier: 4,
       cost: "40",
       capstone: true,
@@ -17434,7 +18586,7 @@ const talentDataMap = {
 	  name: "Breath of the Veil",
 	  description: "Once per session, spend 3 Strain to enter a state of deep arcane attunement. For the rest of the scene, gain a bonus die to Arcana, Spirit Lore, and Magic (Illusion or Enchantment) . If used in a formal ritual, the result is considered exceptional (GM discretion).",
 	  prerequisite: ["true_veilsight"],
-	  prerequisiteAny: { tier: 3, count: 1},
+	  prerequisiteAny: { tier: 3, count: 1 },
 	  tier: 4,
 	  cost: "40",
 	  capstone: true,
@@ -17490,6 +18642,9 @@ const talentSkillMap = {
 	}
   },
   khadra: {
+	legacy_of_iron : {
+		first_aid: "First Aid", mechanics: "Mechanics", security: "Security Systems"
+	}
   },
   kitsu: {
   },
@@ -17919,6 +19074,7 @@ const careerDataMap = {
 			hollow_gaze: {
 				name: "Hollow Gaze",
 				description: "Once per session, lock eyes with a single target. For one round, they suffer a penalty die on any action that opposes or harms you, unless they succeed a POW roll.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 2, count: 1 },
 				tier: 3,
 				cost: "15",
@@ -18000,6 +19156,7 @@ const careerDataMap = {
 			stat_boost: {
 				name: "+5% Stat Boost",
 				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
+				prerequisite: "",				
 				prerequisiteAny: { tier: 4,	count: 1 },
 				tier: 5,
 				cost: "30",
@@ -18145,6 +19302,7 @@ const careerDataMap = {
 			sanctum_sigil: {
 				name: "Sanctum Sigil",
 				description: "Spend 3 Strain to create a warded zone around you. Allies inside gain a bonus die to CON or POW rolls vs. magical or Veil effects. Lasts one scene.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 2, count: 1 },
 				tier: 3,
 				cost: "15",
@@ -18235,6 +19393,7 @@ const careerDataMap = {
 			stat_boost: {
 				name: "+5% Stat Boost",
 				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
 				cost: "30",
@@ -18358,6 +19517,7 @@ const careerDataMap = {
 			tempest_anchor: {
 				name: "Tempest Anchor",
 				description: "Spend 2 Strain to root yourself for one scene. While active, you ignore forced movement and gain a bonus die to CON rolls that resist knockdown or shoves.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 1, count: 1 },
 				tier: 2,
 				cost: "10",
@@ -18385,6 +19545,7 @@ const careerDataMap = {
 			crackling_focus: {
 				name: "Crackling Focus",
 				description: "If you remain stationary for two full rounds, gain a bonus die to all lightning-tagged Elemental spells for the rest of the scene.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 2, count: 1 },
 				tier: 3,
 				cost: "15",
@@ -18439,6 +19600,7 @@ const careerDataMap = {
 			surge_engine: {
 				name: "Surge Engine",
 				description: "Cast your next Elemental spell for 0 Strain. Usable once per session. Cannot be combined with other talents that alter spell cost or effect.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 3, count: 1 },
 				tier: 4,
 				cost: "20",
@@ -18475,6 +19637,7 @@ const careerDataMap = {
 			stat_boost: {
 				name: "+5% Stat Boost",
 				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
 				cost: "30",
@@ -19113,6 +20276,7 @@ const careerDataMap = {
 			steel_reflex: {
 				name: "Steel Reflex",
 				description: "Once per session, when targeted by a ranged attack and you're either in cover or engaged range, spend 2 Strain to reduce the damage by 1d6. This is a free action, used after the roll but before damage is applied.",
+				prerequisite: "",
 				prerequisiteAny: { tier: 1, count: 1 },
 				tier: 2,
 				cost: "10",
@@ -19248,6 +20412,7 @@ const careerDataMap = {
 			duelmasters_claim: {
 				name: "Duelmaster’s Claim",
 				description: "Once per session, declare a single opponent as your focused rival. For the rest of the scene, gain a bonus die on all Melee, Dodge, and reaction-based talents against that target. If you reduce them to 0 HP, choose one: Make a free melee attack against another target in engaged range, or regain 2 Strain.",
+				prerequisite: "",
 				prerequisiteAll: ["the_line_you_do_not_cross", "moment_severed"],
 				tier: 5,
 				cost: "30",
@@ -19400,6 +20565,18 @@ humanBackgroundTabs.forEach(tab => {
 		if (debug_on) console.log("Clicked tab", tab);
 		setAttrs({ human_background_choice: tab });
 		race_default_trigger: Date.now() // Triggers recalculation and is watched
+	});
+});
+
+const khadraBackgroundTabs = [ "stonehold_disciple", "cliffborn_laborer", "oathbreakers_kin", "wardens_apprentice", "dust_seer_novice"];
+
+khadraBackgroundTabs.forEach(tab => {
+	on(`clicked:${tab}`, () => {
+		if (debug_on) console.log("[Khadra Background] Clicked tab:", tab);
+		setAttrs({
+			khadra_background_choice: tab,
+			race_default_trigger: Date.now() // trigger recalculation; watcher already listens for this
+		});
 	});
 });
 
@@ -20003,9 +21180,16 @@ const updateTalentEnables = (race) => {
   const backgroundAttr = `bg_${race}_talent`;
   const bgFlagAttrs = allTalentKeys.map(k => `${race}_${k}_from_background`);
 
-  const allPrereqKeys = allTalentKeys
-    .filter(k => Array.isArray(raceTalents[k]?.prerequisite))
-    .flatMap(k => raceTalents[k].prerequisite);
+  // Collect ALL prerequisite keys we must read: prerequisite (string or array) + prerequisiteAll (array)
+  const allPrereqKeys = allTalentKeys.flatMap(k => {
+    const t = raceTalents[k];
+	const base = [];
+	if (Array.isArray(t?.prerequisite)) base.push(...t.prerequisite);
+	else if (typeof t?.prerequisite === "string" && t.prerequisite !== "") base.push(t.prerequisite);
+	if (Array.isArray(t?.prerequisiteAll)) base.push(...t.prerequisiteAll);
+	return base;
+  });
+
 
   const prereqAttrKeys = [...new Set(allPrereqKeys)].map(pr => `${race}_${pr}`);
   const tier4Checkboxes = allTalentKeys.filter(k => raceTalents[k].tier === 4).map(k => `${race}_${k}`);
@@ -20081,6 +21265,15 @@ const updateTalentEnables = (race) => {
         if (debug_on) console.log(`[Enable] ${key} => Tier 1 default`);
       }
     }
+
+	// === prerequisiteAll logic
+	for (let [key, data] of Object.entries(raceTalents)) {
+		if (Array.isArray(data.prerequisiteAll)) {
+			const allMet = data.prerequisiteAll.every(pr => selected.has(pr));
+			updates[`${race}_${key}_enabled`] = allMet ? "1" : "0";
+			if (debug_on) console.log(`[PrereqAll] ${key} => ${allMet} (requires: ${data.prerequisiteAll.join(",")})`);
+		}
+	}
 
     // === prerequisiteAny logic
     for (let [key, data] of Object.entries(raceTalents)) {

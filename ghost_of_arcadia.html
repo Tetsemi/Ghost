@@ -6189,18 +6189,6 @@
                         <input type="checkbox" name="attr_lyranni_veilsplice" value="1" class="sheet-talent-checkbox" />
                         <label class="sheet-talent-label"><span name="attr_lyranni_veilsplice_label"></span></label>
                         <span class="sheet-talent-description"><span name="attr_lyranni_veilsplice_description"></span></span>
-                        <div class="sheet-skill-choice-placeholder">
-                            <div class="sheet-skill-choice-options" name="attr_veilsplice_choices">
-                                <label class="sheet-skill-option">
-                                    <input type="checkbox" name="attr_lyranni_veilsplice_mdr_checkbox" value="talent_slicing" />
-                                    <span>Slicing +10%</span>
-                                </label>
-                                <label class="sheet-skill-option">
-                                    <input type="checkbox" name="attr_lyranni_veilsplice_mdr_checkbox" value="talent_electronics" />
-                                    <span>Electronics +10%</span>
-                                </label>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Tier 2: Illuminated Touch -->
@@ -9984,13 +9972,6 @@
                         <span class="sheet-tracker-label" name="attr_lyranni_glimmerstep_label"></span>
                     </div>
 
-                    <!-- Racial Talent: Illuminated Touch (scene) -->
-                    <input type="hidden" name="attr_show_lyranni_illuminated_touch" />
-                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-illuminated-touch">
-                        <input type="checkbox" name="attr_used_scene_lyranni_illuminated_touch" class="sheet-tracker-checkbox" />
-                        <span class="sheet-tracker-label" name="attr_lyranni_illuminated_touch_label"></span>
-                    </div>
-
                     <!-- Racial Talent: Shadow Echo Step (scene) -->
                     <input type="hidden" name="attr_show_lyranni_shadow_echo_step" />
                     <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-shadow-echo-step">
@@ -11260,10 +11241,24 @@
 					<!-- Racial Talent: Spirit-Favored (session) -->
 					<input type="hidden" name="attr_show_lyranni_spirit_favored" value="0" />
 					<div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-spirit-favored">
-     					<input type="checkbox" name="attr_used_session_lyranni_spirit_favored" class="sheet-tracker-checkbox" value="1" />
+     					<input type="checkbox" name="attr_used_session_lyranni_spirit_favored" class="sheet-tracker-checkbox" />
      					<span class="sheet-tracker-label" name="attr_lyranni_spirit_favored_label"></span>
 					</div>
-                    
+					
+                    <!-- Racial Talent: Ancestral Resonance (session) -->
+                    <input type="hidden" name="attr_show_lyranni_ancestral_resonance" value="0" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-ancestral-resonance">
+                        <input type="checkbox" name="attr_used_session_lyranni_ancestral_resonance" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_lyranni_ancestral_resonance_label"></span>
+                    </div>
+					
+                     <!-- Racial Talent: Veilsplice (session) -->
+                    <input type="hidden" name="attr_show_lyranni_veilsplice" value="0" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-veilsplice">
+                        <input type="checkbox" name="attr_used_session_lyranni_veilsplice" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_lyranni_veilsplice_label"></span>
+                    </div>
+                   
                     <!-- Racial Talent: Legacy Spark (session) -->
                     <input type="hidden" name="attr_show_lyranni_legacy_spark" />
                     <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-legacy-spark">
@@ -11299,6 +11294,13 @@
                         <span class="sheet-tracker-label" name="attr_lyranni_rite_bound_label"></span>
                     </div>
 
+                    <!-- Racial Talent: Illuminated Touch (session) -->
+                    <input type="hidden" name="attr_show_lyranni_illuminated_touch" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-illuminated-touch">
+                        <input type="checkbox" name="attr_used_session_lyranni_illuminated_touch" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_lyranni_illuminated_touch_label"></span>
+                    </div>
+					
                     <!-- Racial Talent: Words Like Silk (session) -->
                     <input type="hidden" name="attr_show_lyranni_words_like_silk" />
                     <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-words-like-silk">
@@ -11312,6 +11314,20 @@
                         <input type="checkbox" name="attr_used_session_lyranni_memory_bound_echo" class="sheet-tracker-checkbox" />
                         <span class="sheet-tracker-label" name="attr_lyranni_memory_bound_echo_label"></span>
                     </div>
+
+                    <!-- Racial Talent: Blood Rite Channeling (session) -->
+                    <input type="hidden" name="attr_show_lyranni_blood_rite_channeling" value="0" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-blood-rite-channeling">
+                        <input type="checkbox" name="attr_used_session_lyranni_blood_rite_channeling" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_lyranni_blood_rite_channeling_label"></span>
+                    </div>
+					
+                    <!-- Racial Talent: Lyranni Discipline (session) -->
+                    <input type="hidden" name="attr_show_lyranni_lyranni_discipline" value="0" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-lyranni-discipline">
+                        <input type="checkbox" name="attr_used_session_lyranni_lyranni_discipline" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_lyranni_lyranni_discipline_label">Lyranni Discipline</span>
+                    </div>			
 
                     <!-- Racial Talent: Subtle Authority (session) -->
                     <input type="hidden" name="attr_show_lyranni_subtle_authority" />
@@ -19396,7 +19412,7 @@ const talentDataMap = {
     },
     aether_override: {
       name: "Aether Override",
-      description: "Once per session surge before a Slicing/Electronics/Mechanics roll: gain a bonus die and ignore one penalty die from interference/counter-intrusion.",
+      description: "Once per session, before you roll Slicing, Electronics, or Mechanics , you may invoke an override surge: roll with a bonus die and ignore one penalty die from environmental interference or counter-intrusion.",
       prerequisite: "",
       tier: 1,
       cost: "10",
@@ -19432,7 +19448,7 @@ const talentDataMap = {
     },
     resonant_poise: {
       name: "Resonant Poise",
-      description: "Once per session gain a bonus die to Etiquette (High Society) or Charm with those who recognize your Veilmark/lineage. The bonus die lasts for the rest of the current scene.",
+      description: "Once per session, when dealing with those who recognize your Veilmark or lineage, gain a bonus die to Etiquette (High Society or Lyranni) or Charm for the rest of the scene.",
       prerequisite: "",
       tier: 1,
       cost: "10",
@@ -19441,7 +19457,7 @@ const talentDataMap = {
     },
     spirit_favored: {
       name: "Spirit-Favored",
-      description: "Once per session, designate one scene where Charm/Persuade/Insight vs. spirits/Veil-bound roll with a bonus die.",
+      description: "Once per session, for one scene in which you primarily interact with spirits or Veil-bound entities, roll Charm, Persuade, or Insight with a bonus die.",
       prerequisite: ["veilsight"],
       tier: 2,
       cost: "20",
@@ -19459,12 +19475,12 @@ const talentDataMap = {
     },
     ancestral_resonance: {
       name: "Ancestral Resonance",
-      description: "Gain a bonus die on Arcana, Occult Lore, or Spirit Lore checks involving ancestral spirits, relics, or Lyranni rites.",
+      description: "Once per session, when dealing with ancestral spirits, relics, or Lyranni rites , gain a bonus die to Arcana, Occult Lore, or Spirit Lore and, on success, ask the GM one clarifying question about the item/rite’s intent or memory.",
       prerequisite: ["legacy_spark"],
       tier: 2,
       cost: "20",
       capstone: false,
-      usage_limit: ""
+      usage_limit: "session"
     },
     veil_dancer: {
       name: "Veil Dancer",
@@ -19486,21 +19502,21 @@ const talentDataMap = {
     },
     veilsplice: {
       name: "Veilsplice",
-      description: "Choose one: gain +10% to Slicing or Electronics. Permanent; may only be taken once.",
+      description: "Once per session, before a Slicing/Electronics roll, declare a veilsplice: treat non-sapient Veil interference as neutral (no penalty dice) and roll with a bonus die.",
       prerequisite: ["aether_override"],
       tier: 2,
       cost: "20",
       capstone: false,
-      usage_limit: ""
+      usage_limit: "session"
     },
     illuminated_touch: {
       name: "Illuminated Touch",
-      description: "Once per scene, spend 1 Strain to interact with spiritual residue or arcane emotion in a location or item. Gain a bonus die to Insight or Spirit Lore when analyzing the impression.",
+      description: "Once per session, spend 1 Strain to read spiritual residue or arcane emotion imprinted on a location or item. Gain a bonus die to Insight or Spirit Lore, and on success receive one concrete sensory impression (image, phrase, or feeling) from the imprint.",
       prerequisite: ["veilsight", "threadwalker"],
       tier: 2,
       cost: "20",
       capstone: false,
-      usage_limit: "scene"
+      usage_limit: "session"
     },
     words_like_silk: {
       name: "Words Like Silk",
@@ -19531,21 +19547,21 @@ const talentDataMap = {
     },
     blood_rite_channeling: {
       name: "Blood Rite Channeling",
-      description: "When below half Strain, you may cast a spell with a bonus die, but the Strain die is increased by one step (e.g., 1d6 → 1d8).",
+      description: "Once per session, when below half Strain , cast one spell with a bonus die ; its Strain die increases by one step (e.g., 1d6 → 1d8). Does not stack with other strain-mod effects.",
       prerequisite: ["spirit_favored", "whispers_beyond", "ancestral_resonance", "veil_dancer", "rite_bound", "veilsplice", "illuminated_touch", "words_like_silk", "memory_bound_echo"],
       tier: 3,
       cost: "30",
       capstone: false,
-      usage_limit: ""
+      usage_limit: "session"
     },
     lyranni_discipline: {
       name: "Lyranni Discipline",
-      description: "When above half Strain, you may reduce your Strain die by one step for one spell cast. May not be used with Blood Rite Channeling.",
+      description: "Once per session, when above half Strain , cast one spell and reduce its Strain die by one step. May not be used with Blood Rite Channeling on the same cast.",
       prerequisite: ["spirit_favored", "whispers_beyond", "ancestral_resonance", "veil_dancer", "rite_bound", "veilsplice", "illuminated_touch", "words_like_silk", "memory_bound_echo"],
       tier: 3,
       cost: "30",
       capstone: false,
-      usage_limit: ""
+      usage_limit: "session"
     },
     subtle_authority: {
       name: "Subtle Authority",
@@ -19688,10 +19704,7 @@ const talentSkillMap = {
 	},
     echo_in_the_veins: {
       perform_acting: "Perform (Acting)", perform_dance: "Perform (Dance)", perform_impersonation: "Perform (Impersonation)", perform_instrument: "Perform (Instrument)", perform_vocal: "Perform (Vocal)", insight: "Insight", streetwise: "Streetwise"
-    },
-	veilsplice : {
-	  electronics: "Electronics", slicing: "Slicing"
-	}
+    }
   },
   veyra: {
   }

@@ -9991,13 +9991,6 @@
                         <span class="sheet-tracker-label" name="attr_lyranni_illuminated_touch_label"></span>
                     </div>
 
-                    <!-- Racial Talent: Resonant Poise (scene) -->
-                    <input type="hidden" name="attr_show_lyranni_resonant_poise" />
-                    <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-resonant-poise">
-                        <input type="checkbox" name="attr_used_scene_lyranni_resonant_poise" class="sheet-tracker-checkbox" />
-                        <span class="sheet-tracker-label" name="attr_lyranni_resonant_poise_label"></span>
-                    </div>
-
                     <!-- Racial Talent: Shadow Echo Step (scene) -->
                     <input type="hidden" name="attr_show_lyranni_shadow_echo_step" />
                     <div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-shadow-echo-step">
@@ -11251,10 +11244,24 @@
 					  <span class="sheet-tracker-label" name="attr_kitsu_whisperstep_label"></span>
 					</div>
 
+                    <!-- Racial Talent: Resonant Poise (session) -->
+                    <input type="hidden" name="attr_show_lyranni_resonant_poise" />
+                    <div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-resonant-poise">
+                        <input type="checkbox" name="attr_used_session_lyranni_resonant_poise" class="sheet-tracker-checkbox" />
+                        <span class="sheet-tracker-label" name="attr_lyranni_resonant_poise_label"></span>
+                    </div>
+
 					<input type="hidden" name="attr_show_lyranni_aether_override" />
 					<div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-aether-override">
 						<input type="checkbox" name="attr_used_session_lyranni_aether_override" class="sheet-tracker-checkbox" />
 						<span class="sheet-tracker-label" name="attr_lyranni_aether_override_label"></span>
+					</div>
+
+					<!-- Racial Talent: Spirit-Favored (session) -->
+					<input type="hidden" name="attr_show_lyranni_spirit_favored" value="0" />
+					<div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-spirit-favored">
+     					<input type="checkbox" name="attr_used_session_lyranni_spirit_favored" class="sheet-tracker-checkbox" value="1" />
+     					<span class="sheet-tracker-label" name="attr_lyranni_spirit_favored_label"></span>
 					</div>
                     
                     <!-- Racial Talent: Legacy Spark (session) -->
@@ -17464,7 +17471,7 @@ Body Hit Location---------------------------------------------------------------
 <!-- WORKERS -->
 <script type="text/worker">
 const debug_on = false;
-const debug_on_trace = false;
+const debug_on_trace = true;
 const debug_on_watcher = false;
 
 const registeredRaces = new Set();
@@ -19425,21 +19432,21 @@ const talentDataMap = {
     },
     resonant_poise: {
       name: "Resonant Poise",
-      description: "Once per scene, gain a bonus die to Etiquette (High Society) or Charm when dealing with those who recognize your Veilmark or ancestral lineage.",
+      description: "Once per session gain a bonus die to Etiquette (High Society) or Charm with those who recognize your Veilmark/lineage. The bonus die lasts for the rest of the current scene.",
       prerequisite: "",
       tier: 1,
       cost: "10",
       capstone: false,
-      usage_limit: "scene"
+      usage_limit: "session"
     },
     spirit_favored: {
       name: "Spirit-Favored",
-      description: "Roll with a bonus die on Charm, Persuade, or Insight checks when interacting with spirits or Veil-bound entities.",
+      description: "Once per session, designate one scene where Charm/Persuade/Insight vs. spirits/Veil-bound roll with a bonus die.",
       prerequisite: ["veilsight"],
       tier: 2,
       cost: "20",
       capstone: false,
-      usage_limit: ""
+      usage_limit: "session"
     },
     whispers_beyond: {
       name: "Whispers Beyond",

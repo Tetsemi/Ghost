@@ -5994,7 +5994,6 @@
                     </div>
 
                     <!-- Tier 1: Threadwalker -->
-
 					<div class="sheet-talent-row">
 						<input type="hidden" name="attr_show_threadwalker_bonus" value="0" />
 						<input type="hidden" name="attr_lyranni_threadwalker_lockflag" value="0" />
@@ -6040,42 +6039,16 @@
                     <div class="sheet-talent-row">
                         <input type="hidden" name="attr_lyranni_social_ghost_lockflag" value="0" />
                         <input type="checkbox" name="attr_lyranni_social_ghost" value="1" class="sheet-talent-checkbox" />
-                        <label class="sheet-talent-label">
-                            <span name="attr_lyranni_social_ghost_label"></span>
-                        </label>
-                        <span class="sheet-talent-description">
-                            <span name="attr_lyranni_social_ghost_description"></span>
-                        </span>
+                        <label class="sheet-talent-label"><span name="attr_lyranni_social_ghost_label"></span></label>
+                        <span class="sheet-talent-description" name="attr_lyranni_social_ghost_description"></span>
                     </div>
 
                     <!-- Tier 1: Aether Override -->
                     <div class="sheet-talent-row">
-                        <input type="hidden" name="attr_show_aether_override_bonus" value="0" />
                         <input type="hidden" name="attr_lyranni_aether_override_lockflag" value="0" />
-                        <input type="hidden" name="attr_lyranni_aether_override_lockflag_skill" value="0" />
                         <input type="checkbox" name="attr_lyranni_aether_override" value="1" class="sheet-talent-checkbox" />
-                        <label class="sheet-talent-label">
-                            <span name="attr_lyranni_aether_override_label"></span>
-                        </label>
-                        <span class="sheet-talent-description">
-                            <span name="attr_lyranni_aether_override_description"></span>
-                        </span>
-                        <div class="sheet-skill-choice-placeholder">
-                            <div class="sheet-skill-choice-options" name="attr_aether_override_choices">
-                                <label class="sheet-skill-option">
-                                    <input type="checkbox" name="attr_lyranni_aether_override_mdr_checkbox" value="talent_slicing" />
-                                    <span>Slicing +10%</span>
-                                </label>
-                                <label class="sheet-skill-option">
-                                    <input type="checkbox" name="attr_lyranni_aether_override_mdr_checkbox" value="talent_electronics" />
-                                    <span>Electronics +10%</span>
-                                </label>
-                                <label class="sheet-skill-option">
-                                    <input type="checkbox" name="attr_lyranni_aether_override_mdr_checkbox" value="talent_mechanics" />
-                                    <span>Mechanics +10%</span>
-                                </label>
-                            </div>
-                        </div>
+                        <label class="sheet-talent-label"><span name="attr_lyranni_aether_override_label"></span></label>
+                        <span class="sheet-talent-description" name="attr_lyranni_aether_override_description"></span>
                     </div>
 
                     <!-- Tier 1: Echo in the Veins -->
@@ -11276,6 +11249,12 @@
 					<div class="sheet-tracker-item sheet-tracker-session sheet-kitsu-whisperstep">
 					  <input type="checkbox" name="attr_used_session_kitsu_whisperstep" class="sheet-tracker-checkbox" />
 					  <span class="sheet-tracker-label" name="attr_kitsu_whisperstep_label"></span>
+					</div>
+
+					<input type="hidden" name="attr_show_lyranni_aether_override" />
+					<div class="sheet-tracker-item sheet-tracker-session sheet-lyranni-aether-override">
+						<input type="checkbox" name="attr_used_session_lyranni_aether_override" class="sheet-tracker-checkbox" />
+						<span class="sheet-tracker-label" name="attr_lyranni_aether_override_label"></span>
 					</div>
                     
                     <!-- Racial Talent: Legacy Spark (session) -->
@@ -19410,12 +19389,12 @@ const talentDataMap = {
     },
     aether_override: {
       name: "Aether Override",
-      description: "Choose one: gain +10% to Slicing, Electronics, or Mechanics. Permanent; may only be taken once.",
+      description: "Once per session surge before a Slicing/Electronics/Mechanics roll: gain a bonus die and ignore one penalty die from interference/counter-intrusion.",
       prerequisite: "",
       tier: 1,
       cost: "10",
       capstone: false,
-      usage_limit: ""
+      usage_limit: "session"
     },
     echo_in_the_veins: {
       name: "Echo in the Veins",
@@ -19700,9 +19679,6 @@ const talentSkillMap = {
 	threadwalker : {
 	  arcana: "Arcana", occult: "Occult Lore", spirit_lore: "Spirit Lore"
 	},
-    aether_override: {
-      electronics: "Electronics", mechanics: "Mechanics", slicing: "Slicing"
-    },
     echo_in_the_veins: {
       perform_acting: "Perform (Acting)", perform_dance: "Perform (Dance)", perform_impersonation: "Perform (Impersonation)", perform_instrument: "Perform (Instrument)", perform_vocal: "Perform (Vocal)", insight: "Insight", streetwise: "Streetwise"
     },

@@ -1750,6 +1750,25 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 .sheet-tab-controller[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-tab-buttons button[name="act_zurethkai_flameborn"] {
   background-color: #222;
 }
+/* ------------------- Veyra Background Tab Display Logic ------------------- */
+/* Show correct Veyra background block */
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="corpsepath_reclaimer"] ~ .sheet-bg-corpsepath_reclaimer,
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="cross_signal_raised"] ~ .sheet-bg-cross_signal_raised,
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="hatchwarren_drifter"] ~ .sheet-bg-hatchwarren_drifter,
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="loop_minder_initiate"] ~ .sheet-bg-loop_minder_initiate,
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="shatterlink_courier"] ~ .sheet-bg-shatterlink_courier {
+  display: block;
+  background: #dce7ed; /* matches existing background highlight style */
+}
+
+/* Highlight active Veyra tab button */
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="corpsepath_reclaimer"] ~ .sheet-tab-buttons button[name="act_corpsepath_reclaimer"],
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="cross_signal_raised"] ~ .sheet-tab-buttons button[name="act_cross_signal_raised"],
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="hatchwarren_drifter"] ~ .sheet-tab-buttons button[name="act_hatchwarren_drifter"],
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="loop_minder_initiate"] ~ .sheet-tab-buttons button[name="act_loop_minder_initiate"],
+.sheet-tab-controller[name="attr_veyra_background_choice"][value="shatterlink_courier"] ~ .sheet-tab-buttons button[name="act_shatterlink_courier"] {
+  background-color: #222;
+}
 
 .sheet-talents-flex {
   display: flex;
@@ -2059,7 +2078,9 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 .ui-dialog .tab-content .charsheet input[name="attr_show_threadwalker_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
 .ui-dialog .tab-content .charsheet input[name="attr_show_echo_in_the_veins_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
 .ui-dialog .tab-content .charsheet input[name="attr_show_aether_override_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veilsplice_bonus"][value="1"] ~ .sheet-skill-choice-placeholder {
+.ui-dialog .tab-content .charsheet input[name="attr_show_veilsplice_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+/* Veyvra Talent Skill Choice */
+.ui-dialog .tab-content .charsheet input[name="attr_show_patchwork_fixer_bonus"][value="1"] ~ .sheet-skill-choice-placeholder {
   display: block;
 }
 
@@ -3842,7 +3863,17 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_shadow_echo_step"][value="1"] ~ .sheet-lyranni-shadow-echo-step,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_true_veilsight"][value="1"] ~ .sheet-lyranni-true-veilsight,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veil_laced_command"][value="1"] ~ .sheet-lyranni-veil-laced-command,
-.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veilsight"][value="1"] ~ .sheet-lyranni-veilsight {
+.ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_veilsight"][value="1"] ~ .sheet-lyranni-veilsight,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_mask_the_signal"][value="1"] ~ .sheet-veyra-mask-the-signal,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_vent_ghost"][value="1"] ~ .sheet-veyra-vent-ghost,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_overclock_instinct"][value="1"] ~ .sheet-veyra-overclock-instinct,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_battlefield_sync"][value="1"] ~ .sheet-veyra-battlefield-sync,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_nocturne_optimizer"][value="1"] ~ .sheet-veyra-nocturne-optimizer,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_echo_map_recall"][value="1"] ~ .sheet-veyra-echo-map-recall,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_thread_the_vents"][value="1"] ~ .sheet-veyra-thread-the-vents,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_dark_grid_savant"][value="1"] ~ .sheet-veyra-dark-grid-savant,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_recursive_salvager"][value="1"] ~ .sheet-veyra-recursive-salvager,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_stealth_harmonic"][value="1"] ~ .sheet-veyra-stealth-harmonic {
   display: flex;
 }
 
@@ -4019,6 +4050,23 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_echo_of_elegance"][value="1"] ~ .sheet-lyranni-echo-of-elegance,
 .ui-dialog .tab-content .charsheet input[name="attr_show_lyranni_breath_of_the_veil"][value="1"] ~ .sheet-lyranni-breath-of-the-veil {
   display: flex;
+}
+
+/* ----------------- Racial Talent Tracker — Veyra — Session ----------------- */
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_signal_ghost"][value="1"] ~ .sheet-veyra-signal-ghost,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_cache_sense"][value="1"] ~ .sheet-veyra-cache-sense,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_reflex_map"][value="1"] ~ .sheet-veyra-reflex-map,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_silent_cascade"][value="1"] ~ .sheet-veyra-silent-cascade,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_ping_and_pull"][value="1"] ~ .sheet-veyra-ping-and-pull,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_echo_splice_reflex"][value="1"] ~ .sheet-veyra-echo-splice-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_signal_evasion_loop"][value="1"] ~ .sheet-veyra-signal-evasion-loop,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_echowire_scramble"][value="1"] ~ .sheet-veyra-echowire-scramble,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_cachejack_protocol"][value="1"] ~ .sheet-veyra-cachejack-protocol,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_neurospike_blur"][value="1"] ~ .sheet-veyra-neurospike-blur,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_ghost_in_the_gears"][value="1"] ~ .sheet-veyra-ghost-in-the-gears,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_circuit_sovereign"][value="1"] ~ .sheet-veyra-circuit-sovereign,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veyra_silent_dominion"][value="1"] ~ .sheet-veyra-silent-dominion {
+    display: flex;
 }
 
 /* Career Talent Tracker - Codeweaver - Scene */

@@ -10286,6 +10286,60 @@
 					</fieldset>
 				</div>
 			</div>
+
+			<div class="sheet-colrow">
+				<h4 class="section-head" data-i18n="money_ledger-u">Money Ledger</h4>
+				<div class="section">
+					<div class="sheet-ledger-header">
+						<div class="sheet-repeating-ledger-row">
+							<div class="flex-cell money-choice"><span data-i18n="money_choice-u">Choice</span></div>
+							<div class="flex-cell money-credit-header"><span data-i18n="money_credit-u">Credit</span></div>
+							<div class="flex-cell money-debit-header"><span data-i18n="money_debit-u">Debit</span></div>
+							<div class="flex-cell money-description"><span data-i18n="money_description-u">Description</span></div>
+							<div class="flex-cell money-total-header"><span data-i18n="money_total-u">Total</span></div>
+						</div>
+					</div>
+				
+					<!-- Repeating Rows -->
+					<fieldset class="repeating_moneyledger">
+					    <div class="sheet-repeating-ledger-row">
+					        <!-- Choice -->
+					        <div class="flex-cell money-choice">
+					            <select class="sheet-selection-full" name="attr_money_choice">
+					                <option value="0" selected>-- Choose Type --</option>
+					                <option value="income">Income</option>
+					                <option value="expense">Expense</option>
+					                <option value="transfer_in">Transfer In</option>
+					                <option value="transfer_out">Transfer Out</option>
+					                <option value="purchase">Purchase</option>
+					                <option value="sale">Sale</option>
+					            </select>
+					        </div>
+
+					        <!-- Credit -->
+					        <div class="flex-cell money-credit">
+					            <input class="sheet-attr-input-small sheet-money-credit" type="text" name="attr_money_credit" />
+					        </div>
+
+					        <!-- Debit -->
+					        <div class="flex-cell money-debit">
+					            <input class="sheet-attr-input-small sheet-money-debit" type="text" name="attr_money_debit" />
+					        </div>
+
+					        <!-- Description -->
+					        <div class="flex-cell money-description">
+					            <input class="sheet-attr-input-wide" type="text" name="attr_money_description" />
+					        </div>
+
+					        <!-- Running Total (read-only; filled by sheet worker) -->
+					        <div class="flex-cell money-total">
+					            <input class="sheet-attr-input-small sheet-readonly sheet-money-total" type="text" name="attr_money_running_total" readonly />
+					        </div>
+					    </div>
+					</fieldset>
+	
+				</div>
+			</div>
 		</div>
 
 		<!-- ------------------------- Backstory ------------------------- -->
@@ -25217,6 +25271,43 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         });
     });
 });
+
+// === Money Ledger: per-row running total + overall balance ===
+const recalcMoneyLedger = () => {
+  if (debug_on_trace) console.log("[Money Ledger] Recalc start");
+
+  getSectionIDs("repeating_moneyledger", (ids) => {
+    // Build the list of credit/debit fields we need to read
+    const readAttrs = [];
+    ids.forEach(id => {
+      readAttrs.push(`repeating_moneyledger_${id}_money_credit`);
+      readAttrs.push(`repeating_moneyledger_${id}_money_debit`);
+    });
+
+    getAttrs(readAttrs, (values) => {
+      let running = 0;
+      const updates = {};
+
+      ids.forEach(id => {
+        const c = parseFloat(values[`repeating_moneyledger_${id}_money_credit`] || "0") || 0;
+        const d = parseFloat(values[`repeating_moneyledger_${id}_money_debit`]  || "0") || 0;
+
+        running += (c - d);
+        updates[`repeating_moneyledger_${id}_money_running_total`] = String(running);
+      });
+
+      updates.money_balance = String(running);
+
+      if (debug_on) console.log("[Money Ledger] Updates:", updates);
+      setAttrs(updates);
+    });
+  });
+};
+
+// Watchers (change row fields, add/remove rows, and init on open)
+on("change:repeating_moneyledger:money_credit change:repeating_moneyledger:money_debit add:repeating_moneyledger remove:repeating_moneyledger",
+  recalcMoneyLedger
+);
 
 // === Repeating Ledger XP Category Aggregator ===
 on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {

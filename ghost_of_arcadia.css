@@ -3678,6 +3678,43 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: block;
 }
 
+/* ------------------------ Money Ledger (reuses core ledger row styles) ------------------------ */
+.ui-dialog .tab-content .charsheet .money-choice         { flex: 1 1 18%; }
+.ui-dialog .tab-content .charsheet .money-credit,
+.ui-dialog .tab-content .charsheet .money-credit-header   { flex: 1 1 10%; }
+.ui-dialog .tab-content .charsheet .money-debit,
+.ui-dialog .tab-content .charsheet .money-debit-header    { flex: 1 1 10%; }
+.ui-dialog .tab-content .charsheet .money-description     { flex: 2 1 52%; }
+.ui-dialog .tab-content .charsheet .money-total,
+.ui-dialog .tab-content .charsheet .money-total-header    { flex: 1 1 10%; }
+
+/* Numeric alignment for amount fields */
+.ui-dialog .tab-content .charsheet .money-credit input,
+.ui-dialog .tab-content .charsheet .money-debit input,
+.ui-dialog .tab-content .charsheet .money-total input {
+    text-align: right;
+}
+
+/* Place this AFTER the base .flex-cell input rule and the .sheet-attr-input-* blocks */
+
+/* Scope to the repeating group and target the actual INPUTS */
+.ui-dialog .tab-content .charsheet
+  .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-credit {
+  background-color: #d9f4d4;
+}
+
+.ui-dialog .tab-content .charsheet
+  .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-debit {
+  background-color: #ff5b61;
+  color: white;
+}
+
+.ui-dialog .tab-content .charsheet
+  .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-total[readonly] {
+  background-color: #d4ecf9; /* beats .sheet-readonly */
+  color: black;
+}
+
 
 /* ------------------- Backstory ----------------------------- */
 

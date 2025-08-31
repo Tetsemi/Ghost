@@ -23130,12 +23130,25 @@ const registerTalentSkillBonusWatchers = () => {
 
 const calculateAndUpdateSkillValues = (racePrefix, values) => {
   if (debug_on_trace) console.log ("[calculateAndUpdateSkillValues] Start"); 
+
   const allSkills = Object.values(skillMapTable).map(s => s.label);
-  const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
+
+  // Build 1–11 generic Other slots
+  const otherSkills = Array.from({ length: 11 }, (_, i) => `otherskill${i + 1}`);
+
+  // NEW: any otherskillN that appears as a label in skillMapTable is already handled in allSkills
+  // (e.g., Language(Other) -> "otherskill3"), so we should NOT count it again in the "otherSkills" loop.
+  const usedOtherSlots = new Set(
+    Object.values(skillMapTable || {})
+      .map(s => s && s.label)
+      .filter(l => typeof l === "string" && /^otherskill\d+$/.test(l))
+  );
+
   const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
     map[skill.label] = parseInt(skill.base, 10) || 0;
     return map;
   }, {});
+
   const magicSchools = Object.values(skillMapTable)
     .filter(skill => skill.group === "Magic" && skill.label !== "magic_universal")
     .map(skill => skill.bonus);
@@ -23192,7 +23205,10 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
     update[`${skill}_mdr`] = total;
   });
 
+  // Only count "Other" slots that are NOT already mapped in skillMapTable (prevents double-counting)
   otherSkills.forEach(skill => {
+    if (usedOtherSlots.has(skill)) return; // <-- NEW: skip duplicates already handled above
+
     const base = parseInt(values[`${skill}_skill_mdr`], 10) || 0;
     totalSkillPointsSpent += base;
     update[`${skill}_mdr`] = base;
@@ -23232,7 +23248,7 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
     ? triggerSkillsArg
     : allSkills; // default to all skills so we never hit undefined
 
-  const otherSkills = Array.from({ length: 10 }, (_, i) => `otherskill${i + 1}`);
+  const otherSkills = Array.from({ length: 11 }, (_, i) => `otherskill${i + 1}`);
 
   const magicSchools = Object.values(skillMapTable || [])
     .filter(s => s && s.group === "Magic" && s.label !== "magic_universal")

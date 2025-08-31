@@ -14809,7 +14809,7 @@ Body Hit Location---------------------------------------------------------------
 </rolltemplate>
 
 <!--
-&{template:coc-minionattack-} ---------------------------------------------------------------------------------------------------------
+&{template:coc-minionattack} ---------------------------------------------------------------------------------------------------------
 -->
 <rolltemplate class="sheet-rolltemplate-coc-minionattack">
 
@@ -25305,9 +25305,9 @@ const recalcMoneyLedger = () => {
 };
 
 // Watchers (change row fields, add/remove rows, and init on open)
-on("change:repeating_moneyledger:money_credit change:repeating_moneyledger:money_debit add:repeating_moneyledger remove:repeating_moneyledger",
-  recalcMoneyLedger
-);
+on("change:repeating_moneyledger:money_credit change:repeating_moneyledger:money_debit add:repeating_moneyledger remove:repeating_moneyledger", function () {
+  recalcMoneyLedger();
+});
 
 // === Repeating Ledger XP Category Aggregator ===
 on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {

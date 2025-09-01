@@ -18436,7 +18436,7 @@ Body Hit Location---------------------------------------------------------------
 <!-- WORKERS -->
 <script type="text/worker">
 const debug_on = false;
-const debug_on_trace = true;
+const debug_on_trace = false;
 const debug_on_watcher = false;
 
 const registeredRaces = new Set();
@@ -24136,7 +24136,8 @@ const registerPrimaryCareerXPWatcher = () => {
         "change:str", "change:dex", "change:pow", "change:con",
         "change:app", "change:edu", "change:siz", "change:int", "change:mag",
 		"change:char_creation_lock",
-		"change:showracials"
+		"change:showracials",
+		"change:repeating_secondarycareer:secondary_career_spell_xp_total"
 		];
 
     const allEvents = [...talentChangeEvents, ...otherTriggers];
@@ -24235,7 +24236,7 @@ const registerSecondaryCareerXPWatcher = () => {
         "change:repeating_secondarycareer:secondary_career",
         "change:repeating_secondarycareer:secondary_career_skill_to_xp",
         "change:repeating_secondarycareer:secondary_career_spell_xp_total",
-        "sheet:opened"
+		"change:primary_career_xp_total"
     ];
 
     on([...talentChangeEvents, ...baseEvents].join(" "), () => {
@@ -24306,6 +24307,7 @@ const registerSecondaryCareerXPWatcher = () => {
 				};
 
                 setAttrs(finalUpdates);
+				if (debug_on) console.log("[Global] Total Primary XP: ", (parseInt(values.primary_career_xp_total, 10) || 0) );
                 if (debug_on) console.log(`[Global] Total Secondary XP: ${totalSecondaryXP}`);
                 if (debug_on) console.log(`[Global] Combined Career Talent XP: ${finalUpdates.xp_spent_career_talent}`);
             });

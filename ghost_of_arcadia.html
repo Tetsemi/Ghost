@@ -25290,42 +25290,60 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
     });
 });
 
-// === Money Ledger: per-row running total + overall balance ===
+/* ========= Money Ledger (order-correct & reorder-aware) ========= */
+const SECTION = "moneyledger"; // group name WITHOUT 'repeating_'
+const UI_ORDER_ATTR   = `_reporder_repeating_${SECTION}`; // UI drag writes this
+const CODE_ORDER_ATTR =  `reporder_repeating_${SECTION}`;  // setSectionOrder writes this
+
+// --- Official helper (adapted) to get IDs in display order ---
+const getSectionIDsOrdered = (sectionName, cb) => {
+  getAttrs([`_reporder_repeating_${sectionName}`], v => {
+    getSectionIDs(sectionName, idArray => {
+      const rep = (v[`_reporder_repeating_${sectionName}`] || "").toLowerCase().split(",").filter(Boolean);
+      const ids = [...new Set(rep.filter(x => idArray.includes(x)).concat(idArray))];
+      cb(ids);
+    });
+  });
+};
+
+// Parse numeric safely
+const toNum = v => {
+  const n = parseFloat(String(v || "").replace(/[^0-9.\-]/g, ""));
+  return Number.isFinite(n) ? n : 0;
+};
+
 const recalcMoneyLedger = () => {
   if (debug_on_trace) console.log("[Money Ledger] Recalc start");
 
-  getSectionIDs("repeating_moneyledger", (ids) => {
-    // Build the list of credit/debit fields we need to read
-    const readAttrs = [];
+  getSectionIDsOrdered(SECTION, ids => {
+    const read = [UI_ORDER_ATTR, CODE_ORDER_ATTR];
     ids.forEach(id => {
-      readAttrs.push(`repeating_moneyledger_${id}_money_credit`);
-      readAttrs.push(`repeating_moneyledger_${id}_money_debit`);
+      read.push(`repeating_${SECTION}_${id}_money_credit`);
+      read.push(`repeating_${SECTION}_${id}_money_debit`);
     });
 
-    getAttrs(readAttrs, (values) => {
+    getAttrs(read, values => {
       let running = 0;
       const updates = {};
-
       ids.forEach(id => {
-        const c = parseFloat(values[`repeating_moneyledger_${id}_money_credit`] || "0") || 0;
-        const d = parseFloat(values[`repeating_moneyledger_${id}_money_debit`]  || "0") || 0;
-
+        const c = toNum(values[`repeating_${SECTION}_${id}_money_credit`]);
+        const d = toNum(values[`repeating_${SECTION}_${id}_money_debit`]);
         running += (c - d);
-        updates[`repeating_moneyledger_${id}_money_running_total`] = String(running);
+        updates[`repeating_${SECTION}_${id}_money_running_total`] = String(running);
       });
-
       updates.money_balance = String(running);
-
       if (debug_on) console.log("[Money Ledger] Updates:", updates);
       setAttrs(updates);
     });
   });
 };
 
-// Watchers (change row fields, add/remove rows, and init on open)
-on("change:repeating_moneyledger:money_credit change:repeating_moneyledger:money_debit add:repeating_moneyledger remove:repeating_moneyledger", function () {
-  recalcMoneyLedger();
-});
+on(`change:repeating_${SECTION}:money_credit change:repeating_${SECTION}:money_debit change:_reporder:${SECTION} change:reporder:${SECTION} remove:repeating_${SECTION}`, recalcMoneyLedger);
+
+/* Debug: see which event fires when you drag/add/remove (comment out later) */
+// on(`sheet:opened change:_reporder:${SECTION} change:reporder:${SECTION} change:repeating_${SECTION} remove:repeating_${SECTION}`, e => {
+//  console.log("[Money Ledger] structural event:", e.sourceAttribute || e.triggerName || "unknown");
+//});
 
 // === Repeating Ledger XP Category Aggregator ===
 on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {

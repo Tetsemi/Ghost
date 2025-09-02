@@ -20,6 +20,21 @@ Clean-up:
 	Move Skill rolls to sheet worker on click so one place to edit the roll value.
 	
 	Background tab code needs to be unified like racial talent and career talent tabs
+	
+const registerCareerTabWatchers = () => {
+  if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
+  if (debug_on_trace) console.log ("[Object.keys(careerDataMap)] Start");
+  if (careerTabWatchersReady) return;
+  careerTabWatchersReady = true;
+
+  Object.keys(careerDataMap).forEach(career => {
+    on(`clicked:${career}`, () => {
+      if (debug_on_trace) console.log(`[career tab click] ${career}`);
+      setAttrs({ selected_career: career });
+    });
+  });
+};
+
 
 Wishlist:
 

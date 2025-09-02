@@ -19056,7 +19056,7 @@ Body Hit Location---------------------------------------------------------------
 <!-- WORKERS -->
 <script type="text/worker">
 const debug_on = false;
-const debug_on_trace = false;
+const debug_on_trace = true;
 const debug_on_watcher = false;
 
 const registeredRaces = new Set();
@@ -26139,7 +26139,8 @@ const registerPrimaryCareerXPWatcher = () => {
         "change:app", "change:edu", "change:siz", "change:int", "change:mag",
 		"change:char_creation_lock",
 		"change:showracials",
-		"change:repeating_secondarycareer:secondary_career_spell_xp_total"
+		"change:repeating_secondarycareer:secondary_career_spell_xp_total",
+		"change:repeating_secondarycareer:secondary_career_xp_total"
 		];
 
     const allEvents = [...talentChangeEvents, ...otherTriggers];
@@ -26646,14 +26647,6 @@ const registerCareerSkillLimiter = () => {
         if (debug_on) console.log("  → Primary Attrs:", priAttrs);
         if (debug_on) console.log("  → Secondary Attrs:", secAttrs);
 
-        // REMOVED: force-checking of primary skills (handled by applyExclusiveToSkillList when present)
-        if (!exclusiveSets.length) {
-          // Fallback: preserve old behavior if no exclusive sets exist
-          priAttrs.forEach(attr => {
-            updates[attr] = "1";
-          });
-        }
-
         // === Enforce Exclusive Skill Set Logic Only (SECONDARY skills) ===
         exclusiveSets.forEach(set => {
           const checkedSkill = set.find(skill => values[`cs_${primaryCareer}_${skill}_mdr_checkbox`] === "1");
@@ -26713,14 +26706,6 @@ const registerCareerSkillLimiter = () => {
             if (debug_on) console.log(`[Career Lock][Secondary Career: ${secCareer}]`);
             if (debug_on) console.log("  → Primary Attrs:", priAttrs);
             if (debug_on) console.log("  → Secondary Attrs:", secAttrs);
-
-            // REMOVED: force-checking of primary skills (handled by applyExclusiveToSkillList when present)
-            if (!scExclusiveSets.length) {
-              // Fallback: preserve old behavior if no exclusive sets exist
-              priAttrs.forEach(attr => {
-                updates[attr] = "1";
-              });
-            }
 
             // Existing "choose 1" lock logic across ALL secondary skills for this row
             const selected = secAttrs.filter(attr => values[attr] === "1");

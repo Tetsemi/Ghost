@@ -21142,8 +21142,8 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = true;
-const debug_on_trace = true;
+const debug_on = false;
+const debug_on_trace = false;
 const debug_on_watcher = false;
 
 const registeredRaces = new Set();
@@ -28777,6 +28777,20 @@ const registerCareerSkillLimiter = () => {
               updates[lock] = selected.length >= 1 && values[attr] !== "1" ? "1" : "0";
             });
 
+            // === NEW: Primary 4-choice cap for this secondary career row (no exclusives) ===
+            if (!scExclusiveSets.length) {
+              const MAX_PRI = 4;
+              if (priAttrs.length > MAX_PRI) {
+                const priChecked = priAttrs.filter(a => values[a] === "1");
+                priAttrs.forEach(attr => {
+                  const lockAttr = `${attr}_lock`;
+                  updates[lockAttr] = (priChecked.length >= MAX_PRI && values[attr] !== "1") ? "1" : "0";
+                });
+              } else {
+                priAttrs.forEach(attr => { updates[`${attr}_lock`] = "0"; });
+              }
+            }
+			
             if (debug_on) console.log("  → Updates (Secondary):", updates);
             setAttrs(updates);
           });

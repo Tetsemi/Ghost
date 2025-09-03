@@ -11257,6 +11257,28 @@
 			<div class="sheet-colrow">
 				<h4 class="section-head" data-i18n="armor-u">Armor</h4>
 				<div class="section">
+                    <!-- Armor Totals (placed above header) -->
+                    <div class="sheet-armor-totals">
+                        <div class="flex-row">
+                            <div class="flex-cell armor-name">Armor Totals</div>
+                            <div class="flex-cell armor-equipped"></div>
+
+                            <!-- Total Physical -->
+                            <div class="flex-cell armor-physical">
+                                <input type="text" name="attr_armor_total_physical" class="sheet-armor-total-field readonly" title="Total Physical (equipped only)" />
+                            </div>
+
+                            <!-- Total Arcane -->
+                            <div class="flex-cell armor-arcane">
+                                <input type="text" name="attr_armor_total_arcane" class="sheet-armor-total-field readonly" title="Total Arcane (equipped only)" />
+                            </div>
+
+                            <div class="flex-cell armor-layer"></div>
+                            <div class="flex-cell armor-category"></div>
+                            <div class="flex-cell armor-traits"></div>
+                        </div>
+                    </div>
+				
 					<div class="sheet-armor-header">
 						<div class="flex-row">
 							<div class="flex-cell armor-name"><span data-i18n="armor_name-u">Armor</span></div>
@@ -29170,6 +29192,73 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
 
 // ----------------------------------- Careers Section END -----------------------------------
 
+/* ========= Armor Totals (Physical / Arcane) ========= */
+/* Sums equipped-only values from two static rows + repeating_armorsmdr. */
+
+const isChecked = (v) => v === "1" || v === "on" || v === "true";
+
+const recalcArmorTotals = () => {
+  const staticKeys = [
+    "armor1_equipped_checkbox", "armor1_physical_mdr", "armor1_arcane_mdr",
+    "armor2_equipped_checkbox", "armor2_physical_mdr", "armor2_arcane_mdr"
+  ];
+
+  getAttrs(staticKeys, (vals) => {
+    let totalPhysical = 0;
+    let totalArcane   = 0;
+
+    if (isChecked(vals.armor1_equipped_checkbox)) {
+      totalPhysical += parseInt(vals.armor1_physical_mdr, 10) || 0;
+      totalArcane   += parseInt(vals.armor1_arcane_mdr,   10) || 0;
+    }
+    if (isChecked(vals.armor2_equipped_checkbox)) {
+      totalPhysical += parseInt(vals.armor2_physical_mdr, 10) || 0;
+      totalArcane   += parseInt(vals.armor2_arcane_mdr,   10) || 0;
+    }
+
+    getSectionIDs("repeating_armorsmdr", (ids) => {
+      if (!ids.length) {
+        setAttrs({
+          armor_total_physical: totalPhysical,
+          armor_total_arcane:   totalArcane
+        });
+        return;
+      }
+
+      const repKeys = ids.flatMap(id => ([
+        `repeating_armorsmdr_${id}_armor_equipped_checkbox`,
+        `repeating_armorsmdr_${id}_armor_physical_mdr`,
+        `repeating_armorsmdr_${id}_armor_arcane_mdr`,
+      ]));
+
+      getAttrs(repKeys, (rows) => {
+        ids.forEach(id => {
+          const eq  = rows[`repeating_armorsmdr_${id}_armor_equipped_checkbox`];
+          if (isChecked(eq)) {
+            totalPhysical += parseInt(rows[`repeating_armorsmdr_${id}_armor_physical_mdr`], 10) || 0;
+            totalArcane   += parseInt(rows[`repeating_armorsmdr_${id}_armor_arcane_mdr`],   10) || 0;
+          }
+        });
+
+        setAttrs({
+          armor_total_physical: totalPhysical,
+          armor_total_arcane:   totalArcane
+        });
+      });
+    });
+  });
+};
+
+/* Watchers: static rows + repeating rows + open/remove */
+on(
+  "change:armor1_equipped_checkbox change:armor1_physical_mdr change:armor1_arcane_mdr " +
+  "change:armor2_equipped_checkbox change:armor2_physical_mdr change:armor2_arcane_mdr " +
+  "change:repeating_armorsmdr:armor_equipped_checkbox " +
+  "change:repeating_armorsmdr:armor_physical_mdr " +
+  "change:repeating_armorsmdr:armor_arcane_mdr " +
+  "remove:repeating_armorsmdr",
+  recalcArmorTotals
+);
 // ----------------------------------- Spells ------------------------------------------------
 
 on("clicked:repeating_spellsmdr:spelladvanced", function(eventInfo) {

@@ -1798,78 +1798,54 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 
 /* --------------------- Tabs - Talent styling - Start ----------------------------------------------------- */
 
-.sheet-layout div.sheet-racials1 {
-    display: none;
-}
+/* Talents tab: hide all race blocks by default */
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials1,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials2,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials3,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials4,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials5,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials6,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials7,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials8 {
+	display: none; }
 
-.charsheet div.sheet-racials2 {
-    display: none;
-}
+/* === Show selected race inside the Talents tab === */
+/* Each rule shows both direct siblings and descendants that appear AFTER the controller */
 
-.charsheet div.sheet-racials3 {
-    display: none;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="alteri"] ~ .sheet-racials1,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="alteri"] ~ * .sheet-racials1 { display: block; }
 
-.charsheet div.sheet-racials4 {
-    display: none;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="draevi"] ~ .sheet-racials2,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="draevi"] ~ * .sheet-racials2 { display: block; }
 
-.charsheet div.sheet-racials5 {
-    display: none;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="feran"] ~ .sheet-racials3,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="feran"] ~ * .sheet-racials3 { display: block; }
 
-.charsheet div.sheet-racials6 {
-    display: none;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="human"] ~ .sheet-racials4,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="human"] ~ * .sheet-racials4 { display: block; }
 
-.charsheet div.sheet-racials7 {
-    display: none;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="khadra"] ~ .sheet-racials5,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="khadra"] ~ * .sheet-racials5 { display: block; }
 
-.charsheet div.sheet-racials8 {
-    display: none;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="kitsu"] ~ .sheet-racials6,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="kitsu"] ~ * .sheet-racials6 { display: block; }
 
-.sheet-showracials[value="alteri"]:checked ~ div.sheet-racials1 {
-    display: block;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="lyranni"] ~ .sheet-racials7,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="lyranni"] ~ * .sheet-racials7 { display: block; }
 
-.sheet-showracials[value="draevi"]:checked ~ div.sheet-racials2 {
-    display: block;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8,
+ .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="veyra"] ~ * .sheet-racials8 { display: block; }
 
-.sheet-showracials[value="feran"]:checked ~ div.sheet-racials3 {
-    display: block;
-}
-
-.sheet-showracials[value="human"]:checked ~ div.sheet-racials4 {
-    display: block;
-}
-
-.sheet-showracials[value="khadra"]:checked ~ div.sheet-racials5 {
-    display: block;
-}
-
-.sheet-showracials[value="kitsu"]:checked ~ div.sheet-racials6 {
-    display: block;
-}
-
-.sheet-showracials[value="lyranni"]:checked ~ div.sheet-racials7 {
-    display: block;
-}
-
-.sheet-showracials[value="veyra"]:checked ~ div.sheet-racials8 {
-    display: block;
-}
 
 /* Talent tab layout styling */
-.sheet-talent-tab {
+.ui-dialog .tab-content .charsheet .sheet-talent-tab {
   display: none;
 }
 
 /* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
 
 /* --------------------- Tabs - New Talent styling - Start ----------------------------------------------------- */
+
 .ui-dialog .tab-content .charsheet .sheet-xp-tracker {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -2113,6 +2089,93 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-description {
   opacity: 0.5;
 }
+
+/* === Talents: merged summary + XP row (overrides) === */
+.ui-dialog .tab-content .charsheet .sheet-talent-row-one {
+  display: grid;
+  grid-template-columns: minmax(120px, 10%) minmax(0, 1fr); /* summary | XP */
+  gap: 0.5rem;
+  align-items: start;
+}
+
+/* Neutralize the panel look when used inside the merged row */
+.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-talent-summary {
+  margin: 0;                 /* override 1rem top margin */               /* remove inner padding */
+  border: 0;
+}
+
+/* Make the XP tracker compact and right-aligned in its 10% column */
+.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-xp-tracker {
+  display: flex;             /* override grid from base card */
+  align-items: center;
+  justify-content: flex-end;
+  border: 0;
+}
+
+/* Tighter XP row inside the compact column */
+.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-xp-row {
+  display: flex;             /* override column stack if desired */
+  flex-direction: column;    /* keep label above input; change to 'row' if you prefer side-by-side */
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-xp-row label {
+  font-weight: bold;
+  color: #ccc;
+  margin: 0;
+  text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-xp-field {
+  width: 100%;
+  max-width: 80px;           /* keeps it tidy in the right column */
+  text-align: center;
+}
+
+/* ===== Talents → Racial Traits (Name | Rules Text) ===== */
+/* Single-row cards, 20% / 80% split */
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-traits {
+    margin-top: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-traits .sheet-talent-tier-header {
+    margin: 0 0 0.5rem 0;
+	color: black;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-trait-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem; /* spacing between rows */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-trait-row {
+    display: grid;
+    grid-template-columns: minmax(110px, 10%) minmax(0, 1fr);
+    gap: 8px 12px;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background-color: #1a1a1a; /* match panel skin */
+    box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-trait-name {
+    font-weight: 600;
+    align-self: start;
+    line-height: 1.25;
+	color: #cfcfcf;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-trait-text {
+    line-height: 1.35;
+	color: #cfcfcf;
+}
+
 
 /* --------------------- Tabs - New Talent styling - End ----------------------------------------------------- */
 
@@ -2791,6 +2854,7 @@ fieldset.repeating_programsmdr {
     cursor: default;
     color: #333;
 }
+
 
 /* Spacer cells in the totals row (no special styling needed beyond the grid) */
 .ui-dialog .tab-content .charsheet .sheet-armor-totals .armor-equipped,

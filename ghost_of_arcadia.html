@@ -26901,14 +26901,6 @@ on("clicked:strain_short_rest", () => {
 });
 
 const tabList = ["skills", "background", "careers", "talents",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "ledger", "tracker"];
-const alteriBackgroundTabs = ["break_faced_radical", "ghostline_runner", "legacy_bearer", "soft_year_drifter", "veilhaven_attendant"];
-const draeviBackgroundTabs = ["forgeblood_scavenger", "horn_carved_wanderer", "spiritbound_techshaper", "tradition_keeper", "urban_tread"];
-const feranBackgroundTabs = ["packborn_drifter", "urban_stalkkit", "clawbound_kin_warder", "scorchborn_fugitive", "veil_hunters_cub"];
-const humanBackgroundTabs = ["ash_war_refugee", "data_hatched", "enclave_born", "gutterfire_youth", "outpost_raised", "scavsteel_whelp"];
-const khadraBackgroundTabs = ["stonehold_disciple", "cliffborn_laborer", "oathbreakers_kin", "wardens_apprentice", "dust_seer_novice"];
-const kitsuBackgroundTabs = ["shrine_den_scion", "ghostline_whelp", "contract_born", "run_shadow_cub", "code_seer_prodigy"];
-const lyranniBackgroundTabs = ["aelvareth_devotee", "echoborne", "glide_spire_scion", "whisper_walker", "zurethkai_flameborn"];
-const veyraBackgroundTabs = ["hatchwarren_drifter", "loop_minder_initiate", "corpsepath_reclaimer", "shatterlink_courier", "cross_signal_raised" ];
 
 tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
@@ -26917,61 +26909,43 @@ tabList.forEach(tab => {
     });
 });
 
-alteriBackgroundTabs.forEach(tab => {
-	on(`clicked:${tab}`, () => {
-		if (debug_on)  console.log("Clicked tab", tab);
-		setAttrs({ alteri_background_choice: tab });
-	});
-});
+let backgroundTabWatchersReady = false;
 
-draeviBackgroundTabs.forEach(tab => {
-	on(`clicked:${tab}`, () => {
-		if (debug_on) console.log("Clicked tab", tab);
-		setAttrs({ draevi_background_choice: tab });
-	});
-});
+const registerBackgroundTabWatchers = () => {
+    if (debug_on) console.log("Object.keys(backgroundDataMap) loaded");
+    if (debug_on_trace) console.log("[Object.keys(backgroundDataMap)] Start");
+    if (backgroundTabWatchersReady) return;
+    backgroundTabWatchersReady = true;
 
-feranBackgroundTabs.forEach(tab => {
-	on(`clicked:${tab}`, () => {
-		if (debug_on)  console.log("Clicked tab", tab);
-		setAttrs({ feran_background_choice: tab });
-	});
-});
-
-humanBackgroundTabs.forEach(tab => {
-	on(`clicked:${tab}`, () => {
-		if (debug_on) console.log("Clicked tab", tab);
-		setAttrs({ human_background_choice: tab });
-	});
-});
-
-khadraBackgroundTabs.forEach(tab => {
-	on(`clicked:${tab}`, () => {
-		if (debug_on) console.log("[Khadra Background] Clicked tab:", tab);
-		setAttrs({ khadra_background_choice: tab });
-	});
-});
-
-kitsuBackgroundTabs.forEach(tab => {
-	on(`clicked:${tab}`, () => {
-		if (debug_on) console.log("[Kitsu Background] Clicked tab:", tab);
-		setAttrs({ kitsu_background_choice: tab });
-	});
-});
-
-lyranniBackgroundTabs.forEach(tab => {
-	on(`clicked:${tab}`, () => {
-		if (debug_on) console.log("[Lyranni Background] Clicked tab:", tab);
-		setAttrs({ lyranni_background_choice: tab });
-	});
-});
-
-veyraBackgroundTabs.forEach(tab => {
-    on(`clicked:${tab}`, () => {
-        if (debug_on) console.log("[Veyra Background] Clicked tab:", tab);
-        setAttrs({ veyra_background_choice: tab });
+    // Iterate races, then each race's backgrounds
+    Object.entries(backgroundDataMap).forEach(([race, bgMap]) => {
+        Object.keys(bgMap || {}).forEach((bgKey) => {
+            on(`clicked:${bgKey}`, () => {
+                if (debug_on_trace) console.log(`[background tab click] ${race}:${bgKey}`);
+                const update = {};
+                update[`${race}_background_choice`] = bgKey; // drives CSS reveal/highlight
+                setAttrs(update);
+            });
+        });
     });
-});
+};
+
+// One-time registrar for per-career tab clicks
+let careerTabWatchersReady = false;
+
+const registerCareerTabWatchers = () => {
+  if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
+  if (debug_on_trace) console.log ("[Object.keys(careerDataMap)] Start");
+  if (careerTabWatchersReady) return;
+  careerTabWatchersReady = true;
+
+  Object.keys(careerDataMap).forEach(career => {
+    on(`clicked:${career}`, () => {
+      if (debug_on_trace) console.log(`[career tab click] ${career}`);
+      setAttrs({ selected_career: career });
+    });
+  });
+};
 
 //----------------------- Tab Workers End ----------------------//
 
@@ -27903,6 +27877,8 @@ on("sheet:opened", () => {
 		registerTalentSkillBonusWatchers();
 		registerXPTrackerWatcher();
         registerStatHandler();
+		registerCareerTabWatchers();
+		registerBackgroundTabWatchers();
     }
 
     // Initial attribute normalization
@@ -27930,11 +27906,6 @@ on("sheet:opened", () => {
                 ensureRaceWatchers(race);     // minimal, on-demand
                 initializeRaceState(race);    // pure state apply + recompute
                 if (isNew) populateCareerTalentDescriptions();
-            }
-
-            // If Careers tab is already selected, wire its extras now
-            if (values.selected_tab === "careers" && typeof registerCareerTabWatchers === "function") {
-                registerCareerTabWatchers();
             }
         };
 
@@ -28402,23 +28373,6 @@ const registerSecondaryCareerXPWatcher = () => {
             });
         });
     });
-};
-
-// One-time registrar for per-career tab clicks
-let careerTabWatchersReady = false;
-
-const registerCareerTabWatchers = () => {
-  if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
-  if (debug_on_trace) console.log ("[Object.keys(careerDataMap)] Start");
-  if (careerTabWatchersReady) return;
-  careerTabWatchersReady = true;
-
-  Object.keys(careerDataMap).forEach(career => {
-    on(`clicked:${career}`, () => {
-      if (debug_on_trace) console.log(`[career tab click] ${career}`);
-      setAttrs({ selected_career: career });
-    });
-  });
 };
 
 const populateCareerTalentDescriptions = () => {
@@ -28967,33 +28921,87 @@ const registerMirrorSkillWatcher = () => {
   on(allEvents.join(" "), mirrorSkillCheckboxes);
 };
 
+// Clears tracker reveal + used flags for an entire career
+const clearCareerTrackers = (career) => {
+    const updates = {};
+    const talents = (careerDataMap[career] && careerDataMap[career].talents) || {};
+
+    Object.entries(talents).forEach(([talentKey, meta]) => {
+        // Always clear the reveal flag so the tracker hides
+        updates[`show_${career}_${talentKey}`] = "0";
+
+        // Clear the usage checkbox that matches the talent's limit
+        if (meta.usage_limit === "session") {
+            updates[`used_session_${career}_${talentKey}`] = "0";
+        } else if (meta.usage_limit === "scene") {
+            updates[`used_scene_${career}_${talentKey}`] = "0";
+        }
+        // No-restriction talents don't have a per-scene/session tracker; nothing to clear there.
+    });
+
+    setAttrs(updates);
+};
+
 const cleanupInactiveCareers = () => {
-  if (debug_on_trace) console.log ("[cleanupInactiveCareers] Start");
+  if (debug_on_trace) console.log("[cleanupInactiveCareers] Start");
+
   const readyKeys = Object.keys(careerDataMap).map(c => `${c}_ready`);
+
   getAttrs(readyKeys, values => {
     const updates = {};
 
     Object.keys(careerDataMap).forEach(career => {
-      if (values[`${career}_ready`] !== "1") {
-        const priSkills = Object.keys(careerDataMap[career].primary_skills || {});
-        const secSkills = Object.keys(careerDataMap[career].secondary_skills || {});
-        const allSkills = [...priSkills, ...secSkills];
+      const isReady = values[`${career}_ready`] === "1";
+      if (isReady) return; // only clear INACTIVE careers
 
-        allSkills.forEach(skill => {
-          updates[`cs_${career}_${skill}_mdr_checkbox`] = "0";
-          updates[`cs_${career}_${skill}_mdr_checkbox_lock`] = "0";
-        });
+      // --- Clear career skill checkboxes/locks ---
+      const priSkills = Object.keys(careerDataMap[career].primary_skills || {});
+      const secSkills = Object.keys(careerDataMap[career].secondary_skills || {});
+      const allSkills = [...priSkills, ...secSkills];
 
-        Object.keys(careerDataMap[career].talents || {}).forEach(talent => {
-          updates[`${career}_${talent}`] = "0";
-        });
-      }
+      allSkills.forEach(skill => {
+        updates[`cs_${career}_${skill}_mdr_checkbox`] = "0";
+        updates[`cs_${career}_${skill}_mdr_checkbox_lock`] = "0";
+      });
+
+      // --- Clear talents + their trackers (reveal + used) and gates ---
+      const talents = careerDataMap[career].talents || {};
+      Object.entries(talents).forEach(([talentKey, meta = {}]) => {
+        // Uncheck the talent itself
+        updates[`${career}_${talentKey}`] = "0";
+
+        // Hide from tracker
+        updates[`show_${career}_${talentKey}`] = "0";
+
+        // Clear the appropriate usage box if it exists for this talent
+        if (meta.usage_limit === "session") {
+          updates[`used_session_${career}_${talentKey}`] = "0";
+        } else if (meta.usage_limit === "scene") {
+          updates[`used_scene_${career}_${talentKey}`] = "0";
+        }
+
+        // Reset gates so nothing remains visually enabled/locked for an inactive career
+        updates[`${career}_${talentKey}_enabled`] = "0";
+        updates[`${career}_${talentKey}_lockflag`] = "0";
+      });
     });
 
+    // Silent batch so we don't trigger watcher storms
     setAttrs(updates, { silent: true }, mirrorSkillCheckboxes);
+
     if (debug_on) console.log("[Career Cleanup] Inactive careers cleared:", updates);
   });
 };
+
+
+// --- Cleanup Inactive Careers (low-chatter triggers) ---
+const runCleanupInactiveCareers = () => {
+    if (debug_on_trace) console.log("[cleanupInactiveCareers] run");
+    beginSilent();
+    cleanupInactiveCareers();
+    endSilent();
+};
+
 
 const getUsageLimitedTalentNames = (limitType) => {
   const names = [];
@@ -29059,9 +29067,9 @@ on("clicked:clear_session_uses", () => {
 
 let careerWatcherInitialized = false;
 
-on("clicked:background clicked:careers", () => {
-	if (debug_on) console.log ("[clicked:background clicked:careers] Fired");
-	if (debug_on_trace) console.log ("[clicked:background clicked:careers] Start");
+on("clicked:careers", () => {
+	if (debug_on) console.log ("[clicked:careers] Fired");
+	if (debug_on_trace) console.log ("[clicked:careers] Start");
 	if (careerWatcherInitialized) return;
 	careerWatcherInitialized = true;
 
@@ -29090,7 +29098,7 @@ on("clicked:background clicked:careers", () => {
 			});
 		});
 
-		if (debug_on) console.log("[clicked:background clicked:careers] Initialization complete.");
+		if (debug_on) console.log("[clicked:careers] Initialization complete.");
 	});
   });
 
@@ -29123,7 +29131,7 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
     if (debug_on) console.log("[Career Lock] Triggered registerCareerSkillLimiter()");
     registerCareerSkillLimiter();
   });
-  cleanupInactiveCareers();
+  runCleanupInactiveCareers();
 });
 
 // ----------------------------------- Careers Section END -----------------------------------

@@ -28710,6 +28710,23 @@ const registerCareerSkillLimiter = () => {
             updates[lockAttr] = "0";
           }
         });
+		
+        // === NEW: Primary 4-choice cap (only when NO exclusive sets) ===
+        // Pilot qualifies (5 primary skills).
+        if (!exclusiveSets.length) {
+          const MAX_PRI = 4;
+          if (priAttrs.length > MAX_PRI) {
+            const priChecked = priAttrs.filter(a => values[a] === "1");
+            priAttrs.forEach(attr => {
+              const lockAttr = `${attr}_lock`;
+              // Lock any unchecked boxes once 4 are chosen; unlock otherwise
+              updates[lockAttr] = (priChecked.length >= MAX_PRI && values[attr] !== "1") ? "1" : "0";
+            });
+          } else {
+            // Ensure no stale locks if a career has ≤ 4 primaries
+            priAttrs.forEach(attr => { updates[`${attr}_lock`] = "0"; });
+          }
+        }		
 
         if (debug_on) console.log("  → Updates (Primary):", updates);
         setAttrs(updates);
@@ -28992,7 +29009,6 @@ const cleanupInactiveCareers = () => {
     if (debug_on) console.log("[Career Cleanup] Inactive careers cleared:", updates);
   });
 };
-
 
 // --- Cleanup Inactive Careers (low-chatter triggers) ---
 const runCleanupInactiveCareers = () => {

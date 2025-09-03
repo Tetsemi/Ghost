@@ -7108,6 +7108,7 @@
 						<input class="sheet-readonly" type="text" name="attr_primary_career_xp_spent" />
 						<input class="sheet-readonly" type="text" name="attr_primary_career_xp_total" />
 						<input class="sheet-readonly" type="text" name="attr_primary_career_spell_xp_total" />
+						<button type="action" name="act_clear_inactive_careers" class="sheet-tab-buttons">Clear Inactive Careers</button>
 					</div>
 
 					<!-- Repeating Secondary Career Rows -->
@@ -26909,6 +26910,11 @@ tabList.forEach(tab => {
     });
 });
 
+on("clicked:clear_inactive_careers", () => {
+  if (debug_on) console.log("[clicked:clear_inactive_careers]");
+  runCleanupInactiveCareers();	
+});
+
 let backgroundTabWatchersReady = false;
 
 const registerBackgroundTabWatchers = () => {
@@ -29018,7 +29024,6 @@ const runCleanupInactiveCareers = () => {
     endSilent();
 };
 
-
 const getUsageLimitedTalentNames = (limitType) => {
   const names = [];
 
@@ -29147,7 +29152,6 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
     if (debug_on) console.log("[Career Lock] Triggered registerCareerSkillLimiter()");
     registerCareerSkillLimiter();
   });
-  runCleanupInactiveCareers();
 });
 
 // ----------------------------------- Careers Section END -----------------------------------

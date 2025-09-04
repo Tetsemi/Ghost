@@ -28992,10 +28992,13 @@ const registerPrimaryCareerXPWatcher = () => {
 						}
 					}
 					
-				if (race === "human") {
-					baseSkillPoints += 20;
-					if (debug_on) console.log("[Primary Career] +20 Human racial bonus applied to skill points");
-				}
+					if (race === "human") {
+						baseSkillPoints += 20;
+						if (debug_on) console.log("[Primary Career] +20 Human racial bonus applied to skill points");
+					} else if (race === "kitsu") {
+						baseSkillPoints += 20;
+						if (debug_on) console.log("[Primary Career] +20 Kitsu racial bonus applied to skill points");
+					}
 
                 const skillToXP = parseInt(values["primary_career_skill_to_xp"], 10) || 0;
                 const spellXpTotal = parseInt(values["primary_career_spell_xp_total"], 10) || career.spell_xp_primary;

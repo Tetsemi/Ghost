@@ -3996,11 +3996,12 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
    =========================== */
 
 .ui-dialog .tab-content .charsheet .sheet-perks {
-    margin-top: 10px;
+    margin-top: 0px;
+	background: #f2faf4;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-perks .section-head {
-    margin: 0 0 6px 0;
+    margin: 0 0 8px 0;
 }
 
 /* === Readability tweaks for Perks (light background friendly) === */
@@ -4069,48 +4070,228 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   grid-column: 3;                          /* right column, below flavor */
   display: flex;
   height: 100%;
-  font-size: 0.9em;                        /* smaller for readability */
+  font-size: 1em;                        /* smaller for readability */
   color: #111;
   margin: 0;            /* remove any top margin */
   padding: 0;
   line-height: 1.22;  
 }
 
+/* Row layout matches talents’ merged summary row */
+.ui-dialog .tab-content .charsheet .sheet-perk-row-one {
+  display: grid;
+  grid-template-columns: minmax(120px, 10%) minmax(0, 1fr); /* XP | Summary */
+  gap: 0.5rem;
+  align-items: start;
+  margin: 0;
+}
+
+/* XP badge (left) */
+.ui-dialog .tab-content .charsheet .sheet-perk-xp {
+  display: flex; justify-content: flex-end;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-row {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-row label {
+  background: #7fbe93;           /* green header chip */
+  border: 1px solid black;
+  color: #0f2d1f;
+  font-weight: 700;
+  font-size: 1.1em;  
+  padding: 4px 8px;
+  border-radius: 6px 6px 0 0;
+}
+
+/* keep small, centered numeric field (reuses your .sheet-xp-field sizing) */
+.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-field {
+  max-width: 72px; text-align: center;
+  border: 1px solid black; border-top: 0;
+  border-radius: 0 0 6px 6px;
+  background: #f2faf4;
+}
+
+/* Summary panel (right) */
+.ui-dialog .tab-content .charsheet .sheet-perk-summary {
+  background: black;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perk-summary-header {
+  margin: 0 0 0.35rem 0;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: #0f2d1f;
+  background: #7fbe93;
+  border-bottom: 1px solid black;
+  padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"] {
+  display: block;
+  white-space: pre-wrap; /* show one-per-line items */
+  line-height: 1.35;
+  font-size: 0.95em;
+  color: #24332a;
+}
+
 /* ===========================
-   Flaws (ready for when you add the HTML)
-   - Same structure; just a light red theme
+   Flaws (aligned to Perks styles)
    =========================== */
 
-.ui-dialog .tab-content .charsheet .sheet-backstory-flaws {
-    margin-top: 10px;
+.ui-dialog .tab-content .charsheet .sheet-flaws {
+  margin-top: 0px;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-backstory-flaws .sheet-flaw-group {
-  background: #fef4f4;              /* very light red */
+.ui-dialog .tab-content .charsheet .sheet-flaws .section-head {
+  margin: 0 0 8px 0;
+}
+
+/* Group wrapper */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group {
+  background: #fef4f4;        /* very light red panel */
   border: 1px solid #f1c9c9;
-  border-left-color: #e58f8f;
+  border-left-color: #e58f8f; /* accent */
 }
 
-/* ===== Matching layout for Flaws (when you add its HTML) ===== */
-.ui-dialog .tab-content .charsheet .sheet-backstory-flaws .sheet-talent-row {
+/* Subhead (match your Perks subhead, but red) */
+.ui-dialog .tab-content .charsheet .sheet-flaws .section-subhead {
+  margin: 0;
+  padding: 0 0 0 10px;
+  font-size: 110%;
+  font-weight: 600;
+  background: #f2bcbc;        /* light red strip */
+  color: black;
+}
+
+/* Two-column row (checkbox + name | flavor/description) */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-row {
   display: grid;
-  grid-template-columns: 22px 260px 1fr;
+  grid-template-columns: 22px minmax(100px, 150px) 1fr;
+  grid-template-rows: min-content min-content; /* row1: flavor, row2: description */
   align-items: start;
-  background: #fff;
+  height: 100%;
+  background: #ffd6d6;        /* light red card (parallel to #aaf0c9) */
+  border: 1px solid #b24545;  /* darker red border (parallel to #198450) */
   border-radius: 6px;
-  border-bottom: none;                     /* replace earlier dotted divider */
-  column-gap: 10px;   /* keep horizontal spacing */
-  row-gap: 0px;         /* remove vertical gap between grid rows */
+  border-bottom: none;
+  column-gap: 10px;
+  row-gap: 0;
+  margin: 0;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-backstory-flaws .sheet-talent-row:last-child {
-    border-bottom: 0;
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-row:last-child {
+  border-bottom: 0;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-backstory-flaws .sheet-talent-checkbox { grid-column: 1; margin-top: 2px; }
-.ui-dialog .tab-content .charsheet .sheet-backstory-flaws .sheet-talent-row { column-gap: 10px; row-gap: 0; }
-.ui-dialog .tab-content .charsheet .sheet-backstory-flaws .sheet-talent-flavor { margin: 0; line-height: 1.2; }
-.ui-dialog .tab-content .charsheet .sheet-backstory-flaws .sheet-talent-description { margin: 0; line-height: 1.3; }
+/* Columns */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-checkbox {
+  grid-column: 1;
+  margin-top: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-label {
+  grid-column: 2;
+  color: #2b1818;     /* deep red-brown for contrast */
+  font-weight: 700;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+  align-self: start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-flavor {
+  grid-column: 3;     /* right column */
+  display: flex;
+  height: 100%;
+  font-style: italic;
+  font-size: 0.9em;
+  color: black;
+  margin: 0;
+  padding: 0;
+  line-height: 1.12;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-description {
+  grid-column: 3;     /* right column, below flavor */
+  display: flex;
+  height: 100%;
+  font-size: 1em;
+  color: black;
+  margin: 0;
+  padding: 0;
+  line-height: 1.22;
+}
+
+/* Same grid as perks/talents */
+.ui-dialog .tab-content .charsheet .sheet-flaw-row-one {
+  display: grid;
+  grid-template-columns: minmax(120px, 10%) minmax(0, 1fr); /* XP | Summary */
+  gap: 0.5rem;
+  align-items: start;
+}
+
+/* XP badge (left) */
+.ui-dialog .tab-content .charsheet .sheet-flaw-xp {
+  display: flex; justify-content: flex-end;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-row {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-row label {
+  background: #e58f8f;           /* red header chip */
+  border: 1px solid #cc6b6b;
+  color: #3d1414;
+  font-weight: 700;
+  font-size: 1.1em;
+  padding: 4px 8px;
+  border-radius: 6px 6px 0 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-field {
+  max-width: 72px; text-align: center;
+  border: 1px solid #cc6b6b; border-top: 0;
+  border-radius: 0 0 6px 6px;
+  background: #fef4f4;
+}
+
+/* Summary panel (right) */
+.ui-dialog .tab-content .charsheet .sheet-flaw-summary {
+  background: #fef4f4;
+  border: 1px solid black;
+  border-radius: 6px;
+  background: black;
+  padding: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaw-summary-header {
+  margin: 0 0 0.35rem 0;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: #4a1818;
+  background: #e58f8f;   
+  border-bottom: 1px solid black;
+  padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"] {
+  display: block;
+  white-space: pre-wrap;
+  line-height: 1.35;
+  font-size: 0.95em;
+  color: #2a1b1b;
+}
+
+/* ------------------------------------------- BACKSTORY ---------------------------------- */
 
 .ui-dialog .tab-content .charsheet .sheet-backstory-grid {
   display: flex;

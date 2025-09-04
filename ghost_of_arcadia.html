@@ -29930,12 +29930,16 @@ const isChecked = (v) => v === "1" || v === "on" || v === "true";
 
 const recalcArmorTotals = () => {
   const staticKeys = [
+    "showracials",
     "armor1_equipped_checkbox", "armor1_physical_mdr", "armor1_arcane_mdr",
     "armor2_equipped_checkbox", "armor2_physical_mdr", "armor2_arcane_mdr"
   ];
 
   getAttrs(staticKeys, (vals) => {
-    let totalPhysical = 0;
+    const racialBasePhysical =
+      String(vals.showracials || "").toLowerCase() === "khadra" ? 1 : 0;
+
+    let totalPhysical = racialBasePhysical;
     let totalArcane   = 0;
 
     if (isChecked(vals.armor1_equipped_checkbox)) {
@@ -29964,7 +29968,7 @@ const recalcArmorTotals = () => {
 
       getAttrs(repKeys, (rows) => {
         ids.forEach(id => {
-          const eq  = rows[`repeating_armorsmdr_${id}_armor_equipped_checkbox`];
+          const eq = rows[`repeating_armorsmdr_${id}_armor_equipped_checkbox`];
           if (isChecked(eq)) {
             totalPhysical += parseInt(rows[`repeating_armorsmdr_${id}_armor_physical_mdr`], 10) || 0;
             totalArcane   += parseInt(rows[`repeating_armorsmdr_${id}_armor_arcane_mdr`],   10) || 0;
@@ -29981,7 +29985,7 @@ const recalcArmorTotals = () => {
 };
 
 /* Watchers: static rows + repeating rows + open/remove */
-on(
+on("change:showracials " +
   "change:armor1_equipped_checkbox change:armor1_physical_mdr change:armor1_arcane_mdr " +
   "change:armor2_equipped_checkbox change:armor2_physical_mdr change:armor2_arcane_mdr " +
   "change:repeating_armorsmdr:armor_equipped_checkbox " +

@@ -30913,6 +30913,8 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         "xpledger_contacts_cost",
         "xpledger_reuptation_cost",
         "xpledger_faction_cost",
+        "xpledger_flaws_gain",
+        "xpledger_perks_cost",
     ], function(values) {
         const toInt = v => parseInt(v, 10) || 0;
 
@@ -30928,8 +30930,10 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         const contactsCost = toInt(values["xpledger_contacts_cost"]);
         const reputationCost = toInt(values["xpledger_reuptation_cost"]);
         const factionCost = toInt(values["xpledger_faction_cost"]);
+        const flawsGain = toInt(values["xpledger_flaws_gain"]);
+        const perksCost = toInt(values["xpledger_perks_cost"]);
 
-        const xpRemaining = backgroundXP + ledgerGainedXP - xpSpentTalent - xpSpentCareerTalent - spellsCost - skillPointGain - skillPointGainRoll - creditsCost - alliesCost - contactsCost - reputationCost - factionCost;
+        const xpRemaining = backgroundXP + ledgerGainedXP - xpSpentTalent - xpSpentCareerTalent - spellsCost - skillPointGain - skillPointGainRoll - creditsCost - alliesCost - contactsCost - reputationCost - factionCost + flawsGain - perksCost;
 
         setAttrs({
             xp_remaining: xpRemaining
@@ -30961,7 +30965,9 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 xp_contacts: -10,
                 xp_reputation: 0,
                 xp_faction: 0,
-				perk_linguist_sp: 0
+//              xp_flaws: 0,
+//              xp_perks: 0,
+//				perk_linguist_sp: 0
             };
 
             ids.forEach(id => {
@@ -30975,9 +30981,9 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 if (choice === "xp_skill_roll") {
                     aggregates.xp_skill_roll += val;
                     aggregates.xp_skill_roll_skill += valSkill;
-				} else if (choice === "perk_linguist") {
-					aggregates.xp_perks += val;
-					aggregates.perk_linguist_sp += valSkill;	
+//				} else if (choice === "perk_linguist") {
+//					aggregates.xp_perks += val;
+//					aggregates.perk_linguist_sp += valSkill;	
                 } else if (aggregates.hasOwnProperty(choice)) {
                     aggregates[choice] += val;
                 }
@@ -30995,7 +31001,9 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 xpledger_contacts_cost: aggregates.xp_contacts,
                 xpledger_reuptation_cost: aggregates.xp_reputation,
                 xpledger_faction_cost: aggregates.xp_faction,
-				perk_linguist: aggregates.perk_linguist_sp
+//              xpledger_flaws_gain: aggregates.xp_flaws,
+//              xpledger_perks_cost: aggregates.xp_perks,
+//				perk_linguist: aggregates.perk_linguist_sp
             };
             setAttrs(updates);
         });
@@ -31045,6 +31053,7 @@ on(
   }
 );
 
+
 // === Spell XP Remaining Calculation ===
 on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr", function () {
     if (debug_on_trace) console.log("[XP Calc] Triggered");
@@ -31082,7 +31091,6 @@ on("add:repeating_secondarycareer remove:repeating_secondarycareer", () => {
     // Re-run stat updates
     registerStatHandler();
 });
-
 
 /* ========= Money Ledger (order-correct & reorder-aware) ========= */
 const SECTION = "moneyledger"; // group name WITHOUT 'repeating_'
@@ -31138,5 +31146,4 @@ on(`change:repeating_${SECTION}:money_credit change:repeating_${SECTION}:money_d
 // on(`sheet:opened change:_reporder:${SECTION} change:reporder:${SECTION} change:repeating_${SECTION} remove:repeating_${SECTION}`, e => {
 //  console.log("[Money Ledger] structural event:", e.sourceAttribute || e.triggerName || "unknown");
 //});
-
 </script>

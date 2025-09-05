@@ -14062,6 +14062,13 @@
 					  <div class="sheet-tracker-group-title" data-i18n="perks-u">Perks</div>
 					  <div class="sheet-tracker-group-body">
 					
+						<!-- Perks (Session) — Blood-Born Survivor -->
+						<input type="hidden" name="attr_show_perk_blood_born_survivor" />
+						<div class="sheet-tracker-item sheet-tracker-session sheet-perk-blood-born-survivor">
+							<input type="checkbox" name="attr_used_session_perk_blood_born_survivor" class="sheet-tracker-checkbox" value="1"/>
+							<span class="sheet-tracker-label" data-i18n="perk_blood_born_survivor-u">Blood-Born Survivor</span>
+						</div>
+					
 					    <input type="hidden" name="attr_show_perk_combat_veteran" value="0" />
 					    <div class="sheet-tracker-item sheet-tracker-session sheet-perk-combat-veteran">
 					      <input type="checkbox" name="attr_used_session_perk_combat_veteran" class="sheet-tracker-checkbox" />
@@ -22145,18 +22152,15 @@ on("sheet:opened", function () {
   });
 });
 
-/* ===== Perks Data Map (i18n) =====
-   - Text fields store translation keys (like raceDataMap).
-   - usage_limit: "" | "scene" | "session"
-   - Costs per your 10/15 XP groups.
-*/
+/* ===== Perks Data Map (i18n) ===== */
+
 const perkDataMap = {
     blood_born_survivor: {
         name: "perk_blood_born_survivor-u",
         flavor: "perk_blood_born_survivor_flavor-u",
         description: "perk_blood_born_survivor_description-u",
         cost: 15,
-        usage_limit: "scene"
+        usage_limit: ["scene", "session"]
     },
     combat_veteran: {
         name: "perk_combat_veteran-u",
@@ -22251,11 +22255,8 @@ const perkDataMap = {
     }
 };
 
-/* ===== Flaws Data Map (i18n) =====
-   - Text fields store translation keys (like raceDataMap / perkDataMap).
-   - usage_limit: "" | "scene" | "session"
-   - Costs: 5 (minor) / 10 (major) per your spec.
-*/
+/* ===== Flaws Data Map (i18n) ===== */
+
 const flawDataMap = {
     addiction_major: {
         name: "flaw_addiction_major-u",
@@ -22328,7 +22329,6 @@ const flawDataMap = {
         usage_limit: "session" // GM may introduce interference once per session
     }
 };
-
 
 // Maps //
 const raceDataMap = {
@@ -28466,6 +28466,28 @@ on(flawEvents, () => {
   });
 });
 
+// Blood-Born Survivor — add +2 current Vitality once per session
+on("change:used_session_perk_blood_born_survivor", (eventInfo) => {
+  getAttrs([
+    "used_session_perk_blood_born_survivor",
+    "perk_blood_born_survivor",
+    "vitality",
+    "bbs_session_applied" // hidden guard flag
+  ], (v) => {
+    const picked   = v.perk_blood_born_survivor === "1"; // only if the perk is actually owned
+    const usedNow  = v.used_session_perk_blood_born_survivor === "1";
+    const applied  = v.bbs_session_applied === "1";
+
+    if (picked && usedNow && !applied) {
+      const cur = parseInt(v.vitality, 10) || 0;
+      setAttrs({
+        vitality: cur + 2,           // no cap; purely adds to current
+        bbs_session_applied: "1"     // block further adds this session
+      });
+    }
+  });
+});
+
 function getAllTalentSkills(race) {
 	if (debug_on_trace) console.log ("[getAllTalentSkills] Start");
   const skills = new Set();
@@ -29402,7 +29424,8 @@ function registerStatHandler() {
 	const watched = [
 		"age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", "char_creation_lock", "major_wounds",
 		"primary_career",                         // Watch primary career changes
-		"repeating_secondarycareer:secondary_career" // Watch for changes to career name
+		"repeating_secondarycareer:secondary_career", // Watch for changes to career name
+		"perk_resilient_frame", "perk_blood_born_survivor", "perk_blood_born_survivor_hp_bonus"
 	];
 
 	// Dynamically pull all strain buffer fields from careerDataMap
@@ -29434,7 +29457,13 @@ function registerStatHandler() {
 				update["personal_skill_points"] = iint * 2;
 			}
 
-			update["vitality_max"]= ipow;
+			// === Perk-driven Vitality bonuses ===
+			// Resilient Frame: static +4 while perk is owned (permanent while checked)
+			let perkVitalityBonus = (values.perk_resilient_frame === "1") ? 4 : 0;
+			
+			// Base Vitality is POW, then add perks
+			update["vitality_max"] = ipow + perkVitalityBonus;
+
 			update["pulphp_max"] = Math.floor((icon + isiz)/5);
 			update["major_wounds"]= Math.floor(((icon + isiz)/5)/2);
 			
@@ -30443,11 +30472,16 @@ const cleanupInactiveCareers = () => {
         updates[`show_${career}_${talentKey}`] = "0";
 
         // Clear the appropriate usage box if it exists for this talent
-        if (meta.usage_limit === "session") {
-          updates[`used_session_${career}_${talentKey}`] = "0";
-        } else if (meta.usage_limit === "scene") {
-          updates[`used_scene_${career}_${talentKey}`] = "0";
-        }
+		const lim = meta?.usage_limit ?? "";
+		
+		if (hasLimit(lim, "session")) {
+			updates[`used_session_${career}_${talentKey}`] = "0";
+		}
+		
+		if (hasLimit(lim, "scene")) {
+		updates[`used_scene_${career}_${talentKey}`] = "0";
+		}
+
 
         // Reset gates so nothing remains visually enabled/locked for an inactive career
         updates[`${career}_${talentKey}_enabled`] = "0";
@@ -30470,48 +30504,55 @@ const runCleanupInactiveCareers = () => {
     endSilent();
 };
 
+const hasLimit = (val, limit) => Array.isArray(val) ? val.includes(limit) : val === limit;
+
 const getUsageLimitedTalentNames = (limitType) => {
   const names = [];
 
-  // Perks (e.g., used_scene_perk_dirty_fighter, used_session_perk_mind_leash)
+  // Perks (e.g. used_scene_perk_dirty_fighter, used_session_perk_mind_leash)
   for (const key in (perkDataMap || {})) {
-    if ((perkDataMap[key]?.usage_limit || "") === limitType) {
+    const lim = perkDataMap[key]?.usage_limit ?? "";
+    if (hasLimit(lim, limitType)) {
       names.push(`used_${limitType}_perk_${key}`);
     }
   }
 
-  // Flaws (e.g., used_scene_flaw_soul_flare, used_session_flaw_hunted)
+  // Flaws (e.g. used_scene_flaw_soul_flare, used_session_flaw_hunted)
   for (const key in (flawDataMap || {})) {
-    if ((flawDataMap[key]?.usage_limit || "") === limitType) {
+    const lim = flawDataMap[key]?.usage_limit ?? "";
+    if (hasLimit(lim, limitType)) {
       names.push(`used_${limitType}_flaw_${key}`);
     }
   }
 
-  // Racial traits (new)
+  // Racial traits
   for (const race in raceDataMap) {
     const traits = raceDataMap[race]?.traits?.items || {};
     for (const key in traits) {
-      if (traits[key].usage_limit === limitType) {
+      const lim = traits[key]?.usage_limit ?? "";
+      if (hasLimit(lim, limitType)) {
         names.push(`used_${limitType}_${race}_${key}`);
       }
     }
   }
-  
+
   // Racial talents
-  for (let race in talentDataMap) {
-    const talents = talentDataMap[race];
-    for (let key in talents) {
-      if (talents[key].usage_limit === limitType) {
+  for (const race in talentDataMap) {
+    const talents = talentDataMap[race] || {};
+    for (const key in talents) {
+      const lim = talents[key]?.usage_limit ?? "";
+      if (hasLimit(lim, limitType)) {
         names.push(`used_${limitType}_${race}_${key}`);
       }
     }
   }
 
   // Career talents
-  for (let career in careerDataMap) {
+  for (const career in careerDataMap) {
     const talents = careerDataMap[career]?.talents || {};
-    for (let key in talents) {
-      if (talents[key].usage_limit === limitType) {
+    for (const key in talents) {
+      const lim = talents[key]?.usage_limit ?? "";
+      if (hasLimit(lim, limitType)) {
         names.push(`used_${limitType}_${career}_${key}`);
       }
     }
@@ -30519,6 +30560,7 @@ const getUsageLimitedTalentNames = (limitType) => {
 
   return names;
 };
+
 
 on("clicked:clear_scene_uses", () => {
     // Clear static scene checkboxes first
@@ -30539,22 +30581,35 @@ on("clicked:clear_scene_uses", () => {
 });
 
 on("clicked:clear_session_uses", () => {
-    // Clear static session checkboxes first
-    const sessionUses = getUsageLimitedTalentNames("session");
-    const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
+  // Clear static session checkboxes first
+  const sessionUses = getUsageLimitedTalentNames("session");
+  const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
 
-    // Get all repeating_session row IDs
-    getSectionIDs("repeating_session", ids => {
-        ids.forEach(id => {
-            // Build attribute name for checkbox in each row
-            const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
-            updates[attrName] = "0";
-        });
-
-        // Apply all updates
-        setAttrs(updates);
+  // Get all repeating_session row IDs
+  getSectionIDs("repeating_session", ids => {
+    ids.forEach(id => {
+      const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
+      updates[attrName] = "0";
     });
+
+    // If Blood-Born Survivor was applied this session, remove the +2 now
+    getAttrs(["bbs_session_applied", "vitality"], vals => {
+      const applied = vals.bbs_session_applied === "1";
+      const curVit  = parseInt(vals.vitality, 10) || 0;
+
+      if (applied) {
+        updates.vitality = Math.max(curVit - 2, 0); // clamp at 0 just in case
+      }
+
+      // Allow next session’s +2 to be granted again
+      updates.bbs_session_applied = "0";
+
+      // Apply all updates
+      setAttrs(updates);
+    });
+  });
 });
+
 
 let careerWatcherInitialized = false;
 

@@ -13130,6 +13130,10 @@
 						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xp_spent_career_talent" />
 					</div>
 					<div class="sheet-ledger-row">
+						<label>Prestige Career XP Spent</label>
+						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xp_spent_career_prestige" />
+					</div>					
+					<div class="sheet-ledger-row">
 						<label>XP -> Spells Total</label>
 						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_spells_cost" />
 					</div>
@@ -28435,6 +28439,7 @@ const careerDataMap = {
 	  name: "Arcane Gunslinger",
 	  career_type: "prestige",
 	  career_type_name: "Prestige",
+	  career_cost: "30",
 	  skill_points_primary_display: "—",
 	  skill_points_secondary: 0,
 	  spell_xp_primary: 0,
@@ -31142,14 +31147,30 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
   });
 
   getSectionIDs("repeating_secondarycareer", (ids) => {
+    // enable/locks per secondary
     ids.forEach(id => {
       getAttrs([`repeating_secondarycareer_${id}_secondary_career`], (rowVals) => {
         const career = rowVals[`repeating_secondarycareer_${id}_secondary_career`];
         if (career) updateCareerTalentEnables(career);
       });
     });
+  
+    // prestige buy-in sum
+    const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+    getAttrs(keys, (vals) => {
+      const uniqueCareers = Array.from(new Set(
+        ids.map(id => vals[`repeating_secondarycareer_${id}_secondary_career`] || "").filter(Boolean)
+      ));
+      const totalPrestige = uniqueCareers.reduce((sum, key) => {
+        const cfg = careerDataMap[key];
+        return (cfg?.career_type === "prestige")
+          ? sum + (parseInt(cfg.career_cost, 10) || 0)
+          : sum;
+      }, 0);
+      setAttrs({ xp_spent_career_prestige: String(totalPrestige) });
+    });
   });
-
+    
   updateCareerReadyState(() => {
     if (debug_on) console.log("[Career Lock] Triggered registerCareerSkillLimiter()");
     registerCareerSkillLimiter();
@@ -31375,13 +31396,14 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
 });
 
 // === XP Remaining Calculation ===
-on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
+on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xp_spent_career_prestige cchange:xp_spent_career_talenthange:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
     if (debug_on_trace) console.log ("[change:background_xp] Start");
     getAttrs([
         "background_xp",
         "xpledger_gained_xp",
         "xp_spent_talent",
         "xp_spent_career_talent",
+		"xp_spent_career_prestige",
         "xpledger_spells_cost",
         "xpledger_skill_point_gain",
 		"xpledger_skill_point_roll_gain",
@@ -31399,6 +31421,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         const ledgerGainedXP = toInt(values["xpledger_gained_xp"]);
         const xpSpentTalent = toInt(values["xp_spent_talent"]);
         const xpSpentCareerTalent = toInt(values["xp_spent_career_talent"]);
+		const xpSpentCareerPrestige = toInt(values["xp_spent_career_prestige"]);
         const spellsCost = toInt(values["xpledger_spells_cost"]);
         const skillPointGain = toInt(values["xpledger_skill_point_gain"]);
 		const skillPointGainRoll = toInt(values["xpledger_skill_point_roll_gain"]);
@@ -31410,7 +31433,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         const flawsGain = toInt(values["xpledger_flaws_gain"]);
         const perksCost = toInt(values["xpledger_perks_cost"]);
 
-        const xpRemaining = backgroundXP + ledgerGainedXP - xpSpentTalent - xpSpentCareerTalent - spellsCost - skillPointGain - skillPointGainRoll - creditsCost - alliesCost - contactsCost - reputationCost - factionCost + flawsGain - perksCost;
+        const xpRemaining = backgroundXP + ledgerGainedXP - xpSpentTalent - xpSpentCareerTalent - xpSpentCareerPrestige - spellsCost - skillPointGain - skillPointGainRoll - creditsCost - alliesCost - contactsCost - reputationCost - factionCost + flawsGain - perksCost;
 
         setAttrs({
             xp_remaining: xpRemaining

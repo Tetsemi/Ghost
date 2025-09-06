@@ -310,18 +310,21 @@
 			<!-- Tab Buttons -->
 		<div class="sheet-tab-buttons">
 			<button type="action" name="act_skills">Skills</button>
-			<button type="action" name="act_background">Background</button>
+			<button type="action" name="act_perks">Perks</button>
+			<button type="action" name="act_flaws">Flaws</button>
+			<button type="action" name="act_background">Background</button>			
 			<button type="action" name="act_talents">Racials</button>
 			<button type="action" name="act_careers">Careers</button>
+			<button type="action" name="act_ledger">Ledger</button>
+		</div>
+		<div class="sheet-tab-buttons">
+			<button type="action" name="act_tracker">Tracker</button>
 			<button type="action" name="act_combat">Combat</button>
 			<button type="action" name="act_spells">Spells</button>
 			<button type="action" name="act_inventory">Inventory</button>
 			<button type="action" name="act_backstory">Backstory</button>
-			<button type="action" name="act_ledger">Ledger</button>
-			<button type="action" name="act_tracker">Tracker</button>
 			<button type="action" name="act_npcs">NPCs</button>
 			<button type="action" name="act_vehicles">Vehicles</button>
-
 		</div>
 
 		<!-- ------------------- SKILLS -------------------- -->
@@ -1194,6 +1197,300 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<!-- ------------------- PERKS -------------------- -->
+		<div class="sheet-tab-content sheet-perks">
+
+			<input type="hidden" name="attr_perk_slots_full" value="0" />
+            <h4 class="section-head" data-i18n="perks-u">Perks</h4>
+
+            <div class="sheet-section sheet-perks">
+              <div class="sheet-perk-row-one">
+                <!-- Left: XP badge -->
+                <div class="sheet-xp-tracker sheet-perk-xp">
+                  <div class="sheet-xp-row">
+                    <label data-i18n="perks_spent_xp_label-u">Spent XP (Perks)</label>
+                    <input type="text" name="attr_xpledger_perks_cost"
+                           class="sheet-xp-field sheet-readonly" />
+                  </div>
+                </div>
+            
+                <!-- Right: summary panel -->
+                <div class="sheet-perk-summary">
+                  <h3 class="sheet-perk-summary-header"
+                      data-i18n="perks_summary_header-u">Chosen Perks Summary</h3>
+                  <span name="attr_perk_summary"></span>
+                </div>
+              </div>
+            </div>
+	     
+            <!-- ===== 10 XP Perks ===== -->
+            <div class="sheet-perk-group">
+				<input type="hidden" name="attr_perk10_slots_full" value="0" />
+                <h5 class="section-subhead" data-i18n="perks_10xp-u">10 XP Perks</h5>
+        
+                <!-- Combat Veteran -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_combat_veteran_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_combat_veteran" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_combat_veteran-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_combat_veteran_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_combat_veteran_description-u"></span>
+                </div>
+        
+                <!-- Corp Groomed -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_corp_groomed_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_corp_groomed" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_corp_groomed-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_corp_groomed_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_corp_groomed_description-u"></span>
+                </div>
+        
+                <!-- Dirty Fighter -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_dirty_fighter_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_dirty_fighter" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_dirty_fighter-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_dirty_fighter_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_dirty_fighter_description-u"></span>
+                </div>
+        
+                <!-- Forgettable Presence -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_forgettable_presence_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_forgettable_presence" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_forgettable_presence-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_forgettable_presence_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_forgettable_presence_description-u"></span>
+                </div>
+        
+                <!-- Linguist -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_linguist_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_linguist" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_linguist-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_linguist_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_linguist_description-u"></span>
+                </div>
+        
+                <!-- Photographic Recall -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_photographic_recall_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_photographic_recall" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_photographic_recall-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_photographic_recall_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_photographic_recall_description-u"></span>
+                </div>
+        
+                <!-- Resilient Frame -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_resilient_frame_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_resilient_frame" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_resilient_frame-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_resilient_frame_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_resilient_frame_description-u"></span>
+                </div>
+        
+                <!-- Scorched Soul -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_scorched_soul_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_scorched_soul" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_scorched_soul-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_scorched_soul_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_scorched_soul_description-u"></span>
+                </div>
+            </div>
+        
+            <!-- ===== 15 XP Perks ===== -->
+            <div class="sheet-perk-group">
+				<input type="hidden" name="attr_perk15_slots_full" value="0" />
+                <h5 class="section-subhead" data-i18n="perks_15xp-u">15 XP Perks</h5>
+        
+                <!-- Blood-Born Survivor -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_blood_born_survivor_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_blood_born_survivor" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_blood_born_survivor-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_blood_born_survivor_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_blood_born_survivor_description-u"></span>
+                </div>
+        
+                <!-- Danger Sense -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_danger_sense_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_danger_sense" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_danger_sense-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_danger_sense_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_danger_sense_description-u"></span>
+                </div>
+        
+                <!-- Mind Leash -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_mind_leash_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_mind_leash" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_mind_leash-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_mind_leash_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_mind_leash_description-u"></span>
+                </div>
+        
+                <!-- Shadow Mark -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_shadow_mark_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_shadow_mark" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_shadow_mark-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_shadow_mark_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_shadow_mark_description-u"></span>
+                </div>
+        
+                <!-- Tactical Instinct -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_tactical_instinct_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_tactical_instinct" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_tactical_instinct-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_tactical_instinct_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_tactical_instinct_description-u"></span>
+                </div>
+        
+                <!-- Veil-Drenched Intuition -->
+                <div class="sheet-talent-row">
+                    <input type="hidden" name="attr_perk_veil_drenched_intuition_lockflag" value="0" />
+                    <input type="checkbox" name="attr_perk_veil_drenched_intuition" value="1" class="sheet-talent-checkbox" />
+                    <label class="sheet-talent-label" data-i18n="perk_veil_drenched_intuition-u"></label>
+                    <span class="sheet-talent-flavor" data-i18n="perk_veil_drenched_intuition_flavor-u"></span>
+                    <span class="sheet-talent-description" data-i18n="perk_veil_drenched_intuition_description-u"></span>
+                </div>
+            </div>
+        </div>
+
+		<!-- ------------------- FLAWS -------------------- -->
+		<div class="sheet-tab-content sheet-flaws">
+
+			<input type="hidden" name="attr_flaw_slots_full" value="0" />
+			<h4 class="section-head" data-i18n="flaws-u">Flaws</h4>
+
+            <div class="sheet-section sheet-flaws">
+              <div class="sheet-flaw-row-one">
+                <!-- Left: XP badge -->
+                <div class="sheet-xp-tracker sheet-flaw-xp">
+                  <div class="sheet-xp-row">
+                    <label data-i18n="flaws_xp_gained_label-u">XP Gained (Flaws)</label>
+                    <input type="text" name="attr_xpledger_flaws_gain"
+                           class="sheet-xp-field sheet-readonly" />
+                  </div>
+                </div>
+            
+                <!-- Right: summary panel -->
+                <div class="sheet-flaw-summary">
+                  <h3 class="sheet-flaw-summary-header"
+                      data-i18n="flaws_summary_header-u">Chosen Flaws Summary</h3>
+                  <span name="attr_flaw_summary"></span>
+                </div>
+              </div>
+            </div>
+		
+		    <!-- ===== 5 XP Flaws ===== -->
+		    <div class="sheet-flaw-group">
+				<input type="hidden" name="attr_flaw5_slots_full" value="0" />
+				<h5 class="section-subhead" data-i18n="flaws_5xp-u">5 XP Flaws</h5>
+		
+				<!-- Addiction (Minor) -->
+				<div class="sheet-talent-row">
+					<input type="hidden" name="attr_flaw_addiction_minor_lockflag" value="0" />
+					<input type="checkbox" name="attr_flaw_addiction_minor" value="1" class="sheet-talent-checkbox" />
+					<label class="sheet-talent-label" data-i18n="flaw_addiction_minor-u"></label>
+					<span class="sheet-talent-flavor" data-i18n="flaw_addiction_minor_flavor-u"></span>
+					<span class="sheet-talent-description" data-i18n="flaw_addiction_minor_description-u"></span>
+				</div>
+		
+				<!-- Compulsive Gambler -->
+				<div class="sheet-talent-row">
+					<input type="hidden" name="attr_flaw_compulsive_gambler_lockflag" value="0" />
+					<input type="checkbox" name="attr_flaw_compulsive_gambler" value="1" class="sheet-talent-checkbox" />
+					<label class="sheet-talent-label" data-i18n="flaw_compulsive_gambler-u"></label>
+					<span class="sheet-talent-flavor" data-i18n="flaw_compulsive_gambler_flavor-u"></span>
+					<span class="sheet-talent-description" data-i18n="flaw_compulsive_gambler_description-u"></span>
+				</div>
+			
+				<!-- Cyber Rejection -->
+				<div class="sheet-talent-row">
+					<input type="hidden" name="attr_flaw_cyber_rejection_lockflag" value="0" />
+					<input type="checkbox" name="attr_flaw_cyber_rejection" value="1" class="sheet-talent-checkbox" />
+					<label class="sheet-talent-label" data-i18n="flaw_cyber_rejection-u"></label>
+					<span class="sheet-talent-flavor" data-i18n="flaw_cyber_rejection_flavor-u"></span>
+					<span class="sheet-talent-description" data-i18n="flaw_cyber_rejection_description-u"></span>
+				</div>
+			
+				<!-- Distinctive Look -->
+				<div class="sheet-talent-row">
+					<input type="hidden" name="attr_flaw_distinctive_look_lockflag" value="0" />
+					<input type="checkbox" name="attr_flaw_distinctive_look" value="1" class="sheet-talent-checkbox" />
+					<label class="sheet-talent-label" data-i18n="flaw_distinctive_look-u"></label>
+					<span class="sheet-talent-flavor" data-i18n="flaw_distinctive_look_flavor-u"></span>
+					<span class="sheet-talent-description" data-i18n="flaw_distinctive_look_description-u"></span>
+				</div>
+  		
+				<!-- Veil Touched -->
+				<div class="sheet-talent-row">
+					<input type="hidden" name="attr_flaw_veil_touched_lockflag" value="0" />
+					<input type="checkbox" name="attr_flaw_veil_touched" value="1" class="sheet-talent-checkbox" />
+					<label class="sheet-talent-label" data-i18n="flaw_veil_touched-u"></label>
+					<span class="sheet-talent-flavor" data-i18n="flaw_veil_touched_flavor-u"></span>
+					<span class="sheet-talent-description" data-i18n="flaw_veil_touched_description-u"></span>
+				</div>
+  		
+				<!-- Wanted (Low Priority) -->
+				<div class="sheet-talent-row">
+					<input type="hidden" name="attr_flaw_wanted_low_priority_lockflag" value="0" />
+					<input type="checkbox" name="attr_flaw_wanted_low_priority" value="1" class="sheet-talent-checkbox" />
+					<label class="sheet-talent-label" data-i18n="flaw_wanted_low_priority-u"></label>
+					<span class="sheet-talent-flavor" data-i18n="flaw_wanted_low_priority_flavor-u"></span>
+					<span class="sheet-talent-description" data-i18n="flaw_wanted_low_priority_description-u"></span>
+				</div>
+		    </div>
+		
+		    <!-- ===== 10 XP Flaws ===== -->
+		    <div class="sheet-flaw-group">
+				<input type="hidden" name="attr_flaw10_slots_full" value="0" />
+		        <h5 class="section-subhead" data-i18n="flaws_10xp-u">10 XP Flaws</h5>
+				
+		        <!-- Addiction (Major) -->
+		        <div class="sheet-talent-row">
+		          <input type="hidden" name="attr_flaw_addiction_major_lockflag" value="0" />
+		          <input type="checkbox" name="attr_flaw_addiction_major" value="1" class="sheet-talent-checkbox" />
+		          <label class="sheet-talent-label" data-i18n="flaw_addiction_major-u"></label>
+		          <span class="sheet-talent-flavor" data-i18n="flaw_addiction_major_flavor-u"></span>
+		          <span class="sheet-talent-description" data-i18n="flaw_addiction_major_description-u"></span>
+		        </div>
+		
+		        <!-- Hunted -->
+		        <div class="sheet-talent-row">
+		          <input type="hidden" name="attr_flaw_hunted_lockflag" value="0" />
+		          <input type="checkbox" name="attr_flaw_hunted" value="1" class="sheet-talent-checkbox" />
+		          <label class="sheet-talent-label" data-i18n="flaw_hunted-u"></label>
+		          <span class="sheet-talent-flavor" data-i18n="flaw_hunted_flavor-u"></span>
+		          <span class="sheet-talent-description" data-i18n="flaw_hunted_description-u"></span>
+		        </div>
+		
+		        <!-- Mental Scar -->
+		        <div class="sheet-talent-row">
+		          <input type="hidden" name="attr_flaw_mental_scar_lockflag" value="0" />
+		          <input type="checkbox" name="attr_flaw_mental_scar" value="1" class="sheet-talent-checkbox" />
+		          <label class="sheet-talent-label" data-i18n="flaw_mental_scar-u"></label>
+		          <span class="sheet-talent-flavor" data-i18n="flaw_mental_scar_flavor-u"></span>
+		          <span class="sheet-talent-description" data-i18n="flaw_mental_scar_description-u"></span>
+		        </div>
+		
+		        <!-- Soul Flare -->
+		        <div class="sheet-talent-row">
+		          <input type="hidden" name="attr_flaw_soul_flare_lockflag" value="0" />
+		          <input type="checkbox" name="attr_flaw_soul_flare" value="1" class="sheet-talent-checkbox" />
+		          <label class="sheet-talent-label" data-i18n="flaw_soul_flare-u"></label>
+		          <span class="sheet-talent-flavor" data-i18n="flaw_soul_flare_flavor-u"></span>
+		          <span class="sheet-talent-description" data-i18n="flaw_soul_flare_description-u"></span>
+		        </div>
+		    </div>
 		</div>
 
 		<!-- ------------------- Backgrounds -------------------- -->
@@ -12486,6 +12783,7 @@
 
 		<!-- ------------------------- Backstory ------------------------- -->
 		<div class="sheet-tab-content sheet-backstory">
+		
 			<div class="sheet-section-full">
 				<h4 class="section-head" data-i18n="contacts-u">Contacts</h4>
 				<div class="section-head-row">
@@ -12518,7 +12816,7 @@
 					<textarea  name="attr_contact_description" class="sheet-contact-description" placeholder="Description"></textarea>
 				</fieldset>
 			</div>
-			<hr/>
+
 			<h4 class="section-head" data-i18n="backstory-u">Backstory</h4>
 			<div class="sheet-section sheet-backstory-grid">
 
@@ -12594,7 +12892,7 @@
 					</div>
 					<div class="sheet-ledger-row">
 						<label>Perk -> Linguist</label>
-						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_perk_linguist" />
+						<input class="sheet-attr-input-small sheet-skill-gain sheet-readonly" type="text" name="attr_perk_linguist_sp" />
 					</div>						
 					<div class="sheet-ledger-row">
 						<label>Skill Points Remaining</label>
@@ -12679,7 +12977,7 @@
 					<div class="sheet-repeating-ledger-row">
 						<div class="flex-cell ledger-choice"><span>Ledger Choice</span></div>
 						<div class="flex-cell ledger-value-header">Value</div>
-						<div class="flex-cell ledger-value-header">SP</div>
+						<div class="flex-cell ledger-value-header">SP Gain</div>
 						<div class="flex-cell ledger-description"><span>Ledger Description</span></div>
 					</div>
 				</div>
@@ -12783,6 +13081,43 @@
 					<h4 class="sheet-tracker-colhead" data-i18n="scene_limited-u">Scene-Limited</h4>
 					<button type="action" name="act_clear_scene_uses" class="sheet-tab-buttons">Clear Scene</button>
 
+					<!-- Perks (scene) -->
+					<div class="sheet-tracker-group-row">
+					  <div class="sheet-tracker-group-title" data-i18n="perks-u">Perks</div>
+					  <div class="sheet-tracker-group-body">
+					
+					    <!-- Perk: Dirty Fighter (scene) -->
+					    <input type="hidden" name="attr_show_perk_dirty_fighter" />
+					    <div class="sheet-tracker-item sheet-tracker-scene sheet-perk-dirty-fighter">
+					      <input type="checkbox" name="attr_used_scene_perk_dirty_fighter" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="perk_dirty_fighter-u">Dirty Fighter</span>
+					    </div>
+					
+					    <!-- Perk: Blood-Born Survivor (scene) -->
+					    <input type="hidden" name="attr_show_perk_blood_born_survivor" />
+					    <div class="sheet-tracker-item sheet-tracker-scene sheet-perk-blood-born-survivor">
+					      <input type="checkbox" name="attr_used_scene_perk_blood_born_survivor" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="perk_blood_born_survivor-u">Blood-Born Survivor</span>
+					    </div>
+					
+					  </div>
+					</div>
+
+					<!-- Flaws (scene) -->
+					<div class="sheet-tracker-group-row">
+					  <div class="sheet-tracker-group-title" data-i18n="flaws-u">Flaws</div>
+					  <div class="sheet-tracker-group-body">
+					
+					    <!-- Flaw: Soul Flare (scene) -->
+					    <input type="hidden" name="attr_show_flaw_soul_flare" />
+					    <div class="sheet-tracker-item sheet-tracker-scene sheet-flaw-soul-flare">
+					      <input type="checkbox" name="attr_used_scene_flaw_soul_flare" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="flaw_soul_flare-u">Soul Flare</span>
+					    </div>
+					
+					  </div>
+					</div>
+
 					<!-- Racial Trait Scene Start -->
 					<div class="sheet-tracker-group-row">					
 						<div class="sheet-tracker-group-title" data-i18n="racial_traits-u">Racial Traits</div>
@@ -12826,7 +13161,7 @@
 						</div>
 					</div>
 					
-						<!-- Racial Talents (scene) -->
+					<!-- Racial Talents (scene) -->
 					<div class="sheet-tracker-group-row">
 						<div class="sheet-tracker-group-title" data-i18n="racial_talents-u">Racial Talents</div>
 						<div class="sheet-tracker-group-body">
@@ -13721,7 +14056,84 @@
 				<div class="sheet-tracker-column">
 					<h4 class="sheet-tracker-colhead" data-i18n="session_limited-u">Session-Limited</h4>
 					<button type="action" name="act_clear_session_uses" class="sheet-tab-buttons">Clear Session</button>
+
+					<!-- Perks (session) -->
+					<div class="sheet-tracker-group-row">
+					  <div class="sheet-tracker-group-title" data-i18n="perks-u">Perks</div>
+					  <div class="sheet-tracker-group-body">
 					
+						<!-- Perks (Session) — Blood-Born Survivor -->
+						<input type="hidden" name="attr_show_perk_blood_born_survivor" />
+						<div class="sheet-tracker-item sheet-tracker-session sheet-perk-blood-born-survivor">
+							<input type="checkbox" name="attr_used_session_perk_blood_born_survivor" class="sheet-tracker-checkbox" value="1"/>
+							<span class="sheet-tracker-label" data-i18n="perk_blood_born_survivor-u">Blood-Born Survivor</span>
+						</div>
+					
+					    <input type="hidden" name="attr_show_perk_combat_veteran" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-perk-combat-veteran">
+					      <input type="checkbox" name="attr_used_session_perk_combat_veteran" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="perk_combat_veteran-u">Combat Veteran</span>
+					    </div>
+					
+					    <input type="hidden" name="attr_show_perk_corp_groomed" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-perk-corp-groomed">
+					      <input type="checkbox" name="attr_used_session_perk_corp_groomed" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="perk_corp_groomed-u">Corp Groomed</span>
+					    </div>
+					
+					    <input type="hidden" name="attr_show_perk_danger_sense" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-perk-danger-sense">
+					      <input type="checkbox" name="attr_used_session_perk_danger_sense" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="perk_danger_sense-u">Danger Sense</span>
+					    </div>
+					
+					    <input type="hidden" name="attr_show_perk_mind_leash" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-perk-mind-leash">
+					      <input type="checkbox" name="attr_used_session_perk_mind_leash" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="perk_mind_leash-u">Mind Leash</span>
+					    </div>
+					
+					    <input type="hidden" name="attr_show_perk_tactical_instinct" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-perk-tactical-instinct">
+					      <input type="checkbox" name="attr_used_session_perk_tactical_instinct" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="perk_tactical_instinct-u">Tactical Instinct</span>
+					    </div>
+					
+					    <input type="hidden" name="attr_show_perk_veil_drenched_intuition" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-perk-veil-drenched-intuition">
+					      <input type="checkbox" name="attr_used_session_perk_veil_drenched_intuition" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="perk_veil_drenched_intuition-u">Veil-Drenched Intuition</span>
+					    </div>
+					
+					  </div>
+					</div>
+					
+					<!-- Flaws (session) -->
+					<div class="sheet-tracker-group-row">
+					  <div class="sheet-tracker-group-title" data-i18n="flaws-u">Flaws</div>
+					  <div class="sheet-tracker-group-body">
+					
+					    <input type="hidden" name="attr_show_flaw_wanted_low_priority" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-flaw-wanted-low-priority">
+					      <input type="checkbox" name="attr_used_session_flaw_wanted_low_priority" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="flaw_wanted_low_priority-u">Wanted (Low Priority)</span>
+					    </div>
+					
+					    <input type="hidden" name="attr_show_flaw_hunted" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-flaw-hunted">
+					      <input type="checkbox" name="attr_used_session_flaw_hunted" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="flaw_hunted-u">Hunted</span>
+					    </div>
+					
+					    <input type="hidden" name="attr_show_flaw_mental_scar" value="0" />
+					    <div class="sheet-tracker-item sheet-tracker-session sheet-flaw-mental-scar">
+					      <input type="checkbox" name="attr_used_session_flaw_mental_scar" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="flaw_mental_scar-u">Mental Scar</span>
+					    </div>
+					
+					  </div>
+					</div>
+										
 					<!-- Racial Traits (session) -->
 					<div class="sheet-tracker-group-row">
 						<div class="sheet-tracker-group-title" data-i18n="racial_traits-u">Racial Traits</div>
@@ -21670,7 +22082,7 @@ Body Hit Location---------------------------------------------------------------
 <!-- WORKERS -->
 <script type="text/worker">
 const debug_on = false;
-const debug_on_trace = false;
+const debug_on_trace = true;
 const debug_on_watcher = false;
 
 const registeredRaces = new Set();
@@ -21739,6 +22151,184 @@ on("sheet:opened", function () {
     }
   });
 });
+
+/* ===== Perks Data Map (i18n) ===== */
+
+const perkDataMap = {
+    blood_born_survivor: {
+        name: "perk_blood_born_survivor-u",
+        flavor: "perk_blood_born_survivor_flavor-u",
+        description: "perk_blood_born_survivor_description-u",
+        cost: 15,
+        usage_limit: ["scene", "session"]
+    },
+    combat_veteran: {
+        name: "perk_combat_veteran-u",
+        flavor: "perk_combat_veteran_flavor-u",
+        description: "perk_combat_veteran_description-u",
+        cost: 10,
+        usage_limit: "session"
+    },
+    corp_groomed: {
+        name: "perk_corp_groomed-u",
+        flavor: "perk_corp_groomed_flavor-u",
+        description: "perk_corp_groomed_description-u",
+        cost: 10,
+        usage_limit: "session"
+    },
+    danger_sense: {
+        name: "perk_danger_sense-u",
+        flavor: "perk_danger_sense_flavor-u",
+        description: "perk_danger_sense_description-u",
+        cost: 15,
+        usage_limit: "session"
+    },
+    dirty_fighter: {
+        name: "perk_dirty_fighter-u",
+        flavor: "perk_dirty_fighter_flavor-u",
+        description: "perk_dirty_fighter_description-u",
+        cost: 10,
+        usage_limit: "scene"
+    },
+    forgettable_presence: {
+        name: "perk_forgettable_presence-u",
+        flavor: "perk_forgettable_presence_flavor-u",
+        description: "perk_forgettable_presence_description-u",
+        cost: 10,
+        usage_limit: ""
+    },
+    linguist: {
+        name: "perk_linguist-u",
+        flavor: "perk_linguist_flavor-u",
+        description: "perk_linguist_description-u",
+        cost: 10,
+        usage_limit: ""
+    },
+    mind_leash: {
+        name: "perk_mind_leash-u",
+        flavor: "perk_mind_leash_flavor-u",
+        description: "perk_mind_leash_description-u",
+        cost: 15,
+        usage_limit: "session"
+    },
+    photographic_recall: {
+        name: "perk_photographic_recall-u",
+        flavor: "perk_photographic_recall_flavor-u",
+        description: "perk_photographic_recall_description-u",
+        cost: 10,
+        usage_limit: ""
+    },
+    resilient_frame: {
+        name: "perk_resilient_frame-u",
+        flavor: "perk_resilient_frame_flavor-u",
+        description: "perk_resilient_frame_description-u",
+        cost: 10,
+        usage_limit: ""
+    },
+    scorched_soul: {
+        name: "perk_scorched_soul-u",
+        flavor: "perk_scorched_soul_flavor-u",
+        description: "perk_scorched_soul_description-u",
+        cost: 10,
+        usage_limit: ""
+    },
+    shadow_mark: {
+        name: "perk_shadow_mark-u",
+        flavor: "perk_shadow_mark_flavor-u",
+        description: "perk_shadow_mark_description-u",
+        cost: 15,
+        usage_limit: ""
+    },
+    tactical_instinct: {
+        name: "perk_tactical_instinct-u",
+        flavor: "perk_tactical_instinct_flavor-u",
+        description: "perk_tactical_instinct_description-u",
+        cost: 15,
+        usage_limit: "session"
+    },
+    veil_drenched_intuition: {
+        name: "perk_veil_drenched_intuition-u",
+        flavor: "perk_veil_drenched_intuition_flavor-u",
+        description: "perk_veil_drenched_intuition_description-u",
+        cost: 15,
+        usage_limit: "session"
+    }
+};
+
+/* ===== Flaws Data Map (i18n) ===== */
+
+const flawDataMap = {
+    addiction_major: {
+        name: "flaw_addiction_major-u",
+        flavor: "flaw_addiction_major_flavor-u",
+        description: "flaw_addiction_major_description-u",
+        cost: 10,
+        usage_limit: ""
+    },
+    addiction_minor: {
+        name: "flaw_addiction_minor-u",
+        flavor: "flaw_addiction_minor_flavor-u",
+        description: "flaw_addiction_minor_description-u",
+        cost: 5,
+        usage_limit: ""
+    },
+    compulsive_gambler: {
+        name: "flaw_compulsive_gambler-u",
+        flavor: "flaw_compulsive_gambler_flavor-u",
+        description: "flaw_compulsive_gambler_description-u",
+        cost: 5,
+        usage_limit: ""
+    },
+    cyber_rejection: {
+        name: "flaw_cyber_rejection-u",
+        flavor: "flaw_cyber_rejection_flavor-u",
+        description: "flaw_cyber_rejection_description-u",
+        cost: 5,
+        usage_limit: ""
+    },
+    distinctive_look: {
+        name: "flaw_distinctive_look-u",
+        flavor: "flaw_distinctive_look_flavor-u",
+        description: "flaw_distinctive_look_description-u",
+        cost: 5,
+        usage_limit: ""
+    },
+    hunted: {
+        name: "flaw_hunted-u",
+        flavor: "flaw_hunted_flavor-u",
+        description: "flaw_hunted_description-u",
+        cost: 10,
+        usage_limit: "session" // GM may introduce a threat once per session
+    },
+    mental_scar: {
+        name: "flaw_mental_scar-u",
+        flavor: "flaw_mental_scar_flavor-u",
+        description: "flaw_mental_scar_description-u",
+        cost: 10,
+        usage_limit: "session" // at least once per session if thematically possible
+    },
+    soul_flare: {
+        name: "flaw_soul_flare-u",
+        flavor: "flaw_soul_flare_flavor-u",
+        description: "flaw_soul_flare_description-u",
+        cost: 10,
+        usage_limit: "scene" // once per scene surge check
+    },
+    veil_touched: {
+        name: "flaw_veil_touched-u",
+        flavor: "flaw_veil_touched_flavor-u",
+        description: "flaw_veil_touched_description-u",
+        cost: 5,
+        usage_limit: ""
+    },
+    wanted_low_priority: {
+        name: "flaw_wanted_low_priority-u",
+        flavor: "flaw_wanted_low_priority_flavor-u",
+        description: "flaw_wanted_low_priority_description-u",
+        cost: 5,
+        usage_limit: "session" // GM may introduce interference once per session
+    }
+};
 
 // Maps //
 const raceDataMap = {
@@ -27644,7 +28234,7 @@ on("clicked:strain_short_rest", () => {
   });
 });
 
-const tabList = ["skills", "background", "careers", "talents",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "ledger", "tracker"];
+const tabList = ["skills", "perks", "flaws", "background", "careers", "talents",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "ledger", "tracker"];
 
 tabList.forEach(tab => {
     on(`clicked:${tab}`, () => {
@@ -27780,6 +28370,124 @@ on("change:total_spellcost change:ac", function () {
 });
 
 //----------------------- Skill, Backgrounds, and Talents --------------------//
+
+/* ===== Perks: 1 pick per cost group (10 & 15), no global cap ===== */
+const tr = k => (k ? getTranslationByKey(k) || k : "");
+
+const perkKeys    = Object.keys(perkDataMap);
+const perk10Keys  = perkKeys.filter(k => (perkDataMap[k]?.cost|0) === 10);
+const perk15Keys  = perkKeys.filter(k => (perkDataMap[k]?.cost|0) === 15);
+const perkAttrs   = perkKeys.map(k => `perk_${k}`);
+const perkEvents  = ['clicked:perks', ...perkAttrs.map(a => `change:${a}`)].join(' ');
+
+on(perkEvents, () => {
+  getAttrs(perkAttrs, v => {
+    const u = {};
+    let xpSpent   = 0;
+    let lines     = [];
+    let picked10  = 0;
+    let picked15  = 0;
+    let linguistSP = 0;
+
+    perkKeys.forEach(k => {
+      const picked = v[`perk_${k}`] === '1';
+      u[`show_perk_${k}`] = picked ? '1' : '0';
+
+      if (picked) {
+        const def = perkDataMap[k] || {};
+        const cost = Number(def.cost) || 0;
+        xpSpent += cost;
+
+        const nameKey = def.name || def.name_i18n || '';
+        const descKey = def.description || def.description_i18n || '';
+        lines.push(`${tr(nameKey)} — ${tr(descKey)}`);
+
+        if (cost === 10) picked10++;
+        if (cost === 15) picked15++;
+        if (k === 'linguist') linguistSP = 75;
+      }
+    });
+
+    // group locks: 1 selection per cost band
+    u.perk10_slots_full  = picked10 >= 1 ? '1' : '0';
+    u.perk15_slots_full  = picked15 >= 1 ? '1' : '0';
+
+    // totals + summary (ensure it fully clears when nothing is selected)
+    u.xpledger_perks_cost = String(xpSpent);
+    u.perk_summary = lines.length ? lines.join("\n\n") : " ";
+    u.perk_linguist_sp       = String(linguistSP);
+
+    setAttrs(u);
+  });
+});
+
+/* ===== Flaws: 1 pick per cost group (5 & 10), no total cap ===== */
+const flawKeys   = Object.keys(flawDataMap);
+const flaw5Keys  = flawKeys.filter(k => (flawDataMap[k]?.cost|0) === 5);
+const flaw10Keys = flawKeys.filter(k => (flawDataMap[k]?.cost|0) === 10);
+const flawAttrs  = flawKeys.map(k => `flaw_${k}`);
+const flawEvents = ['clicked:flaws', ...flawAttrs.map(a => `change:${a}`)].join(' ');
+
+on(flawEvents, () => {
+  getAttrs(flawAttrs, v => {
+    const u = {};
+    let xpGain  = 0;
+    let lines   = [];
+    let picked5 = 0;
+    let picked10 = 0;
+
+    flawKeys.forEach(k => {
+      const picked = v[`flaw_${k}`] === '1';
+      u[`show_flaw_${k}`] = picked ? '1' : '0';
+
+      if (picked) {
+        const def = flawDataMap[k] || {};
+        const cost = Number(def.cost) || 0;
+        xpGain += cost;
+
+        const nameKey = def.name || def.name_i18n || '';
+        const descKey = def.description || def.description_i18n || '';
+        lines.push(`${tr(nameKey)} — ${tr(descKey)}`);
+
+        if (cost === 5) picked5++;
+        if (cost === 10) picked10++;
+      }
+    });
+
+    // group locks: 1 selection per cost band
+    u.flaw5_slots_full  = picked5 >= 1 ? '1' : '0';
+    u.flaw10_slots_full = picked10 >= 1 ? '1' : '0';
+
+    // totals + summary (fully clear when nothing selected)
+    u.xpledger_flaws_gain = String(xpGain);
+    u.flaw_summary = lines.length ? lines.join("\n\n") : " ";
+
+    setAttrs(u);
+  });
+});
+
+// Blood-Born Survivor — add +2 current Vitality once per session
+on("change:used_session_perk_blood_born_survivor", (eventInfo) => {
+  getAttrs([
+    "used_session_perk_blood_born_survivor",
+    "perk_blood_born_survivor",
+    "vitality",
+    "bbs_session_applied" // hidden guard flag
+  ], (v) => {
+    const picked   = v.perk_blood_born_survivor === "1"; // only if the perk is actually owned
+    const usedNow  = v.used_session_perk_blood_born_survivor === "1";
+    const applied  = v.bbs_session_applied === "1";
+
+    if (picked && usedNow && !applied) {
+      const cur = parseInt(v.vitality, 10) || 0;
+      setAttrs({
+        vitality: cur + 2,           // no cap; purely adds to current
+        bbs_session_applied: "1"     // block further adds this session
+      });
+    }
+  });
+});
+
 function getAllTalentSkills(race) {
 	if (debug_on_trace) console.log ("[getAllTalentSkills] Start");
   const skills = new Set();
@@ -28716,7 +29424,8 @@ function registerStatHandler() {
 	const watched = [
 		"age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", "char_creation_lock", "major_wounds",
 		"primary_career",                         // Watch primary career changes
-		"repeating_secondarycareer:secondary_career" // Watch for changes to career name
+		"repeating_secondarycareer:secondary_career", // Watch for changes to career name
+		"perk_resilient_frame", "perk_blood_born_survivor", "perk_blood_born_survivor_hp_bonus"
 	];
 
 	// Dynamically pull all strain buffer fields from careerDataMap
@@ -28748,7 +29457,13 @@ function registerStatHandler() {
 				update["personal_skill_points"] = iint * 2;
 			}
 
-			update["vitality_max"]= ipow;
+			// === Perk-driven Vitality bonuses ===
+			// Resilient Frame: static +4 while perk is owned (permanent while checked)
+			let perkVitalityBonus = (values.perk_resilient_frame === "1") ? 4 : 0;
+			
+			// Base Vitality is POW, then add perks
+			update["vitality_max"] = ipow + perkVitalityBonus;
+
 			update["pulphp_max"] = Math.floor((icon + isiz)/5);
 			update["major_wounds"]= Math.floor(((icon + isiz)/5)/2);
 			
@@ -29757,11 +30472,16 @@ const cleanupInactiveCareers = () => {
         updates[`show_${career}_${talentKey}`] = "0";
 
         // Clear the appropriate usage box if it exists for this talent
-        if (meta.usage_limit === "session") {
-          updates[`used_session_${career}_${talentKey}`] = "0";
-        } else if (meta.usage_limit === "scene") {
-          updates[`used_scene_${career}_${talentKey}`] = "0";
-        }
+		const lim = meta?.usage_limit ?? "";
+		
+		if (hasLimit(lim, "session")) {
+			updates[`used_session_${career}_${talentKey}`] = "0";
+		}
+		
+		if (hasLimit(lim, "scene")) {
+		updates[`used_scene_${career}_${talentKey}`] = "0";
+		}
+
 
         // Reset gates so nothing remains visually enabled/locked for an inactive career
         updates[`${career}_${talentKey}_enabled`] = "0";
@@ -29784,34 +30504,55 @@ const runCleanupInactiveCareers = () => {
     endSilent();
 };
 
+const hasLimit = (val, limit) => Array.isArray(val) ? val.includes(limit) : val === limit;
+
 const getUsageLimitedTalentNames = (limitType) => {
   const names = [];
 
-  // Racial traits (new)
+  // Perks (e.g. used_scene_perk_dirty_fighter, used_session_perk_mind_leash)
+  for (const key in (perkDataMap || {})) {
+    const lim = perkDataMap[key]?.usage_limit ?? "";
+    if (hasLimit(lim, limitType)) {
+      names.push(`used_${limitType}_perk_${key}`);
+    }
+  }
+
+  // Flaws (e.g. used_scene_flaw_soul_flare, used_session_flaw_hunted)
+  for (const key in (flawDataMap || {})) {
+    const lim = flawDataMap[key]?.usage_limit ?? "";
+    if (hasLimit(lim, limitType)) {
+      names.push(`used_${limitType}_flaw_${key}`);
+    }
+  }
+
+  // Racial traits
   for (const race in raceDataMap) {
     const traits = raceDataMap[race]?.traits?.items || {};
     for (const key in traits) {
-      if (traits[key].usage_limit === limitType) {
+      const lim = traits[key]?.usage_limit ?? "";
+      if (hasLimit(lim, limitType)) {
         names.push(`used_${limitType}_${race}_${key}`);
       }
     }
   }
-  
+
   // Racial talents
-  for (let race in talentDataMap) {
-    const talents = talentDataMap[race];
-    for (let key in talents) {
-      if (talents[key].usage_limit === limitType) {
+  for (const race in talentDataMap) {
+    const talents = talentDataMap[race] || {};
+    for (const key in talents) {
+      const lim = talents[key]?.usage_limit ?? "";
+      if (hasLimit(lim, limitType)) {
         names.push(`used_${limitType}_${race}_${key}`);
       }
     }
   }
 
   // Career talents
-  for (let career in careerDataMap) {
+  for (const career in careerDataMap) {
     const talents = careerDataMap[career]?.talents || {};
-    for (let key in talents) {
-      if (talents[key].usage_limit === limitType) {
+    for (const key in talents) {
+      const lim = talents[key]?.usage_limit ?? "";
+      if (hasLimit(lim, limitType)) {
         names.push(`used_${limitType}_${career}_${key}`);
       }
     }
@@ -29819,6 +30560,7 @@ const getUsageLimitedTalentNames = (limitType) => {
 
   return names;
 };
+
 
 on("clicked:clear_scene_uses", () => {
     // Clear static scene checkboxes first
@@ -29839,22 +30581,35 @@ on("clicked:clear_scene_uses", () => {
 });
 
 on("clicked:clear_session_uses", () => {
-    // Clear static session checkboxes first
-    const sessionUses = getUsageLimitedTalentNames("session");
-    const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
+  // Clear static session checkboxes first
+  const sessionUses = getUsageLimitedTalentNames("session");
+  const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
 
-    // Get all repeating_session row IDs
-    getSectionIDs("repeating_session", ids => {
-        ids.forEach(id => {
-            // Build attribute name for checkbox in each row
-            const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
-            updates[attrName] = "0";
-        });
-
-        // Apply all updates
-        setAttrs(updates);
+  // Get all repeating_session row IDs
+  getSectionIDs("repeating_session", ids => {
+    ids.forEach(id => {
+      const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
+      updates[attrName] = "0";
     });
+
+    // If Blood-Born Survivor was applied this session, remove the +2 now
+    getAttrs(["bbs_session_applied", "vitality"], vals => {
+      const applied = vals.bbs_session_applied === "1";
+      const curVit  = parseInt(vals.vitality, 10) || 0;
+
+      if (applied) {
+        updates.vitality = Math.max(curVit - 2, 0); // clamp at 0 just in case
+      }
+
+      // Allow next session’s +2 to be granted again
+      updates.bbs_session_applied = "0";
+
+      // Apply all updates
+      setAttrs(updates);
+    });
+  });
 });
+
 
 let careerWatcherInitialized = false;
 
@@ -30142,49 +30897,6 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-on(
-  "change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent " +
-  "change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain_skill change:xpledger_skill_point_lost change:perk_linguist " +
-  "change:repeating_secondarycareer:secondary_career change:repeating_secondarycareer:secondary_career_skill_points " +
-  "change:repeating_secondarycareer:secondary_career_skill_to_xp add:repeating_secondarycareer remove:repeating_secondarycareer",
-  function () {
-    if (debug_on_trace) console.log("[change:primary_career_skill_points] Start");
-
-    getSectionIDs("repeating_secondarycareer", function (ids) {
-      const secAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career_skill_points`);
-	  const secSkillXPAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career_skill_to_xp`);
-      const baseAttrs = [
-        "primary_career_skill_points",
-        "personal_skill_points",
-        "total_skill_points_spent",
-        "xpledger_skill_point_gain",
-        "xpledger_skill_point_roll_gain_skill",
-        "xpledger_skill_point_lost",
-        "perk_linguist",
-        ...secAttrs,
-		...secSkillXPAttrs
-      ];
-
-      getAttrs(baseAttrs, function (values) {
-        const primary       = parseInt(values.primary_career_skill_points, 10) || 0;
-        const personal      = parseInt(values.personal_skill_points, 10) || 0;
-        const spent         = parseInt(values.total_skill_points_spent, 10) || 0;
-        const ledgerGain    = parseInt(values.xpledger_skill_point_gain, 10) || 0;
-        const ledgerGainRoll= parseInt(values.xpledger_skill_point_roll_gain_skill, 10) || 0;
-        const perk_linguist = parseInt(values.perk_linguist, 10) || 0;
-
-        const secondary = secAttrs.reduce((sum, a) => sum + (parseInt(values[a], 10) || 0), 0);
-		
-		const ledgerLost = secSkillXPAttrs.reduce((sum, a) => sum + (parseInt(values[a], 10) || 0), 0);
-
-        const remaining = primary + personal + secondary + ledgerGain + ledgerGainRoll - ledgerLost - spent + perk_linguist;
-
-        setAttrs({ total_skill_points_remain: remaining, secondary_career_skill_points: secondary, xpledger_skill_point_lost: ledgerLost });
-      });
-    });
-  }
-);
-
 // === XP Remaining Calculation ===
 on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
     if (debug_on_trace) console.log ("[change:background_xp] Start");
@@ -30227,6 +30939,157 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
             xp_remaining: xpRemaining
         });
     });
+});
+
+// === Repeating Ledger XP Category Aggregator ===
+on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {
+    if (debug_on_trace) console.log("[change:repeating_ledger:ledger_choice] Start");
+
+    getSectionIDs("repeating_ledger", function (ids) {
+        const fieldNames = ids.flatMap(id => [
+            `repeating_ledger_${id}_ledger_choice`,
+            `repeating_ledger_${id}_ledger_choice_value`,
+            `repeating_ledger_${id}_ledger_choice_value_skill`
+        ]);
+
+        getAttrs(fieldNames, function (values) {
+            const aggregates = {
+                xp_gained: 0,
+                skill_xp: 0,
+                xp_skill: 0,
+                xp_skill_roll: 0,
+                xp_skill_roll_skill: 0,
+                xp_spells: 0,
+                xp_credits: 0,
+                xp_allies: 0,
+                xp_contacts: -10,
+                xp_reputation: 0,
+                xp_faction: 0,
+//              xp_flaws: 0,
+//              xp_perks: 0,
+//				perk_linguist_sp: 0
+            };
+
+            ids.forEach(id => {
+                const choice = values[`repeating_ledger_${id}_ledger_choice`];
+                const value = values[`repeating_ledger_${id}_ledger_choice_value`];
+                const skillValue = values[`repeating_ledger_${id}_ledger_choice_value_skill`];
+
+                const val = parseInt(value, 10) || 0;
+                const valSkill = parseInt(skillValue, 10) || 0;
+
+                if (choice === "xp_skill_roll") {
+                    aggregates.xp_skill_roll += val;
+                    aggregates.xp_skill_roll_skill += valSkill;
+//				} else if (choice === "perk_linguist") {
+//					aggregates.xp_perks += val;
+//					aggregates.perk_linguist_sp += valSkill;	
+                } else if (aggregates.hasOwnProperty(choice)) {
+                    aggregates[choice] += val;
+                }
+            });
+
+            const updates = {
+                xpledger_gained_xp: aggregates.xp_gained,
+                xpledger_skill_point_lost: aggregates.skill_xp,
+                xpledger_skill_point_gain: aggregates.xp_skill,
+                xpledger_skill_point_roll_gain: aggregates.xp_skill_roll,
+                xpledger_skill_point_roll_gain_skill: aggregates.xp_skill_roll_skill,
+                xpledger_spells_cost: aggregates.xp_spells,
+                xpledger_credits_cost: aggregates.xp_credits,
+                xpledger_allies_cost: aggregates.xp_allies,
+                xpledger_contacts_cost: aggregates.xp_contacts,
+                xpledger_reuptation_cost: aggregates.xp_reputation,
+                xpledger_faction_cost: aggregates.xp_faction,
+//              xpledger_flaws_gain: aggregates.xp_flaws,
+//              xpledger_perks_cost: aggregates.xp_perks,
+//				perk_linguist: aggregates.perk_linguist_sp
+            };
+            setAttrs(updates);
+        });
+    });
+});
+
+on(
+  "change:primary_career_skill_points change:personal_skill_points change:total_skill_points_spent " +
+  "change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain_skill change:xpledger_skill_point_lost change:perk_linguist_sp " +
+  "change:repeating_secondarycareer:secondary_career change:repeating_secondarycareer:secondary_career_skill_points " +
+  "change:repeating_secondarycareer:secondary_career_skill_to_xp add:repeating_secondarycareer remove:repeating_secondarycareer",
+  function () {
+    if (debug_on_trace) console.log("[change:primary_career_skill_points] Start");
+
+    getSectionIDs("repeating_secondarycareer", function (ids) {
+      const secAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career_skill_points`);
+	  const secSkillXPAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career_skill_to_xp`);
+      const baseAttrs = [
+        "primary_career_skill_points",
+        "personal_skill_points",
+        "total_skill_points_spent",
+        "xpledger_skill_point_gain",
+        "xpledger_skill_point_roll_gain_skill",
+        "xpledger_skill_point_lost",
+        "perk_linguist_sp",
+        ...secAttrs,
+		...secSkillXPAttrs
+      ];
+
+      getAttrs(baseAttrs, function (values) {
+        const primary       = parseInt(values.primary_career_skill_points, 10) || 0;
+        const personal      = parseInt(values.personal_skill_points, 10) || 0;
+        const spent         = parseInt(values.total_skill_points_spent, 10) || 0;
+        const ledgerGain    = parseInt(values.xpledger_skill_point_gain, 10) || 0;
+        const ledgerGainRoll= parseInt(values.xpledger_skill_point_roll_gain_skill, 10) || 0;
+        const perk_linguist_sp = parseInt(values.perk_linguist_sp, 10) || 0;
+
+        const secondary = secAttrs.reduce((sum, a) => sum + (parseInt(values[a], 10) || 0), 0);
+		
+		const ledgerLost = secSkillXPAttrs.reduce((sum, a) => sum + (parseInt(values[a], 10) || 0), 0);
+
+        const remaining = primary + personal + secondary + ledgerGain + ledgerGainRoll - ledgerLost - spent + perk_linguist_sp;
+
+        setAttrs({ total_skill_points_remain: remaining, secondary_career_skill_points: secondary, xpledger_skill_point_lost: ledgerLost });
+      });
+    });
+  }
+);
+
+
+// === Spell XP Remaining Calculation ===
+on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr", function () {
+    if (debug_on_trace) console.log("[XP Calc] Triggered");
+
+    getSectionIDs("repeating_spellsmdr", function (ids) {
+        const fields = ids.map(id => `repeating_spellsmdr_${id}_xp_cost_mdr`);
+        getAttrs([
+            "primary_career_spell_xp_total",
+            "secondary_career_spell_xp_total",
+            "xpledger_spells_cost",
+            ...fields
+        ], function (values) {
+            const primary = parseInt(values["primary_career_spell_xp_total"], 10) || 0;
+            const secondary = parseInt(values["secondary_career_spell_xp_total"], 10) || 0;
+            const gained = parseInt(values["xpledger_spells_cost"], 10) || 0;
+
+            // Sum XP costs from all repeating spells
+            let spent = 0;
+            fields.forEach(field => {
+                spent += parseInt(values[field], 10) || 0;
+            });
+
+            const remaining = primary + secondary + gained - spent;
+
+            setAttrs({
+                spell_xp_spent: spent,
+                spell_xp_remaining: remaining
+            });
+        });
+    });
+});
+
+on("add:repeating_secondarycareer remove:repeating_secondarycareer", () => {
+    if (debug_on_trace) console.log("[Repeating Section Change] Secondary career row added or removed");
+    // Re-run stat updates
+    registerStatHandler();
 });
 
 /* ========= Money Ledger (order-correct & reorder-aware) ========= */
@@ -30283,111 +31146,4 @@ on(`change:repeating_${SECTION}:money_credit change:repeating_${SECTION}:money_d
 // on(`sheet:opened change:_reporder:${SECTION} change:reporder:${SECTION} change:repeating_${SECTION} remove:repeating_${SECTION}`, e => {
 //  console.log("[Money Ledger] structural event:", e.sourceAttribute || e.triggerName || "unknown");
 //});
-
-// === Repeating Ledger XP Category Aggregator ===
-on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {
-    if (debug_on_trace) console.log("[change:repeating_ledger:ledger_choice] Start");
-
-    getSectionIDs("repeating_ledger", function (ids) {
-        const fieldNames = ids.flatMap(id => [
-            `repeating_ledger_${id}_ledger_choice`,
-            `repeating_ledger_${id}_ledger_choice_value`,
-            `repeating_ledger_${id}_ledger_choice_value_skill`
-        ]);
-
-        getAttrs(fieldNames, function (values) {
-            const aggregates = {
-                xp_gained: 0,
-                skill_xp: 0,
-                xp_skill: 0,
-                xp_skill_roll: 0,
-                xp_skill_roll_skill: 0,
-                xp_spells: 0,
-                xp_credits: 0,
-                xp_allies: 0,
-                xp_contacts: -10,
-                xp_reputation: 0,
-                xp_faction: 0,
-                xp_flaws: 0,
-                xp_perks: 0,
-				perk_linguist: 0
-            };
-
-            ids.forEach(id => {
-                const choice = values[`repeating_ledger_${id}_ledger_choice`];
-                const value = values[`repeating_ledger_${id}_ledger_choice_value`];
-                const skillValue = values[`repeating_ledger_${id}_ledger_choice_value_skill`];
-
-                const val = parseInt(value, 10) || 0;
-                const valSkill = parseInt(skillValue, 10) || 0;
-
-                if (choice === "xp_skill_roll") {
-                    aggregates.xp_skill_roll += val;
-                    aggregates.xp_skill_roll_skill += valSkill;
-				} else if (choice === "perk_linguist") {
-					aggregates.xp_perks += val;
-					aggregates.perk_linguist += valSkill;	
-                } else if (aggregates.hasOwnProperty(choice)) {
-                    aggregates[choice] += val;
-                }
-            });
-
-            const updates = {
-                xpledger_gained_xp: aggregates.xp_gained,
-                xpledger_skill_point_lost: aggregates.skill_xp,
-                xpledger_skill_point_gain: aggregates.xp_skill,
-                xpledger_skill_point_roll_gain: aggregates.xp_skill_roll,
-                xpledger_skill_point_roll_gain_skill: aggregates.xp_skill_roll_skill,
-                xpledger_spells_cost: aggregates.xp_spells,
-                xpledger_credits_cost: aggregates.xp_credits,
-                xpledger_allies_cost: aggregates.xp_allies,
-                xpledger_contacts_cost: aggregates.xp_contacts,
-                xpledger_reuptation_cost: aggregates.xp_reputation,
-                xpledger_faction_cost: aggregates.xp_faction,
-                xpledger_flaws_gain: aggregates.xp_flaws,
-                xpledger_perks_cost: aggregates.xp_perks,
-				perk_linguist: aggregates.perk_linguist
-            };
-            setAttrs(updates);
-        });
-    });
-});
-
-// === Spell XP Remaining Calculation ===
-on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr", function () {
-    if (debug_on_trace) console.log("[XP Calc] Triggered");
-
-    getSectionIDs("repeating_spellsmdr", function (ids) {
-        const fields = ids.map(id => `repeating_spellsmdr_${id}_xp_cost_mdr`);
-        getAttrs([
-            "primary_career_spell_xp_total",
-            "secondary_career_spell_xp_total",
-            "xpledger_spells_cost",
-            ...fields
-        ], function (values) {
-            const primary = parseInt(values["primary_career_spell_xp_total"], 10) || 0;
-            const secondary = parseInt(values["secondary_career_spell_xp_total"], 10) || 0;
-            const gained = parseInt(values["xpledger_spells_cost"], 10) || 0;
-
-            // Sum XP costs from all repeating spells
-            let spent = 0;
-            fields.forEach(field => {
-                spent += parseInt(values[field], 10) || 0;
-            });
-
-            const remaining = primary + secondary + gained - spent;
-
-            setAttrs({
-                spell_xp_spent: spent,
-                spell_xp_remaining: remaining
-            });
-        });
-    });
-});
-
-on("add:repeating_secondarycareer remove:repeating_secondarycareer", () => {
-    if (debug_on_trace) console.log("[Repeating Section Change] Secondary career row added or removed");
-    // Re-run stat updates
-    registerStatHandler();
-});
 </script>

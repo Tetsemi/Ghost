@@ -1120,6 +1120,8 @@ select[name="attr_damage_bonus"] {
 
 /* Show selected tab's section */
 .sheet-tab-controller[value="skills"] ~ .sheet-skills,
+.sheet-tab-controller[value="perks"] ~ .sheet-perks,
+.sheet-tab-controller[value="flaws"] ~ .sheet-flaws,
 .sheet-tab-controller[value="background"] ~ .sheet-background,
 .sheet-tab-controller[value="talents"] ~ .sheet-talents,
 .sheet-tab-controller[value="careers"] ~ .sheet-careers,
@@ -1137,9 +1139,9 @@ select[name="attr_damage_bonus"] {
 /* Tab Button Bar Styling */
 .ui-dialog .tab-content .charsheet .sheet-tab-buttons {
   display: flex;
+  height: 25px;
   width: 100%;
-  justify-content: space-around;
-  margin-bottom: 5px;
+  justify-content: space-around;  
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tab-buttons button {
@@ -1148,7 +1150,7 @@ select[name="attr_damage_bonus"] {
   color: white;
   font-weight: bold;
   border: 1px solid black;
-  padding: 6px 0;
+  padding: 2px 0;
   font-size: 90%;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -1157,6 +1159,8 @@ select[name="attr_damage_bonus"] {
 
 
 .sheet-tab-controller[value="skills"] ~ .sheet-tab-buttons button[name="act_skills"],
+.sheet-tab-controller[value="perks"] ~ .sheet-tab-buttons button[name="act_perks"],
+.sheet-tab-controller[value="flaws"] ~ .sheet-tab-buttons button[name="act_flaws"],
 .sheet-tab-controller[value="background"] ~ .sheet-tab-buttons button[name="act_background"],
 .sheet-tab-controller[value="talents"] ~ .sheet-tab-buttons button[name="act_talents"],
 .sheet-tab-controller[value="careers"] ~ .sheet-tab-buttons button[name="act_careers"],
@@ -3984,6 +3988,340 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   align-items: center;
 }
 
+/* ===========================
+   Backstory • Perks & Flaws
+   - Scoped to sheet only
+   - Light green (Perks), light red (Flaws)
+   - Racial-talent style rows with Label / Flavor / Description
+   =========================== */
+
+.ui-dialog .tab-content .charsheet .sheet-perks {
+    margin-top: 0px;
+	background: #f2faf4;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .section-head {
+    margin: 0 0 8px 0;
+}
+
+/* === Readability tweaks for Perks (light background friendly) === */
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-perk-group {
+  background: #f2faf4;              /* lighter green panel */
+  border: 1px solid #bfe2c9;
+  border-left-color: #7fbe93;       /* accent */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .section-subhead {
+    margin: 0;
+	padding: 0 0 0 10px;
+	font-size: 110%;
+    font-weight: 600;
+	background: green;
+	color: black;
+}
+
+/* ===== Perks: two-column row like Talents (left: name, right: text) ===== */
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-row {
+  display: grid;
+  grid-template-columns: 22px minmax(100px, 150px) 1fr;
+  grid-template-rows: min-content min-content;  /* row 1 = flavor, row 2 = description */
+  align-items: start;                            /* no baseline stretching */
+  height: 100%;
+  background: #aaf0c9;
+  border: 1px solid #198450;
+  border-radius: 6px;
+  border-bottom: none;                     /* replace earlier dotted divider */
+  column-gap: 10px;   /* keep horizontal spacing */
+  row-gap: 0;  /* belt & suspenders */
+  margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-row:last-child {
+    border-bottom: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-checkbox { grid-column: 1; margin-top: 2px; }
+
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-label {
+  grid-column: 2;
+  color: #0f2d1f;
+  font-weight: 700;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;     /* tighter; prevents extra leading */
+  align-self: start;  
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-flavor {
+  grid-column: 3;                          /* right column */
+  display: flex;
+  height: 100%;
+  font-style: italic;
+  font-size: 0.95em;
+  color: #24332a;
+  margin: 0;
+  padding: 0;
+  line-height: 1.12;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-description {
+  grid-column: 3;                          /* right column, below flavor */
+  display: flex;
+  height: 100%;
+  font-size: 1em;                        /* smaller for readability */
+  color: #111;
+  margin: 0;            /* remove any top margin */
+  padding: 0;
+  line-height: 1.22;  
+}
+
+/* Row layout matches talents’ merged summary row */
+.ui-dialog .tab-content .charsheet .sheet-perk-row-one {
+  display: grid;
+  grid-template-columns: minmax(120px, 10%) minmax(0, 1fr); /* XP | Summary */
+  gap: 0.5rem;
+  align-items: start;
+  margin: 0;
+}
+
+/* XP badge (left) */
+.ui-dialog .tab-content .charsheet .sheet-perk-xp {
+  display: flex; justify-content: flex-end;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-row {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-row label {
+  background: #7fbe93;           /* green header chip */
+  border: 1px solid black;
+  color: #0f2d1f;
+  font-weight: 700;
+  font-size: 1.1em;  
+  padding: 4px 8px;
+  border-radius: 6px 6px 0 0;
+}
+
+/* keep small, centered numeric field (reuses your .sheet-xp-field sizing) */
+.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-field {
+  max-width: 72px; text-align: center;
+  border: 1px solid black; border-top: 0;
+  border-radius: 0 0 6px 6px;
+  background: black;
+  color: white;
+}
+
+/* Summary panel (right) */
+.ui-dialog .tab-content .charsheet .sheet-perk-summary {
+  background: black;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perk-summary-header {
+  margin: 0 0 0.35rem 0;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: #0f2d1f;
+  background: #7fbe93;
+  border-bottom: 1px solid black;
+  padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"] {
+  display: block;
+  white-space: pre-wrap; /* show one-per-line items */
+  line-height: 1.35;
+  font-size: 0.95em;
+  color: #fff;
+}
+
+/* Perks — lock remaining unchecked within a filled group */
+/* Leaving code, removing CSS to actually lock
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-perk-group > input[name="attr_perk10_slots_full"][value="1"] ~ .sheet-talent-row .sheet-talent-checkbox:not(:checked) {
+    pointer-events: none;
+	opacity:.5;
+	filter: grayscale(30%);
+}
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-perk-group  > input[name="attr_perk15_slots_full"][value="1"] ~ .sheet-talent-row .sheet-talent-checkbox:not(:checked) {
+    pointer-events: none;
+	opacity:.5;
+	filter: grayscale(30%);
+}
+*/
+
+/* ===========================
+   Flaws (aligned to Perks styles)
+   =========================== */
+
+.ui-dialog .tab-content .charsheet .sheet-flaws {
+  margin-top: 0px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .section-head {
+  margin: 0 0 8px 0;
+}
+
+/* Group wrapper */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group {
+  background: #fef4f4;        /* very light red panel */
+  border: 1px solid #f1c9c9;
+  border-left-color: #e58f8f; /* accent */
+}
+
+/* Subhead (match your Perks subhead, but red) */
+.ui-dialog .tab-content .charsheet .sheet-flaws .section-subhead {
+  margin: 0;
+  padding: 0 0 0 10px;
+  font-size: 110%;
+  font-weight: 600;
+  background: #f2bcbc;        /* light red strip */
+  color: black;
+}
+
+/* Two-column row (checkbox + name | flavor/description) */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-row {
+  display: grid;
+  grid-template-columns: 22px minmax(100px, 150px) 1fr;
+  grid-template-rows: min-content min-content; /* row1: flavor, row2: description */
+  align-items: start;
+  height: 100%;
+  background: #ffd6d6;        /* light red card (parallel to #aaf0c9) */
+  border: 1px solid #b24545;  /* darker red border (parallel to #198450) */
+  border-radius: 6px;
+  border-bottom: none;
+  column-gap: 10px;
+  row-gap: 0;
+  margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-row:last-child {
+  border-bottom: 0;
+}
+
+/* Columns */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-checkbox {
+  grid-column: 1;
+  margin-top: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-label {
+  grid-column: 2;
+  color: #2b1818;     /* deep red-brown for contrast */
+  font-weight: 700;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+  align-self: start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-flavor {
+  grid-column: 3;     /* right column */
+  display: flex;
+  height: 100%;
+  font-style: italic;
+  font-size: 0.9em;
+  color: black;
+  margin: 0;
+  padding: 0;
+  line-height: 1.12;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-description {
+  grid-column: 3;     /* right column, below flavor */
+  display: flex;
+  height: 100%;
+  font-size: 1em;
+  color: black;
+  margin: 0;
+  padding: 0;
+  line-height: 1.22;
+}
+
+/* Same grid as perks/talents */
+.ui-dialog .tab-content .charsheet .sheet-flaw-row-one {
+  display: grid;
+  grid-template-columns: minmax(120px, 10%) minmax(0, 1fr); /* XP | Summary */
+  gap: 0.5rem;
+  align-items: start;
+}
+
+/* XP badge (left) */
+.ui-dialog .tab-content .charsheet .sheet-flaw-xp {
+  display: flex; justify-content: flex-end;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-row {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-row label {
+  background: #e58f8f;           /* red header chip */
+  border: 1px solid #cc6b6b;
+  color: #3d1414;
+  font-weight: 700;
+  font-size: 1.1em;
+  padding: 4px 8px;
+  border-radius: 6px 6px 0 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-field {
+  max-width: 72px; text-align: center;
+  border: 1px solid #cc6b6b; border-top: 0;
+  border-radius: 0 0 6px 6px;
+  background: black;
+  color: white;
+}
+
+/* Summary panel (right) */
+.ui-dialog .tab-content .charsheet .sheet-flaw-summary {
+  background: #fef4f4;
+  border: 1px solid black;
+  border-radius: 6px;
+  background: black;
+  padding: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaw-summary-header {
+  margin: 0 0 0.35rem 0;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: #4a1818;
+  background: #e58f8f;   
+  border-bottom: 1px solid black;
+  padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"] {
+  display: block;
+  white-space: pre-wrap;
+  line-height: 1.35;
+  font-size: 0.95em;
+  color: #FFF;
+}
+
+/* Flaws — lock remaining unchecked within a filled group */
+/* Leaving code, removing CSS to actually lock
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group > input[name="attr_flaw5_slots_full"][value="1"] ~ .sheet-talent-row .sheet-talent-checkbox:not(:checked) {
+    pointer-events: none;
+	opacity:.5;
+	filter: grayscale(30%);
+}
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group > input[name="attr_flaw10_slots_full"][value="1"] ~ .sheet-talent-row .sheet-talent-checkbox:not(:checked) {
+    pointer-events: none;
+	opacity:.5;
+	filter: grayscale(30%);
+}
+*/
+/* ------------------------------------------- BACKSTORY ---------------------------------- */
+
 .ui-dialog .tab-content .charsheet .sheet-backstory-grid {
   display: flex;
   gap: 20px;
@@ -4088,6 +4426,13 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	display: flex;
 }
 
+/* Perk and Flaws Tracker - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_dirty_fighter"][value="1"] ~ .sheet-perk-dirty-fighter,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_blood_born_survivor"][value="1"] ~ .sheet-perk-blood-born-survivor,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_soul_flare"][value="1"] ~ .sheet-flaw-soul-flare {
+  display: flex;
+}
+
 /* Racial Talent Tracker - Scene */ 
 .ui-dialog .tab-content .charsheet input[name="attr_show_alteri_identity_cascade"][value="1"] ~ .sheet-alteri-identity-cascade,
 .ui-dialog .tab-content .charsheet input[name="attr_show_alteri_reflexive_shift"][value="1"] ~ .sheet-alteri-reflexive-shift,
@@ -4120,6 +4465,20 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_veyra_recursive_salvager"][value="1"] ~ .sheet-veyra-recursive-salvager,
 .ui-dialog .tab-content .charsheet input[name="attr_show_veyra_stealth_harmonic"][value="1"] ~ .sheet-veyra-stealth-harmonic {
 	display: flex;
+}
+
+/* Perk and Flaws Tracker - Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_blood_born_survivor"][value="1"] ~ .sheet-perk-blood-born-survivor,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_combat_veteran"][value="1"] ~ .sheet-perk-combat-veteran,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_corp_groomed"][value="1"] ~ .sheet-perk-corp-groomed,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_danger_sense"][value="1"] ~ .sheet-perk-danger-sense,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_mind_leash"][value="1"] ~ .sheet-perk-mind-leash,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_tactical_instinct"][value="1"] ~ .sheet-perk-tactical-instinct,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_veil_drenched_intuition"][value="1"] ~ .sheet-perk-veil-drenched-intuition,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_wanted_low_priority"][value="1"] ~ .sheet-flaw-wanted-low-priority,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_hunted"][value="1"] ~ .sheet-flaw-hunted,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_mental_scar"][value="1"] ~ .sheet-flaw-mental-scar {
+  display: flex;
 }
 
 /* Racial Trait Tracker - Sesssion */

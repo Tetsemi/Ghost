@@ -17787,162 +17787,164 @@
 							<!-- Left Column -->
 							<div class="sheet-npc-content-left">
 								<div class="sheet-npc-info-section">
-									<div class="sheet-companion-info-header">Information</div>
+									<div class="sheet-companion-info-header" data-i18n="information-u">Information</div>
 									<div class="sheet-npc-grid">
 										<div class="sheet-npc-row">
 											<div class="sheet-npc-label" data-i18n="name-u">Name</div>
 											<div class="sheet-npc-val">
-												<input type="text" name="attr_minion_name" class="sheet-wide-input" placeholder="Name" />
+												<input type="text" name="attr_minion_name" class="sheet-wide-input" placeholder="Name" data-i18n-placeholder="name-u" />
 											</div>
 										</div>
 										<div class="sheet-npc-mini-flex">
 											<div class="sheet-npc-row">
-												<div class="sheet-npc-label">HP / Strain</div>
+												<div class="sheet-npc-label" data-i18n="hp-slash-strain-u">HP / Strain</div>
 												<div class="sheet-npc-val">
-													<input type="text" name="attr_minionhp" class="sheet-narrow-input" placeholder="HP" /> /
-													<input type="text" name="attr_minionmp" class="sheet-narrow-input" placeholder="Strain" />
+													<input type="text" name="attr_minionhp" class="sheet-narrow-input" placeholder="HP" data-i18n-placeholder="HP-u" />
+													<span data-i18n="slash-z">/</span>
+													<input type="text" name="attr_minionmp" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u" />
 												</div>
 											</div>
 											<div class="sheet-npc-row">
-												<div class="sheet-npc-label">MOV</div>
+												<div class="sheet-npc-label" data-i18n="MOV-u">MOV</div>
 												<div class="sheet-npc-val">
-													<input type="text" name="attr_minionmove" class="sheet-wide-input" placeholder="Movement" />
+													<input type="text" name="attr_minionmove" class="sheet-wide-input" placeholder="Movement" data-i18n-placeholder="movement-u" />
 												</div>
 											</div>
 											<div class="sheet-npc-row">
-												<div class="sheet-npc-label">B / DB</div>
+												<div class="sheet-npc-label" data-i18n="bdb-u">B / DB</div>
 												<div class="sheet-npc-val">
-													<input type="text" name="attr_minionbuild" class="sheet-narrow-input" placeholder="Build" /> /
-													<input type="text" name="attr_miniondb" class="sheet-narrow-input" placeholder="DB" />
+													<input type="text" name="attr_minionbuild" class="sheet-narrow-input" placeholder="Build" data-i18n-placeholder="build-u" />
+													<span data-i18n="slash-z">/</span>
+													<input type="text" name="attr_miniondb" class="sheet-narrow-input" placeholder="DB" data-i18n-placeholder="db-z" />
 												</div>
 											</div>
 										</div>
 										<div class="sheet-npc-row">
 											<div class="sheet-npc-label" data-i18n="armor-z">Armor</div>
 											<div class="sheet-npc-val">
-												<input type="text" name="attr_minionarmorname" class="sheet-wide-input" placeholder="Armor Name" />
-												<input type="text" name="attr_minionarmor" class="sheet-narrow-input" placeholder="Def" />
+												<input type="text" name="attr_minionarmorname" class="sheet-wide-input" placeholder="Armor Name" data-i18n-placeholder="armor_name-u" />
+												<input type="text" name="attr_minionarmor" class="sheet-narrow-input" placeholder="Def" data-i18n-placeholder="def-abbrev-u" />
 												<button type="roll" class="smallnonskillbutton-roll" name="roll_minionarmor" value="&{template:coc-miniondef} {{name=@{minion_name} @{minionarmorname}}} {{defence=[[@{minionarmor}]]}}"></button>
 											</div>
 										</div>
 										<div class="sheet-npc-row">
-											<div class="sheet-npc-label" data-i18n="generalinfo-u">General Info</div>
+											<div class="sheet-npc-label" data-i18n="generalinfo-u" >General Info</div>
 											<div class="sheet-npc-val">
-												<textarea name="attr_minion_stats_info" class="sheet-npc-textarea" placeholder="General Info"></textarea>
+												<textarea name="attr_minion_stats_info" class="sheet-npc-textarea" placeholder="General Info" data-i18n-placeholder="generalinfo-u"></textarea>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="sheet-npc-attribute-section">
 									<!-- Attributes Section -->
-									<div class="sheet-companion-attr-header">Attributes</div>
+									<div class="sheet-companion-attr-header" data-i18n="attributes-u">Attributes</div>
 									<div class="sheet-npc-attribute-grid">
 										<!-- Column 1 -->
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">STR</div>
+											<div class="sheet-npc-attr-label" data-i18n="STR-u">STR</div>
 											<input type="text" name="attr_minionattr1" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr1_check" value="&{template:coc-1} {{name=@{minion_name} rolling STR}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr1}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr1}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr1}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">CON</div>
+											<div class="sheet-npc-attr-label" data-i18n="CON-u">CON</div>
 											<input type="text" name="attr_minionattr2" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr2_check" value="&{template:coc-1} {{name=@{minion_name} rolling CON}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr2}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr2}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr2}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">SIZ</div>
+											<div class="sheet-npc-attr-label" data-i18n="SIZ-u">SIZ</div>
 											<input type="text" name="attr_minionattr3" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr3_check" value="&{template:coc-1} {{name=@{minion_name} rolling SIZ}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr3}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr3}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr3}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">APP</div>
+											<div class="sheet-npc-attr-label" data-i18n="APP-u">APP</div>
 											<input type="text" name="attr_minionattr4" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr4_check" value="&{template:coc-1} {{name=@{minion_name} rolling APP}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr4}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr4}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr4}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">DEX</div>
+											<div class="sheet-npc-attr-label" data-i18n="DEX-u">DEX</div>
 											<input type="text" name="attr_minionattr5" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr5_check" value="&{template:coc-1} {{name=@{minion_name} rolling DEX}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr5}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr5}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr5}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<!-- Column 2 -->
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">INT</div>
+											<div class="sheet-npc-attr-label" data-i18n="INT-u">INT</div>
 											<input type="text" name="attr_minionattr6" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr6_check" value="&{template:coc-1} {{name=@{minion_name} rolling INT}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr6}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr6}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr6}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">POW</div>
+											<div class="sheet-npc-attr-label" data-i18n="POW-u">POW</div>
 											<input type="text" name="attr_minionattr7" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr7_check" value="&{template:coc-1} {{name=@{minion_name} rolling POW}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr7}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr7}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr7}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">EDU</div>
+											<div class="sheet-npc-attr-label" data-i18n="EDU-u">EDU</div>
 											<input type="text" name="attr_minionattr8" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr8_check" value="&{template:coc-1} {{name=@{minion_name} rolling EDU}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr8}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr8}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr8}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div class="sheet-npc-attribute-cell">
-											<div class="sheet-npc-attr-label">MAG</div>
+											<div class="sheet-npc-attr-label" data-i18n="MAG-u">MAG</div>
 											<input type="text" name="attr_minionattr9" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionattr9_check" value="&{template:coc-1} {{name=@{minion_name} rolling MAG}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionattr9}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionattr9}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionattr9}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>							
 									</div>
 								</div>
 								<div class="sheet-npc-skills-section">
-									<div class="sheet-companion-skill-header">Skills</div>
+									<div class="sheet-companion-skill-header" data-i18n="skills-u">Skills</div>
 									<div class="sheet-npc-attribute-grid">
 										<!-- Skill 1 -->
 										<div class="sheet-npc-attribute-cell">
-											<input type="text" name="attr_minionskill1" class="sheet-wide-input" placeholder="Skill 1" />
+											<input type="text" name="attr_minionskill1" class="sheet-wide-input" placeholder="Skill 1" data-i18n-placeholder="skill1" />
 											<input type="text" name="attr_minionskillval1" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionskill1_check" value="&{template:coc-1} {{name=@{minion_name} rolling @{minionskill1}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval1}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval1}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval1}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<!-- Skill 2 -->
 										<div class="sheet-npc-attribute-cell">
-											<input type="text" name="attr_minionskill2" class="sheet-wide-input" placeholder="Skill 2" />
+											<input type="text" name="attr_minionskill2" class="sheet-wide-input" placeholder="Skill 2" data-i18n-placeholder="skill2" />
 											<input type="text" name="attr_minionskillval2" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionskill2_check" value="&{template:coc-1} {{name=@{minion_name} rolling @{minionskill2}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval2}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval2}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval2}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<!-- Skill 3 -->
 										<div class="sheet-npc-attribute-cell">
-											<input type="text" name="attr_minionskill3" class="sheet-wide-input" placeholder="Skill 3" />
+											<input type="text" name="attr_minionskill3" class="sheet-wide-input" placeholder="Skill 3" data-i18n-placeholder="skill3" />
 											<input type="text" name="attr_minionskillval3" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionskill3_check" value="&{template:coc-1} {{name=@{minion_name} rolling @{minionskill3}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval3}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval3}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval3}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<!-- Skill 4 -->
 										<div class="sheet-npc-attribute-cell">
-											<input type="text" name="attr_minionskill4" class="sheet-wide-input" placeholder="Skill 4" />
+											<input type="text" name="attr_minionskill4" class="sheet-wide-input" placeholder="Skill 4" data-i18n-placeholder="skill4" />
 											<input type="text" name="attr_minionskillval4" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionskill4_check" value="&{template:coc-1} {{name=@{minion_name} rolling @{minionskill4}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval4}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval4}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval4}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<!-- Skill 5 -->
 										<div class="sheet-npc-attribute-cell">
-											<input type="text" name="attr_minionskill5" class="sheet-wide-input" placeholder="Skill 5" />
+											<input type="text" name="attr_minionskill5" class="sheet-wide-input" placeholder="Skill 5" data-i18n-placeholder="skill5" />
 											<input type="text" name="attr_minionskillval5" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionskill5_check" value="&{template:coc-1} {{name=@{minion_name} rolling @{minionskill5}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval5}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval5}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval5}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<!-- Skill 6 -->
 										<div class="sheet-npc-attribute-cell">
-											<input type="text" name="attr_minionskill6" class="sheet-wide-input" placeholder="Skill 6" />
+											<input type="text" name="attr_minionskill6" class="sheet-wide-input" placeholder="Skill 6" data-i18n-placeholder="skill6" />
 											<input type="text" name="attr_minionskillval6" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionskill6_check" value="&{template:coc-1} {{name=@{minion_name} rolling @{minionskill6}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval6}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval6}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval6}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<!-- Skill 7 -->
 										<div class="sheet-npc-attribute-cell">
-											<input type="text" name="attr_minionskill7" class="sheet-wide-input" placeholder="Skill 7" />
+											<input type="text" name="attr_minionskill7" class="sheet-wide-input" placeholder="Skill 7" data-i18n-placeholder="skill7" />
 											<input type="text" name="attr_minionskillval7" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionskill7_check" value="&{template:coc-1} {{name=@{minion_name} rolling @{minionskill7}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval7}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval7}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval7}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<!-- Skill 8 -->
 										<div class="sheet-npc-attribute-cell">
-											<input type="text" name="attr_minionskill8" class="sheet-wide-input" placeholder="Skill 8" />
+											<input type="text" name="attr_minionskill8" class="sheet-wide-input" placeholder="Skill 8" data-i18n-placeholder="skill8" />
 											<input type="text" name="attr_minionskillval8" class="sheet-npc-attr-input" />
 											<button type="roll" class="sheet-npc-attr-roll" name="roll_minionskill8_check" value="&{template:coc-1} {{name=@{minion_name} rolling @{minionskill8}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval8}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval8}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval8}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div class="sheet-npc-attribute-cell">
-											<span class="sheet-npc-attr-label">Init</span>
+											<span class="sheet-npc-attr-label" data-i18n="initiative-u">Init</span>
 											<button type="roll" name="roll_initdexnpc" value="!initdexnpc @{minion_name} @{minionattr5}"></button>
 										</div>	
 										<div class="sheet-npc-attribute-cell">
-											<span class="sheet-npc-attr-label">Move</span>
+											<span class="sheet-npc-attr-label" data-i18n="move-u">Move</span>
 											<button type="roll" name="roll_movenpc" value="!movenpc @{minion_name} @{minionmove}"></button>
 										</div>										
 									 </div>
@@ -17951,40 +17953,40 @@
 							<!-- Right Column: Weapons -->
 							<div class="sheet-npc-content-right">
 								<div class="sheet-npc-grid">
-									<div class="sheet-companion-weapon-header">Weapons</div>
+									<div class="sheet-companion-weapon-header" data-i18n="weapons-u">Weapons</div>
 									<div class="sheet-npc-header-row">
-										<div class="sheet-col"><span class="sheet-wide-input-header-name">Name</span></div>
-										<div class="sheet-col"><span class="sheet-wide-input-header-dmg">Dmg</span></div>
-										<div class="sheet-col"><span class="sheet-wide-input-header-maxdmg">Max Dmg</span></div>
-										<div class="sheet-col"><span class="sheet-wide-input-header-malf">Malf</span></div>
-										<div class="sheet-col"><span class="sheet-wide-input-header-strain">Strain</span></div>
-										<div class="sheet-col"><span class="sheet-wide-input-header-noimproll">No Imp Roll</span></div>
-										<div class="sheet-col"><span class="sheet-wide-input-header-improll">Imp Roll</span></div>
+										<div class="sheet-col"><span class="sheet-wide-input-header-name" data-i18n="name-u">Name</span></div>
+										<div class="sheet-col"><span class="sheet-wide-input-header-dmg" data-i18n="dmg-abbrev-u">Dmg</span></div>
+										<div class="sheet-col"><span class="sheet-wide-input-header-maxdmg" data-i18n="max_dmg-u">Max Dmg</span></div>
+										<div class="sheet-col"><span class="sheet-wide-input-header-malf" data-i18n="malf-u">Malf</span></div>
+										<div class="sheet-col"><span class="sheet-wide-input-header-strain" data-i18n="strain-u">Strain</span></div>
+										<div class="sheet-col"><span class="sheet-wide-input-header-noimproll" data-i18n="no_imp_roll-u">No Imp Roll</span></div>
+										<div class="sheet-col"><span class="sheet-wide-input-header-improll" data-i18n="imp_roll-u">Imp Roll</span></div>
 									</div>									
 									<div class="sheet-npc-row">
-										<div class="sheet-col"><input type="text" name="attr_minionweapon1" class="sheet-wide-input" placeholder="Weapon 1 (Skill 6)" /></div>
-										<div class="sheet-col"><input type="text" name="attr_miniondamage1" class="sheet-narrow-input" placeholder="Dam+DB" /></div>
-										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage1" class="sheet-narrow-input" placeholder="Max Dam" /></div>
-										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf1" class="sheet-narrow-input" placeholder="Malf" /></div>
-										<div class="sheet-col"><input type="text" name="attr_minionstrain1" class="sheet-narrow-input" placeholder="Strain" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionweapon1" class="sheet-wide-input" placeholder="Weapon 1 (Skill 6)" data-i18n-placeholder="weapon1_skill6-u" /></div>
+										<div class="sheet-col"><input type="text" name="attr_miniondamage1" class="sheet-narrow-input" placeholder="Dam+DB" data-i18n-placeholder="damage&db-z" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage1" class="sheet-narrow-input" placeholder="Max Dam" data-i18n-placeholder="damage&db-z" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf1" class="sheet-narrow-input" placeholder="Malf" data-i18n-placeholder="malf-u" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionstrain1" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u" /></div>
 										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage1-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon1}}}  {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval6}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval6}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval6}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{minionweaponmalf1}}} {{roll1=[[1d100]]}}  {{damage=[[@{miniondamage1}]]}} {{extremedamage=[[@{minionmaxdamage1}]]}} {{strain=[[@{minionstrain1} + 0]]}}"></button></div>
 										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage1-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon1}}}  {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval6}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval6}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval6}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{minionweaponmalf1}}} {{roll1=[[1d100]]}}  {{damage=[[@{miniondamage1}]]}} {{extremedamage=[[@{minionmaxdamage1}]]}} {{strain=[[@{minionstrain1} + 0]]}}"></button></div>
 									</div>
 									<div class="sheet-npc-row">
-										<div class="sheet-col"><input type="text" name="attr_minionweapon2" class="sheet-wide-input" placeholder="Weapon 2 (Skill 7)" /></div>
-										<div class="sheet-col"><input type="text" name="attr_miniondamage2" class="sheet-narrow-input" placeholder="Dam+DB" /></div>
-										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage2" class="sheet-narrow-input" placeholder="Max Dam" /></div>
-										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf2" class="sheet-narrow-input" placeholder="Malf" /></div>
-										<div class="sheet-col"><input type="text" name="attr_minionstrain2" class="sheet-narrow-input" placeholder="Strain" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionweapon2" class="sheet-wide-input" placeholder="Weapon 2 (Skill 7)" data-i18n-placeholder="weapon2_skill7-u" /></div>
+										<div class="sheet-col"><input type="text" name="attr_miniondamage2" class="sheet-narrow-input" placeholder="Dam+DB" data-i18n-placeholder="damage&db-z" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage2" class="sheet-narrow-input" placeholder="Max Dam" data-i18n-placeholder="max_dmg-u" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf2" class="sheet-narrow-input" placeholder="Malf" data-i18n-placeholder="malf-u" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionstrain2" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u" /></div>
 										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage2-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon2}}}  {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval7}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval7}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval7}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{minionweaponmalf2}}} {{roll1=[[1d100]]}}  {{damage=[[@{miniondamage2}]]}} {{extremedamage=[[@{minionmaxdamage2}]]}} {{strain=[[@{minionstrain2} + 0]]}}"></button></div>
 										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage2-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon2}}}  {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval7}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval7}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval7}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{minionweaponmalf2}}} {{roll1=[[1d100]]}}  {{damage=[[@{miniondamage2}]]}} {{extremedamage=[[@{minionmaxdamage2}]]}} {{strain=[[@{minionstrain2} + 0]]}}"></button></div>
 									</div>
 									<div class="sheet-npc-row">
-										<input type="text" name="attr_minionweapon3" class="sheet-wide-input" placeholder="Weapon 3 (Skill 8)" />
-										<input type="text" name="attr_miniondamage3" class="sheet-narrow-input" placeholder="Dam+DB" />
-										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage3" class="sheet-narrow-input" placeholder="Max Dam" /></div>
-										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf3" class="sheet-narrow-input" placeholder="Malf" /></div>
-										<div class="sheet-col"><input type="text" name="attr_minionstrain3" class="sheet-narrow-input" placeholder="Strain" /></div>
+										<input type="text" name="attr_minionweapon3" class="sheet-wide-input" placeholder="Weapon 3 (Skill 8)" data-i18n-placeholder="weapon3_skill8-u" />
+										<input type="text" name="attr_miniondamage3" class="sheet-narrow-input" placeholder="Dam+DB" data-i18n-placeholder="damage&db-z" />
+										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage3" class="sheet-narrow-input" placeholder="Max Dam" data-i18n-placeholder="max_dmg-u" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf3" class="sheet-narrow-input" placeholder="Malf" data-i18n-placeholder="malf-u" /></div>
+										<div class="sheet-col"><input type="text" name="attr_minionstrain3" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u" /></div>
 										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage3-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon3}}}  {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval8}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval8}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval8}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{minionweaponmalf3}}} {{roll1=[[1d100]]}}  {{damage=[[@{miniondamage3}]]}} {{extremedamage=[[@{minionmaxdamage3}]]}} {{strain=[[@{minionstrain3} + 0]]}}"></button></div>
 										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage3-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon3}}}  {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{success=[[@{minionskillval8}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{minionskillval8}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{minionskillval8}+@{dice_modifier_checkbox})/5)]]}} {{malf=@{minionweaponmalf3}}} {{roll1=[[1d100]]}}  {{damage=[[@{miniondamage3}]]}} {{extremedamage=[[@{minionmaxdamage3}]]}} {{strain=[[@{minionstrain3} + 0]]}}"></button></div>
 									</div>
@@ -18061,7 +18063,7 @@
 											<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{vehicleweaponskillname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div>
-											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponname" placeholder="Mounted Weapon" />
+											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponname" placeholder="Mounted Weapon" data-i18n-placeholder="MountedWeapon"/>
 											<input type="text" class="sheet-wide-input" name="attr_vehicleweapondamage" placeholder="Dam" data-i18n-placeholder="dam-z" />
 											<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponattack" value="&{template:coc-minionattack} {{name=@{vehicle_name} attacking with @{vehicleweaponname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vehicleweapondamage}]]}}"></button>
 										</div>

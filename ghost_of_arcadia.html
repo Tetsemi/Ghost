@@ -131,7 +131,7 @@
 							<input class="sheet-attr-input" type="text" name="attr_build" readonly />
 						</div>
 						<div class="sheet-grid-inline sheet-move-wrapper">
-							<label class="sheet-attr-label" data-i18n="Move rate-u">Move rate</label>
+							<label class="sheet-attr-label" data-i18n="move_rate-u">Move rate</label>
 							<div class="sheet-grid-move">
 								<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_mov" />
 								<button class="sheet-move-roll" type="roll" name="roll_mov_check" value="&{template:coc-dice-roll} {{name=Initiative (Chase) - @{name}}} {{modifier=[[@{dice_modifier_checkbox} + 0]]}} {{diceroll=[[1d10 + @{mov} &{tracker}]]}}"></button>
@@ -188,7 +188,7 @@
 						<select class="sheet-select-full" name="attr_damage_bonus">
 							<option value="-2">-2</option>
 							<option value="-1">-1</option>
-							<option value="0" selected data-i18n="None">None</option>
+							<option value="0" selected data-i18n="none-u">None</option>
 							<option value="1d4">+1d4</option>
 							<option value="1d6">+1d6</option>
 							<option value="2d6">+2d6</option>
@@ -5297,13 +5297,13 @@
 				<div class="sheet-talent-row-one">
 					<div class="sheet-xp-tracker sheet-talent-xp">
 						<div class="sheet-xp-row">
-							<label>Spent XP (Talent)</label>
+							<label data-i18n="spent_xp_talent-u">Spent XP (Talent)</label>
 							<input type="text" name="attr_xp_spent_talent" class="sheet-xp-field sheet-readonly" />
 						</div>
 					</div>
 					
 					<div class="sheet-talent-summary">
-						<h3 class="sheet-talent-tier-header">Chosen Talents Summary</h3>
+						<h3 class="sheet-talent-tier-header" data-i18n="chosen_talents_summary-u">Chosen Talents Summary</h3>
 						<span name="attr_talent_summary"></span>
 					</div>
 				</div>
@@ -7696,69 +7696,70 @@
 		<!-- ------------------- Careers  -------------------- -->
 		<div class="sheet-tab-content sheet-careers">
 			<h4 class="section-head" data-i18n="careers-u">Careers</h4>
+			
 			<div class="sheet-section">
 				<!-- ==== Career Tracker (Static Primary Career) ==== -->
 				<!-- Career Tracker Header -->
 				<div class="sheet-career-tracker">
 					<div class="sheet-career-grid sheet-career-header">
-						<div>Career</div>
-						<div>Starting Skill Points</div>
-						<div>Skill→XP</div>
-						<div>Career XP Spent</div>
-						<div>Career XP Total</div>
-						<div>Total Spell XP</div>
-					</div>
+					<div data-i18n="career_column_career-u">Career</div>
+					<div data-i18n="career_column_starting_skill_points-u">Starting Skill Points</div>
+					<div data-i18n="career_column_skill_to_xp-u">Skill→XP</div>
+					<div data-i18n="career_column_xp_spent-u">Career XP Spent</div>
+					<div data-i18n="career_column_xp_total-u">Career XP Total</div>
+					<div data-i18n="career_column_total_spell_xp-u">Total Spell XP</div>
+				</div>
 
 					<!-- Static Primary Career Row -->
 					<div class="sheet-career-grid">
 						<select name="attr_primary_career" class="sheet-career-select">
-							<option value="1A">— Arcane Career —</option>
-							<option value="codeweaver">Codeweaver</option>
-							<option value="mindbender">Mindbender</option>
-							<option value="sigilbound">Sigilbound</option>
-							<option value="stormweaver">Stormweaver</option>
-							<option value="1S">— Standard Career —</option>
-							<option value="combat_engineer">Combat Engineer</option>							
-							<option value="combat_medic">Combat Medic</option>
-							<option value="faceman">Faceman</option>
-							<option value="icon">Icon</option>
-							<option value="marksman">Marksman</option>
-							<option value="operator">Operator</option>
-							<option value="pilot">Pilot</option>
-							<option value="shadowblade">Shadowblade</option>
-							<option value="slicer">Slicer</option>
-							<option value="street_ronin">Street Ronin</option>							
+							<option value="1A"                data-i18n="career_select_arcane_header-u">-- Arcane Career --</option>
+							<option value="codeweaver"        data-i18n="career_codeweaver-u">Codeweaver</option>
+							<option value="mindbender"        data-i18n="career_mindbender-u">Mindbender</option>
+							<option value="sigilbound"        data-i18n="career_sigilbound-u">Sigilbound</option>
+							<option value="stormweaver"       data-i18n="career_stormweaver-u">Stormweaver</option>
+							<option value="1S"                data-i18n="career_select_standard_header-u">-- Standard Career --</option>
+							<option value="combat_engineer"   data-i18n="career_combat_engineer-u">Combat Engineer</option>
+							<option value="combat_medic"      data-i18n="career_combat_medic-u">Combat Medic</option>
+							<option value="faceman"           data-i18n="career_faceman-u">Faceman</option>
+							<option value="icon"              data-i18n="career_icon-u">Icon</option>
+							<option value="marksman"          data-i18n="career_marksman-u">Marksman</option>
+							<option value="operator"          data-i18n="career_operator-u">Operator</option>
+							<option value="pilot"             data-i18n="career_pilot-u">Pilot</option>
+							<option value="shadowblade"       data-i18n="career_shadowblade-u">Shadowblade</option>
+							<option value="slicer"            data-i18n="career_slicer-u">Slicer</option>
+							<option value="street_ronin"      data-i18n="career_street_ronin-u">Street Ronin</option>						
 						</select>
 						<input class="sheet-readonly" type="text" name="attr_primary_career_skill_points" />
-						<input class="sheet-readonly" type="text" name="placeholder" placeholder="N/A"/>
+						<input class="sheet-readonly" type="text" name="placeholder" placeholder="N/A" placeholder="N/A" data-i18n-placeholder="na-u" />
 						<input class="sheet-readonly" type="text" name="attr_primary_career_xp_spent" />
 						<input class="sheet-readonly" type="text" name="attr_primary_career_xp_total" />
 						<input class="sheet-readonly" type="text" name="attr_primary_career_spell_xp_total" />
-						<button type="action" name="act_clear_inactive_careers" class="sheet-tab-buttons">Clear Inactive Careers</button>
+						<button type="action" name="act_clear_inactive_careers" class="sheet-tab-buttons" data-i18n="clear_inactive_careers-u">Clear Inactive Careers</button>
 					</div>
 
 					<!-- Repeating Secondary Career Rows -->
 					<fieldset class="repeating_secondarycareer">
 						<div class="sheet-career-grid">
 							<select name="attr_secondary_career" class="sheet-career-select">
-								<option value="2A">— Arcane Career —</option>
-								<option value="codeweaver">Codeweaver</option>
-								<option value="mindbender">Mindbender</option>
-								<option value="sigilbound">Sigilbound</option>
-								<option value="stormweaver">Stormweaver</option>
-								<option value="2S">— Standard Career —</option>
-								<option value="combat_engineer">Combat Engineer</option>							
-								<option value="combat_medic">Combat Medic</option>
-								<option value="faceman">Faceman</option>
-								<option value="icon">Icon</option>
-								<option value="marksman">Marksman</option>
-								<option value="operator">Operator</option>
-								<option value="pilot">Pilot</option>
-								<option value="shadowblade">Shadowblade</option>
-								<option value="slicer">Slicer</option>
-								<option value="street_ronin">Street Ronin</option>							
-								<option value="2P">— Prestige Career —</option>
-								<option value="arcane_gunslinger">Arcane Gunslinger</option>
+								<option value="2A"                data-i18n="career_select_arcane_header-u">-- Arcane Career --</option>
+								<option value="codeweaver"        data-i18n="career_codeweaver-u">Codeweaver</option>
+								<option value="mindbender"        data-i18n="career_mindbender-u">Mindbender</option>
+								<option value="sigilbound"        data-i18n="career_sigilbound-u">Sigilbound</option>
+								<option value="stormweaver"       data-i18n="career_stormweaver-u">Stormweaver</option>
+								<option value="2S"                data-i18n="career_select_standard_header-u">-- Standard Career --</option>
+								<option value="combat_engineer"   data-i18n="career_combat_engineer-u">Combat Engineer</option>
+								<option value="combat_medic"      data-i18n="career_combat_medic-u">Combat Medic</option>
+								<option value="faceman"           data-i18n="career_faceman-u">Faceman</option>
+								<option value="icon"              data-i18n="career_icon-u">Icon</option>
+								<option value="marksman"          data-i18n="career_marksman-u">Marksman</option>
+								<option value="operator"          data-i18n="career_operator-u">Operator</option>
+								<option value="pilot"             data-i18n="career_pilot-u">Pilot</option>
+								<option value="shadowblade"       data-i18n="career_shadowblade-u">Shadowblade</option>
+								<option value="slicer"            data-i18n="career_slicer-u">Slicer</option>
+								<option value="street_ronin"      data-i18n="career_street_ronin-u">Street Ronin</option>
+								<option value="2P"                data-i18n="career_select_prestige_header-u">-- Prestige Career --</option>
+								<option value="arcane_gunslinger" data-i18n="career_arcane_gunslinger-u">Arcane Gunslinger</option>
 							</select>
 							<input class="sheet-readonly" type="text" name="attr_secondary_career_skill_points" />
 							<input type="text" name="attr_secondary_career_skill_to_xp" />
@@ -7772,12 +7773,12 @@
 
 			<div class="sheet-section">
 				<div class="sheet-primary-career-summary">
-					<h3 class="sheet-career-talent-tier-header">Primary Career Talents Summary</h3>
+					<h3 class="sheet-career-talent-tier-header" data-i18n="primary_career_talents_summary-u">Primary Career Talents Summary</h3>
 					<span name="attr_primary_career_talent_summary"></span>
 				</div>
 
 				<div class="sheet-secondary-career-summary">
-					<h3 class="sheet-career-talent-tier-header">Secondary Career Talents Summary</h3>
+					<h3 class="sheet-career-talent-tier-header" data-i18n="secondary_career_talents_summary-u">Secondary Career Talents Summary</h3>
 					<span name="attr_secondary_career_talent_summary"></span>
 				</div>
 			</div>
@@ -7789,29 +7790,29 @@
 				<!-- === CAREER TAB BUTTONS === -->
 				<!-- Arcane -->
 				<div class="sheet-career-tabs sheet-career-tab-buttons-arcane">
-					<button type="action" name="act_codeweaver">Codeweaver</button>		
-					<button type="action" name="act_mindbender">Mindbender</button>
-					<button type="action" name="act_sigilbound">Sigilbound</button>
-					<button type="action" name="act_stormweaver">Stormweaver</button>						
+					<button type="action" name="act_codeweaver"        data-i18n="career_codeweaver-u">Codeweaver</button>
+					<button type="action" name="act_mindbender"        data-i18n="career_mindbender-u">Mindbender</button>
+					<button type="action" name="act_sigilbound"        data-i18n="career_sigilbound-u">Sigilbound</button>
+					<button type="action" name="act_stormweaver"       data-i18n="career_stormweaver-u">Stormweaver</button>						
 				</div>
 				
 				<!-- Standard -->
 				<div class="sheet-career-tabs sheet-career-tab-buttons-standard">
-					<button type="action" name="act_combat_engineer">Combat Engineer</button>
-					<button type="action" name="act_combat_medic">Combat Medic</button>
-					<button type="action" name="act_faceman">Faceman</button>
-					<button type="action" name="act_icon">Icon</button>
-					<button type="action" name="act_marksman">Marksman</button>					
-					<button type="action" name="act_operator">Operator</button>
-					<button type="action" name="act_pilot">Pilot</button>
-					<button type="action" name="act_shadowblade">Shadowblade</button>
-					<button type="action" name="act_slicer">Slicer</button>
-					<button type="action" name="act_street_ronin">Street Ronin</button>
+					<button type="action" name="act_combat_engineer"   data-i18n="career_combat_engineer-u">Combat Engineer</button>
+					<button type="action" name="act_combat_medic"      data-i18n="career_combat_medic-u">Combat Medic</button>
+					<button type="action" name="act_faceman"           data-i18n="career_faceman-u">Faceman</button>
+					<button type="action" name="act_icon"              data-i18n="career_icon-u">Icon</button>
+					<button type="action" name="act_marksman"          data-i18n="career_marksman-u">Marksman</button>
+					<button type="action" name="act_operator"          data-i18n="career_operator-u">Operator</button>
+					<button type="action" name="act_pilot"             data-i18n="career_pilot-u">Pilot</button>
+					<button type="action" name="act_shadowblade"       data-i18n="career_shadowblade-u">Shadowblade</button>
+					<button type="action" name="act_slicer"            data-i18n="career_slicer-u">Slicer</button>
+					<button type="action" name="act_street_ronin"      data-i18n="career_street_ronin-u">Street Ronin</button>
 				</div>		
 				
 				<!-- Prestige -->
 				<div class="sheet-career-tabs sheet-career-tab-buttons-prestige">
-					<button type="action" name="act_arcane_gunslinger">Arcane Gunslinger</button>
+					<button type="action" name="act_arcane_gunslinger" data-i18n="career_arcane_gunslinger-u">Arcane Gunslinger</button>
 				</div>
 			
                 <!-- === CAREER TABS CONTAINER === -->
@@ -13765,28 +13766,28 @@
 
 				<!-- Column 1 -->
 				<div class="sheet-backstory-col">
-					<div class="sheet-backstory-label" data-i18n="Personal Description">Personal Description</div>
+					<div class="sheet-backstory-label" data-i18n="personal_description-u">Personal Description</div>
 					<textarea name="attr_personal_description" class="sheet-backstory-textarea"></textarea>
-					<div class="sheet-backstory-label" data-i18n="Ideology/Beliefs">Ideology/Beliefs</div>
+					<div class="sheet-backstory-label" data-i18n="ideology_beliefs-u">Ideology/Beliefs</div>
 					<textarea name="attr_ideaology_beliefs" class="sheet-backstory-textarea"></textarea>
-					<div class="sheet-backstory-label" data-i18n="Significant People">Significant People</div>
+					<div class="sheet-backstory-label" data-i18n="significant_people-u">Significant People</div>
 					<textarea name="attr_significant_people" class="sheet-backstory-textarea"></textarea>
-					<div class="sheet-backstory-label" data-i18n="Meaningful Locations">Meaningful Locations</div>
+					<div class="sheet-backstory-label" data-i18n="meaningful_locations-u">Meaningful Locations</div>
 					<textarea name="attr_meaningful_locations" class="sheet-backstory-textarea"></textarea>
-					<div class="sheet-backstory-label" data-i18n="Treasured Possessions">Treasured Possessions</div>
+					<div class="sheet-backstory-label" data-i18n="treasured_possessions-u">Treasured Possessions</div>
 					<textarea name="attr_treasured_posessions" class="sheet-backstory-textarea"></textarea>
 				</div>
 				<!-- Column 2 -->
 				<div class="sheet-backstory-col">
-					<div class="sheet-backstory-label" data-i18n="Traits">Traits</div>
+					<div class="sheet-backstory-label" data-i18n="traits-u">Traits</div>
 					<textarea name="attr_traits" class="sheet-backstory-textarea"></textarea>
-					<div class="sheet-backstory-label" data-i18n="Injuries & Scars">Injuries & Scars</div>
+					<div class="sheet-backstory-label" data-i18n="injuries_n_scars-u">Injuries & Scars</div>
 					<textarea name="attr_injuries_scars" class="sheet-backstory-textarea"></textarea>
-					<div class="sheet-backstory-label" data-i18n="Phobias/Manias">Phobias/Manias</div>
+					<div class="sheet-backstory-label" data-i18n="phobias_manias-u">Phobias/Manias</div>
 					<textarea name="attr_phobias_manias" class="sheet-backstory-textarea"></textarea>
-					<div class="sheet-backstory-label" data-i18n="Tomes, Spells and Artifacts">Tomes, Spells and Artifacts</div>
+					<div class="sheet-backstory-label" data-i18n="tomes_spells_artifacts-u">Tomes, Spells and Artifacts</div>
 					<textarea name="attr_tomes_spells_artifacts" class="sheet-backstory-textarea"></textarea>
-					<div class="sheet-backstory-label" data-i18n="Encounters with Strange Entities-z">Encounters with Strange Entities</div>
+					<div class="sheet-backstory-label" data-i18n="encounters_with_strange_entities-u">Encounters with Strange Entities</div>
 					<textarea name="attr_encounters_with_strange_entities" class="sheet-backstory-textarea"></textarea>
 				</div>
 			</div>
@@ -18057,17 +18058,17 @@
 											<button class="smallbutton-roll" type="roll" name="roll_vehicleattack_check" value="&{template:coc-vehicleattack} {{name=@{vehicle_name} attacking with @{operatorskillname}}}{{success=[[@{operatorskill}]]}} {{hard=[[floor(@{operatorskill}/2)]]}} {{extreme=[[floor(@{operatorskill}/5)]]}} {{roll1=[[1d100]]}} {{builddam=[[@{vehiclebuild}d10/10]]}}"></button>
 										</div>
 										<div>
-											<input type="text" class="sheet-wide-input" name="attr_operatorskillname" placeholder="Operator's Skill" data-i18n-placeholder="operatorskill" />
+											<input type="text" class="sheet-wide-input" name="attr_operatorskillname" placeholder="Operator's Skill" data-i18n-placeholder="operatorskill-u" />
 											<input type="text" class="sheet-wide-input" name="attr_operatorskill" />
 											<button class="smallbutton-roll" type="roll" name="roll_operatorskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{operatorskillname}}} {{success=[[@{operatorskill}]]}} {{hard=[[floor(@{operatorskill}/2)]]}} {{extreme=[[floor(@{operatorskill}/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div>
-											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponskillname" placeholder="Mounted Weapon Skill" data-i18n-placeholder="MountedWeaponSkill" />
+											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponskillname" placeholder="Mounted Weapon Skill" data-i18n-placeholder="mountedweapon_skill-u" />
 											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponskill" />
 											<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{vehicleweaponskillname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}}"></button>
 										</div>
 										<div>
-											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponname" placeholder="Mounted Weapon" data-i18n-placeholder="MountedWeapon"/>
+											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponname" placeholder="Mounted Weapon" data-i18n-placeholder="mountedweapon-u"/>
 											<input type="text" class="sheet-wide-input" name="attr_vehicleweapondamage" placeholder="Dam" data-i18n-placeholder="dam-z" />
 											<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponattack" value="&{template:coc-minionattack} {{name=@{vehicle_name} attacking with @{vehicleweaponname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vehicleweapondamage}]]}}"></button>
 										</div>
@@ -23320,8 +23321,7 @@ on("sheet:opened", function () {
 
 	const translationFields = [
 		"str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
-		"accounting_txt", "alchemy_txt", "animalhandling_txt", "anthropology_txt", "appraise_txt", "arcana_txt",
-		"archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
+		"animalhandling_txt", "anthropology_txt", "arcana_txt", "archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
 		"chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computer_use_txt", "creditrating_txt", "cthulhumythos_txt",
 		"cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "drive_auto_txt",
 		"drone_operation_txt", "elecrepair_txt", "engineering_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "etiquette_underworld_txt",
@@ -23336,8 +23336,7 @@ on("sheet:opened", function () {
 		"singing_txt", "sleightofhand_txt", "slicing_txt", "spirit_lore_txt", "spothidden_txt", "stealth_txt", "streetwise_txt",
 		"survival_wilderness_txt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt",
 		"electronics_txt", "etiquette_alteri_txt", "etiquette_other_txt", "survival_urban_txt",
-		"perform_acting_txt", "perform_dance_txt", "perform_impersonation_txt", "perform_instrument_txt", "perform_vocal_txt",
-		"voice_txt", "recitation_txt"
+		"perform_acting_txt", "perform_dance_txt", "perform_impersonation_txt", "perform_instrument_txt", "perform_vocal_txt"
 	];
 
 	// Special-case keys that don't follow the default "<base>-r-txt" pattern
@@ -23391,9 +23390,111 @@ on("sheet:opened", function () {
 	});
 });
 
+// Maps //
+
+const skillMapTable = {
+ /* Combat */
+ "Archery": 				{ label: "archery", base: "10", skill: "archery_skill_mdr", bonus: "archery_mdr", group: "Combat", notes: "Archery" },
+ "Dodge (DEX/2)": 			{ label: "dodge", base: "0", skill: "dodge_skill_mdr", bonus: "dodge_mdr", group: "Combat", notes: "Half of your DEX score" },
+ "Gunnery": 				{ label: "gunnery", base: "10", skill: "gunnery_skill_mdr", bonus: "gunnery_mdr", group: "Combat", notes: "Vehicle-mounted or automated weapons" },
+ "Heavy Weapons": 			{ label: "heavy_weapons", base: "10", skill: "heavy_weapons_skill_mdr", bonus: "heavy_weapons_mdr", group: "Combat", notes: "Heavy Weapons" },
+ "Melee Weapons": 			{ label: "melee_weapons", base: "20", skill: "melee_weapons_skill_mdr", bonus: "melee_weapons_mdr", group: "Combat", notes: "Melee Weapons" },
+ "Pistols": 				{ label: "firearms_handgun", base: "20", skill: "firearms_handgun_skill_mdr", bonus: "firearms_handgun_mdr", group: "Combat", notes: "Pistols" },
+ "Rifles/Shotguns": 		{ label: "firearms_rifle", base: "25", skill: "firearms_rifle_skill_mdr", bonus: "firearms_rifle_mdr", group: "Combat", notes: "Rifles/Shotguns" },
+ "Submachine Guns (SMGs)": 	{ label: "firearms_smg", base: "15", skill: "firearms_smg_skill_mdr", bonus: "firearms_smg_mdr", group: "Combat", notes: "Submachine Guns (SMGs)" },
+ "Thrown Weapons": 			{ label: "throw", base: "20", skill: "throw_skill_mdr", bonus: "throw_mdr", group: "Combat", notes: "Thrown Weapons" },
+ "Unarmed": 				{ label: "unarmed", base: "25", skill: "unarmed_skill_mdr", bonus: "unarmed_mdr", group: "Combat", notes: "Unarmed combat" },
+ /* Language */
+ "Language(Racial)": 	{ label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
+ "Language(Caltheran)": { label: "language_caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" },
+ "Language(Other)": { label: "otherskill3", base: "0", skill: "otherskill3_skill_mdr", bonus: "otherskill3_mdr", group: "Language", notes: "Other language" },
+ /* Magic */
+ "Alteration": 		{ label: "magic_alteration", base: "0", skill: "magic_alteration_skill_mdr", bonus: "magic_alteration_mdr", group: "Magic", notes: "Enhances physical attributes or alters the physical world. Includes speed, strength, resilience, and spatial shifts." },
+ "Elemental": 		{ label: "magic_elemental", base: "0", skill: "magic_elemental_skill_mdr", bonus: "magic_elemental_mdr", group: "Magic", notes: "The art of shaping and controlling natural elements such as fire, water, air, and earth through arcane force. Focuses on raw power and environmental manipulation." },
+ "Enchantment": 	{ label: "magic_enchantment", base: "0", skill: "magic_enchantment_skill_mdr", bonus: "magic_enchantment_mdr", group: "Magic", notes: "Mental influencing magic that alters thoughts, emotions, or behavior. Includes charms, compulsions, and emotional sway." },
+ "Illusion": 		{ label: "magic_illusion", base: "0", skill: "magic_illusion_skill_mdr", bonus: "magic_illusion_mdr", group: "Magic", notes: "Magic of trickery and perception. Creates false images, alters appearances, or hides things through manipulation of the senses." },
+ "Necromancy": 		{ label: "magic_necromancy", base: "0", skill: "magic_necromancy_skill_mdr", bonus: "magic_necromancy_mdr", group: "Magic", notes: "Manipulates the forces of death and the soul. Involves raising the dead, draining life, or communicating with spirits of the deceased." },
+ "Restoration": 	{ label: "magic_restoration", base: "0", skill: "magic_restoration_skill_mdr", bonus: "magic_restoration_mdr", group: "Magic", notes: "Healing, cleansing, and regeneration magic that mends wounds, purifies corruption, or restores vitality." },
+ "Summoning": 		{ label: "magic_summoning", base: "0", skill: "magic_summoning_skill_mdr", bonus: "magic_summoning_mdr", group: "Magic", notes: "Calls forth spirits, creatures, or arcane constructs from beyond to aid, defend, or serve the caster." },
+ "Technomancy": 	{ label: "magic_technomancy", base: "0", skill: "magic_technomancy_skill_mdr", bonus: "magic_technomancy_mdr", group: "Magic", notes: "The fusion of magic with technology. Enables interaction with archanotech, digital constructs, and spell-driven machines." },
+ "Warding": 		{ label: "magic_warding", base: "0", skill: "magic_warding_skill_mdr", bonus: "magic_warding_mdr", group: "Magic", notes: "Protective magic used to shield, block, or dispel incoming threats both physical and magical." },
+ "Universal": 		{ label: "magic_universal", base: "0", skill: "magic_universal_skill_mdr", bonus: "magic_universal_mdr", group: "Magic", notes: "Covers basic arcane techniques used across traditions detecting, sensing, or disrupting magical phenomena." },
+ /* Perform */ 
+ "Perform Acting": 			{ label: "perform_acting", base: "5", skill: "perform_acting_skill_mdr", bonus: "perform_acting_mdr", group: "Perform", notes: "Acting" },
+ "Perform Dance": 			{ label: "perform_dance", base: "5", skill: "perform_dance_skill_mdr", bonus: "perform_dance_mdr", group: "Perform", notes: "Dance" },
+ "Perform Impersonation": 	{ label: "perform_impersonation", base: "5", skill: "perform_impersonation_skill_mdr", bonus: "perform_impersonation_mdr", group: "Perform", notes: "Impersonation" },
+ "Perform Instrument": 		{ label: "perform_instrument", base: "5", skill: "perform_instrument_skill_mdr", bonus: "perform_instrument_mdr", group: "Perform", notes: "Instrument" },
+ "Perform Vocal": 			{ label: "perform_vocal", base: "5", skill: "perform_vocal_skill_mdr", bonus: "perform_vocal_mdr", group: "Perform", notes: "Vocal" },
+ /* Physical */
+ "Athletics": 		{ label: "athletics", base: "20", skill: "athletics_skill_mdr", bonus: "athletics_mdr", group: "Physical", notes: "Running, jumping, climbing, endurance" },
+ "Coordination": 	{ label: "coordination", base: "20", skill: "coordination_skill_mdr", bonus: "coordination_mdr", group: "Physical", notes: "Balance, agility, acrobatics" },
+ "Swim": 			{ label: "swim", base: "20", skill: "swim_skill_mdr", bonus: "swim_mdr", group: "Physical", notes: "Swim" },
+ /* Pilot */
+ "Drive (Ground Vehicles)": { label: "drive_auto", base: "20", skill: "drive_auto_skill_mdr", bonus: "drive_auto_mdr", group: "Pilot", notes: "Drive (Ground Vehicles)" },
+ "Drone Operation": 		{ label: "drone_operation", base: "10", skill: "drone_operation_skill_mdr", bonus: "drone_operation_mdr", group: "Pilot", notes: "Drone Operation" },
+ "Pilot (Aircraft)":		{ label: "pilotaircraft", base: "1", skill: "pilotaircraft_skill_mdr", bonus: "pilotaircraft_mdr", group: "Pilot", notes: "Pilot (Aircraft)" },
+ "Pilot (ARC)":				{ label: "pilotarc", base: "5", skill: "pilotarc_skill_mdr", bonus: "pilotarc_mdr", group: "Pilot", notes: "Pilot (ARC)" },
+ "Pilot (Boat)":   			{ label: "pilotboat", base: "1", skill: "pilotboat_skill_mdr", bonus: "pilotboat_mdr", group: "Pilot", notes: "Pilot (Boat)" },
+ /* Science */
+ "Alchemy":         { label: "alchemy",         base: "1",  skill: "alchemy_skill_mdr",         bonus: "alchemy_mdr",         group: "Science",  notes: "Science (Alchemy)" },
+ "Anthropology":    { label: "anthropology",    base: "1",  skill: "anthropology_skill_mdr",    bonus: "anthropology_mdr",    group: "Science",  notes: "Science (Anthropology)" },
+ "Archaeology":     { label: "archaeology",     base: "1",  skill: "archaeology_skill_mdr",     bonus: "archaeology_mdr",     group: "Science",  notes: "Science (Archaeology)" },
+ "Biology":         { label: "biology",         base: "1",  skill: "biology_skill_mdr",         bonus: "biology_mdr",         group: "Science",  notes: "Science (Biology)" },
+ "Chemistry":       { label: "chemistry",       base: "1",  skill: "chemistry_skill_mdr",       bonus: "chemistry_mdr",       group: "Science",  notes: "Science (Chemistry)" },
+ "Engineering":     { label: "engineering",     base: "1",  skill: "engineering_skill_mdr",     bonus: "engineering_mdr",     group: "Science",  notes: "Science (Engineering)" },
+ "Physics":         { label: "physics",         base: "1",  skill: "physics_skill_mdr",         bonus: "physics_mdr",         group: "Science",  notes: "Science (Physics)" },
+ /* Knowledge */
+ "Arcana":          { label: "arcana",          base: "5",  skill: "arcana_skill_mdr",          bonus: "arcana_mdr",          group: "Knowledge", notes: "Understanding of magical theory and principles" },
+ "Architecture":    { label: "architecture",    base: "1",  skill: "architecture_skill_mdr",    bonus: "architecture_mdr",    group: "Knowledge", notes: "Architecture and built environments" },
+ "Forbidden Lore":  { label: "forbidden_lore",  base: "0",  skill: "forbidden_lore_skill_mdr",  bonus: "forbidden_lore_mdr",  group: "Knowledge", notes: "Cosmic horrors, veiled truths" },
+ "History":         { label: "history",         base: "5",  skill: "history_skill_mdr",         bonus: "history_mdr",         group: "Knowledge", notes: "History" },
+ "Investigation":   { label: "investigation",   base: "10", skill: "investigation_skill_mdr",   bonus: "investigation_mdr",   group: "Knowledge", notes: "Used to reconstruct events, analyze clues, interpret evidence, and solve mysteries." },
+ "Law":             { label: "law",             base: "5",  skill: "law_skill_mdr",             bonus: "law_mdr",             group: "Knowledge", notes: "Law" },
+ "Medicine":        { label: "medicine",        base: "1",  skill: "medicine_skill_mdr",        bonus: "medicine_mdr",        group: "Knowledge", notes: "Medicine" },
+ "Natural World":   { label: "natural_world",   base: "10", skill: "natural_world_skill_mdr",   bonus: "natural_world_mdr",   group: "Knowledge", notes: "Natural World" },
+ "Occult Lore":     { label: "occult",          base: "5",  skill: "occult_skill_mdr",          bonus: "occult_mdr",          group: "Knowledge", notes: "Non-practitioner knowledge of magic and the supernatural" },
+ "Spirit Lore":     { label: "spirit_lore",     base: "5",  skill: "spirit_lore_skill_mdr",     bonus: "spirit_lore_mdr",     group: "Knowledge", notes: "Spirit Lore" },
+ "Veil Lore":       { label: "veil_lore",       base: "5",  skill: "veil_lore_skill_mdr",       bonus: "veil_lore_mdr",       group: "Knowledge", notes: "Veil Lore" },
+ /* Social */
+ "Bureaucracy": 				{ label: "bureaucracy", base: "5", skill: "bureaucracy_skill_mdr", bonus: "bureaucracy_mdr", group: "Social", notes: "Understanding and navigating administrative, legal, and governmental systems." },
+ "Charm": 						{ label: "charm", base: "15", skill: "charm_skill_mdr", bonus: "charm_mdr", group: "Social", notes: "Charm" },
+ "Deception": 					{ label: "deception", base: "5", skill: "deception_skill_mdr", bonus: "deception_mdr", group: "Social", notes: "Deception" },
+ "Disguise": 					{ label: "disguise", base: "5", skill: "disguise_skill_mdr", bonus: "disguise_mdr", group: "Social", notes: "Disguise" },
+ "Etiquette (Alteri)": 			{ label: "etiquette_alteri", base: "10", skill: "etiquette_alteri_skill_mdr", bonus: "etiquette_alteri_mdr", group: "Social", notes: "Etiquette (Alteri)" },
+ "Etiquette (High Society)": 	{ label: "etiquette_high_society", base: "10", skill: "etiquette_high_society_skill_mdr", bonus: "etiquette_high_society_mdr", group: "Social", notes: "Etiquette (High Society)" },
+ "Etiquette (Lyranni)": 		{ label: "etiquette_lyranni", base: "10", skill: "etiquette_lyranni_skill_mdr", bonus: "etiquette_lyranni_mdr", group: "Social", notes: "Etiquette (Lyranni)" },
+ "Etiquette (Underworld)": 		{ label: "etiquette_underworld", base: "10", skill: "etiquette_underworld_skill_mdr", bonus: "etiquette_underworld_mdr", group: "Social",  notes: "Etiquette (Underworld)" },		
+ "Etiquette (Other)": 			{ label: "etiquette_other", base: "10", skill: "etiquette_other_skill_mdr", bonus: "etiquette_other_mdr", group: "Social", notes: "Etiquette may be specialized: (Corporate), (Military), (Racial), etc." },
+ "Leadership":					{ label: "leadership", base: "10", skill: "leadership_skill_mdr", bonus: "leadership_mdr", group: "Social", notes: "Leadership" },
+ "Forgery": 					{ label: "forgery", base: "1", skill: "forgery_skill_mdr", bonus: "forgery_mdr", group: "Social", notes: "Creating falsified documents, IDs, credentials physical or digital." },
+ "Insight": 					{ label: "insight", base: "10", skill: "insight_skill_mdr", bonus: "insight_mdr", group: "Social", notes: "Insight" },
+ "Intimidate": 					{ label: "intimidate", base: "15", skill: "intimidate_skill_mdr", bonus: "intimidate_mdr", group: "Social", notes: "Lying, bluffing, maintaining covers, and creating false narratives across a wide range of scenarios." },
+ "Interrogation": 				{ label: "interrogation", base: "5", skill: "interrogation_skill_mdr", bonus: "interrogation_mdr", group: "Social", notes: "Extracting information through questioning, pressure, or manipulation." },
+ "Persuade": 					{ label: "persuade", base: "10", skill: "persuade_skill_mdr", bonus: "persuade_mdr", group: "Social", notes: "Persuade" },
+ "Streetwise": 					{ label: "streetwise", base: "10", skill: "streetwise_skill_mdr", bonus: "streetwise_mdr", group: "Social", notes: "Streetwise" },
+ /* Survival */
+ "Animal Handling": 		{ label: "animalhandling", base: "5", skill: "animalhandling_skill_mdr", bonus: "animalhandling_mdr", group: "Survival", notes: "Animal Handling" },
+ "First Aid": 				{ label: "first_aid", base: "30", skill: "first_aid_skill_mdr", bonus: "first_aid_mdr", group: "Survival", notes: "First Aid" },
+ "Listen":				 	{ label: "listen", base: "20", skill: "listen_skill_mdr", bonus: "listen_mdr", group: "Survival", notes: "Listen" },
+ "Navigate": 				{ label: "navigate", base: "10", skill: "navigate_skill_mdr", bonus: "navigate_mdr", group: "Survival", notes: "Navigate" },
+ "Perception": 				{ label: "perception", base: "25", skill: "perception_skill_mdr", bonus: "perception_mdr", group: "Survival", notes: "Perception" },
+ "Sleight of Hand": 		{ label: "sleight_of_hand", base: "10", skill: "sleight_of_hand_skill_mdr", bonus: "sleight_of_hand_mdr", group: "Survival", notes: "Sleight of Hand" },
+ "Stealth": 				{ label: "stealth", base: "20", skill: "stealth_skill_mdr", bonus: "stealth_mdr", group: "Survival", notes: "Stealth" },
+ "Survival (Urban)": 		{ label: "survival_urban", base: "10", skill: "survival_urban_skill_mdr", bonus: "survival_urhan_mdr", group: "Survival", notes: "Survival (Urban)" },
+ "Survival (Wilderness)":	{ label: "survival_wilderness", base: "10", skill: "survival_wilderness_skill_mdr", bonus: "survival_wilderness_mdr", group: "Survival", notes: "Survival (Wilderness)" },
+ "Track": 					{ label: "track", base: "10", skill: "track_skill_mdr", bonus: "track_mdr", group: "Survival", notes: "Track" },
+ /* Tech/Cyber */
+ "Archanotech": 		{ label: "archanotech", base: "1", skill: "archanotech_skill_mdr", bonus: "archanotech_mdr", group: "Tech/Cyber", notes: "Construction, repair, and interfacing with arcane-tech hybrids" },
+ "Computer Use": 		{ label: "computer_use", base: "10", skill: "computer_use_skill_mdr", bonus: "computer_use_mdr", group: "Tech/Cyber", notes: "General software and system operation" },
+ "Cybernetics": 		{ label: "cybernetics", base: "1", skill: "cybernetics_skill_mdr", bonus: "cybernetics_mdr", group: "Tech/Cyber", notes: "Installing and maintaining cyberware" },
+ "Demolitions": 		{ label: "demolitions", base: "1", skill: "demolitions_skill_mdr", bonus: "demolitions_mdr", group: "Tech/Cyber", notes: "Demolitions" },
+ "Electronics": 		{ label: "electronics", base: "10", skill: "electronics_skill_mdr", bonus: "electronics_mdr", group: "Tech/Cyber", notes: "circuitry, electronic repair" },
+ "Mechanics": 			{ label: "mechanics", base: "10", skill: "mechanics_skill_mdr", bonus: "mechanics_mdr", group: "Tech/Cyber", notes: "Mechanics" },
+ "Security Systems": 	{ label: "security", base: "1", skill: "security_skill_mdr", bonus: "security_mdr", group: "Tech/Cyber", notes: "Understanding and bypassing surveillance, sensors, magitech security, and physical/digital alarm systems." },
+ "Slicing": 			{ label: "slicing", base: "5", skill: "slicing_skill_mdr", bonus: "slicing_mdr", group: "Tech/Cyber", notes: "Digital infiltration, cybersecurity" } 
+};
 
 /* ===== Perks Data Map (i18n) ===== */
-
 const perkDataMap = {
     blood_born_survivor: {
         name: "perk_blood_born_survivor-u",
@@ -23496,7 +23597,6 @@ const perkDataMap = {
 };
 
 /* ===== Flaws Data Map (i18n) ===== */
-
 const flawDataMap = {
     addiction_major: {
         name: "flaw_addiction_major-u",
@@ -23570,7 +23670,6 @@ const flawDataMap = {
     }
 };
 
-// Maps //
 const raceDataMap = {
   "alteri": {
     label: "Alteri",
@@ -23862,108 +23961,6 @@ const raceDataMap = {
   }
 };
 
-const skillMapTable = {
- /* Combat */
- "Archery": 				{ label: "archery", base: "10", skill: "archery_skill_mdr", bonus: "archery_mdr", group: "Combat", notes: "Archery" },
- "Dodge (DEX/2)": 			{ label: "dodge", base: "0", skill: "dodge_skill_mdr", bonus: "dodge_mdr", group: "Combat", notes: "Half of your DEX score" },
- "Gunnery": 				{ label: "gunnery", base: "10", skill: "gunnery_skill_mdr", bonus: "gunnery_mdr", group: "Combat", notes: "Vehicle-mounted or automated weapons" },
- "Heavy Weapons": 			{ label: "heavy_weapons", base: "10", skill: "heavy_weapons_skill_mdr", bonus: "heavy_weapons_mdr", group: "Combat", notes: "Heavy Weapons" },
- "Melee Weapons": 			{ label: "melee_weapons", base: "20", skill: "melee_weapons_skill_mdr", bonus: "melee_weapons_mdr", group: "Combat", notes: "Melee Weapons" },
- "Pistols": 				{ label: "firearms_handgun", base: "20", skill: "firearms_handgun_skill_mdr", bonus: "firearms_handgun_mdr", group: "Combat", notes: "Pistols" },
- "Rifles/Shotguns": 		{ label: "firearms_rifle", base: "25", skill: "firearms_rifle_skill_mdr", bonus: "firearms_rifle_mdr", group: "Combat", notes: "Rifles/Shotguns" },
- "Submachine Guns (SMGs)": 	{ label: "firearms_smg", base: "15", skill: "firearms_smg_skill_mdr", bonus: "firearms_smg_mdr", group: "Combat", notes: "Submachine Guns (SMGs)" },
- "Thrown Weapons": 			{ label: "throw", base: "20", skill: "throw_skill_mdr", bonus: "throw_mdr", group: "Combat", notes: "Thrown Weapons" },
- "Unarmed": 				{ label: "unarmed", base: "25", skill: "unarmed_skill_mdr", bonus: "unarmed_mdr", group: "Combat", notes: "Unarmed combat" },
- /* Language */
- "Language(Racial)": 	{ label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
- "Language(Caltheran)": { label: "language_caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" },
- "Language(Other)": { label: "otherskill3", base: "0", skill: "otherskill3_skill_mdr", bonus: "otherskill3_mdr", group: "Language", notes: "Other language" },
- /* Magic */
- "Alteration": 		{ label: "magic_alteration", base: "0", skill: "magic_alteration_skill_mdr", bonus: "magic_alteration_mdr", group: "Magic", notes: "Enhances physical attributes or alters the physical world. Includes speed, strength, resilience, and spatial shifts." },
- "Elemental": 		{ label: "magic_elemental", base: "0", skill: "magic_elemental_skill_mdr", bonus: "magic_elemental_mdr", group: "Magic", notes: "The art of shaping and controlling natural elements such as fire, water, air, and earth through arcane force. Focuses on raw power and environmental manipulation." },
- "Enchantment": 	{ label: "magic_enchantment", base: "0", skill: "magic_enchantment_skill_mdr", bonus: "magic_enchantment_mdr", group: "Magic", notes: "Mental influencing magic that alters thoughts, emotions, or behavior. Includes charms, compulsions, and emotional sway." },
- "Illusion": 		{ label: "magic_illusion", base: "0", skill: "magic_illusion_skill_mdr", bonus: "magic_illusion_mdr", group: "Magic", notes: "Magic of trickery and perception. Creates false images, alters appearances, or hides things through manipulation of the senses." },
- "Necromancy": 		{ label: "magic_necromancy", base: "0", skill: "magic_necromancy_skill_mdr", bonus: "magic_necromancy_mdr", group: "Magic", notes: "Manipulates the forces of death and the soul. Involves raising the dead, draining life, or communicating with spirits of the deceased." },
- "Restoration": 	{ label: "magic_restoration", base: "0", skill: "magic_restoration_skill_mdr", bonus: "magic_restoration_mdr", group: "Magic", notes: "Healing, cleansing, and regeneration magic that mends wounds, purifies corruption, or restores vitality." },
- "Summoning": 		{ label: "magic_summoning", base: "0", skill: "magic_summoning_skill_mdr", bonus: "magic_summoning_mdr", group: "Magic", notes: "Calls forth spirits, creatures, or arcane constructs from beyond to aid, defend, or serve the caster." },
- "Technomancy": 	{ label: "magic_technomancy", base: "0", skill: "magic_technomancy_skill_mdr", bonus: "magic_technomancy_mdr", group: "Magic", notes: "The fusion of magic with technology. Enables interaction with archanotech, digital constructs, and spell-driven machines." },
- "Warding": 		{ label: "magic_warding", base: "0", skill: "magic_warding_skill_mdr", bonus: "magic_warding_mdr", group: "Magic", notes: "Protective magic used to shield, block, or dispel incoming threats both physical and magical." },
- "Universal": 		{ label: "magic_universal", base: "0", skill: "magic_universal_skill_mdr", bonus: "magic_universal_mdr", group: "Magic", notes: "Covers basic arcane techniques used across traditions detecting, sensing, or disrupting magical phenomena." },
- /* Perform */ 
- "Perform Acting": 			{ label: "perform_acting", base: "5", skill: "perform_acting_skill_mdr", bonus: "perform_acting_mdr", group: "Perform", notes: "Acting" },
- "Perform Dance": 			{ label: "perform_dance", base: "5", skill: "perform_dance_skill_mdr", bonus: "perform_dance_mdr", group: "Perform", notes: "Dance" },
- "Perform Impersonation": 	{ label: "perform_impersonation", base: "5", skill: "perform_impersonation_skill_mdr", bonus: "perform_impersonation_mdr", group: "Perform", notes: "Impersonation" },
- "Perform Instrument": 		{ label: "perform_instrument", base: "5", skill: "perform_instrument_skill_mdr", bonus: "perform_instrument_mdr", group: "Perform", notes: "Instrument" },
- "Perform Vocal": 			{ label: "perform_vocal", base: "5", skill: "perform_vocal_skill_mdr", bonus: "perform_vocal_mdr", group: "Perform", notes: "Vocal" },
- /* Physical */
- "Athletics": 		{ label: "athletics", base: "20", skill: "athletics_skill_mdr", bonus: "athletics_mdr", group: "Physical", notes: "Running, jumping, climbing, endurance" },
- "Coordination": 	{ label: "coordination", base: "20", skill: "coordination_skill_mdr", bonus: "coordination_mdr", group: "Physical", notes: "Balance, agility, acrobatics" },
- "Swim": 			{ label: "swim", base: "20", skill: "swim_skill_mdr", bonus: "swim_mdr", group: "Physical", notes: "Swim" },
- /* Pilot */
- "Drive (Ground Vehicles)": { label: "drive_auto", base: "20", skill: "drive_auto_skill_mdr", bonus: "drive_auto_mdr", group: "Pilot", notes: "Drive (Ground Vehicles)" },
- "Drone Operation": 		{ label: "drone_operation", base: "10", skill: "drone_operation_skill_mdr", bonus: "drone_operation_mdr", group: "Pilot", notes: "Drone Operation" },
- "Pilot (Aircraft)":		{ label: "pilotaircraft", base: "1", skill: "pilotaircraft_skill_mdr", bonus: "pilotaircraft_mdr", group: "Pilot", notes: "Pilot (Aircraft)" },
- "Pilot (ARC)":				{ label: "pilotarc", base: "5", skill: "pilotarc_skill_mdr", bonus: "pilotarc_mdr", group: "Pilot", notes: "Pilot (ARC)" },
- "Pilot (Boat)":   			{ label: "pilotboat", base: "1", skill: "pilotboat_skill_mdr", bonus: "pilotboat_mdr", group: "Pilot", notes: "Pilot (Boat)" },
- /* Science */
- "Alchemy":         { label: "alchemy",         base: "1",  skill: "alchemy_skill_mdr",         bonus: "alchemy_mdr",         group: "Science",  notes: "Science (Alchemy)" },
- "Anthropology":    { label: "anthropology",    base: "1",  skill: "anthropology_skill_mdr",    bonus: "anthropology_mdr",    group: "Science",  notes: "Science (Anthropology)" },
- "Archaeology":     { label: "archaeology",     base: "1",  skill: "archaeology_skill_mdr",     bonus: "archaeology_mdr",     group: "Science",  notes: "Science (Archaeology)" },
- "Biology":         { label: "biology",         base: "1",  skill: "biology_skill_mdr",         bonus: "biology_mdr",         group: "Science",  notes: "Science (Biology)" },
- "Chemistry":       { label: "chemistry",       base: "1",  skill: "chemistry_skill_mdr",       bonus: "chemistry_mdr",       group: "Science",  notes: "Science (Chemistry)" },
- "Engineering":     { label: "engineering",     base: "1",  skill: "engineering_skill_mdr",     bonus: "engineering_mdr",     group: "Science",  notes: "Science (Engineering)" },
- "Physics":         { label: "physics",         base: "1",  skill: "physics_skill_mdr",         bonus: "physics_mdr",         group: "Science",  notes: "Science (Physics)" },
- /* Knowledge */
- "Arcana":          { label: "arcana",          base: "5",  skill: "arcana_skill_mdr",          bonus: "arcana_mdr",          group: "Knowledge", notes: "Understanding of magical theory and principles" },
- "Architecture":    { label: "architecture",    base: "1",  skill: "architecture_skill_mdr",    bonus: "architecture_mdr",    group: "Knowledge", notes: "Architecture and built environments" },
- "Forbidden Lore":  { label: "forbidden_lore",  base: "0",  skill: "forbidden_lore_skill_mdr",  bonus: "forbidden_lore_mdr",  group: "Knowledge", notes: "Cosmic horrors, veiled truths" },
- "History":         { label: "history",         base: "5",  skill: "history_skill_mdr",         bonus: "history_mdr",         group: "Knowledge", notes: "History" },
- "Investigation":   { label: "investigation",   base: "10", skill: "investigation_skill_mdr",   bonus: "investigation_mdr",   group: "Knowledge", notes: "Used to reconstruct events, analyze clues, interpret evidence, and solve mysteries." },
- "Law":             { label: "law",             base: "5",  skill: "law_skill_mdr",             bonus: "law_mdr",             group: "Knowledge", notes: "Law" },
- "Medicine":        { label: "medicine",        base: "1",  skill: "medicine_skill_mdr",        bonus: "medicine_mdr",        group: "Knowledge", notes: "Medicine" },
- "Natural World":   { label: "natural_world",   base: "10", skill: "natural_world_skill_mdr",   bonus: "natural_world_mdr",   group: "Knowledge", notes: "Natural World" },
- "Occult Lore":     { label: "occult",          base: "5",  skill: "occult_skill_mdr",          bonus: "occult_mdr",          group: "Knowledge", notes: "Non-practitioner knowledge of magic and the supernatural" },
- "Spirit Lore":     { label: "spirit_lore",     base: "5",  skill: "spirit_lore_skill_mdr",     bonus: "spirit_lore_mdr",     group: "Knowledge", notes: "Spirit Lore" },
- "Veil Lore":       { label: "veil_lore",       base: "5",  skill: "veil_lore_skill_mdr",       bonus: "veil_lore_mdr",       group: "Knowledge", notes: "Veil Lore" },
- /* Social */
- "Bureaucracy": 				{ label: "bureaucracy", base: "5", skill: "bureaucracy_skill_mdr", bonus: "bureaucracy_mdr", group: "Social", notes: "Understanding and navigating administrative, legal, and governmental systems." },
- "Charm": 						{ label: "charm", base: "15", skill: "charm_skill_mdr", bonus: "charm_mdr", group: "Social", notes: "Charm" },
- "Deception": 					{ label: "deception", base: "5", skill: "deception_skill_mdr", bonus: "deception_mdr", group: "Social", notes: "Deception" },
- "Disguise": 					{ label: "disguise", base: "5", skill: "disguise_skill_mdr", bonus: "disguise_mdr", group: "Social", notes: "Disguise" },
- "Etiquette (Alteri)": 			{ label: "etiquette_alteri", base: "10", skill: "etiquette_alteri_skill_mdr", bonus: "etiquette_alteri_mdr", group: "Social", notes: "Etiquette (Alteri)" },
- "Etiquette (High Society)": 	{ label: "etiquette_high_society", base: "10", skill: "etiquette_high_society_skill_mdr", bonus: "etiquette_high_society_mdr", group: "Social", notes: "Etiquette (High Society)" },
- "Etiquette (Lyranni)": 		{ label: "etiquette_lyranni", base: "10", skill: "etiquette_lyranni_skill_mdr", bonus: "etiquette_lyranni_mdr", group: "Social", notes: "Etiquette (Lyranni)" },
- "Etiquette (Underworld)": 		{ label: "etiquette_underworld", base: "10", skill: "etiquette_underworld_skill_mdr", bonus: "etiquette_underworld_mdr", group: "Social",  notes: "Etiquette (Underworld)" },		
- "Etiquette (Other)": 			{ label: "etiquette_other", base: "10", skill: "etiquette_other_skill_mdr", bonus: "etiquette_other_mdr", group: "Social", notes: "Etiquette may be specialized: (Corporate), (Military), (Racial), etc." },
- "Leadership":					{ label: "leadership", base: "10", skill: "leadership_skill_mdr", bonus: "leadership_mdr", group: "Social", notes: "Leadership" },
- "Forgery": 					{ label: "forgery", base: "1", skill: "forgery_skill_mdr", bonus: "forgery_mdr", group: "Social", notes: "Creating falsified documents, IDs, credentials physical or digital." },
- "Insight": 					{ label: "insight", base: "10", skill: "insight_skill_mdr", bonus: "insight_mdr", group: "Social", notes: "Insight" },
- "Intimidate": 					{ label: "intimidate", base: "15", skill: "intimidate_skill_mdr", bonus: "intimidate_mdr", group: "Social", notes: "Lying, bluffing, maintaining covers, and creating false narratives across a wide range of scenarios." },
- "Interrogation": 				{ label: "interrogation", base: "5", skill: "interrogation_skill_mdr", bonus: "interrogation_mdr", group: "Social", notes: "Extracting information through questioning, pressure, or manipulation." },
- "Persuade": 					{ label: "persuade", base: "10", skill: "persuade_skill_mdr", bonus: "persuade_mdr", group: "Social", notes: "Persuade" },
- "Streetwise": 					{ label: "streetwise", base: "10", skill: "streetwise_skill_mdr", bonus: "streetwise_mdr", group: "Social", notes: "Streetwise" },
- /* Survival */
- "Animal Handling": 		{ label: "animalhandling", base: "5", skill: "animalhandling_skill_mdr", bonus: "animalhandling_mdr", group: "Survival", notes: "Animal Handling" },
- "First Aid": 				{ label: "first_aid", base: "30", skill: "first_aid_skill_mdr", bonus: "first_aid_mdr", group: "Survival", notes: "First Aid" },
- "Listen":				 	{ label: "listen", base: "20", skill: "listen_skill_mdr", bonus: "listen_mdr", group: "Survival", notes: "Listen" },
- "Navigate": 				{ label: "navigate", base: "10", skill: "navigate_skill_mdr", bonus: "navigate_mdr", group: "Survival", notes: "Navigate" },
- "Perception": 				{ label: "perception", base: "25", skill: "perception_skill_mdr", bonus: "perception_mdr", group: "Survival", notes: "Perception" },
- "Sleight of Hand": 		{ label: "sleight_of_hand", base: "10", skill: "sleight_of_hand_skill_mdr", bonus: "sleight_of_hand_mdr", group: "Survival", notes: "Sleight of Hand" },
- "Stealth": 				{ label: "stealth", base: "20", skill: "stealth_skill_mdr", bonus: "stealth_mdr", group: "Survival", notes: "Stealth" },
- "Survival (Urban)": 		{ label: "survival_urban", base: "10", skill: "survival_urban_skill_mdr", bonus: "survival_urhan_mdr", group: "Survival", notes: "Survival (Urban)" },
- "Survival (Wilderness)":	{ label: "survival_wilderness", base: "10", skill: "survival_wilderness_skill_mdr", bonus: "survival_wilderness_mdr", group: "Survival", notes: "Survival (Wilderness)" },
- "Track": 					{ label: "track", base: "10", skill: "track_skill_mdr", bonus: "track_mdr", group: "Survival", notes: "Track" },
- /* Tech/Cyber */
- "Archanotech": 		{ label: "archanotech", base: "1", skill: "archanotech_skill_mdr", bonus: "archanotech_mdr", group: "Tech/Cyber", notes: "Construction, repair, and interfacing with arcane-tech hybrids" },
- "Computer Use": 		{ label: "computer_use", base: "10", skill: "computer_use_skill_mdr", bonus: "computer_use_mdr", group: "Tech/Cyber", notes: "General software and system operation" },
- "Cybernetics": 		{ label: "cybernetics", base: "1", skill: "cybernetics_skill_mdr", bonus: "cybernetics_mdr", group: "Tech/Cyber", notes: "Installing and maintaining cyberware" },
- "Demolitions": 		{ label: "demolitions", base: "1", skill: "demolitions_skill_mdr", bonus: "demolitions_mdr", group: "Tech/Cyber", notes: "Demolitions" },
- "Electronics": 		{ label: "electronics", base: "10", skill: "electronics_skill_mdr", bonus: "electronics_mdr", group: "Tech/Cyber", notes: "circuitry, electronic repair" },
- "Mechanics": 			{ label: "mechanics", base: "10", skill: "mechanics_skill_mdr", bonus: "mechanics_mdr", group: "Tech/Cyber", notes: "Mechanics" },
- "Security Systems": 	{ label: "security", base: "1", skill: "security_skill_mdr", bonus: "security_mdr", group: "Tech/Cyber", notes: "Understanding and bypassing surveillance, sensors, magitech security, and physical/digital alarm systems." },
- "Slicing": 			{ label: "slicing", base: "5", skill: "slicing_skill_mdr", bonus: "slicing_mdr", group: "Tech/Cyber", notes: "Digital infiltration, cybersecurity" } 
-};
-
 const backgroundDataMap = {
   alteri: {
     soft_year_drifter: {
@@ -24188,7 +24185,6 @@ const backgroundDataMap = {
   }
 };
 
-// Talent name, description, and prerequisites
 const talentDataMap = {
   alteri: {
     second_skin: {
@@ -26166,8 +26162,6 @@ const talentDataMap = {
   }
 };
 
-// Skills that Talents make available to add skill points.
-// This should be merged with talentDataMap to unify
 const talentSkillMap = {
   alteri: {
     maskwrights_grace: {
@@ -30100,6 +30094,7 @@ const careerDataMap = {
 	  }
 	}
 };
+
 //----------------------- Tab Workers Start ----------------------//
 
 // --------------------------------------

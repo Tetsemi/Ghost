@@ -25870,221 +25870,294 @@ const talentDataMap = {
     }
   },
   kitsu: {
-	twitch_reflex: {
-	    name: "Twitch Reflex",
-	    description: "Once per scene, gain a bonus die on an Initiative, Dodge, or Slicing roll during a high-stress moment (combat, pursuit, or scan). Optional: Spend 1 Strain to use this after your roll.",
-	    prerequisite: "",
-	    tier: 1,
-	    cost: 10,
-	    capstone: false,
-	    usage_limit: "scene"
-	},
-	streetwise_instincts: {
-	    name: "Streetwise Instincts",
-	    description: "Gain +10% to Streetwise, Stealth, or Insight (choose one). Permanent. Reflects your upbringing in covert or cunning environments.",
-	    prerequisite: "",
-	    tier: 1,
-	    cost: 10,
-	    capstone: false
-	},
-	veil_sniff: {
-	    name: "Veil-Sniff",
-	    description: "Once per session, detect nearby Veil anomalies (spirit traces, illusions, ambient corruption). Grants a bonus die on your next Arcana or Spirit Lore check to analyze or counter it.",
-	    prerequisite: "",
-	    tier: 1,
-	    cost: 10,
-	    capstone: false,
-	    usage_limit: "session"
-	},
-	pulse_trickster: {
-	    name: "Pulse Trickster",
-	    description: "Once per session, spoof a basic scan or biometric system with a Slicing or Deception roll (bonus die). Optional: Spend 1 Strain to leave behind a false signal or fake ID tag.",
-	    prerequisite: "",
-	    tier: 1,
-	    cost: 10,
-	    capstone: false,
-	    usage_limit: "session"
-	},
-	aether_flick: {
-	    name: "Aether Flick",
-	    description: "Gain +10% to Slicing, Magic (Illusion), or Magic (Enchantment) (choose one). Permanent. Reflects natural cyber-mystic synergy.",
-	    prerequisite: "",
-	    tier: 1,
-	    cost: 10,
-	    capstone: false
-	},
-	whisperstep: {
-	    name: "Whisperstep",
-	    description: "Once per session, automatically succeed on a Stealth check when moving from shadow to shadow or through unstable ground. Optional: Spend 1 Strain to bypass magical surveillance (if such is present).",
-	    prerequisite: "",
-	    tier: 1,
-	    cost: 10,
-	    capstone: false,
-	    usage_limit: "session"
-	},
-	mask_of_the_moment: {
-	    name: "Mask of the Moment",
-	    description: "Once per session, adopt a false identity, mask, or digital persona for a scene. Gain a bonus die to Disguise, Deception, or Charm. Optional: Spend 1 Strain to cast one spell (Illusion or Enchantment) without revealing its source.",
-	    prerequisite: "",
-	    tier: 1,
-	    cost: 10,
-	    capstone: false,
-	    usage_limit: "session"
-	},
-	sensory_overclock: {
-	    name: "Sensory Overclock",
-	    description: "Once per session, gain a bonus die on two linked Insight or Perception rolls during a tense scene. Optional: Spend 1 Strain to gain a second bonus die on the follow-up roll.",
-	    prerequisite: ["twitch_reflex", "streetwise_instincts"],
-	    tier: 2,
-	    cost: 20,
-	    capstone: false,
-	    usage_limit: "session"
-	},
-	foxs_masquerade: {
-	    name: "Fox’s Masquerade",
-	    description: "Once per session, gain a bonus die on a Disguise, Deception, or Illusion spell roll when assuming a fake identity, mimic, or scripted behavior.",
-	    prerequisite: ["mask_of_the_moment", "pulse_trickster"],
-	    tier: 2,
-	    cost: 20,
-	    capstone: false,
-	    usage_limit: "session"
-	},
-	nerve_hijack: {
-	    name: "Nerve Hijack",
-	    description: "After a failed Slicing roll, immediately reroll with a bonus die. Optional: Spend 2 Strain to treat the result as a Hard success against Level 4 or lower countermeasures.",
-	    prerequisite: ["aether_flick"],
-	    tier: 2,
-	    cost: 20,
-	    capstone: false
-	    // no usage_limit — reactive effect
-	},
-	hollow_sound: {
-	    name: "Hollow Sound",
-	    description: "Once per session, move nearly inaudibly for 1 round. Gain a bonus die on your next Stealth or Melee roll. Optional: Spend 1 Strain to become immune to audio sensors during this movement.",
-	    prerequisite: ["whisperstep"],
-	    tier: 2,
-	    cost: 20,
-	    capstone: false,
-	    usage_limit: "session"
-	},
-	flicker_edge_movement: {
-	    name: "Flicker-Edge Movement",
-	    description: "Once per scene, after a successful Dodge, move one zone as if blinking/glitching. Optional: Spend 1 Strain to gain a bonus die on your next attack or spell.",
-	    prerequisite: ["twitch_reflex", "streetwise_instincts"],
-	    tier: 2,
-	    cost: 20,
-	    capstone: false,
-	    usage_limit: "scene"
-	},
-	urban_echo: {
-	    name: "Urban Echo",
-	    description: "Once per session, ask the GM: “What’s the fastest way out (or through) this place?” Optional: Spend 1 Strain to gain a bonus die on Athletics, Coordination, or Slicing while acting on that information.",
-	    prerequisite: ["streetwise_instincts", "whisperstep"],
-	    tier: 2,
-	    cost: 20,
-	    capstone: false,
-	    usage_limit: "session"
-	},
-	one_breath_casting: {
-	  name: "One Breath Casting",
-	  description: "Once per session, cast a non-damaging Illusion, Alteration, or Enchantment spell as a free action. Optional: Spend 1 Strain to reroll the casting with a bonus die if the first attempt fails.",
-	  prerequisite: ["foxs_masquerade", "aether_flick"],
-	  tier: 3,
-	  cost: 30,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	mirror_nerve: {
-	  name: "Mirror Nerve",
-	  description: "Once per session, after witnessing an enemy action (Slicing, Unarmed Combat, or a spell), spend 2 Strain to mimic part of it. Gain a bonus die on your next roll using the same skill or spell school.",
-	  prerequisite: ["foxs_masquerade", "one_breath_casting"],
-	  tier: 3,
-	  cost: 30,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	blurring_veil: {
-	  name: "Blurring Veil",
-	  description: "Once per session, activate a Veil afterimage that lasts 1 round. Gain a bonus die on Dodge and impose a penalty die on one attacker. Optional: Spend 2 Strain to make the illusion appear real to onlookers.",
-	  prerequisite: ["hollow_sound", "one_breath_casting"],
-	  tier: 3,
-	  cost: 30,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	coded_whisper: {
-	  name: "Coded Whisper",
-	  description: "Once per session, embed a hidden command or subliminal cue into a message, Illusion, or phrase. Gain a bonus die to your next Persuade, Slicing, or Enchantment roll tied to the effect.",
-	  prerequisite: ["pulse_trickster", "foxs_masquerade"],
-	  tier: 3,
-	  cost: 30,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	shadow_map: {
-	  name: "Shadow Map",
-	  description: "Once per session, declare that you’ve pre-scouted a nearby location. Gain a bonus die to Navigation, Slicing, or Stealth rolls related to that area for the rest of the scene.",
-	  prerequisite: ["sensory_overclock", "streetwise_instincts"],
-	  tier: 3,
-	  cost: 30,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	slipframe_trigger: {
-	  name: "Slipframe Trigger",
-	  description: "Once per session, after activating a device, spell, or environmental effect, trigger a prelaid illusion or glitch to mislead observers. Gain a bonus die to your next Deception, Stealth, or Illusion check. Optional: Spend 2 Strain to delay an enemy or sensor by 1 round (GM discretion).",
-	  prerequisite: ["pulse_trickster", "flicker_edge_movement"],
-	  tier: 3,
-	  cost: 30,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	phase_residue: {
-	  name: "Phase Residue",
-	  // Flashstep/Flashstep Feint removed per directive.
-	  description: "Once per session, after using Blurring Veil or Flicker-Edge Movement (or a similar movement talent), leave behind a Veil echo. Gain a bonus die on your next Stealth or Dodge roll. Optional: Spend 2 Strain to impose a penalty die on one pursuer’s Perception or Track roll this round.",
-	  prerequisite: ["blurring_veil", "flicker_edge_movement"],
-	  tier: 3,
-	  cost: 30,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	mask_of_the_hunt: {
-	  name: "Mask of the Hunt",
-	  description: "Once per session, enter a trance-like Hunt State: gain a bonus die on Insight and Slicing rolls for the rest of the scene. You also treat one failed Stealth check as a success.",
-	  prerequisite: ["shadow_map", "blurring_veil"],
-	  tier: 4,
-	  cost: 40,
-	  capstone: true,
-	  usage_limit: "session"
-	},
-	rewired_pulse: {
-	  name: "Rewired Pulse",
-	  description: "Once per session, after suffering Veil backlash, spell failure, or a Slicing fumble, you may instantly reroll the check and reduce its Strain cost by 1 die step. Optional: Spend 1 Strain to also gain a bonus die.",
-	  prerequisite: ["mirror_nerve", "coded_whisper"],
-	  tier: 4,
-	  cost: 40,
-	  capstone: true,
-	  usage_limit: "session"
-	},
-	nine_lives_protocol: {
-	  name: "Nine Lives Protocol",
-	  description: "Once per session, negate a successful attack, Slicing intrusion, or spell targeting you. You vanish for one round in a blur of arcane misdirection and sensor static. Optional: Spend 3 Strain to leave behind a false target.",
-	  prerequisite: ["blurring_veil", "one_breath_casting"],
-	  tier: 4,
-	  cost: 40,
-	  capstone: true,
-	  usage_limit: "session"
-	},
-	tailwind_gambit: {
-	  name: "Tailwind Gambit",
-	  description: "Once per session, at the end of a combat round or scene, declare a gambit based on previous actions (e.g., backdoor planted, spell seeded, warning given). You and one ally gain a bonus die on your next roll.",
-	  prerequisite: ["shadow_map", "foxs_masquerade"],
-	  tier: 4,
-	  cost: 40,
-	  capstone: true,
-	  usage_limit: "session"
-	}
+    aether_flick: {
+      name_key:  "talent_kitsu_aether_flick-u",
+      rule_text_key: "talent_kitsu_aether_flick_rules-u",
+      name: "Aether Flick",
+      description: "Gain +10% to Slicing, Magic (Illusion), or Magic (Enchantment) (choose one). Permanent. Reflects natural cyber-mystic synergy.",
+      skills: [ "magic_enchantment", "magic_illusion", "slicing" ],
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: ""
+    },
+    mask_of_the_moment: {
+      name_key:  "talent_kitsu_mask_of_the_moment-u",
+      rule_text_key: "talent_kitsu_mask_of_the_moment_rules-u",
+      name: "Mask of the Moment",
+      description: "Once per session, adopt a false identity, mask, or digital persona for a scene. Gain a bonus die to Disguise, Deception, or Charm. Optional: Spend 1 Strain to cast one spell (Illusion or Enchantment) without revealing its source.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: "session"
+    },
+    pulse_trickster: {
+      name_key:  "talent_kitsu_pulse_trickster-u",
+      rule_text_key: "talent_kitsu_pulse_trickster_rules-u",
+      name: "Pulse Trickster",
+      description: "Once per session, spoof a basic scan or biometric system with a Slicing or Deception roll (bonus die). Optional: Spend 1 Strain to leave behind a false signal or fake ID tag.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: "session"
+    },
+    streetwise_instincts: {
+      name_key:  "talent_kitsu_streetwise_instincts-u",
+      rule_text_key: "talent_kitsu_streetwise_instincts_rules-u",
+      name: "Streetwise Instincts",
+      description: "Gain +10% to Streetwise, Stealth, or Insight (choose one). Permanent. Reflects your upbringing in covert or cunning environments.",
+      skills: [ "insight", "stealth", "streetwise" ],
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: ""
+    },
+    twitch_reflex: {
+      name_key:  "talent_kitsu_twitch_reflex-u",
+      rule_text_key: "talent_kitsu_twitch_reflex_rules-u",
+      name: "Twitch Reflex",
+      description: "Once per scene, gain a bonus die on an Initiative, Dodge, or Slicing roll during a high-stress moment (combat, pursuit, or scan). Optional: Spend 1 Strain to use this after your roll.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: "scene"
+    },
+    veil_sniff: {
+      name_key:  "talent_kitsu_veil_sniff-u",
+      rule_text_key: "talent_kitsu_veil_sniff_rules-u",
+      name: "Veil-Sniff",
+      description: "Once per session, detect nearby Veil anomalies (spirit traces, illusions, ambient corruption). Grants a bonus die on your next Arcana or Spirit Lore check to analyze or counter it.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: "session"
+    },
+    whisperstep: {
+      name_key:  "talent_kitsu_whisperstep-u",
+      rule_text_key: "talent_kitsu_whisperstep_rules-u",
+      name: "Whisperstep",
+      description: "Once per session, automatically succeed on a Stealth check when moving from shadow to shadow or through unstable ground. Optional: Spend 1 Strain to bypass magical surveillance (if such is present).",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: "session"
+    },
+    flicker_edge_movement: {
+      name_key:  "talent_kitsu_flicker_edge_movement-u",
+      rule_text_key: "talent_kitsu_flicker_edge_movement_rules-u",
+      name: "Flicker-Edge Movement",
+      description: "Once per scene, after a successful Dodge, move one zone as if blinking/glitching. Optional: Spend 1 Strain to gain a bonus die on your next attack or spell.",
+      skills: "",
+      prerequisite: [ "streetwise_instincts", "twitch_reflex" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "scene"
+    },
+    foxs_masquerade: {
+      name_key:  "talent_kitsu_foxs_masquerade-u",
+      rule_text_key: "talent_kitsu_foxs_masquerade_rules-u",
+      name: "Fox’s Masquerade",
+      description: "Once per session, gain a bonus die on a Disguise, Deception, or Illusion spell roll when assuming a fake identity, mimic, or scripted behavior.",
+      skills: "",
+      prerequisite: [ "mask_of_the_moment", "pulse_trickster" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "session"
+    },
+    hollow_sound: {
+      name_key:  "talent_kitsu_hollow_sound-u",
+      rule_text_key: "talent_kitsu_hollow_sound_rules-u",
+      name: "Hollow Sound",
+      description: "Once per session, move nearly inaudibly for 1 round. Gain a bonus die on your next Stealth or Melee roll. Optional: Spend 1 Strain to become immune to audio sensors during this movement.",
+      skills: "",
+      prerequisite: [ "whisperstep" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "session"
+    },
+    nerve_hijack: {
+      name_key:  "talent_kitsu_nerve_hijack-u",
+      rule_text_key: "talent_kitsu_nerve_hijack_rules-u",
+      name: "Nerve Hijack",
+      description: "After a failed Slicing roll, immediately reroll with a bonus die. Optional: Spend 2 Strain to treat the result as a Hard success against Level 4 or lower countermeasures.",
+      skills: "",
+      prerequisite: [ "aether_flick" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: ""
+    },
+    sensory_overclock: {
+      name_key:  "talent_kitsu_sensory_overclock-u",
+      rule_text_key: "talent_kitsu_sensory_overclock_rules-u",
+      name: "Sensory Overclock",
+      description: "Once per session, gain a bonus die on two linked Insight or Perception rolls during a tense scene. Optional: Spend 1 Strain to gain a second bonus die on the follow-up roll.",
+      skills: "",
+      prerequisite: [ "streetwise_instincts", "twitch_reflex" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "session"
+    },
+    urban_echo: {
+      name_key:  "talent_kitsu_urban_echo-u",
+      rule_text_key: "talent_kitsu_urban_echo_rules-u",
+      name: "Urban Echo",
+      description: "Once per session, ask the GM: “What’s the fastest way out (or through) this place?” Optional: Spend 1 Strain to gain a bonus die on Athletics, Coordination, or Slicing while acting on that information.",
+      skills: "",
+      prerequisite: [ "streetwise_instincts", "whisperstep" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "session"
+    },
+    blurring_veil: {
+      name_key: "talent_kitsu_blurring_veil-u",
+      rule_text_key: "talent_kitsu_blurring_veil_rules-u",
+      name: "Blurring Veil",
+      description: "Once per session, activate a Veil afterimage that lasts 1 round. Gain a bonus die on Dodge and impose a penalty die on one attacker. Optional: Spend 2 Strain to make the illusion appear real to onlookers.",
+      skills: "",
+      prerequisite: [ "hollow_sound", "one_breath_casting" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "session"
+    },
+    coded_whisper: {
+      name_key: "talent_kitsu_coded_whisper-u",
+      rule_text_key: "talent_kitsu_coded_whisper_rules-u",
+      name: "Coded Whisper",
+      description: "Once per session, embed a hidden command or subliminal cue into a message, Illusion, or phrase. Gain a bonus die to your next Persuade, Slicing, or Enchantment roll tied to the effect.",
+      skills: "",
+      prerequisite: [ "foxs_masquerade", "pulse_trickster" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "session"
+    },
+    mirror_nerve: {
+      name_key: "talent_kitsu_mirror_nerve-u",
+      rule_text_key: "talent_kitsu_mirror_nerve_rules-u",
+      name: "Mirror Nerve",
+      description: "Once per session, after witnessing an enemy action (Slicing, Unarmed Combat, or a spell), spend 2 Strain to mimic part of it. Gain a bonus die on your next roll using the same skill or spell school.",
+      skills: "",
+      prerequisite: [ "foxs_masquerade", "one_breath_casting" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "session"
+    },
+    one_breath_casting: {
+      name_key: "talent_kitsu_one_breath_casting-u",
+      rule_text_key: "talent_kitsu_one_breath_casting_rules-u",
+      name: "One Breath Casting",
+      description: "Once per session, cast a non-damaging Illusion, Alteration, or Enchantment spell as a free action. Optional: Spend 1 Strain to reroll the casting with a bonus die if the first attempt fails.",
+      skills: "",
+      prerequisite: [ "aether_flick", "foxs_masquerade" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "session"
+    },
+    phase_residue: {
+      name_key: "talent_kitsu_phase_residue-u",
+      rule_text_key: "talent_kitsu_phase_residue_rules-u",
+      name: "Phase Residue",
+      description: "Once per session, after using Blurring Veil or Flicker-Edge Movement (or a similar movement talent), leave behind a Veil echo. Gain a bonus die on your next Stealth or Dodge roll. Optional: Spend 2 Strain to impose a penalty die on one pursuer’s Perception or Track roll this round.",
+      skills: "",
+      prerequisite: [ "blurring_veil", "flicker_edge_movement" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "session"
+    },
+    shadow_map: {
+      name_key: "talent_kitsu_shadow_map-u",
+      rule_text_key: "talent_kitsu_shadow_map_rules-u",
+      name: "Shadow Map",
+      description: "Once per session, declare that you’ve pre-scouted a nearby location. Gain a bonus die to Navigation, Slicing, or Stealth rolls related to that area for the rest of the scene.",
+      skills: "",
+      prerequisite: [ "sensory_overclock", "streetwise_instincts" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "session"
+    },
+    slipframe_trigger: {
+      name_key: "talent_kitsu_slipframe_trigger-u",
+      rule_text_key: "talent_kitsu_slipframe_trigger_rules-u",
+      name: "Slipframe Trigger",
+      description: "Once per session, after activating a device, spell, or environmental effect, trigger a prelaid illusion or glitch to mislead observers. Gain a bonus die to your next Deception, Stealth, or Illusion check. Optional: Spend 2 Strain to delay an enemy or sensor by 1 round (GM discretion).",
+      skills: "",
+      prerequisite: [ "flicker_edge_movement", "pulse_trickster" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "session"
+    },
+    mask_of_the_hunt: {
+      name_key: "talent_kitsu_mask_of_the_hunt-u",
+      rule_text_key: "talent_kitsu_mask_of_the_hunt_rules-u",
+      name: "Mask of the Hunt",
+      description: "Once per session, enter a trance-like Hunt State: gain a bonus die on Insight and Slicing rolls for the rest of the scene. You also treat one failed Stealth check as a success.",
+      skills: "",
+      prerequisite: ["blurring_veil", "shadow_map"],
+      tier: 4,
+      cost: 40,
+      capstone: true,
+      usage_limit: "session"
+    },
+    nine_lives_protocol: {
+      name_key: "talent_kitsu_nine_lives_protocol-u",
+      rule_text_key: "talent_kitsu_nine_lives_protocol_rules-u",
+      name: "Nine Lives Protocol",
+      description: "Once per session, negate a successful attack, Slicing intrusion, or spell targeting you. You vanish for one round in a blur of arcane misdirection and sensor static. Optional: Spend 3 Strain to leave behind a false target.",
+      skills: "",
+      prerequisite: ["blurring_veil", "one_breath_casting"],
+      tier: 4,
+      cost: 40,
+      capstone: true,
+      usage_limit: "session"
+    },
+    rewired_pulse: {
+      name_key: "talent_kitsu_rewired_pulse-u",
+      rule_text_key: "talent_kitsu_rewired_pulse_rules-u",
+      name: "Rewired Pulse",
+      description: "Once per session, after suffering Veil backlash, spell failure, or a Slicing fumble, you may instantly reroll the check and reduce its Strain cost by 1 die step. Optional: Spend 1 Strain to also gain a bonus die.",
+      skills: "",
+      prerequisite: ["coded_whisper", "mirror_nerve"],
+      tier: 4,
+      cost: 40,
+      capstone: true,
+      usage_limit: "session"
+    },
+    tailwind_gambit: {
+      name_key: "talent_kitsu_tailwind_gambit-u",
+      rule_text_key: "talent_kitsu_tailwind_gambit_rules-u",
+      name: "Tailwind Gambit",
+      description: "Once per session, at the end of a combat round or scene, declare a gambit based on previous actions (e.g., backdoor planted, spell seeded, warning given). You and one ally gain a bonus die on your next roll.",
+      skills: "",
+      prerequisite: ["foxs_masquerade", "shadow_map"],
+      tier: 4,
+      cost: 40,
+      capstone: true,
+      usage_limit: "session"
+    }
   },
   lyranni: {
     veilsight: {
@@ -26261,7 +26334,8 @@ const talentDataMap = {
     blood_rite_channeling: {
       name: "Blood Rite Channeling",
       description: "Once per session, when below half Strain , cast one spell with a bonus die ; its Strain die increases by one step (e.g., 1d6 → 1d8). Does not stack with other strain-mod effects.",
-      prerequisite: ["spirit_favored", "whispers_beyond", "ancestral_resonance", "veil_dancer", "rite_bound", "veilsplice", "illuminated_touch", "words_like_silk", "memory_bound_echo"],
+      prerequisite: "",
+	  prerequisiteAny: { tier 2: count 1 },
       tier: 3,
       cost: 30,
       capstone: false,
@@ -26270,7 +26344,8 @@ const talentDataMap = {
     lyranni_discipline: {
       name: "Lyranni Discipline",
       description: "Once per session, when above half Strain , cast one spell and reduce its Strain die by one step. May not be used with Blood Rite Channeling on the same cast.",
-      prerequisite: ["spirit_favored", "whispers_beyond", "ancestral_resonance", "veil_dancer", "rite_bound", "veilsplice", "illuminated_touch", "words_like_silk", "memory_bound_echo"],
+      prerequisite: "",
+	  prerequisiteAny: { tier 2: count 1 },
       tier: 3,
       cost: 30,
       capstone: false,

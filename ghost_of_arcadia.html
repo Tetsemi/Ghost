@@ -7427,27 +7427,10 @@
 
                     <!-- Tier 1: Patchwork Fixer (with skill choice) -->
                     <div class="sheet-talent-row">
-                        <input type="hidden" name="attr_show_patchwork_fixer_bonus" value="0" />
                         <input type="hidden" name="attr_veyra_patchwork_fixer_lockflag" value="0" />
-                        <input type="hidden" name="attr_veyra_patchwork_fixer_lockflag_skill" value="0" />
-
                         <input type="checkbox" name="attr_veyra_patchwork_fixer" value="1" class="sheet-talent-checkbox" />
                         <label class="sheet-talent-label"><span name="attr_veyra_patchwork_fixer_label"></span></label>
                         <span class="sheet-talent-description" name="attr_veyra_patchwork_fixer_description"></span>
-
-                        <!-- Skill Selection Grid (Alteri pattern) -->
-                        <div class="sheet-skill-choice-placeholder">
-                            <div class="sheet-skill-choice-options" name="attr_patchwork_fixer_choices">
-                                <label class="sheet-skill-option">
-                                    <input type="checkbox" name="attr_veyra_patchwork_fixer_mdr_checkbox" value="talent_electronics" />
-                                    <span>Electronics +10%</span>
-                                </label>
-                                <label class="sheet-skill-option">
-                                    <input type="checkbox" name="attr_veyra_patchwork_fixer_mdr_checkbox" value="talent_mechanics" />
-                                    <span>Mechanics +10%</span>
-                                </label>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Tier 1: Reflex Map (session) -->
@@ -26514,277 +26497,366 @@ const talentDataMap = {
     }	
   },
   veyra: {
-	slip_between: {
-	  name: "Slip Between",
-	  description: "You move through collapsed ducts and half-formed crawlways like you were born to. You ignore movement penalties from tight spaces and gain a bonus die to Stealth rolls made while entering, exiting, or navigating narrow areas.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: ""
-	},
-	echo_sense: {
-	  name: "Echo Sense",
-	  description: "Your ears read space like others read light. You may roll Listen in place of Perception in darkness or low visibility, and gain a bonus die to detect hidden movement or unseen threats.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: ""
-	},
-	circuit_whispers: {
-	  name: "Circuit Whispers",
-	  description: "Broken systems still speak—you just know how to listen. Gain a bonus die on your first Mechanics or Electronics roll when examining a damaged non-magical device. This applies even without schematics or tools.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: ""
-	},
-	patchwork_fixer: {
-	  name: "Patchwork Fixer",
-	  description: "You’re a master of salvage repair. Gain a +10% bonus to Mechanics and Electronics when working with scrap or improvised tools. Repairs last one scene or until significantly stressed.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: ""
-	},
-	no_footprints: {
-	  name: "No Footprints",
-	  description: "You learned to move like silence itself. You suffer no movement penalty when using Stealth, and may move at full speed without increasing your chances of detection.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: ""
-	},
-	signal_ghost: {
-	  name: "Signal Ghost",
-	  description: "You slip through digital doors like breath. Once per session, reroll a failed Slicing or Security Systems check. If the reroll succeeds, no trace of the intrusion remains unless the system was protected by active countermeasures.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	cache_sense: {
-	  name: "Cache Sense",
-	  description: "You’ve developed an instinct for spotting what others discard. Gain a bonus die to Survival (Urban) or Mechanics when scavenging parts from damaged infrastructure, machinery, or field wreckage. Once per session, you may improvise a basic repair using overlooked scrap or broken components, as long as they’re accessible in the scene.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	reflex_map: {
-	  name: "Reflex Map",
-	  description: "You process your surroundings before others blink. Once per session, if you succeed on a Perception or Listen check to detect danger, you may take one free maneuver before initiative is rolled. This maneuver must be defensive: move to cover, duck, shift position, or warn an ally.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: "session"
-	},
-	mask_the_signal: {
-	  name: "Mask the Signal",
-	  description: "You can dampen your personal tech signature. For one scene, you appear invisible to basic scanners, unsecured surveillance, and passive detection. Slicers using Scan must succeed on a Hard difficulty check to detect you.",
-	  prerequisite: "",
-	  tier: 1,
-	  cost: 10,
-	  capstone: false,
-	  usage_limit: "scene"
-	},
-    vent_ghost: {
-      name: "Vent Ghost",
-      description: "Once per scene, you gain a +10% bonus to Dodge rolls and ranged attacks against you suffer a –10% penalty until the start of your next turn. This only applies while in partial or full cover.",
-      prerequisite: ["circuit_whispers"],
-      tier: 2,
-      cost: 20,
-      capstone: false,
-      usage_limit: "scene"
-    },
-    overclock_instinct: {
-      name: "Overclock Instinct",
-      description: "Once per scene, you may instantly attempt a Mechanics or Electronics check on a damaged drone, vehicle, or bot without using tools or spending your action. This does not provoke reactions.",
-      prerequisite: ["cache_sense"],
-      tier: 2,
-      cost: 20,
-      capstone: false,
-      usage_limit: "scene"
-    },
-    silent_cascade: {
-      name: "Silent Cascade",
-      description: "When moving at full speed while using Stealth, gain a +10% bonus to Stealth. Once per session, you may make a full movement and Stealth check as a free action (does not count as your turn).",
-      prerequisite: ["no_footprints"],
-      tier: 2,
-      cost: 20,
+    cache_sense: {
+      name_key: "talent_veyra_cache_sense-u",
+      rule_text_key: "talent_veyra_cache_sense_rules-u",
+      name: "Cache Sense",
+      description: "You’ve developed an instinct for spotting what others discard. Gain a bonus die to Survival (Urban) or Mechanics when scavenging parts from damaged infrastructure, machinery, or field wreckage. Once per session, you may improvise a basic repair using overlooked scrap or broken components, as long as they’re accessible in the scene.",
+	  skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
       capstone: false,
       usage_limit: "session"
     },
-    zero_trace_protocol: {
-      name: "Zero Trace Protocol",
-      description: "When rerolling a failed Slicing or Security Systems check using Signal Ghost, you gain a bonus die to the second roll if the system is Standard difficulty or lower. If the system is Hard or above, reroll as normal with no additional bonus.",
-      prerequisite: ["signal_ghost"],
-      tier: 2,
-      cost: 20,
+    circuit_whispers: {
+      name_key: "talent_veyra_circuit_whispers-u",
+      rule_text_key: "talent_veyra_circuit_whispers_rules-u",
+      name: "Circuit Whispers",
+      description: "Broken systems still speak—you just know how to listen. Gain a bonus die on your first Mechanics or Electronics roll when examining a damaged non-magical device. This applies even without schematics or tools.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
       capstone: false,
       usage_limit: ""
     },
-    salvage_sense: {
-      name: "Salvage Sense",
-      description: "You’ve learned to extract just enough to keep things running. When using Cache Sense, you may now repurpose scrap and exposed components to restore 1d6 HP to a drone, bot, or vehicle, or reduce a malfunction’s severity by one tier. This repair must be made during the same scene using visibly damaged or discarded tech.",
-      prerequisite: ["cache_sense"],
-      tier: 2,
-      cost: 20,
+    echo_sense: {
+      name_key: "talent_veyra_echo_sense-u",
+      rule_text_key: "talent_veyra_echo_sense_rules-u",
+      name: "Echo Sense",
+      description: "Your ears read space like others read light. You may roll Listen in place of Perception in darkness or low visibility, and gain a bonus die to detect hidden movement or unseen threats.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
       capstone: false,
       usage_limit: ""
     },
-    battlefield_sync: {
+    mask_the_signal: {
+      name_key: "talent_veyra_mask_the_signal-u",
+      rule_text_key: "talent_veyra_mask_the_signal_rules-u",
+      name: "Mask the Signal",
+      description: "You can dampen your personal tech signature. For one scene, you appear invisible to basic scanners, unsecured surveillance, and passive detection. Slicers using Scan must succeed on a Hard difficulty check to detect you.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: "scene"
+    },
+    no_footprints: {
+      name_key: "talent_veyra_no_footprints-u",
+      rule_text_key: "talent_veyra_no_footprints_rules-u",
+      name: "No Footprints",
+      description: "You learned to move like silence itself. You suffer no movement penalty when using Stealth, and may move at full speed without increasing your chances of detection.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: ""
+    },
+    patchwork_fixer: {
+      name_key: "talent_veyra_patchwork_fixer-u",
+      rule_text_key: "talent_veyra_patchwork_fixer_rules-u",
+      name: "Patchwork Fixer",
+      description: "You’re a master of salvage repair. Gain a +10% bonus to Mechanics and Electronics when working with scrap or improvised tools. Repairs last one scene or until significantly stressed.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: ""
+    },
+    reflex_map: {
+      name_key: "talent_veyra_reflex_map-u",
+      rule_text_key: "talent_veyra_reflex_map_rules-u",
+      name: "Reflex Map",
+      description: "You process your surroundings before others blink. Once per session, if you succeed on a Perception or Listen check to detect danger, you may take one free maneuver before initiative is rolled. This maneuver must be defensive: move to cover, duck, shift position, or warn an ally.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: "session"
+    },
+    signal_ghost: {
+      name_key: "talent_veyra_signal_ghost-u",
+      rule_text_key: "talent_veyra_signal_ghost_rules-u",
+      name: "Signal Ghost",
+      description: "You slip through digital doors like breath. Once per session, reroll a failed Slicing or Security Systems check. If the reroll succeeds, no trace of the intrusion remains unless the system was protected by active countermeasures.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: "session"
+    },
+    slip_between: {
+      name_key: "talent_veyra_slip_between-u",
+      rule_text_key: "talent_veyra_slip_between_rules-u",
+      name: "Slip Between",
+      description: "You move through collapsed ducts and half-formed crawlways like you were born to. You ignore movement penalties from tight spaces and gain a bonus die to Stealth rolls made while entering, exiting, or navigating narrow areas.",
+      skills: "",
+      prerequisite: "",
+      tier: 1,
+      cost: 10,
+      capstone: false,
+      usage_limit: ""
+    },
+     battlefield_sync: {
+      name_key: "talent_veyra_battlefield_sync-u",
+      rule_text_key: "talent_veyra_battlefield_sync_rules-u",
       name: "Battlefield Sync",
       description: "Once per scene, if you win Initiative or succeed on a Perception or Listen check before combat begins, you may take one maneuver before the first full combat round.",
-      prerequisite: ["reflex_map"],
+      skills: "",
+      prerequisite: [ "reflex_map" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "scene"
+    },
+    echo_map_recall: {
+      name_key: "talent_veyra_echo_map_recall-u",
+      rule_text_key: "talent_veyra_echo_map_recall_rules-u",
+      name: "Echo-Map Recall",
+      description: "Once per scene, while stationary in total darkness, make a free Perception check with a bonus die to detect movement or hidden creatures within Short or Medium range, even if silent.",
+      skills: "",
+      prerequisite: [ "echo_sense" ],
       tier: 2,
       cost: 20,
       capstone: false,
       usage_limit: "scene"
     },
     nocturne_optimizer: {
+      name_key: "talent_veyra_nocturne_optimizer-u",
+      rule_text_key: "talent_veyra_nocturne_optimizer_rules-u",
       name: "Nocturne Optimizer",
       description: "When acting in low-light or complete darkness, you gain a bonus die to your next Mechanics, Electronics, or Stealth check once per scene.",
-      prerequisite: ["echo_sense"],
+      skills: "",
+      prerequisite: [ "echo_sense" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "scene"
+    },
+    overclock_instinct: {
+      name_key: "talent_veyra_overclock_instinct-u",
+      rule_text_key: "talent_veyra_overclock_instinct_rules-u",
+      name: "Overclock Instinct",
+      description: "Once per scene, you may instantly attempt a Mechanics or Electronics check on a damaged drone, vehicle, or bot without using tools or spending your action. This does not provoke reactions.",
+      skills: "",
+      prerequisite: [ "cache_sense" ],
       tier: 2,
       cost: 20,
       capstone: false,
       usage_limit: "scene"
     },
     ping_and_pull: {
+      name_key: "talent_veyra_ping_and_pull-u",
+      rule_text_key: "talent_veyra_ping_and_pull_rules-u",
       name: "Ping and Pull",
       description: "Once per session, after successfully identifying a device using Circuit Whispers, you may immediately trigger a connected, unsecured mechanism—such as a basic lock, actuator, relay, or panel—without requiring an additional roll. If the mechanism is protected by active security systems, magical reinforcement, or is part of a complex network, this ability may instead grant a bonus die to the next appropriate roll (e.g., Slicing, Electronics, or Magic).",
-      prerequisite: ["circuit_whispers"],
+      skills: "",
+      prerequisite: [ "circuit_whispers" ],
       tier: 2,
       cost: 20,
       capstone: false,
       usage_limit: "session"
     },
-    echo_map_recall: {
-      name: "Echo-Map Recall",
-      description: "Once per scene, while stationary in total darkness, make a free Perception check with a bonus die to detect movement or hidden creatures within Short or Medium range, even if silent.",
-      prerequisite: ["echo_sense"],
+    salvage_sense: {
+      name_key: "talent_veyra_salvage_sense-u",
+      rule_text_key: "talent_veyra_salvage_sense_rules-u",
+      name: "Salvage Sense",
+      description: "You’ve learned to extract just enough to keep things running. When using Cache Sense, you may now repurpose scrap and exposed components to restore 1d6 HP to a drone, bot, or vehicle, or reduce a malfunction’s severity by one tier. This repair must be made during the same scene using visibly damaged or discarded tech.",
+      skills: "",
+      prerequisite: [ "cache_sense" ],
       tier: 2,
       cost: 20,
+      capstone: false,
+      usage_limit: ""
+    },
+    silent_cascade: {
+      name_key: "talent_veyra_silent_cascade-u",
+      rule_text_key: "talent_veyra_silent_cascade_rules-u",
+      name: "Silent Cascade",
+      description: "When moving at full speed while using Stealth, gain a +10% bonus to Stealth. Once per session, you may make a full movement and Stealth check as a free action (does not count as your turn).",
+      skills: "",
+      prerequisite: [ "no_footprints" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "session"
+    },
+    vent_ghost: {
+      name_key: "talent_veyra_vent_ghost-u",
+      rule_text_key: "talent_veyra_vent_ghost_rules-u",
+      name: "Vent Ghost",
+      description: "Once per scene, you gain a +10% bonus to Dodge rolls and ranged attacks against you suffer a –10% penalty until the start of your next turn. This only applies while in partial or full cover.",
+      skills: "",
+      prerequisite: [ "circuit_whispers" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: "scene"
+    },
+    zero_trace_protocol: {
+      name_key: "talent_veyra_zero_trace_protocol-u",
+      rule_text_key: "talent_veyra_zero_trace_protocol_rules-u",
+      name: "Zero-Trace Protocol",
+      description: "When rerolling a failed Slicing or Security Systems check using Signal Ghost, you gain a bonus die to the second roll if the system is Standard difficulty or lower. If the system is Hard or above, reroll as normal with no additional bonus.",
+      skills: "",
+      prerequisite: [ "signal_ghost" ],
+      tier: 2,
+      cost: 20,
+      capstone: false,
+      usage_limit: ""
+    },
+    cachejack_protocol: {
+      name_key: "talent_veyra_cachejack_protocol-u",
+      rule_text_key: "talent_veyra_cachejack_protocol_rules-u",
+      name: "Cachejack Protocol",
+	  description: "Once per session, as an action you may make a field repair to a drone, bot, or vehicle without tools or prep, using available scrap or failed components others would overlook. In addition, you may now repair two separate machines in the same scene using only repurposed materials—no standard parts required.",
+      skills: "",
+      prerequisite: [ "salvage_sense" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "session"
+    },
+    dark_grid_savant: {
+      name_key: "talent_veyra_dark_grid_savant-u",
+      rule_text_key: "talent_veyra_dark_grid_savant_rules-u",
+      name: "Dark Grid Savant",
+      description: "While in low-light or darkness, you gain a bonus die to Stealth rolls for the remainder of the scene. If unseen at the start of a round, you may take a free maneuver.",
+      skills: "",
+      prerequisite: [ "nocturne_optimizer" ],
+      tier: 3,
+      cost: 30,
       capstone: false,
       usage_limit: "scene"
     },
     echo_splice_reflex: {
+      name_key: "talent_veyra_echo_splice_reflex-u",
+      rule_text_key: "talent_veyra_echo_splice_reflex_rules-u",
       name: "Echo-Splice Reflex",
       description: "Once per session, when caught in an ambush or surprise attack, you may immediately take a free movement and make a Listen check with a bonus die to identify all hostiles in Engaged or Short range.",
-      prerequisite: ["battlefield_sync"],
+      skills: "",
+      prerequisite: [ "battlefield_sync" ],
       tier: 3,
       cost: 30,
       capstone: false,
       usage_limit: "session"
-    },
-    signal_evasion_loop: {
-      name: "Signal Evasion Loop",
-      description: "Once per session, after successfully using Signal Ghost to reroll a Slicing or Security Systems check, you may also suppress the next trace lock or countermeasure activation triggered against you.",
-      prerequisite: ["zero_trace_protocol"],
-      tier: 3,
-      cost: 30,
-      capstone: false,
-      usage_limit: "session"
-    },
-    thread_the_vents: {
-      name: "Thread the Vents",
-      description: "You no longer suffer penalties when squeezing through collapsed ducts, tight corridors, or debris-strewn zones. Once per scene, you may as a reaction reposition to any location within Short range that shares partial cover.",
-      prerequisite: ["vent_ghost"],
-      tier: 3,
-      cost: 30,
-      capstone: false,
-      usage_limit: "scene"
-    },
-    dark_grid_savant: {
-      name: "Dark Grid Savant",
-      description: "While in low-light or darkness, you gain a bonus die to Stealth rolls for the remainder of the scene. If unseen at the start of a round, you may take a free maneuver.",
-      prerequisite: ["nocturne_optimizer"],
-      tier: 3,
-      cost: 30,
-      capstone: false,
-      usage_limit: "scene"
-    },
-    recursive_salvager: {
-      name: "Recursive Salvager",
-      description: "When using Overclock Instinct, you may now reroll the result once per scene, and ignore the first malfunction triggered by that repair or activation.",
-      prerequisite: ["overclock_instinct"],
-      tier: 3,
-      cost: 30,
-      capstone: false,
-      usage_limit: "scene"
-    },
-    stealth_harmonic: {
-      name: "Stealth Harmonic",
-      description: "Once per scene, if you successfully use Silent Cascade, you may also grant an ally within Short range +10% to Stealth and allow them to move at full speed with you without penalty.",
-      prerequisite: ["silent_cascade"],
-      tier: 3,
-      cost: 30,
-      capstone: false,
-      usage_limit: "scene"
     },
     echowire_scramble: {
+      name_key: "talent_veyra_echowire_scramble-u",
+      rule_text_key: "talent_veyra_echowire_scramble_rules-u",
       name: "Echowire Scramble",
       description: "Once per session, after succeeding on a Electronics check, you may distort local signals, scrambling the targeting of bots and drones. For 1 round, those enemies within Medium range or less suffer –20% to attacks.",
-      prerequisite: ["echo_map_recall"],
+      skills: "",
+      prerequisite: [ "echo_map_recall" ],
       tier: 3,
       cost: 30,
       capstone: false,
       usage_limit: "session"
     },
-    cachejack_protocol: {
-      name: "Cachejack Protocol",
-      description: "Once per session, as an action you may make a field repair to a drone, bot, or vehicle without tools or prep, using available scrap or failed components others would overlook. In addition, you may now repair two separate machines in the same scene using only repurposed materials—no standard parts required.",
-      prerequisite: ["salvage_sense"],
+    recursive_salvager: {
+      name_key: "talent_veyra_recursive_salvager-u",
+      rule_text_key: "talent_veyra_recursive_salvager_rules-u",
+      name: "Recursive Salvager",
+      description: "When using Overclock Instinct, you may now reroll the result once per scene, and ignore the first malfunction triggered by that repair or activation.",
+      skills: "",
+      prerequisite: [ "overclock_instinct" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "scene"
+    },
+    signal_evasion_loop: {
+      name_key: "talent_veyra_signal_evasion_loop-u",
+      rule_text_key: "talent_veyra_signal_evasion_loop_rules-u",
+      name: "Signal Evasion Loop",
+      description: "Once per session, after successfully using Signal Ghost to reroll a Slicing or Security Systems check, you may also suppress the next trace lock or countermeasure activation triggered against you.",
+      skills: "",
+      prerequisite: [ "zero_trace_protocol" ],
       tier: 3,
       cost: 30,
       capstone: false,
       usage_limit: "session"
     },
-    neurospike_blur: {
-      name: "Neurospike Blur",
-      description: "Once per session, you may trigger a neural surge that phases your outline and silences your tech signature for one full round. During this time, you cannot be targeted by ranged attacks unless detected by Hard difficulty Perception check or magic means.",
-      prerequisite: ["dark_grid_savant"],
+    stealth_harmonic: {
+      name_key: "talent_veyra_stealth_harmonic-u",
+      rule_text_key: "talent_veyra_stealth_harmonic_rules-u",
+      name: "Stealth Harmonic",
+      description: "Once per scene, if you successfully use Silent Cascade, you may also grant an ally within Short range +10% to Stealth and allow them to move at full speed with you without penalty.",
+      skills: "",
+      prerequisite: [ "silent_cascade" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "scene"
+    },
+    thread_the_vents: {
+      name_key: "talent_veyra_thread_the_vents-u",
+      rule_text_key: "talent_veyra_thread_the_vents_rules-u",
+      name: "Thread the Vents",
+      description: "You no longer suffer penalties when squeezing through collapsed ducts, tight corridors, or debris-strewn zones. Once per scene, you may as a reaction reposition to any location within Short range that shares partial cover.",
+      skills: "",
+      prerequisite: [ "vent_ghost" ],
+      tier: 3,
+      cost: 30,
+      capstone: false,
+      usage_limit: "scene"
+    },	
+    circuit_sovereign: {
+      name_key:  "talent_veyra_circuit_sovereign-u",
+      rule_text_key: "talent_veyra_circuit_sovereign_rules-u",
+      name: "Circuit Sovereign",
+      description: "You are one with damaged infrastructure. Once per session, you may declare any malfunctioning or broken device within Medium range as under your control for one round—doors open, turrets fire, signals reroute. No roll is required.",
+      skills: "",
+      prerequisite: [ "cachejack_protocol" ],
       tier: 4,
       cost: 40,
       capstone: true,
       usage_limit: "session"
     },
     ghost_in_the_gears: {
+      name_key:  "talent_veyra_ghost_in_the_gears-u",
+      rule_text_key: "talent_veyra_ghost_in_the_gears_rules-u",
       name: "Ghost in the Gears",
       description: "You may now treat any destroyed or disabled bot, drone, or vehicle as salvageable, no matter its state. Once per session, as an action, you may restore one such machine to basic operational status (1 HP) using only makeshift parts.",
-      prerequisite: ["recursive_salvager"],
+      skills: "",
+      prerequisite: [ "recursive_salvager" ],
       tier: 4,
       cost: 40,
       capstone: true,
       usage_limit: "session"
     },
-    circuit_sovereign: {
-      name: "Circuit Sovereign",
-      description: "You are one with damaged infrastructure. Once per session, you may declare any malfunctioning or broken device within Medium range as under your control for one round—doors open, turrets fire, signals reroute. No roll is required.",
-      prerequisite: ["cachejack_protocol"],
+    neurospike_blur: {
+      name_key:  "talent_veyra_neurospike_blur-u",
+      rule_text_key: "talent_veyra_neurospike_blur_rules-u",
+      name: "Neurospike Blur",
+      description: "Once per session, you may trigger a neural surge that phases your outline and silences your tech signature for one full round. During this time, you cannot be targeted by ranged attacks unless detected by Hard difficulty Perception check or magic means.",
+      skills: "",
+      prerequisite: [ "dark_grid_savant" ],
       tier: 4,
       cost: 40,
       capstone: true,
       usage_limit: "session"
     },
     silent_dominion: {
+      name_key:  "talent_veyra_silent_dominion-u",
+      rule_text_key: "talent_veyra_silent_dominion_rules-u",
       name: "Silent Dominion",
       description: "You become a whisper in motion. For one scene per session, you move at full speed without penalty to Stealth. While this is active, any passive detection (visual, electronic, or magical) must succeed at one level greater than your success to perceive you.",
-      prerequisite: ["stealth_harmonic"],
+      skills: "",
+      prerequisite: [ "stealth_harmonic" ],
       tier: 4,
       cost: 40,
       capstone: true,
       usage_limit: "session"
-    }
-  }
+    }  }
 };
 
 const talentSkillMap = {
@@ -26851,9 +26923,6 @@ const talentSkillMap = {
     }
   },
   veyra: {
-	patchwork_fixer: {
-      mechanics: "Mechanics", electronics: "Electronics"
-	}  
   }
 };
 

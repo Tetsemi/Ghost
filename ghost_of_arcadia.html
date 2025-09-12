@@ -26845,73 +26845,6 @@ const talentDataMap = {
     }  }
 };
 
-const talentSkillMap = {
-  alteri: {
-    maskwrights_grace: {
-      disguise: "Disguise", perform_impersonation: "Perform (Impersonation)", insight: "Insight"
-    },
-    shaped_for_subtlety: {
-      insight: "Insight", slicing: "Slicing", stealth: "Stealth"
-    },
-	deep_mask_integration: {
-	  disguise: "Disguise", insight: "Insight"
-	},
-	persona_anchor: {
-	  arcana: "Arcana", perform_impersonation: "Perform (Impersonation)", slicing: "Slicing"
-	}
-  },
-  draevi: {
-    clan_blooded: {
-      intimidate: "Intimidate", survival_wilderness: "Survival (Wilderness)", track: "Track"
-    },
-    scavengers_edge: {
-      electronics: "Electronics", mechanics: "Mechanics", streetwise: "Streetwise"
-    }
-  },
-  feran: {
-  	scavengers_instinct: {
-	  navigate: "Navigate", streetwise: "Streetwise", survival_urban: "Survival (Urban)"
-	}
-  },
-  human: {
-    quick_fixer: {
-      electronics: "Electronics", mechanics: "Mechanics", slicing: "Slicing"
-    },
-    skilled_focus: {
-      // Checkbox will add -10 to Skill Point Total to indicate the choice.
-    },
-	cross_trained: {
-	  // Checkbox will add -10 to Skill Point Total to indicate the choice.
-	},
-	master_of_none: {
-	  // Checkbox will add -30 to Skill Point Total to indicate the choice.
-	}
-  },
-  khadra: {
-	legacy_of_iron : {
-		first_aid: "First Aid", mechanics: "Mechanics", security: "Security Systems"
-	}
-  },
-  kitsu: {
-    streetwise_instincts: {
-		streetwise: "Streetwise", stealth: "Stealth", insight: "Insight"
-	},
-	aether_flick: {
-		slicing: "Slicing", magic_illusion: "Magic (Illusion)", magic_enchantment: "Magic (Enchantment)"
-	}
-  },
-  lyranni: {
-	threadwalker : {
-	  arcana: "Arcana", occult: "Occult Lore", spirit_lore: "Spirit Lore"
-	},
-    echo_in_the_veins: {
-      perform_acting: "Perform (Acting)", perform_dance: "Perform (Dance)", perform_impersonation: "Perform (Impersonation)", perform_instrument: "Perform (Instrument)", perform_vocal: "Perform (Vocal)", insight: "Insight", streetwise: "Streetwise"
-    }
-  },
-  veyra: {
-  }
-};
-
 const careerDataMap = {
 	/* Arcane Career */
 	codeweaver: {
@@ -31133,14 +31066,27 @@ on("change:used_session_perk_blood_born_survivor", (eventInfo) => {
 });
 
 function getAllTalentSkills(race) {
-	if (debug_on_trace) console.log ("[getAllTalentSkills] Start");
+  if (debug_on_trace) console.log("[getAllTalentSkills] Start");
+
   const skills = new Set();
-  const talents = talentSkillMap[race] || {};
-  Object.values(talents).forEach(skillGroup => {
-    Object.keys(skill => skills.add(skill));
+  const raceTalents = (talentDataMap && talentDataMap[race]) || {};
+
+  Object.values(raceTalents).forEach(talent => {
+    const s = talent && talent.skills;
+    if (!s) return;
+
+    if (Array.isArray(s)) {
+      s.forEach(k => k && skills.add(k));
+    } else if (typeof s === "object") {
+      Object.keys(s).forEach(k => k && skills.add(k));
+    }
   });
-  return [...skills];
+
+  const result = Array.from(skills);
+  if (debug_on) console.log("[getAllTalentSkills]", race, result);
+  return result;
 }
+
 
 function resetAllMDRToBase(race, callback) {
   if (debug_on_trace) console.log ("[resetAllMDRToBase] Start");
@@ -31172,6 +31118,44 @@ function applyAllSkillBonuses(race) {
 
   if (debug_on) console.log("[applyAllSkillBonuses]", updates);
   setAttrs(updates);
+}
+
+// Apply race defaults/state (NO watcher registrations here)
+function initializeRaceState(race) {
+  if (!race || race === "cr" || race === "unknown" || race === "0") return;
+  if (debug_on_trace) console.log("[initializeRaceState] Start", { race });
+
+  // Hold the guard ON while bulk setAttrs run (they're async)
+  beginSilent();
+  resetAllMDRToBase();
+  applyRacialBaseStats(race);
+  setDefaultTalentBonuses(race);
+
+  // After bulk updates, do exactly ONE recompute and then release the guard
+  const allSkills = Object.values(skillMapTable || {}).map(s => s && s.label).filter(Boolean);
+  const magicSchools = Object.values(skillMapTable || {})
+    .filter(s => s && s.group === "Magic" && s.label !== "magic_universal")
+    .map(s => s && s.bonus).filter(Boolean);
+
+  const toRead = new Set([
+    "showracials",
+    "dex",
+    "edu",
+    "language_caltheran_skill_mdr",
+    `${race}_mdr_checkbox`,
+    ...magicSchools
+  ]);
+  allSkills.forEach(skill => {
+    toRead.add(`${skill}_skill_mdr`);
+    toRead.add(`${skill}_mdr`);
+    toRead.add(`${race}_${skill}_bonus_mdr`);
+    toRead.add(`${race}_talent_${skill}_bonus_mdr`);
+  });
+
+  getAttrs(Array.from(toRead), (values) => {
+    calculateAndUpdateSkillValues(race, values); // single, intentional recompute
+    endSilent(); // <-- release AFTER calc completes
+  });
 }
 
 on("change:showracials", (evt) => {
@@ -31249,33 +31233,45 @@ function registerTalentSummaryWatcher(race){
 };
 
 const registerTalentSkillBonusWatchers = () => {
-  if (debug_on_trace) console.log ("[registerTalentSkillBonusWatchers] Start");
-  const races = Object.keys(talentSkillMap);
+  if (debug_on_trace) console.log("[registerTalentSkillBonusWatchers] Start");
 
-  races.forEach(race => {
-    const talents = Object.keys(talentSkillMap[race]);
+  const races = Object.keys(talentDataMap || {});
+  races.forEach((race) => {
+    const raceTalents = talentDataMap[race] || {};
 
-    talents.forEach(talent => {
+    // Only talents with a skills selection get watchers
+    const talentsWithSkills = Object.entries(raceTalents)
+      .filter(([_, t]) => {
+        if (!t || t.skills == null) return false;
+        if (Array.isArray(t.skills)) return t.skills.length > 0;
+        if (typeof t.skills === "object") return Object.keys(t.skills).length > 0;
+        return false;
+      })
+      .map(([key]) => key);
+
+    talentsWithSkills.forEach((talent) => {
       const checkboxAttr = `${race}_${talent}_mdr_checkbox`;
-      const talentAttr = `${race}_${talent}`;
-      const lockAttr = `${race}_${talent}_lockflag_skill`;
-      const showAttr = `show_${talent}_bonus`;
+      const talentAttr   = `${race}_${talent}`;
+      const lockAttr     = `${race}_${talent}_lockflag_skill`;
+      const showAttr     = `show_${talent}_bonus`;
 
       const watchedAttrs = [checkboxAttr, talentAttr];
 
       on(`change:${checkboxAttr} change:${talentAttr}`, () => {
-        getAttrs(watchedAttrs.concat(["showracials"]), values => {
+        getAttrs(watchedAttrs.concat(["showracials"]), (values) => {
           const isTalentChecked = values[talentAttr] === "1";
           const skillChoice = values[checkboxAttr] || "0";
 
           const shouldShow = isTalentChecked || skillChoice !== "0";
           const isLocked = skillChoice !== "0"; // Lock if any skill choice is selected
 
-          if (debug_on) console.log(`[Generic Bonus Watcher] ${race}.${talent}`);
-          if (debug_on) console.log("Talent Checked:", isTalentChecked);
-          if (debug_on) console.log("Skill Selected:", skillChoice);
-          if (debug_on) console.log("→ Show Skills?", shouldShow ? "Yes" : "No");
-          if (debug_on) console.log("→ Lock Talent?", isLocked ? "Yes" : "No");
+          if (debug_on) {
+            console.log(`[Generic Bonus Watcher] ${race}.${talent}`);
+            console.log("Talent Checked:", isTalentChecked);
+            console.log("Skill Selected:", skillChoice);
+            console.log("→ Show Skills?", shouldShow ? "Yes" : "No");
+            console.log("→ Lock Talent?", isLocked ? "Yes" : "No");
+          }
 
           const updates = {};
           updates[showAttr] = shouldShow ? "1" : "0";
@@ -31320,11 +31316,19 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
   let totalSkillPointsSpent = 0;
 
   const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
-  const talentSkills = Object.entries(talentSkillMap[racePrefix] || {})
-    .map(([talentKey]) => {
-      const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
-      return val && val.startsWith("talent_") ? val.replace("talent_", "") : null;
-    }).filter(Boolean);
+  const talentSkills = Object.entries(talentDataMap[racePrefix] || {})
+  .filter(([_, t]) => {
+    if (!t || t.skills == null) return false;
+    if (Array.isArray(t.skills)) return t.skills.length > 0;
+    if (typeof t.skills === "object") return Object.keys(t.skills).length > 0;
+    return false;
+  })
+  .map(([talentKey]) => {
+    const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
+    return val && /^talent_/.test(val) ? val.replace(/^talent_/, "") : null;
+  })
+  .filter(Boolean);
+
 
   allSkills.forEach(skill => {
     let base = parseInt(values[`${skill}_skill_mdr`], 10);
@@ -31340,15 +31344,22 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
 
     const bgBonus = bgSkill === skill ? (parseInt(values[`${racePrefix}_${skill}_bonus_mdr`], 10) || 0 ) : 0;
 
-    const talentBonus = Object.entries(talentSkillMap[racePrefix] || {}).reduce((sum, [talentKey]) => {
-      const selectedValue = values[`${racePrefix}_${talentKey}_mdr_checkbox`] || "";
-      const targetValue = `talent_${skill}`;
-      if (selectedValue === targetValue) {
-        const bonus = parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`], 10) || 0;
-        return sum + bonus;
-      }
-      return sum;
-    }, 0);
+	const talentBonus = Object.entries(talentDataMap[racePrefix] || {})
+		.filter(([_, t]) => {
+			const s = t && t.skills;
+			if (!s) return false;
+			return Array.isArray(s) ? s.length > 0 : Object.keys(s).length > 0;
+	})
+	.reduce((sum, [talentKey]) => {
+			const selectedValue = values[`${racePrefix}_${talentKey}_mdr_checkbox`] || "";
+			const targetValue = `talent_${skill}`;
+			if (selectedValue === targetValue) {
+				const bonus = parseInt(values[`${racePrefix}_talent_${skill}_bonus_mdr`], 10) || 0;
+				return sum + bonus;
+		}
+		return sum;
+	}, 0);
+
 
     let total = base + bgBonus + talentBonus;
 
@@ -31418,7 +31429,16 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
     .map(s => s && s.bonus)
     .filter(Boolean); // e.g., "magic_alteration_mdr"
 
-  const talentKeys = Object.keys((talentSkillMap && talentSkillMap[racePrefix]) || {});
+  const talentKeys = Object.entries(talentDataMap?.[racePrefix] || {})
+  .filter(([_, t]) => {
+    const s = t && t.skills;
+    if (!s) return false;
+    if (Array.isArray(s)) return s.length > 0;
+    if (typeof s === "object") return Object.keys(s).length > 0;
+    return false;
+  })
+  .map(([key]) => key);
+
 
   // watched attrs
   const watched = new Set([
@@ -31428,6 +31448,7 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
     "language_caltheran_skill_mdr",
     ...magicSchools
   ]);
+  + watched.add("recompute_nonce"); // nudge to recompute on sheet:opened
   allSkills.forEach(skill => watched.add(`${skill}_skill_mdr`));
   otherSkills.forEach(skill => watched.add(`${skill}_skill_mdr`));
   triggerSkills.forEach(skill => {
@@ -31484,21 +31505,31 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
 }
 
 function setDefaultTalentBonuses(race) {
-	  if (debug_on_trace) console.log ("[setDefaultTalentBonuses] Start");
+  if (debug_on_trace) console.log("[setDefaultTalentBonuses] Start");
   const updates = {};
-  const raceTalents = talentSkillMap[race];
-
+  const raceTalents = talentDataMap && talentDataMap[race];
   if (!raceTalents) return updates;
 
-  Object.values(raceTalents).forEach(skillSet => {
-    Object.keys(skillSet).forEach(skill => {
-      const attr = `${race}_talent_${skill}_bonus_mdr`;
-      if (!(attr in updates)) updates[attr] = 10;
-    });
+  const skillSet = new Set();
+
+  Object.values(raceTalents).forEach(talent => {
+    const skills = talent && talent.skills;
+    if (!skills) return;
+
+    if (Array.isArray(skills)) {
+      skills.forEach(s => s && skillSet.add(s));
+    } else if (skills && typeof skills === "object") {
+      Object.keys(skills).forEach(s => s && skillSet.add(s));
+    }
   });
 
-//  if (debug_on) console.log("[setDefaultTalentBonuses]", updates);
+  skillSet.forEach(skill => {
+    const attr = `${race}_talent_${skill}_bonus_mdr`;
+    if (!(attr in updates)) updates[attr] = 10; // ✅ correct
+  });
+
   setAttrs(updates);
+  if (debug_on) console.log("[setDefaultTalentBonuses] updates:", updates);
   return updates;
 }
 
@@ -31913,44 +31944,6 @@ function ensureRaceWatchers(race) {
   registeredRaces.add(race);
 }
 
-// Apply race defaults/state (NO watcher registrations here)
-function initializeRaceState(race) {
-  if (!race || race === "cr" || race === "unknown" || race === "0") return;
-  if (debug_on_trace) console.log("[initializeRaceState] Start", { race });
-
-  // Hold the guard ON while bulk setAttrs run (they're async)
-  beginSilent();
-  resetAllMDRToBase();
-  applyRacialBaseStats(race);
-  setDefaultTalentBonuses(race);
-
-  // After bulk updates, do exactly ONE recompute and then release the guard
-  const allSkills = Object.values(skillMapTable || {}).map(s => s && s.label).filter(Boolean);
-  const magicSchools = Object.values(skillMapTable || {})
-    .filter(s => s && s.group === "Magic" && s.label !== "magic_universal")
-    .map(s => s && s.bonus).filter(Boolean);
-
-  const toRead = new Set([
-    "showracials",
-    "dex",
-    "edu",
-    "language_caltheran_skill_mdr",
-    `${race}_mdr_checkbox`,
-    ...magicSchools
-  ]);
-  allSkills.forEach(skill => {
-    toRead.add(`${skill}_skill_mdr`);
-    toRead.add(`${skill}_mdr`);
-    toRead.add(`${race}_${skill}_bonus_mdr`);
-    toRead.add(`${race}_talent_${skill}_bonus_mdr`);
-  });
-
-  getAttrs(Array.from(toRead), (values) => {
-    calculateAndUpdateSkillValues(race, values); // single, intentional recompute
-    endSilent(); // <-- release AFTER calc completes
-  });
-}
-
 // Build default skills + clear new flag (used once on first open with a real race)
 const initNewCharacterSkills = () => {
     const updates = {};
@@ -31973,13 +31966,13 @@ on("sheet:opened", () => {
     if (!WATCHERS_BOOTSTRAPPED) {
         WATCHERS_BOOTSTRAPPED = true;
         registerAllTalentChangeWatchers();
-		registerBackgroundTalentWatcher();
+        registerBackgroundTalentWatcher();
         registerBackgroundTalentWatchers();
-		registerTalentSkillBonusWatchers();
-		registerXPTrackerWatcher();
+        registerTalentSkillBonusWatchers();
+        registerXPTrackerWatcher();
         registerStatHandler();
-		registerCareerTabWatchers();
-		registerBackgroundTabWatchers();
+        registerCareerTabWatchers();
+        registerBackgroundTabWatchers();
     }
 
     // Initial attribute normalization
@@ -32004,8 +31997,23 @@ on("sheet:opened", () => {
 
         const afterSet = () => {
             if (!isUnselectedRace(race)) {
-                ensureRaceWatchers(race);     // minimal, on-demand
-                initializeRaceState(race);    // pure state apply + recompute
+                // Minimal, on-demand race watchers
+                ensureRaceWatchers(race);
+
+                // Seed/reset core values BEFORE recompute
+                if (typeof resetAllMDRToBase === "function") resetAllMDRToBase();
+                if (typeof setDefaultSkillBonuses === "function") setDefaultSkillBonuses(race);
+                if (typeof setDefaultTalentBonuses === "function") setDefaultTalentBonuses(race);
+
+                // Re-apply race state (pure state apply + internal recompute paths)
+                initializeRaceState(race);
+
+                // Re-evaluate enables/locks that gate UI (talents, etc.)
+                if (typeof updateTalentEnables === "function") updateTalentEnables(race);
+
+                // One-shot nudge so all change-watchers run once on load
+                setAttrs({ recompute_nonce: String(Date.now()) });
+
                 if (isNew) populateCareerTalentDescriptions();
             }
         };

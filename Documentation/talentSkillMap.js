@@ -1,9 +1,8 @@
-// Skills that Talents make available to add skill points.
-// This should be merged with talentDataMap to unify
+
 const talentSkillMap = {
   alteri: {
     maskwrights_grace: {
-      disguise: "Disguise", impersonation: "Impersonation", insight: "Insight"
+      disguise: "Disguise", perform_impersonation: "Perform (Impersonation)", insight: "Insight"
     },
     shaped_for_subtlety: {
       insight: "Insight", slicing: "Slicing", stealth: "Stealth"
@@ -12,7 +11,7 @@ const talentSkillMap = {
 	  disguise: "Disguise", insight: "Insight"
 	},
 	persona_anchor: {
-	  arcana: "Arcana", impersonation: "Impersonation", slicing: "Slicing"
+	  arcana: "Arcana", perform_impersonation: "Perform (Impersonation)", slicing: "Slicing"
 	}
   },
   draevi: {
@@ -22,6 +21,11 @@ const talentSkillMap = {
     scavengers_edge: {
       electronics: "Electronics", mechanics: "Mechanics", streetwise: "Streetwise"
     }
+  },
+  feran: {
+  	scavengers_instinct: {
+	  navigate: "Navigate", streetwise: "Streetwise", survival_urban: "Survival (Urban)"
+	}
   },
   human: {
     quick_fixer: {
@@ -37,18 +41,27 @@ const talentSkillMap = {
 	  // Checkbox will add -30 to Skill Point Total to indicate the choice.
 	}
   },
+  khadra: {
+	legacy_of_iron : {
+		first_aid: "First Aid", mechanics: "Mechanics", security: "Security Systems"
+	}
+  },
+  kitsu: {
+    streetwise_instincts: {
+		streetwise: "Streetwise", stealth: "Stealth", insight: "Insight"
+	},
+	aether_flick: {
+		slicing: "Slicing", magic_illusion: "Magic (Illusion)", magic_enchantment: "Magic (Enchantment)"
+	}
+  },
   lyranni: {
 	threadwalker : {
 	  arcana: "Arcana", occult: "Occult Lore", spirit_lore: "Spirit Lore"
 	},
-    aether_override: {
-      electronics: "Electronics", mechanics: "Mechanics", slicing: "Slicing"
-    },
     echo_in_the_veins: {
-      chant: "Chant", dance: "Dance", impersonation: "Impersonation", instrument: "Instrument", singing: "Singing", insight: "Insight", streetwise: "Streetwise"
-    },
-	veilsplice : {
-	  electronics: "Electronics", slicing: "Slicing"
-	}
+      perform_acting: "Perform (Acting)", perform_dance: "Perform (Dance)", perform_impersonation: "Perform (Impersonation)", perform_instrument: "Perform (Instrument)", perform_vocal: "Perform (Vocal)", insight: "Insight", streetwise: "Streetwise"
+    }
+  },
+  veyra: {
   }
 };

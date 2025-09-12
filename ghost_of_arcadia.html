@@ -24221,8 +24221,8 @@ const talentDataMap = {
     maskwrights_grace: {
       name_key:  "talent_alteri_maskwrights_grace-u",
       rule_text_key: "talent_alteri_maskwrights_grace_rules-u",
-      name: "Maskwright’s Grace",
-      description: "Choose one: gain +10% to Disguise, Insight, or Performance (Impersonation). This choice is permanent and may only be taken once.",
+<!--      name: "Maskwright’s Grace", -->
+<!--      description: "Choose one: gain +10% to Disguise, Insight, or Performance (Impersonation). This choice is permanent and may only be taken once.", -->
       skills: [ "disguise", "insight", "perform_impersonation"  ],
       prerequisite: "",
       tier: 1,
@@ -31180,11 +31180,11 @@ on("change:showracials", (evt) => {
     language_caltheran_txt: otherLang
   };
 
-  const raceTalents = (talentDataMap && talentDataMap[race]) || {};
-  for (const [key, data] of Object.entries(raceTalents)) {
-    updates[`${race}_${key}_label`]       = data.name || "";
-    updates[`${race}_${key}_description`] = data.description || "";
-  }
+//  const raceTalents = (talentDataMap && talentDataMap[race]) || {};
+//  for (const [key, data] of Object.entries(raceTalents)) {
+//    updates[`${race}_${key}_label`]       = data.name || "";
+//    updates[`${race}_${key}_description`] = data.description || "";
+//  }
 
   beginSilent();
   setAttrs(updates, () => {
@@ -31196,41 +31196,59 @@ on("change:showracials", (evt) => {
 
 const talentSummaryRegistered = new Set();
 
-function registerTalentSummaryWatcher(race){
+function registerTalentSummaryWatcher(race) {
   if (talentSummaryRegistered.has(race)) return;
-  if (debug_on_trace) console.log ("[registerTalentSummaryWatcher] Start");
-  const allChangeEvents = Object.entries(talentDataMap)
-    .flatMap(([race, talents]) =>
-      Object.keys(talents).map(talentKey => `change:${race}_${talentKey}`)
-    );
-	
+  if (debug_on_trace) console.log("[registerTalentSummaryWatcher] Start");
+
+  const allChangeEvents = [
+    "change:showracials",
+    "change:recompute_nonce",
+    ...Object.entries(talentDataMap || {}).flatMap(([rc, talents]) =>
+      Object.keys(talents).map(talentKey => `change:${rc}_${talentKey}`)
+    )
+  ];
+
   on(allChangeEvents.join(" "), function () {
     getAttrs(["showracials"], function (values) {
-      const race = values.showracials;
-      const raceTalents = talentDataMap[race];
+      const activeRace = values.showracials;
+      const raceTalents = (talentDataMap && talentDataMap[activeRace]) || null;
       if (!raceTalents) return;
 
-      const watchedTalentAttrs = Object.keys(raceTalents).map(k => `${race}_${k}`);
+      const watchedTalentAttrs = Object.keys(raceTalents).map(k => `${activeRace}_${k}`);
 
       getAttrs(watchedTalentAttrs, function (talentValues) {
         const summaryLines = [];
 
         for (let [key, data] of Object.entries(raceTalents)) {
-          const fullKey = `${race}_${key}`;
+          const fullKey = `${activeRace}_${key}`;
           if (talentValues[fullKey] === "1") {
-            summaryLines.push(`T${data.tier}: ${data.name} — ${data.description}`);
+            // prefer i18n keys; fall back to static fields if needed
+            const nameKey  = data.name_key      || data.nameKey;
+            const rulesKey = data.rule_text_key || data.rulesKey;
+
+            const nameText =
+              (typeof getTranslationByKey === "function" && nameKey)
+                ? getTranslationByKey(nameKey) || data.name || key
+                : (data.name || key);
+
+            const rulesText =
+              (typeof getTranslationByKey === "function" && rulesKey)
+                ? getTranslationByKey(rulesKey) || data.description || ""
+                : (data.description || "");
+
+            summaryLines.push(`T${data.tier}: ${nameText} — ${rulesText}`);
           }
         }
 
-        const summaryText = summaryLines.length
-          ? summaryLines.join("\n\n")
-          : " "; // Avoid Roll20 collapse on empty value
-
+        const summaryText = summaryLines.length ? summaryLines.join("\n\n") : " "; // keep one space to avoid collapse
         setAttrs({ talent_summary: summaryText });
       });
     });
   });
-};
+
+  talentSummaryRegistered.add(race);
+}
+
 
 const registerTalentSkillBonusWatchers = () => {
   if (debug_on_trace) console.log("[registerTalentSkillBonusWatchers] Start");

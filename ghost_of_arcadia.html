@@ -23329,6 +23329,7 @@ Body Hit Location---------------------------------------------------------------
 <!------------------------- Options Start ------------------------->
 <input type="hidden" name="attr_new_character_flag" value="1" />
 <input type="hidden" name="attr_skill_points_talent_refund" value="0" />
+<input type="hidden" name="attr_bonuspenalty_link" value="" />
 
 <!-------------------------  Options End  ------------------------->
 
@@ -32836,7 +32837,7 @@ on("sheet:opened", () => {
                 // One-shot nudge so all change-watchers run once on load
                 setAttrs({ recompute_nonce: String(Date.now()) });
 
-                if (isNew) populateCareerTalentDescriptions();
+//                if (isNew) populateCareerTalentDescriptions();
             }
         };
 
@@ -34133,7 +34134,7 @@ on("clicked:careers", () => {
 	if (careerWatcherInitialized) return;
 	careerWatcherInitialized = true;
 
-	populateCareerTalentDescriptions();
+//	populateCareerTalentDescriptions();
 	
 	setAttrs({}, () => {
 		registerCareerTalentSummaryWatcher();

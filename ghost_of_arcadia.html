@@ -34358,7 +34358,7 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
 });
 
 // === XP Remaining Calculation ===
-on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xp_spent_career_specialist cchange:xp_spent_career_talenthange:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reuptation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
+on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xp_spent_career_specialist change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reputation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
     if (debug_on_trace) console.log ("[change:background_xp] Start");
     getAttrs([
         "background_xp",
@@ -34372,7 +34372,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         "xpledger_credits_cost",
         "xpledger_allies_cost",
         "xpledger_contacts_cost",
-        "xpledger_reuptation_cost",
+        "xpledger_reputation_cost",
         "xpledger_faction_cost",
         "xpledger_flaws_gain",
         "xpledger_perks_cost",
@@ -34390,7 +34390,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
         const creditsCost = toInt(values["xpledger_credits_cost"]);
         const alliesCost = toInt(values["xpledger_allies_cost"]);
         const contactsCost = toInt(values["xpledger_contacts_cost"]);
-        const reputationCost = toInt(values["xpledger_reuptation_cost"]);
+        const reputationCost = toInt(values["xpledger_reputation_cost"]);
         const factionCost = toInt(values["xpledger_faction_cost"]);
         const flawsGain = toInt(values["xpledger_flaws_gain"]);
         const perksCost = toInt(values["xpledger_perks_cost"]);
@@ -34461,7 +34461,7 @@ on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_
                 xpledger_credits_cost: aggregates.xp_credits,
                 xpledger_allies_cost: aggregates.xp_allies,
                 xpledger_contacts_cost: aggregates.xp_contacts,
-                xpledger_reuptation_cost: aggregates.xp_reputation,
+                xpledger_reputation_cost: aggregates.xp_reputation,
                 xpledger_faction_cost: aggregates.xp_faction,
 //              xpledger_flaws_gain: aggregates.xp_flaws,
 //              xpledger_perks_cost: aggregates.xp_perks,
@@ -34514,7 +34514,6 @@ on(
     });
   }
 );
-
 
 // === Spell XP Remaining Calculation ===
 on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr", function () {

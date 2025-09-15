@@ -13939,9 +13939,6 @@
 								<option value="xp_contacts" data-i18n="ledger_xp_to_contacts-u">XP -> Contacts</option>
 								<option value="xp_reputation" data-i18n="ledger_xp_to_reputation-u">XP -> Reputation</option>
 								<option value="xp_faction" data-i18n="ledger_xp_to_faction-u">XP -> Faction</option>
-								<option value="xp_flaws" data-i18n="ledger_xp_to_flaws-u">XP -> Flaws</option>
-								<option value="xp_perks" data-i18n="ledger_xp_to_perks-u">XP -> Perks</option>
-								<option value="perk_linguist" data-i18n="ledger_perk_linguist-u">Perk -> Linguist</option>
 							</select>
 						</div>
 						<div class="flex-cell ledger-value">
@@ -23290,7 +23287,7 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
+const debug_on = true;
 const debug_on_trace = true;
 const debug_on_watcher = false;
 
@@ -33089,7 +33086,8 @@ const registerPrimaryCareerXPWatcher = () => {
 		"change:char_creation_lock",
 		"change:showracials",
 		"change:repeating_secondarycareer:secondary_career_spell_xp_total",
-		"change:repeating_secondarycareer:secondary_career_xp_total"
+		"change:repeating_secondarycareer:secondary_career_xp_total",
+		"change:xpledger_recalc_tick"
 		];
 
     const allEvents = [...talentChangeEvents, ...otherTriggers];
@@ -33191,14 +33189,27 @@ const registerSecondaryCareerXPWatcher = () => {
         "change:repeating_secondarycareer:secondary_career",
         "change:repeating_secondarycareer:secondary_career_skill_to_xp",
         "change:repeating_secondarycareer:secondary_career_spell_xp_total",
-		"change:primary_career_xp_total"
+		"change:primary_career_xp_total",
+		"change:xpledger_recalc_tick"
     ];
 
     on([...talentChangeEvents, ...baseEvents].join(" "), () => {
         if (debug_on) console.log("=== [XP Tracker] Secondary Career XP Calculation Triggered ===");
 
         getSectionIDs("repeating_secondarycareer", function (ids) {
-            if (!ids.length) return;
+			if (!ids || ids.length === 0) {
+				if (debug_on_trace) console.log("[SecondaryCareerXP] No rows → zeroing totals");
+				getAttrs(["secondary_career_xp_total", "xp_spent_career_talent"], (v) => {
+					const updates = {};
+					if ((v.secondary_career_xp_total || "0") !== "0") updates.secondary_career_xp_total = "0";
+//					if ((v.xp_spent_career_talent || "0") !== "0") updates.xp_spent_career_talent = "0";
+					if (Object.keys(updates).length) {
+						// Not silent: intentionally trigger ledger summary watchers
+						setAttrs(updates);
+					}
+				});
+				return;
+			}
 
             const attrList = ["primary_career_xp_total"];
 
@@ -33935,6 +33946,7 @@ const cleanupInactiveCareers = () => {
 
     // Silent batch so we don't trigger watcher storms
     setAttrs(updates, { silent: true }, mirrorSkillCheckboxes);
+	setAttrs({ xpledger_recalc_tick: String(Date.now()) });
 
     if (debug_on) console.log("[Career Cleanup] Inactive careers cleared:", updates);
   });

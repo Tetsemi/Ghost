@@ -2722,7 +2722,7 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 /* Fieldset */
 fieldset.repeating_weaponsmdr,
 fieldset.repeating_armorsmdr,
-fieldset.repeating_spellssmdr,
+fieldset.repeating_spellsmdr,
 fieldset.repeating_omnidecksmdr,
 fieldset.repeating_programsmdr {
   margin: 0;
@@ -2765,7 +2765,8 @@ fieldset.repeating_programsmdr {
 .sheet-spell-block .flex-row,
 .sheet-omnideck-block .flex-row,
 .sheet-program-block .flex-row,
-.repeating_spellsmdr .flex-row {
+.repeating_spellsmdr .flex-row,
+.repeating_weaponsmdr .flex-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -2801,8 +2802,10 @@ fieldset.repeating_programsmdr {
 }
 
 /* Flex Widths */
-.weapon-name { flex: 2 1 28%; }
+.weapon-name { flex: 2 1 24%; }
+.repitem .weapon-name { flex: 2 1 24%; }
 .weapon-impale { flex: 0 0 24px; }
+.repitem .weapon-impale { flex: 0 0 24px; }
 .weapon-skill { flex: 1.5 1 14%; }
 .flex-cell-wrapper { flex: 1 1 6%; }
 .weapon-skill-display { flex: 1 1 6%; }
@@ -2810,6 +2813,40 @@ fieldset.repeating_programsmdr {
 .weapon-damage-bonus { flex: 1 1 6%; }
 .weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 6%; }
 .weapon-malf, .weapon-contested, .weapon-strain { flex: 0.8 1 6%; }
+.repitem .sheet-toggle-wrapper { width: 24px; height: 24px; }
+
+.weapon-trait { width: 100%; }
+
+/* Weapons: wrapper that lets the advanced panel wrap below the main strip */
+.ui-dialog .tab-content .charsheet .sheet-weaponblock-grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 818px;
+  min-width: 818px;
+  max-width: 100%;
+  gap: 0px;
+  padding: 0px;
+  margin-bottom: 0px;
+  background-color: rgba(255,255,255,0.04);
+  box-sizing: border-box;
+}
+
+/* Ensure the main strip spans the wrapper width */
+.ui-dialog .tab-content .charsheet .sheet-weaponblock-grid-row > .flex-row {
+  width: 100%;
+}
+
+/* Match spells’ advanced block behavior/box model */
+.ui-dialog .tab-content .charsheet .sheet-weaponblock-advanced {
+  display: none;
+  width: 818px;           /* mirrors spells: wrapper 820, advanced 800 */
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0px;
+  margin-bottom: 0px;
+  background-color: rgba(255,255,255,0.04);
+  box-sizing: border-box; /* switch from content-box to border-box */
+}
 
 /* Flex Widths */
 .armor-name { flex: 2 1 28%; }
@@ -2949,7 +2986,7 @@ fieldset.repeating_programsmdr {
   width: 100%;
   height: 100%;
   padding: 0px;
-  box-sizing: border-box;
+  box-sizing: content-box;
   font-size: 0.9em;
   text-align: center;
   background: #d9d9d9;
@@ -2969,6 +3006,23 @@ fieldset.repeating_programsmdr {
   background: #d9d9d9;
   color: #666;
   border: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-weaponblock-advanced-default,
+.ui-dialog .tab-content .charsheet .sheet-weaponblock-advanced {
+  display: none;             /* ← Enforce a fixed row width */
+  max-width: 100%;            /* ← Prevent overflow if container is smaller */
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 4px;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-sizing: content-box;
+}
+
+/* Show if value = 1 */
+.ui-dialog .tab-content .charsheet input[name="attr_show_weapon_advanced"][value="1"] ~ .sheet-weaponblock-advanced,
+.ui-dialog .tab-content .charsheet input[name="attr_show_weapon_advanced_default"][value="1"] ~ .sheet-weaponblock-advanced-default,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_weapon_advanced"][value="1"] ~ .sheet-weaponblock-advanced {
+  display: flex; /* or block, depending on layout */
 }
 
 /* Roll Button Style */
@@ -3494,7 +3548,8 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex; /* or block, depending on layout */
 }
 
-.ui-dialog .tab-content .charsheet .sheet-toggle-button {
+.ui-dialog .tab-content .charsheet .repitem .sheet-toggle-button,
+.ui-dialog .tab-content .charsheet .sheet-toggle-button{
   font-size: 14px;
   height: 24px;
   width: 24px;
@@ -3515,9 +3570,6 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   padding: 0;
   margin-top: 6px; 
 }
-
-
-
 
 /* Hide all buttons by default */
 .ui-dialog .tab-content .charsheet .sheet-roll-uncontested,

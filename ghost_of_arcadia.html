@@ -12921,7 +12921,7 @@
 					</div>
 					<!-- Default Row (Unarmed) -->
 					<div class="sheet-weapon-default">
-						<input type="hidden" name="attr_show_weapon_advanced" value="0" />
+						<input type="hidden" name="attr_show_weapon_advanced_default" value="0" />
 						<div class="flex-row">
 							<div class="flex-cell weapon-name sheet-readonly"><input type="text" placeholder="Unarmed" data-i18n-placeholder="unarmed-z" /></div>
 							<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1" /></div>
@@ -12939,7 +12939,14 @@
 							<div class="flex-cell weapon-contested sheet-readonly"><input type="text" value="" /></div>
 							<div class="flex-cell weapon-strain sheet-readonly"><input type="text" value="" /></div>
 							<div class="flxe-cell sheet-toggle-wrapper">
-								<button type="action" name="act_weaponadvanced" class="sheet-toggle-button">▼</button>
+								<button type="action" name="act_weaponadvanced_default" class="sheet-toggle-button">▼</button>
+							</div>
+						</div>
+						<div class="sheet-weaponblock-advanced-default">
+							<div class="flex-row">
+								<div class="flex-cell weapon-trait">
+									<input type="text" name="attr_weapon_traits_default" data-i18n="weapon_trait-u" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"></input>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -12994,12 +13001,20 @@
 								<button type="action" name="act_weaponadvanced" class="sheet-toggle-button">▼</button>
 							</div>							
 						</div>
+						<div class="sheet-weaponblock-advanced">
+							<div class="flex-row">
+								<div class="flex-cell weapon-trait">
+									<input type="text" name="attr_weapon_traits" data-i18n="weapon_trait-u" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"></input>
+								</div>
+							</div>
+						</div>
 					</div>
 					
 					<input type="hidden" name="attr_bonuspenalty_link" value="" />
 					
 					<!-- Repeating Weapons -->
 					<fieldset class="repeating_weaponsmdr">
+					<div class="sheet-weaponblock-grid-row">  <!-- NEW: wrapper, like spells -->
 						<input type="hidden" name="attr_show_weapon_advanced" value="0" />
 						<div class="flex-row">
 							<input type="hidden" name="attr_damage_numdice" value="0" />
@@ -13044,9 +13059,17 @@
 							<div class="flex-cell weapon-malf"><input type="text" name="attr_weaponmalf_mdr" placeholder="Malf" data-i18n-placeholder="malf-u" /></div>
 							<div class="flex-cell weapon-contested"><input type="text" name="attr_weaponcontested" placeholder="-" data-i18n-placeholder="dash-z" /></div>
 							<div class="flex-cell weapon-strain"><input type="text" name="attr_weaponstrain_mdr" placeholder="Strain" data-i18n-placeholder="strain-u" /></div>
-							<div class="flxe-cell sheet-toggle-wrapper">
+							<div class="flex-cell sheet-toggle-wrapper">
 								<button type="action" name="act_weaponadvanced" class="sheet-toggle-button">▼</button>
 							</div>							
+						</div>
+						<div class="sheet-weaponblock-advanced">
+							<div class="flex-row">
+								<div class="flex-cell weapon-trait">
+									<input type="text" name="attr_weapon_traits" data-i18n="weapon_trait-u" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"></input>
+								</div>
+							</div>
+						</div>	
 						</div>
 					</fieldset>
 				</div>
@@ -34311,6 +34334,37 @@ on("clicked:repeating_spellsmdr:spelladvanced", function(eventInfo) {
 		const isShown = values[attr] === "1";
 		setAttrs({ [attr]: isShown ? "0" : "1" });
 	});
+});
+
+// Small helper
+const toggleFlag = (attr) => {
+  getAttrs([attr], (v) => setAttrs({ [attr]: v[attr] === "1" ? "0" : "1" }));
+};
+
+// Non-repeating: weaponadvanced -> show_weapon_advanced
+on("clicked:weaponadvanced", () => {
+  if (typeof debug_on !== "undefined" && debug_on) console.log("[clicked:weaponadvanced]");
+  toggleFlag("show_weapon_advanced");
+});
+
+// Non-repeating: weaponadvanced_default -> show_weapon_advanced_default
+on("clicked:weaponadvanced_default", () => {
+  if (typeof debug_on !== "undefined" && debug_on) console.log("[clicked:weaponadvanced_default]");
+  toggleFlag("show_weapon_advanced_default");
+});
+
+// Repeating: repeating_weaponsmdr:* row button -> row's *_show_weapon_advanced
+on("clicked:repeating_weaponsmdr:weaponadvanced", (eventInfo = {}) => {
+  if (typeof debug_on !== "undefined" && debug_on) console.log("[clicked:repeating_weaponsmdr:weaponadvanced]", eventInfo);
+
+  const src = eventInfo.sourceAttribute || "";
+  const m = src.match(/^repeating_weaponsmdr_([^_]+)_/);
+  if (!m) {
+    if (typeof debug_on !== "undefined" && debug_on) console.warn("[weaponadvanced] Could not resolve rowId from:", src);
+    return;
+  }
+  const rowAttr = `repeating_weaponsmdr_${m[1]}_show_weapon_advanced`;
+  toggleFlag(rowAttr);
 });
 
 // Auto-calculate damage components for fixed weapon (weapon1_mdr)

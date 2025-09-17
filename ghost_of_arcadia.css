@@ -5316,11 +5316,15 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 
 .sheet-companions .sheet-npcblock-flex {
   display: flex;
+  height: 100%;
+  padding: 2px;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
   gap: 0px;
-  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 
 /* Left Column (Name, SAN, General Info, etc.) */
@@ -5369,7 +5373,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
   flex-direction: row; /* <— was column, this is the key fix */
   align-items: center;
-  gap: 6px;
+  gap: 0px;
   min-width: 0;
   white-space: nowrap;
 }
@@ -5392,9 +5396,12 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .sheet-companions .sheet-npc-row,
 .sheet-companions .sheet-npc-header-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
-  gap: 4px;
+  height: 24px;
+  gap: 0px;
+  margin: 0px;
+  padding: 0px;
 }
 
 .sheet-companions .sheet-npc-label {
@@ -5404,6 +5411,8 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   font-size: 100%;
   color: black;
   white-space: wrap;
+  text-align: right;
+  margin-right: 4px;
 }
 
 .sheet-companions .sheet-npc-val {
@@ -5411,6 +5420,15 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+}
+
+.sheet-companions .sheet-npc-val-textarea {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px;
+  height: 30px;
+  margin-top: 10px;
 }
 
 .sheet-companions input[name="attr_minionmove"] {
@@ -5452,7 +5470,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 /* Textareas */
 .sheet-companions .sheet-npc-textarea {
   width: 100%;
-  height: 60px;
+  height: 30px;
   font-size: 90%;
   background-color: rgba(255, 255, 255, 0.5);
   color: black;
@@ -5460,6 +5478,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   resize: vertical;
   padding: 4px;
   box-sizing: border-box;
+  margin-top: 10px;
 }
 
 /* Roll Buttons */
@@ -5473,7 +5492,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .sheet-companions .sheet-npc-attribute-grid {
   display: grid;
   grid-template-columns: max-content max-content;
-  column-gap: 4px;
+  column-gap: 0px;
   padding-left: 4px;
   margin-top: 2px;
 }
@@ -5518,9 +5537,10 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .sheet-companions .sheet-companion-skill-header{
   font-weight: bold;
   margin-top: 0px;
-  padding-left: 4px;
+  padding-left: 2px;
   color: black;
 }
+
 .sheet-companions .sheet-companion-info-header {
 	margin-bottom: 2px;
 }
@@ -5530,24 +5550,15 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   background: transparent; /* remove dark background */
   border: none;
   padding: 0;
-  margin-top: 6px;
+  margin: 0px;
+  
 }
 
 .sheet-companions .sheet-companion-weapon-header {
   font-weight: bold;
   font-size: 120%;
-  margin-bottom: 2px;
   padding-left: 4px;
   color: black;
-}
-
-/* Each weapon row is side-by-side */
-.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: wrap; /* Optional if items wrap on small screens */
 }
 
 .ui-dialog .tab-content .charsheet .sheet-npc-val input,
@@ -5556,28 +5567,71 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 }
 
 /* Header spans — explicit widths matching their inputs/buttons */
-.ui-dialog .tab-content .charsheet .sheet-wide-input-header-name {
-  width: 170px;
-  height: 24px;
-  color: black;
-  font-size: 100%;
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-name,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-skill,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-skill-value,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-dmg,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-maxdmg,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-malf,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-strain,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-name,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-skill,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-skill-value,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-dmg,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-maxdmg,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-malf,
+.ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-strain {
+	height: 24px;
+	color: black;
+	font-size: 100%;
+	text-align: center;
+	margin: 0px;
 }
+
+.ui-dialog .tab-content .charsheet .sheet-wide-input-name,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-name input,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-name {	
+	width: 170px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-wide-input-skill,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-skill {
+	width: 100px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-value,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-header-skill-value {
+	width: 40px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-wide-input-dmg,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-maxdmg,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-malf,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-strain,
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-dmg,
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-maxdmg,
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-malf,
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-strain {
-  width: 50px;
-  height: 24px;
-  color: black;
-  font-size: 100%;
+  width: 60px;
 }
+
+.ui-dialog .tab-content .charsheet .sheet-wide-input-noimproll,
+.ui-dialog .tab-content .charsheet .sheet-wide-input-improll,
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-noimproll,
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-improll {
+  width: 45px;
   height: 24px;
-  width: 24px;
   color: black;
-  font-size: 80%;
+  font-size: 75%;
+  margin: 0px 10px 8px 10px;
 }
+
+.ui-dialog .tab-content .charsheet .sheet-select-npc-skill {
+	width: 100px;
+	height: 24px;
+	margin-top: 10px;
+}
+
 .ui-dialog .tab-content .charsheet .sheet-npc-row .smallbutton-roll {
   height: 24px;
   width: 24px;
@@ -5601,6 +5655,10 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   height: 24px;
 }
 
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-attr-input-small {
+	border: 0px;
+	margin-top: 1px;
+}
 
 /* Inputs in weapons section */
 .sheet-companions .sheet-npc-content-right input.sheet-wide-input {

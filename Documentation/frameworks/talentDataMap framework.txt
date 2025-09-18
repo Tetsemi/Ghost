@@ -1,0 +1,40 @@
+// Simple template — replicate the inner blocks for each existing race and talent.
+// Races seen include: alteri, draevi, human, lyranni, veyra, etc.
+
+const talentDataMap = {
+  <race_key>: {
+    <talent_key>: {
+      // i18n keys from translation.json
+      name_key:      "talent_<race_key>_<talent_key>-u",
+      rule_text_key: "talent_<race_key>_<talent_key>_rules-u",
+
+      // (Optional legacy fields present in data; keep if you’re maintaining them)
+      // name: "",
+      // description: "",
+
+      // Skills selector used by sheet logic:
+      //   "" for none, or an array of skill keys (e.g., ["disguise","insight"])
+      skills: "",
+
+      // Prereq variants used in current data (all optional; include only when needed)
+      // free-text prerequisite line (often "")
+      prerequisite: "",
+      // e.g., { tier: 2, count: 2 }
+      prerequisiteAny: { /* tier: <number>, count: <number> */ },
+      // e.g., ["ancestral_resonance","spirit_favored"]
+      prerequisiteAll: [ /* <talent_key>, ... */ ],
+
+      // Tier/cost/flags
+      tier: 1,            // 1..5
+      cost: 10,           // numeric XP cost
+      capstone: false,    // boolean
+
+      // Usage gating as found in data: "", "scene", "session", or "none"
+      usage_limit: ""
+    },
+
+    // ...more talents...
+  },
+
+  // ...more races...
+};

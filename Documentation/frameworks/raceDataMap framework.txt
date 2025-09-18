@@ -1,0 +1,41 @@
+// Simple template: replicate this block per race key found in your data
+// (e.g., "alteri", "draevi", "human", "khadra", "kitsu", "lyranni", "veyra", "feran").
+
+const raceDataMap = {
+  "<raceKey>": {
+    // Display label and primary language for the race
+    // (populate from your existing race records / i18n, e.g., see Kitsu/Khadra examples)
+    label: "",        // e.g., "Kitsu"
+    language: "",     // e.g., "Nari"
+
+    // Racial base + cap (max) for core stats
+    // applyRacialBaseStats reads these exact nine keys and their "base" fields
+    stats: {
+      str: { base: 0, max: 0 },
+      dex: { base: 0, max: 0 },
+      pow: { base: 0, max: 0 },
+      con: { base: 0, max: 0 },
+      app: { base: 0, max: 0 },
+      edu: { base: 0, max: 0 },
+      siz: { base: 0, max: 0 },
+      int: { base: 0, max: 0 },
+      mag: { base: 0, max: 0 }
+    },
+
+    // Racial traits block
+    traits: {
+      // i18n group label key used by the UI (see existing races)
+      group_label_key: "senses_and_racial_traits-u",
+
+      // Each entry is a trait keyed by an internal id.
+      // Use your existing i18n keys; usage_limit is optional.
+      items: {
+        // "<trait_key>": {
+        //   name_key:      "racial_<race>_<trait>-u",
+        //   rule_text_key: "racial_<race>_<trait>_rules-u",
+        //   usage_limit:   "scene" | "session" | ""   // optional
+        // }
+      }
+    }
+  }
+};

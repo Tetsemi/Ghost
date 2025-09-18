@@ -1,0 +1,60 @@
+// Simple template — replicate the inner blocks for each existing career and talent.
+
+const careerDataMap = {
+  <career_key>: {
+    // Display & typing
+    name: "",               // e.g., "Codeweaver"
+    career_type: "",        // e.g., "arcane", "martial" (use your real value)
+    career_type_name: "",   // e.g., "Arcane"
+
+    // Skill point rules (primary formula + readable display; secondary is a fixed number)
+    skill_points_primary_formula: {
+      attributes: [/* "EDU", "DEX", "INT", ... */],
+      multipliers: [/* 2, 2, ... (one per attribute) */]
+    },
+    skill_points_primary_display: "",  // e.g., "EDU × 2 + INT × 2"
+    skill_points_secondary: 0,         // e.g., 20
+
+    // Spell XP buckets (present on careers that grant spell XP)
+    spell_xp_primary: 0,               // e.g., 30
+    spell_xp_secondary: 0,             // e.g., 10
+
+    // Career skill sets (key → display label)
+    primary_skills: {
+      // skill_key: "Display Name",
+    },
+    secondary_skills: {
+      // skill_key: "Display Name",
+    },
+
+    // Career talents (flat map; each entry includes i18n keys + tiering/prereqs)
+    talents: {
+      <talent_key>: {
+        // i18n keys from translation.json
+        name_key:      "career_<career_key>_<talent_key>-u",
+        rule_text_key: "career_<career_key>_<talent_key>_rules-u",
+
+        // (Legacy display fields exist in file; keep only if you’re maintaining them)
+        // name: "",
+        // description: "",
+
+        // Prerequisites (all optional; include when needed)
+        prerequisite: "",                 // free-text string or "" when none
+        prerequisiteAny: { /* tier: <number>, count: <number> */ },
+        prerequisiteAll: [ /* <talent_key>, ... */ ],
+
+        // Tiering & cost
+        tier: 1,                          // 1..5
+        cost: "0",                        // cost values are strings in the data (e.g., "5", "10")
+        capstone: false,                  // true only for capstones
+
+        // Usage gating: "", "scene", or "session" (do not use "none")
+        usage_limit: ""
+      },
+
+      // ...more talents...
+    }
+  },
+
+  // ...more careers...
+};

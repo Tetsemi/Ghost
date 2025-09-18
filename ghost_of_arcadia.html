@@ -31369,6 +31369,12 @@ const careerDataMap = {
 	  secondary_skills: {},
 	  entry_requirements: {
 		all: [
+			{
+				any: [
+					{ type: "capstone", keys: [ "marksman", "operator" ] },
+					{ type: "capstone", career_type: "arcane" }
+				]
+		    },		
 			{		
 				any: [
 					{ type: "skill", key: "firearms_handgun", min: 60 },
@@ -31622,9 +31628,7 @@ const careerDataMap = {
 		all: [
 			{
 				any: [
-					{ type: "capstone", key: "combat_engineer" },
-					{ type: "capstone", key: "codeweaver" },
-					{ type: "capstone", key: "spirit_warden" }
+					{ type: "capstone", keys: [ "combat_engineer", "codeweaver", "spirit_warden" ] }
 				]
 		    },
 		    {
@@ -33987,9 +33991,21 @@ const getHasCapstoneMap = (careers, cb) => {
 
 
 // Helper: evaluate your entry_requirements (supports all/any, skill, group, capstone)
-const evalEntryRequirements = (req, values, hasCapstone) => {
+// DROP-IN: extends capstone checks to support `career_type` and `career_types`
+// Signature unchanged: (req, values, hasCapstone, traceKey)
+const evalEntryRequirements = (req, values, hasCapstone, traceKey) => {
   if (!req) return true;
-  const test = node => {
+
+  // Build a derived map of capstones by career_type without changing callers.
+  // hasCapstone = { "<careerKey>": true/false } (from getHasCapstoneMap)
+  const hasCapstoneByType = {};
+  Object.keys(hasCapstone || {}).forEach((careerKey) => {
+    if (!hasCapstone[careerKey]) return;
+    const t = (careerDataMap[careerKey] && careerDataMap[careerKey].career_type) || "";
+    if (t) hasCapstoneByType[t] = true;
+  });
+
+  const test = (node) => {
     if (node.all) return node.all.every(test);
     if (node.any) return node.any.some(test);
 
@@ -33998,23 +34014,48 @@ const evalEntryRequirements = (req, values, hasCapstone) => {
         const v = parseInt(values[`${node.key}_mdr`] || values[node.key] || "0", 10) || 0;
         return v >= (node.min || 0);
       }
+
       case "group": {
-        const { keys = [], min = 0, count = 0 } = node;
-        let meets = 0;
+        const keys = node.keys || [];
+        const min = node.min || 0;
+        const count = node.count || 0;
+        let hits = 0;
         keys.forEach(k => {
           const v = parseInt(values[`${k}_mdr`] || values[k] || "0", 10) || 0;
-          if (v >= min) meets += 1;
+          if (v >= min) hits += 1;
         });
-        return meets >= count;
+        return hits >= count;
       }
+
       case "capstone": {
-        // exact schema in your file: { type: "capstone", key: "<career_key>" }
-        return !!hasCapstone[node.key];
+        // Backward-compatible:
+        // { key: "<career>" } — exactly this career has a capstone
+        if (node.key) return !!hasCapstone[node.key];
+
+        // { keys: ["marksman","operator"] } — any of these careers has a capstone
+        if (Array.isArray(node.keys) && node.keys.length) {
+          return node.keys.some(k => !!hasCapstone[k]);
+        }
+
+        // New:
+        // { career_type: "arcane" } — any career of this type has a capstone
+        if (node.career_type) {
+          return !!hasCapstoneByType[node.career_type];
+        }
+
+        // { career_types: ["arcane","core"] } — any of these types has a capstone
+        if (Array.isArray(node.career_types) && node.career_types.length) {
+          return node.career_types.some(t => !!hasCapstoneByType[t]);
+        }
+
+        return false;
       }
+
       default:
         return false;
     }
   };
+
   return test(req);
 };
 

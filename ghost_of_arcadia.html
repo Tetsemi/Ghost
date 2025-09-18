@@ -12793,6 +12793,15 @@
 						</div>
 					</div>	
 
+					<!-- Arcane Gunslinger -->
+					<div class="sheet-career-tab sheet-tab-soul_forger">
+						<input type="hidden" name="attr_soul_forger_ready" class="sheet-career-ready-controller" value="0" />
+						<div class="sheet-career-locked-overlay">Career not active</div>
+						<div class="sheet-career-interactive-block">
+								I'M ACTIVE
+						</div>
+					</div>
+
 				</div>
 			</div>
 				
@@ -31620,13 +31629,13 @@ const careerDataMap = {
 		    },
 		    {
 				any: [
-					{ type: "skill", key: "arcanotech", min: 60 },
-					{ type: "skill", key: "mechanical", min: 60 },
+					{ type: "skill", key: "archanotech", min: 60 },
+					{ type: "skill", key: "mechanics", min: 60 },
 					{ type: "skill", key: "engineering", min: 60 },
 					{ type: "skill", key: "arcana",     min: 60 },
 					{
 						type: "group",
-						keys: ["arcanotech", "mechanical", "engineering", "arcana"],
+						keys: ["archanotech", "mechanics", "engineering", "arcana"],
 						count: 2,
 						min: 50
 					}
@@ -33929,41 +33938,138 @@ const registerActiveSecondaryCareerWatchers = () => {
   }
 };
 
+// Helper: build a map of { careerKey: boolean } if any capstone talent is checked (static or repeating)
+const getHasCapstoneMap = (careers, cb) => {
+  const capstoneKeysByCareer = {};
+  const staticAttrs = [];
+  const isChecked = v => v === "1" || v === "on" || v === "true";
+
+  careers.forEach(c => {
+    const caps = Object.entries(careerDataMap[c]?.talents || {})
+      .filter(([, t]) => t.capstone === true)
+      .map(([tk]) => tk);
+    capstoneKeysByCareer[c] = caps;
+    caps.forEach(tk => staticAttrs.push(`${c}_${tk}`));
+  });
+
+  getSectionIDs("repeating_secondarycareer", (_ids) => {
+    const ids = _ids || [];
+    const repAttrs = [];
+    ids.forEach(id => {
+      Object.entries(capstoneKeysByCareer).forEach(([c, caps]) => {
+        caps.forEach(tk => repAttrs.push(`repeating_secondarycareer_${id}_${c}_${tk}`));
+      });
+    });
+
+    const need = [...staticAttrs, ...repAttrs];
+
+    // If no capstones defined anywhere, return a fully false map
+    if (need.length === 0) {
+      const none = {};
+      careers.forEach(c => (none[c] = false));
+      return cb(none);
+    }
+
+    getAttrs(need, values => {
+      const has = {};
+      careers.forEach(c => {
+        const caps = capstoneKeysByCareer[c] || [];
+        const staticHit = caps.some(tk => isChecked(values[`${c}_${tk}`]));
+        const repeatingHit = ids.some(id =>
+          caps.some(tk => isChecked(values[`repeating_secondarycareer_${id}_${c}_${tk}`]))
+        );
+        has[c] = !!(staticHit || repeatingHit);
+      });
+      cb(has);
+    });
+  });
+};
+
+
+// Helper: evaluate your entry_requirements (supports all/any, skill, group, capstone)
+const evalEntryRequirements = (req, values, hasCapstone) => {
+  if (!req) return true;
+  const test = node => {
+    if (node.all) return node.all.every(test);
+    if (node.any) return node.any.some(test);
+
+    switch (node.type) {
+      case "skill": {
+        const v = parseInt(values[`${node.key}_mdr`] || values[node.key] || "0", 10) || 0;
+        return v >= (node.min || 0);
+      }
+      case "group": {
+        const { keys = [], min = 0, count = 0 } = node;
+        let meets = 0;
+        keys.forEach(k => {
+          const v = parseInt(values[`${k}_mdr`] || values[k] || "0", 10) || 0;
+          if (v >= min) meets += 1;
+        });
+        return meets >= count;
+      }
+      case "capstone": {
+        // exact schema in your file: { type: "capstone", key: "<career_key>" }
+        return !!hasCapstone[node.key];
+      }
+      default:
+        return false;
+    }
+  };
+  return test(req);
+};
+
 const updateCareerReadyState = (callback) => {
-  if (debug_on_trace) console.log ("[updateCareerReadyState] Start");
+  if (debug_on_trace) console.log("[updateCareerReadyState] Start");
   const allCareers = Object.keys(careerDataMap);
   const output = {};
 
   getAttrs(["primary_career"], values => {
-    const primary = values.primary_career;
+    const primary = values.primary_career || "";
 
-    // Initialize all careers as not ready
-    allCareers.forEach(career => {
-      output[`${career}_ready`] = "0";
-    });
+    // default all to "0"
+    allCareers.forEach(c => output[`${c}_ready`] = "0");
 
-    if (careerDataMap[primary]) {
-      output[`${primary}_ready`] = "1";
-    }
+    // collect skill attrs needed by any entry_requirements
+    const skillKeys = new Set();
+    const collect = n => {
+      if (!n) return;
+      if (n.all) n.all.forEach(collect);
+      if (n.any) n.any.forEach(collect);
+      if (n.type === "skill") skillKeys.add(n.key);
+      if (n.type === "group" && Array.isArray(n.keys)) n.keys.forEach(k => skillKeys.add(k));
+    };
+    allCareers.forEach(c => collect(careerDataMap[c]?.entry_requirements));
 
-    getSectionIDs("repeating_secondarycareer", ids => {
-      if (ids.length === 0) {
-        if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
-        setAttrs(output);
-        return;
-      }
+    const need = [];
+    skillKeys.forEach(k => { need.push(k, `${k}_mdr`); });
 
-      const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
-      getAttrs(keys, entries => {
-        ids.forEach(id => {
-          const sec = entries[`repeating_secondarycareer_${id}_secondary_career`] || "";
-          if (careerDataMap[sec]) {
-            output[`${sec}_ready`] = "1";
+    getAttrs(need, skillVals => {
+      getHasCapstoneMap(allCareers, hasCapstone => {
+        // Primary
+        if (!careerDataMap[primary] || evalEntryRequirements(careerDataMap[primary].entry_requirements, skillVals, hasCapstone)) {
+          if (careerDataMap[primary]) output[`${primary}_ready`] = "1";
+        }
+
+        // Secondary rows
+        getSectionIDs("repeating_secondarycareer", ids => {
+          if (ids.length) {
+            const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+            getAttrs(keys, entries => {
+              ids.forEach(id => {
+                const key = entries[`repeating_secondarycareer_${id}_secondary_career`] || "";
+                if (!key || !careerDataMap[key]) return;
+                if (evalEntryRequirements(careerDataMap[key].entry_requirements, skillVals, hasCapstone)) {
+                  output[`${key}_ready`] = "1";
+                }
+              });
+              if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
+              setAttrs(output, { silent: true }, callback);
+            });
+          } else {
+            if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
+            setAttrs(output, { silent: true }, callback);
           }
         });
-
-        if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
-        setAttrs(output, { silent: true });
       });
     });
   });

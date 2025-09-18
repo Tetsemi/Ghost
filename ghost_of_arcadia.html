@@ -390,7 +390,7 @@
 								<button type="roll" name="roll_firearms_rifle_mdr_check" value="&{template:coc-1} {{name=@{firearms_rifle_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{firearms_rifle_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{firearms_rifle_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{firearms_rifle_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}" ></button>
 							</div>
 							<div><input type="checkbox" name="attr_firearms_smg_mdr_checkbox" value="1" /></div>
-							<div class="skill-label-wrapper"><input type="text" name="attr_firearms_s_m_g_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="firearms_s_m_g-u">Submachine Guns(15%)</span></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_firearms_smg_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="firearms_s_m_g-u">Submachine Guns(15%)</span></div>
 							<div><input class="skill-input" type="text" name="attr_firearms_smg_skill_mdr" /></div>
 							<div class="sheet-val-roll-static">
 								<input class="sheet-skill-input" type="text" name="attr_firearms_smg_mdr" readonly />
@@ -556,10 +556,10 @@
 						<fieldset class="repeating_skillsmdr">
 							<div class="sheet-skill-grid">
 								<div><input type="checkbox" name="attr_checkbox_mdr" /></div>
-								<div class="skill-label"><input class="sheet-skill-name-input" type="text" name="attr_skillname_mdr" /></div>
+								<div class="skill-label-wrapper"><input type="text" name="attr_skill_mdr_label" class="sheet-improved-indicator" readonly /><input class="sheet-skill-name-input" type="text" name="attr_skill_mdr_name" /></div>
 								<div><input class="skill-input" type="text" name="attr_skill_mdr" /></div>
 								<div class="sheet-val-roll-static">
-									<input class="skill-input" type="text" name="attr_skill_mdr" readonly />
+									<input class="skill-input sheet-readonly" type="text" name="attr_skill_mdr" />
 									<button type="roll" name="roll_skill_mdr_check" value="&{template:coc-1} {{name=@{skillname_mdr} Roll}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{skill_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{skill_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{skill_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}" ></button>
 								</div>
 							</div>
@@ -12793,6 +12793,199 @@
 						</div>
 					</div>	
 
+					<!-- Soul Forger -->
+					<div class="sheet-career-tab sheet-tab-soul_forger">
+						<input type="hidden" name="attr_soul_forger_ready" class="sheet-career-ready-controller" value="0" />
+						<div class="sheet-career-locked-overlay">Career not active</div>
+						<div class="sheet-career-interactive-block">
+						
+							<div class="sheet-career-talent-tree">
+							
+								<div class="sheet-career-talent-tier" data-tier="1">
+									<!-- Lockout Sigil -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_lockout_sigil_lockflag" value="0" />
+										<input type="checkbox" name="attr_soul_forger_lockout_sigil" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_lockout_sigil-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_lockout_sigil_rules-u"></span>
+									</div>
+									<!-- Seat the Spirit (Ride—Minor) -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_seat_the_spirit_lockflag" value="0" />
+										<input type="checkbox" name="attr_soul_forger_seat_the_spirit" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_seat_the_spirit-u"></span></label>
+									<span class="sheet-career-talent-description" data-i18n="career_soul_forger_seat_the_spirit_rules-u"></span>
+									</div>
+									<!-- Spirit Patch -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_spirit_patch_lockflag" value="0" />
+										<input type="checkbox" name="attr_soul_forger_spirit_patch" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_spirit_patch-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_spirit_patch_rules-u"></span>
+									</div>
+									<!-- Spirit Static (offensive interrupt) -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_spirit_static_lockflag" value="0" />
+										<input type="checkbox" name="attr_soul_forger_spirit_static" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_spirit_static-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_spirit_static_rules-u"></span>
+									</div>
+									<!-- Workshop Wisp (Familiar) -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_workshop_wisp_lockflag" value="0" />
+										<input type="checkbox" name="attr_soul_forger_workshop_wisp" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_workshop_wisp-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_workshop_wisp_rules-u"></span>
+									</div>
+								</div>
+		
+								<div class="sheet-career-talent-tier" data-tier="2">
+									<!-- Chassis Ride (Combat) -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_chassis_ride_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_chassis_ride_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_chassis_ride" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_chassis_ride-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_chassis_ride_rules-u"></span>
+									</div>
+
+									<!-- CounterEMP Veil -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_counteremp_veil_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_counteremp_veil_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_counteremp_veil" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_counteremp_veil-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_counteremp_veil_rules-u"></span>
+									</div>
+
+									<!-- Infused Shielding -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_infused_shielding_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_infused_shielding_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_infused_shielding" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_infused_shielding-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_infused_shielding_rules-u"></span>
+									</div>
+
+									<!-- Overclock Lattice -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_overclock_lattice_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_overclock_lattice_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_overclock_lattice" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_overclock_lattice-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_overclock_lattice_rules-u"></span>
+									</div>
+
+									<!-- Soulstitch -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_soulstitch_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_soulstitch_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_soulstitch" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_soulstitch-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_soulstitch_rules-u"></span>
+									</div>
+								</div>
+
+								<div class="sheet-career-talent-tier" data-tier="3">
+									<!-- Battlefield Reclamation -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_battlefield_reclamation_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_battlefield_reclamation_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_battlefield_reclamation" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_battlefield_reclamation-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_battlefield_reclamation_rules-u"></span>
+									</div>
+
+									<!-- Hand of the Forge -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_hand_of_the_forge_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_hand_of_the_forge_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_hand_of_the_forge" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_hand_of_the_forge-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_hand_of_the_forge_rules-u"></span>
+									</div>
+
+									<!-- Helmgeist Protocol -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_helmgeist_protocol_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_helmgeist_protocol_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_helmgeist_protocol" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_helmgeist_protocol-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_helmgeist_protocol_rules-u"></span>
+									</div>
+
+									<!-- Spirit Lattice Field -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_spirit_lattice_field_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_spirit_lattice_field_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_spirit_lattice_field" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_spirit_lattice_field-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_spirit_lattice_field_rules-u"></span>
+									</div>
+
+									<!-- Spitework Rewrite -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_spitework_rewrite_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_spitework_rewrite_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_spitework_rewrite" value="1" class="sheet-career-talent-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_spitework_rewrite-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_spitework_rewrite_rules-u"></span>
+									</div>
+
+								</div>
+
+								<div class="sheet-career-talent-tier" data-tier="4">		
+									<!-- Bound WarChassis (Permanent Companion) -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_bound_warchassis_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_bound_warchassis_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_bound_warchassis" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_bound_warchassis-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_bound_warchassis_rules-u"></span>
+									</div>
+
+									<!-- Cathedral of Scrap -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_cathedral_of_scrap_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_cathedral_of_scrap_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_cathedral_of_scrap" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_cathedral_of_scrap-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_cathedral_of_scrap_rules-u"></span>
+									</div>
+
+									<!-- Circuit Apotheosis -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_circuit_apotheosis_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_circuit_apotheosis_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_circuit_apotheosis" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_circuit_apotheosis-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_circuit_apotheosis_rules-u"></span>
+									</div>
+
+									<!-- City-Weave Circuit (site seizure) -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_city_weave_circuit_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_city_weave_circuit_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_city_weave_circuit" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_city_weave_circuit-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_city_weave_circuit_rules-u"></span>
+									</div>
+
+									<!-- Nullwave Bloom -->
+									<div class="sheet-career-talent-row">
+										<input type="hidden" name="attr_soul_forger_nullwave_bloom_lockflag" value="0" />
+										<input type="hidden" name="attr_soul_forger_nullwave_bloom_enabled" value="0" />
+										<input type="checkbox" name="attr_soul_forger_nullwave_bloom" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+										<label class="sheet-career-talent-label"><span data-i18n="career_soul_forger_nullwave_bloom-u"></span></label>
+										<span class="sheet-career-talent-description" data-i18n="career_soul_forger_nullwave_bloom_rules-u"></span>
+									</div>
+
+								</div>
+								
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 				
@@ -15280,6 +15473,13 @@
 						        <input type="checkbox" name="attr_used_scene_arcane_gunslinger_ward_flicker" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_arcane_gunslinger_ward_flicker-u"></span>
 						    </div>
+
+							<!-- Soulstitch -->
+							<input type="hidden" name="attr_show_soul_forger_soulstitch" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-soul_forger-soulstitch">
+								<input type="checkbox" name="attr_used_scene_soul_forger_soulstitch" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_soul_forger_soulstitch-u"></span>
+							</div>
 
 					<!-- Career Talent Scene End -->
 						</div>
@@ -17794,7 +17994,35 @@
 						        <input type="checkbox" name="attr_used_session_arcane_gunslinger_spell_conduit_round" value="1" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_arcane_gunslinger_spell_conduit_round-u"></span>
 						    </div>
-        				
+
+							<!-- Cathedral of Scrap -->
+							<input type="hidden" name="attr_show_soul_forger_cathedral_of_scrap" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-soul_forger-cathedral_of_scrap">
+								<input type="checkbox" name="attr_used_session_soul_forger_cathedral_of_scrap" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_soul_forger_cathedral_of_scrap-u"></span>
+							</div>
+
+							<!-- Circuit Apotheosis -->
+							<input type="hidden" name="attr_show_soul_forger_circuit_apotheosis" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-soul_forger-circuit_apotheosis">
+								<input type="checkbox" name="attr_used_session_soul_forger_circuit_apotheosis" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_soul_forger_circuit_apotheosis-u"></span>
+							</div>
+
+							<!-- City-Weave Circuit (site seizure) -->
+							<input type="hidden" name="attr_show_soul_forger_city_weave_circuit" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-soul_forger-city_weave_circuit">
+								<input type="checkbox" name="attr_used_session_soul_forger_city_weave_circuit" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_soul_forger_city_weave_circuit-u"></span>
+							</div>
+
+							<!-- Nullwave Bloom -->
+							<input type="hidden" name="attr_show_soul_forger_nullwave_bloom" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-soul_forger-nullwave_bloom">
+								<input type="checkbox" name="attr_used_session_soul_forger_nullwave_bloom" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_soul_forger_nullwave_bloom-u"></span>
+							</div>
+
         					<!-- Career Talent Session End -->
 						</div>
 					</div>
@@ -31360,6 +31588,12 @@ const careerDataMap = {
 	  secondary_skills: {},
 	  entry_requirements: {
 		all: [
+			{
+				any: [
+					{ type: "capstone", keys: [ "marksman", "operator" ] },
+					{ type: "capstone", career_type: "arcane" }
+				]
+		    },		
 			{		
 				any: [
 					{ type: "skill", key: "firearms_handgun", min: 60 },
@@ -31613,27 +31847,247 @@ const careerDataMap = {
 		all: [
 			{
 				any: [
-					{ type: "capstone", key: "combat_engineer" },
-					{ type: "capstone", key: "codeweaver" },
-					{ type: "capstone", key: "spirit_warden" }
+					{ type: "capstone", keys: [ "combat_engineer", "codeweaver", "spirit_warden" ] }
 				]
 		    },
 		    {
 				any: [
-					{ type: "skill", key: "arcanotech", min: 60 },
-					{ type: "skill", key: "mechanical", min: 60 },
+					{ type: "skill", key: "archanotech", min: 60 },
+					{ type: "skill", key: "mechanics", min: 60 },
 					{ type: "skill", key: "engineering", min: 60 },
 					{ type: "skill", key: "arcana",     min: 60 },
 					{
 						type: "group",
-						keys: ["arcanotech", "mechanical", "engineering", "arcana"],
+						keys: ["archanotech", "mechanics", "engineering", "arcana"],
 						count: 2,
 						min: 50
 					}
 				]
 			}
 		  ]
-		}
+		},
+	  talents: {
+	    lockout_sigil: {
+	        name_key: "career_soul_forger_lockout_sigil-u",
+	        rule_text_key: "career_soul_forger_lockout_sigil_rules-u",
+	        name: "Lockout Sigil",
+	        description: "Type: Action • Cost: 1d4 Strain • Ward a machine within Short range. Opposed (Technomancy or Summoning) vs operator’s skill (or Defense Rating if unattended). On your success, until the end of the target’s next turn the device loses Reactions and suffers –10% to operation checks; if it attacks, impose 1 penalty die on that attack.",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: "10",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    seat_the_spirit: {
+	        name_key: "career_soul_forger_seat_the_spirit-u",
+	        rule_text_key: "career_soul_forger_seat_the_spirit_rules-u",
+	        name: "Seat the Spirit (Ride—Minor)",
+	        description: "Type: Action; Concentration • Cost: 1d4 Strain • Invite a spirit to ride an unattended simple system within Short range (door, camera, turret without active user, civilian drone, parked vehicle subsystem). Roll (Technomancy or Summoning) vs Defense Rating or an opposing operator’s skill if contested. On success, you direct it for the Scene (basic actions only). Starting a new Concentration ends this ride.",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: "10",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    spirit_patch: {
+	        name_key: "career_soul_forger_spirit_patch-u",
+	        rule_text_key: "career_soul_forger_spirit_patch_rules-u",
+	        name: "Spirit Patch",
+	        description: "Type: Action • Cost: 2 Strain • At Engaged or Short range, repair 1d6 HP to a machine/drone/turret/spirit-frame and clear one of: Jammed or Overheated. If the target is currently spirit-infused by you, heal +1 HP. Cannot target living tissue.",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: "10",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    spirit_static: {
+	        name_key: "career_soul_forger_spirit_static-u",
+	        rule_text_key: "career_soul_forger_spirit_static_rules-u",
+	        name: "Spirit Static (offensive interrupt)",
+	        description: "Type: Reaction (declare when a machine within Short range targets you or an ally) • Cost: 1 Strain • Jolt the target’s target-acquisition. Roll (Technomancy or Summoning) vs Defense Rating or an opposing operator if contested. On success, impose 1 penalty die on that attack. On Hard+, also inflict Impaired on the machine until the start of your next turn.",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: "10",
+	        capstone: false,
+	        usage_limit: ""
+	    },	  
+	    workshop_wisp: {
+	        name_key: "career_soul_forger_workshop_wisp-u",
+	        rule_text_key: "career_soul_forger_workshop_wisp_rules-u",
+	        name: "Workshop Wisp (Familiar)",
+	        description: "Type: Active (Downtime creation; utility companion) • Cost: 500 Cr (ground) or 1,000 Cr (flying) + Bond 5 XP to create; half cost in Credits to rebuild if destroyed • Tiny non-combat familiar (1 HP). Acts on your initiative. Once per Round within Short range, it may Assist one Arcanotech, Mechanical, or Electronics test for one bonus die. Can Scout (Perception 40%), carry a small item, or retrieve a tool. EMP/Blackout do not disable it; instead, it becomes Impaired for 1 Round. You may have multiple Wisps but only one Wisp may be active at a time.",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: "10",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    chassis_ride: {
+	        name_key: "career_soul_forger_chassis_ride-u",
+	        rule_text_key: "career_soul_forger_chassis_ride_rules-u",
+	        name: "Chassis Ride (Combat)",
+	        description: "Type: Action; Concentration • Cost: 1d4 Strain • Possess a drone or turret within Medium range. Oppose (Technomancy or Summoning) vs Defense Rating or an opposing operator’s skill if contested. While riding, choose one benefit for the Scene: +10% to attacks or +10% to control/evasion. Counts as spirit-infused. When the ride ends, the unit becomes Impaired for 1 Round.",
+	        prerequisite: "seat_the_spirit",
+	        tier: 2,
+	        cost: "20",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    counteremp_veil: {
+	        name_key: "career_soul_forger_counteremp_veil-u",
+	        rule_text_key: "career_soul_forger_counteremp_veil_rules-u",
+	        name: "CounterEMP Veil",
+	        description: "Type: Reaction (declare before a disabling effect roll) • Cost: 1d4 Strain • When a device or spirit-frame within Medium range would be disabled by EMP/Blackout, veil the anchor: it ignores shutdown and becomes Impaired until the end of its next turn.",
+	        prerequisite: "lockout_sigil",
+	        tier: 2,
+	        cost: "20",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    infused_shielding: {
+	        name_key: "career_soul_forger_infused_shielding-u",
+	        rule_text_key: "career_soul_forger_infused_shielding_rules-u",
+	        name: "Infused Shielding",
+	        description: "Type: Reaction (declare when a spirit-infused ally within Short range is targeted; lasts to end of Round) • Cost: 1d4 Strain • For the rest of this Round, the target’s DR (physical and arcane) are doubled (round up; minimum +1 if they had no DR). Apply the doubled DR to the current incoming damage and any further hits this Round.",
+	        prerequisite: "spirit_patch",
+	        tier: 2,
+	        cost: "20",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    overclock_lattice: {
+	        name_key: "career_soul_forger_overclock_lattice-u",
+	        rule_text_key: "career_soul_forger_overclock_lattice_rules-u",
+	        name: "Overclock Lattice",
+	        description: "Type: Maneuver • Cost: 1d4 Strain • Target a spirit-infused machine within Short range. Until Scene end, grant +10% to either attacks or dodge/defense (choose once). On a fumble roll by the machine, it gains Overheated and becomes Impaired until the start of your next turn.",
+	        prerequisite: [ "seat_the_spirit", "lockout_sigil" ],
+	        tier: 2,
+	        cost: "20",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    soulstitch: {
+	        name_key: "career_soul_forger_soulstitch-u",
+	        rule_text_key: "career_soul_forger_soulstitch_rules-u",
+	        name: "Soulstitch",
+	        description: "Type: Action • Cost: 1d4 Strain • At Engaged or Short range, repair 2d6 HP to a machine or spirit-frame. If at 0 HP, it rises to 1 HP and clears Incapacitated condition. A given target can benefit from Soulstitch once per Scene.",
+	        prerequisite: "spirit_patch",
+	        tier: 2,
+	        cost: "20",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    battlefield_reclamation: {
+	        name_key: "career_soul_forger_battlefield_reclamation-u",
+	        rule_text_key: "career_soul_forger_battlefield_reclamation_rules-u",
+	        name: "Battlefield Reclamation",
+	        description: "Type: Action • Cost: 1d6 Strain • Target a wrecked, powered-down, or abandoned small chassis within Short range (bot/drone/turret shell; GM decides if it’s possible). Reanimate it as a Reclaimed Shell for the Scene under your command: 6 HP; DR 1 (physical); Attack 45% for 1d6 (melee or light tool-gun). It counts as spirit-infused. When the Scene ends or the shell hits 0 HP, it goes inert.",
+	        prerequisite: "soulstitch",
+	        tier: 3,
+	        cost: "30",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    hand_of_the_forge: {
+	        name_key: "career_soul_forger_hand_of_the_forge-u",
+	        rule_text_key: "career_soul_forger_hand_of_the_forge_rules-u",
+	        name: "Hand of the Forge",
+	        description: "Type: Reaction • Cost: 1d4 Strain • When a spirit-infused ally within Short range takes damage, reduce the damage by 1d6. Once per Round.",
+	        prerequisite: "soulstitch",
+	        tier: 3,
+	        cost: "30",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    helmgeist_protocol: {
+	        name_key: "career_soul_forger_helmgeist_protocol-u",
+	        rule_text_key: "career_soul_forger_helmgeist_protocol_rules-u",
+	        name: "Helmgeist Protocol",
+	        description: "Type: Action; Concentration • Cost: 1d8 Strain • You must be in physical contact with or inside the host vehicle. Awaken the spirit of a vehicle or facility subsystem you are in with for the Scene. Choose one duty when you activate: Assist—the living operator’s Piloting/Driving/Gunnery check gains +10% each Round; or Autopilot/Gunnery—if the operator is incapacitated/absent or cedes control, the spirit takes one vehicle action at 40% (Piloting/Driving 40%; mounted Gunnery 40%) each Round. Changing duty costs a Maneuver. If resisted roll (Technomancy or Summoning) vs Vehicle’s Defense Rating or an opposing operator’s skill if contested.",
+	        prerequisite: "chassis_ride",
+	        tier: 3,
+	        cost: "30",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    spirit_lattice_field: {
+	        name_key: "career_soul_forger_spirit_lattice_field-u",
+	        rule_text_key: "career_soul_forger_spirit_lattice_field_rules-u",
+	        name: "Spirit Lattice Field",
+	        description: "Type: Action; Concentration • Cost: 1d4 Strain • Project a Short-radius aura centered on you for the Scene. Allied spirit-infused units inside impose 1 penalty die on the first attack targeting each spirit-infused unit each Round.",
+	        prerequisite: "overclock_lattice",
+	        tier: 3,
+	        cost: "30",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    spitework_rewrite: {
+	        name_key: "career_soul_forger_spitework_rewrite-u",
+	        rule_text_key: "career_soul_forger_spitework_rewrite_rules-u",
+	        name: "Spitework Rewrite",
+	        description: "Type: Action • Cost: 1d4 Strain • Target a hostile drone/turret within Short range. Opposed (Technomancy or Summoning) vs Defense Rating or an opposing operator’s skill if contested. On success, you flip its IFF for 1 Round: it cannot target your crew and will target designated hostiles or hold fire per your command. On Hard+, duration is 2 Rounds. This is not a Ride and does not require Concentration.",
+	        prerequisite: "lockout_sigil",
+	        tier: 3,
+	        cost: "30",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    bound_warchassis: {
+	        name_key: "career_soul_forger_bound_warchassis-u",
+	        rule_text_key: "career_soul_forger_bound_warchassis_rules-u",
+	        name: "Bound WarChassis (Permanent Companion)",
+	        description: "Type: Downtime creation; Passive in play • Build Cost: 10,000 credits (base frame) • In Downtime, build and bind a permanent combat chassis (body may be any suitable salvaged bot/robot shell; origin is cosmetic and does not change stats). Acts on your initiative with a Maneuver + Action. EMP/Blackout don’t disable it (it becomes Impaired for 1 Round after). Always spirit-infused for your talents. Baseline Statline: 10 HP; DR 2 (physical); Evasion 40%; Attack 55%. Choose one role at binding: Skirmisher (melee 1d6+1), Gunner (weapon must be supplied), or Bulwark (shield arm grants allies in Engaged +1 cover step; Bulwark melee 1d6). You may apply one Tier II or III buff to it at a time (e.g., Overclock Lattice). Upgrades: this is a base chassis—armor, weapons, sensors, and protocols are purchased/installed separately (detailed in upgrade section). Reactivation & Repair: If reduced to 0 HP, it becomes an inert shell. Half cost in Credits to rebuild if destroyed. On-mission Emergency Wake (once per Session): at Engaged range, take an Action, pay 1d6 Strain, and roll Arcanotech or Mechanical—on success it rises to 1 HP (on Hard+, restore 1d6+1 HP). After the mission, repair in Downtime (credits/time only) to fully restore. Limit: Only one War-Chassis may be active at a time; your Tier I Wisp does not count toward this total.",
+	        prerequisite: "spirit_lattice_field",
+	        tier: 4,
+	        cost: "40",
+	        capstone: true,
+	        usage_limit: ""
+	    },
+	    cathedral_of_scrap: {
+	        name_key: "career_soul_forger_cathedral_of_scrap-u",
+	        rule_text_key: "career_soul_forger_cathedral_of_scrap_rules-u",
+	        name: "Cathedral of Scrap",
+	        description: "Type: Action • Cost: 1d8+2 Strain • Usage: 1/Session • You pull heat, will, and junk into a single Scene-long colossus. If there is sufficient loose material within Short range (wrecked drones/vehicles, scaffolds, appliances, debris), you assemble a Large frame (Build 2, ~8 ft) at Engaged range. It acts each Round on your initiative with a Maneuver + Action until Scene end, then collapses into inert scrap. Statline (for the Scene): HP 16; DR 3 (physical); Dodge 35%; Attack 65% (Smash 1d8+2); Alt-Attack 55% (Hurl Debris 1d6, Medium range). Traits: Bulwark Mass (allies in Engaged with the Colossus have partial cover; ranged attacks against them suffer 1 penalty die), Impact (on a Hard+ Smash, either knock back the target one band or inflict Impaired). Counts as spirit-infused and ignores EMP/Blackout. If reduced to 0 HP, it collapses immediately.",
+	        prerequisite: "battlefield_reclamation",
+	        tier: 4,
+	        cost: "40",
+	        capstone: true,
+	        usage_limit: "session"
+	    },
+	    circuit_apotheosis: {
+	        name_key: "career_soul_forger_circuit_apotheosis-u",
+	        rule_text_key: "career_soul_forger_circuit_apotheosis_rules-u",
+	        name: "Circuit Apotheosis",
+	        description: "Type: Action; Concentration • Cost: 1d6+2 Strain • Usage: 1/Session • You project your spirit into the ArcNet for the Scene. Your body goes inert (falls prone, remains conscious). Node Reach: at activation choose an access point within Medium range. While apotheosed, treat your current node as Engaged for Slicing actions. With an OmniDeck: you override and amplify your deck—gain +10% to all Slicing rolls, and when targeted in the ArcNet you may defend with Slicing skill instead of the OmniDecks Defense Rating; any feedback damage is handled by the deck per core rules. Without an OmniDeck: you still operate fully; making all Attack, Stealth, or Defense rolls using Slicing skill instead of the normal OmniDeck stats. Any ArcNet feedback damage is taken as Strain instead. If this drops you to 0 Strain, the effect ends immediately; you snap back to your body and gain Exhausted (condition). Vulnerability: if your body takes any damage while apotheosed, this effect ends and you are Impaired on your next turn. You may end this effect as a Free Action at the start of your turn.",
+	        prerequisite: "helmgeist_protocol",
+	        tier: 4,
+	        cost: "40",
+	        capstone: true,
+	        usage_limit: "session"
+	    },
+	    city_weave_circuit: {
+	        name_key: "career_soul_forger_city_weave_circuit-u",
+	        rule_text_key: "career_soul_forger_city_weave_circuit_rules-u",
+	        name: "City-Weave Circuit (site seizure)",
+	        description: "Type: Action; Concentration • Cost: 1d6+1 Strain • Usage: 1/Session • You must be Engaged with a valid access point (console, junction box, relay cabinet) of a single site-scale security domain within Medium range (transit platform, factory floor, datacenter wing, mall atrium). Opposed (Technomancy or Summoning) vs site’s Defense Rating. On success, you seize the domain for the Scene: (1) Cameras/sensors ignore your crew; hostile remote actions suffer 1 penalty die; (2) Doors/gates/elevators open/close at your command; (3) Site turrets/drones treat your crew as friendly; you may set target priority each Round. Protocol Pulse (1/round, free): choose one — Lock Cycle (hard-close or open a door/gate; elevator disabled 1 Round), Blind Eye (one cluster ignores everyone, or only sees hostiles, 1 Round), Sentry Jinx (one site turret/drone takes –20% until the start of your next turn). You must remain within the site; starting a new Concentration ends the weave.",
+	        prerequisite: "helmgeist_protocol",
+	        tier: 4,
+	        cost: "40",
+	        capstone: true,
+	        usage_limit: "session"
+	    },
+	    nullwave_bloom: {
+	        name_key: "career_soul_forger_nullwave_bloom-u",
+	        rule_text_key: "career_soul_forger_nullwave_bloom_rules-u",
+	        name: "Nullwave Bloom",
+	        description: "Type: Action • Cost: 1d8+2 Strain • Usage: 1/Session • You release a Veil-charged EMP pulse out to Medium range. All unattended devices drones, bots and vehicles in range go Offline for 1 Round (no actions or reactions), then are Impaired on the following Round. Attended vehicles/drones/independent bots: oppose your Nullwave Bloom (Technomancy or Summoning) with the higher of the operator’s Piloting skill or the device’s Defense Rating. On your success, that host goes Offline 1 Round, then Impaired the following Round; if they save against the Nullwave Bloom, the device, or vehicle is Impaired 1 Round (no Offline). Individuals in range test POW vs your (Technomancy or Summoning) to keep their carried gear up; on a failure, their comms, Smartlink, digital optics, and HUDs go Offline 1 Round (no Impaired after). Cyberware and life-support are unaffected. Normal firearms function normally (they just lose Smartlink/optic benefits while Offline). As part of activation, you may whitelist any number of allied devices and personal gear (including your own); whitelisted items ignore the Bloom.",
+	        prerequisite: "spirit_lattice_field",
+	        tier: 4,
+	        cost: "40",
+	        capstone: true,
+	        usage_limit: "session"
+	    }    	      
+	  }
 	}
 };
 
@@ -33929,41 +34383,175 @@ const registerActiveSecondaryCareerWatchers = () => {
   }
 };
 
+// Helper: build a map of { careerKey: boolean } if any capstone talent is checked (static or repeating)
+const getHasCapstoneMap = (careers, cb) => {
+  const capstoneKeysByCareer = {};
+  const staticAttrs = [];
+  const isChecked = v => v === "1" || v === "on" || v === "true";
+
+  careers.forEach(c => {
+    const caps = Object.entries(careerDataMap[c]?.talents || {})
+      .filter(([, t]) => t.capstone === true)
+      .map(([tk]) => tk);
+    capstoneKeysByCareer[c] = caps;
+    caps.forEach(tk => staticAttrs.push(`${c}_${tk}`));
+  });
+
+  getSectionIDs("repeating_secondarycareer", (_ids) => {
+    const ids = _ids || [];
+    const repAttrs = [];
+    ids.forEach(id => {
+      Object.entries(capstoneKeysByCareer).forEach(([c, caps]) => {
+        caps.forEach(tk => repAttrs.push(`repeating_secondarycareer_${id}_${c}_${tk}`));
+      });
+    });
+
+    const need = [...staticAttrs, ...repAttrs];
+
+    // If no capstones defined anywhere, return a fully false map
+    if (need.length === 0) {
+      const none = {};
+      careers.forEach(c => (none[c] = false));
+      return cb(none);
+    }
+
+    getAttrs(need, values => {
+      const has = {};
+      careers.forEach(c => {
+        const caps = capstoneKeysByCareer[c] || [];
+        const staticHit = caps.some(tk => isChecked(values[`${c}_${tk}`]));
+        const repeatingHit = ids.some(id =>
+          caps.some(tk => isChecked(values[`repeating_secondarycareer_${id}_${c}_${tk}`]))
+        );
+        has[c] = !!(staticHit || repeatingHit);
+      });
+      cb(has);
+    });
+  });
+};
+
+
+// Helper: evaluate your entry_requirements (supports all/any, skill, group, capstone)
+// DROP-IN: extends capstone checks to support `career_type` and `career_types`
+// Signature unchanged: (req, values, hasCapstone, traceKey)
+const evalEntryRequirements = (req, values, hasCapstone, traceKey) => {
+  if (!req) return true;
+
+  // Build a derived map of capstones by career_type without changing callers.
+  // hasCapstone = { "<careerKey>": true/false } (from getHasCapstoneMap)
+  const hasCapstoneByType = {};
+  Object.keys(hasCapstone || {}).forEach((careerKey) => {
+    if (!hasCapstone[careerKey]) return;
+    const t = (careerDataMap[careerKey] && careerDataMap[careerKey].career_type) || "";
+    if (t) hasCapstoneByType[t] = true;
+  });
+
+  const test = (node) => {
+    if (node.all) return node.all.every(test);
+    if (node.any) return node.any.some(test);
+
+    switch (node.type) {
+      case "skill": {
+        const v = parseInt(values[`${node.key}_mdr`] || values[node.key] || "0", 10) || 0;
+        return v >= (node.min || 0);
+      }
+
+      case "group": {
+        const keys = node.keys || [];
+        const min = node.min || 0;
+        const count = node.count || 0;
+        let hits = 0;
+        keys.forEach(k => {
+          const v = parseInt(values[`${k}_mdr`] || values[k] || "0", 10) || 0;
+          if (v >= min) hits += 1;
+        });
+        return hits >= count;
+      }
+
+      case "capstone": {
+        // Backward-compatible:
+        // { key: "<career>" } — exactly this career has a capstone
+        if (node.key) return !!hasCapstone[node.key];
+
+        // { keys: ["marksman","operator"] } — any of these careers has a capstone
+        if (Array.isArray(node.keys) && node.keys.length) {
+          return node.keys.some(k => !!hasCapstone[k]);
+        }
+
+        // New:
+        // { career_type: "arcane" } — any career of this type has a capstone
+        if (node.career_type) {
+          return !!hasCapstoneByType[node.career_type];
+        }
+
+        // { career_types: ["arcane","core"] } — any of these types has a capstone
+        if (Array.isArray(node.career_types) && node.career_types.length) {
+          return node.career_types.some(t => !!hasCapstoneByType[t]);
+        }
+
+        return false;
+      }
+
+      default:
+        return false;
+    }
+  };
+
+  return test(req);
+};
+
 const updateCareerReadyState = (callback) => {
-  if (debug_on_trace) console.log ("[updateCareerReadyState] Start");
+  if (debug_on_trace) console.log("[updateCareerReadyState] Start");
   const allCareers = Object.keys(careerDataMap);
   const output = {};
 
   getAttrs(["primary_career"], values => {
-    const primary = values.primary_career;
+    const primary = values.primary_career || "";
 
-    // Initialize all careers as not ready
-    allCareers.forEach(career => {
-      output[`${career}_ready`] = "0";
-    });
+    // default all to "0"
+    allCareers.forEach(c => output[`${c}_ready`] = "0");
 
-    if (careerDataMap[primary]) {
-      output[`${primary}_ready`] = "1";
-    }
+    // collect skill attrs needed by any entry_requirements
+    const skillKeys = new Set();
+    const collect = n => {
+      if (!n) return;
+      if (n.all) n.all.forEach(collect);
+      if (n.any) n.any.forEach(collect);
+      if (n.type === "skill") skillKeys.add(n.key);
+      if (n.type === "group" && Array.isArray(n.keys)) n.keys.forEach(k => skillKeys.add(k));
+    };
+    allCareers.forEach(c => collect(careerDataMap[c]?.entry_requirements));
 
-    getSectionIDs("repeating_secondarycareer", ids => {
-      if (ids.length === 0) {
-        if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
-        setAttrs(output);
-        return;
-      }
+    const need = [];
+    skillKeys.forEach(k => { need.push(k, `${k}_mdr`); });
 
-      const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
-      getAttrs(keys, entries => {
-        ids.forEach(id => {
-          const sec = entries[`repeating_secondarycareer_${id}_secondary_career`] || "";
-          if (careerDataMap[sec]) {
-            output[`${sec}_ready`] = "1";
+    getAttrs(need, skillVals => {
+      getHasCapstoneMap(allCareers, hasCapstone => {
+        // Primary
+        if (!careerDataMap[primary] || evalEntryRequirements(careerDataMap[primary].entry_requirements, skillVals, hasCapstone)) {
+          if (careerDataMap[primary]) output[`${primary}_ready`] = "1";
+        }
+
+        // Secondary rows
+        getSectionIDs("repeating_secondarycareer", ids => {
+          if (ids.length) {
+            const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+            getAttrs(keys, entries => {
+              ids.forEach(id => {
+                const key = entries[`repeating_secondarycareer_${id}_secondary_career`] || "";
+                if (!key || !careerDataMap[key]) return;
+                if (evalEntryRequirements(careerDataMap[key].entry_requirements, skillVals, hasCapstone)) {
+                  output[`${key}_ready`] = "1";
+                }
+              });
+              if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
+              setAttrs(output, { silent: true }, callback);
+            });
+          } else {
+            if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
+            setAttrs(output, { silent: true }, callback);
           }
         });
-
-        if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
-        setAttrs(output, { silent: true });
       });
     });
   });

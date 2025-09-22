@@ -1458,7 +1458,6 @@ input[type="text"].sheet-improved-indicator {
     margin-bottom: 0.2em; /* slight spacing if needed */
 }
 
-
 /* Table styling for racial talents and backgrounds */
 
 .sheet-talent-grid {
@@ -1485,15 +1484,64 @@ input[type="text"].sheet-improved-indicator {
 }
 
 /* Data rows */
+/* Base row: checkbox | label | description | 40px */
 .sheet-talent-row {
   display: grid;
   grid-template-columns: 30px 1fr 2fr 40px;
-  align-items: left;
-  padding: 0px 0;
-  margin: 0;
+  align-items: start;
   border-bottom: 1px solid #ccc;
   font-size: 100%;
   box-sizing: border-box;
+}
+
+.sheet-talent-checkbox      { grid-column: 1; }
+.sheet-talent-label         { grid-column: 2; }
+.sheet-talent-description   { grid-column: 3; }
+.sheet-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
+
+/* Toggle: when the checkbox BEFORE .sheet-talents is checked, expand grid + show prereqs */
+.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-row,
+.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-header-row {
+  grid-template-columns: 30px 1fr 2fr 1fr 40px; /* + prereq column */
+}
+.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-prereq {
+  display: block;
+  grid-column: 4;
+  color: white;
+  width: 120px;
+}
+
+/* Toolbar visuals */
+.sheet-talent-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: .25rem 0 .5rem;
+}
+
+/* Visually hide the controller but keep it clickable via the label */
+.sheet-prereq-toggle {
+  position: absolute;
+  width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Draw a faux checkbox in the label */
+.sheet-prereq-toggle-label {
+  display: inline-flex;
+  gap: .4rem;
+  padding: 0 0 0 14px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 90%;
+  text: wrap;
+}
+.sheet-prereq-toggle + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
+  content: "☐";
+  color: white;
+}
+.sheet-prereq-toggle:checked + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
+  content: "☑";
+  color: #6495ED;
 }
 
 /* Cell formatting for consistent alignment */

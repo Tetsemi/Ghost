@@ -2582,12 +2582,13 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 .ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
 
 /* Toggle: when the checkbox BEFORE .sheet-career-talents is checked, expand grid + show prereqs */
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-row,
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-header-row {
+.ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-row,
+.ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-header-row {
   display: grid;
   grid-template-columns: 30px 175px 450px 120px; /* + prereq column */
 }
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
+
+.ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
   display: block;
   color: white;
   width: 120px;
@@ -2601,28 +2602,28 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 }
 
 /* Visually hide the controller but keep it clickable via the label */
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle {
+.ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle {
   position: absolute;
   width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap;
 }
 
 /* Draw a faux checkbox in the label */
-.sheet-career-talent-tree .sheet-prereq-toggle-label {
+.sheet-career-talent-tree .sheet-career-prereq-toggle-label {
   display: inline-flex;
   gap: .4rem;
-  padding: 0 0 0 8px;
+  padding: 0 0 0 14px;
   align-items: center;
   cursor: pointer;
   font-size: 110%;
   text: wrap;
 }
-.sheet-prereq-toggle + .sheet-career-talent-toolbar .sheet-prereq-toggle-label::before {
+.sheet-career-prereq-toggle + .sheet-career-talent-toolbar .sheet-career-prereq-toggle-label::before {
   content: "☐";
   color: white;
 }
 
-.sheet-prereq-toggle:checked + .sheet-career-talent-toolbar .sheet-prereq-toggle-label::before {
+.sheet-career-prereq-toggle:checked + .sheet-career-talent-toolbar .sheet-career-prereq-toggle-label::before {
   content: "☑";
   color: #6495ED;
 }

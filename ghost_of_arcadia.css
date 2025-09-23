@@ -2530,6 +2530,7 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 
 /* Talent Tier Container */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-tier {
+  display: grid;
   margin-top: 1rem;
   padding: 0.5rem;
   background: #151515;
@@ -2539,17 +2540,18 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 
 /* Header for Talent Tier */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-tier-header {
+  display: grid;
   font-size: 100%;
   margin-bottom: 0.5rem;
   color: #ccc;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #333;
   padding-bottom: 0.25rem;
 }
 
 /* Header row styles */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-header-row {
   display: grid;
-  grid-template-columns:  30px 1fr 2fr 40px;
+  grid-template-columns: 30px 1fr 2fr 40px;
   background-color: #444;
   color: white;
   font-weight: bold;
@@ -2564,21 +2566,72 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 /* Data rows */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-row {
   display: grid;
-  grid-template-columns: 28px 200px 1fr;
-  gap: 0.5rem;
+  grid-template-columns: 30px 175px 570px;
   align-items: start;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem;
   border: 1px solid #333;
-  border-radius: 4px;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-talent-checkbox      { grid-column: 1; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
+
+/* Toggle: when the checkbox BEFORE .sheet-career-talents is checked, expand grid + show prereqs */
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-row,
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-header-row {
+  display: grid;
+  grid-template-columns: 30px 175px 450px 120px; /* + prereq column */
+}
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
+  display: block;
+  color: white;
+  width: 120px;
+}
+
+/* Toolbar visuals */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: .25rem 0 .5rem;
+}
+
+/* Visually hide the controller but keep it clickable via the label */
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle {
+  position: absolute;
+  width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Draw a faux checkbox in the label */
+.sheet-career-talent-tree .sheet-prereq-toggle-label {
+  display: inline-flex;
+  gap: .4rem;
+  padding: 0 0 0 8px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 110%;
+  text: wrap;
+}
+.sheet-prereq-toggle + .sheet-career-talent-toolbar .sheet-prereq-toggle-label::before {
+  content: "☐";
+  color: white;
+}
+
+.sheet-prereq-toggle:checked + .sheet-career-talent-toolbar .sheet-prereq-toggle-label::before {
+  content: "☑";
+  color: #6495ED;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-talent-label {
   font-weight: bold;
   font-size: 100%;
   color: #eee;
-  white-space: wrap;
-  
+  white-space: nowrap;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-talent-description {

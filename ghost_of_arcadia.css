@@ -1334,6 +1334,60 @@ input[type="text"].sheet-improved-indicator {
   outline: none;
 }
 
+.ui-dialog .tab-content .charsheet .sheet-skill-summary-wrapper {
+	margin-top: 8px;
+	border: 1px solid black;
+	background: #beccd0;
+}
+
+
+.ui-dialog .tab-content .charsheet .sheet-skill-summary-wrapper .sheet-skill-columns {
+	display: flex;
+	flex-direction: row;
+	gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-summary-wrapper .sheet-skill-column {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	gap: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-summary-wrapper .sheet-skill-columns > :nth-child(2) {
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-summary-wrapper .section-head {
+	margin: 0;
+	border: 0;
+}
+
+/* Container (optional) */
+.ui-dialog .tab-content .charsheet .sheet-skill-summary {
+  background: #d0cabe;
+  margin: 0;
+  padding: 4px 0 4px 8px;
+  min-height: 100px;
+}
+
+
+/* Preserve newlines + tabs, allow wrapping, and keep it block-level */
+.ui-dialog .tab-content .charsheet .sheet-skill-summary span[name="attr_perk_skill_summary"],
+.ui-dialog .tab-content .charsheet .sheet-skill-summary span[name="attr_flaw_skill_summary"],
+.ui-dialog .tab-content .charsheet .sheet-skill-summary span[name="attr_racial_traits_skill_summary"],
+.ui-dialog .tab-content .charsheet .sheet-skill-summary span[name="attr_racial_skill_summary"],
+.ui-dialog .tab-content .charsheet .sheet-skill-summary span[name="attr_career_skill_summary"] {
+  display: block;
+  white-space: pre-wrap;   /* preserves \n and \t, wraps long lines */
+  tab-size: 2;             /* optional: visual width for \t */
+  line-height: 1.2;
+  word-break: break-word;  /* safety for long tokens */
+}
+
 /* ------------------------------- Background and Talent ------------------------------------------- */
 
 .sheet-talent-section-head {
@@ -1458,7 +1512,6 @@ input[type="text"].sheet-improved-indicator {
     margin-bottom: 0.2em; /* slight spacing if needed */
 }
 
-
 /* Table styling for racial talents and backgrounds */
 
 .sheet-talent-grid {
@@ -1485,15 +1538,64 @@ input[type="text"].sheet-improved-indicator {
 }
 
 /* Data rows */
+/* Base row: checkbox | label | description | 40px */
 .sheet-talent-row {
   display: grid;
   grid-template-columns: 30px 1fr 2fr 40px;
-  align-items: left;
-  padding: 0px 0;
-  margin: 0;
+  align-items: start;
   border-bottom: 1px solid #ccc;
   font-size: 100%;
   box-sizing: border-box;
+}
+
+.sheet-talent-checkbox      { grid-column: 1; }
+.sheet-talent-label         { grid-column: 2; }
+.sheet-talent-description   { grid-column: 3; }
+.sheet-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
+
+/* Toggle: when the checkbox BEFORE .sheet-talents is checked, expand grid + show prereqs */
+.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-row,
+.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-header-row {
+  grid-template-columns: 30px 1fr 2fr 1fr 40px; /* + prereq column */
+}
+.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-prereq {
+  display: block;
+  grid-column: 4;
+  color: white;
+  width: 120px;
+}
+
+/* Toolbar visuals */
+.sheet-talent-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: .25rem 0 .5rem;
+}
+
+/* Visually hide the controller but keep it clickable via the label */
+.sheet-prereq-toggle {
+  position: absolute;
+  width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Draw a faux checkbox in the label */
+.sheet-prereq-toggle-label {
+  display: inline-flex;
+  gap: .4rem;
+  padding: 0 0 0 14px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 90%;
+  text: wrap;
+}
+.sheet-prereq-toggle + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
+  content: "☐";
+  color: white;
+}
+.sheet-prereq-toggle:checked + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
+  content: "☑";
+  color: #6495ED;
 }
 
 /* Cell formatting for consistent alignment */
@@ -2482,6 +2584,7 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 
 /* Talent Tier Container */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-tier {
+  display: grid;
   margin-top: 1rem;
   padding: 0.5rem;
   background: #151515;
@@ -2491,17 +2594,18 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 
 /* Header for Talent Tier */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-tier-header {
+  display: grid;
   font-size: 100%;
   margin-bottom: 0.5rem;
   color: #ccc;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #333;
   padding-bottom: 0.25rem;
 }
 
 /* Header row styles */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-header-row {
   display: grid;
-  grid-template-columns:  30px 1fr 2fr 40px;
+  grid-template-columns: 30px 1fr 2fr 40px;
   background-color: #444;
   color: white;
   font-weight: bold;
@@ -2516,13 +2620,145 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 /* Data rows */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-row {
   display: grid;
-  grid-template-columns: 28px 200px 1fr;
-  gap: 0.5rem;
+  grid-template-columns: 30px 175px 570px;
   align-items: start;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem;
   border: 1px solid #333;
-  border-radius: 4px;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-talent-checkbox      { grid-column: 1; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
+
+/* Toggle: when the checkbox BEFORE .sheet-career-talents is checked, expand grid + show prereqs */
+.ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-row,
+.ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-header-row {
+  display: grid;
+  grid-template-columns: 30px 175px 450px 120px; /* + prereq column */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
+  display: block;
+  color: blue;
+  width: 120px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-codeweaver input[name="attr_show_career_codeweaver_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-codeweaver input[name="attr_show_career_codeweaver_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-codeweaver input[name="attr_show_career_codeweaver_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-codeweaver input[name="attr_show_career_codeweaver_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-mindbender input[name="attr_show_career_mindbender_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-mindbender input[name="attr_show_career_mindbender_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-mindbender input[name="attr_show_career_mindbender_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-mindbender input[name="attr_show_career_mindbender_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-sigilbound input[name="attr_show_career_sigilbound_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-sigilbound input[name="attr_show_career_sigilbound_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-sigilbound input[name="attr_show_career_sigilbound_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-sigilbound input[name="attr_show_career_sigilbound_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-stormweaver input[name="attr_show_career_stormweaver_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-stormweaver input[name="attr_show_career_stormweaver_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-stormweaver input[name="attr_show_career_stormweaver_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-stormweaver input[name="attr_show_career_stormweaver_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
+  display: block;
+  color: white;
+  width: 120px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-combat_engineer input[name="attr_show_career_combat_engineer_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-combat_engineer input[name="attr_show_career_combat_engineer_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-combat_engineer input[name="attr_show_career_combat_engineer_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-combat_engineer input[name="attr_show_career_combat_engineer_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-combat_medic input[name="attr_show_career_combat_medic_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-combat_medic input[name="attr_show_career_combat_medic_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-combat_medic input[name="attr_show_career_combat_medic_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-combat_medic input[name="attr_show_career_combat_medic_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-faceman input[name="attr_show_career_faceman_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-faceman input[name="attr_show_career_faceman_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-faceman input[name="attr_show_career_faceman_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-faceman input[name="attr_show_career_faceman_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-icon input[name="attr_show_career_icon_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-icon input[name="attr_show_career_icon_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-icon input[name="attr_show_career_icon_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-icon input[name="attr_show_career_icon_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-marksman input[name="attr_show_career_marksman_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-marksman input[name="attr_show_career_marksman_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-marksman input[name="attr_show_career_marksman_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-marksman input[name="attr_show_career_marksman_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-operator input[name="attr_show_career_operator_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-operator input[name="attr_show_career_operator_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-operator input[name="attr_show_career_operator_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-operator input[name="attr_show_career_operator_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pilot input[name="attr_show_career_pilot_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pilot input[name="attr_show_career_pilot_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pilot input[name="attr_show_career_pilot_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pilot input[name="attr_show_career_pilot_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-shadowblade input[name="attr_show_career_shadowblade_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-shadowblade input[name="attr_show_career_shadowblade_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-shadowblade input[name="attr_show_career_shadowblade_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-shadowblade input[name="attr_show_career_shadowblade_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-slicer input[name="attr_show_career_slicer_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-slicer input[name="attr_show_career_slicer_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-slicer input[name="attr_show_career_slicer_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-slicer input[name="attr_show_career_slicer_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq  {
+  display: block;
+  color: white;
+  width: 120px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-arcane_gunslinger input[name="attr_show_career_arcane_gunslinger_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-arcane_gunslinger input[name="attr_show_career_arcane_gunslinger_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-arcane_gunslinger input[name="attr_show_career_arcane_gunslinger_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-arcane_gunslinger input[name="attr_show_career_arcane_gunslinger_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-soul_forger input[name="attr_show_career_soul_forger_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-soul_forger input[name="attr_show_career_soul_forger_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-soul_forger input[name="attr_show_career_soul_forger_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-soul_forger input[name="attr_show_career_soul_forger_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq  {
+  display: block;
+  color: white;
+  width: 120px;
+}
+
+/* Toolbar visuals */
+.ui-dialog .tab-content .charsheet .sheet-career-talent-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: .25rem 0 .5rem;
+}
+
+/* Visually hide the controller but keep it clickable via the label */
+.ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle {
+  position: absolute;
+  width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Draw a faux checkbox in the label */
+.sheet-career-talent-tree .sheet-career-prereq-toggle-label {
+  display: inline-flex;
+  gap: .4rem;
+  padding: 0 0 0 14px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 110%;
+  text: wrap;
+}
+.sheet-career-prereq-toggle + .sheet-career-talent-toolbar .sheet-career-prereq-toggle-label::before {
+  content: "☐";
+  color: white;
+}
+
+.sheet-career-prereq-toggle:checked + .sheet-career-talent-toolbar .sheet-career-prereq-toggle-label::before {
+  content: "☑";
+  color: #6495ED;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-talent-label {
@@ -2530,7 +2766,6 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
   font-size: 100%;
   color: #eee;
   white-space: wrap;
-  
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-talent-description {

@@ -1206,16 +1206,20 @@
 						<h4 class="section-head">Flaw Skill Summary</h4>
 						<div class="sheet-skill-summary">
 							<span name="attr_flaw_skill_summary"></span>
-						</div>					
+						</div>	
+						<h4 class="section-head">Racial Traits Skill Summary</h4>
+						<div class="sheet-skill-summary">
+							<span name="attr_racial_traits_skill_summary"></span>
+						</div>							
 					</div>
 					<div class="sheet-skill-column">
-						<h4 class="section-head">Racial Skill Summary</h4>
+						<h4 class="section-head">Racial Talents Skill Summary</h4>
 						<div class="sheet-skill-summary">
 							<span name="attr_racial_skill_summary"></span>
 						</div>						
 					</div>
 					<div class="sheet-skill-column">
-						<h4 class="section-head">Career Skill Summary</h4>
+						<h4 class="section-head">Career Talents Skill Summary</h4>
 						<div class="sheet-skill-summary">
 							<span name="attr_career_skill_summary"></span>
 						</div>
@@ -26011,7 +26015,7 @@ Body Hit Location---------------------------------------------------------------
 <!-- WORKERS -->
 <script type="text/worker">
 const debug_on = false;
-const debug_on_trace = false;
+const debug_on_trace = true;
 const debug_on_watcher = false;
 
 const registeredRaces = new Set();
@@ -34711,6 +34715,7 @@ on("change:total_spellcost change:ac", function () {
 // - Groups ACTIVE perks by skills found in skillMapTable (display name + alias in parens).
 // - Writes: attr_perk_skill_summary (key: perk_skill_summary).
 const registerPerkSummaryWatcher = () => {
+  if (debug_on_trace) console.log ("[registerPerkSummaryWatcher] Start");
   /* ===== Perks: 1 pick per cost group (10 & 15), no global cap ===== */
   const tr = k => (k ? getTranslationByKey(k) || k : "");
 
@@ -34799,6 +34804,7 @@ const registerPerkSummaryWatcher = () => {
 // - Groups ACTIVE flaws by skills found in skillMapTable (display name + alias in parens).
 // - Writes: attr_flaw_skill_summary (key: flaw_skill_summary).
 const registerFlawSummaryWatcher = () => {
+  if (debug_on_trace) console.log ("[registerFlawSummaryWatcher] Start");
   /* ===== Flaws: 1 pick per cost group (5 & 10), no total cap ===== */
   const tr = k => (k ? getTranslationByKey(k) || k : "");
 
@@ -34878,6 +34884,77 @@ const registerFlawSummaryWatcher = () => {
   });
 };
 
+// === Racial Traits Skill Summary (group traits by referenced skills) ===
+// Builds attr_racial_traits_skill_summary as multiline text:
+// <Skill Name>
+//   <Trait Name>
+//   <Trait Name>
+//
+// - Scans the ACTIVE race's traits (raceDataMap[showracials].traits)
+// - Matches skills from skillMapTable (display names + alias in parentheses)
+// - Uses getTranslationByKey() when trait name/description are i18n keys
+// - Safe to call on sheet:opened; also updates when race changes
+const registerRacialTraitsSkillSummaryWatcher = () => {
+  if (debug_on_trace) console.log("[registerRacialTraitsSkillSummaryWatcher] Start");
+
+  const tr = (k) => (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+
+  // Build patterns once per invocation; supports alias in parens, e.g., "Magic (Technomancy)"
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const buildSkillPatterns = () =>
+    Object.keys(skillMapTable || {}).reduce((acc, display) => {
+      const tokens = [display];
+      const m = display.match(/\(([^)]+)\)/);
+      if (m && m[1]) tokens.push(m[1]);
+      acc[display] = new RegExp(`\\b(${tokens.map(esc).join("|")})\\b`, "i");
+      return acc;
+    }, {});
+
+  getAttrs(["showracials"], (v) => {
+    const activeRace = v.showracials || "";
+    const raceDef = (raceDataMap && raceDataMap[activeRace]) || null;
+
+    // Normalize traits: handle either an array (legacy) or an object with .items (current)
+    const traitsBlock = raceDef && raceDef.traits;
+    let traits = [];
+    if (Array.isArray(traitsBlock)) {
+      traits = traitsBlock; // expects [{ name, description, ... }]
+    } else if (traitsBlock && traitsBlock.items) {
+      // current shape: traits.items is an object of trait entries
+      traits = Object.values(traitsBlock.items || {}); // [{ name_key, rule_text_key, ... }, ...]
+    }
+
+    // Accumulate trait names under each detected skill
+    const bySkill = {}; // skillDisplay -> Set(traitName)
+    const patterns = buildSkillPatterns();
+
+    traits.forEach((t) => {
+      // Prefer i18n keys when present, otherwise fall back to raw fields
+      const nameTxt  = tr(t.name_key) || tr(t.name) || t.name || "";
+      const rulesTxt = tr(t.rule_text_key) || tr(t.description) || t.description || "";
+      if (!nameTxt) return;
+
+      for (const [skillDisplay, rx] of Object.entries(patterns)) {
+        if (rx.test(rulesTxt || "")) {
+          (bySkill[skillDisplay] ||= new Set()).add(nameTxt);
+        }
+      }
+    });
+
+    // Format: sorted skills, then sorted trait names per skill
+    const col = new Intl.Collator(undefined, { sensitivity: "base" });
+    const skills = Object.keys(bySkill).sort(col.compare);
+    const sections = skills.map((skill) => {
+      const names = Array.from(bySkill[skill]).sort(col.compare);
+      return `${skill}\n\t\t${names.join("\n\t\t")}`;
+    });
+
+    setAttrs({
+      racial_traits_skill_summary: sections.length ? sections.join("\n\n") : " "
+    });
+  });
+};
+
 // Blood-Born Survivor — add +2 current Vitality once per session
 on("change:used_session_perk_blood_born_survivor", (eventInfo) => {
   getAttrs([
@@ -34921,7 +34998,6 @@ function getAllTalentSkills(race) {
   if (debug_on) console.log("[getAllTalentSkills]", race, result);
   return result;
 }
-
 
 function resetAllMDRToBase(race, callback) {
   if (debug_on_trace) console.log ("[resetAllMDRToBase] Start");
@@ -34995,6 +35071,7 @@ function initializeRaceState(race) {
 
 on("change:showracials", (evt) => {
   if (debug_on_trace) console.log("[change:showracials] Start");
+  registerRacialTraitsSkillSummaryWatcher();
   const race = (evt && evt.newValue) || "";
 
   if (!raceDataMap || !raceDataMap[race] || race === "cr" || race === "unknown" || race === "0") {
@@ -35812,9 +35889,6 @@ function handleRaceChange(race) {
   if (typeof updateTalentEnables === "function") updateTalentEnables(race);
 }
 
-// === Helpers & guards ===
-let WATCHERS_BOOTSTRAPPED = false;
-
 const isUnselectedRace = (r) => !r || r === "unknown" || r === "0" || r === "cr";
 
 // Register race-scoped watchers when needed (idempotent via your existing handlers)
@@ -35827,7 +35901,8 @@ function ensureRaceWatchers(race) {
   // ADD THESE TWO LINES (race-scoped; idempotent inside each)
   if (typeof registerBackgroundSkillLimiter === "function") registerBackgroundSkillLimiter(race);
   if (typeof registerTalentSummaryWatcher === "function") registerTalentSummaryWatcher(race);
-
+  registerRacialTraitsSkillSummaryWatcher();
+  
   registeredRaces.add(race);
 }
 
@@ -35844,6 +35919,9 @@ const initNewCharacterSkills = () => {
     if (debug_on) console.log("[New Character Skill Init]", updates);
     return updates;
 };
+
+// === Helpers & guards ===
+let WATCHERS_BOOTSTRAPPED = false;
 
 on("sheet:opened", () => {
     if (debug_on)       console.log("[sheet:opened] New Character check");
@@ -35862,6 +35940,8 @@ on("sheet:opened", () => {
         registerBackgroundTabWatchers();
 		registerPerkSummaryWatcher();
 		registerFlawSummaryWatcher();
+		registerRacialTraitsSkillSummaryWatcher();
+		registerCareerTalentSummaryWatcher();
     }
 
     // Initial attribute normalization
@@ -36420,7 +36500,7 @@ const registerCareerTalentSummaryWatcher = () => {
   const repeatingCareerEvents = allCareerTalentKeys.map(k => `change:repeating_secondarycareer:${k}`);
 
   // Also re-run if the primary career changes
-  const allChangeEvents = [...staticCareerEvents, ...repeatingCareerEvents, "change:primary_career"];
+  const allChangeEvents = [...staticCareerEvents, ...repeatingCareerEvents, "change:primary_career", "change:recompute_nonce"];
 
   on(allChangeEvents.join(" "), function () {
     getAttrs(["primary_career"], function (values) {
@@ -37359,7 +37439,6 @@ on("clicked:careers", () => {
 	careerWatcherInitialized = true;
 
 	setAttrs({}, () => {
-		registerCareerTalentSummaryWatcher();
 		registerPrimaryCareerXPWatcher();
 		registerSecondaryCareerXPWatcher();
 		registerPrimaryExclusiveSkillWatchers();

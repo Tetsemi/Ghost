@@ -1196,6 +1196,32 @@
 					</div>
 				</div>
 			</div>
+			<div class="sheet-skill-summary-wrapper">
+				<div class="sheet-skill-columns">
+					<div class="sheet-skill-column">
+						<h4 class="section-head">Perk Skill Summary</h4>
+						<div class="sheet-skill-summary">
+							<span name="attr_perk_skill_summary"></span>
+						</div>
+						<h4 class="section-head">Flaw Skill Summary</h4>
+						<div class="sheet-skill-summary">
+							<span name="attr_flaw_skill_summary"></span>
+						</div>					
+					</div>
+					<div class="sheet-skill-column">
+						<h4 class="section-head">Racial Skill Summary</h4>
+						<div class="sheet-skill-summary">
+							<span name="attr_racial_skill_summary"></span>
+						</div>						
+					</div>
+					<div class="sheet-skill-column">
+						<h4 class="section-head">Career Skill Summary</h4>
+						<div class="sheet-skill-summary">
+							<span name="attr_career_skill_summary"></span>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- ------------------- PERKS -------------------- -->
@@ -34679,100 +34705,178 @@ on("change:total_spellcost change:ac", function () {
 
 //----------------------- Skill, Backgrounds, and Talents --------------------//
 
-/* ===== Perks: 1 pick per cost group (10 & 15), no global cap ===== */
-const tr = k => (k ? getTranslationByKey(k) || k : "");
+// === Perk Summary Watcher (adds grouped-by-skill summary) ===
+// Mirrors the structure of registerCareerTalentSummaryWatcher as a const.
+// - Reuses existing perkEvents flow; no extra watchers elsewhere.
+// - Groups ACTIVE perks by skills found in skillMapTable (display name + alias in parens).
+// - Writes: attr_perk_skill_summary (key: perk_skill_summary).
+const registerPerkSummaryWatcher = () => {
+  /* ===== Perks: 1 pick per cost group (10 & 15), no global cap ===== */
+  const tr = k => (k ? getTranslationByKey(k) || k : "");
 
-const perkKeys    = Object.keys(perkDataMap);
-const perk10Keys  = perkKeys.filter(k => (perkDataMap[k]?.cost|0) === 10);
-const perk15Keys  = perkKeys.filter(k => (perkDataMap[k]?.cost|0) === 15);
-const perkAttrs   = perkKeys.map(k => `perk_${k}`);
-const perkEvents  = ['clicked:perks', ...perkAttrs.map(a => `change:${a}`)].join(' ');
+  const perkKeys    = Object.keys(perkDataMap);
+  const perk10Keys  = perkKeys.filter(k => (perkDataMap[k]?.cost|0) === 10);
+  const perk15Keys  = perkKeys.filter(k => (perkDataMap[k]?.cost|0) === 15);
+  const perkAttrs   = perkKeys.map(k => `perk_${k}`);
+  const perkEvents  = ['clicked:perks', ...perkAttrs.map(a => `change:${a}`)].join(' ');
 
-on(perkEvents, () => {
-  getAttrs(perkAttrs, v => {
-    const u = {};
-    let xpSpent   = 0;
-    let lines     = [];
-    let picked10  = 0;
-    let picked15  = 0;
-    let linguistSP = 0;
+  on(perkEvents, () => {
+    getAttrs(perkAttrs, v => {
+      const u = {};
+      let xpSpent   = 0;
+      let lines     = [];
+      let picked10  = 0;
+      let picked15  = 0;
+      let linguistSP = 0;
 
-    perkKeys.forEach(k => {
-      const picked = v[`perk_${k}`] === '1';
-      u[`show_perk_${k}`] = picked ? '1' : '0';
+      // Build skill patterns once per invocation (display names + alias in parens)
+      const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const skillPatterns = Object.keys(skillMapTable || {}).reduce((acc, display) => {
+        const tokens = [display];
+        const m = display.match(/\(([^)]+)\)/); // e.g., "Magic (Technomancy)" -> "Technomancy"
+        if (m && m[1]) tokens.push(m[1]);
+        acc[display] = new RegExp(`\\b(${tokens.map(esc).join("|")})\\b`, "i");
+        return acc;
+      }, {});
+      const bySkill = {}; // skillDisplay -> Set(perkName)
+      const addToSkill = (skill, name) => {
+        (bySkill[skill] ||= new Set()).add(name);
+      };
 
-      if (picked) {
-        const def = perkDataMap[k] || {};
-        const cost = Number(def.cost) || 0;
-        xpSpent += cost;
+      perkKeys.forEach(k => {
+        const picked = v[`perk_${k}`] === '1';
+        u[`show_perk_${k}`] = picked ? '1' : '0';
 
-        const nameKey = def.name || def.name_i18n || '';
-        const descKey = def.description || def.description_i18n || '';
-        lines.push(`${tr(nameKey)} — ${tr(descKey)}`);
+        if (picked) {
+          const def = perkDataMap[k] || {};
+          const cost = Number(def.cost) || 0;
+          xpSpent += cost;
 
-        if (cost === 10) picked10++;
-        if (cost === 15) picked15++;
-        if (k === 'linguist') linguistSP = 75;
-      }
+          const nameKey = def.name || def.name_i18n || '';
+          const descKey = def.description || def.description_i18n || '';
+          const nameTxt  = tr(nameKey);
+          const rulesTxt = tr(descKey);
+
+          lines.push(`${nameTxt} — ${rulesTxt}`);
+
+          // Group this active perk under any matched skills (limited to skillMapTable)
+          for (const [skillDisplay, rx] of Object.entries(skillPatterns)) {
+            if (rx.test(rulesTxt || "")) addToSkill(skillDisplay, nameTxt);
+          }
+
+          if (cost === 10) picked10++;
+          if (cost === 15) picked15++;
+          if (k === 'linguist') linguistSP = 75;
+        }
+      });
+
+      // group locks: 1 selection per cost band
+      u.perk10_slots_full  = picked10 >= 1 ? '1' : '0';
+      u.perk15_slots_full  = picked15 >= 1 ? '1' : '0';
+
+      // totals + perk summary
+      u.xpledger_perks_cost = String(xpSpent);
+      u.perk_summary = lines.length ? lines.join("\n\n") : " ";
+      u.perk_linguist_sp = String(linguistSP);
+
+      // build grouped-by-skill summary for perks
+      const col = new Intl.Collator(undefined, { sensitivity: "base" });
+      const skills = Object.keys(bySkill).sort(col.compare);
+      const sections = skills.map(skill => {
+        const names = Array.from(bySkill[skill]).sort(col.compare);
+        return `${skill}\n\t\t${names.join("\n\t\t")}`;
+      });
+      u.perk_skill_summary = sections.length ? sections.join("\n\n") : " ";
+
+      setAttrs(u);
     });
-
-    // group locks: 1 selection per cost band
-    u.perk10_slots_full  = picked10 >= 1 ? '1' : '0';
-    u.perk15_slots_full  = picked15 >= 1 ? '1' : '0';
-
-    // totals + summary (ensure it fully clears when nothing is selected)
-    u.xpledger_perks_cost = String(xpSpent);
-    u.perk_summary = lines.length ? lines.join("\n\n") : " ";
-    u.perk_linguist_sp       = String(linguistSP);
-
-    setAttrs(u);
   });
-});
+};
 
-/* ===== Flaws: 1 pick per cost group (5 & 10), no total cap ===== */
-const flawKeys   = Object.keys(flawDataMap);
-const flaw5Keys  = flawKeys.filter(k => (flawDataMap[k]?.cost|0) === 5);
-const flaw10Keys = flawKeys.filter(k => (flawDataMap[k]?.cost|0) === 10);
-const flawAttrs  = flawKeys.map(k => `flaw_${k}`);
-const flawEvents = ['clicked:flaws', ...flawAttrs.map(a => `change:${a}`)].join(' ');
+// === Flaw Summary Watcher (adds grouped-by-skill summary) ===
+// Mirrors the structure of registerCareerTalentSummaryWatcher as a const.
+// - Reuses existing flawEvents flow; no extra watchers elsewhere.
+// - Groups ACTIVE flaws by skills found in skillMapTable (display name + alias in parens).
+// - Writes: attr_flaw_skill_summary (key: flaw_skill_summary).
+const registerFlawSummaryWatcher = () => {
+  /* ===== Flaws: 1 pick per cost group (5 & 10), no total cap ===== */
+  const tr = k => (k ? getTranslationByKey(k) || k : "");
 
-on(flawEvents, () => {
-  getAttrs(flawAttrs, v => {
-    const u = {};
-    let xpGain  = 0;
-    let lines   = [];
-    let picked5 = 0;
-    let picked10 = 0;
+  const flawKeys   = Object.keys(flawDataMap);
+  const flaw5Keys  = flawKeys.filter(k => (flawDataMap[k]?.cost|0) === 5);
+  const flaw10Keys = flawKeys.filter(k => (flawDataMap[k]?.cost|0) === 10);
+  const flawAttrs  = flawKeys.map(k => `flaw_${k}`);
+  const flawEvents = ['clicked:flaws', ...flawAttrs.map(a => `change:${a}`)].join(' ');
 
-    flawKeys.forEach(k => {
-      const picked = v[`flaw_${k}`] === '1';
-      u[`show_flaw_${k}`] = picked ? '1' : '0';
+  on(flawEvents, () => {
+    getAttrs(flawAttrs, v => {
+      const u = {};
+      let xpGain   = 0;
+      let lines    = [];
+      let picked5  = 0;
+      let picked10 = 0;
 
-      if (picked) {
-        const def = flawDataMap[k] || {};
-        const cost = Number(def.cost) || 0;
-        xpGain += cost;
+      // Build skill patterns once per invocation (display names + alias in parens)
+      const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const skillPatterns = Object.keys(skillMapTable || {}).reduce((acc, display) => {
+        const tokens = [display];
+        const m = display.match(/\(([^)]+)\)/); // e.g., "Magic (Technomancy)" -> "Technomancy"
+        if (m && m[1]) tokens.push(m[1]);
+        acc[display] = new RegExp(`\\b(${tokens.map(esc).join("|")})\\b`, "i");
+        return acc;
+      }, {});
+      const bySkill = {}; // skillDisplay -> Set(flawName)
+      const addToSkill = (skill, name) => {
+        (bySkill[skill] ||= new Set()).add(name);
+      };
 
-        const nameKey = def.name || def.name_i18n || '';
-        const descKey = def.description || def.description_i18n || '';
-        lines.push(`${tr(nameKey)} — ${tr(descKey)}`);
+      flawKeys.forEach(k => {
+        const picked = v[`flaw_${k}`] === '1';
+        u[`show_flaw_${k}`] = picked ? '1' : '0';
 
-        if (cost === 5) picked5++;
-        if (cost === 10) picked10++;
-      }
+        if (picked) {
+          const def  = flawDataMap[k] || {};
+          const cost = Number(def.cost) || 0;
+          xpGain += cost;
+
+          const nameKey = def.name || def.name_i18n || '';
+          const descKey = def.description || def.description_i18n || '';
+          const nameTxt  = tr(nameKey);
+          const rulesTxt = tr(descKey);
+
+          lines.push(`${nameTxt} — ${rulesTxt}`);
+
+          // Group this active flaw under any matched skills (limited to skillMapTable)
+          for (const [skillDisplay, rx] of Object.entries(skillPatterns)) {
+            if (rx.test(rulesTxt || "")) addToSkill(skillDisplay, nameTxt);
+          }
+
+          if (cost === 5)  picked5++;
+          if (cost === 10) picked10++;
+        }
+      });
+
+      // group locks: 1 selection per cost band
+      u.flaw5_slots_full  = picked5  >= 1 ? '1' : '0';
+      u.flaw10_slots_full = picked10 >= 1 ? '1' : '0';
+
+      // totals + flaw summary (fully clear when nothing selected)
+      u.xpledger_flaws_gain = String(xpGain);
+      u.flaw_summary = lines.length ? lines.join("\n\n") : " ";
+
+      // build grouped-by-skill summary for flaws
+      const col = new Intl.Collator(undefined, { sensitivity: "base" });
+      const skills = Object.keys(bySkill).sort(col.compare);
+      const sections = skills.map(skill => {
+        const names = Array.from(bySkill[skill]).sort(col.compare);
+        return `${skill}\n\t${names.join("\n\t")}`;
+      });
+      u.flaw_skill_summary = sections.length ? sections.join("\n\n") : " ";
+
+      setAttrs(u);
     });
-
-    // group locks: 1 selection per cost band
-    u.flaw5_slots_full  = picked5 >= 1 ? '1' : '0';
-    u.flaw10_slots_full = picked10 >= 1 ? '1' : '0';
-
-    // totals + summary (fully clear when nothing selected)
-    u.xpledger_flaws_gain = String(xpGain);
-    u.flaw_summary = lines.length ? lines.join("\n\n") : " ";
-
-    setAttrs(u);
   });
-});
+};
 
 // Blood-Born Survivor — add +2 current Vitality once per session
 on("change:used_session_perk_blood_born_survivor", (eventInfo) => {
@@ -34943,36 +35047,71 @@ function registerTalentSummaryWatcher(race) {
     getAttrs(["showracials"], function (values) {
       const activeRace = values.showracials;
       const raceTalents = (talentDataMap && talentDataMap[activeRace]) || null;
-      if (!raceTalents) return;
+      if (!raceTalents) {
+        setAttrs({
+          talent_summary: " ",
+          racial_skill_summary: " "
+        });
+        return;
+      }
 
+      // read only this race's talent checkboxes
       const watchedTalentAttrs = Object.keys(raceTalents).map(k => `${activeRace}_${k}`);
 
       getAttrs(watchedTalentAttrs, function (talentValues) {
         const summaryLines = [];
 
-        for (let [key, data] of Object.entries(raceTalents)) {
-          const fullKey = `${activeRace}_${key}`;
-          if (talentValues[fullKey] === "1") {
-            // prefer i18n keys; fall back to static fields if needed
-            const nameKey  = data.name_key      || data.nameKey;
-            const rulesKey = data.rule_text_key || data.rulesKey;
+        // prebuild skill patterns once per invocation (supports alias in parens, e.g., Technomancy)
+        const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const skillPatterns = Object.keys(skillMapTable || {}).reduce((acc, display) => {
+          const tokens = [display];
+          const m = display.match(/\(([^)]+)\)/);
+          if (m && m[1]) tokens.push(m[1]);
+          acc[display] = new RegExp(`\\b(${tokens.map(esc).join("|")})\\b`, "i");
+          return acc;
+        }, {});
+        const bySkill = {}; // skillDisplay -> Set(talentName)
 
-            const nameText =
-              (typeof getTranslationByKey === "function" && nameKey)
-                ? getTranslationByKey(nameKey) || data.name || key
-                : (data.name || key);
+        for (const [talentKey, data] of Object.entries(raceTalents)) {
+          const checkbox = talentValues[`${activeRace}_${talentKey}`] === "1";
+          if (!checkbox) continue;
 
-            const rulesText =
-              (typeof getTranslationByKey === "function" && rulesKey)
-                ? getTranslationByKey(rulesKey) || data.description || ""
-                : (data.description || "");
+          const nameKey  = data.name_key  || `talent_${activeRace}_${talentKey}-u`;
+          const rulesKey = data.rules_key || data.rule_text_key || `talent_${activeRace}_${talentKey}_rules-u`;
 
-            summaryLines.push(`T${data.tier}: ${nameText} — ${rulesText}`);
+          const getT = (k) => (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k;
+          const nameText  = data.name_key
+            ? getT(nameKey) || data.name || talentKey
+            : (data.name || talentKey);
+          const rulesText = (data.rules_key || data.rule_text_key)
+            ? getT(rulesKey) || data.description || ""
+            : (data.description || "");
+
+          summaryLines.push(`T${data.tier}: ${nameText} — ${rulesText}`);
+
+          // group by skills present in rules text (skills limited to skillMapTable)
+          for (const [skillDisplay, rx] of Object.entries(skillPatterns)) {
+            if (rx.test(rulesText || "")) {
+              (bySkill[skillDisplay] ||= new Set()).add(nameText);
+            }
           }
         }
 
-        const summaryText = summaryLines.length ? summaryLines.join("\n\n") : " "; // keep one space to avoid collapse
-        setAttrs({ talent_summary: summaryText });
+        const summaryText = summaryLines.length ? summaryLines.join("\n\n") : " ";
+
+        // build racial skill summary
+        const collator = new Intl.Collator(undefined, { sensitivity: "base" });
+        const skills = Object.keys(bySkill).sort(collator.compare);
+        const sections = skills.map(skill => {
+          const names = Array.from(bySkill[skill]).sort(collator.compare);
+          return `${skill}\n\t${names.join("\n\t")}`;
+        });
+        const racialSkillSummary = sections.length ? sections.join("\n\n") : " ";
+
+        setAttrs({
+          talent_summary: summaryText,
+          racial_skill_summary: racialSkillSummary
+        });
       });
     });
   });
@@ -35721,6 +35860,8 @@ on("sheet:opened", () => {
         registerStatHandler();
         registerCareerTabWatchers();
         registerBackgroundTabWatchers();
+		registerPerkSummaryWatcher();
+		registerFlawSummaryWatcher();
     }
 
     // Initial attribute normalization
@@ -35764,7 +35905,6 @@ on("sheet:opened", () => {
                 // One-shot nudge so all change-watchers run once on load
                 setAttrs({ recompute_nonce: String(Date.now()) });
 
-//                if (isNew) populateCareerTalentDescriptions();
             }
         };
 
@@ -36267,17 +36407,6 @@ const registerSecondaryCareerXPWatcher = () => {
     });
 };
 
-const populateCareerTalentDescriptions = () => {
-  const updates = {};
-  Object.entries(careerDataMap).forEach(([career, data]) => {
-    Object.entries(data.talents || {}).forEach(([key, talent]) => {
-      updates[`${career}_${key}_label`] = talent.name;
-      updates[`${career}_${key}_description`] = talent.description;
-    });
-  });
-  setAttrs(updates);
-};
-
 // === Career Talent Summary Watcher (Static + Repeating) ===
 // Uses translation.json keys (name_key / rule_text_key) instead of raw attr text.
 const registerCareerTalentSummaryWatcher = () => {
@@ -36311,6 +36440,18 @@ const registerCareerTalentSummaryWatcher = () => {
         }
 
         getAttrs(attrList, function (talentValues) {
+
+          // Build skill patterns once; uses display names and alias in parens.
+          const __esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const __skillPatterns = Object.keys(skillMapTable || {}).reduce((acc, display) => {
+            const tokens = [display];
+            const m = display.match(/\(([^)]+)\)/);
+            if (m && m[1]) tokens.push(m[1]);
+            acc[display] = new RegExp(`\\b(${tokens.map(__esc).join("|")})\\b`, "i");
+            return acc;
+          }, {});
+          const __bySkill = {}; // skillDisplay -> Set(talentName)
+
           for (const [careerKey, careerData] of Object.entries(careerDataMap)) {
             for (const [talentKey, talent] of Object.entries(careerData.talents || {})) {
               // Resolve i18n keys (fallbacks match our generation pattern)
@@ -36323,9 +36464,12 @@ const registerCareerTalentSummaryWatcher = () => {
 
               const line = `T${talent.tier}: ${tName} — ${tRules}`;
 
+              let __activeTalent = false;
+
               // Static (primary vs secondary)
               const fullKey = `${careerKey}_${talentKey}`;
-              if (talentValues[fullKey] === "1") {
+              if (talentValues[fullKey] === "1") { 
+			    __activeTalent = true;
                 if (careerKey === primaryCareer) {
                   summaries.primary.push(line);
                 } else {
@@ -36336,22 +36480,41 @@ const registerCareerTalentSummaryWatcher = () => {
               // Repeating secondary careers
               for (const id of ids) {
                 const repeatingKey = `repeating_secondarycareer_${id}_${careerKey}_${talentKey}`;
-                if (talentValues[repeatingKey] === "1") {
+                if (talentValues[repeatingKey] === "1") { 
+				  __activeTalent = true;
                   summaries.secondary.push(line);
+                }
+              }
+
+              if (__activeTalent) {
+                for (const [skillDisplay, rx] of Object.entries(__skillPatterns)) {
+                  if (rx.test(tRules || "")) {
+                    (__bySkill[skillDisplay] ||= new Set()).add(tName);
+                  }
                 }
               }
             }
           }
 
+          // Build grouped-by-skill summary
+          const __col = new Intl.Collator(undefined, { sensitivity: "base" });
+          const __skills = Object.keys(__bySkill).sort(__col.compare);
+          const __sections = __skills.map(skill => {
+            const names = Array.from(__bySkill[skill]).sort(__col.compare);
+            return `${skill}\n\t\t${names.join("\n\t\t")}`;
+          });
+          const __careerSkillSummary = __sections.length ? __sections.join("\n\n") : " ";
+
           setAttrs({
             primary_career_talent_summary: summaries.primary.length ? summaries.primary.join("\n\n") : " ",
-            secondary_career_talent_summary: summaries.secondary.length ? summaries.secondary.join("\n\n") : " "
+            secondary_career_talent_summary: summaries.secondary.length ? summaries.secondary.join("\n\n") : " ",
+            career_skill_summary: __careerSkillSummary
           });
         });
       });
     });
   });
-};
+}
 
 // === Unified Career Talent Enable + Lock Enforcement ===
 const updateCareerTalentEnables = (career) => {
@@ -37195,8 +37358,6 @@ on("clicked:careers", () => {
 	if (careerWatcherInitialized) return;
 	careerWatcherInitialized = true;
 
-//	populateCareerTalentDescriptions();
-
 	setAttrs({}, () => {
 		registerCareerTalentSummaryWatcher();
 		registerPrimaryCareerXPWatcher();
@@ -37829,7 +37990,6 @@ on("change:repeating_minion:npc_weapon_skill1 change:repeating_minion:npc_weapon
     });
   }
 );
-
 
 
 </script>

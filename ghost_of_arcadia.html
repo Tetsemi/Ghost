@@ -1493,6 +1493,24 @@
 		          <span class="sheet-talent-description" data-i18n="flaw_addiction_major_description-u"></span>
 		        </div>
 
+		        <!-- Blood Debt -->
+		        <div class="sheet-talent-row">
+		          <input type="hidden" name="attr_flaw_blood_debt_lockflag" value="0" />
+		          <input type="checkbox" name="attr_flaw_blood_debt" value="1" class="sheet-talent-checkbox" />
+		          <label class="sheet-talent-label" data-i18n="flaw_blood_debt-u"></label>
+		          <span class="sheet-talent-flavor" data-i18n="flaw_blood_debt_flavor-u"></span>
+		          <span class="sheet-talent-description" data-i18n="flaw_blood_debt_description-u"></span>
+		        </div>
+
+		        <!-- Hex-Stained -->
+		        <div class="sheet-talent-row">
+		          <input type="hidden" name="attr_flaw_hex_stained_lockflag" value="0" />
+		          <input type="checkbox" name="attr_flaw_hex_stained" value="1" class="sheet-talent-checkbox" />
+		          <label class="sheet-talent-label" data-i18n="flaw_hex_stained-u"></label>
+		          <span class="sheet-talent-flavor" data-i18n="flaw_hex_stained_flavor-u"></span>
+		          <span class="sheet-talent-description" data-i18n="flaw_hex_stained_description-u"></span>
+		        </div>
+				
 		        <!-- Hunted -->
 		        <div class="sheet-talent-row">
 		          <input type="hidden" name="attr_flaw_hunted_lockflag" value="0" />
@@ -1502,6 +1520,15 @@
 		          <span class="sheet-talent-description" data-i18n="flaw_hunted_description-u"></span>
 		        </div>
 
+		        <!-- Marked by the Black -->
+		        <div class="sheet-talent-row">
+		          <input type="hidden" name="attr_flaw_marked_by_the_black_lockflag" value="0" />
+		          <input type="checkbox" name="attr_flaw_marked_by_the_black" value="1" class="sheet-talent-checkbox" />
+		          <label class="sheet-talent-label" data-i18n="flaw_marked_by_the_black-u"></label>
+		          <span class="sheet-talent-flavor" data-i18n="flaw_marked_by_the_black_flavor-u"></span>
+		          <span class="sheet-talent-description" data-i18n="flaw_marked_by_the_black_description-u"></span>
+		        </div>
+				
 		        <!-- Mental Scar -->
 		        <div class="sheet-talent-row">
 		          <input type="hidden" name="attr_flaw_mental_scar_lockflag" value="0" />
@@ -16606,6 +16633,13 @@
 					  <div class="sheet-tracker-group-title" data-i18n="flaws-u">Flaws</div>
 					  <div class="sheet-tracker-group-body">
 
+					    <!-- Flaw: Hex-Stained (scene) -->
+					    <input type="hidden" name="attr_show_flaw_hex_stained" />
+					    <div class="sheet-tracker-item sheet-tracker-scene sheet-flaw-hex-stained">
+					      <input type="checkbox" name="attr_used_scene_flaw_hex_stained" class="sheet-tracker-checkbox" />
+					      <span class="sheet-tracker-label" data-i18n="flaw_hex_stained-u">Hex-Stained</span>
+					    </div>
+						
 					    <!-- Flaw: Soul Flare (scene) -->
 					    <input type="hidden" name="attr_show_flaw_soul_flare" />
 					    <div class="sheet-tracker-item sheet-tracker-scene sheet-flaw-soul-flare">
@@ -26943,6 +26977,7 @@ const perkDataMap = {
         flavor: "perk_combat_veteran_flavor-u",
         description: "perk_combat_veteran_description-u",
         cost: 10,
+		affected_skill: "dodge",
         usage_limit: "session"
     },
     corp_groomed: {
@@ -26950,6 +26985,7 @@ const perkDataMap = {
         flavor: "perk_corp_groomed_flavor-u",
         description: "perk_corp_groomed_description-u",
         cost: 10,
+		affected_skill: [ "deception", "etiquette_alteri", "etiquette_high_society", "etiquette_lyranni", "etiquette_underworld", "etiquette_other" ],
         usage_limit: "session"
     },
     danger_sense: {
@@ -26957,6 +26993,7 @@ const perkDataMap = {
         flavor: "perk_danger_sense_flavor-u",
         description: "perk_danger_sense_description-u",
         cost: 15,
+		affected_skill: "perception",
         usage_limit: "session"
     },
     dirty_fighter: {
@@ -26971,6 +27008,7 @@ const perkDataMap = {
         flavor: "perk_forgettable_presence_flavor-u",
         description: "perk_forgettable_presence_description-u",
         cost: 10,
+		affected_skill: "stealth",
         usage_limit: ""
     },
     linguist: {
@@ -26978,6 +27016,7 @@ const perkDataMap = {
         flavor: "perk_linguist_flavor-u",
         description: "perk_linguist_description-u",
         cost: 10,
+		/* Handled in sheet worker code - skill point allocation and trained */
         usage_limit: ""
     },
     mind_leash: {
@@ -27038,6 +27077,8 @@ const flawDataMap = {
         flavor: "flaw_addiction_major_flavor-u",
         description: "flaw_addiction_major_description-u",
         cost: 10,
+		affected_skill: "insight",
+		affected_stat: "pow",
         usage_limit: ""
     },
     addiction_minor: {
@@ -27045,13 +27086,23 @@ const flawDataMap = {
         flavor: "flaw_addiction_minor_flavor-u",
         description: "flaw_addiction_minor_description-u",
         cost: 5,
+		affected_skill: "insight",
+		affected_stat: "pow",
         usage_limit: ""
     },
+	blood_debt: {
+		name: "flaw_blood_debt-u",
+		flavor: "flaw_blood_debt_flavor-u",
+		description: "flaw_blood_debt_description-u",
+		cost: 10,
+		usage_limit: ""
+	},
     compulsive_gambler: {
         name: "flaw_compulsive_gambler-u",
         flavor: "flaw_compulsive_gambler_flavor-u",
         description: "flaw_compulsive_gambler_description-u",
         cost: 5,
+		affected_stat: "pow",
         usage_limit: ""
     },
     cyber_rejection: {
@@ -27059,6 +27110,7 @@ const flawDataMap = {
         flavor: "flaw_cyber_rejection_flavor-u",
         description: "flaw_cyber_rejection_description-u",
         cost: 5,
+		affected_stat: "vitality",
         usage_limit: ""
     },
     distinctive_look: {
@@ -27068,6 +27120,13 @@ const flawDataMap = {
         cost: 5,
         usage_limit: ""
     },
+	hex_stained: {
+		name: "flaw_hex_stained-u",
+		flavor: "flaw_hex_stained_flavor-u",
+		description: "flaw_hex_stained_description-u",
+		cost: 10,
+		usage_limit: "scene"
+	},
     hunted: {
         name: "flaw_hunted-u",
         flavor: "flaw_hunted_flavor-u",
@@ -27075,11 +27134,19 @@ const flawDataMap = {
         cost: 10,
         usage_limit: "session" // GM may introduce a threat once per session
     },
+	marked_by_the_black: {
+		name: "flaw_marked_by_the_black-u",
+		flavor: "flaw_marked_by_the_black-flavor-u",
+		description: "flaw_marked_by_the_black-description-u",
+		cost: 10,
+		usage_limit: ""
+	},
     mental_scar: {
         name: "flaw_mental_scar-u",
         flavor: "flaw_mental_scar_flavor-u",
         description: "flaw_mental_scar_description-u",
         cost: 10,
+		affected_stat: "pow",
         usage_limit: "session" // at least once per session if thematically possible
     },
     soul_flare: {
@@ -35418,87 +35485,101 @@ on("change:total_spellcost change:ac", function () {
 
 //----------------------- Skill, Backgrounds, and Talents --------------------//
 
-// === Perk Summary Watcher (adds grouped-by-skill summary) ===
-// Mirrors the structure of registerCareerTalentSummaryWatcher as a const.
-// - Reuses existing perkEvents flow; no extra watchers elsewhere.
-// - Groups ACTIVE perks by skills found in skillMapTable (display name + alias in parens).
-// - Writes: attr_perk_skill_summary (key: perk_skill_summary).
+// === Perk Summary Watcher (uses perkDataMap.<perk>.affected_skill + skillDataMap) ===
 const registerPerkSummaryWatcher = () => {
-  if (debug_on_trace) console.log ("[registerPerkSummaryWatcher] Start");
-  /* ===== Perks: 1 pick per cost group (10 & 15), no global cap ===== */
-  const tr = k => (k ? getTranslationByKey(k) || k : "");
+  if (debug_on_trace) console.log("[registerPerkSummaryWatcher] Start");
 
-  const perkKeys    = Object.keys(perkDataMap);
-  const perk10Keys  = perkKeys.filter(k => (perkDataMap[k]?.cost|0) === 10);
-  const perk15Keys  = perkKeys.filter(k => (perkDataMap[k]?.cost|0) === 15);
-  const perkAttrs   = perkKeys.map(k => `perk_${k}`);
-  const perkEvents  = ['clicked:perks', ...perkAttrs.map(a => `change:${a}`)].join(' ');
+  // i18n helper
+  const tr = (k) => (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+
+  // Normalize affected_skill -> array of canonical machine-key strings
+  const normalizeAffectedSkills = (aff) => {
+    if (!aff) return [];
+    if (Array.isArray(aff)) return aff.filter(Boolean).map((s) => String(s).trim());
+    if (typeof aff === "string") return aff.split(",").map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+
+  // Given a canonical machine key, return a display label (prefer i18n; fallback prettified key)
+  const displayForMachineKey = (machineKey) => {
+    const row = skillDataMap && skillDataMap[machineKey];
+    if (!row) {
+      // Surface unknown keys as-is so they can be added to skillDataMap properly
+      return String(machineKey)
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (m) => m.toUpperCase());
+    }
+    const translated = tr(row.label);
+    if (translated && translated !== row.label) return translated;
+    return String(machineKey)
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (m) => m.toUpperCase());
+  };
+
+  // Perk wiring
+  const perkKeys   = Object.keys(perkDataMap || {});
+  const perkAttrs  = perkKeys.map((k) => `perk_${k}`);
+  const perkEvents = ["clicked:perks", ...perkAttrs.map((a) => `change:${a}`)].join(" ");
 
   on(perkEvents, () => {
-    getAttrs(perkAttrs, v => {
+    getAttrs(perkAttrs, (v) => {
       const u = {};
-      let xpSpent   = 0;
-      let lines     = [];
-      let picked10  = 0;
-      let picked15  = 0;
+      let xpSpent    = 0;
+      let lines      = [];
+      let picked10   = 0;
+      let picked15   = 0;
       let linguistSP = 0;
 
-      // Build skill patterns once per invocation (display names + alias in parens)
-      const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const skillPatterns = Object.keys(skillMapTable || {}).reduce((acc, display) => {
-        const tokens = [display];
-        const m = display.match(/\(([^)]+)\)/); // e.g., "Magic (Technomancy)" -> "Technomancy"
-        if (m && m[1]) tokens.push(m[1]);
-        acc[display] = new RegExp(`\\b(${tokens.map(esc).join("|")})\\b`, "i");
-        return acc;
-      }, {});
-      const bySkill = {}; // skillDisplay -> Set(perkName)
-      const addToSkill = (skill, name) => {
-        (bySkill[skill] ||= new Set()).add(name);
+      // Group by DISPLAY label -> Set of perk names
+      const byDisplay = {};
+      const addToSkill = (displayLabel, perkName) => {
+        (byDisplay[displayLabel] ||= new Set()).add(perkName);
       };
 
-      perkKeys.forEach(k => {
-        const picked = v[`perk_${k}`] === '1';
-        u[`show_perk_${k}`] = picked ? '1' : '0';
+      perkKeys.forEach((k) => {
+        const picked = v[`perk_${k}`] === "1";
+        u[`show_perk_${k}`] = picked ? "1" : "0";
 
-        if (picked) {
-          const def = perkDataMap[k] || {};
-          const cost = Number(def.cost) || 0;
-          xpSpent += cost;
+        if (!picked) return;
 
-          const nameKey = def.name || def.name_i18n || '';
-          const descKey = def.description || def.description_i18n || '';
-          const nameTxt  = tr(nameKey);
-          const rulesTxt = tr(descKey);
+        const def  = perkDataMap[k] || {};
+        const cost = Number(def.cost) || 0;
+        xpSpent += cost;
 
-          lines.push(`${nameTxt} — ${rulesTxt}`);
+        const nameKey = def.name || def.name_i18n || "";
+        const descKey = def.description || def.description_i18n || "";
+        const nameTxt  = tr(nameKey);
+        const rulesTxt = tr(descKey);
 
-          // Group this active perk under any matched skills (limited to skillMapTable)
-          for (const [skillDisplay, rx] of Object.entries(skillPatterns)) {
-            if (rx.test(rulesTxt || "")) addToSkill(skillDisplay, nameTxt);
-          }
+        lines.push(`${nameTxt} — ${rulesTxt}`);
 
-          if (cost === 10) picked10++;
-          if (cost === 15) picked15++;
-          if (k === 'linguist') linguistSP = 75;
-        }
+        // Group this active perk under skills it explicitly affects (machine keys)
+        const affected = normalizeAffectedSkills(def.affected_skill);
+        affected.forEach((machineKey) => {
+          const display = displayForMachineKey(machineKey);
+          addToSkill(display, nameTxt);
+        });
+
+        if (cost === 10) picked10++;
+        if (cost === 15) picked15++;
+        if (k === "linguist") linguistSP = 75;
       });
 
-      // group locks: 1 selection per cost band
-      u.perk10_slots_full  = picked10 >= 1 ? '1' : '0';
-      u.perk15_slots_full  = picked15 >= 1 ? '1' : '0';
+      // One selection per cost band (10, 15)
+      u.perk10_slots_full = picked10 >= 1 ? "1" : "0";
+      u.perk15_slots_full = picked15 >= 1 ? "1" : "0";
 
-      // totals + perk summary
+      // Totals + perk summary
       u.xpledger_perks_cost = String(xpSpent);
-      u.perk_summary = lines.length ? lines.join("\n\n") : " ";
-      u.perk_linguist_sp = String(linguistSP);
+      u.perk_summary        = lines.length ? lines.join("\n\n") : " ";
+      u.perk_linguist_sp    = String(linguistSP);
 
-      // build grouped-by-skill summary for perks
+      // Build grouped-by-skill summary for perks
       const col = new Intl.Collator(undefined, { sensitivity: "base" });
-      const skills = Object.keys(bySkill).sort(col.compare);
-      const sections = skills.map(skill => {
-        const names = Array.from(bySkill[skill]).sort(col.compare);
-        return `${skill}\n\t\t${names.join("\n\t\t")}`;
+      const skills = Object.keys(byDisplay).sort(col.compare);
+      const sections = skills.map((label) => {
+        const names = Array.from(byDisplay[label]).sort(col.compare);
+        return `${label}\n\t\t${names.join("\n\t\t")}`;
       });
       u.perk_skill_summary = sections.length ? sections.join("\n\n") : " ";
 
@@ -35508,83 +35589,93 @@ const registerPerkSummaryWatcher = () => {
 };
 
 // === Flaw Summary Watcher (adds grouped-by-skill summary) ===
-// Mirrors the structure of registerCareerTalentSummaryWatcher as a const.
-// - Reuses existing flawEvents flow; no extra watchers elsewhere.
-// - Groups ACTIVE flaws by skills found in skillMapTable (display name + alias in parens).
-// - Writes: attr_flaw_skill_summary (key: flaw_skill_summary).
 const registerFlawSummaryWatcher = () => {
   if (debug_on_trace) console.log ("[registerFlawSummaryWatcher] Start");
   /* ===== Flaws: 1 pick per cost group (5 & 10), no total cap ===== */
-  const tr = k => (k ? getTranslationByKey(k) || k : "");
+  const tr = (k) => (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
 
-  const flawKeys   = Object.keys(flawDataMap);
-  const flaw5Keys  = flawKeys.filter(k => (flawDataMap[k]?.cost|0) === 5);
-  const flaw10Keys = flawKeys.filter(k => (flawDataMap[k]?.cost|0) === 10);
-  const flawAttrs  = flawKeys.map(k => `flaw_${k}`);
-  const flawEvents = ['clicked:flaws', ...flawAttrs.map(a => `change:${a}`)].join(' ');
+  // Normalize affected_skill -> array of canonical machine-key strings
+  const normalizeAffectedSkills = (aff) => {
+    if (!aff) return [];
+    if (Array.isArray(aff)) return aff.filter(Boolean).map((s) => String(s).trim());
+    if (typeof aff === "string") return aff.split(",").map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+
+  // Given a canonical machine key, return a display label (prefer i18n; fallback prettified key)
+  const displayForMachineKey = (machineKey) => {
+    const row = skillDataMap && skillDataMap[machineKey];
+    if (!row) {
+      // Unknown keys surface as prettified machine keys so gaps can be fixed in skillDataMap
+      return String(machineKey).replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
+    }
+    const translated = tr(row.label);
+    if (translated && translated !== row.label) return translated;
+    return String(machineKey).replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
+  };
+
+  const flawKeys   = Object.keys(flawDataMap || {});
+  const flaw5Keys  = flawKeys.filter((k) => (flawDataMap[k]?.cost | 0) === 5);
+  const flaw10Keys = flawKeys.filter((k) => (flawDataMap[k]?.cost | 0) === 10);
+  const flawAttrs  = flawKeys.map((k) => `flaw_${k}`);
+  const flawEvents = ["clicked:flaws", ...flawAttrs.map((a) => `change:${a}`)].join(" ");
 
   on(flawEvents, () => {
-    getAttrs(flawAttrs, v => {
+    getAttrs(flawAttrs, (v) => {
       const u = {};
       let xpGain   = 0;
       let lines    = [];
       let picked5  = 0;
       let picked10 = 0;
 
-      // Build skill patterns once per invocation (display names + alias in parens)
-      const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const skillPatterns = Object.keys(skillMapTable || {}).reduce((acc, display) => {
-        const tokens = [display];
-        const m = display.match(/\(([^)]+)\)/); // e.g., "Magic (Technomancy)" -> "Technomancy"
-        if (m && m[1]) tokens.push(m[1]);
-        acc[display] = new RegExp(`\\b(${tokens.map(esc).join("|")})\\b`, "i");
-        return acc;
-      }, {});
-      const bySkill = {}; // skillDisplay -> Set(flawName)
-      const addToSkill = (skill, name) => {
-        (bySkill[skill] ||= new Set()).add(name);
+      // Group by DISPLAY label -> Set(flawName)
+      const byDisplay = {};
+      const addToSkill = (displayLabel, flawName) => {
+        (byDisplay[displayLabel] ||= new Set()).add(flawName);
       };
 
-      flawKeys.forEach(k => {
-        const picked = v[`flaw_${k}`] === '1';
-        u[`show_flaw_${k}`] = picked ? '1' : '0';
+      flawKeys.forEach((k) => {
+        const picked = v[`flaw_${k}`] === "1";
+        u[`show_flaw_${k}`] = picked ? "1" : "0";
 
-        if (picked) {
-          const def  = flawDataMap[k] || {};
-          const cost = Number(def.cost) || 0;
-          xpGain += cost;
+        if (!picked) return;
 
-          const nameKey = def.name || def.name_i18n || '';
-          const descKey = def.description || def.description_i18n || '';
-          const nameTxt  = tr(nameKey);
-          const rulesTxt = tr(descKey);
+        const def  = flawDataMap[k] || {};
+        const cost = Number(def.cost) || 0;
+        xpGain += cost;
 
-          lines.push(`${nameTxt} — ${rulesTxt}`);
+        const nameKey = def.name || def.name_i18n || "";
+        const descKey = def.description || def.description_i18n || "";
+        const nameTxt  = tr(nameKey);
+        const rulesTxt = tr(descKey);
 
-          // Group this active flaw under any matched skills (limited to skillMapTable)
-          for (const [skillDisplay, rx] of Object.entries(skillPatterns)) {
-            if (rx.test(rulesTxt || "")) addToSkill(skillDisplay, nameTxt);
-          }
+        lines.push(`${nameTxt} — ${rulesTxt}`);
 
-          if (cost === 5)  picked5++;
-          if (cost === 10) picked10++;
-        }
+        // Group this active flaw under skills it explicitly affects (machine keys)
+        const affected = normalizeAffectedSkills(def.affected_skill);
+        affected.forEach((machineKey) => {
+          const display = displayForMachineKey(machineKey);
+          addToSkill(display, nameTxt);
+        });
+
+        if (cost === 5)  picked5++;
+        if (cost === 10) picked10++;
       });
 
       // group locks: 1 selection per cost band
-      u.flaw5_slots_full  = picked5  >= 1 ? '1' : '0';
-      u.flaw10_slots_full = picked10 >= 1 ? '1' : '0';
+      u.flaw5_slots_full  = picked5  >= 1 ? "1" : "0";
+      u.flaw10_slots_full = picked10 >= 1 ? "1" : "0";
 
       // totals + flaw summary (fully clear when nothing selected)
       u.xpledger_flaws_gain = String(xpGain);
-      u.flaw_summary = lines.length ? lines.join("\n\n") : " ";
+      u.flaw_summary        = lines.length ? lines.join("\n\n") : " ";
 
       // build grouped-by-skill summary for flaws
       const col = new Intl.Collator(undefined, { sensitivity: "base" });
-      const skills = Object.keys(bySkill).sort(col.compare);
-      const sections = skills.map(skill => {
-        const names = Array.from(bySkill[skill]).sort(col.compare);
-        return `${skill}\n\t${names.join("\n\t")}`;
+      const skills = Object.keys(byDisplay).sort(col.compare);
+      const sections = skills.map((label) => {
+        const names = Array.from(byDisplay[label]).sort(col.compare);
+        return `${label}\n\t${names.join("\n\t")}`;
       });
       u.flaw_skill_summary = sections.length ? sections.join("\n\n") : " ";
 

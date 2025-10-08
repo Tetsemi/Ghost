@@ -912,6 +912,16 @@
 								<button type="roll" class="sheet-toggle-social-mode-on-penalty" name="roll_etiquette_alteri_mdr_check" value="&{template:coc-penalty} {{name=@{etiquette_alteri_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{etiquette_alteri_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" ></button>
 								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_etiquette_alteri_mdr_check" value="&{template:coc-bonus} {{name=@{etiquette_alteri_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{etiquette_alteri_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_alteri_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" ></button>
 							</div>
+							<div><input type="checkbox" name="attr_etiquette_draevi_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_etiquette_draevi_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="etiquette_draevi-u">Etiquette (Lyranni)(10%)</span></div>
+							<div><input class="skill-input" type="text" name="attr_etiquette_draevi_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="sheet-skill-input" type="text" name="attr_etiquette_draevi_mdr" readonly />
+								<input type="hidden" name="attr_social_mode_toggle" class="sheet-social-mode-toggle" value="0"/>
+								<button type="roll" class="sheet-toggle-social-mode-off" name="roll_etiquette_draevi_mdr_check" value="&{template:coc-1} {{name=@{etiquette_draevi_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{etiquette_draevi_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_draevi_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_draevi_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}" ></button>
+								<button type="roll" class="sheet-toggle-social-mode-on-penalty" name="roll_etiquette_draevi_mdr_check" value="&{template:coc-penalty} {{name=@{etiquette_draevi_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{etiquette_draevi_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_draevi_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_draevi_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" ></button>
+								<button type="roll" class="sheet-toggle-social-mode-on-bonus" name="roll_etiquette_draevi_mdr_check" value="&{template:coc-bonus} {{name=@{etiquette_draevi_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{etiquette_draevi_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{etiquette_draevi_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{etiquette_draevi_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{roll2=[[1d100]]}} {{roll3=[[1d100]]}}" ></button>
+							</div>							
 							<div><input type="checkbox" name="attr_etiquette_high_society_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_etiquette_high_society_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="etiquette_high_society-u">Etiquette(H. Soc.)(10%)</span></div>
 							<div><input class="skill-input" type="text" name="attr_etiquette_high_society_skill_mdr" /></div>
@@ -26077,7 +26087,7 @@ on("sheet:opened", function () {
 		"alchemy_txt", "animalhandling_txt", "anthropology_txt", "arcana_txt", "archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
 		"chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computer_use_txt", "creditrating_txt", "cthulhumythos_txt",
 		"cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "drive_auto_txt",
-		"drone_operation_txt", "elecrepair_txt", "engineering_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "etiquette_underworld_txt",
+		"drone_operation_txt", "engineering_txt", "etiquette_draevi_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "etiquette_underworld_txt",
 		"fasttalk_txt", "fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "firearms_smg_txt", "first_aid_txt", "forbidden_lore_txt",
 		"forgery_txt", "gunnery_txt", "heavy_weapons_txt", "history_txt", "impersonation_txt", "instrument_txt",
 		"intimidate_txt", "interrogation_txt", "insight_txt", "investigation_txt", "jump_txt", "law_txt", "leadership_txt", "libraryuse_txt",
@@ -26213,6 +26223,7 @@ const skillMapTable = {
  "Deception": 					{ label: "deception", base: "5", skill: "deception_skill_mdr", bonus: "deception_mdr", group: "Social", notes: "Deception" },
  "Disguise": 					{ label: "disguise", base: "5", skill: "disguise_skill_mdr", bonus: "disguise_mdr", group: "Social", notes: "Disguise" },
  "Etiquette (Alteri)": 			{ label: "etiquette_alteri", base: "10", skill: "etiquette_alteri_skill_mdr", bonus: "etiquette_alteri_mdr", group: "Social", notes: "Etiquette (Alteri)" },
+ "Etiquette (Draevi)": 			{ label: "etiquette_draevi", base: "10", skill: "etiquette_draevi_skill_mdr", bonus: "etiquette_draevi_mdr", group: "Social", notes: "Etiquette (Draevi)" },
  "Etiquette (High Society)": 	{ label: "etiquette_high_society", base: "10", skill: "etiquette_high_society_skill_mdr", bonus: "etiquette_high_society_mdr", group: "Social", notes: "Etiquette (High Society)" },
  "Etiquette (Lyranni)": 		{ label: "etiquette_lyranni", base: "10", skill: "etiquette_lyranni_skill_mdr", bonus: "etiquette_lyranni_mdr", group: "Social", notes: "Etiquette (Lyranni)" },
  "Etiquette (Underworld)": 		{ label: "etiquette_underworld", base: "10", skill: "etiquette_underworld_skill_mdr", bonus: "etiquette_underworld_mdr", group: "Social",  notes: "Etiquette (Underworld)" },
@@ -26442,7 +26453,7 @@ const skillDataMap = {
 		bonus:	"perform_acting_mdr",
 		group:	"perform",
 		notes:	"perform_acting_desc-u"
-		},
+	},
 	perform_dance: {
 		label:	"perform_dance-u",
 		base:	5,
@@ -26654,7 +26665,7 @@ const skillDataMap = {
 		group:	"knowledge",
 		notes:	"medicine_desc-u"
 	},
-	natural_world:   {
+	natural_world: {
 		label: "natural_world-u",
 		base: 10,
 		skill: "natural_world_skill_mdr",
@@ -26662,7 +26673,7 @@ const skillDataMap = {
 		group: "knowledge",
 		notes: "natural_world_desc-u"
 	},
-	occult_lore:     { 
+	occult_lore: { 
 		label: "occult_lore-u",
 		base: 5,
 		skill: "occult_lore_skill_mdr",
@@ -26670,7 +26681,7 @@ const skillDataMap = {
 		group: "knowledge",
 		notes: "occult_lore_desc-u"
 	},
-	spirit_lore:     { 
+	spirit_lore: { 
 		label: "spirit_lore-u",
 		base: 5,
 		skill: "spirit_lore_skill_mdr",
@@ -26678,7 +26689,7 @@ const skillDataMap = {
 		group: "knowledge",
 		notes: "spirit_lore_desc-u"
 	},
-	veil_lore:       { 
+	veil_lore: { 
 		label:	"veil_lore-u",
 		base:	5,
 		skill:	"veil_lore_skill_mdr",
@@ -26724,23 +26735,31 @@ const skillDataMap = {
 		base:	10,
 		skill:	"etiquette_alteri_skill_mdr",
 		bonus:	"etiquette_alteri_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_alteri_desc-u"
-		},
+	},
+	etiquette_draevi: {
+		label:	"etiquette_draevi-u",
+		base:	10,
+		skill:	"etiquette_draevi_skill_mdr",
+		bonus:	"etiquette_draevi_mdr",
+		group:	[ "etiquette", "social" ],
+		notes:	"etiquette_draevi_desc-u"
+	},		
 	etiquette_high_society: {
 		label:	"etiquette_high_society-u",
 		base:	10,
 		skill:	"etiquette_high_society_skill_mdr",
 		bonus:	"etiquette_high_society_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_high_society_desc-u"
-		},
+	},
 	etiquette_lyranni: {
 		label:	"etiquette_lyranni-u",
 		base:	10,
 		skill:	"etiquette_lyranni_skill_mdr",
 		bonus:	"etiquette_lyranni_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_lyranni_desc-u"
 	},
 	etiquette_underworld: {
@@ -26748,7 +26767,7 @@ const skillDataMap = {
 		base:	10,
 		skill:	"etiquette_underworld_skill_mdr",
 		bonus:	"etiquette_underworld_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_underworld_desc-u"
 	},
 	etiquette_other: {
@@ -26756,7 +26775,7 @@ const skillDataMap = {
 		base:	10,
 		skill:	"etiquette_other_skill_mdr",
 		bonus:	"etiquette_other_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_other_desc-u"
 	},
 	forgery: {
@@ -27428,8 +27447,8 @@ const raceDataMap = {
         cultural_elegance: {
           name_key:      "racial_lyranni_cultural_elegance-u",
           rule_text_key: "racial_lyranni_cultural_elegance_rules-u",
-		  affected_skill: [ "charm", "etiquette_alteri", "etiquette_high_society", "etiquette_lyranni", "etiquette_underworld", "etiquette_other" ],
-		  affected_skill_group: "perform",
+		  affected_skill: "charm",
+		  affected_skill_group: [ "etiquette", "perform" ],
 		  usage_limit:     "session"
         },
         low_light_vision: {
@@ -27829,7 +27848,6 @@ const talentDataMap = {
       name_key:  "talent_alteri_deep_mask_integration-u",
       rule_text_key: "talent_alteri_deep_mask_integration_rules-u",
       skills: [ "disguise", "insight" ],
-	  affected_skill: [ "disguise", "insight" ],
       prerequisite: [ "second_skin" ],
       tier: 2,
       cost: 20,
@@ -27839,8 +27857,6 @@ const talentDataMap = {
     facial_recalibration: {
       name_key:  "talent_alteri_facial_recalibration-u",
       rule_text_key: "talent_alteri_facial_recalibration_rules-u",
-      name: "Facial Recalibration",
-      description: "Once per session, mimic a person’s face, posture, and speech after observing them for at least one turn. Grants a bonus die to Disguise or Performance (Impersonation). Costs 1 Strain.",
       skills: "",
 	  affected_skill: [ "disguise", "perform_impersonation" ],
       prerequisite: [ "echoed_voice", "second_skin" ],
@@ -27852,8 +27868,6 @@ const talentDataMap = {
     ghost_signature: {
       name_key:  "talent_alteri_ghost_signature-u",
       rule_text_key: "talent_alteri_ghost_signature_rules-u",
-      name: "Ghost Signature",
-      description: "Once per session, spoof or bypass a low-grade biometric scan (e.g., facial recognition, voiceprint, retinal) with a bonus die to Slicing or Electronics.",
       skills: "",
 	  affected_skill: [ "electronics", "slicing" ],
       prerequisite: [ "ghost_protocol" ],
@@ -27865,8 +27879,6 @@ const talentDataMap = {
     mirror_weave: {
       name_key:  "talent_alteri_mirror_weave-u",
       rule_text_key: "talent_alteri_mirror_weave_rules-u",
-      name: "Mirror Weave",
-      description: "Once per session, illusions or enchantments you cast can deceive digital or mechanical observers. Costs 1 Strain per additional ally affected. Cannot deceive hostile systems.",
       skills: "",
 	  affected_skill: [ "magic_enchantment", "magic_illusion" ],
       prerequisite: [ "whisper_touched" ],
@@ -27878,8 +27890,6 @@ const talentDataMap = {
     persona_anchor: {
       name_key:  "talent_alteri_persona_anchor-u",
       rule_text_key: "talent_alteri_persona_anchor_rules-u",
-      name: "Persona Anchor",
-      description: "Choose one: gain +10% to Performance (Impersonation), Arcana, or Slicing. Reflects how your persona enhances certain skills.",
       skills: [ "arcana", "perform_impersonation", "slicing" ],
       prerequisite: [ "grace_of_the_many" ],
       tier: 2,
@@ -27890,8 +27900,6 @@ const talentDataMap = {
     shift_reflex: {
       name_key:  "talent_alteri_shift_reflex-u",
       rule_text_key: "talent_alteri_shift_reflex_rules-u",
-      name: "Shift Reflex",
-      description: "Once per scene, use a Reaction to confuse a target mid-scan or strike. Gain a bonus die to Dodge or Stealth.",
       skills: "",
 	  affected_skill: [ "dodge", "stealth" ],
       prerequisite: [ "reflexive_shift" ],
@@ -27903,8 +27911,6 @@ const talentDataMap = {
     silent_archive: {
       name_key:  "talent_alteri_silent_archive-u",
       rule_text_key: "talent_alteri_silent_archive_rules-u",
-      name: "Silent Archive",
-      description: "Store a secondary identity with full recall: appearance, history, contacts, accent, and routine. Once per session, switch instantly. Costs 1d4 Strain if used during a scene. Free outside scenes.",
       skills: "",
       prerequisite: [ "deep_mask_integration" ],
       tier: 2,
@@ -27915,8 +27921,6 @@ const talentDataMap = {
     veil_echo_memory: {
       name_key:  "talent_alteri_veil_echo_memory-u",
       rule_text_key: "talent_alteri_veil_echo_memory_rules-u",
-      name: "Veil Echo Memory",
-      description: "Once per session, gain a sensory impression or memory from a place or person you've touched. Grants a bonus die to the next Arcana, Insight, or Occult Lore roll. Costs 1 Strain.",
       skills: "",
 	  affected_skill: [ "arcana", "insight", "occult_lore" ],
       prerequisite: [ "ghost_protocol", "whisper_touched" ],
@@ -27928,8 +27932,6 @@ const talentDataMap = {
     biometric_phantom: {
       name_key:  "talent_alteri_biometric_phantom-u",
       rule_text_key: "talent_alteri_biometric_phantom_rules-u",
-      name: "Biometric Phantom",
-      description: "Once per session, spoof or override corporate-grade biometric or magitech ID systems if you've had contact with the target. Bonus die to Slicing or Electronics.",
       skills: "",
 	  affected_skill: [ "electronics", "slicing" ],
       prerequisite: [ "ghost_signature" ],
@@ -27941,8 +27943,6 @@ const talentDataMap = {
     identity_cascade: {
       name_key:  "talent_alteri_identity_cascade-u",
       rule_text_key: "talent_alteri_identity_cascade_rules-u",
-      name: "Identity Cascade",
-      description: "Once per scene, switch Masks mid-encounter (even mid-dialogue or mid-combat). Grants a bonus die to Disguise or Insight. Costs 1d4 Strain if under pressure or direct observation.",
       skills: "",
 	  affected_skill: [ "disguise", "insight" ],
       prerequisite: [ "deep_mask_integration" ],
@@ -27954,8 +27954,6 @@ const talentDataMap = {
     memory_graft: {
       name_key:  "talent_alteri_memory_graft-u",
       rule_text_key: "talent_alteri_memory_graft_rules-u",
-      name: "Memory Graft",
-      description: "Once per session, tap into a stored Mask’s memory for insight. Gain a bonus die to one Arcana, Insight, or Performance (Impersonation) roll tied to that persona’s experience.",
       skills: "",
 	  affected_skill: [ "arcana", "insight", "perform_impersonation" ],
       prerequisite: [ "deep_mask_integration" ],
@@ -27967,8 +27965,6 @@ const talentDataMap = {
     perfect_mimicry: {
       name_key:  "talent_alteri_perfect_mimicry-u",
       rule_text_key: "talent_alteri_perfect_mimicry_rules-u",
-      name: "Perfect Mimicry",
-      description: "Once per session, flawlessly replicate a person’s full persona (appearance, mannerisms, tone). Grants a bonus die to Disguise, Performance, or Deception.",
       skills: "",
 	  affected_skill: [ "deception", "disguise" ],
 	  affected_skill_group: "perform",
@@ -27981,8 +27977,6 @@ const talentDataMap = {
     social_echo: {
       name_key:  "talent_alteri_social_echo-u",
       rule_text_key: "talent_alteri_social_echo_rules-u",
-      name: "Social Echo",
-      description: "Once per session, adapt your behavior to match a target’s subconscious expectations. Gain a bonus die to Charm, Deception, or Persuade. Costs 1 Strain if targeting two or more people.",
       skills: "",
 	  affected_skill: [ "charm", "deception", "persuade" ],
       prerequisite: [ "adaptive_memory", "social_chameleon" ],
@@ -27994,8 +27988,6 @@ const talentDataMap = {
     veil_shaped_will: {
       name_key:  "talent_alteri_veil_shaped_will-u",
       rule_text_key: "talent_alteri_veil_shaped_will_rules-u",
-      name: "Veil-Shaped Will",
-      description: "Once per session, reroll a failed Illusion, Alteration, or Enchantment spellcasting. If successful, reduce the Strain die by one step (e.g., 1d6 → 1d4).",
       skills: "",
 	  affected_skill: [ "magic_alteration", "magic_enchantment", "magic_illusion" ],
       prerequisite: [ "mirror_weave", "whisper_touched" ],
@@ -28007,8 +27999,6 @@ const talentDataMap = {
     author_of_the_lie: {
       name_key:  "talent_alteri_author_of_the_lie-u",
       rule_text_key: "talent_alteri_author_of_the_lie_rules-u",
-      name: "Author of the Lie",
-      description: "Once per session, automatically succeed on a Disguise, Performance, or Deception roll involving deception. You may declare one falsehood about your Mask as true for the rest of the scene. Costs 2 Strain if used under direct scrutiny or in a digital surveillance zone.",
       skills: "",
 	  affected_skill: [ "deception", "disguise" ],
 	  affected_skill_group: "perform",
@@ -28021,8 +28011,6 @@ const talentDataMap = {
     immaculate_impersonation: {
       name_key:  "talent_alteri_immaculate_impersonation-u",
       rule_text_key: "talent_alteri_immaculate_impersonation_rules-u",
-      name: "Immaculate Impersonation",
-      description: "Once per session, flawlessly impersonate a known target—down to retinal scan, bio-sig, and vocal cadence. Bonus die to all Disguise, Slicing, or Performance (Impersonation) checks for the entire scene.",
       skills: "",
 	  affected_skill: [ "disguise", "perform_impersonation", "slicing" ],
       prerequisite: [ "biometric_phantom", "perfect_mimicry" ],
@@ -28034,8 +28022,6 @@ const talentDataMap = {
     living_mask_archive: {
       name_key:  "talent_alteri_living_mask_archive-u",
       rule_text_key: "talent_alteri_living_mask_archive_rules-u",
-      name: "Living Mask Archive",
-      description: "Maintain up to four active Masks. Once per session, instantly switch between any of them. Grants a bonus die to your next social or Stealth roll. Costs 1 Strain if used during a scene.",
       skills: "",
 	  affected_skill: "stealth",
 	  affected_skill_group: "social",
@@ -28048,10 +28034,8 @@ const talentDataMap = {
     veil_mirroring_ritual: {
       name_key:  "talent_alteri_veil_mirroring_ritual-u",
       rule_text_key: "talent_alteri_veil_mirroring_ritual_rules-u",
-      name: "Veil-Mirroring Ritual",
-      description: "Once per session, reflect a single Illusion or Enchantment spell cast on you, or redirect it to another visible target. Spell must be reflectable by nature.",
       skills: "",
-	  affected_skills: [ "magic_enchantment", "magic_illusion" ],
+	  affected_skill: [ "magic_enchantment", "magic_illusion" ],
       prerequisite: [ "veil_shaped_will" ],
       tier: 4,
       cost: 40,
@@ -28063,8 +28047,6 @@ const talentDataMap = {
     bone_sung_memory: {
         name_key: "talent_draevi_bone_sung_memory-u",
         rule_text_key: "talent_draevi_bone_sung_memory_rules-u",
-        name: "Bone-Sung Memory",
-        description: "Once per session, gain a bonus die when attempting to recall a location, creature, or spiritual phenomenon you’ve personally witnessed before.",
         skills: "",
         prerequisite: "",
         tier: 1,
@@ -28075,8 +28057,6 @@ const talentDataMap = {
     clan_blooded: {
         name_key: "talent_draevi_clan_blooded-u",
         rule_text_key: "talent_draevi_clan_blooded_rules-u",
-        name: "Clan-Blooded",
-        description: "Choose one: gain +10% to Intimidate, Survival, or Track. This reflects your upbringing within a strong clan tradition. This choice is permanent and may only be taken once.",
         skills: [ "intimidate", "survival_wilderness", "track" ],
         prerequisite: "",
         tier: 1,
@@ -28087,9 +28067,8 @@ const talentDataMap = {
     gutter_stalker: {
         name_key: "talent_draevi_gutter_stalker-u",
         rule_text_key: "talent_draevi_gutter_stalker_rules-u",
-        name: "Gutter-Stalker",
-        description: "Once per session, gain a bonus die on a Stealth roll made in an urban or tight, vertical space (vents, scaffolding, alleys).",
         skills: "",
+		affected_skill: "stealth",
         prerequisite: "",
         tier: 1,
         cost: 10,
@@ -28099,9 +28078,8 @@ const talentDataMap = {
     iron_stomach: {
         name_key: "talent_draevi_iron_stomach-u",
         rule_text_key: "talent_draevi_iron_stomach_rules-u",
-        name: "Iron Stomach",
-        description: "Gain a bonus die on Constitution rolls to resist poison, spoiled food, or ingested toxins. You can consume nearly anything without penalty.",
         skills: "",
+		affected_stat: "con",
         prerequisite: "",
         tier: 1,
         cost: 10,
@@ -28111,8 +28089,6 @@ const talentDataMap = {
     scavengers_edge: {
         name_key: "talent_draevi_scavengers_edge-u",
         rule_text_key: "talent_draevi_scavengers_edge_rules-u",
-        name: "Scavenger’s Edge",
-        description: "Choose one: gain +10% to Mechanics, Electronics, or Streetwise. This reflects your clan’s practical knowledge of scavenging and repair. This choice is permanent and may only be taken once.",
         skills: [ "electronics", "mechanics", "streetwise" ],
         prerequisite: "",
         tier: 1,
@@ -28123,9 +28099,8 @@ const talentDataMap = {
     silent_step_sharp_ear: {
         name_key: "talent_draevi_silent_step_sharp_ear-u",
         rule_text_key: "talent_draevi_silent_step_sharp_ear_rules-u",
-        name: "Silent Step, Sharp Ear",
-        description: "Gain a bonus die on Stealth checks when moving through natural terrain. Optional: spend 1 Strain to also gain a bonus die on the next Listen or Perception check in the same scene.",
         skills: "",
+		affected_skill: [ "listen", "perception", "stealth" ],
         prerequisite: "",
         tier: 1,
         cost: 10,
@@ -28135,9 +28110,8 @@ const talentDataMap = {
     spirits_in_stone: {
         name_key: "talent_draevi_spirits_in_stone-u",
         rule_text_key: "talent_draevi_spirits_in_stone_rules-u",
-        name: "Spirits-in-Stone",
-        description: "Once per session, gain a bonus die on a Spirit Lore roll related to ancestor rites, ruins, or natural spirit dwellings.",
         skills: "",
+		affected_skill: "spirit_lore",
         prerequisite: "",
         tier: 1,
         cost: 10,
@@ -28147,9 +28121,8 @@ const talentDataMap = {
     trailborn_reflexes: {
         name_key: "talent_draevi_trailborn_reflexes-u",
         rule_text_key: "talent_draevi_trailborn_reflexes_rules-u",
-        name: "Trailborn Reflexes",
-        description: "Once per scene, gain a bonus die to any Dodge roll.",
         skills: "",
+		affected_skill: "dodge",
         prerequisite: "",
         tier: 1,
         cost: 10,
@@ -28159,9 +28132,8 @@ const talentDataMap = {
     urban_climber: {
         name_key: "talent_draevi_urban_climber-u",
         rule_text_key: "talent_draevi_urban_climber_rules-u",
-        name: "Urban Climber",
-        description: "Once per session, gain a bonus die to any Athletics or Coordination roll made while navigating vertical, unstable, or cramped environments.",
         skills: "",
+		affected_skill: [ "athletics", "coordination" ],
         prerequisite: "",
         tier: 1,
         cost: 10,
@@ -28171,9 +28143,8 @@ const talentDataMap = {
     echo_binders_rite: {
         name_key: "talent_draevi_echo_binders_rite-u",
         rule_text_key: "talent_draevi_echo_binders_rite_rules-u",
-        name: "Echo-Binder’s Rite",
-        description: "Once per session, gain a bonus die to a Magic (Summoning) or Spirit Lore roll to commune with a spirit or bind an ancestral echo.",
         skills: "",
+		affected_skill: [ "magic_summoning", "spirit_lore" ],
         prerequisite: [ "spirits_in_stone" ],
         tier: 2,
         cost: 20,
@@ -28183,9 +28154,8 @@ const talentDataMap = {
     hardened_trailwalker: {
         name_key: "talent_draevi_hardened_trailwalker-u",
         rule_text_key: "talent_draevi_hardened_trailwalker_rules-u",
-        name: "Hardened Trailwalker",
-        description: "Once per session, gain a bonus die to a Survival check. If that check fails, suffer only half the usual Strain from failure.",
         skills: "",
+		affected_skill: [ "survival_urban" , "survival_wilderness" ],
         prerequisite: [ "iron_stomach", "trailborn_reflexes" ],
         tier: 2,
         cost: 20,
@@ -28195,9 +28165,8 @@ const talentDataMap = {
     instinctive_counter: {
         name_key: "talent_draevi_instinctive_counter-u",
         rule_text_key: "talent_draevi_instinctive_counter_rules-u",
-        name: "Instinctive Counter",
-        description: "Once per scene, gain a bonus die to either a Dodge, Unarmed Combat, or Melee roll when reacting to an attack.",
         skills: "",
+		affected_skill: [ "dodge", "melee_weapons", "unarmed" ],
         prerequisite: [ "trailborn_reflexes" ],
         tier: 2,
         cost: 20,
@@ -28207,9 +28176,8 @@ const talentDataMap = {
     root_stance_tenacity: {
         name_key: "talent_draevi_root_stance_tenacity-u",
         rule_text_key: "talent_draevi_root_stance_tenacity_rules-u",
-        name: "Root-Stance Tenacity",
-        description: "Once per session, when you fail a Strength or Constitution roll to resist knockback, fatigue, or being overpowered, you may reroll with a bonus die. Optional: spend 2 Strain to remain standing even if the second roll fails.",
         skills: "",
+		affected_stat: [ "con", "str" ],
         prerequisite: [ "clan_blooded", "iron_stomach" ],
         tier: 2,
         cost: 20,
@@ -28219,9 +28187,8 @@ const talentDataMap = {
     scent_the_shift: {
         name_key: "talent_draevi_scent_the_shift-u",
         rule_text_key: "talent_draevi_scent_the_shift_rules-u",
-        name: "Scent the Shift",
-        description: "Once per session, detect a hidden threat, spirit, or Veil anomaly in your immediate area. Grants a bonus die to the next Perception or Spirit Lore check made to investigate it.",
         skills: "",
+		affected_skill: [ "perception", "spirit_lore" ],
         prerequisite: [ "spirits_in_stone", "trailborn_reflexes" ],
         tier: 2,
         cost: 20,
@@ -28231,9 +28198,8 @@ const talentDataMap = {
     tales_etched_in_horn: {
         name_key: "talent_draevi_tales_etched_in_horn-u",
         rule_text_key: "talent_draevi_tales_etched_in_horn_rules-u",
-        name: "Tales Etched in Horn",
-        description: "Once per session, when recalling a story, rite, or ancestral lesson, gain a bonus die on any Occult Lore, Spirit Lore, or Etiquette (Clan) check related to Draevi culture or spirits.",
         skills: "",
+		affected_skill: [ "etiquette_draevi", "occult_lore", "spirit_lore" ],
         prerequisite: [ "clan_blooded" ],
         tier: 2,
         cost: 20,
@@ -28243,9 +28209,8 @@ const talentDataMap = {
     urban_tracker: {
         name_key: "talent_draevi_urban_tracker-u",
         rule_text_key: "talent_draevi_urban_tracker_rules-u",
-        name: "Urban Tracker",
-        description: "You may reroll one failed Streetwise, Stealth, or Track check made while tracking in an urban environment.",
         skills: "",
+		affected_skill: [ "stealth", "streetwise", "track" ],
         prerequisite: [ "gutter_stalker" ],
         tier: 2,
         cost: 20,
@@ -28255,9 +28220,8 @@ const talentDataMap = {
     veins_of_stone: {
         name_key: "talent_draevi_veins_of_stone-u",
         rule_text_key: "talent_draevi_veins_of_stone_rules-u",
-        name: "Veins of Stone",
-        description: "Once per session, automatically succeed on a failed Constitution roll against fatigue, poison, or environmental strain.",
         skills: "",
+		affected_stat: "con",
         prerequisite: [ "clan_blooded", "iron_stomach" ],
         tier: 2,
         cost: 20,
@@ -28267,9 +28231,8 @@ const talentDataMap = {
     ancestors_pulse: {
         name_key: "talent_draevi_ancestors_pulse-u",
         rule_text_key: "talent_draevi_ancestors_pulse_rules-u",
-        name: "Ancestor’s Pulse",
-        description: "Once per session, gain two bonus dice on a Magic (Divination), Spirit Lore, or Magic (Summoning) roll when invoking ancestral insight. On success, the insight reveals a hidden danger or opportunity relevant to the scene.",
         skills: "",
+		affected_skill: [ "magic_summoning", "spirit_lore" ],
         prerequisite: [ "tales_etched_in_horn" ],
         tier: 3,
         cost: 30,
@@ -28279,8 +28242,6 @@ const talentDataMap = {
     emberlash_retaliation: {
         name_key: "talent_draevi_emberlash_retaliation-u",
         rule_text_key: "talent_draevi_emberlash_retaliation_rules-u",
-        name: "Emberlash Retaliation",
-        description: "Once per session, when struck by a melee or ranged attack, make a counterattack with a bonus die. If your counterattack hits, the target suffers a penalty die on their next action.",
         skills: "",
         prerequisite: [ "instinctive_counter" ],
         tier: 3,
@@ -28291,8 +28252,6 @@ const talentDataMap = {
     legacy_reforged: {
         name_key: "talent_draevi_legacy_reforged-u",
         rule_text_key: "talent_draevi_legacy_reforged_rules-u",
-        name: "Legacy Reforged",
-        description: "Once per session, choose one Tier 1 Draevi Talent you possess. For the rest of the scene, it may be used twice without expending Strain. Optional: spend 1 Strain to immediately activate that Tier 1 talent now.",
         skills: "",
         prerequisite: "",
         prerequisiteAny: { tier: 2, count: 2 },
@@ -28304,9 +28263,8 @@ const talentDataMap = {
     pathfinders_edge: {
         name_key: "talent_draevi_pathfinders_edge-u",
         rule_text_key: "talent_draevi_pathfinders_edge_rules-u",
-        name: "Pathfinder’s Edge",
-        description: "Once per session, ignore natural terrain penalties for movement or Survival for a full scene. Gain a bonus die to Track or Navigate during this time.",
         skills: "",
+		affected_skill: [ "navigate", "track" ],
         prerequisite: [ "hardened_trailwalker", "veins_of_stone" ],
         tier: 3,
         cost: 30,
@@ -28316,9 +28274,8 @@ const talentDataMap = {
     spirit_touched_mastery: {
         name_key: "talent_draevi_spirit_touched_mastery-u",
         rule_text_key: "talent_draevi_spirit_touched_mastery_rules-u",
-        name: "Spirit-Touched Mastery",
-        description: "Once per session, reroll a failed Spirit Lore or Magic (Summoning) roll. If successful, reduce the spell’s Strain cost by one die step.",
         skills: "",
+		affected_skill: [ "magic_summoning", "spirit_lore" ],
         prerequisite: [ "echo_binders_rite" ],
         tier: 3,
         cost: 30,
@@ -28328,8 +28285,6 @@ const talentDataMap = {
     spiritual_vanguard: {
         name_key: "talent_draevi_spiritual_vanguard-u",
         rule_text_key: "talent_draevi_spiritual_vanguard_rules-u",
-        name: "Spiritual Vanguard",
-        description: "Once per session, gain a bonus die when casting a Counterspell on behalf of an ally. Also gain a bonus die when banishing a hostile spirit.",
         skills: "",
         prerequisite: [ "scent_the_shift", "tales_etched_in_horn" ],
         tier: 3,
@@ -28340,9 +28295,8 @@ const talentDataMap = {
     wild_tamers_gaze: {
         name_key: "talent_draevi_wild_tamers_gaze-u",
         rule_text_key: "talent_draevi_wild_tamers_gaze_rules-u",
-        name: "Wild Tamer’s Gaze",
-        description: "Once per session, choose a non-hostile creature or spirit (animal, summoned being, or elemental-type). You may calm, redirect, or guide it with a Spirit Lore or Animal Handling check rolled with a bonus die. Optional: spend 2 Strain to influence it even if it's Veil-corrupted or hostile.",
         skills: "",
+		affected_skill: [ "animalhandling", "spirit_lore" ],
         prerequisite: [ "ancestors_pulse", "echo_binders_rite" ],
         tier: 3,
         cost: 30,
@@ -28352,9 +28306,8 @@ const talentDataMap = {
     ancestral_mirror: {
         name_key: "talent_draevi_ancestral_mirror-u",
         rule_text_key: "talent_draevi_ancestral_mirror_rules-u",
-        name: "Ancestral Mirror",
-        description: "Once per session, call on an ancestral vision to gain two bonus dice on a Spirit Lore, Magic (Summoning), or Magic (Divination) roll. On success, gain a hidden insight or location tied to the current conflict.",
         skills: "",
+		affected_skill: [ "magic_summoning", "spirit_lore" ],
         prerequisite: [ "echo_binders_rite", "spirit_touched_mastery" ],
         tier: 4,
         cost: 40,
@@ -28364,9 +28317,8 @@ const talentDataMap = {
     echo_flame_warden: {
         name_key: "talent_draevi_echo_flame_warden-u",
         rule_text_key: "talent_draevi_echo_flame_warden_rules-u",
-        name: "Echo-Flame Warden",
-        description: "Once per session, invoke a Ward of Legacy: you and up to two allies gain a bonus die on Constitution and Power rolls during a combat or ritual scene. You may also reduce incoming damage to one target by 1d6 (once per session).",
         skills: "",
+		affected_stat: [ "con", "pow" ],
         prerequisite: [ "spiritual_vanguard", "veins_of_stone" ],
         tier: 4,
         cost: 40,
@@ -28376,9 +28328,9 @@ const talentDataMap = {
     path_of_the_remembered: {
         name_key: "talent_draevi_path_of_the_remembered-u",
         rule_text_key: "talent_draevi_path_of_the_remembered_rules-u",
-        name: "Path of the Remembered",
-        description: "Once per session, declare a location as “bound by memory.” For the scene, you and allies who can hear you gain a bonus die on Perception, Survival, or Willpower-related rolls within that area. You may also spend 3 Strain once during the scene to invoke a flash of ancestral memory, revealing a secret path, hidden threat, or forgotten rite.",
         skills: "",
+		affected_skill: [ "perception", "survival_urban", "survival_wilderness" ],
+		affected_stat: "pow",
         prerequisite: [ "ancestors_pulse", "tales_etched_in_horn" ],
         tier: 4,
         cost: 40,
@@ -28388,9 +28340,8 @@ const talentDataMap = {
     soul_of_the_wild_hunt: {
         name_key: "talent_draevi_soul_of_the_wild_hunt-u",
         rule_text_key: "talent_draevi_soul_of_the_wild_hunt_rules-u",
-        name: "Soul of the Wild Hunt",
-        description: "Once per session, enter Hunt State for the remainder of a scene: gain a bonus die on Stealth and Tracking checks, ignore terrain penalties, and reroll one failed Unarmed Combat or Melee attack.",
         skills: "",
+		affected_skill: [ "melee_weapons", "stealth", "track", "unarmed" ],
         prerequisite: [ "emberlash_retaliation", "pathfinders_edge" ],
         tier: 4,
         cost: 40,
@@ -35715,12 +35666,24 @@ const registerRacialTraitsSkillSummaryWatcher = () => {
   const buildGroupIndex = () => {
     const idx = {};
     if (!skillDataMap || typeof skillDataMap !== "object") return idx;
+  
     Object.keys(skillDataMap).forEach((key) => {
       const row = skillDataMap[key] || {};
-      const g = (row.group || "").toString().trim();
-      if (!g) return;
-      (idx[g] ||= new Set()).add(key);
+      let groups = row.group;
+  
+      // Normalize: allow string OR array of strings
+      if (!groups) return;
+      if (typeof groups === "string") groups = [groups];
+      if (!Array.isArray(groups)) return;
+  
+      groups
+        .map(g => String(g).trim())
+        .filter(Boolean)
+        .forEach((g) => {
+          (idx[g] ||= new Set()).add(key);
+        });
     });
+  
     return idx;
   };
 
@@ -35958,9 +35921,72 @@ function registerTalentSummaryWatcher(race) {
     "change:showracials",
     "change:recompute_nonce",
     ...Object.entries(talentDataMap || {}).flatMap(([rc, talents]) =>
-      Object.keys(talents).map(talentKey => `change:${rc}_${talentKey}`)
-    )
+      Object.keys(talents).map((talentKey) => `change:${rc}_${talentKey}`)
+    ),
   ];
+
+  // --- helpers ---
+  const tr = (k) =>
+    (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+
+  // Normalize a talent's affected_skill (keys) -> array of canonical machine-key strings
+  const normalizeAffectedSkills = (aff) => {
+    if (!aff) return [];
+    if (Array.isArray(aff)) return aff.filter(Boolean).map((s) => String(s).trim());
+    if (typeof aff === "string")
+      return aff.split(",").map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+
+  // Normalize a talent's affected_skill_group (group names) -> array of group strings
+  const normalizeAffectedGroups = (grp) => {
+    if (!grp) return [];
+    if (Array.isArray(grp)) return grp.filter(Boolean).map((s) => String(s).trim());
+    if (typeof grp === "string")
+      return grp.split(",").map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+
+  // Precompute: groupName -> Set(skillKeys) from skillDataMap.<skill>.group
+  const buildGroupIndex = () => {
+    const idx = {};
+    if (!skillDataMap || typeof skillDataMap !== "object") return idx;
+  
+    Object.keys(skillDataMap).forEach((key) => {
+      const row = skillDataMap[key] || {};
+      let groups = row.group;
+  
+      // Normalize: allow string OR array of strings
+      if (!groups) return;
+      if (typeof groups === "string") groups = [groups];
+      if (!Array.isArray(groups)) return;
+  
+      groups
+        .map(g => String(g).trim())
+        .filter(Boolean)
+        .forEach((g) => {
+          (idx[g] ||= new Set()).add(key);
+        });
+    });
+  
+    return idx;
+  };
+
+  // Given a skill machine key, return a display label.
+  // Prefer i18n via skillDataMap[key].label; fallback to prettified key.
+  const displayForMachineKey = (machineKey) => {
+    const row = skillDataMap && skillDataMap[machineKey];
+    if (!row) {
+      return String(machineKey)
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (m) => m.toUpperCase());
+    }
+    const translated = tr(row.label);
+    if (translated && translated !== row.label) return translated;
+    return String(machineKey)
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (m) => m.toUpperCase());
+  };
 
   on(allChangeEvents.join(" "), function () {
     getAttrs(["showracials"], function (values) {
@@ -35969,67 +35995,66 @@ function registerTalentSummaryWatcher(race) {
       if (!raceTalents) {
         setAttrs({
           talent_summary: " ",
-          racial_skill_summary: " "
+          racial_skill_summary: " ",
         });
         return;
       }
 
-      // read only this race's talent checkboxes
-      const watchedTalentAttrs = Object.keys(raceTalents).map(k => `${activeRace}_${k}`);
+      // Read only this race's talent checkboxes
+      const watchedTalentAttrs = Object.keys(raceTalents).map((k) => `${activeRace}_${k}`);
 
       getAttrs(watchedTalentAttrs, function (talentValues) {
         const summaryLines = [];
-
-        // prebuild skill patterns once per invocation (supports alias in parens, e.g., Technomancy)
-        const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        const skillPatterns = Object.keys(skillMapTable || {}).reduce((acc, display) => {
-          const tokens = [display];
-          const m = display.match(/\(([^)]+)\)/);
-          if (m && m[1]) tokens.push(m[1]);
-          acc[display] = new RegExp(`\\b(${tokens.map(esc).join("|")})\\b`, "i");
-          return acc;
-        }, {});
-        const bySkill = {}; // skillDisplay -> Set(talentName)
+        const byDisplay = {}; // displayLabel -> Set(talentName)
+        const groupIndex = buildGroupIndex();
+        const collator = new Intl.Collator(undefined, { sensitivity: "base" });
 
         for (const [talentKey, data] of Object.entries(raceTalents)) {
-          const checkbox = talentValues[`${activeRace}_${talentKey}`] === "1";
-          if (!checkbox) continue;
+          const isChecked = talentValues[`${activeRace}_${talentKey}`] === "1";
+          if (!isChecked) continue;
 
-          const nameKey  = data.name_key  || `talent_${activeRace}_${talentKey}-u`;
+          // Resolve talent name & rules for the top summary
+          const nameKey = data.name_key || `talent_${activeRace}_${talentKey}-u`;
           const rulesKey = data.rules_key || data.rule_text_key || `talent_${activeRace}_${talentKey}_rules-u`;
 
-          const getT = (k) => (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k;
-          const nameText  = data.name_key
-            ? getT(nameKey) || data.name || talentKey
-            : (data.name || talentKey);
-          const rulesText = (data.rules_key || data.rule_text_key)
-            ? getT(rulesKey) || data.description || ""
-            : (data.description || "");
+          const nameText = data.name_key ? tr(nameKey) || data.name || talentKey : (data.name || talentKey);
+          const rulesText = (data.rules_key || data.rule_text_key) ? tr(rulesKey) || data.description || "" : (data.description || "");
 
           summaryLines.push(`T${data.tier}: ${nameText} — ${rulesText}`);
 
-          // group by skills present in rules text (skills limited to skillMapTable)
-          for (const [skillDisplay, rx] of Object.entries(skillPatterns)) {
-            if (rx.test(rulesText || "")) {
-              (bySkill[skillDisplay] ||= new Set()).add(nameText);
+          // Build the skill list from structured fields
+          const affectedKeys = normalizeAffectedSkills(data.affected_skill);
+
+          // Expand groups to skill keys
+          const groups = normalizeAffectedGroups(data.affected_skill_group);
+          groups.forEach((g) => {
+            const set = groupIndex[g];
+            if (set && set.size) {
+              set.forEach((k) => affectedKeys.push(k));
             }
-          }
+          });
+
+          // De-dupe, convert to display label, and bucket
+          Array.from(new Set(affectedKeys)).forEach((key) => {
+            const display = displayForMachineKey(key);
+            (byDisplay[display] ||= new Set()).add(nameText);
+          });
         }
 
+        // Top talent summary
         const summaryText = summaryLines.length ? summaryLines.join("\n\n") : " ";
 
-        // build racial skill summary
-        const collator = new Intl.Collator(undefined, { sensitivity: "base" });
-        const skills = Object.keys(bySkill).sort(collator.compare);
-        const sections = skills.map(skill => {
-          const names = Array.from(bySkill[skill]).sort(collator.compare);
-          return `${skill}\n\t${names.join("\n\t")}`;
+        // Racial skill summary (from talents): sort skills, then names
+        const labels = Object.keys(byDisplay).sort(collator.compare);
+        const sections = labels.map((label) => {
+          const names = Array.from(byDisplay[label]).sort(collator.compare);
+          return `${label}\n\t${names.join("\n\t")}`;
         });
         const racialSkillSummary = sections.length ? sections.join("\n\n") : " ";
 
         setAttrs({
           talent_summary: summaryText,
-          racial_skill_summary: racialSkillSummary
+          racial_skill_summary: racialSkillSummary,
         });
       });
     });

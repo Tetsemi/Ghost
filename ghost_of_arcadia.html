@@ -27428,7 +27428,8 @@ const raceDataMap = {
         cultural_elegance: {
           name_key:      "racial_lyranni_cultural_elegance-u",
           rule_text_key: "racial_lyranni_cultural_elegance_rules-u",
-		  affected_skill: [ "charm", "perform_acting", "perform_dance", "perform_impersonation", "perform_instrument", "perform_vocal", "etiquette_alteri", "etiquette_high_society", "etiquette_lyranni", "etiquette_underworld", "etiquette_other" ],
+		  affected_skill: [ "charm", "etiquette_alteri", "etiquette_high_society", "etiquette_lyranni", "etiquette_underworld", "etiquette_other" ],
+		  affected_skill_group: "perform",
 		  usage_limit:     "session"
         },
         low_light_vision: {
@@ -27720,8 +27721,6 @@ const talentDataMap = {
     echoed_voice: {
       name_key:  "talent_alteri_echoed_voice-u",
       rule_text_key: "talent_alteri_echoed_voice_rules-u",
-      name: "Echoed Voice",
-      description: "Once per session, mimic the voice and speech of someone known to you or studied for at least one full scene. Grants a bonus die to Performance (Impersonation) or any roll to pass as the individual.",
       skills: "",
 	  affected_skill: "perform_impersonation",
       prerequisite: "",
@@ -27733,9 +27732,8 @@ const talentDataMap = {
     ghost_protocol: {
       name_key:  "talent_alteri_ghost_protocol-u",
       rule_text_key: "talent_alteri_ghost_protocol_rules-u",
-      name: "Ghost Protocol",
-      description: "Once per session, erase your trail. Gain a bonus die to Stealth or Slicing when spoofing ID, bypassing basic surveillance, or escaping recognition. If followed by a successful Disguise, it leaves no trace.",
       skills: "",
+	  affected_skill: [ "slicing", "stealth" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -27745,9 +27743,8 @@ const talentDataMap = {
     grace_of_the_many: {
       name_key:  "talent_alteri_grace_of_the_many-u",
       rule_text_key: "talent_alteri_grace_of_the_many_rules-u",
-      name: "Grace of the Many",
-      description: "Once per session, reroll a failed Disguise, Insight, or Stealth check. Take the better result.",
       skills: "",
+	  affected_skill: [ "disguise", "insight", "stealth" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -27757,8 +27754,6 @@ const talentDataMap = {
     maskwrights_grace: {
       name_key:  "talent_alteri_maskwrights_grace-u",
       rule_text_key: "talent_alteri_maskwrights_grace_rules-u",
-<!--      name: "Maskwright’s Grace", -->
-<!--      description: "Choose one: gain +10% to Disguise, Insight, or Performance (Impersonation). This choice is permanent and may only be taken once.", -->
       skills: [ "disguise", "insight", "perform_impersonation"  ],
       prerequisite: "",
       tier: 1,
@@ -27769,9 +27764,8 @@ const talentDataMap = {
     reflexive_shift: {
       name_key:  "talent_alteri_reflexive_shift-u",
       rule_text_key: "talent_alteri_reflexive_shift_rules-u",
-      name: "Reflexive Shift",
-      description: "Once per scene, as a Reaction, rapidly alter your appearance (hair, skin tone, voice, etc.) to avoid identification. Grants a bonus die to Disguise or deception-based Deception. Costs 1d4 Strain.",
       skills: "",
+	  affected_skill: [ "deception", "disguise" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -27781,8 +27775,6 @@ const talentDataMap = {
     second_skin: {
       name_key:  "talent_alteri_second_skin-u",
       rule_text_key: "talent_alteri_second_skin_rules-u",
-      name: "Second Skin",
-      description: "You gain an additional Mask—a fully realized persona with a name, appearance, and backstory. Switching to this Mask takes 1 Action and no longer imposes Strain unless done under stress (GM discretion).",
       skills: "",
       prerequisite: "",
       tier: 1,
@@ -27793,8 +27785,6 @@ const talentDataMap = {
     shaped_for_subtlety: {
       name_key:  "talent_alteri_shaped_for_subtlety-u",
       rule_text_key: "talent_alteri_shaped_for_subtlety_rules-u",
-      name: "Shaped for Subtlety",
-      description: "Choose one: gain +10% to Stealth, Slicing, or Insight. This choice is permanent and may only be taken once.",
       skills: [ "insight", "slicing", "stealth" ],
       prerequisite: "",
       tier: 1,
@@ -27805,9 +27795,8 @@ const talentDataMap = {
     social_chameleon: {
       name_key:  "talent_alteri_social_chameleon-u",
       rule_text_key: "talent_alteri_social_chameleon_rules-u",
-      name: "Social Chameleon",
-      description: "Use Charm in place of Deception or Persuade when navigating unfamiliar cultures or coded social environments.",
       skills: "",
+	  affected_skill: [ "charm", "deception", "persuade" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -27817,9 +27806,8 @@ const talentDataMap = {
     whisper_touched: {
       name_key:  "talent_alteri_whisper_touched-u",
       rule_text_key: "talent_alteri_whisper_touched_rules-u",
-      name: "Whisper-Touched",
-      description: "Once per session, gain a bonus die when casting Illusion or Enchantment spells.",
       skills: "",
+	  affected_skill: [ "magic_enchantment", "magic_illusion" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -27829,9 +27817,8 @@ const talentDataMap = {
     adaptive_memory: {
       name_key:  "talent_alteri_adaptive_memory-u",
       rule_text_key: "talent_alteri_adaptive_memory_rules-u",
-      name: "Adaptive Memory",
-      description: "Once per session, recall useful details from a person you've interacted with in person. Gain a bonus die to a social roll involving deception or impersonation with them or their associates.",
       skills: "",
+	  affected_skill: [ "deception", "perform_impersonation" ],
       prerequisite: [ "maskwrights_grace", "social_chameleon" ],
       tier: 2,
       cost: 20,
@@ -27841,9 +27828,8 @@ const talentDataMap = {
     deep_mask_integration: {
       name_key:  "talent_alteri_deep_mask_integration-u",
       rule_text_key: "talent_alteri_deep_mask_integration_rules-u",
-      name: "Deep Mask Integration",
-      description: "Gain +10% to Disguise or Insight (your choice). You may maintain two active Masks and switch between them without prep or Strain outside combat.",
       skills: [ "disguise", "insight" ],
+	  affected_skill: [ "disguise", "insight" ],
       prerequisite: [ "second_skin" ],
       tier: 2,
       cost: 20,
@@ -27856,6 +27842,7 @@ const talentDataMap = {
       name: "Facial Recalibration",
       description: "Once per session, mimic a person’s face, posture, and speech after observing them for at least one turn. Grants a bonus die to Disguise or Performance (Impersonation). Costs 1 Strain.",
       skills: "",
+	  affected_skill: [ "disguise", "perform_impersonation" ],
       prerequisite: [ "echoed_voice", "second_skin" ],
       tier: 2,
       cost: 20,
@@ -27868,6 +27855,7 @@ const talentDataMap = {
       name: "Ghost Signature",
       description: "Once per session, spoof or bypass a low-grade biometric scan (e.g., facial recognition, voiceprint, retinal) with a bonus die to Slicing or Electronics.",
       skills: "",
+	  affected_skill: [ "electronics", "slicing" ],
       prerequisite: [ "ghost_protocol" ],
       tier: 2,
       cost: 20,
@@ -27880,6 +27868,7 @@ const talentDataMap = {
       name: "Mirror Weave",
       description: "Once per session, illusions or enchantments you cast can deceive digital or mechanical observers. Costs 1 Strain per additional ally affected. Cannot deceive hostile systems.",
       skills: "",
+	  affected_skill: [ "magic_enchantment", "magic_illusion" ],
       prerequisite: [ "whisper_touched" ],
       tier: 2,
       cost: 20,
@@ -27904,6 +27893,7 @@ const talentDataMap = {
       name: "Shift Reflex",
       description: "Once per scene, use a Reaction to confuse a target mid-scan or strike. Gain a bonus die to Dodge or Stealth.",
       skills: "",
+	  affected_skill: [ "dodge", "stealth" ],
       prerequisite: [ "reflexive_shift" ],
       tier: 2,
       cost: 20,
@@ -27928,6 +27918,7 @@ const talentDataMap = {
       name: "Veil Echo Memory",
       description: "Once per session, gain a sensory impression or memory from a place or person you've touched. Grants a bonus die to the next Arcana, Insight, or Occult Lore roll. Costs 1 Strain.",
       skills: "",
+	  affected_skill: [ "arcana", "insight", "occult_lore" ],
       prerequisite: [ "ghost_protocol", "whisper_touched" ],
       tier: 2,
       cost: 20,
@@ -27940,6 +27931,7 @@ const talentDataMap = {
       name: "Biometric Phantom",
       description: "Once per session, spoof or override corporate-grade biometric or magitech ID systems if you've had contact with the target. Bonus die to Slicing or Electronics.",
       skills: "",
+	  affected_skill: [ "electronics", "slicing" ],
       prerequisite: [ "ghost_signature" ],
       tier: 3,
       cost: 30,
@@ -27952,6 +27944,7 @@ const talentDataMap = {
       name: "Identity Cascade",
       description: "Once per scene, switch Masks mid-encounter (even mid-dialogue or mid-combat). Grants a bonus die to Disguise or Insight. Costs 1d4 Strain if under pressure or direct observation.",
       skills: "",
+	  affected_skill: [ "disguise", "insight" ],
       prerequisite: [ "deep_mask_integration" ],
       tier: 3,
       cost: 30,
@@ -27964,6 +27957,7 @@ const talentDataMap = {
       name: "Memory Graft",
       description: "Once per session, tap into a stored Mask’s memory for insight. Gain a bonus die to one Arcana, Insight, or Performance (Impersonation) roll tied to that persona’s experience.",
       skills: "",
+	  affected_skill: [ "arcana", "insight", "perform_impersonation" ],
       prerequisite: [ "deep_mask_integration" ],
       tier: 3,
       cost: 30,
@@ -27976,6 +27970,8 @@ const talentDataMap = {
       name: "Perfect Mimicry",
       description: "Once per session, flawlessly replicate a person’s full persona (appearance, mannerisms, tone). Grants a bonus die to Disguise, Performance, or Deception.",
       skills: "",
+	  affected_skill: [ "deception", "disguise" ],
+	  affected_skill_group: "perform",
       prerequisite: [ "echoed_voice", "facial_recalibration" ],
       tier: 3,
       cost: 30,
@@ -27988,6 +27984,7 @@ const talentDataMap = {
       name: "Social Echo",
       description: "Once per session, adapt your behavior to match a target’s subconscious expectations. Gain a bonus die to Charm, Deception, or Persuade. Costs 1 Strain if targeting two or more people.",
       skills: "",
+	  affected_skill: [ "charm", "deception", "persuade" ],
       prerequisite: [ "adaptive_memory", "social_chameleon" ],
       tier: 3,
       cost: 30,
@@ -28000,6 +27997,7 @@ const talentDataMap = {
       name: "Veil-Shaped Will",
       description: "Once per session, reroll a failed Illusion, Alteration, or Enchantment spellcasting. If successful, reduce the Strain die by one step (e.g., 1d6 → 1d4).",
       skills: "",
+	  affected_skill: [ "magic_alteration", "magic_enchantment", "magic_illusion" ],
       prerequisite: [ "mirror_weave", "whisper_touched" ],
       tier: 3,
       cost: 30,
@@ -28012,6 +28010,8 @@ const talentDataMap = {
       name: "Author of the Lie",
       description: "Once per session, automatically succeed on a Disguise, Performance, or Deception roll involving deception. You may declare one falsehood about your Mask as true for the rest of the scene. Costs 2 Strain if used under direct scrutiny or in a digital surveillance zone.",
       skills: "",
+	  affected_skill: [ "deception", "disguise" ],
+	  affected_skill_group: "perform",
       prerequisite: [ "deep_mask_integration", "social_echo" ],
       tier: 4,
       cost: 40,
@@ -28024,6 +28024,7 @@ const talentDataMap = {
       name: "Immaculate Impersonation",
       description: "Once per session, flawlessly impersonate a known target—down to retinal scan, bio-sig, and vocal cadence. Bonus die to all Disguise, Slicing, or Performance (Impersonation) checks for the entire scene.",
       skills: "",
+	  affected_skill: [ "disguise", "perform_impersonation", "slicing" ],
       prerequisite: [ "biometric_phantom", "perfect_mimicry" ],
       tier: 4,
       cost: 40,
@@ -28036,6 +28037,8 @@ const talentDataMap = {
       name: "Living Mask Archive",
       description: "Maintain up to four active Masks. Once per session, instantly switch between any of them. Grants a bonus die to your next social or Stealth roll. Costs 1 Strain if used during a scene.",
       skills: "",
+	  affected_skill: "stealth",
+	  affected_skill_group: "social",
       prerequisite: [ "identity_cascade", "memory_graft" ],
       tier: 4,
       cost: 40,
@@ -28048,6 +28051,7 @@ const talentDataMap = {
       name: "Veil-Mirroring Ritual",
       description: "Once per session, reflect a single Illusion or Enchantment spell cast on you, or redirect it to another visible target. Spell must be reflectable by nature.",
       skills: "",
+	  affected_skills: [ "magic_enchantment", "magic_illusion" ],
       prerequisite: [ "veil_shaped_will" ],
       tier: 4,
       cost: 40,
@@ -35684,14 +35688,14 @@ const registerFlawSummaryWatcher = () => {
   });
 };
 
-// === Racial Traits Skill Summary (group traits by referenced skills) ===
+// === Racial Traits Skill Summary (group traits by referenced skills + groups) ===
 const registerRacialTraitsSkillSummaryWatcher = () => {
   if (debug_on_trace) console.log("[registerRacialTraitsSkillSummaryWatcher] Start");
 
   const tr = (k) =>
     (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
 
-  // Normalize affected_skill -> array of machine-key strings
+  // Normalize affected_skill -> array of canonical machine-key strings
   const normalizeAffectedSkills = (aff) => {
     if (!aff) return [];
     if (Array.isArray(aff)) return aff.filter(Boolean).map((s) => String(s).trim());
@@ -35699,13 +35703,40 @@ const registerRacialTraitsSkillSummaryWatcher = () => {
     return [];
   };
 
-  // Given a canonical machine key, return a display label
-  // Prefer i18n label; otherwise prettify the machine key.
+  // Normalize affected_skill_group -> array of group strings
+  const normalizeAffectedGroups = (grp) => {
+    if (!grp) return [];
+    if (Array.isArray(grp)) return grp.filter(Boolean).map((s) => String(s).trim());
+    if (typeof grp === "string") return grp.split(",").map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+
+  // Precompute a map: groupName -> Set(skillKeys) from skillDataMap
+  const buildGroupIndex = () => {
+    const idx = {};
+    if (!skillDataMap || typeof skillDataMap !== "object") return idx;
+    Object.keys(skillDataMap).forEach((key) => {
+      const row = skillDataMap[key] || {};
+      const g = (row.group || "").toString().trim();
+      if (!g) return;
+      (idx[g] ||= new Set()).add(key);
+    });
+    return idx;
+  };
+
+  // Given a canonical machine key, return a display label.
+  // Prefer i18n via skillDataMap[key].label; fallback to prettified key.
   const displayForMachineKey = (machineKey) => {
     const row = skillDataMap && skillDataMap[machineKey];
-    if (!row) return machineKey; // unknown key -> surface as-is so it can be created properly
+    if (!row) {
+      // unknown key -> surface as-is so it can be created properly
+      return String(machineKey)
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (m) => m.toUpperCase());
+    }
     const translated = tr(row.label);
     if (translated && translated !== row.label) return translated;
+    // If label wasn't an i18n key, prettify the machine key
     return String(machineKey)
       .replace(/_/g, " ")
       .replace(/\b\w/g, (m) => m.toUpperCase());
@@ -35724,29 +35755,36 @@ const registerRacialTraitsSkillSummaryWatcher = () => {
       traits = Object.values(traitsBlock.items || {}); // current
     }
 
+    const groupIndex = buildGroupIndex();
+
     // Group by DISPLAY label -> Set of trait names
     const byDisplay = {};
+    const col = new Intl.Collator(undefined, { sensitivity: "base" });
 
     traits.forEach((t) => {
       const traitName = tr(t.name_key) || tr(t.name) || t.name || "";
       if (!traitName) return;
 
-      const affected = normalizeAffectedSkills(t.affected_skill);
-      affected.forEach((rawKey) => {
-        // Only accept canonical machine keys; do not attempt to infer from i18n
-        const key = String(rawKey).trim();
+      // 1) Directly listed skills
+      const affectedKeys = normalizeAffectedSkills(t.affected_skill);
 
-        // If key isn't present, we still surface it; this signals the id needs to be added to skillDataMap.
-        const display = displayForMachineKey(
-          (skillDataMap && Object.prototype.hasOwnProperty.call(skillDataMap, key)) ? key : key
-        );
+      // 2) Groups -> expand to skill keys
+      const groups = normalizeAffectedGroups(t.affected_skill_group);
+      groups.forEach((g) => {
+        const set = groupIndex[g];
+        if (set && set.size) {
+          set.forEach((k) => affectedKeys.push(k));
+        }
+      });
 
+      // De-duplicate and add to summary
+      Array.from(new Set(affectedKeys)).forEach((key) => {
+        const display = displayForMachineKey(key);
         (byDisplay[display] ||= new Set()).add(traitName);
       });
     });
 
     // Format: DISPLAY labels sorted, then trait names
-    const col = new Intl.Collator(undefined, { sensitivity: "base" });
     const labels = Object.keys(byDisplay).sort(col.compare);
     const sections = labels.map((label) => {
       const names = Array.from(byDisplay[label]).sort(col.compare);
@@ -38184,7 +38222,6 @@ const getUsageLimitedTalentNames = (limitType) => {
   return names;
 };
 
-
 on("clicked:clear_scene_uses", () => {
     // Clear static scene checkboxes first
     const sceneUses = getUsageLimitedTalentNames("scene");
@@ -38232,7 +38269,6 @@ on("clicked:clear_session_uses", () => {
     });
   });
 });
-
 
 let careerWatcherInitialized = false;
 

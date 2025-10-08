@@ -1108,13 +1108,20 @@
 								<input class="sheet-skill-input" type="text" name="attr_survival_urban_mdr" readonly />
 								<button type="roll" name="roll_survival_urban_mdr_check" value="&{template:coc-1} {{name=@{survival_urban_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{survival_urban_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{survival_urban_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{survival_urban_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}" ></button>
 							</div>
+							<div><input type="checkbox" name="attr_survival_veil_touched_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_survival_veil_touched_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="survival_veil_touched-u">survival_veil_touched (Wild)(10%)</span></div>
+							<div><input class="skill-input" type="text" name="attr_survival_veil_touched_skill_mdr" /></div>
+							<div class="sheet-val-roll-static">
+								<input class="sheet-skill-input" type="text" name="attr_survival_veil_touched_mdr" readonly />
+								<button type="roll" name="roll_survival_veil_touched_mdr_check" value="&{template:coc-1} {{name=@{survival_veil_touched_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{survival_veil_touched_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{survival_veil_touched_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{survival_veil_touched_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}" ></button>
+							</div>							
 							<div><input type="checkbox" name="attr_survival_wilderness_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_survival_wilderness_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="survival_wilderness-u">survival_wilderness (Wild)(10%)</span></div>
 							<div><input class="skill-input" type="text" name="attr_survival_wilderness_skill_mdr" /></div>
 							<div class="sheet-val-roll-static">
 								<input class="sheet-skill-input" type="text" name="attr_survival_wilderness_mdr" readonly />
 								<button type="roll" name="roll_survival_wilderness_mdr_check" value="&{template:coc-1} {{name=@{survival_wilderness_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{survival_wilderness_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{survival_wilderness_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{survival_wilderness_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}" ></button>
-							</div>
+							</div>							
 							<div><input type="checkbox" name="attr_track_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_track_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="track-u">Track (10%)</span></div>
 							<div><input class="skill-input" type="text" name="attr_track_skill_mdr" /></div>
@@ -26098,7 +26105,7 @@ on("sheet:opened", function () {
 		"pilotaircraft_txt", "pilotarc_txt", "pilotboat_txt", "psychology_txt", "psychoanalysis_txt", "ride_txt", "security_txt",
 		"singing_txt", "sleightofhand_txt", "slicing_txt", "spirit_lore_txt", "spothidden_txt", "stealth_txt", "streetwise_txt",
 		"survival_wilderness_txt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt",
-		"electronics_txt", "etiquette_alteri_txt", "etiquette_other_txt", "survival_urban_txt",
+		"electronics_txt", "etiquette_alteri_txt", "etiquette_other_txt", "survival_urban_txt", "survival_veil_touched_txt",
 		"perform_acting_txt", "perform_dance_txt", "perform_impersonation_txt", "perform_instrument_txt", "perform_vocal_txt",
 		"language_caltheran_txt", "language_own_txt", "language_other_txt", "otherskill3_txt"
 	];
@@ -26244,6 +26251,7 @@ const skillMapTable = {
  "Sleight of Hand": 		{ label: "sleight_of_hand", base: "10", skill: "sleight_of_hand_skill_mdr", bonus: "sleight_of_hand_mdr", group: "Survival", notes: "Sleight of Hand" },
  "Stealth": 				{ label: "stealth", base: "20", skill: "stealth_skill_mdr", bonus: "stealth_mdr", group: "Survival", notes: "Stealth" },
  "Survival (Urban)": 		{ label: "survival_urban", base: "10", skill: "survival_urban_skill_mdr", bonus: "survival_urban_mdr", group: "Survival", notes: "Survival (Urban)" },
+ "Survival (Veil Touched)":	{ label: "survival_veil_touched", base: "10", skill: "survival_veil_touched_skill_mdr", bonus: "survival_veil_touched_mdr", group: "Survival", notes: "Survival (Veil Touched)" },
  "Survival (Wilderness)":	{ label: "survival_wilderness", base: "10", skill: "survival_wilderness_skill_mdr", bonus: "survival_wilderness_mdr", group: "Survival", notes: "Survival (Wilderness)" },
  "Track": 					{ label: "track", base: "10", skill: "track_skill_mdr", bonus: "track_mdr", group: "Survival", notes: "Track" },
  /* Tech/Cyber */
@@ -26898,6 +26906,14 @@ const skillDataMap = {
 		bonus:	"survival_urban_mdr",
 		group:	"survival",
 		notes:	"survival_urban_desc-u"
+	},
+	survival_veil_touched: {
+		label:	"survival_veil_touched-u",
+		base:	10,
+		skill:	"survival_veil_touched_skill_mdr",
+		bonus:	"survival_veil_touched_mdr",
+		group:	"survival",
+		notes:	"survival_veil_touched_desc-u"
 	},
 	survival_wilderness: {
 		label:	"survival_wilderness-u",
@@ -28353,9 +28369,8 @@ const talentDataMap = {
     predators_focus: {
       name_key:  "talent_feran_predators_focus-u",
       rule_text_key: "talent_feran_predators_focus_rules-u",
-      name: "Predator’s Focus",
-      description: "Once per session, gain a bonus die on a Perception or Insight check to assess danger, detect motion, or track prey.",
       skills: "",
+	  affected_skill: [ "insight", "perception" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28365,9 +28380,8 @@ const talentDataMap = {
     razorstep_pounce: {
       name_key:  "talent_feran_razorstep_pounce-u",
       rule_text_key: "talent_feran_razorstep_pounce_rules-u",
-      name: "Razorstep Pounce",
-      description: "Once per session, after a successful unarmed attack, spend 2 Strain to make a second unarmed attack against another target in engaged range—or one in close range if you move (provoking an attack of opportunity).",
       skills: "",
+	  affected_skill: "unarmed",
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28377,8 +28391,6 @@ const talentDataMap = {
     scavengers_instinct: {
       name_key:  "talent_feran_scavengers_instinct-u",
       rule_text_key: "talent_feran_scavengers_instinct_rules-u",
-      name: "Scavenger’s Instinct",
-      description: "Choose one: gain +10% to Streetwise, Survival (Urban), or Navigate. Reflects upbringing in scav-run packs and fringe routes. May only be taken once.",
       skills: [ "navigate", "streetwise", "survival_urban" ],
       prerequisite: "",
       tier: 1,
@@ -28389,9 +28401,8 @@ const talentDataMap = {
     scent_of_the_kill: {
       name_key:  "talent_feran_scent_of_the_kill-u",
       rule_text_key: "talent_feran_scent_of_the_kill_rules-u",
-      name: "Scent of the Kill",
-      description: "Once per scene, after succeeding on a Track check, gain a bonus die on your next Attack, Insight, or Streetwise check involving the same target.",
       skills: "",
+	  affected_skill: [ "insight", "streetwise", "track" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28401,9 +28412,8 @@ const talentDataMap = {
     silent_leap: {
       name_key:  "talent_feran_silent_leap-u",
       rule_text_key: "talent_feran_silent_leap_rules-u",
-      name: "Silent Leap",
-      description: "Once per session, gain a bonus die on a Stealth or Athletics check made to reposition from concealment or into cover. Useful for ambush or disengaging into cover.",
       skills: "",
+	  affected_skill: [ "athletics", "stealth" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28413,8 +28423,6 @@ const talentDataMap = {
     threadrunners_poise: {
       name_key:  "talent_feran_threadrunners_poise-u",
       rule_text_key: "talent_feran_threadrunners_poise_rules-u",
-      name: "Threadrunner’s Poise",
-      description: "Once per session, ignore penalties from unstable, narrow, or shifting terrain for the rest of the scene.",
       skills: "",
       prerequisite: "",
       tier: 1,
@@ -28425,9 +28433,8 @@ const talentDataMap = {
     wallrunners_step: {
       name_key:  "talent_feran_wallrunners_step-u",
       rule_text_key: "talent_feran_wallrunners_step_rules-u",
-      name: "Wallrunner’s Step",
-      description: "Once per session, gain a bonus die on an Athletics or Coordination check made while navigating vertical, narrow, or unstable terrain.",
       skills: "",
+	  affected_skill: [ "athletics", "coordination" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28437,8 +28444,6 @@ const talentDataMap = {
     ambush_instincts: {
       name_key:  "talent_feran_ambush_instincts-u",
       rule_text_key: "talent_feran_ambush_instincts_rules-u",
-      name: "Ambush Instincts",
-      description: "Once per scene, when combat begins, you may immediately take a free movement action before initiative is rolled.",
       skills: "",
       prerequisite: "",
       prerequisiteAny: { tier: 1, count: 1 },
@@ -28450,9 +28455,8 @@ const talentDataMap = {
     bloodrushed_recovery: {
       name_key:  "talent_feran_bloodrushed_recovery-u",
       rule_text_key: "talent_feran_bloodrushed_recovery_rules-u",
-      name: "Bloodrushed Recovery",
-      description: "Once per session, when you take damage of any kind, regain 2 Strain and gain a bonus die on your next Dodge roll.",
       skills: "",
+	  affected_skill: "dodge",
       prerequisite: "",
       prerequisiteAny: { tier: 1, count: 1 },
       tier: 2,
@@ -28463,9 +28467,8 @@ const talentDataMap = {
     pack_sense_reversal: {
       name_key:  "talent_feran_pack_sense_reversal-u",
       rule_text_key: "talent_feran_pack_sense_reversal_rules-u",
-      name: "Pack-Sense Reversal",
-      description: "Once per session, if an ally within short range is targeted by a melee attack, you may switch places with them as a Reaction. If you successfully Dodge, you may make a free unarmed attack against the attacker (if still in range).",
       skills: "",
+	  affected_skill: [ "dodge", "unarmed" ],
       prerequisite: [ "predators_focus", "scavengers_instinct" ],
       tier: 2,
       cost: 20,
@@ -28475,9 +28478,8 @@ const talentDataMap = {
     pounce_and_break: {
       name_key:  "talent_feran_pounce_and_break-u",
       rule_text_key: "talent_feran_pounce_and_break_rules-u",
-      name: "Pounce and Break",
-      description: "Once per session, if you hit a melee attack against a surprised or unaware target, that target suffers a penalty die on their next Dodge or Attack roll.",
       skills: "",
+	  affected_skill: "dodge",
       prerequisite: [ "razorstep_pounce" ],
       tier: 2,
       cost: 20,
@@ -28487,9 +28489,8 @@ const talentDataMap = {
     predators_patience: {
       name_key:  "talent_feran_predators_patience-u",
       rule_text_key: "talent_feran_predators_patience_rules-u",
-      name: "Predator’s Patience",
-      description: "Once per session, if you remain in stealth or cover for a full round, your next melee or ranged attack from hiding gains a bonus die.",
       skills: "",
+	  affected_skill: "stealth",
       prerequisite: [ "predators_focus", "silent_leap" ],
       tier: 2,
       cost: 20,
@@ -28499,9 +28500,8 @@ const talentDataMap = {
     scentlock_tactics: {
       name_key:  "talent_feran_scentlock_tactics-u",
       rule_text_key: "talent_feran_scentlock_tactics_rules-u",
-      name: "Scentlock Tactics",
-      description: "Once per session, after succeeding on a Track check or observing a target for a round, gain a bonus die on your next Attack, Insight, or Streetwise check against that target.",
       skills: "",
+	  affected_skill: [ "insight", "streetwise" ],
       prerequisite: [ "scent_of_the_kill" ],
       tier: 2,
       cost: 20,
@@ -28511,9 +28511,8 @@ const talentDataMap = {
     threadwalkers_rhythm: {
       name_key:  "talent_feran_threadwalkers_rhythm-u",
       rule_text_key: "talent_feran_threadwalkers_rhythm_rules-u",
-      name: "Threadwalker’s Rhythm",
-      description: "For one scene per session, ignore terrain penalties and gain a bonus die to Athletics checks made to navigate difficult, unstable, or vertical ground.",
       skills: "",
+	  affected_skill: "athletics",
       prerequisite: [ "threadrunners_poise", "wallrunners_step" ],
       tier: 2,
       cost: 20,
@@ -28523,9 +28522,8 @@ const talentDataMap = {
     apex_reflex: {
       name_key:  "talent_feran_apex_reflex-u",
       rule_text_key: "talent_feran_apex_reflex_rules-u",
-      name: "Apex Reflex",
-      description: "Once per session, when you successfully Dodge a melee attack, you may shift one range band without disengaging and make a free unarmed or melee attack against a different target.",
       skills: "",
+	  affected_skill: [ "dodge", "melee_weapons", "unarmed" ],
       prerequisite: [ "pack_sense_reversal" ],
       tier: 3,
       cost: 30,
@@ -28535,8 +28533,6 @@ const talentDataMap = {
     battle_rush_clarity: {
       name_key:  "talent_feran_battle_rush_clarity-u",
       rule_text_key: "talent_feran_battle_rush_clarity_rules-u",
-      name: "Battle-Rush Clarity",
-      description: "Once per session, when you suffer any damage, regain 2 Strain and ignore movement penalties from wounds until the end of your next turn.",
       skills: "",
       prerequisite: [ "bloodrushed_recovery" ],
       tier: 3,
@@ -28547,9 +28543,8 @@ const talentDataMap = {
     chain_strike_instinct: {
       name_key:  "talent_feran_chain_strike_instinct-u",
       rule_text_key: "talent_feran_chain_strike_instinct_rules-u",
-      name: "Chain-Strike Instinct",
-      description: "Once per session, if you reduce a target to 0 HP with a melee or unarmed attack, you may shift to a second target in engaged range and make a free attack.",
       skills: "",
+	  affected_skill: [ "melee_weapons", "unarmed" ],
       prerequisite: [ "pounce_and_break", "stalkers_cascade" ],
       tier: 3,
       cost: 30,
@@ -28559,9 +28554,8 @@ const talentDataMap = {
     pack_alphas_demand: {
       name_key:  "talent_feran_pack_alphas_demand-u",
       rule_text_key: "talent_feran_pack_alphas_demand_rules-u",
-      name: "Pack Alpha’s Demand",
-      description: "Once per session, choose up to two allies within short range. Until the start of your next turn, they each gain a bonus die on Dodge or melee attacks (choose one).",
       skills: "",
+	  affected_skill: [ "dodge", "melee_weapons", "unarmed" ],
       prerequisite: [ "pack_sense_reversal" ],
       tier: 3,
       cost: 30,
@@ -28571,9 +28565,8 @@ const talentDataMap = {
     predators_terrain: {
       name_key:  "talent_feran_predators_terrain-u",
       rule_text_key: "talent_feran_predators_terrain_rules-u",
-      name: "Predator’s Terrain",
-      description: "Once per session, designate a terrain type (rubble, scaffolding, overgrowth, etc.) as your hunting ground. While within it, gain a bonus die to Dodge and Athletics, and enemies suffer a penalty die on ranged attacks against you.",
       skills: "",
+	  affected_skill: [ "athletics", "dodge" ],
       prerequisite: [ "threadwalkers_rhythm" ],
       tier: 3,
       cost: 30,
@@ -28583,8 +28576,6 @@ const talentDataMap = {
     stalkers_cascade: {
       name_key:  "talent_feran_stalkers_cascade-u",
       rule_text_key: "talent_feran_stalkers_cascade_rules-u",
-      name: "Stalker’s Cascade",
-      description: "Once per session, if you begin your turn unseen and hit with a melee or unarmed attack, make a second attack with a bonus die. If both hit, the target suffers a penalty die on their next action.",
       skills: "",
       prerequisite: [ "pounce_and_break", "predators_patience" ],
       tier: 3,
@@ -28595,9 +28586,8 @@ const talentDataMap = {
     ghostclaw_alpha: {
       name_key: "talent_feran_ghostclaw_alpha-u",
       rule_text_key: "talent_feran_ghostclaw_alpha_rules-u",
-      name: "Ghostclaw Alpha",
-      description: "Once per session, before initiative is rolled, you may take a single free action: either move (short range), make a melee/unarmed attack, or attempt to enter stealth or cover if plausible.",
       skills: "",
+	  affected_skill: [ "melee_weapons", "stealth", "unarmed" ],
       prerequisite: [ "apex_reflex", "stalkers_cascade" ],
       tier: 4,
       cost: 40,
@@ -28607,9 +28597,8 @@ const talentDataMap = {
     pack_memory_living_instinct: {
       name_key: "talent_feran_pack_memory_living_instinct-u",
       rule_text_key: "talent_feran_pack_memory_living_instinct_rules-u",
-      name: "Pack Memory, Living Instinct",
-      description: "Once per session, declare a Pack Call. For the rest of the scene, up to two allies within short range gain +10% to Dodge or Athletics, may reroll one failed melee attack or Dodge, and do not provoke attacks of opportunity when moving toward you.",
       skills: "",
+	  affected_skill: [ "athletics", "dodge" ],
       prerequisite: [ "pack_alphas_demand", "predators_terrain" ],
       tier: 4,
       cost: 40,
@@ -28619,8 +28608,6 @@ const talentDataMap = {
     pulse_lock_drive: {
       name_key: "talent_feran_pulse_lock_drive-u",
       rule_text_key: "talent_feran_pulse_lock_drive_rules-u",
-      name: "Pulse-Lock Drive",
-      description: "Once per session, after a successful melee or unarmed attack, shift one range band and make a free attack against a second target. This movement does not provoke attacks of opportunity. If both attacks hit, regain 2 Strain and impose a penalty die to Dodge rolls against you (short range only) until the end of your next turn.",
       skills: "",
       prerequisite: [ "chain_strike_instinct", "stalkers_cascade" ],
       tier: 4,
@@ -28631,8 +28618,6 @@ const talentDataMap = {
     threadbound_mastery: {
       name_key: "talent_feran_threadbound_mastery-u",
       rule_text_key: "talent_feran_threadbound_mastery_rules-u",
-      name: "Threadbound Mastery",
-      description: "Once per session, for the remainder of the scene, you ignore terrain penalties and may shift one range band as a free action once per round, so long as the movement includes climbing, leaping, or difficult ground.",
       skills: "",
       prerequisite: [ "predators_terrain" ],
       tier: 4,

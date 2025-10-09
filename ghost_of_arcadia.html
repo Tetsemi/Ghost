@@ -26638,7 +26638,7 @@ const skillDataMap = {
 		base:	0,
 		skill:	"forbidden_lore_skill_mdr",
 		bonus:	"forbidden_lore_mdr",
-		group:	"knowledge",
+		group:	["knowledge", "lore" ],
 		notes:	"forbidden_lore_desc-u"
 	},
 	history: {
@@ -26682,27 +26682,27 @@ const skillDataMap = {
 		notes: "natural_world_desc-u"
 	},
 	occult_lore: { 
-		label: "occult_lore-u",
-		base: 5,
-		skill: "occult_lore_skill_mdr",
-		bonus: "occult_lore_mdr",
-		group: "knowledge",
-		notes: "occult_lore_desc-u"
+		label:	"occult_lore-u",
+		base:	5,
+		skill:	"occult_lore_skill_mdr",
+		bonus:	"occult_lore_mdr",
+		group:	[ "knowledge", "lore" ],
+		notes:	"occult_lore_desc-u"
 	},
 	spirit_lore: { 
-		label: "spirit_lore-u",
-		base: 5,
-		skill: "spirit_lore_skill_mdr",
-		bonus: "spirit_lore_mdr",
-		group: "knowledge",
-		notes: "spirit_lore_desc-u"
+		label:	"spirit_lore-u",
+		base:	5,
+		skill:	"spirit_lore_skill_mdr",
+		bonus:	"spirit_lore_mdr",
+		group:	["knowledge", "lore" ],
+		notes:	"spirit_lore_desc-u"
 	},
 	veil_lore: { 
 		label:	"veil_lore-u",
 		base:	5,
 		skill:	"veil_lore_skill_mdr",
 		bonus:	"veil_lore_mdr",
-		group:	"knowledge",
+		group:	["knowledge", "lore" ],
 		notes:	"veil_lore_desc-u"
 	},
 /* Social */
@@ -28630,8 +28630,6 @@ const talentDataMap = {
     battle_tested_gut: {
       name_key:  "talent_human_battle_tested_gut-u",
       rule_text_key: "talent_human_battle_tested_gut_rules-u",
-      name: "Battle-Tested Gut",
-      description: "Once per session, when entering a potentially dangerous situation, ask the GM: Do I feel something is off? The GM must answer truthfully (vaguely if appropriate).",
       skills: "",
       prerequisite: "",
       tier: 1,
@@ -28642,8 +28640,6 @@ const talentDataMap = {
     hard_lesson: {
       name_key:  "talent_human_hard_lesson-u",
       rule_text_key: "talent_human_hard_lesson_rules-u",
-      name: "Hard Lesson",
-      description: "Once per session, reroll a failed skill check. You must take the second result. This reflects the human knack for learning through pain and persistence. Optional: Spend 2 Strain to attempt a second reroll immediately after the first.",
       skills: "",
       prerequisite: "",
       tier: 1,
@@ -28654,9 +28650,8 @@ const talentDataMap = {
     instinct_over_training: {
       name_key:  "talent_human_instinct_over_training-u",
       rule_text_key: "talent_human_instinct_over_training_rules-u",
-      name: "Instinct Over Training",
-      description: "Use Education in place of any untrained knowledge skill (Arcana, Occult Lore, Forbidden Lore, History, Law, etc.) once per session, at one difficulty higher.",
       skills: "",
+	  affected_stat: "edu",
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28666,9 +28661,8 @@ const talentDataMap = {
     makeshift_medic: {
       name_key:  "talent_human_makeshift_medic-u",
       rule_text_key: "talent_human_makeshift_medic_rules-u",
-      name: "Makeshift Medic",
-      description: "Once per session, when attempting a First Aid check without proper medical tools, gain a bonus die. Humans improvise with what they have.",
       skills: "",
+	  affected_skill: "first_aid",
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28678,9 +28672,8 @@ const talentDataMap = {
     no_stranger_to_pain: {
       name_key:  "talent_human_no_stranger_to_pain-u",
       rule_text_key: "talent_human_no_stranger_to_pain_rules-u",
-      name: "No Stranger to Pain",
-      description: "Once per session, roll with a bonus die when making a CON roll to stay conscious after suffering a major wound.",
       skills: "",
+	  affected_stat: "con",
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28690,8 +28683,6 @@ const talentDataMap = {
     quick_fixer: {
       name_key:  "talent_human_quick_fixer-u",
       rule_text_key: "talent_human_quick_fixer_rules-u",
-      name: "Quick Fixer",
-      description: "Choose one: gain +10% to Electronics, Mechanics, or Slicing. This reflects cross-training in common survival tech. This choice is permanent and may only be taken once.",
       skills: [ "electronics", "mechanics", "slicing" ],
       prerequisite: "",
       tier: 1,
@@ -28700,10 +28691,9 @@ const talentDataMap = {
       usage_limit: ""
     },
     skilled_focus: {
+	  /* Handled in sheet worker */
       name_key:  "talent_human_skilled_focus-u",
       rule_text_key: "talent_human_skilled_focus_rules-u",
-      name: "Skilled Focus",
-      description: "Choose one: gain +10% to any non-combat, non-magic skill. This reflects training or life experience in a particular area. May only be taken once.",
       skills: "",
       prerequisite: "",
       tier: 1,
@@ -28714,9 +28704,8 @@ const talentDataMap = {
     social_versatility: {
       name_key:  "talent_human_social_versatility-u",
       rule_text_key: "talent_human_social_versatility_rules-u",
-      name: "Social Versatility",
-      description: "Once per session, reroll any failed Charm, Deception, or Persuade check. This reflects the human gift for adapting socially on the fly.",
       skills: "",
+	  affected_skill: [ "charm", "deception", "persuade" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -28724,10 +28713,9 @@ const talentDataMap = {
       usage_limit: "session"
     },
     cross_trained: {
+	  /* Handled in sheet worker */
       name_key:  "talent_human_cross_trained-u",
       rule_text_key: "talent_human_cross_trained_rules-u",
-      name: "Cross-Trained",
-      description: "Choose one additional Class Skill from any profession and gain +10% in it. This may only be taken once. Optional: Spend 1 Strain to treat a skill as trained for advancement purposes until the end of session.",
       skills: "",
       prerequisite: [ "quick_learner", "skilled_focus" ],
       tier: 2,
@@ -28738,9 +28726,9 @@ const talentDataMap = {
     defiant_resilience: {
       name_key:  "talent_human_defiant_resilience-u",
       rule_text_key: "talent_human_defiant_resilience_rules-u",
-      name: "Defiant Resilience",
-      description: "Once per session, ignore the effects of one failed Fear or Mental Trauma check (GM discretion). Optional: Spend 2 Strain to also gain a bonus die to your next Willpower or Insight check during the same scene.",
       skills: "",
+	  affected_skill: "insight",
+	  affected_stat: "pow",
       prerequisite: [ "no_stranger_to_pain" ],
       tier: 2,
       cost: 20,
@@ -28750,9 +28738,8 @@ const talentDataMap = {
     improvised_tools: {
       name_key:  "talent_human_improvised_tools-u",
       rule_text_key: "talent_human_improvised_tools_rules-u",
-      name: "Improvised Tools",
-      description: "Once per session, ignore the penalty for lacking tools when making a Mechanics, Electronics, or Slicing check. You’ve duct-taped worse.",
       skills: "",
+	  affected_skill: [ "electronics", "mechanics", "slicing" ],
       prerequisite: [ "quick_fixer" ],
       tier: 2,
       cost: 20,
@@ -28762,8 +28749,6 @@ const talentDataMap = {
     lucky_timing: {
       name_key:  "talent_human_lucky_timing-u",
       rule_text_key: "talent_human_lucky_timing_rules-u",
-      name: "Lucky Timing",
-      description: "Once per session, choose one other player. After they fail a skill check, you may declare, ‘Wait—I’ve got this.’ You immediately attempt the same roll yourself with a bonus die.",
       skills: "",
       prerequisite: [ "skilled_focus", "social_versatility" ],
       tier: 2,
@@ -28774,8 +28759,6 @@ const talentDataMap = {
     quick_learner: {
       name_key:  "talent_human_quick_learner-u",
       rule_text_key: "talent_human_quick_learner_rules-u",
-      name: "Quick Learner",
-      description: "When you succeed at a roll for an untrained skill (one not granted by your Race or Profession), gain a bonus die the next time you use that skill during this session.",
       skills: "",
       prerequisite: [ "battle_tested_gut", "hard_lesson", "instinct_over_training", "makeshift_medic", "no_stranger_to_pain", "quick_fixer", "skilled_focus", "social_versatility" ],
       tier: 2,
@@ -28786,9 +28769,8 @@ const talentDataMap = {
     situational_awareness: {
       name_key:  "talent_human_situational_awareness-u",
       rule_text_key: "talent_human_situational_awareness_rules-u",
-      name: "Situational Awareness",
-      description: "Once per session, gain a bonus die to a Perception, Insight, or Listen check during a high-stress scene (combat, infiltration, or tense social standoff).",
       skills: "",
+	  affected_skill: [ "insight", "listen", "perception" ],
       prerequisite: [ "battle_tested_gut", "instinct_over_training" ],
       tier: 2,
       cost: 20,
@@ -28798,9 +28780,8 @@ const talentDataMap = {
     spontaneous_strategist: {
       name_key:  "talent_human_spontaneous_strategist-u",
       rule_text_key: "talent_human_spontaneous_strategist_rules-u",
-      name: "Spontaneous Strategist",
-      description: "Once per scene, gain a bonus die on a Dodge, Persuade, or Tactical (if used) roll made in response to an unexpected turn of events. Optional: Spend 1 Strain to activate this outside your normal action, as a reactive call.",
       skills: "",
+	  affected_skill: [ "dodge", "insight", "persuade" ],
       prerequisite: [ "hard_lesson" ],
       tier: 2,
       cost: 20,
@@ -28810,8 +28791,6 @@ const talentDataMap = {
     break_the_pattern: {
       name_key:  "talent_human_break_the_pattern-u",
       rule_text_key: "talent_human_break_the_pattern_rules-u",
-      name: "Break the Pattern",
-      description: "Once per session, negate one enemy’s bonus die (declared after they roll, before results are finalized).",
       skills: "",
       prerequisite: [ "lucky_timing", "social_versatility" ],
       tier: 3,
@@ -28822,8 +28801,6 @@ const talentDataMap = {
     chain_of_luck: {
       name_key:  "talent_human_chain_of_luck-u",
       rule_text_key: "talent_human_chain_of_luck_rules-u",
-      name: "Chain of Luck",
-      description: "Once per session, when you roll a natural 01–05 on any skill check, immediately gain a bonus die to your next roll.",
       skills: "",
       prerequisite: [ "hard_lesson", "lucky_timing" ],
       tier: 3,
@@ -28834,9 +28811,8 @@ const talentDataMap = {
     dig_deep: {
       name_key:  "talent_human_dig_deep-u",
       rule_text_key: "talent_human_dig_deep_rules-u",
-      name: "Dig Deep",
-      description: "Once per session, push through a wound or mental strain: ignore a penalty die from fatigue, injury, or Veil exposure for one roll. Optional: Spend 2 Strain to ignore two penalty dice or apply the effect to two rolls this scene.",
       skills: "",
+	  affected_stat: "con",
       prerequisite: [ "defiant_resilience" ],
       tier: 3,
       cost: 30,
@@ -28846,8 +28822,6 @@ const talentDataMap = {
     just_enough_prep: {
       name_key:  "talent_human_just_enough_prep-u",
       rule_text_key: "talent_human_just_enough_prep_rules-u",
-      name: "Just Enough Prep",
-      description: "Once per session, declare you prepped for this. Reveal a basic tool, piece of info, or contact that reasonably helps the scene. Gain a bonus die to one roll using it. Optional: Spend 2 Strain to declare an additional prep aid during the same scene.",
       skills: "",
       prerequisite: [ "improvised_tools", "situational_awareness" ],
       tier: 3,
@@ -28858,8 +28832,6 @@ const talentDataMap = {
     momentum_shift: {
       name_key:  "talent_human_momentum_shift-u",
       rule_text_key: "talent_human_momentum_shift_rules-u",
-      name: "Momentum Shift",
-      description: "Once per session, after a successful roll, you may immediately attempt another action (of a different skill) with a bonus die. Can be used for daring combos or sudden shifts in tempo.",
       skills: "",
       prerequisite: [ "quick_learner", "spontaneous_strategist" ],
       tier: 3,
@@ -28870,9 +28842,9 @@ const talentDataMap = {
     pull_from_memory: {
       name_key:  "talent_human_pull_from_memory-u",
       rule_text_key: "talent_human_pull_from_memory_rules-u",
-      name: "Pull From Memory",
-      description: "Once per session, ask the GM: Have I read, seen, or heard of this before? If yes, gain a bonus die to a related Lore, History, or Magic (any) roll.",
       skills: "",
+	  affected_skill: "history",
+	  affected_skill_group: [ "lore", "magic" ],
       prerequisite: [ "instinct_over_training" ],
       tier: 3,
       cost: 30,
@@ -28882,9 +28854,8 @@ const talentDataMap = {
     luck_bends_for_me: {
       name_key: "talent_human_luck_bends_for_me-u",
       rule_text_key: "talent_human_luck_bends_for_me_rules-u",
-      name: "Luck Bends for Me",
-      description: "At the start of each session, make two Luck advancement rolls instead of one. If you fail a roll, gain +1d10 Luck. Additionally, once per session, spend 5 Luck to reroll a failed skill roll.",
       skills: "",
+	  affected_stat: "luck",
       prerequisite: [ "chain_of_luck", "hard_lesson" ],
       tier: 4,
       cost: 40,
@@ -28894,8 +28865,6 @@ const talentDataMap = {
     master_of_none: {
       name_key: "talent_human_master_of_none-u",
       rule_text_key: "talent_human_master_of_none_rules-u",
-      name: "Master of None",
-      description: "Choose three skills in which you have at least 50%. Gain +10% in each. These do not have to be from the same category or Class list.",
       skills: "",
       prerequisite: [ "cross_trained", "skilled_focus" ],
       tier: 4,
@@ -28906,8 +28875,6 @@ const talentDataMap = {
     tactical_improviser: {
       name_key: "talent_human_tactical_improviser-u",
       rule_text_key: "talent_human_tactical_improviser_rules-u",
-      name: "Tactical Improviser",
-      description: "Once per session, declare a flexible plan mid-scene. One ally you designate gains a bonus die once per round for the remainder of the scene, as long as their actions align with your stated approach. Optional: Spend 2 Strain per round to allow a second ally to benefit as well.",
       skills: "",
       prerequisite: [ "just_enough_prep", "momentum_shift" ],
       tier: 4,
@@ -28918,9 +28885,8 @@ const talentDataMap = {
     unshakable_focus: {
       name_key: "talent_human_unshakable_focus-u",
       rule_text_key: "talent_human_unshakable_focus_rules-u",
-      name: "Unshakable Focus",
-      description: "Once per session, become immune to Fear, Pain, or Mental Trauma for the duration of a scene. While active, gain a bonus die to any Willpower-related roll. Optional: Instead of using it once per session, you may activate this once per scene by spending 4 Strain.",
       skills: "",
+	  affected_stat: "pow",
       prerequisite: [ "defiant_resilience", "dig_deep" ],
       tier: 4,
       cost: 40,

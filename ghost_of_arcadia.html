@@ -1243,6 +1243,10 @@
 			<div class="sheet-skill-summary-wrapper">
 				<div class="sheet-skill-columns">
 					<div class="sheet-skill-column">
+						<h4 class="section-head" data-i18n="racial_traits_skill_summary-u">Racial Traits Skill Summary</h4>
+						<div class="sheet-skill-summary">
+							<span name="attr_racial_traits_skill_summary"></span>
+						</div>	
 						<h4 class="section-head" data-i18n="perk_skill_summary-u">Perk Skill Summary</h4>
 						<div class="sheet-skill-summary">
 							<span name="attr_perk_skill_summary"></span>
@@ -1250,11 +1254,7 @@
 						<h4 class="section-head" data-i18n="flaw_skill_summary-u">Flaw Skill Summary</h4>
 						<div class="sheet-skill-summary">
 							<span name="attr_flaw_skill_summary"></span>
-						</div>	
-						<h4 class="section-head" data-i18n="racial_traits_skill_summary-u">Racial Traits Skill Summary</h4>
-						<div class="sheet-skill-summary">
-							<span name="attr_racial_traits_skill_summary"></span>
-						</div>							
+						</div>						
 					</div>
 					<div class="sheet-skill-column">
 						<h4 class="section-head" data-i18n="racial_talents_skill_summary-u">Racial Talents Skill Summary</h4>
@@ -1267,6 +1267,7 @@
 						<div class="sheet-skill-summary">
 							<span name="attr_career_skill_summary"></span>
 						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -27056,7 +27057,8 @@ const perkDataMap = {
         flavor: "perk_corp_groomed_flavor-u",
         description: "perk_corp_groomed_description-u",
         cost: 10,
-		affected_skill: [ "deception", "etiquette_alteri", "etiquette_high_society", "etiquette_lyranni", "etiquette_underworld", "etiquette_other" ],
+		affected_skill: "deception",
+		affected_skill_group: "etiquette",
         usage_limit: "session"
     },
     danger_sense: {
@@ -29845,9 +29847,8 @@ const talentDataMap = {
     cache_sense: {
       name_key: "talent_veyra_cache_sense-u",
       rule_text_key: "talent_veyra_cache_sense_rules-u",
-      name: "Cache Sense",
-      description: "You’ve developed an instinct for spotting what others discard. Gain a bonus die to Survival (Urban) or Mechanics when scavenging parts from damaged infrastructure, machinery, or field wreckage. Once per session, you may improvise a basic repair using overlooked scrap or broken components, as long as they’re accessible in the scene.",
 	  skills: "",
+	  affected_skill: [ "mechanics", "survival_urban" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -29857,9 +29858,8 @@ const talentDataMap = {
     circuit_whispers: {
       name_key: "talent_veyra_circuit_whispers-u",
       rule_text_key: "talent_veyra_circuit_whispers_rules-u",
-      name: "Circuit Whispers",
-      description: "Broken systems still speak—you just know how to listen. Gain a bonus die on your first Mechanics or Electronics roll when examining a damaged non-magical device. This applies even without schematics or tools.",
       skills: "",
+	  affected_skill: [ "electronics", "mechanics" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -29869,9 +29869,8 @@ const talentDataMap = {
     echo_sense: {
       name_key: "talent_veyra_echo_sense-u",
       rule_text_key: "talent_veyra_echo_sense_rules-u",
-      name: "Echo Sense",
-      description: "Your ears read space like others read light. You may roll Listen in place of Perception in darkness or low visibility, and gain a bonus die to detect hidden movement or unseen threats.",
       skills: "",
+	  affected_skill: [ "listen", "perception" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -29881,8 +29880,6 @@ const talentDataMap = {
     mask_the_signal: {
       name_key: "talent_veyra_mask_the_signal-u",
       rule_text_key: "talent_veyra_mask_the_signal_rules-u",
-      name: "Mask the Signal",
-      description: "You can dampen your personal tech signature. For one scene, you appear invisible to basic scanners, unsecured surveillance, and passive detection. Slicers using Scan must succeed on a Hard difficulty check to detect you.",
       skills: "",
       prerequisite: "",
       tier: 1,
@@ -29893,9 +29890,8 @@ const talentDataMap = {
     no_footprints: {
       name_key: "talent_veyra_no_footprints-u",
       rule_text_key: "talent_veyra_no_footprints_rules-u",
-      name: "No Footprints",
-      description: "You learned to move like silence itself. You suffer no movement penalty when using Stealth, and may move at full speed without increasing your chances of detection.",
       skills: "",
+	  affected_skill: "stealth",
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -29905,9 +29901,8 @@ const talentDataMap = {
     patchwork_fixer: {
       name_key: "talent_veyra_patchwork_fixer-u",
       rule_text_key: "talent_veyra_patchwork_fixer_rules-u",
-      name: "Patchwork Fixer",
-      description: "You’re a master of salvage repair. Gain a +10% bonus to Mechanics and Electronics when working with scrap or improvised tools. Repairs last one scene or until significantly stressed.",
       skills: "",
+	  affected_skill: [ "electronics", "mechanics" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -29917,9 +29912,8 @@ const talentDataMap = {
     reflex_map: {
       name_key: "talent_veyra_reflex_map-u",
       rule_text_key: "talent_veyra_reflex_map_rules-u",
-      name: "Reflex Map",
-      description: "You process your surroundings before others blink. Once per session, if you succeed on a Perception or Listen check to detect danger, you may take one free maneuver before initiative is rolled. This maneuver must be defensive: move to cover, duck, shift position, or warn an ally.",
       skills: "",
+	  affected_skill: [ "listen", "perception" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -29929,9 +29923,8 @@ const talentDataMap = {
     signal_ghost: {
       name_key: "talent_veyra_signal_ghost-u",
       rule_text_key: "talent_veyra_signal_ghost_rules-u",
-      name: "Signal Ghost",
-      description: "You slip through digital doors like breath. Once per session, reroll a failed Slicing or Security Systems check. If the reroll succeeds, no trace of the intrusion remains unless the system was protected by active countermeasures.",
       skills: "",
+	  affected_skill: [ "security", "slicing" ],
       prerequisite: "",
       tier: 1,
       cost: 10,
@@ -29941,21 +29934,19 @@ const talentDataMap = {
     slip_between: {
       name_key: "talent_veyra_slip_between-u",
       rule_text_key: "talent_veyra_slip_between_rules-u",
-      name: "Slip Between",
-      description: "You move through collapsed ducts and half-formed crawlways like you were born to. You ignore movement penalties from tight spaces and gain a bonus die to Stealth rolls made while entering, exiting, or navigating narrow areas.",
       skills: "",
+	  affected_skill: "stealth",
       prerequisite: "",
       tier: 1,
       cost: 10,
       capstone: false,
       usage_limit: ""
     },
-     battlefield_sync: {
+    battlefield_sync: {
       name_key: "talent_veyra_battlefield_sync-u",
       rule_text_key: "talent_veyra_battlefield_sync_rules-u",
-      name: "Battlefield Sync",
-      description: "Once per scene, if you win Initiative or succeed on a Perception or Listen check before combat begins, you may take one maneuver before the first full combat round.",
       skills: "",
+	  affected_skill: [ "listen", "perception" ],
       prerequisite: [ "reflex_map" ],
       tier: 2,
       cost: 20,
@@ -29965,9 +29956,8 @@ const talentDataMap = {
     echo_map_recall: {
       name_key: "talent_veyra_echo_map_recall-u",
       rule_text_key: "talent_veyra_echo_map_recall_rules-u",
-      name: "Echo-Map Recall",
-      description: "Once per scene, while stationary in total darkness, make a free Perception check with a bonus die to detect movement or hidden creatures within Short or Medium range, even if silent.",
       skills: "",
+	  affected_skill: "perception",
       prerequisite: [ "echo_sense" ],
       tier: 2,
       cost: 20,
@@ -29977,9 +29967,8 @@ const talentDataMap = {
     nocturne_optimizer: {
       name_key: "talent_veyra_nocturne_optimizer-u",
       rule_text_key: "talent_veyra_nocturne_optimizer_rules-u",
-      name: "Nocturne Optimizer",
-      description: "When acting in low-light or complete darkness, you gain a bonus die to your next Mechanics, Electronics, or Stealth check once per scene.",
       skills: "",
+	  affected_skill: [ "electronics", "mechanics", "stealth" ],
       prerequisite: [ "echo_sense" ],
       tier: 2,
       cost: 20,
@@ -29989,9 +29978,8 @@ const talentDataMap = {
     overclock_instinct: {
       name_key: "talent_veyra_overclock_instinct-u",
       rule_text_key: "talent_veyra_overclock_instinct_rules-u",
-      name: "Overclock Instinct",
-      description: "Once per scene, you may instantly attempt a Mechanics or Electronics check on a damaged drone, vehicle, or bot without using tools or spending your action. This does not provoke reactions.",
       skills: "",
+	  affected_skill: [ "electronics", "mechanics" ],
       prerequisite: [ "cache_sense" ],
       tier: 2,
       cost: 20,
@@ -30001,9 +29989,9 @@ const talentDataMap = {
     ping_and_pull: {
       name_key: "talent_veyra_ping_and_pull-u",
       rule_text_key: "talent_veyra_ping_and_pull_rules-u",
-      name: "Ping and Pull",
-      description: "Once per session, after successfully identifying a device using Circuit Whispers, you may immediately trigger a connected, unsecured mechanism—such as a basic lock, actuator, relay, or panel—without requiring an additional roll. If the mechanism is protected by active security systems, magical reinforcement, or is part of a complex network, this ability may instead grant a bonus die to the next appropriate roll (e.g., Slicing, Electronics, or Magic).",
       skills: "",
+	  affected_skill: [ "electronics", "slicing" ],
+	  affected_skill_group: [ "magic" ],
       prerequisite: [ "circuit_whispers" ],
       tier: 2,
       cost: 20,
@@ -30013,8 +30001,6 @@ const talentDataMap = {
     salvage_sense: {
       name_key: "talent_veyra_salvage_sense-u",
       rule_text_key: "talent_veyra_salvage_sense_rules-u",
-      name: "Salvage Sense",
-      description: "You’ve learned to extract just enough to keep things running. When using Cache Sense, you may now repurpose scrap and exposed components to restore 1d6 HP to a drone, bot, or vehicle, or reduce a malfunction’s severity by one tier. This repair must be made during the same scene using visibly damaged or discarded tech.",
       skills: "",
       prerequisite: [ "cache_sense" ],
       tier: 2,
@@ -30025,9 +30011,8 @@ const talentDataMap = {
     silent_cascade: {
       name_key: "talent_veyra_silent_cascade-u",
       rule_text_key: "talent_veyra_silent_cascade_rules-u",
-      name: "Silent Cascade",
-      description: "When moving at full speed while using Stealth, gain a +10% bonus to Stealth. Once per session, you may make a full movement and Stealth check as a free action (does not count as your turn).",
       skills: "",
+	  affected_skill: "stealth",
       prerequisite: [ "no_footprints" ],
       tier: 2,
       cost: 20,
@@ -30037,9 +30022,8 @@ const talentDataMap = {
     vent_ghost: {
       name_key: "talent_veyra_vent_ghost-u",
       rule_text_key: "talent_veyra_vent_ghost_rules-u",
-      name: "Vent Ghost",
-      description: "Once per scene, you gain a +10% bonus to Dodge rolls and ranged attacks against you suffer a –10% penalty until the start of your next turn. This only applies while in partial or full cover.",
       skills: "",
+	  affected_skill: "dodge",
       prerequisite: [ "circuit_whispers" ],
       tier: 2,
       cost: 20,
@@ -30049,9 +30033,8 @@ const talentDataMap = {
     zero_trace_protocol: {
       name_key: "talent_veyra_zero_trace_protocol-u",
       rule_text_key: "talent_veyra_zero_trace_protocol_rules-u",
-      name: "Zero-Trace Protocol",
-      description: "When rerolling a failed Slicing or Security Systems check using Signal Ghost, you gain a bonus die to the second roll if the system is Standard difficulty or lower. If the system is Hard or above, reroll as normal with no additional bonus.",
       skills: "",
+	  affected_skill: [ "security", "slicing" ],
       prerequisite: [ "signal_ghost" ],
       tier: 2,
       cost: 20,
@@ -30061,8 +30044,6 @@ const talentDataMap = {
     cachejack_protocol: {
       name_key: "talent_veyra_cachejack_protocol-u",
       rule_text_key: "talent_veyra_cachejack_protocol_rules-u",
-      name: "Cachejack Protocol",
-	  description: "Once per session, as an action you may make a field repair to a drone, bot, or vehicle without tools or prep, using available scrap or failed components others would overlook. In addition, you may now repair two separate machines in the same scene using only repurposed materials—no standard parts required.",
       skills: "",
       prerequisite: [ "salvage_sense" ],
       tier: 3,
@@ -30073,9 +30054,8 @@ const talentDataMap = {
     dark_grid_savant: {
       name_key: "talent_veyra_dark_grid_savant-u",
       rule_text_key: "talent_veyra_dark_grid_savant_rules-u",
-      name: "Dark Grid Savant",
-      description: "While in low-light or darkness, you gain a bonus die to Stealth rolls for the remainder of the scene. If unseen at the start of a round, you may take a free maneuver.",
       skills: "",
+	  affected_skill: "stealth",
       prerequisite: [ "nocturne_optimizer" ],
       tier: 3,
       cost: 30,
@@ -30085,9 +30065,8 @@ const talentDataMap = {
     echo_splice_reflex: {
       name_key: "talent_veyra_echo_splice_reflex-u",
       rule_text_key: "talent_veyra_echo_splice_reflex_rules-u",
-      name: "Echo-Splice Reflex",
-      description: "Once per session, when caught in an ambush or surprise attack, you may immediately take a free movement and make a Listen check with a bonus die to identify all hostiles in Engaged or Short range.",
       skills: "",
+	  affected_skill: "listen",
       prerequisite: [ "battlefield_sync" ],
       tier: 3,
       cost: 30,
@@ -30097,9 +30076,8 @@ const talentDataMap = {
     echowire_scramble: {
       name_key: "talent_veyra_echowire_scramble-u",
       rule_text_key: "talent_veyra_echowire_scramble_rules-u",
-      name: "Echowire Scramble",
-      description: "Once per session, after succeeding on a Electronics check, you may distort local signals, scrambling the targeting of bots and drones. For 1 round, those enemies within Medium range or less suffer –20% to attacks.",
       skills: "",
+	  affected_skill: "electronics",
       prerequisite: [ "echo_map_recall" ],
       tier: 3,
       cost: 30,
@@ -30109,8 +30087,6 @@ const talentDataMap = {
     recursive_salvager: {
       name_key: "talent_veyra_recursive_salvager-u",
       rule_text_key: "talent_veyra_recursive_salvager_rules-u",
-      name: "Recursive Salvager",
-      description: "When using Overclock Instinct, you may now reroll the result once per scene, and ignore the first malfunction triggered by that repair or activation.",
       skills: "",
       prerequisite: [ "overclock_instinct" ],
       tier: 3,
@@ -30121,9 +30097,8 @@ const talentDataMap = {
     signal_evasion_loop: {
       name_key: "talent_veyra_signal_evasion_loop-u",
       rule_text_key: "talent_veyra_signal_evasion_loop_rules-u",
-      name: "Signal Evasion Loop",
-      description: "Once per session, after successfully using Signal Ghost to reroll a Slicing or Security Systems check, you may also suppress the next trace lock or countermeasure activation triggered against you.",
       skills: "",
+	  affected_skill: [ "security", "slicing" ],
       prerequisite: [ "zero_trace_protocol" ],
       tier: 3,
       cost: 30,
@@ -30133,9 +30108,8 @@ const talentDataMap = {
     stealth_harmonic: {
       name_key: "talent_veyra_stealth_harmonic-u",
       rule_text_key: "talent_veyra_stealth_harmonic_rules-u",
-      name: "Stealth Harmonic",
-      description: "Once per scene, if you successfully use Silent Cascade, you may also grant an ally within Short range +10% to Stealth and allow them to move at full speed with you without penalty.",
       skills: "",
+	  affected_skill: "stealth",
       prerequisite: [ "silent_cascade" ],
       tier: 3,
       cost: 30,
@@ -30145,8 +30119,6 @@ const talentDataMap = {
     thread_the_vents: {
       name_key: "talent_veyra_thread_the_vents-u",
       rule_text_key: "talent_veyra_thread_the_vents_rules-u",
-      name: "Thread the Vents",
-      description: "You no longer suffer penalties when squeezing through collapsed ducts, tight corridors, or debris-strewn zones. Once per scene, you may as a reaction reposition to any location within Short range that shares partial cover.",
       skills: "",
       prerequisite: [ "vent_ghost" ],
       tier: 3,
@@ -30157,8 +30129,6 @@ const talentDataMap = {
     circuit_sovereign: {
       name_key:  "talent_veyra_circuit_sovereign-u",
       rule_text_key: "talent_veyra_circuit_sovereign_rules-u",
-      name: "Circuit Sovereign",
-      description: "You are one with damaged infrastructure. Once per session, you may declare any malfunctioning or broken device within Medium range as under your control for one round—doors open, turrets fire, signals reroute. No roll is required.",
       skills: "",
       prerequisite: [ "cachejack_protocol" ],
       tier: 4,
@@ -30169,8 +30139,6 @@ const talentDataMap = {
     ghost_in_the_gears: {
       name_key:  "talent_veyra_ghost_in_the_gears-u",
       rule_text_key: "talent_veyra_ghost_in_the_gears_rules-u",
-      name: "Ghost in the Gears",
-      description: "You may now treat any destroyed or disabled bot, drone, or vehicle as salvageable, no matter its state. Once per session, as an action, you may restore one such machine to basic operational status (1 HP) using only makeshift parts.",
       skills: "",
       prerequisite: [ "recursive_salvager" ],
       tier: 4,
@@ -30181,8 +30149,6 @@ const talentDataMap = {
     neurospike_blur: {
       name_key:  "talent_veyra_neurospike_blur-u",
       rule_text_key: "talent_veyra_neurospike_blur_rules-u",
-      name: "Neurospike Blur",
-      description: "Once per session, you may trigger a neural surge that phases your outline and silences your tech signature for one full round. During this time, you cannot be targeted by ranged attacks unless detected by Hard difficulty Perception check or magic means.",
       skills: "",
       prerequisite: [ "dark_grid_savant" ],
       tier: 4,
@@ -30193,15 +30159,15 @@ const talentDataMap = {
     silent_dominion: {
       name_key:  "talent_veyra_silent_dominion-u",
       rule_text_key: "talent_veyra_silent_dominion_rules-u",
-      name: "Silent Dominion",
-      description: "You become a whisper in motion. For one scene per session, you move at full speed without penalty to Stealth. While this is active, any passive detection (visual, electronic, or magical) must succeed at one level greater than your success to perceive you.",
       skills: "",
+	  affected_skill: "stealth",
       prerequisite: [ "stealth_harmonic" ],
       tier: 4,
       cost: 40,
       capstone: true,
       usage_limit: "session"
-    }  }
+    }
+  }
 };
 
 const careerDataMap = {
@@ -35344,7 +35310,7 @@ on("change:total_spellcost change:ac", function () {
 
 //----------------------- Skill, Backgrounds, and Talents --------------------//
 
-// === Perk Summary Watcher (uses perkDataMap.<perk>.affected_skill + skillDataMap) ===
+// === Perk Summary Watcher (uses perkDataMap.<perk>.affected_skill / affected_skill_group + skillDataMap) ===
 const registerPerkSummaryWatcher = () => {
   if (debug_on_trace) console.log("[registerPerkSummaryWatcher] Start");
 
@@ -35359,20 +35325,39 @@ const registerPerkSummaryWatcher = () => {
     return [];
   };
 
+  // Normalize affected_skill_group -> array of group strings
+  const normalizeAffectedGroups = (grp) => {
+    if (!grp) return [];
+    if (Array.isArray(grp)) return grp.filter(Boolean).map((s) => String(s).trim());
+    if (typeof grp === "string") return grp.split(",").map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+
+  // Fallback prettifier
+  const prettify = (s) =>
+    String(s || "")
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (m) => m.toUpperCase());
+
   // Given a canonical machine key, return a display label (prefer i18n; fallback prettified key)
   const displayForMachineKey = (machineKey) => {
     const row = skillDataMap && skillDataMap[machineKey];
     if (!row) {
       // Surface unknown keys as-is so they can be added to skillDataMap properly
-      return String(machineKey)
-        .replace(/_/g, " ")
-        .replace(/\b\w/g, (m) => m.toUpperCase());
+      return prettify(machineKey);
     }
     const translated = tr(row.label);
     if (translated && translated !== row.label) return translated;
-    return String(machineKey)
-      .replace(/_/g, " ")
-      .replace(/\b\w/g, (m) => m.toUpperCase());
+    return prettify(machineKey);
+  };
+
+  // Given a group key (e.g., "perform"), return "Perform (Any)" using i18n
+  const displayForGroup = (groupKey) => {
+    const groupLabel = tr(`${groupKey}-u`);
+    const anyLabel   = tr("any-u");
+    const left  = groupLabel && groupLabel !== `${groupKey}-u` ? groupLabel : prettify(groupKey);
+    const right = anyLabel && anyLabel !== "any-u" ? anyLabel : "Any";
+    return `${left} (${right})`;
   };
 
   // Perk wiring
@@ -35412,10 +35397,17 @@ const registerPerkSummaryWatcher = () => {
 
         lines.push(`${nameTxt} — ${rulesTxt}`);
 
-        // Group this active perk under skills it explicitly affects (machine keys)
+        // 1) Explicit skills (machine keys)
         const affected = normalizeAffectedSkills(def.affected_skill);
-        affected.forEach((machineKey) => {
+        Array.from(new Set(affected)).forEach((machineKey) => {
           const display = displayForMachineKey(machineKey);
+          addToSkill(display, nameTxt);
+        });
+
+        // 2) Groups -> DO NOT expand into skills. Show "<Group> (Any)" using i18n.
+        const groups = normalizeAffectedGroups(def.affected_skill_group);
+        Array.from(new Set(groups)).forEach((g) => {
+          const display = displayForGroup(g);
           addToSkill(display, nameTxt);
         });
 
@@ -35433,10 +35425,10 @@ const registerPerkSummaryWatcher = () => {
       u.perk_summary        = lines.length ? lines.join("\n\n") : " ";
       u.perk_linguist_sp    = String(linguistSP);
 
-      // Build grouped-by-skill summary for perks
+      // Build grouped-by-skill (and group) summary for perks
       const col = new Intl.Collator(undefined, { sensitivity: "base" });
-      const skills = Object.keys(byDisplay).sort(col.compare);
-      const sections = skills.map((label) => {
+      const labels = Object.keys(byDisplay).sort(col.compare);
+      const sections = labels.map((label) => {
         const names = Array.from(byDisplay[label]).sort(col.compare);
         return `${label}\n\t\t${names.join("\n\t\t")}`;
       });
@@ -35461,16 +35453,39 @@ const registerFlawSummaryWatcher = () => {
     return [];
   };
 
+  // Normalize affected_skill_group -> array of group strings
+  const normalizeAffectedGroups = (grp) => {
+    if (!grp) return [];
+    if (Array.isArray(grp)) return grp.filter(Boolean).map((s) => String(s).trim());
+    if (typeof grp === "string") return grp.split(",").map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+
+  // Fallback prettifier
+  const prettify = (s) =>
+    String(s || "")
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (m) => m.toUpperCase());
+
   // Given a canonical machine key, return a display label (prefer i18n; fallback prettified key)
   const displayForMachineKey = (machineKey) => {
     const row = skillDataMap && skillDataMap[machineKey];
     if (!row) {
       // Unknown keys surface as prettified machine keys so gaps can be fixed in skillDataMap
-      return String(machineKey).replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
+      return prettify(machineKey);
     }
     const translated = tr(row.label);
     if (translated && translated !== row.label) return translated;
-    return String(machineKey).replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
+    return prettify(machineKey);
+  };
+
+  // Given a group key (e.g., "perform"), return "Perform (Any)" using i18n
+  const displayForGroup = (groupKey) => {
+    const groupLabel = tr(`${groupKey}-u`);
+    const anyLabel   = tr("any-u");
+    const left  = groupLabel && groupLabel !== `${groupKey}-u` ? groupLabel : prettify(groupKey);
+    const right = anyLabel && anyLabel !== "any-u" ? anyLabel : "Any";
+    return `${left} (${right})`;
   };
 
   const flawKeys   = Object.keys(flawDataMap || {});
@@ -35510,10 +35525,17 @@ const registerFlawSummaryWatcher = () => {
 
         lines.push(`${nameTxt} — ${rulesTxt}`);
 
-        // Group this active flaw under skills it explicitly affects (machine keys)
+        // 1) Explicit skills (machine keys)
         const affected = normalizeAffectedSkills(def.affected_skill);
-        affected.forEach((machineKey) => {
+        Array.from(new Set(affected)).forEach((machineKey) => {
           const display = displayForMachineKey(machineKey);
+          addToSkill(display, nameTxt);
+        });
+
+        // 2) Groups -> DO NOT expand to skills. Show "<Group> (Any)" using i18n.
+        const groups = normalizeAffectedGroups(def.affected_skill_group);
+        Array.from(new Set(groups)).forEach((g) => {
+          const display = displayForGroup(g);
           addToSkill(display, nameTxt);
         });
 
@@ -35529,7 +35551,7 @@ const registerFlawSummaryWatcher = () => {
       u.xpledger_flaws_gain = String(xpGain);
       u.flaw_summary        = lines.length ? lines.join("\n\n") : " ";
 
-      // build grouped-by-skill summary for flaws
+      // build grouped-by-skill (and group) summary for flaws
       const col = new Intl.Collator(undefined, { sensitivity: "base" });
       const skills = Object.keys(byDisplay).sort(col.compare);
       const sections = skills.map((label) => {
@@ -35566,47 +35588,30 @@ const registerRacialTraitsSkillSummaryWatcher = () => {
     return [];
   };
 
-  // Precompute a map: groupName -> Set(skillKeys) from skillDataMap
-  const buildGroupIndex = () => {
-    const idx = {};
-    if (!skillDataMap || typeof skillDataMap !== "object") return idx;
-  
-    Object.keys(skillDataMap).forEach((key) => {
-      const row = skillDataMap[key] || {};
-      let groups = row.group;
-  
-      // Normalize: allow string OR array of strings
-      if (!groups) return;
-      if (typeof groups === "string") groups = [groups];
-      if (!Array.isArray(groups)) return;
-  
-      groups
-        .map(g => String(g).trim())
-        .filter(Boolean)
-        .forEach((g) => {
-          (idx[g] ||= new Set()).add(key);
-        });
-    });
-  
-    return idx;
-  };
+  // Pretty-print helper
+  const prettify = (s) =>
+    String(s || "")
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (m) => m.toUpperCase());
 
   // Given a canonical machine key, return a display label.
   // Prefer i18n via skillDataMap[key].label; fallback to prettified key.
   const displayForMachineKey = (machineKey) => {
     const row = skillDataMap && skillDataMap[machineKey];
-    if (!row) {
-      // unknown key -> surface as-is so it can be created properly
-      return String(machineKey)
-        .replace(/_/g, " ")
-        .replace(/\b\w/g, (m) => m.toUpperCase());
+    if (row && row.label) {
+      const translated = tr(row.label);
+      if (translated && translated !== row.label) return translated;
     }
-    const translated = tr(row.label);
-    if (translated && translated !== row.label) return translated;
-    // If label wasn't an i18n key, prettify the machine key
-    return String(machineKey)
-      .replace(/_/g, " ")
-      .replace(/\b\w/g, (m) => m.toUpperCase());
+    return prettify(machineKey);
+  };
+
+  // Given a group key (e.g., "perform"), return "Perform (Any)" using i18n
+  const displayForGroup = (groupKey) => {
+    const groupLabel = tr(`${groupKey}-u`);
+    const anyLabel   = tr("any-u");
+    const left  = groupLabel && groupLabel !== `${groupKey}-u` ? groupLabel : prettify(groupKey);
+    const right = anyLabel && anyLabel !== "any-u" ? anyLabel : "Any";
+    return `${left} (${right})`;
   };
 
   getAttrs(["showracials"], (v) => {
@@ -35622,8 +35627,6 @@ const registerRacialTraitsSkillSummaryWatcher = () => {
       traits = Object.values(traitsBlock.items || {}); // current
     }
 
-    const groupIndex = buildGroupIndex();
-
     // Group by DISPLAY label -> Set of trait names
     const byDisplay = {};
     const col = new Intl.Collator(undefined, { sensitivity: "base" });
@@ -35632,21 +35635,17 @@ const registerRacialTraitsSkillSummaryWatcher = () => {
       const traitName = tr(t.name_key) || tr(t.name) || t.name || "";
       if (!traitName) return;
 
-      // 1) Directly listed skills
+      // 1) Directly listed skills -> show each skill label
       const affectedKeys = normalizeAffectedSkills(t.affected_skill);
-
-      // 2) Groups -> expand to skill keys
-      const groups = normalizeAffectedGroups(t.affected_skill_group);
-      groups.forEach((g) => {
-        const set = groupIndex[g];
-        if (set && set.size) {
-          set.forEach((k) => affectedKeys.push(k));
-        }
-      });
-
-      // De-duplicate and add to summary
       Array.from(new Set(affectedKeys)).forEach((key) => {
         const display = displayForMachineKey(key);
+        (byDisplay[display] ||= new Set()).add(traitName);
+      });
+
+      // 2) Groups -> DO NOT expand to skills. Show "Group (Any)" using i18n keys
+      const groups = normalizeAffectedGroups(t.affected_skill_group);
+      Array.from(new Set(groups)).forEach((g) => {
+        const display = displayForGroup(g);
         (byDisplay[display] ||= new Set()).add(traitName);
       });
     });
@@ -37816,10 +37815,6 @@ const getHasCapstoneMap = (careers, cb) => {
   });
 };
 
-
-// Helper: evaluate your entry_requirements (supports all/any, skill, group, capstone)
-// DROP-IN: extends capstone checks to support `career_type` and `career_types`
-// Signature unchanged: (req, values, hasCapstone, traceKey)
 const evalEntryRequirements = (req, values, hasCapstone, traceKey) => {
   if (!req) return true;
 

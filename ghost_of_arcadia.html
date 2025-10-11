@@ -32133,8 +32133,7 @@ const careerDataMap = {
 			command_the_stage: {
 				name_key: "career_icon_command_the_stage-u",
 				rule_text_key: "career_icon_command_the_stage_rules-u",
-				name: "Command the Stage",
-				description: "Once per scene, when you perform before a group (live or broadcast), choose one: gain a bonus die to Charm, Persuade, or Leadership for the rest of the scene or impose a penalty die on audience hostility for 1 round.",
+				affected_skill: [ "charm", "persuade", "leadership" ],
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -32144,8 +32143,7 @@ const careerDataMap = {
 			encore_effect: {
 				name_key: "career_icon_encore_effect-u",
 				rule_text_key: "career_icon_encore_effect_rules-u",
-				name: "Encore Effect",
-				description: "Once per scene, reroll a failed Perform check. If the reroll succeeds, grant +10 to the next roll of any one ally or NPC who observed it.",
+				affected_skill_group: "perform",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -32155,8 +32153,8 @@ const careerDataMap = {
 			neurolinked_presence: {
 				name_key: "career_icon_neurolinked_presence-u",
 				rule_text_key: "career_icon_neurolinked_presence_rules-u",
-				name: "Neurolinked Presence",
-				description: "While performing through a DreamFeed or emotion-sync venue, gain +10 to Perform or Charm during the scene. Applies to both live and recorded feeds.",
+				affected_skill: "charm",
+				affected_skill_group: "perform",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -32166,8 +32164,8 @@ const careerDataMap = {
 			showstopper: {
 				name_key: "career_icon_showstopper-u",
 				rule_text_key: "career_icon_showstopper_rules-u",
-				name: "Showstopper",
-				description: "When initiating a performance or attempting to seize attention, you may roll Perform instead of Deception or Intimidate to distract, misdirect, or engage a crowd.",
+				affected_skill: [ "deception", "intimidate" ],
+				affected_skill_group: "perform",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -32177,8 +32175,6 @@ const careerDataMap = {
 			strain_buffer: {
 				name_key: "career_icon_strain_buffer-u",
 				rule_text_key: "career_icon_strain_buffer_rules-u",
-				name: "Strain Buffer",
-				description: "Increase your maximum Strain by +1. This talent may appear in multiple Career trees.",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -32188,8 +32184,7 @@ const careerDataMap = {
 			crowd_momentum: {
 				name_key: "career_icon_crowd_momentum-u",
 				rule_text_key: "career_icon_crowd_momentum_rules-u",
-				name: "Crowd Momentum",
-				description: "After a successful Perform check that captures audience attention, gain a bonus die to your next Persuade, Charm, or Leadership roll this scene.",
+				affected_skill: [ "charm", "leadership", "persuade" ],
 				prerequisite: "showstopper",
 				tier: 2,
 				cost: 10,
@@ -32199,8 +32194,6 @@ const careerDataMap = {
 			emotional_contagion: {
 				name_key: "career_icon_emotional_contagion-u",
 				rule_text_key: "career_icon_emotional_contagion_rules-u",
-				name: "Emotional Contagion",
-				description: "Once per session, when you successfully sway an audience, one NPC observer shifts from Neutral to Friendly for the rest of the scene.",
 				prerequisite: "command_the_stage",
 				tier: 2,
 				cost: 10,
@@ -32210,8 +32203,7 @@ const careerDataMap = {
 			pulse_of_the_crowd: {
 				name_key: "career_icon_pulse_of_the_crowd-u",
 				rule_text_key: "career_icon_pulse_of_the_crowd_rules-u",
-				name: "Pulse of the Crowd",
-				description: "Once per session, after a successful live or broadcast performance, regain 1d4 Strain.",
+				affected_skill: "persuade",
 				prerequisite: "encore_effect",
 				tier: 2,
 				cost: 10,
@@ -32221,8 +32213,7 @@ const careerDataMap = {
 			stagecraft: {
 				name_key: "career_icon_stagecraft-u",
 				rule_text_key: "career_icon_stagecraft_rules-u",
-				name: "Stagecraft",
-				description: "Gain +10 to downtime performance-based rolls to earn credits or build influence. May also apply to artistic Networking scenes at GM discretion.",
+				affected_skill_group: "perform",
 				prerequisite: "command_the_stage",
 				tier: 2,
 				cost: 10,
@@ -32232,8 +32223,7 @@ const careerDataMap = {
 			street_stage_discipline: {
 				name_key: "career_icon_street_stage_discipline-u",
 				rule_text_key: "career_icon_street_stage_discipline_rules-u",
-				name: "Street Stage Discipline",
-				description: "Ignore 1 penalty die to Perform checks when performing in chaotic, crowded, or dangerous environments (e.g., combat zones, underground clubs, protests).",
+				affected_skill_group: "perform",
 				prerequisite: "showstopper",
 				tier: 2,
 				cost: 10,
@@ -32254,8 +32244,6 @@ const careerDataMap = {
 			endurance_conditioning: {
 				name_key: "career_icon_endurance_conditioning-u",
 				rule_text_key: "career_icon_endurance_conditioning_rules-u",
-				name: "Endurance Conditioning",
-				description: "Gain +2 maximum HP. This bonus is permanent, reflecting the physical demands of stage work, emotional burnout, and neural strain.",
 				prerequisite: "street_stage_discipline",
 				tier: 3,
 				cost: 15,
@@ -32265,8 +32253,8 @@ const careerDataMap = {
 			resonant_persona: {
 				name_key: "career_icon_resonant_persona-u",
 				rule_text_key: "career_icon_resonant_persona_rules-u",
-				name: "Resonant Persona",
-				description: "Create a named performance persona with a distinct look, theme, or emotional arc. While performing in-character as this persona, gain +10 to Perform, Charm, or Persuade. You may only benefit from one active Persona at a time. This talent may be taken again to maintain an additional Persona.",
+				affected_skill: [ "charm", "persuade" ],
+				affected_skill_group: "perform",
 				prerequisite: "emotional_contagion",
 				tier: 3,
 				cost: 15,
@@ -32276,8 +32264,6 @@ const careerDataMap = {
 			shared_spotlight: {
 				name_key: "career_icon_shared_spotlight-u",
 				rule_text_key: "career_icon_shared_spotlight_rules-u",
-				name: "Shared Spotlight",
-				description: "Once per session, spend 2 Strain to deliver a closing performance or rallying speech at the end of a scene. All allies who witnessed it may recover an additional 1d4 Strain during their next short rest.",
 				prerequisite: "pulse_of_the_crowd",
 				tier: 3,
 				cost: 15,
@@ -32287,8 +32273,6 @@ const careerDataMap = {
 			voice_of_the_moment: {
 				name_key: "career_icon_voice_of_the_moment-u",
 				rule_text_key: "career_icon_voice_of_the_moment_rules-u",
-				name: "Voice of the Moment",
-				description: "Once per session, during a high-stakes moment (negotiation, crisis, or rally), spend 2 Strain to grant +10 to all allies’ next social roll this scene.",
 				prerequisite: "crowd_momentum",
 				tier: 3,
 				cost: 15,
@@ -32298,8 +32282,6 @@ const careerDataMap = {
 			all_eyes_on_me: {
 				name_key: "career_icon_all_eyes_on_me-u",
 				rule_text_key: "career_icon_all_eyes_on_me_rules-u",
-				name: "All Eyes on Me",
-				description: "Once per scene, spend 3 Strain to seize the emotional spotlight. All NPCs within Medium range who can hear or see you must roll POW. On a failure, they are compelled to direct their next verbal or physical action toward you if applicable, or suffer the Impaired condition for one round. NPCs already engaged in hostile combat may resist with Advantage.",
 				prerequisite: "voice_of_the_moment",
 				tier: 4,
 				cost: 20,
@@ -32309,8 +32291,7 @@ const careerDataMap = {
 			burning_signature: {
 				name_key: "career_icon_burning_signature-u",
 				rule_text_key: "career_icon_burning_signature_rules-u",
-				name: "Burning Signature",
-				description: "Once per session, you gain +20% to all social skill rolls made to manipulate, persuade, or mislead a character who has encountered you before. This effect lasts for the remainder of the scene.",
+				affected_skill_group: "social",
 				prerequisite: "resonant_persona",
 				tier: 4,
 				cost: 20,
@@ -32320,8 +32301,7 @@ const careerDataMap = {
 			cultural_gravity: {
 				name_key: "career_icon_cultural_gravity-u",
 				rule_text_key: "career_icon_cultural_gravity_rules-u",
-				name: "Cultural Gravity",
-				description: "Gain +20 to downtime performance rolls to earn credits, build audiences, or influence venues. Applies to DreamFeed contracts, underground showcases, or professional bookings.",
+				affected_skill_group: "perform",
 				prerequisite: "resonant_persona",
 				tier: 4,
 				cost: 20,
@@ -32331,8 +32311,6 @@ const careerDataMap = {
 			encore_of_will: {
 				name_key: "career_icon_encore_of_will-u",
 				rule_text_key: "career_icon_encore_of_will_rules-u",
-				name: "Encore of Will",
-				description: "Once per session, spend 2 Strain to remove the Panicked and Suppressed condition from all allies within Medium range who can see or hear you.",
 				prerequisite: "voice_of_the_moment",
 				tier: 4,
 				cost: 20,
@@ -32342,8 +32320,6 @@ const careerDataMap = {
 			iconic_rally: {
 				name_key: "career_icon_iconic_rally-u",
 				rule_text_key: "career_icon_iconic_rally_rules-u",
-				name: "Iconic Rally",
-				description: "Once per session, spend 2 Strain to grant all allies within Medium range who can hear or see you an instant recovery of 1d4 Strain.",
 				prerequisite: "shared_spotlight",
 				tier: 4,
 				cost: 20,
@@ -32353,8 +32329,6 @@ const careerDataMap = {
 			crowdcarver: {
 				name_key: "career_icon_crowdcarver-u",
 				rule_text_key: "career_icon_crowdcarver_rules-u",
-				name: "Crowdcarver",
-				description: "Once per session, you may declare an emotional tone (e.g., fear, reverence, defiance, serenity) during a scene involving a group. That group adopts the emotional atmosphere for the remainder of the scene unless hostile individuals succeed a POW roll. This doesn’t compel behavior, but alters how the group reacts to persuasion, fear, and influence.",
 				prerequisite: "encore_of_will",
 				tier: 5,
 				cost: 30,
@@ -32364,8 +32338,8 @@ const careerDataMap = {
 			echo_beyond_the_feed: {
 				name_key: "career_icon_echo_beyond_the_feed-u",
 				rule_text_key: "career_icon_echo_beyond_the_feed_rules-u",
-				name: "Echo Beyond the Feed",
-				description: "Once per session, after a scene in which you performed or left a strong impression, you may invoke that memory to automatically succeed on a Charm, Persuade, or Deception roll against someone who witnessed it (live or via feed).",
+				affected_skill: [ "charm", "persuade" ],
+				affected_skill_group: "perform",
 				prerequisite: "burning_signature",
 				tier: 5,
 				cost: 30,
@@ -32375,8 +32349,8 @@ const careerDataMap = {
 			living_legend: {
 				name_key: "career_icon_living_legend-u",
 				rule_text_key: "career_icon_living_legend_rules-u",
-				name: "Living Legend",
-				description: "While in your active stage persona, anyone familiar with your niche (e.g., revolutionary speech, underground DreamFeeds, emotion-pop performance) has a 50% chance to recognize your name, voice, or work. Gain a bonus die to Influence, Perform, or Persuade when interacting with such individuals.",
+				affected_skill: [ "charm", "persuade" ],
+				affected_skill_group: "perform",
 				prerequisite: "burning_signature",
 				tier: 5,
 				cost: 30,
@@ -32386,8 +32360,8 @@ const careerDataMap = {
 			signature_crescendo: {
 				name_key: "career_icon_signature_crescendo-u",
 				rule_text_key: "career_icon_signature_crescendo_rules-u",
-				name: "Signature Crescendo",
-				description: "Once per session, spend 3 Strain to transform a Perform or Persuade roll into a defining moment. If the roll succeeds, all targets influenced by it become more receptive: you gain +10 to all further social rolls with them for the rest of the session. The moment becomes a lasting emotional impression in their memory.",
+				affected_skill: "persuade",
+				affected_skill: "perform",
 				prerequisite: "iconic_rally",
 				tier: 5,
 				cost: 30,
@@ -32397,8 +32371,6 @@ const careerDataMap = {
 			stat_boost: {
 				name_key: "career_icon_stat_boost-u",
 				rule_text_key: "career_icon_stat_boost_rules-u",
-				name: "+5% Stat Boost",
-				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. This bonus is permanent. May only be taken once.",
 				prerequisite: "",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,

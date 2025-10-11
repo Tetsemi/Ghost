@@ -11393,11 +11393,11 @@
           											<label>Etiquette (Alteri)</label>
           										</div>
 
-          										<!-- Etiquette (Corporate) -->
+          										<!-- Etiquette (Draevi) -->
           										<div class="sheet-career-skill-wrapper">
-          											<input type="hidden" name="attr_cs_faceman_etiquette_corporate_mdr_checkbox_lock" value="0" />
-          											<input type="checkbox" name="attr_cs_faceman_etiquette_corporate_mdr_checkbox" value="1" />
-          											<label>Etiquette (Corporate)</label>
+          											<input type="hidden" name="attr_cs_faceman_etiquette_draevi_mdr_checkbox_lock" value="0" />
+          											<input type="checkbox" name="attr_cs_faceman_etiquette_draevi_mdr_checkbox" value="1" />
+          											<label>Etiquette (Draevi)</label>
           										</div>
 
           										<!-- Etiquette (High Society) -->
@@ -11414,11 +11414,11 @@
           											<label>Etiquette (Lyranni)</label>
           										</div>
 
-          										<!-- Etiquette (Magi House) -->
+          										<!-- Etiquette (Military) -->
           										<div class="sheet-career-skill-wrapper">
-          											<input type="hidden" name="attr_cs_faceman_etiquette_magi_mdr_checkbox_lock" value="0" />
-          											<input type="checkbox" name="attr_cs_faceman_etiquette_magi_mdr_checkbox" value="1" />
-          											<label>Etiquette (Magi House)</label>
+          											<input type="hidden" name="attr_cs_faceman_etiquette_military_mdr_checkbox_lock" value="0" />
+          											<input type="checkbox" name="attr_cs_faceman_etiquette_military_mdr_checkbox" value="1" />
+          											<label>Etiquette (Military)</label>
           										</div>
 
           										<!-- Etiquette (Other) -->
@@ -31246,8 +31246,7 @@ const careerDataMap = {
             breachfinders_eye: {
 				name_key: "career_combat_engineer_breachfinders_eye-u",
 				rule_text_key: "career_combat_engineer_breachfinders_eye_rules-u",
-                name: "Breachfinder’s Eye",
-                description: "Once per scene, roll Mechanics or Demolitions with a bonus die to locate a weak point. Your next attack or sabotage against it gains a bonus die and deals 1d4 damage or triggers a complication (GM’s discretion).",
+				affected_skill: [ "demolitions", "mechanics" ],
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31257,8 +31256,7 @@ const careerDataMap = {
             field_fix: {
 				name_key: "career_combat_engineer_field_fix-u",
 				rule_text_key: "career_combat_engineer_field_fix_rules-u",
-                name: "Field Fix",
-                description: "Once per session, as an Action, you may spend 1 Strain and attempt a Mechanics roll to restore 1d6  EDU bonus HP to a damaged device, drone, or structure. Must be physically accessible.",
+				affected_skill: "mechanics",
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31268,8 +31266,7 @@ const careerDataMap = {
             patchwork_tools: {
 				name_key: "career_combat_engineer_patchwork_tools-u",
 				rule_text_key: "career_combat_engineer_patchwork_tools_rules-u",
-                name: "Patchwork Tools",
-                description: "Once per scene, when making a Mechanics or Electronics roll without proper tools, ignore penalties and gain 10% to the roll.",
+				affected_skill: [ "electronics", "mechanics" ],
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31279,8 +31276,7 @@ const careerDataMap = {
             quick_bypass: {
 				name_key: "career_combat_engineer_quick_bypass-u",
 				rule_text_key: "career_combat_engineer_quick_bypass_rules-u",
-                name: "Quick Bypass",
-                description: "Once per scene, pick a lock or disable a non-magical alarm as a Maneuver instead of an Action. Requires a Security Systems roll.",
+				affected_skill: "security",
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31290,8 +31286,7 @@ const careerDataMap = {
             rapid_jury_rig: {
 				name_key: "career_combat_engineer_rapid_jury_rig-u",
 				rule_text_key: "career_combat_engineer_rapid_jury_rig_rules-u",
-                name: "Rapid Jury-Rig",
-                description: "Once per session, as an Action, create a temporary battlefield fix that lasts for 1 scene or 10 minutes. Requires a Mechanics roll.",
+				affected_skill: "mechanics",
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31301,8 +31296,7 @@ const careerDataMap = {
             right_tool_for_it: {
 				name_key: "career_combat_engineer_right_tool_for_it-u",
 				rule_text_key: "career_combat_engineer_right_tool_for_it_rules-u",
-                name: "Right Tool for It",
-                description: "Once per scene, if using a repair kit or toolkit, gain a bonus die on a Mechanics or Electronics roll. Does not stack with Patchwork Tools.",
+				affected_skill: [ "electronics", "mechanics" ],
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31312,8 +31306,7 @@ const careerDataMap = {
             tactile_memory: {
 				name_key: "career_combat_engineer_tactile_memory-u",
 				rule_text_key: "career_combat_engineer_tactile_memory_rules-u",
-                name: "Tactile Memory",
-                description: "Once per session, after physically inspecting a structure or device, you recall its internal layout for the rest of the scene. Gain 10% to all related Mechanics, Demolitions, or Security Systems rolls and halve action time for those tasks.",
+				affected_skill: [ "demolitions", "mechanics", "security" ],
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31323,8 +31316,7 @@ const careerDataMap = {
             compensating_build: {
 				name_key: "career_combat_engineer_compensating_build-u",
 				rule_text_key: "career_combat_engineer_compensating_build_rules-u",
-                name: "Compensating Build",
-                description: "Reduce penalty dice for makeshift tools by one step. Once per scene, gain +10% to Mechanics or Electronics when using scavenged parts.",
+				affected_skill: [ "electronics", "mechanics" ],
                 prerequisite: "patchwork_tools",
                 tier: 2,
                 cost: 10,
@@ -31334,8 +31326,7 @@ const careerDataMap = {
             controlled_breach: {
 				name_key: "career_combat_engineer_controlled_breach-u",
 				rule_text_key: "career_combat_engineer_controlled_breach_rules-u",
-                name: "Controlled Breach",
-                description: "Once per session, as an Action, place and detonate a directional charge. On a successful Demolitions or Mechanics roll, deal 1d6 damage and disable/stun the target for 1 round. On barriers, halve Integrity before damage.",
+				affected_skill: [ "demolitions", "mechanics" ],
                 prerequisite: ["breachfinders_eye", "rapid_jury_rig"],
                 tier: 2,
                 cost: 10,
@@ -31345,8 +31336,6 @@ const careerDataMap = {
             dead_switch_logic: {
 				name_key: "career_combat_engineer_dead_switch_logic-u",
 				rule_text_key: "career_combat_engineer_dead_switch_logic_rules-u",
-                name: "Dead Switch Logic",
-                description: "Once per session, after Breachfinder’s Eye, rig a timed collapse or trap effect that triggers in 1 round or on activation.",
                 prerequisite: "breachfinders_eye",
                 tier: 2,
                 cost: 10,
@@ -31356,8 +31345,6 @@ const careerDataMap = {
             fail_safe_trigger: {
 				name_key: "career_combat_engineer_fail_safe_trigger-u",
 				rule_text_key: "career_combat_engineer_fail_safe_trigger_rules-u",
-                name: "Fail-Safe Trigger",
-                description: "Once per session, rig a repaired object to explode (1d6 damage) or shut down if tampered with.",
                 prerequisite: "rapid_jury_rig",
                 tier: 2,
                 cost: 10,
@@ -31367,8 +31354,7 @@ const careerDataMap = {
             overclock_protocol: {
 				name_key: "career_combat_engineer_overclock_protocol-u",
 				rule_text_key: "career_combat_engineer_overclock_protocol_rules-u",
-                name: "Overclock Protocol",
-                description: "Once per scene, push a repaired system beyond spec. On a Mechanics or Electronics success, it gains +10% to its next roll but takes 1d4 damage afterward.",
+				affected_skill: [ "electronics", "mechanics" ],
                 prerequisite: ["right_tool_for_it", "rapid_jury_rig"],
                 tier: 2,
                 cost: 10,
@@ -31378,8 +31364,7 @@ const careerDataMap = {
             pathfinders_instinct: {
 				name_key: "career_combat_engineer_pathfinders_instinct-u",
 				rule_text_key: "career_combat_engineer_pathfinders_instinct_rules-u",
-                name: "Pathfinder’s Instinct",
-                description: "If using Tactile Memory, you and allies gain +10% to Navigate/Stealth in that structure and may avoid one environmental hazard in it per session.",
+				affected_skill: [ "navigate", "stealth" ],
                 prerequisite: "tactile_memory",
                 tier: 2,
                 cost: 10,
@@ -31389,8 +31374,7 @@ const careerDataMap = {
             precision_override: {
 				name_key: "career_combat_engineer_precision_override-u",
 				rule_text_key: "career_combat_engineer_precision_override_rules-u",
-                name: "Precision Override",
-                description: "When using Quick Bypass, you may re-roll the Security Systems check once per session.",
+				affected_skill: "security",
                 prerequisite: "quick_bypass",
                 tier: 2,
                 cost: 10,
@@ -31400,8 +31384,7 @@ const careerDataMap = {
             reactive_tune_up: {
 				name_key: "career_combat_engineer_reactive_tune_up-u",
 				rule_text_key: "career_combat_engineer_reactive_tune_up_rules-u",
-                name: "Reactive Tune-Up",
-                description: "Once per combat, as a Reaction after an allied drone/rig is damaged, spend 1 Strain and roll Mechanics to reduce damage by 1d4.",
+				affected_skill: "mechanics",
                 prerequisite: ["field_fix", "right_tool_for_it"],
                 tier: 2,
                 cost: 10,
@@ -31411,8 +31394,7 @@ const careerDataMap = {
 			power_splice: {
 				name_key: "career_combat_engineer_power_splice-u",
 				rule_text_key: "career_combat_engineer_power_splice_rules-u",
-			    name: "Power Splice",
-			    description: "Once per scene, as an Action, divert power from one device to another. On a Mechanics success, the target regains 1d6 HP or reactivates for 1 round.",
+				affected_skill: "mechanics",
 			    prerequisite: "field_fix",
 			    tier: 3,
 			    cost: 15,
@@ -31422,8 +31404,6 @@ const careerDataMap = {
 			reactive_primer: {
 				name_key: "career_combat_engineer_reactive_primer-u",
 				rule_text_key: "career_combat_engineer_reactive_primer_rules-u",
-			    name: "Reactive Primer",
-			    description: "Once per scene, attach a fail-safe so a drone/turret reduced to 0 HP remains online with 1 HP for one final Action.",
 			    prerequisite: ["rapid_jury_rig", "right_tool_for_it"],
 			    tier: 3,
 			    cost: 15,
@@ -31433,8 +31413,7 @@ const careerDataMap = {
 			reactive_scaffold: {
 				name_key: "career_combat_engineer_reactive_scaffold-u",
 				rule_text_key: "career_combat_engineer_reactive_scaffold_rules-u",
-			    name: "Reactive Scaffold",
-			    description: "Once per scene, as a Reaction when a nearby device/structure takes damage, roll Mechanics to reduce it by 1d6.",
+				affected_skill: "mechanics",
 			    prerequisite: "rapid_jury_rig",
 			    tier: 3,
 			    cost: 15,
@@ -31444,8 +31423,6 @@ const careerDataMap = {
 			sabotage_relay: {
 				name_key: "career_combat_engineer_sabotage_relay-u",
 				rule_text_key: "career_combat_engineer_sabotage_relay_rules-u",
-			    name: "Sabotage Relay",
-			    description: "Once per session, as an Action, corrupt a mechanical system so the next user suffers 1d6 damage or a 1-round misfire.",
 			    prerequisite: "breachfinders_eye",
 			    tier: 3,
 			    cost: 15,
@@ -31455,8 +31432,6 @@ const careerDataMap = {
 			structural_collapse: {
 				name_key: "career_combat_engineer_structural_collapse-u",
 				rule_text_key: "career_combat_engineer_structural_collapse_rules-u",
-			    name: "Structural Collapse",
-			    description: "Once per session, as an Action, collapse a weakened structure. On a Demolitions success, deal 2d6 damage to targets in range unless they Dodge.",
 			    prerequisite: "breachfinders_eye",
 			    tier: 3,
 			    cost: 15,
@@ -31466,8 +31441,6 @@ const careerDataMap = {
 			tactical_recompiler: {
 				name_key: "career_combat_engineer_tactical_recompiler-u",
 				rule_text_key: "career_combat_engineer_tactical_recompiler_rules-u",
-			    name: "Tactical Recompiler",
-			    description: "Once per scene, as an Action, spend 1 Strain to override a hostile drone. On a success, it becomes neutral for 1 round; on a Hard Success, it follows 1 simple command.",
 			    prerequisite: "overclock_protocol",
 			    tier: 3,
 			    cost: 15,
@@ -31477,8 +31450,7 @@ const careerDataMap = {
 			auto_repair_subroutines: {
 				name_key: "career_combat_engineer_auto_repair_subroutines-u",
 				rule_text_key: "career_combat_engineer_auto_repair_subroutines_rules-u",
-			    name: "Auto-Repair Subroutines",
-			    description: "Once per session, as an Action, install a module so a drone/turret regains 1d3 HP at the end of each round. Only one active at a time. Requires Mechanics roll.",
+				affected_skill: "mechanics",
 			    prerequisite: ["reactive_primer", "power_splice"],
 			    tier: 4,
 			    cost: 20,
@@ -31488,8 +31460,7 @@ const careerDataMap = {
 			collapse_engineer: {
 				name_key: "career_combat_engineer_collapse_engineer-u",
 				rule_text_key: "career_combat_engineer_collapse_engineer_rules-u",
-			    name: "Collapse Engineer",
-			    description: "Once per scene, as an Action, rig a prepared structure to collapse with a designated trigger. Requires Demolitions roll.",
+				affected_skill: "demolitions",
 			    prerequisite: "structural_collapse",
 			    tier: 4,
 			    cost: 20,
@@ -31499,8 +31470,6 @@ const careerDataMap = {
 			failsafe_architect: {
 				name_key: "career_combat_engineer_failsafe_architect-u",
 				rule_text_key: "career_combat_engineer_failsafe_architect_rules-u",
-			    name: "Failsafe Architect",
-			    description: "Once per scene, as a Reaction, prevent a major malfunction on a system you’ve worked on this scene within Short range. No roll required.",
 			    prerequisite: ["reactive_scaffold", "tactile_memory"],
 			    tier: 4,
 			    cost: 20,
@@ -31510,8 +31479,6 @@ const careerDataMap = {
 			fortified_anchor: {
 				name_key: "career_combat_engineer_fortified_anchor-u",
 				rule_text_key: "career_combat_engineer_fortified_anchor_rules-u",
-			    name: "Fortified Anchor",
-			    description: "Once per session, as an Action, reinforce a structure/device. On success, it gains +4 HP and is immune to forced movement/topple for the scene.",
 			    prerequisite: "reactive_scaffold",
 			    tier: 4,
 			    cost: 20,
@@ -31521,8 +31488,6 @@ const careerDataMap = {
 			hijack_protocol: {
 				name_key: "career_combat_engineer_hijack_protocol-u",
 				rule_text_key: "career_combat_engineer_hijack_protocol_rules-u",
-			    name: "Hijack Protocol",
-			    description: "Once per session, as an Action, attempt to take full control of an automated drone/device. Target resists with its Security Level; on a Hard Success, you control it for the scene unless interrupted.",
 			    prerequisite: "tactical_recompiler",
 			    tier: 4,
 			    cost: 20,
@@ -31532,8 +31497,6 @@ const careerDataMap = {
 			saboteurs_signature: {
 				name_key: "career_combat_engineer_saboteurs_signature-u",
 				rule_text_key: "career_combat_engineer_saboteurs_signature_rules-u",
-			    name: "Saboteur’s Signature",
-			    description: "Once per session, when placing a sabotage effect, add one: +1d6 damage, +10% avoid detection, or +1 round delay.",
 			    prerequisite: ["structural_collapse", "sabotage_relay"],
 			    tier: 4,
 			    cost: 20,
@@ -31543,8 +31506,6 @@ const careerDataMap = {
 			failsafe_codex: {
 				name_key: "career_combat_engineer_failsafe_codex-u",
 				rule_text_key: "career_combat_engineer_failsafe_codex_rules-u",
-			    name: "Failsafe Codex",
-			    description: "Once per scene, as a Reaction, instantly restore a damaged system you’ve interacted with to half HP and immune to malfunctions for the scene.",
 			    prerequisite: "failsafe_architect",
 			    tier: 5,
 			    cost: 30,
@@ -31554,8 +31515,6 @@ const careerDataMap = {
 			field_constructor: {
 				name_key: "career_combat_engineer_field_constructor-u",
 				rule_text_key: "career_combat_engineer_field_constructor_rules-u",
-			    name: "Field Constructor",
-			    description: "Once per session, as an Action, rapidly construct one: (1) Turret (2d6 damage, 3 rounds), (2) Barricade (+2 Armor & cover), or (3) Utility drone. Requires Mechanics roll. Breaks down at scene end.",
 			    prerequisite: ["auto_repair_subroutines", "power_splice"],
 			    tier: 5,
 			    cost: 30,
@@ -31565,8 +31524,6 @@ const careerDataMap = {
 			master_of_collapse: {
 				name_key: "career_combat_engineer_master_of_collapse-u",
 				rule_text_key: "career_combat_engineer_master_of_collapse_rules-u",
-			    name: "Master of Collapse",
-			    description: "Once per session, as an Action, trigger all sabotage points in a structure. On success, all collapse zones deal 3d6 damage; targets must Dodge or be trapped.",
 			    prerequisite: "collapse_engineer",
 			    tier: 5,
 			    cost: 30,
@@ -31576,8 +31533,6 @@ const careerDataMap = {
 			system_subjugation: {
 				name_key: "career_combat_engineer_system_subjugation-u",
 				rule_text_key: "career_combat_engineer_system_subjugation_rules-u",
-			    name: "System Subjugation",
-			    description: "Once per session, as an Action, attempt to seize all devices in a small area. Opposed Electronics vs Security Level. On a Hard Success, control lasts the scene.",
 			    prerequisite: "hijack_protocol",
 			    tier: 5,
 			    cost: 30,
@@ -31587,8 +31542,6 @@ const careerDataMap = {
 			stat_boost: {
 				name_key: "career_combat_engineer_stat_boost-u",
 				rule_text_key: "career_combat_engineer_stat_boost_rules-u",
-			    name: "+5% Stat Boost",
-			    description: "Increase any one core stat (including Magic) by +5%, up to racial maximum. May only be taken once.",
 				prerequisiteAny: { tier: 4, count: 1 },
 			    tier: 5,
 			    cost: 30,
@@ -31627,8 +31580,7 @@ const careerDataMap = {
 			field_stabilizer: {
 				name_key: "career_combat_medic_field_stabilizer-u",
 				rule_text_key: "career_combat_medic_field_stabilizer_rules-u",
-				name: "Field Stabilizer",
-				description: "Once per scene, gain a bonus die when using Medicine or First Aid on an unconscious or dying ally.",
+				affected_skill: [ "first_aid", "medicine" ],
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -31638,8 +31590,7 @@ const careerDataMap = {
 			injector_harness: {
 				name_key: "career_combat_medic_injector_harness-u",
 				rule_text_key: "career_combat_medic_injector_harness_rules-u",
-				name: "Injector Harness",
-				description: "Once per scene, you may perform a First Aid, stim, or injector-based action as a maneuver instead of an action.",
+				affected_skill: "first_aid",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -31649,8 +31600,7 @@ const careerDataMap = {
 			pain_doesnt_matter: {
 				name_key: "career_combat_medic_pain_doesnt_matter-u",
 				rule_text_key: "career_combat_medic_pain_doesnt_matter_rules-u",
-				name: "Pain Doesn’t Matter",
-				description: "Once per scene, make a Medicine check to restore consciousness to an ally who is unconscious or who failed a CON check after suffering a major wound.",
+				affected_skill: "medicine",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -31660,8 +31610,6 @@ const careerDataMap = {
 			trauma_team_reflexes: {
 				name_key: "career_combat_medic_trauma_team_reflexes-u",
 				rule_text_key: "career_combat_medic_trauma_team_reflexes_rules-u",
-				name: "Trauma Team Reflexes",
-				description: "Once per scene, you may trade Initiative order with an ally. Both characters must not have acted yet.",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -31671,8 +31619,7 @@ const careerDataMap = {
 			vital_scan_overlay: {
 				name_key: "career_combat_medic_vital_scan_overlay-u",
 				rule_text_key: "career_combat_medic_vital_scan_overlay_rules-u",
-				name: "Vital Scan Overlay",
-				description: "Once per scene, gain a bonus die on a First Aid or Medicine roll if the target is below half HP. You may also detect hidden conditions (e.g., internal bleeding, toxin exposure) with a successful check.",
+				affected_skill: [ "first_aid", "medicine" ],
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -31682,8 +31629,7 @@ const careerDataMap = {
 			medical_override: {
 				name_key: "career_combat_medic_medical_override-u",
 				rule_text_key: "career_combat_medic_medical_override_rules-u",
-				name: "Medical Override",
-				description: "Once per scene, spend 2 Strain to double the HP healed by your next First Aid or Medicine check.",
+				affected_skill: [ "first_aid", "medicine" ],
 				prerequisite: ["pain_doesnt_matter" ,"injector_harness"],
 				tier: 2,
 				cost: 10,
@@ -31693,8 +31639,7 @@ const careerDataMap = {
 			painkiller_protocol: {
 				name_key: "career_combat_medic_painkiller_protocol-u",
 				rule_text_key: "career_combat_medic_painkiller_protocol_rules-u",
-				name: "Painkiller Protocol",
-				description: "After healing an ally, they gain a bonus die on their next action during the same scene.",
+				affected_skill: [ "first_aid", "medicine" ],
 				prerequisite: "injector_harness",
 				tier: 2,
 				cost: 10,
@@ -31704,8 +31649,6 @@ const careerDataMap = {
 			pressure_seal: {
 				name_key: "career_combat_medic_pressure_seal-u",
 				rule_text_key: "career_combat_medic_pressure_seal_rules-u",
-				name: "Pressure Seal",
-				description: "Once per session, you may automatically stabilize a bleeding-out ally below 0 HP. No roll required.",
 				prerequisite: "field_stabilizer",
 				tier: 2,
 				cost: 10,
@@ -31715,8 +31658,7 @@ const careerDataMap = {
 			stay_with_me: {
 				name_key: "career_combat_medic_stay_with_me-u",
 				rule_text_key: "career_combat_medic_stay_with_me_rules-u",
-				name: "Stay With Me!",
-				description: "Once per scene, when an ally within engaged or short-range drops to 0 HP, you may immediately make a First Aid check as a reaction to stabilize them.",
+				affected_skill: "first_aid",
 				prerequisite: "field_stabilizer",
 				tier: 2,
 				cost: 10,
@@ -31726,8 +31668,6 @@ const careerDataMap = {
 			tactical_redeployment: {
 				name_key: "career_combat_medic_tactical_redeployment-u",
 				rule_text_key: "career_combat_medic_tactical_redeployment_rules-u",
-				name: "Tactical Redeployment",
-				description: "As a reaction, when an ally within medium range takes damage, you may move one range band closer toward them.",
 				prerequisite: "trauma_team_reflexes",
 				tier: 2,
 				cost: 10,
@@ -31737,8 +31677,6 @@ const careerDataMap = {
 			combat_revive: {
 				name_key: "career_combat_medic_combat_revive-u",
 				rule_text_key: "career_combat_medic_combat_revive_rules-u",
-				name: "Combat Revive",
-				description: "Once per session, you may revive a stabilized ally within engaged range, restoring up to half their HP. Requires a full action and physical contact.",
 				prerequisite: "medical_override",
 				tier: 3,
 				cost: 15,
@@ -31748,8 +31686,6 @@ const careerDataMap = {
 			overwatch_healer: {
 				name_key: "career_combat_medic_overwatch_healer-u",
 				rule_text_key: "career_combat_medic_overwatch_healer_rules-u",
-				name: "Overwatch Healer",
-				description: "While providing overwatch for an injured ally, gain a bonus die on your next attack against an enemy who attacks that ally.",
 				prerequisite: "tactical_redeployment",
 				tier: 3,
 				cost: 15,
@@ -31759,8 +31695,6 @@ const careerDataMap = {
 			quickdraw_injector: {
 				name_key: "career_combat_medic_quickdraw_injector-u",
 				rule_text_key: "career_combat_medic_quickdraw_injector_rules-u",
-				name: "Quickdraw Injector",
-				description: "Once per scene, you may use a stim or injector as a reaction on yourself or an ally in engaged range.",
 				prerequisite: ["injector_harness", "painkiller_protocol"],
 				tier: 3,
 				cost: 15,
@@ -31770,8 +31704,7 @@ const careerDataMap = {
 			surgical_clarity: {
 				name_key: "career_combat_medic_surgical_clarity-u",
 				rule_text_key: "career_combat_medic_surgical_clarity_rules-u",
-				name: "Surgical Clarity",
-				description: "Once per session, reroll a failed Medicine or First Aid check with a bonus die. If successful, the action takes half the usual time.",
+				affected_skill: [ "first_aid", "medicine" ],
 				prerequisite: ["stay_with_me" ,"pressure_seal"],
 				tier: 3,
 				cost: 15,
@@ -31781,8 +31714,7 @@ const careerDataMap = {
 			veil_immunologist: {
 				name_key: "career_combat_medic_veil_immunologist-u",
 				rule_text_key: "career_combat_medic_veil_immunologist_rules-u",
-				name: "Veil Immunologist",
-				description: "Once per session, make a Medicine check to reduce Veil Corruption in an ally who suffered corruption this scene. You also gain a bonus die on Medicine checks against arcane or Veil-based afflictions.",
+				affected_skill: "medicine",
 				prerequisite: ["pressure_seal", "vital_scan_overlay"],
 				tier: 3,
 				cost: 15,
@@ -31792,8 +31724,7 @@ const careerDataMap = {
 			emergency_triage_net: {
 				name_key: "career_combat_medic_emergency_triage_net-u",
 				rule_text_key: "career_combat_medic_emergency_triage_net_rules-u",
-				name: "Emergency Triage Net",
-				description: "Once per session, select up to two allies within short range. You may divide the result of one successful Medicine check between them (each must receive at least 1 HP).",
+				affected_skill: "medicine",
 				prerequisite: "overwatch_healer",
 				tier: 4,
 				cost: 20,
@@ -31803,8 +31734,6 @@ const careerDataMap = {
 			endurance_conditioning: {
 				name_key: "career_combat_medic_endurance_conditioning-u",
 				rule_text_key: "career_combat_medic_endurance_conditioning_rules-u",
-				name: "Endurance Conditioning",
-				description: "Gain +2 maximum HP. This bonus is permanent.",
 				prerequisite: ["surgical_clarity" ,"combat_revive" ],
 				tier: 4,
 				cost: 20,
@@ -31814,8 +31743,7 @@ const careerDataMap = {
 			field_expeditor: {
 				name_key: "career_combat_medic_field_expeditor-u",
 				rule_text_key: "career_combat_medic_field_expeditor_rules-u",
-				name: "Field Expeditor",
-				description: "Once per session, you may perform a First Aid or Medicine check as a free action instead of a full action.",
+				affected_skill: "medicine",
 				prerequisite: "combat_revive",
 				tier: 4,
 				cost: 20,
@@ -31825,8 +31753,6 @@ const careerDataMap = {
 			ghost_of_the_er: {
 				name_key: "career_combat_medic_ghost_of_the_er-u",
 				rule_text_key: "career_combat_medic_ghost_of_the_er_rules-u",
-				name: "Ghost of the ER",
-				description: "Once per session, you may move through a danger zone to reach an injured ally. You do not provoke Overwatch attacks or reactions, and enemies suffer a penalty die when targeting you until your next turn.",
 				prerequisite: "overwatch_healer",
 				tier: 4,
 				cost: 20,
@@ -31836,8 +31762,7 @@ const careerDataMap = {
 			reactive_trauma_surge: {
 				name_key: "career_combat_medic_reactive_trauma_surge-u",
 				rule_text_key: "career_combat_medic_reactive_trauma_surge_rules-u",
-				name: "Reactive Trauma Surge",
-				description: "Once per scene, when an ally within short range drops below half HP, you may move to them and perform a First Aid check as a free action. If successful, they gain a bonus die on their next action.",
+				affected_skill: "first_aid",
 				prerequisite: "surgical_clarity",
 				tier: 4,
 				cost: 20,
@@ -31847,8 +31772,6 @@ const careerDataMap = {
 			adrenal_shield_matrix: {
 				name_key: "career_combat_medic_adrenal_shield_matrix-u",
 				rule_text_key: "career_combat_medic_adrenal_shield_matrix_rules-u",
-				name: "Adrenal Shield Matrix",
-				description: "Once per session, when healing an ally, they also gain 1d6 temporary HP that lasts for the remainder of the scene.",
 				prerequisite: "endurance_conditioning",
 				tier: 5,
 				cost: 30,
@@ -31858,8 +31781,7 @@ const careerDataMap = {
 			miracle_protocol: {
 				name_key: "career_combat_medic_miracle_protocol-u",
 				rule_text_key: "career_combat_medic_miracle_protocol_rules-u",
-				name: "Miracle Protocol",
-				description: "Once per session, make a Medicine check that automatically succeeds. On success, you may also remove one condition or one level of Veil Corruption from the target.",
+				affected_skill: "medicine",
 				prerequisite: ["field_expeditor" ,"ghost_of_the_er"],
 				tier: 5,
 				cost: 30,
@@ -31869,8 +31791,6 @@ const careerDataMap = {
 			no_one_dies_today: {
 				name_key: "career_combat_medic_no_one_dies_today-u",
 				rule_text_key: "career_combat_medic_no_one_dies_today_rules-u",
-				name: "No One Dies Today",
-				description: "Once per session, when an ally you can see would die from an attack or effect, they instead remain alive at 1 HP and may act normally for the remainder of the scene.",
 				prerequisite: "emergency_triage_net",
 				tier: 5,
 				cost: 30,
@@ -31880,8 +31800,6 @@ const careerDataMap = {
 			stat_boost: {
 				name_key: "career_combat_medic_stat_boost-u",
 				rule_text_key: "career_combat_medic_stat_boost_rules-u",
-				name: "+5% Stat Boost",
-				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
 				prerequisite: "",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
@@ -31912,8 +31830,10 @@ const careerDataMap = {
 		secondary_skills: {
 			streetwise: "Streetwise",
 			etiquette_alteri: "Etiquette (Alteri)",
+			etiquette_draevi: "Etiquette (Draevi)",
 			etiquette_high_society: "Etiquette (High Society)",
 			etiquette_lyranni: "Etiquette (Lyranni)",
+			etiquette_military: "Etiquette (Military)",
 			etiquette_underworld: "Etiquette (Underworld)",
 			etiquette_other: "Etiquette (Other)",
 			leadership: "Leadership",
@@ -31922,14 +31842,13 @@ const careerDataMap = {
 			bureaucracy: "Bureaucracy"
 		},
 		exclusive_skill_sets: [
-			["etiquette_alteri", "etiquette_high_society", "etiquette_lyranni", "etiquette_underworld", "etiquette_other"]
+			["etiquette_alteri", "etiquette_draevi", "etiquette_high_society", "etiquette_lyranni", "etiquette_military", "etiquette_underworld", "etiquette_other"]
 		],
 		talents: {
             clock_the_rules: {
 				name_key: "career_faceman_clock_the_rules-u",
 				rule_text_key: "career_faceman_clock_the_rules_rules-u",
-                name: "Clock the Rules",
-                description: "Maneuver — Make an Insight check during a live exchange. On success, learn one operative rule/custom the gatekeeper follows (shift change, clan token, contractor script) and gain a bonus die on your next social roll against that person this scene.",
+				affected_skill: "insight",
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31939,8 +31858,6 @@ const careerDataMap = {
             introductions_on_me: {
 				name_key: "career_faceman_introductions_on_me-u",
 				rule_text_key: "career_faceman_introductions_on_me_rules-u",
-                name: "Introductions On Me",
-                description: "Maneuver — Once per scene, after you establish a plausible purpose, choose up to two allies. Their first social test with this group this scene gains a bonus die.",
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31950,8 +31867,7 @@ const careerDataMap = {
             make_it_official: {
 				name_key: "career_faceman_make_it_official-u",
 				rule_text_key: "career_faceman_make_it_official_rules-u",
-                name: "Make It Official",
-                description: "Action; 1 Strain — Once per scene, create or edit an on-the-spot credential or token (House writ, work order, visitor slip, salvage chit, scrip voucher). The next scrutiny tied to that document this scene gains a bonus die. If the check is digital/mechanical, include Electronics or Security Systems as part of the action.",
+				affected_skill: [ "electronics", "security" ],
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31961,8 +31877,7 @@ const careerDataMap = {
             prompting_whisper: {
 				name_key: "career_faceman_prompting_whisper-u",
 				rule_text_key: "career_faceman_prompting_whisper_rules-u",
-                name: "Prompting Whisper",
-                description: "Reaction (declare before ally’s roll); 1 Strain — Feed a line or cue to an ally making Deception, Persuade, or Disguise. They gain a bonus die. If immediate follow-up scrutiny occurs, it targets you.",
+				affected_skill: [ "deception", "disguise", "persuade" ],
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31972,8 +31887,7 @@ const careerDataMap = {
             walkthrough_doctrine: {
 				name_key: "career_faceman_walkthrough_doctrine-u",
 				rule_text_key: "career_faceman_walkthrough_doctrine_rules-u",
-                name: "Walkthrough Doctrine",
-                description: "Action; 1 Strain — Once per scene, when challenged at a point of contact (corp lobby, House outpost, scav gate), roll Deception or Persuade. On success, that challenge is treated as routine for you and one ally for the rest of the interaction with that gatekeeper this scene (Hard: up to two allies). Does not affect active violence.",
+				affected_skill: [ "deception", "persuade" ],
                 prerequisite: "",
                 tier: 1,
                 cost: 5,
@@ -31983,8 +31897,7 @@ const careerDataMap = {
             cover_flip: {
 				name_key: "career_faceman_cover_flip-u",
 				rule_text_key: "career_faceman_cover_flip_rules-u",
-                name: "Cover Flip",
-                description: "Reaction (before scrutiny); 1 Strain — Once per scene, swap into a prepared identity. Roll Disguise in place of the demanded social check for that scrutiny. If you Clocked the Rules on this screener earlier this scene, add a bonus die.",
+				affected_skill: "disguise",
                 prerequisite: "clock_the_rules",
                 tier: 2,
                 cost: 10,
@@ -31994,8 +31907,7 @@ const careerDataMap = {
             default_to_process: {
 				name_key: "career_faceman_default_to_process-u",
 				rule_text_key: "career_faceman_default_to_process_rules-u",
-                name: "Default to Process",
-                description: "Reaction (before a confrontation escalates); 1 Strain — When a gatekeeper is about to detain or escalate, roll Persuade vs. POW. On success, they choose a procedural alternative for the current exchange (log it, call it in, fetch a supervisor) and the interaction remains non-hostile.",
+				affected_skill: "persuade",
                 prerequisite: "walkthrough_doctrine",
                 tier: 2,
                 cost: 10,
@@ -32005,8 +31917,7 @@ const careerDataMap = {
             follow_my_lead: {
 				name_key: "career_faceman_follow_my_lead-u",
 				rule_text_key: "career_faceman_follow_my_lead_rules-u",
-                name: "Follow My Lead",
-                description: "Reaction (after your success; before ally’s roll); 1 Strain — Once per scene, after you succeed on Deception or Persuade with this group, one ally attempting a related check this scene gains a bonus die and may cite your success as precedent.",
+				affected_skill: [ "deception", "persuade" ],
                 prerequisite: "prompting_whisper",
                 tier: 2,
                 cost: 10,
@@ -32016,8 +31927,7 @@ const careerDataMap = {
             host_escort: {
 				name_key: "career_faceman_host_escort-u",
 				rule_text_key: "career_faceman_host_escort_rules-u",
-                name: "Host Escort",
-                description: "Action; 1 Strain — Once per scene, Persuade vs. POW a non-supervisor gatekeeper (usher, clerk, quartermaster, crew chief). On success, they personally accompany you and one ally for the rest of the interaction, smoothing routine checks they control.",
+				affected_skill: "persuade",
                 prerequisite: "introductions_on_me",
                 tier: 2,
                 cost: 10,
@@ -32027,8 +31937,7 @@ const careerDataMap = {
             pass_token_clone: {
 				name_key: "career_faceman_pass_token_clone-u",
 				rule_text_key: "career_faceman_pass_token_clone_rules-u",
-                name: "Pass-Token Clone",
-                description: "Action; 1 Strain — Once per scene, after observing/handling a valid badge, token, or wristband this scene, roll Electronics or Security Systems. On success, the clone passes one comparable scrutiny this scene (Hard: two). Hands-on inspection defeats a clone.",
+				affected_skill: [ "electronics", "security" ],
                 prerequisite: "make_it_official",
                 tier: 2,
                 cost: 10,
@@ -32038,8 +31947,6 @@ const careerDataMap = {
             frame_the_interaction: {
 				name_key: "career_faceman_frame_the_interaction-u",
 				rule_text_key: "career_faceman_frame_the_interaction_rules-u",
-                name: "Frame the Interaction",
-                description: "Action; 1 Strain — Recast the challenge as your process. Choose one for this scene: delay a scrutiny long enough to finish your current ask; remove one penalty die from an ally’s next social check with this group; or impose a penalty die on the screener’s next attempt to scrutinize.",
                 prerequisite: "default_to_process",
                 tier: 3,
                 cost: 15,
@@ -32049,8 +31956,7 @@ const careerDataMap = {
             interruption_play: {
 				name_key: "career_faceman_interruption_play-u",
 				rule_text_key: "career_faceman_interruption_play_rules-u",
-                name: "Interruption Play",
-                description: "Reaction (before ally’s roll); 1 Strain — Once per scene, when an ally is about to be screened or questioned, you interject and take the test using Deception, Persuade, or Disguise (choose). If immediate follow-up scrutiny happens, it targets you.",
+				affected_skill: [ "deception", "persuade", "disguise" ],
                 prerequisite: "follow_my_lead",
                 tier: 3,
                 cost: 15,
@@ -32060,8 +31966,7 @@ const careerDataMap = {
             one_conversation_rule: {
 				name_key: "career_faceman_one_conversation_rule-u",
 				rule_text_key: "career_faceman_one_conversation_rule_rules-u",
-                name: "One-Conversation Rule",
-                description: "Action; 1d4 Strain — Once per scene, at a single point of contact this scene, pre-resolve scrutiny: choose up to two foreseeable, similar checks (e.g., sign-in + asset tag; wristband scan + bag glance). Make one Deception or Persuade test now. On success, those later checks are routine when they occur (no roll) unless a new authority or novel protocol appears.",
+				affected_skill: [ "deception", "persuade" ],
                 prerequisite: "cover_flip",
                 tier: 3,
                 cost: 15,
@@ -32071,8 +31976,7 @@ const careerDataMap = {
             senior_voice: {
 				name_key: "career_faceman_senior_voice-u",
 				rule_text_key: "career_faceman_senior_voice_rules-u",
-                name: "Senior Voice",
-                description: "Action; 1d4 Strain — Once per scene, address a non-officer gatekeeper in earshot. Persuade vs. POW. On success, they treat you as a temporary superior for the rest of this interaction: open a door, issue a handoff, begin an escort. Won’t force illegal orders; supervisors resist with a bonus die.",
+				affected_skill: "persuade",
                 prerequisite: "host_escort",
                 tier: 3,
                 cost: 15,
@@ -32082,8 +31986,6 @@ const careerDataMap = {
             token_familiarity: {
 				name_key: "career_faceman_token_familiarity-u",
 				rule_text_key: "career_faceman_token_familiarity_rules-u",
-                name: "Token Familiarity",
-                description: "Passive — Once per scene, when any belonging token is presented (House scrip band, union chit, clinic band, clan bead), you skip one secondary “prove-it” step (random quiz, second scan, code phrase) without a roll.",
                 prerequisite: "pass_token_clone",
                 tier: 3,
                 cost: 15,
@@ -32093,6 +31995,7 @@ const careerDataMap = {
             claim_authority: {
 				name_key: "career_faceman_claim_authority-u",
 				rule_text_key: "career_faceman_claim_authority_rules-u",
+				affected_skill: "persuade",
                 name: "Claim Authority",
                 description: "Action; 1d4 Strain — Once per session, assert temporary oversight: Persuade vs. POW on a gatekeeper in earshot. On success, for the rest of the scene they treat you as an authorized inspector/House auditor/sector elder within their remit (escort on request, open what they control, answer procedural questions). Elite units ignore; supervisors resist with a bonus die.",
                 prerequisite: "senior_voice",
@@ -32104,8 +32007,6 @@ const careerDataMap = {
             deep_cover_switch: {
 				name_key: "career_faceman_deep_cover_switch-u",
 				rule_text_key: "career_faceman_deep_cover_switch_rules-u",
-                name: "Deep Cover Switch",
-                description: "Maneuver; 1 Strain — Swap to a prepared identity without consuming your action. The first social roll under that identity this scene gains a bonus die.",
                 prerequisite: "one_conversation_rule",
                 tier: 4,
                 cost: 20,
@@ -32115,8 +32016,7 @@ const careerDataMap = {
             human_gate_hand_off: {
 				name_key: "career_faceman_human_gate_hand_off-u",
 				rule_text_key: "career_faceman_human_gate_hand_off_rules-u",
-                name: "Human Gate Hand-Off",
-                description: "Action; 1 Strain — Once per scene, after observing a digital or mechanical check (scanner, scrip reader, mag-lock keypad), you route it to manual adjudication. The next check at this station this scene is decided by a person; you roll Deception or Persuade instead of Electronics/Security Systems opposition. Allies can benefit.",
+				affected_skill: [ "deception", "electronics", "persuade", "security" ],
                 prerequisite: "frame_the_interaction",
                 tier: 4,
                 cost: 20,
@@ -32126,8 +32026,7 @@ const careerDataMap = {
             master_cue: {
 				name_key: "career_faceman_master_cue-u",
 				rule_text_key: "career_faceman_master_cue_rules-u",
-                name: "Master Cue",
-                description: "Reaction (before roll); 2 Strain — Once per scene, feed lines and framing to an ally making Deception, Persuade, or Disguise. They may use your corresponding skill if higher. If immediate follow-up scrutiny occurs, it targets you.",
+				affected_skill: [ "deception", "disguise", "persuade" ],
                 prerequisite: "interruption_play",
                 tier: 4,
                 cost: 20,
@@ -32137,8 +32036,7 @@ const careerDataMap = {
             small_team_protocol_reset: {
 				name_key: "career_faceman_small_team_protocol_reset-u",
 				rule_text_key: "career_faceman_small_team_protocol_reset_rules-u",
-                name: "Small-Team Protocol Reset",
-                description: "Action; 1d4 Strain — Once per scene, address up to three professionals in earshot (guards, ushers, stewards, wardens). Persuade vs. average POW. On success, for the rest of this immediate conversation, they revert to a non-hostile standard procedure you name (\"resume patrol\", \"await supervisor\", \"escort to intake\"). No effect once violence starts.",
+				affected_skill: "persuade",
                 prerequisite: "senior_voice",
                 tier: 4,
                 cost: 20,
@@ -32148,8 +32046,7 @@ const careerDataMap = {
             all_access_walk: {
 				name_key: "career_faceman_all_access_walk-u",
 				rule_text_key: "career_faceman_all_access_walk_rules-u",
-                name: "All-Access Walk",
-                description: "Action; 1d4 Strain — Once per session, compress the scene’s ordinary scrutiny by the same group into one high-stakes test: roll Deception or Persuade once. On success, routine checks by that group treat you and up to two allies as cleared for the rest of the scene, unless a new authority or novel protocol appears (Hard: up to five allies).",
+				affected_skill: [ "deception", "persuade" ],
                 prerequisite: ["claim_authority", "human_gate_hand_off"],
                 tier: 5,
                 cost: 30,
@@ -32170,8 +32067,7 @@ const careerDataMap = {
             conversational_tyrant: {
 				name_key: "career_faceman_conversational_tyrant-u",
 				rule_text_key: "career_faceman_conversational_tyrant_rules-u",
-                name: "Conversational Tyrant",
-                description: "Scene; 2 Strain — Once per session, for one scene, the first time you address any professional present, you may choose Deception or Persuade and gain a bonus die on that first-contact roll against each individual.",
+				affected_skill: [ "deception", "persuade" ],
                 prerequisite: "master_cue",
                 tier: 5,
                 cost: 30,
@@ -32181,8 +32077,7 @@ const careerDataMap = {
             master_of_disguise: {
 				name_key: "career_faceman_master_of_disguise-u",
 				rule_text_key: "career_faceman_master_of_disguise_rules-u",
-                name: "Master of Disguise",
-                description: "Downtime prep → Scene effect — Once per session, with ≥10 minutes of prep before the scene, you auto-succeed vs. casual scrutiny for the entire scene. Deliberate verification still requires a roll; on the first Disguise test against each new screener, gain a bonus die.",
+				affected_skill: "disguise",
                 prerequisite: "deep_cover_switch",
                 tier: 5,
                 cost: 30,
@@ -32192,8 +32087,6 @@ const careerDataMap = {
             stat_boost: {
 				name_key: "career_faceman_stat_boost-u",
 				rule_text_key: "career_faceman_stat_boost_rules-u",
-                name: "+5% Stat Boost",
-                description: "Increase any one core stat (including Magic) by +5%, up to your racial maximum. May only be taken once.",
                 prerequisite: "",
                 prerequisiteAny: { tier: 4, count: 1 },
                 tier: 5,

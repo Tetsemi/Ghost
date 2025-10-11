@@ -30734,8 +30734,6 @@ const careerDataMap = {
 			arcane_lock: {
 				name_key: "career_sigilbound_arcane_lock-u",
 				rule_text_key: "career_sigilbound_arcane_lock_rules-u",
-				name: "Arcane Lock",
-				description: "Once per scene, designate a point (e.g., doorway, corridor) within short range as warded. Enemies suffer a penalty die on ranged attacks made through the ward until the start of your next turn.",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -30744,8 +30742,6 @@ const careerDataMap = {
 			glyphstep: {
 				name_key: "career_sigilbound_glyphstep-u",
 				rule_text_key: "career_sigilbound_glyphstep_rules-u",
-				name: "Glyphstep",
-				description: "Spend 2 Strain to move 1 range band as a reaction when an enemy targets you with a spell or attack.",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -30754,8 +30750,7 @@ const careerDataMap = {
 			runesight: {
 				name_key: "career_sigilbound_runesight-u",
 				rule_text_key: "career_sigilbound_runesight_rules-u",
-				name: "Runesight",
-				description: "Once per scene, gain a bonus die on a Magic (Warding) check. If used defensively (e.g., block, suppress, counter), reduce the spell’s Strain cost by one die step .",
+				affected_skill: "magic_warding",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -30764,8 +30759,7 @@ const careerDataMap = {
 			sigil_hardened: {
 				name_key: "career_sigilbound_sigil_hardened-u",
 				rule_text_key: "career_sigilbound_sigil_hardened_rules-u",
-				name: "Sigil Hardened",
-				description: "Gain a bonus die on CON rolls to resist knockdown, suppression, or forced movement .",
+				affected_stat: "con",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -30774,8 +30768,6 @@ const careerDataMap = {
 			strain_buffer: {
 				name_key: "career_sigilbound_strain_buffer-u",
 				rule_text_key: "career_sigilbound_strain_buffer_rules-u",
-				name: "Strain Buffer",
-				description: "Increase your maximum Strain by +1. This talent may appear in multiple Career Trees.",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -30784,8 +30776,6 @@ const careerDataMap = {
 			barrier_projection: {
 				name_key: "career_sigilbound_barrier_projection-u",
 				rule_text_key: "career_sigilbound_barrier_projection_rules-u",
-				name: "Barrier Projection",
-				description: "Spend 3 Strain to conjure a short-range barrier. Any ally using it for cover causes enemies to suffer a penalty die on ranged attacks. Lasts for one scene or until destroyed (GM discretion).",
 				prerequisite: "arcane_lock",
 				tier: 2,
 				cost: 10,
@@ -30795,8 +30785,6 @@ const careerDataMap = {
 			reflective_ward: {
 				name_key: "career_sigilbound_reflective_ward-u",
 				rule_text_key: "career_sigilbound_reflective_ward_rules-u",
-				name: "Reflective Ward",
-				description: "Once per scene, when targeted by a spell, the caster suffers a penalty die . If the spell fails, it reflects back on them.",
 				prerequisite: "runesight",
 				tier: 2,
 				cost: 10,
@@ -30806,8 +30794,6 @@ const careerDataMap = {
 			sigil_of_anchoring: {
 				name_key: "career_sigilbound_sigil_of_anchoring-u",
 				rule_text_key: "career_sigilbound_sigil_of_anchoring_rules-u",
-				name: "Sigil of Anchoring",
-				description: "Once per scene, place a glyph on yourself or an ally. The target cannot be forcibly moved or teleported for one round.",
 				prerequisite: "glyphstep",
 				tier: 2,
 				cost: 10,
@@ -30817,8 +30803,6 @@ const careerDataMap = {
 			stabilization_glyph: {
 				name_key: "career_sigilbound_stabilization_glyph-u",
 				rule_text_key: "career_sigilbound_stabilization_glyph_rules-u",
-				name: "Stabilization Glyph",
-				description: "Spend 2 Strain to ward an ally within short range. The next time they would fall below 1 HP this scene, they remain at 1 HP instead.",
 				prerequisite: "arcane_lock",
 				tier: 2,
 				cost: 10,
@@ -30828,8 +30812,6 @@ const careerDataMap = {
 			warded_advance: {
 				name_key: "career_sigilbound_warded_advance-u",
 				rule_text_key: "career_sigilbound_warded_advance_rules-u",
-				name: "Warded Advance",
-				description: "Once per scene, when you and an ally move toward danger, conjure a temporary glyph shield. The next time either of you is hit this round, reduce the damage taken by 2 (after armor).",
 				prerequisite: ["barrier_projection", "glyphstep"],
 				tier: 2,
 				cost: 10,
@@ -30839,8 +30821,7 @@ const careerDataMap = {
 			arcane_reversal: {
 				name_key: "career_sigilbound_arcane_reversal-u",
 				rule_text_key: "career_sigilbound_arcane_reversal_rules-u",
-				name: "Arcane Reversal",
-				description: "Once per session, when you succeed on a Warding spell to block, suppress, or shield, you may restore 1d4 Strain to yourself or a nearby ally.",
+				affected_skill: "magic_warding",
 				prerequisite: "sigil_of_anchoring",
 				tier: 3,
 				cost: 15,
@@ -30850,8 +30831,6 @@ const careerDataMap = {
 			counterglyph: {
 				name_key: "career_sigilbound_counterglyph-u",
 				rule_text_key: "career_sigilbound_counterglyph_rules-u",
-				name: "Counterglyph",
-				description: "Once per session, as a reaction, force a nearby enemy caster to suffer a penalty die on their spell. If they fail, they suffer 1d4 Strain.",
 				prerequisite: "reflective_ward",
 				tier: 3,
 				cost: 15,
@@ -30861,8 +30840,6 @@ const careerDataMap = {
 			null_field: {
 				name_key: "career_sigilbound_null_field-u",
 				rule_text_key: "career_sigilbound_null_field_rules-u",
-				name: "Null Field",
-				description: "Once per scene, create a suppression zone in short range. All spells cast inside or through it suffer a penalty die for 1 round.",
 				prerequisite: ["reflective_ward", "barrier_projection"],
 				tier: 3,
 				cost: 15,
@@ -30872,8 +30849,7 @@ const careerDataMap = {
 			sanctum_sigil: {
 				name_key: "career_sigilbound_sanctum_sigil-u",
 				rule_text_key: "career_sigilbound_sanctum_sigil_rules-u",
-				name: "Sanctum Sigil",
-				description: "Spend 3 Strain to create a warded zone around you. Allies inside gain a bonus die to CON or POW rolls vs. magical or Veil effects. Lasts one scene.",
+				affected_stat: [ "con", "pow" ],
 				prerequisite: "",
 				prerequisiteAny: { tier: 2, count: 1 },
 				tier: 3,
@@ -30884,8 +30860,6 @@ const careerDataMap = {
 			sigil_pulse: {
 				name_key: "career_sigilbound_sigil_pulse-u",
 				rule_text_key: "career_sigilbound_sigil_pulse_rules-u",
-				name: "Sigil Pulse",
-				description: "Once per scene, when a ward (e.g., Arcane Lock, Barrier, Null Field) ends or is dispelled, nearby enemies take 1d4 force damage and suffer a penalty die on their next action.",
 				prerequisite: ["counterglyph", "arcane_reversal", "sanctum_sigil", "null_field"],
 				tier: 3,
 				cost: 15,
@@ -30895,8 +30869,6 @@ const careerDataMap = {
 			glyph_warder: {
 				name_key: "career_sigilbound_glyph_warder-u",
 				rule_text_key: "career_sigilbound_glyph_warder_rules-u",
-				name: "Glyph Warder",
-				description: "You may maintain two active wards (e.g., Arcane Lock, Null Field) at once. Strain and duration remain unchanged.",
 				prerequisite: ["null_field", "warding_matrix"],
 				tier: 4,
 				cost: 20,
@@ -30906,8 +30878,6 @@ const careerDataMap = {
 			mirror_sigil: {
 				name_key: "career_sigilbound_mirror_sigil-u",
 				rule_text_key: "career_sigilbound_mirror_sigil_rules-u",
-				name: "Mirror Sigil",
-				description: "Once per session, when targeted by a harmful spell or ranged attack, the attacker suffers a penalty die. If it misses, you may redirect it to another enemy in short range.",
 				prerequisite: ["counterglyph", "arcane_reversal"],
 				tier: 4,
 				cost: 20,
@@ -30917,8 +30887,6 @@ const careerDataMap = {
 			sigil_reservoir: {
 				name_key: "career_sigilbound_sigil_reservoir-u",
 				rule_text_key: "career_sigilbound_sigil_reservoir_rules-u",
-				name: "Sigil Reservoir",
-				description: "Once per scene, you may place an additional Arcane Lock or Null Field without paying extra Strain. Must be placed in a new location.",
 				prerequisite: "glyph_warder",
 				tier: 4,
 				cost: 20,
@@ -30928,8 +30896,6 @@ const careerDataMap = {
 			veil_seal: {
 				name_key: "career_sigilbound_veil_seal-u",
 				rule_text_key: "career_sigilbound_veil_seal_rules-u",
-				name: "Veil Seal",
-				description: "Spend 3 Strain to suppress a Veil anomaly or magical corruption effect within short range. You may also reduce an ally’s Veil Corruption by 1 level. Usable once per session.",
 				prerequisite: ["sanctum_sigil", "arcane_reversal"],
 				tier: 4,
 				cost: 20,
@@ -30939,8 +30905,7 @@ const careerDataMap = {
 			warding_matrix: {
 				name_key: "career_sigilbound_warding_matrix-u",
 				rule_text_key: "career_sigilbound_warding_matrix_rules-u",
-				name: "Warding Matrix",
-				description: "Spend 3 Strain to shield up to two allies within short range. They gain +2 armor vs. magical or elemental damage for the rest of the scene.",
+				affected_stat: "ac",
 				prerequisite: "sanctum_sigil",
 				tier: 4,
 				cost: 20,
@@ -30950,8 +30915,6 @@ const careerDataMap = {
 			runesovereign: {
 				name_key: "career_sigilbound_runesovereign-u",
 				rule_text_key: "career_sigilbound_runesovereign_rules-u",
-				name: "Runesovereign",
-				description: "Once per session, you may cast two Warding spells in the same round, as long as both have a casting time of 1 action or 1 maneuver .",
 				prerequisite: ["glyph_warder", "mirror_sigil"],
 				tier: 5,
 				cost: 30,
@@ -30961,8 +30924,6 @@ const careerDataMap = {
 			sigilburst_protocol: {
 				name_key: "career_sigilbound_sigilburst_protocol-u",
 				rule_text_key: "career_sigilbound_sigilburst_protocol_rules-u",
-				name: "Sigilburst Protocol",
-				description: "Once per session, you may detonate one active ward you control. Enemies in its area take 2d6 force damage and suffer a penalty die on their next action. The ward ends immediately.",
 				prerequisiteAll: ["glyph_warder", "sigil_pulse"],
 				tier: 5,
 				cost: 30,
@@ -30972,8 +30933,6 @@ const careerDataMap = {
 			wardmasters_command: {
 				name_key: "career_sigilbound_wardmasters_command-u",
 				rule_text_key: "career_sigilbound_wardmasters_command_rules-u",
-				name: "Wardmaster’s Command",
-				description: "Once per session, designate up to three allies within medium range. They each gain +2 armor and ignore magical terrain effects for the rest of the scene .",
 				prerequisiteAll: ["warding_matrix", "sanctum_sigil"],
 				tier: 5,
 				cost: 30,
@@ -30983,8 +30942,6 @@ const careerDataMap = {
 			stat_boost: {
 				name_key: "career_sigilbound_stat_boost-u",
 				rule_text_key: "career_sigilbound_stat_boost_rules-u",
-				name: "+5% Stat Boost",
-				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
 				prerequisite: "",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
@@ -31028,8 +30985,7 @@ const careerDataMap = {
 			elemental_channeling: {
 				name_key: "career_stormweaver_elemental_channeling-u",
 				rule_text_key: "career_stormweaver_elemental_channeling_rules-u",
-				name: "Elemental Channeling",
-				description: "Once per scene, gain a bonus die on a Magic (Elemental) roll. If successful, reduce the spell’s Strain cost by one die step.",
+				affected_skill: "magic_elemental",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -31038,8 +30994,6 @@ const careerDataMap = {
 			flashstep: {
 				name_key: "career_stormweaver_flashstep-u",
 				rule_text_key: "career_stormweaver_flashstep_rules-u",
-				name: "Flashstep",
-				description: "Spend 2 Strain to move one range band (Engaged to Short or Short to Medium) as a free action. Ignores terrain penalties. Cannot exceed medium range.",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -31048,8 +31002,6 @@ const careerDataMap = {
 			strain_buffer: {
 				name_key: "career_stormweaver_strain_buffer-u",
 				rule_text_key: "career_stormweaver_strain_buffer_rules-u",
-				name: "Strain Buffer",
-				description: "Increase your maximum Strain by +1. This talent may appear in multiple Career Trees.",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -31058,8 +31010,6 @@ const careerDataMap = {
 			tinder_spark: {
 				name_key: "career_stormweaver_tinder_spark-u",
 				rule_text_key: "career_stormweaver_tinder_spark_rules-u",
-				name: "Tinder Spark",
-				description: "Once per session, as an action, ignite a flammable object or surface within short range. You may also deal 1d4 fire damage to an adjacent target.",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -31068,8 +31018,6 @@ const careerDataMap = {
 			veil_shocked: {
 				name_key: "career_stormweaver_veil_shocked-u",
 				rule_text_key: "career_stormweaver_veil_shocked_rules-u",
-				name: "Veil-Shocked",
-				description: "Once per scene, when you take damage, deal 1d4 lightning damage to a target in engaged range as a reaction.",
 				tier: 1,
 				cost: 5,
 				capstone: false,
@@ -31078,8 +31026,7 @@ const careerDataMap = {
 			pulse_detonation: {
 				name_key: "career_stormweaver_pulse_detonation-u",
 				rule_text_key: "career_stormweaver_pulse_detonation_rules-u",
-				name: "Pulse Detonation",
-				description: "Once per scene, when struck in melee, cast a 1-action Elemental spell as a reaction. You may spend 2 Strain to deal half damage even if the spell fails.",
+				affected_skill: "magic_elemental",
 				prerequisite: "veil_shocked",
 				tier: 2,
 				cost: 10,
@@ -31089,8 +31036,7 @@ const careerDataMap = {
 			scorchmark: {
 				name_key: "career_stormweaver_scorchmark-u",
 				rule_text_key: "career_stormweaver_scorchmark_rules-u",
-				name: "Scorchmark",
-				description: "Spend 3 Strain to brand a living enemy with arcane fire. Gain a bonus die on Elemental spells targeting them for the rest of the scene.",
+				affected_skill: "magic_elemental",
 				prerequisite: "tinder_spark",
 				tier: 2,
 				cost: 10,
@@ -31100,8 +31046,8 @@ const careerDataMap = {
 			stormpulse_drive: {
 				name_key: "career_stormweaver_stormpulse_drive-u",
 				rule_text_key: "career_stormweaver_stormpulse_drive_rules-u",
-				name: "Stormpulse Drive",
-				description: "Once per scene, after casting an Elemental spell, you may immediately move 1 range band (this movement will provoke Opportunity Attacks) or gain a bonus die on your next Dodge or Melee attack roll.",
+				affected_skill: "dodge",
+				affected_skill_group: "combat_melee",
 				prerequisite: "elemental_channeling",
 				tier: 2,
 				cost: 10,
@@ -31111,8 +31057,7 @@ const careerDataMap = {
 			tempest_anchor: {
 				name_key: "career_stormweaver_tempest_anchor-u",
 				rule_text_key: "career_stormweaver_tempest_anchor_rules-u",
-				name: "Tempest Anchor",
-				description: "Spend 2 Strain to root yourself for one scene. While active, you ignore forced movement and gain a bonus die to CON rolls that resist knockdown or shoves.",
+				affected_stat: "con",
 				prerequisite: "",
 				prerequisiteAny: { tier: 1, count: 1 },
 				tier: 2,
@@ -31123,8 +31068,7 @@ const careerDataMap = {
 			voltaic_reflex: {
 				name_key: "career_stormweaver_voltaic_reflex-u",
 				rule_text_key: "career_stormweaver_voltaic_reflex_rules-u",
-				name: "Voltaic Reflex",
-				description: "Once per session, gain a bonus die to Dodge when targeted by a ranged attack. You may also spend 2 Strain to move 1 range band as part of the reaction.",
+				affected_skill: "dodge",
 				prerequisite: "flashstep",
 				tier: 2,
 				cost: 10,
@@ -31134,8 +31078,7 @@ const careerDataMap = {
 			crackling_focus: {
 				name_key: "career_stormweaver_crackling_focus-u",
 				rule_text_key: "career_stormweaver_crackling_focus_rules-u",
-				name: "Crackling Focus",
-				description: "If you remain stationary for two full rounds, gain a bonus die to all lightning-tagged Elemental spells for the rest of the scene.",
+				affected_skill: "magic_elemental",
 				prerequisite: "",
 				prerequisiteAny: { tier: 2, count: 1 },
 				tier: 3,
@@ -31146,8 +31089,6 @@ const careerDataMap = {
 			reactive_veilwalk: {
 				name_key: "career_stormweaver_reactive_veilwalk-u",
 				rule_text_key: "career_stormweaver_reactive_veilwalk_rules-u",
-				name: "Reactive Veilwalk",
-				description: "Once per scene, as a reaction, spend 2 Strain to teleport 1 range band away. All enemies in engaged range before or after the movement take 1d6 lightning damage.",
 				prerequisite: "pulse_detonation",
 				tier: 3,
 				cost: 15,
@@ -31157,8 +31098,6 @@ const careerDataMap = {
 			shockstep_conduit: {
 				name_key: "career_stormweaver_shockstep_conduit-u",
 				rule_text_key: "career_stormweaver_shockstep_conduit_rules-u",
-				name: "Shockstep Conduit",
-				description: "Once per session, teleport to any visible point within medium range. Enemies in engaged range at your starting and ending locations each take 1d4 lightning damage.",
 				prerequisite: ["voltaic_reflex", "pulse_detonation"],
 				tier: 3,
 				cost: 15,
@@ -31168,8 +31107,7 @@ const careerDataMap = {
 			stormcallers_edge: {
 				name_key: "career_stormweaver_stormcallers_edge-u",
 				rule_text_key: "career_stormweaver_stormcallers_edge_rules-u",
-				name: "Stormcaller's Edge",
-				description: "Spend 4 Strain to gain two bonus dice on an Elemental spell. If successful, the spell also affects one additional target within short range.",
+				affected_skill: "magic_elemental",
 				prerequisite: "scorchmark",
 				tier: 3,
 				cost: 15,
@@ -31179,8 +31117,6 @@ const careerDataMap = {
 			volcanic_path: {
 				name_key: "career_stormweaver_volcanic_path-u",
 				rule_text_key: "career_stormweaver_volcanic_path_rules-u",
-				name: "Volcanic Path",
-				description: "Once per session, create a line of burning terrain (fire or molten stone) in short range. Crossing it deals 1d6 damage and may impose a penalty die on movement for that round.",
 				prerequisite: "stormpulse_drive",
 				tier: 3,
 				cost: 15,
@@ -31190,8 +31126,6 @@ const careerDataMap = {
 			arc_flare: {
 				name_key: "career_stormweaver_arc_flare-u",
 				rule_text_key: "career_stormweaver_arc_flare_rules-u",
-				name: "Arc Flare",
-				description: "As a reaction, when you get an extreme or critical success on an Elemental spell, you may blind a nearby enemy. They suffer two penalty dice until their next action.",
 				prerequisite: "crackling_focus",
 				tier: 4,
 				cost: 20,
@@ -31201,8 +31135,6 @@ const careerDataMap = {
 			burn_current: {
 				name_key: "career_stormweaver_burn_current-u",
 				rule_text_key: "career_stormweaver_burn_current_rules-u",
-				name: "Burn Current",
-				description: "Spend 2 Strain to unleash lightning in engaged range. Enemies take 1d6 damage and suffer a penalty die. Mechanical targets (drones, robots, vehicles) take 2d6 damage and may short out.",
 				prerequisite: ["shockstep_conduit", "reactive_veilwalk"],
 				tier: 4,
 				cost: 20,
@@ -31212,8 +31144,8 @@ const careerDataMap = {
 			flashfire_assault: {
 				name_key: "career_stormweaver_flashfire_assault-u",
 				rule_text_key: "career_stormweaver_flashfire_assault_rules-u",
-				name: "Flashfire Assault",
-				description: "Once per session, after casting a spell, make a melee or thrown attack against a target in engaged or short range with a bonus die as an incidental action.",
+				affected_skill: "throw",
+				affected_skill_group: "combat_melee",
 				prerequisite: "stormcallers_edge",
 				tier: 4,
 				cost: 20,
@@ -31223,8 +31155,6 @@ const careerDataMap = {
 			surge_engine: {
 				name_key: "career_stormweaver_surge_engine-u",
 				rule_text_key: "career_stormweaver_surge_engine_rules-u",
-				name: "Surge Engine",
-				description: "Cast your next Elemental spell for 0 Strain. Usable once per session. Cannot be combined with other talents that alter spell cost or effect.",
 				prerequisite: "",
 				prerequisiteAny: { tier: 3, count: 1 },
 				tier: 4,
@@ -31235,8 +31165,6 @@ const careerDataMap = {
 			veilstorm_mantle: {
 				name_key: "career_stormweaver_veilstorm_mantle-u",
 				rule_text_key: "career_stormweaver_veilstorm_mantle_rules-u",
-				name: "Veilstorm Mantle",
-				description: "Spend 3 Strain to activate a storm cloak for one scene. Melee attackers take 1d4 lightning damage, and if they fail a CON roll, they suffer a penalty die on their next action.",
 				prerequisiteAll: ["tempest_anchor", "stormcallers_edge"],
 				tier: 4,
 				cost: 20,
@@ -31246,8 +31174,7 @@ const careerDataMap = {
 			eye_of_the_storm: {
 				name_key: "career_stormweaver_eye_of_the_storm-u",
 				rule_text_key: "career_stormweaver_eye_of_the_storm_rules-u",
-				name: "Eye of the Storm",
-				description: "Once per session, enter a Veil trance as an action for one scene. While active, reduce all Elemental spell Strain costs for the scene by one die step, and reroll any one failed Elemental spell.",
+				affected_skill: "magic_elemental",
 				prerequisite: ["veilstorm_mantle", "arc_flare"],
 				tier: 5,
 				cost: 30,
@@ -31257,8 +31184,6 @@ const careerDataMap = {
 			stormpiercer: {
 				name_key: "career_stormweaver_stormpiercer-u",
 				rule_text_key: "career_stormweaver_stormpiercer_rules-u",
-				name: "Stormpiercer",
-				description: "Once per session, choose one Elemental spell. That spell ignores magical barriers, bypasses armor soak, and hits one extra target within medium range.",
 				prerequisiteAll: ["stormcallers_edge", "arc_flare"],
 				tier: 5,
 				cost: 30,
@@ -31268,8 +31193,6 @@ const careerDataMap = {
 			veilburn_protocol: {
 				name_key: "career_stormweaver_veilburn_protocol-u",
 				rule_text_key: "career_stormweaver_veilburn_protocol_rules-u",
-				name: "Veilburn Protocol",
-				description: "Once per session, as an action, spend 4 Strain to unleash a medium-radius arcane blast (choose fire, lightning, or force). All enemies in range take 2d6 damage. Terrain may be scorched or destabilized. Allies are unaffected.",
 				prerequisite: ["surge_engine", "burn_current"],
 				tier: 5,
 				cost: 30,
@@ -31279,8 +31202,6 @@ const careerDataMap = {
 			stat_boost: {
 				name_key: "career_stormweaver_stat_boost-u",
 				rule_text_key: "career_stormweaver_stat_boost_rules-u",
-				name: "+5% Stat Boost",
-				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
 				prerequisite: "",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
@@ -34539,10 +34460,8 @@ const careerDataMap = {
 	  },
 	  talents: {
 	    arcane_cartridge: {
-				name_key: "career_arcane_gunslinger_arcane_cartridge-u",
-				rule_text_key: "career_arcane_gunslinger_arcane_cartridge_rules-u",
-	      name: "Arcane Cartridge",
-	      description: "Free: declare before roll; spend 1 Strain — your Focus shot becomes arcane and +1 damage.",
+		  name_key: "career_arcane_gunslinger_arcane_cartridge-u",
+		  rule_text_key: "career_arcane_gunslinger_arcane_cartridge_rules-u",
 	      prerequisite: "",
 	      tier: 1,
 	      cost: 10,
@@ -34550,10 +34469,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    bound_reload: {
-				name_key: "career_arcane_gunslinger_bound_reload-u",
-				rule_text_key: "career_arcane_gunslinger_bound_reload_rules-u",
-	      name: "Bound Reload",
-	      description: "Free — if you used any Infuse talent this round, reload your Focus as a Free Action instead of a Maneuver.",
+		  name_key: "career_arcane_gunslinger_bound_reload-u",
+		  rule_text_key: "career_arcane_gunslinger_bound_reload_rules-u",
 	      prerequisite: "",
 	      tier: 1,
 	      cost: 10,
@@ -34561,10 +34478,9 @@ const careerDataMap = {
 	      usage_limit: "scene"   // 1/Scene
 	    },
 	    close_orbit: {
-				name_key: "career_arcane_gunslinger_close_orbit-u",
-				rule_text_key: "career_arcane_gunslinger_close_orbit_rules-u",
-	      name: "Close Orbit",
-	      description: "Maneuver (stance; ends at end of your turn) — when firing Pistol/SMG at Engaged with your Focus, reduce close-quarters penalty by one step.",
+		  name_key: "career_arcane_gunslinger_close_orbit-u",
+		  rule_text_key: "career_arcane_gunslinger_close_orbit_rules-u",
+		  affected_skill: [ "firearms_handgun", "firearms_smg" ],
 	      prerequisite: "",
 	      tier: 1,
 	      cost: 10,
@@ -34572,10 +34488,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    mark: {
-				name_key: "career_arcane_gunslinger_mark-u",
-				rule_text_key: "career_arcane_gunslinger_mark_rules-u",
-	      name: "Mark",
-	      description: "Maneuver; spend 1 Strain — tag a visible target within Medium until your next turn; next attack vs it +10%; +AP 1 if also using Arcane Cartridge.",
+		  name_key: "career_arcane_gunslinger_mark-u",
+		  rule_text_key: "career_arcane_gunslinger_mark_rules-u",
 	      prerequisite: "",
 	      tier: 1,
 	      cost: 10,
@@ -34583,10 +34497,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    rangefold_nudge: {
-				name_key: "career_arcane_gunslinger_rangefold_nudge-u",
-				rule_text_key: "career_arcane_gunslinger_rangefold_nudge_rules-u",
-	      name: "Rangefold Nudge",
-	      description: "Free: declare before roll; spend 1 Strain — treat target as one band closer for penalties (can’t enable out-of-range).",
+		  name_key: "career_arcane_gunslinger_rangefold_nudge-u",
+		  rule_text_key: "career_arcane_gunslinger_rangefold_nudge_rules-u",
 	      prerequisite: "",
 	      tier: 1,
 	      cost: 10,
@@ -34594,10 +34506,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    corner_cut: {
-				name_key: "career_arcane_gunslinger_corner_cut-u",
-				rule_text_key: "career_arcane_gunslinger_corner_cut_rules-u",
-	      name: "Corner Cut",
-	      description: "Free; 2 Strain — ignore Partial Cover penalties for this Focus attack (can’t bypass Full Cover).",
+		  name_key: "career_arcane_gunslinger_corner_cut-u",
+		  rule_text_key: "career_arcane_gunslinger_corner_cut_rules-u",
 	      prerequisite: "rangefold_nudge",
 	      tier: 2,
 	      cost: 20,
@@ -34605,10 +34515,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    disruptive_round: {
-				name_key: "career_arcane_gunslinger_disruptive_round-u",
-				rule_text_key: "career_arcane_gunslinger_disruptive_round_rules-u",
-	      name: "Disruptive Round",
-	      description: "Maneuver; 1d4 Strain — on hit, target loses Reactions and −10% to attacks until end of its next turn; powered gear/bound focus users also suffer 1 penalty die on next action. Damage resolves normally.",
+		  name_key: "career_arcane_gunslinger_disruptive_round-u",
+		  rule_text_key: "career_arcane_gunslinger_disruptive_round_rules-u",
 	      prerequisite: "arcane_cartridge",
 	      tier: 2,
 	      cost: 20,
@@ -34616,10 +34524,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    rangefold_step: {
-				name_key: "career_arcane_gunslinger_rangefold_step-u",
-				rule_text_key: "career_arcane_gunslinger_rangefold_step_rules-u",
-	      name: "Rangefold Step",
-	      description: "Free after your attack resolves; 2 Strain — shift one range band; if not Engaged this move doesn’t trigger reactions. Can’t be used while Engaged.",
+		  name_key: "career_arcane_gunslinger_rangefold_step-u",
+		  rule_text_key: "career_arcane_gunslinger_rangefold_step_rules-u",
 	      prerequisite: "rangefold_nudge",
 	      tier: 2,
 	      cost: 20,
@@ -34627,10 +34533,8 @@ const careerDataMap = {
 	      usage_limit: "scene"   // 1/Scene
 	    },
 	    ward_flicker: {
-				name_key: "career_arcane_gunslinger_ward_flicker-u",
-				rule_text_key: "career_arcane_gunslinger_ward_flicker_rules-u",
-	      name: "Ward Flicker",
-	      description: "Reaction; 1d4 Strain — impose 1 penalty die on an incoming ranged or spell attack; if it misses, regain 1 Strain (min 0).",
+		  name_key: "career_arcane_gunslinger_ward_flicker-u",
+		  rule_text_key: "career_arcane_gunslinger_ward_flicker_rules-u",
 	      prerequisite: "mark",
 	      tier: 2,
 	      cost: 20,
@@ -34638,10 +34542,8 @@ const careerDataMap = {
 	      usage_limit: "scene"   // 1/Scene
 	    },
 	    ward_piercing_round: {
-				name_key: "career_arcane_gunslinger_ward_piercing_round-u",
-				rule_text_key: "career_arcane_gunslinger_ward_piercing_round_rules-u",
-	      name: "Ward-Piercing Round",
-	      description: "Maneuver; 1d4 Strain — on hit, reduce arcane soak/ward DR by 2 for damage; target can’t gain new magical shielding until start of your next turn.",
+		  name_key: "career_arcane_gunslinger_ward_piercing_round-u",
+		  rule_text_key: "career_arcane_gunslinger_ward_piercing_round_rules-u",
 	      prerequisite: "arcane_cartridge",
 	      tier: 2,
 	      cost: 20,
@@ -34649,10 +34551,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    break_contact: {
-				name_key: "career_arcane_gunslinger_break_contact-u",
-				rule_text_key: "career_arcane_gunslinger_break_contact_rules-u",
-	      name: "Break Contact",
-	      description: "Reaction; 1d4 Strain — when you hit with your Focus or an enemy misses you in melee, immediately Disengage and move one band without triggering reactions; if not Engaged, gain Light Cover until your next turn starts.",
+		  name_key: "career_arcane_gunslinger_break_contact-u",
+		  rule_text_key: "career_arcane_gunslinger_break_contact_rules-u",
 	      prerequisite: "rangefold_step",
 	      tier: 3,
 	      cost: 30,
@@ -34660,10 +34560,8 @@ const careerDataMap = {
 	      usage_limit: "scene"   // 1/Scene
 	    },
 	    chain_line: {
-				name_key: "career_arcane_gunslinger_chain_line-u",
-				rule_text_key: "career_arcane_gunslinger_chain_line_rules-u",
-	      name: "Chain Line",
-	      description: "Free, immediate after a hit; 2 Strain — after an Infused hit, take a second attack at −10% against a different target within Short of the first; second attack deals arcane damage and can impale.",
+		  name_key: "career_arcane_gunslinger_chain_line-u",
+		  rule_text_key: "career_arcane_gunslinger_chain_line_rules-u",
 	      prerequisite: ["disruptive_round","ward_piercing_round"], // OR
 	      tier: 3,
 	      cost: 30,
@@ -34671,10 +34569,8 @@ const careerDataMap = {
 	      usage_limit: "scene"   // 1/Scene
 	    },
 	    overcharged_cartridge: {
-				name_key: "career_arcane_gunslinger_overcharged_cartridge-u",
-				rule_text_key: "career_arcane_gunslinger_overcharged_cartridge_rules-u",
-	      name: "Overcharged Cartridge",
-	      description: "Maneuver; 1d4 Strain — this Focus shot becomes arcane, +1 damage, and on a Hard+ hit treats the attack as AP 2 (stacks with Mark’s AP).",
+		  name_key: "career_arcane_gunslinger_overcharged_cartridge-u",
+		  rule_text_key: "career_arcane_gunslinger_overcharged_cartridge_rules-u",
 	      prerequisite: ["disruptive_round","ward_piercing_round"], // OR
 	      tier: 3,
 	      cost: 30,
@@ -34682,10 +34578,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    phase_pin: {
-				name_key: "career_arcane_gunslinger_phase_pin-u",
-				rule_text_key: "career_arcane_gunslinger_phase_pin_rules-u",
-	      name: "Phase Pin",
-	      description: "Maneuver — Mark a visible target within Medium; your next Infused hit this Scene: veil-natives POW save with 1 penalty die or are Rooted on their next round; others are Hobbled until start of their next turn.",
+		  name_key: "career_arcane_gunslinger_phase_pin-u",
+		  rule_text_key: "career_arcane_gunslinger_phase_pin_rules-u",
 	      prerequisite: "ward_piercing_round",
 	      tier: 3,
 	      cost: 30,
@@ -34693,10 +34587,8 @@ const careerDataMap = {
 	      usage_limit: ""
 	    },
 	    short_fold: {
-				name_key: "career_arcane_gunslinger_short_fold-u",
-				rule_text_key: "career_arcane_gunslinger_short_fold_rules-u",
-	      name: "Short Fold",
-	      description: "Maneuver; 1d4 Strain — until end of your turn, Focus shots treat targets as one band closer and ignore 1 penalty die from light obstructions (smoke/shimmer/glare).",
+		  name_key: "career_arcane_gunslinger_short_fold-u",
+		  rule_text_key: "career_arcane_gunslinger_short_fold_rules-u",
 	      prerequisite: "rangefold_step",
 	      tier: 3,
 	      cost: 30,
@@ -34704,10 +34596,8 @@ const careerDataMap = {
 	      usage_limit: "scene"   // 1/Scene
 	    },
 	    anchor_shot: {
-				name_key: "career_arcane_gunslinger_anchor_shot-u",
-				rule_text_key: "career_arcane_gunslinger_anchor_shot_rules-u",
-	      name: "Anchor Shot",
-	      description: "Action (Attack; on hit); 1d4+1 Strain — target cannot teleport, phase, or become invisible until end of your next turn; veil-natives POW with 1 penalty die or are Rooted for that duration.",
+		  name_key: "career_arcane_gunslinger_anchor_shot-u",
+		  rule_text_key: "career_arcane_gunslinger_anchor_shot_rules-u",
 	      prerequisite: "phase_pin",
 	      tier: 4,
 	      cost: 40,
@@ -34715,10 +34605,8 @@ const careerDataMap = {
 	      usage_limit: "session"
 	    },
 	    blackout_salvo: {
-				name_key: "career_arcane_gunslinger_blackout_salvo-u",
-				rule_text_key: "career_arcane_gunslinger_blackout_salvo_rules-u",
-	      name: "Blackout Salvo",
-	      description: "Maneuver; 1d6 Strain — on hit, plus damage, emit a Short-radius shutdown pulse: unattended devices & drones off 1 round; attended-gear users POW with 1 penalty die or lose Reactions and −20% to attacks until end of next turn (on success, −10%).",
+		  name_key: "career_arcane_gunslinger_blackout_salvo-u",
+		  rule_text_key: "career_arcane_gunslinger_blackout_salvo_rules-u",
 	      prerequisite: "chain_line",
 	      tier: 4,
 	      cost: 40,
@@ -34726,10 +34614,8 @@ const careerDataMap = {
 	      usage_limit: "session"
 	    },
 	    deadmark_beacon: {
-				name_key: "career_arcane_gunslinger_deadmark_beacon-u",
-				rule_text_key: "career_arcane_gunslinger_deadmark_beacon_rules-u",
-	      name: "Deadmark Beacon",
-	      description: "Action (Attack; on hit); 1d4+1 Strain — target is Exposed until end of round: allies gain +1 die and ignore Partial Cover vs it; target’s Dodge suffers 1 penalty die.",
+		  name_key: "career_arcane_gunslinger_deadmark_beacon-u",
+		  rule_text_key: "career_arcane_gunslinger_deadmark_beacon_rules-u",
 	      prerequisite: "phase_pin",
 	      tier: 4,
 	      cost: 40,
@@ -34737,10 +34623,8 @@ const careerDataMap = {
 	      usage_limit: "session"
 	    },
 	    severing_round: {
-				name_key: "career_arcane_gunslinger_severing_round-u",
-				rule_text_key: "career_arcane_gunslinger_severing_round_rules-u",
-	      name: "Severing Round",
-	      description: "Action (Attack); 1d6 Strain — on hit, treat as arcane, ignore all armor & ward DR, and force POW with 1 penalty die; on fail, target is Staggered (lose Reactions, −20% to attacks) until end of next turn.",
+		  name_key: "career_arcane_gunslinger_severing_round-u",
+		  rule_text_key: "career_arcane_gunslinger_severing_round_rules-u",
 	      prerequisite: "overcharged_cartridge",
 	      tier: 4,
 	      cost: 40,
@@ -34748,10 +34632,8 @@ const careerDataMap = {
 	      usage_limit: "session"
 	    },
 	    spell_conduit_round: {
-				name_key: "career_arcane_gunslinger_spell_conduit_round-u",
-				rule_text_key: "career_arcane_gunslinger_spell_conduit_round_rules-u",
-	      name: "Spell Conduit Round",
-	      description: "Action (Attack; declare spell); 1d6 Strain + spell’s Strain — resolve firearm damage first; then resolve your known single-target spell against that same target; target suffers 1 penalty die to resist (2 if your attack was Hard+). Counts as one attack action.",
+		  name_key: "career_arcane_gunslinger_spell_conduit_round-u",
+		 rule_text_key: "career_arcane_gunslinger_spell_conduit_round_rules-u",
 	      prerequisite: "short_fold",
 	      tier: 4,
 	      cost: 40,
@@ -34798,8 +34680,6 @@ const careerDataMap = {
 	    lockout_sigil: {
 	        name_key: "career_soul_forger_lockout_sigil-u",
 	        rule_text_key: "career_soul_forger_lockout_sigil_rules-u",
-	        name: "Lockout Sigil",
-	        description: "Type: Action • Cost: 1d4 Strain • Ward a machine within Short range. Opposed (Technomancy or Summoning) vs operator’s skill (or Defense Rating if unattended). On your success, until the end of the target’s next turn the device loses Reactions and suffers –10% to operation checks; if it attacks, impose 1 penalty die on that attack.",
 	        prerequisite: "",
 	        tier: 1,
 	        cost: 10,
@@ -34809,8 +34689,6 @@ const careerDataMap = {
 	    seat_the_spirit: {
 	        name_key: "career_soul_forger_seat_the_spirit-u",
 	        rule_text_key: "career_soul_forger_seat_the_spirit_rules-u",
-	        name: "Seat the Spirit (Ride—Minor)",
-	        description: "Type: Action; Concentration • Cost: 1d4 Strain • Invite a spirit to ride an unattended simple system within Short range (door, camera, turret without active user, civilian drone, parked vehicle subsystem). Roll (Technomancy or Summoning) vs Defense Rating or an opposing operator’s skill if contested. On success, you direct it for the Scene (basic actions only). Starting a new Concentration ends this ride.",
 	        prerequisite: "",
 	        tier: 1,
 	        cost: 10,
@@ -34820,8 +34698,6 @@ const careerDataMap = {
 	    spirit_patch: {
 	        name_key: "career_soul_forger_spirit_patch-u",
 	        rule_text_key: "career_soul_forger_spirit_patch_rules-u",
-	        name: "Spirit Patch",
-	        description: "Type: Action • Cost: 2 Strain • At Engaged or Short range, repair 1d6 HP to a machine/drone/turret/spirit-frame and clear one of: Jammed or Overheated. If the target is currently spirit-infused by you, heal +1 HP. Cannot target living tissue.",
 	        prerequisite: "",
 	        tier: 1,
 	        cost: 10,
@@ -34831,8 +34707,6 @@ const careerDataMap = {
 	    spirit_static: {
 	        name_key: "career_soul_forger_spirit_static-u",
 	        rule_text_key: "career_soul_forger_spirit_static_rules-u",
-	        name: "Spirit Static (offensive interrupt)",
-	        description: "Type: Reaction (declare when a machine within Short range targets you or an ally) • Cost: 1 Strain • Jolt the target’s target-acquisition. Roll (Technomancy or Summoning) vs Defense Rating or an opposing operator if contested. On success, impose 1 penalty die on that attack. On Hard+, also inflict Impaired on the machine until the start of your next turn.",
 	        prerequisite: "",
 	        tier: 1,
 	        cost: 10,
@@ -34842,8 +34716,7 @@ const careerDataMap = {
 	    workshop_wisp: {
 	        name_key: "career_soul_forger_workshop_wisp-u",
 	        rule_text_key: "career_soul_forger_workshop_wisp_rules-u",
-	        name: "Workshop Wisp (Familiar)",
-	        description: "Type: Active (Downtime creation; utility companion) • Cost: 500 Cr (ground) or 1,000 Cr (flying) + Bond 5 XP to create; half cost in Credits to rebuild if destroyed • Tiny non-combat familiar (1 HP). Acts on your initiative. Once per Round within Short range, it may Assist one Arcanotech, Mechanical, or Electronics test for one bonus die. Can Scout (Perception 40%), carry a small item, or retrieve a tool. EMP/Blackout do not disable it; instead, it becomes Impaired for 1 Round. You may have multiple Wisps but only one Wisp may be active at a time.",
+			affected_skill: [ "archanotech", "electronics", "mechanics" ],
 	        prerequisite: "",
 	        tier: 1,
 	        cost: 10,
@@ -34853,8 +34726,6 @@ const careerDataMap = {
 	    chassis_ride: {
 	        name_key: "career_soul_forger_chassis_ride-u",
 	        rule_text_key: "career_soul_forger_chassis_ride_rules-u",
-	        name: "Chassis Ride (Combat)",
-	        description: "Type: Action; Concentration • Cost: 1d4 Strain • Possess a drone or turret within Medium range. Oppose (Technomancy or Summoning) vs Defense Rating or an opposing operator’s skill if contested. While riding, choose one benefit for the Scene: +10% to attacks or +10% to control/evasion. Counts as spirit-infused. When the ride ends, the unit becomes Impaired for 1 Round.",
 	        prerequisite: "seat_the_spirit",
 	        tier: 2,
 	        cost: 20,
@@ -34864,8 +34735,6 @@ const careerDataMap = {
 	    counteremp_veil: {
 	        name_key: "career_soul_forger_counteremp_veil-u",
 	        rule_text_key: "career_soul_forger_counteremp_veil_rules-u",
-	        name: "CounterEMP Veil",
-	        description: "Type: Reaction (declare before a disabling effect roll) • Cost: 1d4 Strain • When a device or spirit-frame within Medium range would be disabled by EMP/Blackout, veil the anchor: it ignores shutdown and becomes Impaired until the end of its next turn.",
 	        prerequisite: "lockout_sigil",
 	        tier: 2,
 	        cost: 20,
@@ -34875,8 +34744,6 @@ const careerDataMap = {
 	    infused_shielding: {
 	        name_key: "career_soul_forger_infused_shielding-u",
 	        rule_text_key: "career_soul_forger_infused_shielding_rules-u",
-	        name: "Infused Shielding",
-	        description: "Type: Reaction (declare when a spirit-infused ally within Short range is targeted; lasts to end of Round) • Cost: 1d4 Strain • For the rest of this Round, the target’s DR (physical and arcane) are doubled (round up; minimum +1 if they had no DR). Apply the doubled DR to the current incoming damage and any further hits this Round.",
 	        prerequisite: "spirit_patch",
 	        tier: 2,
 	        cost: 20,
@@ -34886,8 +34753,6 @@ const careerDataMap = {
 	    overclock_lattice: {
 	        name_key: "career_soul_forger_overclock_lattice-u",
 	        rule_text_key: "career_soul_forger_overclock_lattice_rules-u",
-	        name: "Overclock Lattice",
-	        description: "Type: Maneuver • Cost: 1d4 Strain • Target a spirit-infused machine within Short range. Until Scene end, grant +10% to either attacks or dodge/defense (choose once). On a fumble roll by the machine, it gains Overheated and becomes Impaired until the start of your next turn.",
 	        prerequisite: [ "seat_the_spirit", "lockout_sigil" ],
 	        tier: 2,
 	        cost: 20,
@@ -34897,8 +34762,6 @@ const careerDataMap = {
 	    soulstitch: {
 	        name_key: "career_soul_forger_soulstitch-u",
 	        rule_text_key: "career_soul_forger_soulstitch_rules-u",
-	        name: "Soulstitch",
-	        description: "Type: Action • Cost: 1d4 Strain • At Engaged or Short range, repair 2d6 HP to a machine or spirit-frame. If at 0 HP, it rises to 1 HP and clears Incapacitated condition. A given target can benefit from Soulstitch once per Scene.",
 	        prerequisite: "spirit_patch",
 	        tier: 2,
 	        cost: 20,
@@ -34908,8 +34771,6 @@ const careerDataMap = {
 	    battlefield_reclamation: {
 	        name_key: "career_soul_forger_battlefield_reclamation-u",
 	        rule_text_key: "career_soul_forger_battlefield_reclamation_rules-u",
-	        name: "Battlefield Reclamation",
-	        description: "Type: Action • Cost: 1d6 Strain • Target a wrecked, powered-down, or abandoned small chassis within Short range (bot/drone/turret shell; GM decides if it’s possible). Reanimate it as a Reclaimed Shell for the Scene under your command: 6 HP; DR 1 (physical); Attack 45% for 1d6 (melee or light tool-gun). It counts as spirit-infused. When the Scene ends or the shell hits 0 HP, it goes inert.",
 	        prerequisite: "soulstitch",
 	        tier: 3,
 	        cost: 30,
@@ -34918,8 +34779,6 @@ const careerDataMap = {
 	    },
 	    hand_of_the_forge: {
 	        name_key: "career_soul_forger_hand_of_the_forge-u",
-	        rule_text_key: "career_soul_forger_hand_of_the_forge_rules-u",
-	        name: "Hand of the Forge",
 	        description: "Type: Reaction • Cost: 1d4 Strain • When a spirit-infused ally within Short range takes damage, reduce the damage by 1d6. Once per Round.",
 	        prerequisite: "soulstitch",
 	        tier: 3,
@@ -34930,8 +34789,8 @@ const careerDataMap = {
 	    helmgeist_protocol: {
 	        name_key: "career_soul_forger_helmgeist_protocol-u",
 	        rule_text_key: "career_soul_forger_helmgeist_protocol_rules-u",
-	        name: "Helmgeist Protocol",
-	        description: "Type: Action; Concentration • Cost: 1d8 Strain • You must be in physical contact with or inside the host vehicle. Awaken the spirit of a vehicle or facility subsystem you are in with for the Scene. Choose one duty when you activate: Assist—the living operator’s Piloting/Driving/Gunnery check gains +10% each Round; or Autopilot/Gunnery—if the operator is incapacitated/absent or cedes control, the spirit takes one vehicle action at 40% (Piloting/Driving 40%; mounted Gunnery 40%) each Round. Changing duty costs a Maneuver. If resisted roll (Technomancy or Summoning) vs Vehicle’s Defense Rating or an opposing operator’s skill if contested.",
+			affected_skill: "gunnery",
+			affected_skill_group: "pilot",
 	        prerequisite: "chassis_ride",
 	        tier: 3,
 	        cost: 30,
@@ -34941,8 +34800,6 @@ const careerDataMap = {
 	    spirit_lattice_field: {
 	        name_key: "career_soul_forger_spirit_lattice_field-u",
 	        rule_text_key: "career_soul_forger_spirit_lattice_field_rules-u",
-	        name: "Spirit Lattice Field",
-	        description: "Type: Action; Concentration • Cost: 1d4 Strain • Project a Short-radius aura centered on you for the Scene. Allied spirit-infused units inside impose 1 penalty die on the first attack targeting each spirit-infused unit each Round.",
 	        prerequisite: "overclock_lattice",
 	        tier: 3,
 	        cost: 30,
@@ -34952,8 +34809,6 @@ const careerDataMap = {
 	    spitework_rewrite: {
 	        name_key: "career_soul_forger_spitework_rewrite-u",
 	        rule_text_key: "career_soul_forger_spitework_rewrite_rules-u",
-	        name: "Spitework Rewrite",
-	        description: "Type: Action • Cost: 1d4 Strain • Target a hostile drone/turret within Short range. Opposed (Technomancy or Summoning) vs Defense Rating or an opposing operator’s skill if contested. On success, you flip its IFF for 1 Round: it cannot target your crew and will target designated hostiles or hold fire per your command. On Hard+, duration is 2 Rounds. This is not a Ride and does not require Concentration.",
 	        prerequisite: "lockout_sigil",
 	        tier: 3,
 	        cost: 30,
@@ -34963,8 +34818,6 @@ const careerDataMap = {
 	    bound_warchassis: {
 	        name_key: "career_soul_forger_bound_warchassis-u",
 	        rule_text_key: "career_soul_forger_bound_warchassis_rules-u",
-	        name: "Bound WarChassis (Permanent Companion)",
-	        description: "Type: Downtime creation; Passive in play • Build Cost: 10,000 credits (base frame) • In Downtime, build and bind a permanent combat chassis (body may be any suitable salvaged bot/robot shell; origin is cosmetic and does not change stats). Acts on your initiative with a Maneuver + Action. EMP/Blackout don’t disable it (it becomes Impaired for 1 Round after). Always spirit-infused for your talents. Baseline Statline: 10 HP; DR 2 (physical); Evasion 40%; Attack 55%. Choose one role at binding: Skirmisher (melee 1d6+1), Gunner (weapon must be supplied), or Bulwark (shield arm grants allies in Engaged +1 cover step; Bulwark melee 1d6). You may apply one Tier II or III buff to it at a time (e.g., Overclock Lattice). Upgrades: this is a base chassis—armor, weapons, sensors, and protocols are purchased/installed separately (detailed in upgrade section). Reactivation & Repair: If reduced to 0 HP, it becomes an inert shell. Half cost in Credits to rebuild if destroyed. On-mission Emergency Wake (once per Session): at Engaged range, take an Action, pay 1d6 Strain, and roll Arcanotech or Mechanical—on success it rises to 1 HP (on Hard+, restore 1d6+1 HP). After the mission, repair in Downtime (credits/time only) to fully restore. Limit: Only one War-Chassis may be active at a time; your Tier I Wisp does not count toward this total.",
 	        prerequisite: "spirit_lattice_field",
 	        tier: 4,
 	        cost: 40,
@@ -34974,8 +34827,6 @@ const careerDataMap = {
 	    cathedral_of_scrap: {
 	        name_key: "career_soul_forger_cathedral_of_scrap-u",
 	        rule_text_key: "career_soul_forger_cathedral_of_scrap_rules-u",
-	        name: "Cathedral of Scrap",
-	        description: "Type: Action • Cost: 1d8+2 Strain • Usage: 1/Session • You pull heat, will, and junk into a single Scene-long colossus. If there is sufficient loose material within Short range (wrecked drones/vehicles, scaffolds, appliances, debris), you assemble a Large frame (Build 2, ~8 ft) at Engaged range. It acts each Round on your initiative with a Maneuver + Action until Scene end, then collapses into inert scrap. Statline (for the Scene): HP 16; DR 3 (physical); Dodge 35%; Attack 65% (Smash 1d8+2); Alt-Attack 55% (Hurl Debris 1d6, Medium range). Traits: Bulwark Mass (allies in Engaged with the Colossus have partial cover; ranged attacks against them suffer 1 penalty die), Impact (on a Hard+ Smash, either knock back the target one band or inflict Impaired). Counts as spirit-infused and ignores EMP/Blackout. If reduced to 0 HP, it collapses immediately.",
 	        prerequisite: "battlefield_reclamation",
 	        tier: 4,
 	        cost: 40,
@@ -34985,8 +34836,6 @@ const careerDataMap = {
 	    circuit_apotheosis: {
 	        name_key: "career_soul_forger_circuit_apotheosis-u",
 	        rule_text_key: "career_soul_forger_circuit_apotheosis_rules-u",
-	        name: "Circuit Apotheosis",
-	        description: "Type: Action; Concentration • Cost: 1d6+2 Strain • Usage: 1/Session • You project your spirit into the ArcNet for the Scene. Your body goes inert (falls prone, remains conscious). Node Reach: at activation choose an access point within Medium range. While apotheosed, treat your current node as Engaged for Slicing actions. With an OmniDeck: you override and amplify your deck—gain +10% to all Slicing rolls, and when targeted in the ArcNet you may defend with Slicing skill instead of the OmniDecks Defense Rating; any feedback damage is handled by the deck per core rules. Without an OmniDeck: you still operate fully; making all Attack, Stealth, or Defense rolls using Slicing skill instead of the normal OmniDeck stats. Any ArcNet feedback damage is taken as Strain instead. If this drops you to 0 Strain, the effect ends immediately; you snap back to your body and gain Exhausted (condition). Vulnerability: if your body takes any damage while apotheosed, this effect ends and you are Impaired on your next turn. You may end this effect as a Free Action at the start of your turn.",
 	        prerequisite: "helmgeist_protocol",
 	        tier: 4,
 	        cost: 40,
@@ -34996,8 +34845,6 @@ const careerDataMap = {
 	    city_weave_circuit: {
 	        name_key: "career_soul_forger_city_weave_circuit-u",
 	        rule_text_key: "career_soul_forger_city_weave_circuit_rules-u",
-	        name: "City-Weave Circuit (site seizure)",
-	        description: "Type: Action; Concentration • Cost: 1d6+1 Strain • Usage: 1/Session • You must be Engaged with a valid access point (console, junction box, relay cabinet) of a single site-scale security domain within Medium range (transit platform, factory floor, datacenter wing, mall atrium). Opposed (Technomancy or Summoning) vs site’s Defense Rating. On success, you seize the domain for the Scene: (1) Cameras/sensors ignore your crew; hostile remote actions suffer 1 penalty die; (2) Doors/gates/elevators open/close at your command; (3) Site turrets/drones treat your crew as friendly; you may set target priority each Round. Protocol Pulse (1/round, free): choose one — Lock Cycle (hard-close or open a door/gate; elevator disabled 1 Round), Blind Eye (one cluster ignores everyone, or only sees hostiles, 1 Round), Sentry Jinx (one site turret/drone takes –20% until the start of your next turn). You must remain within the site; starting a new Concentration ends the weave.",
 	        prerequisite: "helmgeist_protocol",
 	        tier: 4,
 	        cost: 40,
@@ -35007,8 +34854,6 @@ const careerDataMap = {
 	    nullwave_bloom: {
 	        name_key: "career_soul_forger_nullwave_bloom-u",
 	        rule_text_key: "career_soul_forger_nullwave_bloom_rules-u",
-	        name: "Nullwave Bloom",
-	        description: "Type: Action • Cost: 1d8+2 Strain • Usage: 1/Session • You release a Veil-charged EMP pulse out to Medium range. All unattended devices drones, bots and vehicles in range go Offline for 1 Round (no actions or reactions), then are Impaired on the following Round. Attended vehicles/drones/independent bots: oppose your Nullwave Bloom (Technomancy or Summoning) with the higher of the operator’s Piloting skill or the device’s Defense Rating. On your success, that host goes Offline 1 Round, then Impaired the following Round; if they save against the Nullwave Bloom, the device, or vehicle is Impaired 1 Round (no Offline). Individuals in range test POW vs your (Technomancy or Summoning) to keep their carried gear up; on a failure, their comms, Smartlink, digital optics, and HUDs go Offline 1 Round (no Impaired after). Cyberware and life-support are unaffected. Normal firearms function normally (they just lose Smartlink/optic benefits while Offline). As part of activation, you may whitelist any number of allied devices and personal gear (including your own); whitelisted items ignore the Bloom.",
 	        prerequisite: "spirit_lattice_field",
 	        tier: 4,
 	        cost: 40,

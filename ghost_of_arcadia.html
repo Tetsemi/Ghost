@@ -33353,7 +33353,7 @@ const careerDataMap = {
 		draw_and_cut: {
 		  name_key: "career_shadowblade_draw_and_cut-u",
 		  rule_text_key: "career_shadowblade_draw_and_cut_rules-u",
-		  affected_skill: "combat_melee",
+		  affected_skill_group: "combat_melee",
 		  prerequisite: "throw_move_strike",
 		  tier: 3,
 		  cost: 15,
@@ -33827,8 +33827,7 @@ const careerDataMap = {
 			clean_entry: {
 				name_key: "career_street_ronin_clean_entry-u",
 				rule_text_key: "career_street_ronin_clean_entry_rules-u",
-				name: "Clean Entry",
-				description: "You may draw and strike with a melee weapon as a single action. If you begin the scene undetected or in a neutral stance, gain a bonus die on that opening attack.",
+				affected_skill_group: "combat_melee",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -33838,8 +33837,8 @@ const careerDataMap = {
 			combat_rhythm: {
 				name_key: "career_street_ronin_combat_rhythm-u",
 				rule_text_key: "career_street_ronin_combat_rhythm_rules-u",
-				name: "Combat Rhythm",
-				description: "Once per scene, after successfully Dodging an attack, gain a bonus die on your next Melee Weapons or Coordination roll before the end of your next turn.",
+				affected_skill: [ "dodge", "coordination" ],
+				affected_skill_group: "combat_melee",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -33849,8 +33848,6 @@ const careerDataMap = {
 			disciplined_focus: {
 				name_key: "career_street_ronin_disciplined_focus-u",
 				rule_text_key: "career_street_ronin_disciplined_focus_rules-u",
-				name: "Disciplined Focus",
-				description: "Once per scene, spend 1 Strain to ignore a penalty die on a single attack, defense, or Initiative roll.",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -33860,8 +33857,6 @@ const careerDataMap = {
 			strain_buffer: {
 				name_key: "career_street_ronin_strain_buffer-u",
 				rule_text_key: "career_street_ronin_strain_buffer_rules-u",
-				name: "Strain Buffer",
-				description: "Increase your maximum Strain by +1. This talent may appear in multiple Career Trees.",
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -33871,8 +33866,7 @@ const careerDataMap = {
 			urban_footwork: {
 				name_key: "career_street_ronin_urban_footwork-u",
 				rule_text_key: "career_street_ronin_urban_footwork_rules-u",
-				name: "Urban Footwork",
-				description: "Once per scene, gain a bonus die on Dodge or Athletics rolls while moving through tight spaces, vertical terrain, or cluttered urban environments.",
+				affected_skill: [ "athletics", "dodge" ],
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
@@ -33882,8 +33876,8 @@ const careerDataMap = {
 			blade_discipline: {
 				name_key: "career_street_ronin_blade_discipline-u",
 				rule_text_key: "career_street_ronin_blade_discipline_rules-u",
-				name: "Blade Discipline",
-				description: "When taking the Dodge action, you may roll your Melee Weapons skill instead of Dodge, as long as you’re wielding a melee weapon.",
+				affected_skill: [ "dodge" ],
+				affected_skill_group: "combat_melee",
 				prerequisite: "disciplined_focus",
 				tier: 2,
 				cost: 10,
@@ -33893,8 +33887,6 @@ const careerDataMap = {
 			interception_cut: {
 				name_key: "career_street_ronin_interception_cut-u",
 				rule_text_key: "career_street_ronin_interception_cut_rules-u",
-				name: "Interception Cut",
-				description: "Once per scene, when an enemy moves into engaged range, spend 2 Strain to make a free melee attack as a reaction. If it hits, their movement is interrupted.",
 				prerequisite: "combat_rhythm",
 				tier: 2,
 				cost: 10,
@@ -33904,8 +33896,7 @@ const careerDataMap = {
 			posture_breaker: {
 				name_key: "career_street_ronin_posture_breaker-u",
 				rule_text_key: "career_street_ronin_posture_breaker_rules-u",
-				name: "Posture Breaker",
-				description: "Once per scene, after a successful melee attack, apply a penalty die to the target’s next attack or defense.",
+				affected_skill_group: "combat_melee",
 				prerequisite: "clean_entry",
 				tier: 2,
 				cost: 10,
@@ -33915,8 +33906,6 @@ const careerDataMap = {
 			reactive_flow: {
 				name_key: "career_street_ronin_reactive_flow-u",
 				rule_text_key: "career_street_ronin_reactive_flow_rules-u",
-				name: "Reactive Flow",
-				description: "Once per session, when missed by a melee attack, you may move 1 range band in any direction as a free maneuver.",
 				prerequisiteAny: { tier: 1, count: 1 },
 				tier: 2,
 				cost: 10,
@@ -33926,8 +33915,6 @@ const careerDataMap = {
 			steel_reflex: {
 				name_key: "career_street_ronin_steel_reflex-u",
 				rule_text_key: "career_street_ronin_steel_reflex_rules-u",
-				name: "Steel Reflex",
-				description: "Once per session, when targeted by a ranged attack and you're either in cover or engaged range, spend 2 Strain to reduce the damage by 1d6. This is a free action, used after the roll but before damage is applied.",
 				prerequisite: "",
 				prerequisiteAny: { tier: 1, count: 1 },
 				tier: 2,
@@ -33938,8 +33925,7 @@ const careerDataMap = {
 			breath_before_the_cut: {
 				name_key: "career_street_ronin_breath_before_the_cut-u",
 				rule_text_key: "career_street_ronin_breath_before_the_cut_rules-u",
-				name: "Breath Before the Cut",
-				description: "Once per session, if you win Initiative in a combat scene, you may enter Duel Focus: gain a bonus die on melee attacks against one target and reduce the Strain cost of one reaction-based talent by one die step for the first round.",
+				affected_skill_group: "combat_melee",
 				prerequisite: "blade_discipline",
 				tier: 3,
 				cost: 15,
@@ -33949,8 +33935,7 @@ const careerDataMap = {
 			counterguard_precision: {
 				name_key: "career_street_ronin_counterguard_precision-u",
 				rule_text_key: "career_street_ronin_counterguard_precision_rules-u",
-				name: "Counterguard Precision",
-				description: "Once per scene, after successfully Dodging a melee attack, make a free melee counterattack with a bonus die.",
+				affected_skill: "dodge",
 				prerequisite: "interception_cut",
 				tier: 3,
 				cost: 15,
@@ -33960,8 +33945,6 @@ const careerDataMap = {
 			draw_cut: {
 				name_key: "career_street_ronin_draw_cut-u",
 				rule_text_key: "career_street_ronin_draw_cut_rules-u",
-				name: "Draw Cut",
-				description: "Once per session, when striking a target that hasn’t acted yet this scene, deal +1d6 damage and apply a penalty die to their next action.",
 				prerequisite: "posture_breaker",
 				tier: 3,
 				cost: 15,
@@ -33971,8 +33954,8 @@ const careerDataMap = {
 			stillness_in_motion: {
 				name_key: "career_street_ronin_stillness_in_motion-u",
 				rule_text_key: "career_street_ronin_stillness_in_motion_rules-u",
-				name: "Stillness in Motion",
-				description: "Spend 2 Strain to ignore movement penalties for the rest of the round. During this time, gain a bonus die to Athletics or Melee Weapons rolls involving movement.",
+				affected_skill: "athletics",
+				affected_skill_group: "combat_melee",
 				prerequisite: "posture_breaker",
 				tier: 3,
 				cost: 15,
@@ -33982,8 +33965,6 @@ const careerDataMap = {
 			the_line_you_do_not_cross: {
 				name_key: "career_street_ronin_the_line_you_do_not_cross-u",
 				rule_text_key: "career_street_ronin_the_line_you_do_not_cross_rules-u",
-				name: "The Line You Do Not Cross",
-				description: "Once per session, designate a small area within engaged range (doorway, alley, rooftop edge). Enemies who cross this line suffer a penalty die on movement or attacks that turn.",
 				prerequisite: "posture_breaker",
 				tier: 3,
 				cost: 15,
@@ -33993,8 +33974,8 @@ const careerDataMap = {
 			deflective_form: {
 				name_key: "career_street_ronin_deflective_form-u",
 				rule_text_key: "career_street_ronin_deflective_form_rules-u",
-				name: "Deflective Form",
-				description: "Once per session, when targeted by a ranged attack within short range while wielding a melee weapon, you may make a Dodge roll as a free action, using either Dodge or Melee Weapons. If your result beats the attacker’s roll, the attack is avoided.",
+				affected_skill: "dodge",
+				affected_skill_group: "combat_melee",
 				prerequisite: "counterguard_precision",
 				tier: 4,
 				cost: 20,
@@ -34004,8 +33985,6 @@ const careerDataMap = {
 			flow_reversal: {
 				name_key: "career_street_ronin_flow_reversal-u",
 				rule_text_key: "career_street_ronin_flow_reversal_rules-u",
-				name: "Flow Reversal",
-				description: "Once per session, if you fail to beat an attacker’s success while counterattacking, you may spend 2 Strain to force a mutual exchange: both you and the attacker take damage, and the attacker suffers a penalty die on their next action.",
 				prerequisite: "counterguard_precision",
 				tier: 4,
 				cost: 20,
@@ -34015,8 +33994,7 @@ const careerDataMap = {
 			ghost_step: {
 				name_key: "career_street_ronin_ghost_step-u",
 				rule_text_key: "career_street_ronin_ghost_step_rules-u",
-				name: "Ghost Step",
-				description: "Once per scene, move 1 range band as a free maneuver, even if you've already moved this round. If you aren’t targeted before your next turn, your next melee attack gains a bonus die.",
+				affected_skill_group: "comabt_melee",
 				prerequisite: "stillness_in_motion",
 				tier: 4,
 				cost: 20,
@@ -34026,8 +34004,7 @@ const careerDataMap = {
 			moment_severed: {
 				name_key: "career_street_ronin_moment_severed-u",
 				rule_text_key: "career_street_ronin_moment_severed_rules-u",
-				name: "Moment Severed",
-				description: "Once per session, after landing a melee hit, spend 2 Strain to prevent the target from taking any actions until the end of their next turn. They may still take reactions.",
+				affected_skill_group: "combat_melee",
 				prerequisite: "breath_before_the_cut",
 				tier: 4,
 				cost: 20,
@@ -34037,9 +34014,7 @@ const careerDataMap = {
 			no_second_strike: {
 				name_key: "career_street_ronin_no_second_strike-u",
 				rule_text_key: "career_street_ronin_no_second_strike_rules-u",
-
-				name: "No Second Strike",
-				description: "Once per session, if you reduce a target to 0 HP with a melee attack, immediately make a free melee attack against another target in engaged range. That attack gains a bonus die.",
+				affected_skill_group: "combat_melee",
 				prerequisite: "draw_cut",
 				tier: 4,
 				cost: 20,
@@ -34049,8 +34024,7 @@ const careerDataMap = {
 			steel_anchored_calm: {
 				name_key: "career_street_ronin_steel_anchored_calm-u",
 				rule_text_key: "career_street_ronin_steel_anchored_calm_rules-u",
-				name: "Steel Anchored Calm",
-				description: "Once per session, ignore the effects of fear, pain, or Veil-induced conditions for one round. You also gain a bonus die on Dodge rolls during this time.",
+				affected_skill: "dodge",
 				prerequisite: "the_line_you_do_not_cross",
 				tier: 4,
 				cost: 20,
@@ -34060,8 +34034,8 @@ const careerDataMap = {
 			duelmasters_claim: {
 				name_key: "career_street_ronin_duelmasters_claim-u",
 				rule_text_key: "career_street_ronin_duelmasters_claim_rules-u",
-				name: "Duelmaster’s Claim",
-				description: "Once per session, declare a single opponent as your focused rival. For the rest of the scene, gain a bonus die on all Melee, Dodge, and reaction-based talents against that target. If you reduce them to 0 HP, choose one: Make a free melee attack against another target in engaged range, or regain 2 Strain.",
+				affected_skill: "dodge",
+				affected_skill_group: "combat_melee",
 				prerequisite: "",
 				prerequisiteAll: ["the_line_you_do_not_cross", "moment_severed"],
 				tier: 5,
@@ -34072,8 +34046,6 @@ const careerDataMap = {
 			final_cut_doctrine: {
 				name_key: "career_street_ronin_final_cut_doctrine-u",
 				rule_text_key: "career_street_ronin_final_cut_doctrine_rules-u",
-				name: "Final Cut Doctrine",
-				description: "Once per session, when counterattacking, declare Final Cut. Win or lose, your attack lands after the attacker’s action resolves, dealing maximum weapon damage. If your counterattack would have succeeded normally, you may apply one other talent effect (such as Draw Cut or Posture Breaker) for free.",
 				prerequisiteAll: ["flow_reversal", "breath_before_the_cut"],
 				tier: 5,
 				cost: 30,
@@ -34083,8 +34055,6 @@ const careerDataMap = {
 			ghost_walk_execution: {
 				name_key: "career_street_ronin_ghost_walk_execution-u",
 				rule_text_key: "career_street_ronin_ghost_walk_execution_rules-u",
-				name: "Ghost Walk Execution",
-				description: "Once per session, move up to medium range as a free action and make a single melee attack. If the target is unaware of you or has not yet acted this scene, deal +2d6 bonus damage and force a POW check. On failure, they are stunned until the end of their next turn.",
 				prerequisite: "ghost_step",
 				tier: 5,
 				cost: 30,
@@ -34094,8 +34064,6 @@ const careerDataMap = {
 			stat_boost: {
 				name_key: "career_street_ronin_stat_boost-u",
 				rule_text_key: "career_street_ronin_stat_boost_rules-u",
-				name: "+5% Stat Boost",
-				description: "Increase any one core stat — including Magic — by +5%, up to your racial maximum. May only be taken once.",
 				prerequisiteAny: { tier: 4, count: 1 },
 				tier: 5,
 				cost: 30,

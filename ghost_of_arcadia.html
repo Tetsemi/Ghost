@@ -33211,10 +33211,8 @@ const careerDataMap = {
 	  },
 	  talents: {
 		cut_and_vanish: {
-				name_key: "career_shadowblade_cut_and_vanish-u",
-				rule_text_key: "career_shadowblade_cut_and_vanish_rules-u",
-		  name: "Cut and Vanish",
-		  description: "Once per scene, after landing a successful melee attack, you may Disengage as a Free Action.",
+		  name_key: "career_shadowblade_cut_and_vanish-u",
+		  rule_text_key: "career_shadowblade_cut_and_vanish_rules-u",
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -33222,10 +33220,10 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		ghost_opener: {
-				name_key: "career_shadowblade_ghost_opener-u",
-				rule_text_key: "career_shadowblade_ghost_opener_rules-u",
-		  name: "Ghost Opener",
-		  description: "Once per scene, when attacking from Stealth or before the target has acted this round, gain a bonus die to your melee or thrown weapon attack.",
+		  name_key: "career_shadowblade_ghost_opener-u",
+		  rule_text_key: "career_shadowblade_ghost_opener_rules-u",
+		  affected_skill: [ "stealth", "throw" ],
+		  affected_skill_group: [ "combat_melee" ],
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -33233,10 +33231,10 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		knifes_memory: {
-				name_key: "career_shadowblade_knifes_memory-u",
-				rule_text_key: "career_shadowblade_knifes_memory_rules-u",
-		  name: "Knife’s Memory",
-		  description: "You may draw a melee or thrown weapon as a Free Action once per round. Also gain a bonus die to Initiative rolls in the first round when armed with a light melee or thrown weapon.",
+		  name_key: "career_shadowblade_knifes_memory-u",
+		  rule_text_key: "career_shadowblade_knifes_memory_rules-u",
+  		  affected_skill: "throw",
+		  affected_skill_group: "combat_melee",		  
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -33244,10 +33242,9 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		one_among_many: {
-				name_key: "career_shadowblade_one_among_many-u",
-				rule_text_key: "career_shadowblade_one_among_many_rules-u",
-		  name: "One Among Many",
-		  description: "Gain a bonus die to Stealth rolls when navigating crowds or dense terrain.",
+		  name_key: "career_shadowblade_one_among_many-u",
+		  rule_text_key: "career_shadowblade_one_among_many_rules-u",
+		  affected_skill: "stealth",
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -33255,10 +33252,10 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		pressure_point: {
-				name_key: "career_shadowblade_pressure_point-u",
-				rule_text_key: "career_shadowblade_pressure_point_rules-u",
-		  name: "Pressure Point",
-		  description: "Once per scene, when you land a melee or thrown attack with a Hard Success or better, the target suffers a penalty die on all physical actions until the end of their next turn.",
+		  name_key: "career_shadowblade_pressure_point-u",
+		  rule_text_key: "career_shadowblade_pressure_point_rules-u",
+  		  affected_skill: "throw",
+		  affected_skill_group: "combat_melee",		  
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -33266,10 +33263,9 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		strong_arm_form: {
-				name_key: "career_shadowblade_strong_arm_form-u",
-				rule_text_key: "career_shadowblade_strong_arm_form_rules-u",
-		  name: "Strong Arm Form",
-		  description: "Ignore the penalty die for thrown weapon attacks at Medium range.",
+		  name_key: "career_shadowblade_strong_arm_form-u",
+		  rule_text_key: "career_shadowblade_strong_arm_form_rules-u",
+		  affected_skill: "throw",
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -33277,10 +33273,9 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		cloak_in_motion: {
-				name_key: "career_shadowblade_cloak_in_motion-u",
-				rule_text_key: "career_shadowblade_cloak_in_motion_rules-u",
-		  name: "Cloak in Motion",
-		  description: "You gain a bonus die on Stealth rolls while moving, as long as you take no Action that round other than movement or positioning.",
+		  name_key: "career_shadowblade_cloak_in_motion-u",
+		  rule_text_key: "career_shadowblade_cloak_in_motion_rules-u",
+		  affected_skill: "stealth",
 		  prerequisite: "one_among_many",
 		  tier: 2,
 		  cost: 10,
@@ -33288,10 +33283,9 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		knife_logic: {
-				name_key: "career_shadowblade_knife_logic-u",
-				rule_text_key: "career_shadowblade_knife_logic_rules-u",
-		  name: "Knife Logic",
-		  description: "You gain +10 to all attacks made with thrown weapons against unaware or distracted targets. This bonus increases to +20 if the target has not acted yet this round.",
+		  name_key: "career_shadowblade_knife_logic-u",
+		  rule_text_key: "career_shadowblade_knife_logic_rules-u",
+		  affected_skill: "throw",
 		  prerequisite: ["knifes_memory", "strong_arm_form"],
 		  tier: 2,
 		  cost: 10,
@@ -33299,10 +33293,9 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		precision_hemorrhage: {
-				name_key: "career_shadowblade_precision_hemorrhage-u",
-				rule_text_key: "career_shadowblade_precision_hemorrhage_rules-u",
-		  name: "Precision Hemorrhage",
-		  description: "Once per combat, if you land a melee hit with a Hard Success or better, the target begins bleeding (1 damage per round). Bleed lasts 3 rounds or until First Aid is applied.",
+		  name_key: "career_shadowblade_precision_hemorrhage-u",
+		  rule_text_key: "career_shadowblade_precision_hemorrhage_rules-u",
+		  affected_skill_group: "combat_melee",
 		  prerequisite: "pressure_point",
 		  tier: 2,
 		  cost: 10,
@@ -33310,10 +33303,8 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		sightless_kill: {
-				name_key: "career_shadowblade_sightless_kill-u",
-				rule_text_key: "career_shadowblade_sightless_kill_rules-u",
-		  name: "Sightless Kill",
-		  description: "Attacks made in low visibility (darkness, heavy fog, smoke, or magical concealment) grant a bonus die if the target cannot clearly perceive you (e.g., they lack night vision, thermal optics, or similar countermeasures). If the target is unaware, your first attack against them each scene deals +1 damage.",
+		  name_key: "career_shadowblade_sightless_kill-u",
+		  rule_text_key: "career_shadowblade_sightless_kill_rules-u",
 		  prerequisite: ["pressure_point", "ghost_opener"],
 		  tier: 2,
 		  cost: 10,
@@ -33321,10 +33312,9 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		throw_move_strike: {
-				name_key: "career_shadowblade_throw_move_strike-u",
-				rule_text_key: "career_shadowblade_throw_move_strike_rules-u",
-		  name: "Throw, Move, Strike",
-		  description: "Once per combat, you may make a thrown weapon attack and immediately move 1 range band toward the target as a Free Action. If you end your turn in Engaged range, you may draw a weapon freely.",
+		  name_key: "career_shadowblade_throw_move_strike-u",
+		  rule_text_key: "career_shadowblade_throw_move_strike_rules-u",
+		  affected_skill: "throw",
 		  prerequisite: "strong_arm_form",
 		  tier: 2,
 		  cost: 10,
@@ -33332,10 +33322,9 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		vanish_step: {
-				name_key: "career_shadowblade_vanish_step-u",
-				rule_text_key: "career_shadowblade_vanish_step_rules-u",
-		  name: "Vanish Step",
-		  description: "Once per scene, after using Cut and Vanish, you may immediately make a Stealth roll. If successful, you enter Stealth despite being in combat, provided you end behind cover or in darkness.",
+		  name_key: "career_shadowblade_vanish_step-u",
+		  rule_text_key: "career_shadowblade_vanish_step_rules-u",
+		  affected_skill: "stealth",
 		  prerequisite: "cut_and_vanish",
 		  tier: 2,
 		  cost: 10,
@@ -33343,10 +33332,9 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		cloaked_predator: {
-				name_key: "career_shadowblade_cloaked_predator-u",
-				rule_text_key: "career_shadowblade_cloaked_predator_rules-u",
-		  name: "Cloaked Predator",
-		  description: "While under the effect of Cloak in Motion or Stealth, gain a +10 bonus to Melee or Thrown attacks made against targets in unaware or distracted states.",
+		  name_key: "career_shadowblade_cloaked_predator-u",
+		  rule_text_key: "career_shadowblade_cloaked_predator_rules-u",
+		  affected_skill: "stealth",
 		  prerequisite: "cloak_in_motion",
 		  tier: 3,
 		  cost: 15,
@@ -33354,10 +33342,8 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		crimson_rhythm: {
-				name_key: "career_shadowblade_crimson_rhythm-u",
-				rule_text_key: "career_shadowblade_crimson_rhythm_rules-u",
-		  name: "Crimson Rhythm",
-		  description: "Targets suffering from Bleed effects caused by your attacks suffer -10 to all physical actions. If they take 2 or more damage in a round, the bleed damage increases to 2 per round next turn.",
+		  name_key: "career_shadowblade_crimson_rhythm-u",
+		  rule_text_key: "career_shadowblade_crimson_rhythm_rules-u",
 		  prerequisite: "precision_hemorrhage",
 		  tier: 3,
 		  cost: 15,
@@ -33365,10 +33351,9 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		draw_and_cut: {
-				name_key: "career_shadowblade_draw_and_cut-u",
-				rule_text_key: "career_shadowblade_draw_and_cut_rules-u",
-		  name: "Draw and Cut",
-		  description: "After using Throw, Move, Strike, your next melee attack this round gains +10 and ignores penalty dice from partial cover or concealment.",
+		  name_key: "career_shadowblade_draw_and_cut-u",
+		  rule_text_key: "career_shadowblade_draw_and_cut_rules-u",
+		  affected_skill: "combat_melee",
 		  prerequisite: "throw_move_strike",
 		  tier: 3,
 		  cost: 15,
@@ -33376,10 +33361,9 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		flashing_return: {
-				name_key: "career_shadowblade_flashing_return-u",
-				rule_text_key: "career_shadowblade_flashing_return_rules-u",
-		  name: "Flashing Return",
-		  description: "Once per scene, after making a successful thrown weapon attack, you may immediately draw and throw a second weapon at a different target within range. The second attack is made with a penalty die.",
+		  name_key: "career_shadowblade_flashing_return-u",
+		  rule_text_key: "career_shadowblade_flashing_return_rules-u",
+		  affected_skill: "throw",
 		  prerequisite: "knife_logic",
 		  tier: 3,
 		  cost: 15,
@@ -33387,10 +33371,9 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		momentum_slice: {
-				name_key: "career_shadowblade_momentum_slice-u",
-				rule_text_key: "career_shadowblade_momentum_slice_rules-u",
-		  name: "Momentum Slice",
-		  description: "Once per round, if you move at least 1 range band before making a melee attack, gain +10 to the attack. If the attack hits, your next Maneuver or Reaction this round costs 1 less Strain to perform.",
+		  name_key: "career_shadowblade_momentum_slice-u",
+		  rule_text_key: "career_shadowblade_momentum_slice_rules-u",
+		  affected_skill_group: "throw",
 		  prerequisite: ["cloak_in_motion", "throw_move_strike"],
 		  tier: 3,
 		  cost: 15,
@@ -33398,10 +33381,10 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		phantom_execution: {
-				name_key: "career_shadowblade_phantom_execution-u",
-				rule_text_key: "career_shadowblade_phantom_execution_rules-u",
-		  name: "Phantom Execution",
-		  description: "Once per session, after performing Vanish Step, you may perform one melee or thrown weapon attack from Stealth without breaking Stealth. This attack gains a bonus die and +1 damage.",
+		  name_key: "career_shadowblade_phantom_execution-u",
+		  rule_text_key: "career_shadowblade_phantom_execution_rules-u",
+  		  affected_skill: [ "stealth", "throw" ],
+		  affected_skill_group: "combat_melee", 
 		  prerequisite: "vanish_step",
 		  tier: 3,
 		  cost: 15,
@@ -33409,10 +33392,9 @@ const careerDataMap = {
 		  usage_limit: "session"
 		},
 		blade_linked_motion: {
-				name_key: "career_shadowblade_blade_linked_motion-u",
-				rule_text_key: "career_shadowblade_blade_linked_motion_rules-u",
-		  name: "Blade-Linked Motion",
-		  description: "If you successfully kill a target with a melee or thrown weapon, you may immediately move 1 range band without spending a Maneuver. This movement does not provoke Reactions.",
+		  name_key: "career_shadowblade_blade_linked_motion-u",
+		  rule_text_key: "career_shadowblade_blade_linked_motion_rules-u",
+		  affected_skill_group: "combat", 
 		  prerequisite: "momentum_slice",
 		  tier: 4,
 		  cost: 20,
@@ -33420,10 +33402,9 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		blurred_step: {
-				name_key: "career_shadowblade_blurred_step-u",
-				rule_text_key: "career_shadowblade_blurred_step_rules-u",
-		  name: "Blurred Step",
-		  description: "Once per combat, when you are targeted by a ranged or melee attack and you have not yet acted this round, you may move 1 range band as a Free Action after the attack is resolved.",
+		  name_key: "career_shadowblade_blurred_step-u",
+		  rule_text_key: "career_shadowblade_blurred_step_rules-u",
+		  affected_skill_group: "combat", 
 		  prerequisite: ["cloak_in_motion", "momentum_slice"],
 		  tier: 4,
 		  cost: 20,
@@ -33431,10 +33412,8 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		crimson_cascade: {
-				name_key: "career_shadowblade_crimson_cascade-u",
-				rule_text_key: "career_shadowblade_crimson_cascade_rules-u",
-		  name: "Crimson Cascade",
-		  description: "Targets suffering from Bleed take +1 damage from all melee attacks you make. If they fall below 50% HP while bleeding, they lose their next Reaction.",
+		  name_key: "career_shadowblade_crimson_cascade-u",
+		  rule_text_key: "career_shadowblade_crimson_cascade_rules-u",
 		  prerequisite: "crimson_rhythm",
 		  tier: 4,
 		  cost: 20,
@@ -33442,10 +33421,9 @@ const careerDataMap = {
 		  usage_limit: ""
 		},
 		phantom_reversal: {
-				name_key: "career_shadowblade_phantom_reversal-u",
-				rule_text_key: "career_shadowblade_phantom_reversal_rules-u",
-		  name: "Phantom Reversal",
-		  description: "Once per combat, after successfully Dodging a melee attack, you may immediately make a melee attack as a free action against the attacker. If it hits, deal +1 damage.",
+		  name_key: "career_shadowblade_phantom_reversal-u",
+		  rule_text_key: "career_shadowblade_phantom_reversal_rules-u",
+		  affected_skill: "dodge",
 		  prerequisite: "momentum_slice",
 		  tier: 4,
 		  cost: 20,
@@ -33453,10 +33431,9 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		quiet_terror: {
-				name_key: "career_shadowblade_quiet_terror-u",
-				rule_text_key: "career_shadowblade_quiet_terror_rules-u",
-		  name: "Quiet Terror",
-		  description: "Once per combat, if you kill an enemy from Stealth, all enemies within Short range must make a Willpower roll or suffer -10 to all actions against you until the end of their next turn.",
+		  name_key: "career_shadowblade_quiet_terror-u",
+		  rule_text_key: "career_shadowblade_quiet_terror_rules-u",
+		  affected_skill: "stealth",
 		  prerequisite: "phantom_execution",
 		  tier: 4,
 		  cost: 20,
@@ -33464,32 +33441,31 @@ const careerDataMap = {
 		  usage_limit: "scene"
 		},
 		spinal_cut: {
-				name_key: "career_shadowblade_spinal_cut-u",
-				rule_text_key: "career_shadowblade_spinal_cut_rules-u",
-		  name: "Spinal Cut",
-		  description: "Once per scene, if you land a melee hit from Stealth and roll a Hard or better Success, the target loses their Reaction for the rest of the round.",
+		  name_key: "career_shadowblade_spinal_cut-u",
+		  rule_text_key: "career_shadowblade_spinal_cut_rules-u",
 		  prerequisite: ["phantom_execution", "sightless_kill"],
+		  affected_skill: "stealth",
+		  affected_skill_group: "combat_melee",
 		  tier: 4,
 		  cost: 20,
 		  capstone: false,
 		  usage_limit: "scene"
 		},
 		final_knife: {
-				name_key: "career_shadowblade_final_knife-u",
-				rule_text_key: "career_shadowblade_final_knife_rules-u",
-		  name: "Final Knife",
-		  description: "Once per session, you may make a thrown weapon attack against a target within Medium range as a Free Action, even if they are behind full cover. The weapon curves through the air unnaturally.",
+		  name_key: "career_shadowblade_final_knife-u",
+		  rule_text_key: "career_shadowblade_final_knife_rules-u",
 		  prerequisite: ["knife_logic", "draw_and_cut"],
+		  affected_skill: "throw",
 		  tier: 5,
 		  cost: 30,
 		  capstone: true,
 		  usage_limit: "session"
 		},
 		shatterpoint_strike: {
-				name_key: "career_shadowblade_shatterpoint_strike-u",
-				rule_text_key: "career_shadowblade_shatterpoint_strike_rules-u",
-		  name: "Shatterpoint Strike",
-		  description: "Once per session, declare Shatterpoint before rolling. If the target is unaware or below 50% HP, your melee or thrown weapon attack ignores armor and deals maximum weapon damage on a successful hit.",
+		  name_key: "career_shadowblade_shatterpoint_strike-u",
+		  rule_text_key: "career_shadowblade_shatterpoint_strike_rules-u",
+		  affected_skill: "throw",
+		  affected_skill_group: "combat_melee", 
 		  prerequisite: ["spinal_cut", "phantom_reversal"],
 		  tier: 5,
 		  cost: 30,
@@ -33497,10 +33473,10 @@ const careerDataMap = {
 		  usage_limit: "session"
 		},
 		unerring_step: {
-				name_key: "career_shadowblade_unerring_step-u",
-				rule_text_key: "career_shadowblade_unerring_step_rules-u",
-		  name: "Unerring Step",
-		  description: "Once per session, declare Unerring Step. For the next 2 rounds, you cannot suffer penalty dice to movement, Athletics, or Stealth rolls, and may Disengage as a Free Action once per round.",
+		  name_key: "career_shadowblade_unerring_step-u",
+		  rule_text_key: "career_shadowblade_unerring_step_rules-u",
+		  affected_skill: [ "athletics", "stealth" ],
+		  affected_stat: "mov",
 		  prerequisite: ["blurred_step", "blade_linked_motion"],
 		  tier: 5,
 		  cost: 30,
@@ -33508,10 +33484,8 @@ const careerDataMap = {
 		  usage_limit: "session"
 		},
 		stat_boost: {
-				name_key: "career_shadowblade_stat_boost-u",
-				rule_text_key: "career_shadowblade_stat_boost_rules-u",
-		  name: "+5% Stat Boost",
-		  description: "Increase any one core stat — excluding Magic — by +5%, up to your racial maximum. May only be taken once.",
+		  name_key: "career_shadowblade_stat_boost-u",
+		  rule_text_key: "career_shadowblade_stat_boost_rules-u",
 		  prerequisite: "",
 		  prerequisiteAny: { tier: 4, count: 1 },
 		  tier: 5,

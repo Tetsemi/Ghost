@@ -26093,9 +26093,9 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
+const debug_on = true;
 const debug_on_trace = true;
-const debug_on_watcher = false;
+const debug_on_watcher = true;
 
 const registeredRaces = new Set();
 let talentWatchersRegistered = false;
@@ -35137,10 +35137,10 @@ function getAllTalentSkills(race) {
 function resetAllMDRToBase(race, callback) {
   if (debug_on_trace) console.log ("[resetAllMDRToBase] Start");
 
-  // Use internal ids for attribute names
-  const skills = Object.values(skillMapTable || {})
-    .map(s => s && s.label)
-    .filter(Boolean);
+  // Use canonical machine keys from skillDataMap
+  const skills = Object.keys(skillDataMap || {});
+						   
+					 
 
   const attrsToGet = skills.map(skill => `${skill}_skill_mdr`).concat(skills.map(skill => `${skill}_mdr`));
 
@@ -35153,6 +35153,7 @@ function resetAllMDRToBase(race, callback) {
     setAttrs(updates, callback); // optionally `{ silent: true }`
   });
 }
+
 
 function applyAllSkillBonuses(race) {
 	if (debug_on_trace) console.log ("[applyAllSkillBonuses] Start");
@@ -35225,26 +35226,28 @@ function setLanguage(race) {
 }
 
 on("change:showracials change:recompute_nonce", (evt) => {
-  if (debug_on_trace) console.log("[change:showracials] Start");
-  const race = (evt && evt.newValue) || "";
+  if (debug_on_trace) console.log("[change:showracials] Start", evt);
 
-  if (!raceDataMap || !raceDataMap[race] || race === "cr" || race === "unknown" || race === "0") {
-    if (debug_on) console.log("[showracials] Unselected/invalid race:", race);
-    return;
-  }
-  
-  setLanguage(race);
-  registerRacialTraitsSkillSummaryWatcher();
-  ensureRaceWatchers(race);
-  initializeRaceState(race); // does one recompute at the end
+  getAttrs(["showracials"], (v) => {
+    const race = v.showracials || "";
+    if (debug_on) console.log("[Race]", race);
 
-  beginSilent();
-  setAttrs(updates, () => {
+    if (!raceDataMap || !raceDataMap[race] || race === "cr" || race === "unknown" || race === "0") {
+      if (debug_on) console.log("[showracials] Unselected/invalid race:", race);
+      return;
+    }
+
+    setLanguage(race);
+    registerRacialTraitsSkillSummaryWatcher();
+    ensureRaceWatchers(race);
+    initializeRaceState(race); // does one recompute at the end
+
+    // NOTE: 'updates' is not defined in this scope — remove or define it.
+    // If you meant to merge pending changes, declare it or drop this block.
     if (typeof updateTalentEnables === "function") updateTalentEnables(race);
-    endSilent();
-    // no extra calc here; initializeRaceState already did one
   });
 });
+
 
 // === Racial Talents Skill Summary (group talents by referenced skills + groups) ===
 const talentSummaryRegistered = new Set();
@@ -35649,9 +35652,11 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
 
 function setDefaultTalentBonuses(race) {
   if (debug_on_trace) console.log("[setDefaultTalentBonuses] Start");
-  const updates = {};
+  if (debug_on) console.log("[Race]", race);
+  const talent_updates_local = {};
   const raceTalents = talentDataMap && talentDataMap[race];
-  if (!raceTalents) return updates;
+  if (!raceTalents) return {};
+  if (debug_on_trace) console.log("raceTalents keys", Object.keys(raceTalents || {}));
 
   const skillSet = new Set();
 
@@ -35668,13 +35673,14 @@ function setDefaultTalentBonuses(race) {
 
   skillSet.forEach(skill => {
     const attr = `${race}_talent_${skill}_bonus_mdr`;
-    if (!(attr in updates)) updates[attr] = 10; // ✅ correct
+    if (!(attr in talent_updates_local)) talent_updates_local[attr] = 10; 
   });
 
-  setAttrs(updates);
-  if (debug_on) console.log("[setDefaultTalentBonuses] updates:", updates);
-  return updates;
+  setAttrs(talent_updates_local);
+  if (debug_on) console.log("[setDefaultTalentBonuses] updates:", talent_updates_local);
+  return talent_updates_local;
 }
+
 
 const registerAllTalentChangeWatchers = () => {
   if (debug_on_trace) console.log ("[registerAllTalentChangeWatchers] Start");

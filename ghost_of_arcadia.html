@@ -35179,10 +35179,17 @@ function initializeRaceState(race) {
   setDefaultTalentBonuses(race);
 
   // After bulk updates, do exactly ONE recompute and then release the guard
-  const allSkills = Object.values(skillMapTable || {}).map(s => s && s.label).filter(Boolean);
-  const magicSchools = Object.values(skillMapTable || {})
-    .filter(s => s && s.group === "Magic" && s.label !== "magic_universal")
-    .map(s => s && s.bonus).filter(Boolean);
+  const allSkills = Object.keys(skillDataMap || {});
+
+  const magicSchools = Object.entries(skillDataMap || {})
+    .filter(([skillKey, s]) => {
+      if (!s) return false;
+      const g = s.group;
+      const groups = Array.isArray(g) ? g : [g];
+      return groups.includes("magic") && skillKey !== "magic_universal";
+    })
+    .map(([_, s]) => s && s.bonus)
+    .filter(Boolean);
 
   const toRead = new Set([
     "showracials",
@@ -35192,11 +35199,16 @@ function initializeRaceState(race) {
     `${race}_mdr_checkbox`,
     ...magicSchools
   ]);
-  allSkills.forEach(skill => {
-    toRead.add(`${skill}_skill_mdr`);
-    toRead.add(`${skill}_mdr`);
-    toRead.add(`${race}_${skill}_bonus_mdr`);
-    toRead.add(`${race}_talent_${skill}_bonus_mdr`);
+
+  allSkills.forEach((skillKey) => {
+    const row = (skillDataMap && skillDataMap[skillKey]) || null;
+    const skillAttr = (row && row.skill) || `${skillKey}_skill_mdr`;
+    const bonusAttr = (row && row.bonus) || `${skillKey}_mdr`;
+
+    toRead.add(skillAttr);
+    toRead.add(bonusAttr);
+    toRead.add(`${race}_${skillKey}_bonus_mdr`);
+    toRead.add(`${race}_talent_${skillKey}_bonus_mdr`);
   });
 
   getAttrs(Array.from(toRead), (values) => {
@@ -35204,6 +35216,7 @@ function initializeRaceState(race) {
     endSilent(); // <-- release AFTER calc completes
   });
 }
+
 
 function setLanguage(race) {
   if (debug_on_trace) console.log("[setLanguage(race)] Start");

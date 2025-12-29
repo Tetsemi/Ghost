@@ -26189,111 +26189,6 @@ on("sheet:opened", function () {
 
 // Maps //
 
-const skillMapTable = {
- /* Combat */
- "Archery": 				{ label: "archery", base: "10", skill: "archery_skill_mdr", bonus: "archery_mdr", group: "Combat", notes: "Archery" },
- "Dodge (DEX/2)": 			{ label: "dodge", base: "0", skill: "dodge_skill_mdr", bonus: "dodge_mdr", group: "Combat", notes: "Half of your DEX score" },
- "Gunnery": 				{ label: "gunnery", base: "10", skill: "gunnery_skill_mdr", bonus: "gunnery_mdr", group: "Combat", notes: "Vehicle-mounted or automated weapons" },
- "Heavy Weapons": 			{ label: "heavy_weapons", base: "10", skill: "heavy_weapons_skill_mdr", bonus: "heavy_weapons_mdr", group: "Combat", notes: "Heavy Weapons" },
- "Melee Weapons": 			{ label: "melee_weapons", base: "20", skill: "melee_weapons_skill_mdr", bonus: "melee_weapons_mdr", group: "Combat", notes: "Melee Weapons" },
- "Pistols": 				{ label: "firearms_handgun", base: "20", skill: "firearms_handgun_skill_mdr", bonus: "firearms_handgun_mdr", group: "Combat", notes: "Pistols" },
- "Rifles/Shotguns": 		{ label: "firearms_rifle", base: "25", skill: "firearms_rifle_skill_mdr", bonus: "firearms_rifle_mdr", group: "Combat", notes: "Rifles/Shotguns" },
- "Submachine Guns (SMGs)": 	{ label: "firearms_smg", base: "15", skill: "firearms_smg_skill_mdr", bonus: "firearms_smg_mdr", group: "Combat", notes: "Submachine Guns (SMGs)" },
- "Thrown Weapons": 			{ label: "throw", base: "20", skill: "throw_skill_mdr", bonus: "throw_mdr", group: "Combat", notes: "Thrown Weapons" },
- "Unarmed": 				{ label: "unarmed", base: "25", skill: "unarmed_skill_mdr", bonus: "unarmed_mdr", group: "Combat", notes: "Unarmed combat" },
- /* Language */
- "Language(Racial)": 	{ label: "language_own", base: "75", skill: "language_own_skill_mdr", bonus: "language_own_mdr", group: "Language", notes: "Racial Language" },
- "Language(Caltheran)": { label: "language_caltheran", base: "0", skill: "language_caltheran_skill_mdr", bonus: "language_caltheran_mdr", group: "Language", notes: "Calthern language" },
- "Language(Other)": { label: "otherskill3", base: "0", skill: "otherskill3_skill_mdr", bonus: "otherskill3_mdr", group: "Language", notes: "Other language" },
- /* Magic */
- "Alteration": 		{ label: "magic_alteration", base: "0", skill: "magic_alteration_skill_mdr", bonus: "magic_alteration_mdr", group: "Magic", notes: "Enhances physical attributes or alters the physical world. Includes speed, strength, resilience, and spatial shifts." },
- "Elemental": 		{ label: "magic_elemental", base: "0", skill: "magic_elemental_skill_mdr", bonus: "magic_elemental_mdr", group: "Magic", notes: "The art of shaping and controlling natural elements such as fire, water, air, and earth through arcane force. Focuses on raw power and environmental manipulation." },
- "Enchantment": 	{ label: "magic_enchantment", base: "0", skill: "magic_enchantment_skill_mdr", bonus: "magic_enchantment_mdr", group: "Magic", notes: "Mental influencing magic that alters thoughts, emotions, or behavior. Includes charms, compulsions, and emotional sway." },
- "Illusion": 		{ label: "magic_illusion", base: "0", skill: "magic_illusion_skill_mdr", bonus: "magic_illusion_mdr", group: "Magic", notes: "Magic of trickery and perception. Creates false images, alters appearances, or hides things through manipulation of the senses." },
- "Necromancy": 		{ label: "magic_necromancy", base: "0", skill: "magic_necromancy_skill_mdr", bonus: "magic_necromancy_mdr", group: "Magic", notes: "Manipulates the forces of death and the soul. Involves raising the dead, draining life, or communicating with spirits of the deceased." },
- "Restoration": 	{ label: "magic_restoration", base: "0", skill: "magic_restoration_skill_mdr", bonus: "magic_restoration_mdr", group: "Magic", notes: "Healing, cleansing, and regeneration magic that mends wounds, purifies corruption, or restores vitality." },
- "Summoning": 		{ label: "magic_summoning", base: "0", skill: "magic_summoning_skill_mdr", bonus: "magic_summoning_mdr", group: "Magic", notes: "Calls forth spirits, creatures, or arcane constructs from beyond to aid, defend, or serve the caster." },
- "Technomancy": 	{ label: "magic_technomancy", base: "0", skill: "magic_technomancy_skill_mdr", bonus: "magic_technomancy_mdr", group: "Magic", notes: "The fusion of magic with technology. Enables interaction with archanotech, digital constructs, and spell-driven machines." },
- "Warding": 		{ label: "magic_warding", base: "0", skill: "magic_warding_skill_mdr", bonus: "magic_warding_mdr", group: "Magic", notes: "Protective magic used to shield, block, or dispel incoming threats both physical and magical." },
- "Universal": 		{ label: "magic_universal", base: "0", skill: "magic_universal_skill_mdr", bonus: "magic_universal_mdr", group: "Magic", notes: "Covers basic arcane techniques used across traditions detecting, sensing, or disrupting magical phenomena." },
- /* Perform */
- "Perform Acting": 			{ label: "perform_acting", base: "5", skill: "perform_acting_skill_mdr", bonus: "perform_acting_mdr", group: "Perform", notes: "Acting" },
- "Perform Dance": 			{ label: "perform_dance", base: "5", skill: "perform_dance_skill_mdr", bonus: "perform_dance_mdr", group: "Perform", notes: "Dance" },
- "Perform Impersonation": 	{ label: "perform_impersonation", base: "5", skill: "perform_impersonation_skill_mdr", bonus: "perform_impersonation_mdr", group: "Perform", notes: "Impersonation" },
- "Perform Instrument": 		{ label: "perform_instrument", base: "5", skill: "perform_instrument_skill_mdr", bonus: "perform_instrument_mdr", group: "Perform", notes: "Instrument" },
- "Perform Vocal": 			{ label: "perform_vocal", base: "5", skill: "perform_vocal_skill_mdr", bonus: "perform_vocal_mdr", group: "Perform", notes: "Vocal" },
- /* Physical */
- "Athletics": 		{ label: "athletics", base: "20", skill: "athletics_skill_mdr", bonus: "athletics_mdr", group: "Physical", notes: "Running, jumping, climbing, endurance" },
- "Coordination": 	{ label: "coordination", base: "20", skill: "coordination_skill_mdr", bonus: "coordination_mdr", group: "Physical", notes: "Balance, agility, acrobatics" },
- "Swim": 			{ label: "swim", base: "20", skill: "swim_skill_mdr", bonus: "swim_mdr", group: "Physical", notes: "Swim" },
- /* Pilot */
- "Drive (Ground Vehicles)": { label: "drive_auto", base: "20", skill: "drive_auto_skill_mdr", bonus: "drive_auto_mdr", group: "Pilot", notes: "Drive (Ground Vehicles)" },
- "Drone Operation": 		{ label: "drone_operation", base: "10", skill: "drone_operation_skill_mdr", bonus: "drone_operation_mdr", group: "Pilot", notes: "Drone Operation" },
- "Pilot (Aircraft)":		{ label: "pilotaircraft", base: "1", skill: "pilotaircraft_skill_mdr", bonus: "pilotaircraft_mdr", group: "Pilot", notes: "Pilot (Aircraft)" },
- "Pilot (ARC)":				{ label: "pilotarc", base: "5", skill: "pilotarc_skill_mdr", bonus: "pilotarc_mdr", group: "Pilot", notes: "Pilot (ARC)" },
- "Pilot (Boat)":   			{ label: "pilotboat", base: "1", skill: "pilotboat_skill_mdr", bonus: "pilotboat_mdr", group: "Pilot", notes: "Pilot (Boat)" },
- /* Science */
- "Alchemy":         { label: "alchemy",         base: "1",  skill: "alchemy_skill_mdr",         bonus: "alchemy_mdr",         group: "Science",  notes: "Science (Alchemy)" },
- "Anthropology":    { label: "anthropology",    base: "1",  skill: "anthropology_skill_mdr",    bonus: "anthropology_mdr",    group: "Science",  notes: "Science (Anthropology)" },
- "Archaeology":     { label: "archaeology",     base: "1",  skill: "archaeology_skill_mdr",     bonus: "archaeology_mdr",     group: "Science",  notes: "Science (Archaeology)" },
- "Biology":         { label: "biology",         base: "1",  skill: "biology_skill_mdr",         bonus: "biology_mdr",         group: "Science",  notes: "Science (Biology)" },
- "Chemistry":       { label: "chemistry",       base: "1",  skill: "chemistry_skill_mdr",       bonus: "chemistry_mdr",       group: "Science",  notes: "Science (Chemistry)" },
- "Engineering":     { label: "engineering",     base: "1",  skill: "engineering_skill_mdr",     bonus: "engineering_mdr",     group: "Science",  notes: "Science (Engineering)" },
- "Physics":         { label: "physics",         base: "1",  skill: "physics_skill_mdr",         bonus: "physics_mdr",         group: "Science",  notes: "Science (Physics)" },
- /* Knowledge */
- "Arcana":          { label: "arcana",          base: "5",  skill: "arcana_skill_mdr",          bonus: "arcana_mdr",          group: "Knowledge", notes: "Understanding of magical theory and principles" },
- "Architecture":    { label: "architecture",    base: "1",  skill: "architecture_skill_mdr",    bonus: "architecture_mdr",    group: "Knowledge", notes: "Architecture and built environments" },
- "Forbidden Lore":  { label: "forbidden_lore",  base: "0",  skill: "forbidden_lore_skill_mdr",  bonus: "forbidden_lore_mdr",  group: "Knowledge", notes: "Cosmic horrors, veiled truths" },
- "History":         { label: "history",         base: "5",  skill: "history_skill_mdr",         bonus: "history_mdr",         group: "Knowledge", notes: "History" },
- "Investigation":   { label: "investigation",   base: "10", skill: "investigation_skill_mdr",   bonus: "investigation_mdr",   group: "Knowledge", notes: "Used to reconstruct events, analyze clues, interpret evidence, and solve mysteries." },
- "Law":             { label: "law",             base: "5",  skill: "law_skill_mdr",             bonus: "law_mdr",             group: "Knowledge", notes: "Law" },
- "Medicine":        { label: "medicine",        base: "1",  skill: "medicine_skill_mdr",        bonus: "medicine_mdr",        group: "Knowledge", notes: "Medicine" },
- "Natural World":   { label: "natural_world",   base: "10", skill: "natural_world_skill_mdr",   bonus: "natural_world_mdr",   group: "Knowledge", notes: "Natural World" },
- "Occult Lore":     { label: "occult_lore",          base: "5",  skill: "occult_lore_skill_mdr",          bonus: "occult_lore_mdr",          group: "Knowledge", notes: "Non-practitioner knowledge of magic and the supernatural" },
- "Spirit Lore":     { label: "spirit_lore",     base: "5",  skill: "spirit_lore_skill_mdr",     bonus: "spirit_lore_mdr",     group: "Knowledge", notes: "Spirit Lore" },
- "Veil Lore":       { label: "veil_lore",       base: "5",  skill: "veil_lore_skill_mdr",       bonus: "veil_lore_mdr",       group: "Knowledge", notes: "Veil Lore" },
- /* Social */
- "Bureaucracy": 				{ label: "bureaucracy", base: "5", skill: "bureaucracy_skill_mdr", bonus: "bureaucracy_mdr", group: "Social", notes: "Understanding and navigating administrative, legal, and governmental systems." },
- "Charm": 						{ label: "charm", base: "15", skill: "charm_skill_mdr", bonus: "charm_mdr", group: "Social", notes: "Charm" },
- "Deception": 					{ label: "deception", base: "5", skill: "deception_skill_mdr", bonus: "deception_mdr", group: "Social", notes: "Deception" },
- "Disguise": 					{ label: "disguise", base: "5", skill: "disguise_skill_mdr", bonus: "disguise_mdr", group: "Social", notes: "Disguise" },
- "Etiquette (Alteri)": 			{ label: "etiquette_alteri", base: "10", skill: "etiquette_alteri_skill_mdr", bonus: "etiquette_alteri_mdr", group: "Social", notes: "Etiquette (Alteri)" },
- "Etiquette (Draevi)": 			{ label: "etiquette_draevi", base: "10", skill: "etiquette_draevi_skill_mdr", bonus: "etiquette_draevi_mdr", group: "Social", notes: "Etiquette (Draevi)" },
- "Etiquette (High Society)": 	{ label: "etiquette_high_society", base: "10", skill: "etiquette_high_society_skill_mdr", bonus: "etiquette_high_society_mdr", group: "Social", notes: "Etiquette (High Society)" },
- "Etiquette (Lyranni)": 		{ label: "etiquette_lyranni", base: "10", skill: "etiquette_lyranni_skill_mdr", bonus: "etiquette_lyranni_mdr", group: "Social", notes: "Etiquette (Lyranni)" },
- "Etiquette (Military)": 		{ label: "etiquette_military", base: "10", skill: "etiquette_military_skill_mdr", bonus: "etiquette_military_mdr", group: "Social", notes: "Etiquette (Military)" },
- "Etiquette (Underworld)": 		{ label: "etiquette_underworld", base: "10", skill: "etiquette_underworld_skill_mdr", bonus: "etiquette_underworld_mdr", group: "Social",  notes: "Etiquette (Underworld)" },
- "Etiquette (Other)": 			{ label: "etiquette_other", base: "10", skill: "etiquette_other_skill_mdr", bonus: "etiquette_other_mdr", group: "Social", notes: "Etiquette may be specialized: (Corporate), (Military), (Racial), etc." },
- "Leadership":					{ label: "leadership", base: "10", skill: "leadership_skill_mdr", bonus: "leadership_mdr", group: "Social", notes: "Leadership" },
- "Forgery": 					{ label: "forgery", base: "1", skill: "forgery_skill_mdr", bonus: "forgery_mdr", group: "Social", notes: "Creating falsified documents, IDs, credentials physical or digital." },
- "Insight": 					{ label: "insight", base: "10", skill: "insight_skill_mdr", bonus: "insight_mdr", group: "Social", notes: "Insight" },
- "Intimidate": 					{ label: "intimidate", base: "15", skill: "intimidate_skill_mdr", bonus: "intimidate_mdr", group: "Social", notes: "Lying, bluffing, maintaining covers, and creating false narratives across a wide range of scenarios." },
- "Interrogation": 				{ label: "interrogation", base: "5", skill: "interrogation_skill_mdr", bonus: "interrogation_mdr", group: "Social", notes: "Extracting information through questioning, pressure, or manipulation." },
- "Persuade": 					{ label: "persuade", base: "10", skill: "persuade_skill_mdr", bonus: "persuade_mdr", group: "Social", notes: "Persuade" },
- "Streetwise": 					{ label: "streetwise", base: "10", skill: "streetwise_skill_mdr", bonus: "streetwise_mdr", group: "Social", notes: "Streetwise" },
- /* Survival */
- "Animal Handling": 		{ label: "animalhandling", base: "5", skill: "animalhandling_skill_mdr", bonus: "animalhandling_mdr", group: "Survival", notes: "Animal Handling" },
- "First Aid": 				{ label: "first_aid", base: "30", skill: "first_aid_skill_mdr", bonus: "first_aid_mdr", group: "Survival", notes: "First Aid" },
- "Listen":				 	{ label: "listen", base: "20", skill: "listen_skill_mdr", bonus: "listen_mdr", group: "Survival", notes: "Listen" },
- "Navigate": 				{ label: "navigate", base: "10", skill: "navigate_skill_mdr", bonus: "navigate_mdr", group: "Survival", notes: "Navigate" },
- "Perception": 				{ label: "perception", base: "25", skill: "perception_skill_mdr", bonus: "perception_mdr", group: "Survival", notes: "Perception" },
- "Sleight of Hand": 		{ label: "sleight_of_hand", base: "10", skill: "sleight_of_hand_skill_mdr", bonus: "sleight_of_hand_mdr", group: "Survival", notes: "Sleight of Hand" },
- "Stealth": 				{ label: "stealth", base: "20", skill: "stealth_skill_mdr", bonus: "stealth_mdr", group: "Survival", notes: "Stealth" },
- "Survival (Urban)": 		{ label: "survival_urban", base: "10", skill: "survival_urban_skill_mdr", bonus: "survival_urban_mdr", group: "Survival", notes: "Survival (Urban)" },
- "Survival (Veil Touched)":	{ label: "survival_veil_touched", base: "10", skill: "survival_veil_touched_skill_mdr", bonus: "survival_veil_touched_mdr", group: "Survival", notes: "Survival (Veil Touched)" },
- "Survival (Wilderness)":	{ label: "survival_wilderness", base: "10", skill: "survival_wilderness_skill_mdr", bonus: "survival_wilderness_mdr", group: "Survival", notes: "Survival (Wilderness)" },
- "Track": 					{ label: "track", base: "10", skill: "track_skill_mdr", bonus: "track_mdr", group: "Survival", notes: "Track" },
- /* Tech/Cyber */
- "Archanotech": 		{ label: "archanotech", base: "1", skill: "archanotech_skill_mdr", bonus: "archanotech_mdr", group: "Tech/Cyber", notes: "Construction, repair, and interfacing with arcane-tech hybrids" },
- "Computer Use": 		{ label: "computer_use", base: "10", skill: "computer_use_skill_mdr", bonus: "computer_use_mdr", group: "Tech/Cyber", notes: "General software and system operation" },
- "Cybernetics": 		{ label: "cybernetics", base: "1", skill: "cybernetics_skill_mdr", bonus: "cybernetics_mdr", group: "Tech/Cyber", notes: "Installing and maintaining cyberware" },
- "Demolitions": 		{ label: "demolitions", base: "1", skill: "demolitions_skill_mdr", bonus: "demolitions_mdr", group: "Tech/Cyber", notes: "Demolitions" },
- "Electronics": 		{ label: "electronics", base: "10", skill: "electronics_skill_mdr", bonus: "electronics_mdr", group: "Tech/Cyber", notes: "circuitry, electronic repair" },
- "Mechanics": 			{ label: "mechanics", base: "10", skill: "mechanics_skill_mdr", bonus: "mechanics_mdr", group: "Tech/Cyber", notes: "Mechanics" },
- "Security Systems": 	{ label: "security", base: "1", skill: "security_skill_mdr", bonus: "security_mdr", group: "Tech/Cyber", notes: "Understanding and bypassing surveillance, sensors, magitech security, and physical/digital alarm systems." },
- "Slicing": 			{ label: "slicing", base: "5", skill: "slicing_skill_mdr", bonus: "slicing_mdr", group: "Tech/Cyber", notes: "Digital infiltration, cybersecurity" }
-};
-
 const skillDataMap = {
 /* Combat */
 	archery: {
@@ -35154,7 +35049,6 @@ function resetAllMDRToBase(race, callback) {
   });
 }
 
-
 function applyAllSkillBonuses(race) {
 	if (debug_on_trace) console.log ("[applyAllSkillBonuses] Start");
 
@@ -35217,7 +35111,6 @@ function initializeRaceState(race) {
   });
 }
 
-
 function setLanguage(race) {
   if (debug_on_trace) console.log("[setLanguage(race)] Start");
   if (!raceDataMap || !raceDataMap[race] || race === "cr" || race === "unknown" || race === "0") {
@@ -35260,7 +35153,6 @@ on("change:showracials change:recompute_nonce", (evt) => {
     if (typeof updateTalentEnables === "function") updateTalentEnables(race);
   });
 });
-
 
 // === Racial Talents Skill Summary (group talents by referenced skills + groups) ===
 const talentSummaryRegistered = new Set();
@@ -35449,27 +35341,27 @@ const registerTalentSkillBonusWatchers = () => {
 const calculateAndUpdateSkillValues = (racePrefix, values) => {
   if (debug_on_trace) console.log ("[calculateAndUpdateSkillValues] Start");
 
-  const allSkills = Object.values(skillMapTable).map(s => s.label);
+  const allSkills = Object.keys(skillDataMap || {});
 
   // Build 1–11 generic Other slots
   const otherSkills = Array.from({ length: 11 }, (_, i) => `otherskill${i + 1}`);
 
-  // NEW: any otherskillN that appears as a label in skillMapTable is already handled in allSkills
+  // NEW: any otherskillN that appears as a key in skillDataMap is already handled in allSkills
   // (e.g., Language(Other) -> "otherskill3"), so we should NOT count it again in the "otherSkills" loop.
   const usedOtherSlots = new Set(
-    Object.values(skillMapTable || {})
-      .map(s => s && s.label)
+    Object.keys(skillDataMap || {})
+      .map(s => s)
       .filter(l => typeof l === "string" && /^otherskill\d+$/.test(l))
   );
 
-  const baseSkillLookup = Object.values(skillMapTable).reduce((map, skill) => {
-    map[skill.label] = parseInt(skill.base, 10) || 0;
+  const baseSkillLookup = Object.entries(skillDataMap || {}).reduce((map, skill) => {
+    map[skill[0]] = parseInt(skill[1].base, 10) || 0;
     return map;
   }, {});
 
-  const magicSchools = Object.values(skillMapTable)
-    .filter(skill => skill.group === "Magic" && skill.label !== "magic_universal")
-    .map(skill => skill.bonus);
+  const magicSchools = Object.entries(skillDataMap || {})
+    .filter(skill => (Array.isArray(skill[1].group) ? skill[1].group.includes("magic") : skill[1].group === "magic") && skill[0] !== "magic_universal")
+    .map(skill => skill[1].bonus);
 
   const update = {};
   let totalSkillPointsSpent = 0;
@@ -35487,7 +35379,6 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
     return val && /^talent_/.test(val) ? val.replace(/^talent_/, "") : null;
   })
   .filter(Boolean);
-
 
   allSkills.forEach(skill => {
     let base = parseInt(values[`${skill}_skill_mdr`], 10);
@@ -35538,7 +35429,7 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
     update[`${skill}_mdr`] = total;
   });
 
-  // Only count "Other" slots that are NOT already mapped in skillMapTable (prevents double-counting)
+  // Only count "Other" slots that are NOT already mapped in skillDataMap (prevents double-counting)
   otherSkills.forEach(skill => {
     if (usedOtherSlots.has(skill)) return; // <-- NEW: skip duplicates already handled above
 
@@ -35572,32 +35463,41 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
   if (registeredRaces.has(key)) return;
   registeredRaces.add(key);
 
-  // ---- derive lists safely (no flatMap) ----
-  const allSkills = Object.values(skillMapTable || [])
-    .map(s => s && s.label)
-    .filter(Boolean);
+  // ---- derive lists safely from skillDataMap ----
+  const allSkills = Object.keys(skillDataMap || {});
 
   const triggerSkills = (Array.isArray(triggerSkillsArg) && triggerSkillsArg.length)
     ? triggerSkillsArg
     : allSkills; // default to all skills so we never hit undefined
 
+  // Build 1–11 generic Other slots
   const otherSkills = Array.from({ length: 11 }, (_, i) => `otherskill${i + 1}`);
 
-  const magicSchools = Object.values(skillMapTable || [])
-    .filter(s => s && s.group === "Magic" && s.label !== "magic_universal")
-    .map(s => s && s.bonus)
+  // Any otherskillN that exists as a skill key in skillDataMap is already handled via allSkills
+  const usedOtherSlots = new Set(
+    allSkills.filter(k => typeof k === "string" && /^otherskill\d+$/.test(k))
+  );
+
+  // Magic schools: match initializeRaceState convention (group includes "magic"), watch their *_mdr attrs (row.bonus)
+  const magicSchools = Object.entries(skillDataMap || {})
+    .filter(([skillKey, s]) => {
+      if (!s) return false;
+      const g = s.group;
+      const groups = Array.isArray(g) ? g : [g];
+      return groups.includes("magic") && skillKey !== "magic_universal";
+    })
+    .map(([_, s]) => s && s.bonus)
     .filter(Boolean); // e.g., "magic_alteration_mdr"
 
   const talentKeys = Object.entries(talentDataMap?.[racePrefix] || {})
-  .filter(([_, t]) => {
-    const s = t && t.skills;
-    if (!s) return false;
-    if (Array.isArray(s)) return s.length > 0;
-    if (typeof s === "object") return Object.keys(s).length > 0;
-    return false;
-  })
-  .map(([key]) => key);
-
+    .filter(([_, t]) => {
+      const s = t && t.skills;
+      if (!s) return false;
+      if (Array.isArray(s)) return s.length > 0;
+      if (typeof s === "object") return Object.keys(s).length > 0;
+      return false;
+    })
+    .map(([key]) => key);
 
   // watched attrs
   const watched = new Set([
@@ -35605,27 +35505,48 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
     "dex",
     "edu",
     "language_caltheran_skill_mdr",
-    ...magicSchools
+    ...magicSchools,
+    "recompute_nonce" // nudge to recompute on sheet:opened
   ]);
-  + watched.add("recompute_nonce"); // nudge to recompute on sheet:opened
-  allSkills.forEach(skill => watched.add(`${skill}_skill_mdr`));
-  otherSkills.forEach(skill => watched.add(`${skill}_skill_mdr`));
-  triggerSkills.forEach(skill => {
-    watched.add(`${racePrefix}_${skill}_bonus_mdr`);
-    watched.add(`${racePrefix}_talent_${skill}_bonus_mdr`);
+
+  // watch base skill attrs (row.skill) for every mapped skill
+  allSkills.forEach(skillKey => {
+    const row = (skillDataMap && skillDataMap[skillKey]) || {};
+    const baseAttr = row.skill || `${skillKey}_skill_mdr`;
+    watched.add(baseAttr);
   });
+
+  // watch "Other" slots that are NOT already defined as skills in skillDataMap (prevents redundant wiring)
+  otherSkills.forEach(skill => {
+    if (usedOtherSlots.has(skill)) return;
+    watched.add(`${skill}_skill_mdr`);
+  });
+
+  // watch race background + talent bonus fields for the skills you care about
+  triggerSkills.forEach(skillKey => {
+    watched.add(`${racePrefix}_${skillKey}_bonus_mdr`);
+    watched.add(`${racePrefix}_talent_${skillKey}_bonus_mdr`);
+    watched.add(`${racePrefix}_talent2_${skillKey}_bonus_mdr`);
+  });
+
+  // watch the per-talent checkboxes
   talentKeys.forEach(t => watched.add(`${racePrefix}_${t}_mdr_checkbox`));
 
   if (debug_on) console.log("[registerSkillHandler Init]", { watched: Array.from(watched) });
 
   // attrs to read
   const skillsToAttrs = {};
-  allSkills.forEach(skill => {
-    skillsToAttrs[skill] = [
-      `${skill}_skill_mdr`,
-      `${skill}_mdr`,
-      `${racePrefix}_${skill}_bonus_mdr`,
-      `${racePrefix}_talent_${skill}_bonus_mdr`
+  allSkills.forEach(skillKey => {
+    const row = (skillDataMap && skillDataMap[skillKey]) || {};
+    const baseAttr  = row.skill || `${skillKey}_skill_mdr`;
+    const totalAttr = row.bonus || `${skillKey}_mdr`;
+
+    skillsToAttrs[skillKey] = [
+      baseAttr,
+      totalAttr,
+      `${racePrefix}_${skillKey}_bonus_mdr`,
+      `${racePrefix}_talent_${skillKey}_bonus_mdr`,
+      `${racePrefix}_talent2_${skillKey}_bonus_mdr`
     ];
   });
 
@@ -35641,7 +35562,10 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
   ];
 
   const otherSkillAttrs = [];
-  otherSkills.forEach(s => { otherSkillAttrs.push(`${s}_skill_mdr`, `${s}_mdr`); });
+  otherSkills.forEach(s => {
+    if (usedOtherSlots.has(s)) return;
+    otherSkillAttrs.push(`${s}_skill_mdr`, `${s}_mdr`);
+  });
 
   const skillAttrList = [];
   Object.values(skillsToAttrs).forEach(arr => arr.forEach(a => skillAttrList.push(a)));
@@ -35693,7 +35617,6 @@ function setDefaultTalentBonuses(race) {
   if (debug_on) console.log("[setDefaultTalentBonuses] updates:", talent_updates_local);
   return talent_updates_local;
 }
-
 
 const registerAllTalentChangeWatchers = () => {
   if (debug_on_trace) console.log ("[registerAllTalentChangeWatchers] Start");
@@ -36106,16 +36029,39 @@ function ensureRaceWatchers(race) {
 
 // Build default skills + clear new flag (used once on first open with a real race)
 const initNewCharacterSkills = () => {
-    const updates = {};
-    Object.entries(skillMapTable || {}).forEach(([_, { label, base, notes }]) => {
-        const val = parseInt(base, 10) || 0;
-        updates[`${label}_skill_mdr`] = val;
-        updates[`${label}_mdr`]       = val;
-        updates[`${label}_note`]      = notes || "";
-    });
-    updates.new_character_flag = "0";
-    if (debug_on) console.log("[New Character Skill Init]", updates);
-    return updates;
+  const updates = {};
+
+  // Source of truth: skillDataMap
+  Object.entries(skillDataMap || {}).forEach(([skillKey, row]) => {
+    const baseVal = parseInt((row && row.base), 10) || 0;
+
+    const baseAttr  = (row && row.skill) || `${skillKey}_skill_mdr`;
+    const totalAttr = (row && row.bonus) || `${skillKey}_mdr`;
+
+    updates[baseAttr]  = baseVal;
+    updates[totalAttr] = baseVal;
+
+    // Notes stored as i18n key (or blank)
+    updates[`${skillKey}_note`] = (row && row.notes) || "";
+  });
+
+  // Initialize generic Other slots (skip any otherskillN that is explicitly defined in skillDataMap)
+  const otherSlotCount = 12; // otherskill1..otherskill12
+  const usedOtherSlots = new Set(
+    Object.keys(skillDataMap || {}).filter(k => typeof k === "string" && /^otherskill\d+$/.test(k))
+  );
+
+  for (let i = 1; i <= otherSlotCount; i++) {
+    const k = `otherskill${i}`;
+    if (usedOtherSlots.has(k)) continue;
+
+    updates[`${k}_skill_mdr`] = 0;
+    updates[`${k}_mdr`] = 0;
+  }
+
+  updates.new_character_flag = "0";
+  if (debug_on) console.log("[New Character Skill Init]", updates);
+  return updates;
 };
 
 // === Helpers & guards ===

@@ -2358,6 +2358,7 @@ input[name="attr_selected_career"][value="combat_engineer"] ~ .sheet-career-tabs
 input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs-container .sheet-tab-combat_medic,
 input[name="attr_selected_career"][value="faceman"] ~ .sheet-career-tabs-container .sheet-tab-faceman,
 input[name="attr_selected_career"][value="icon"] ~ .sheet-career-tabs-container .sheet-tab-icon,
+input[name="attr_selected_career"][value="investigator"] ~ .sheet-career-tabs-container .sheet-tab-investigator,
 input[name="attr_selected_career"][value="marksman"] ~ .sheet-career-tabs-container .sheet-tab-marksman,
 input[name="attr_selected_career"][value="operator"] ~ .sheet-career-tabs-container .sheet-tab-operator,
 input[name="attr_selected_career"][value="pathfinder"] ~ .sheet-career-tabs-container .sheet-tab-pathfinder,
@@ -2411,9 +2412,31 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs-con
   background: red;
 }
 
+/* Arcane career tabs: allow wrapping */
+.ui-dialog .tab-content .charsheet .sheet-career-tab-buttons-arcane {
+	flex-wrap: wrap;          /* key: allows multiple rows */
+	justify-content: flex-start; /* space-around fights wrapping */
+	gap: 2px;                 /* optional spacing between buttons */
+}
+
+/* Core career tabs: allow wrapping */
+.ui-dialog .tab-content .charsheet .sheet-career-tab-buttons-core {
+	flex-wrap: wrap;          /* key: allows multiple rows */
+	justify-content: flex-start; /* space-around fights wrapping */
+	gap: 2px;                 /* optional spacing between buttons */
+}
+
+/* Specialist career tabs: allow wrapping */
+.ui-dialog .tab-content .charsheet .sheet-career-tab-buttons-specialist {
+	flex-wrap: wrap;          /* key: allows multiple rows */
+	justify-content: flex-start; /* space-around fights wrapping */
+	gap: 2px;                 /* optional spacing between buttons */
+}
+
 /* Style each career button */
 .ui-dialog .tab-content .charsheet .sheet-career-tab-buttons-arcane button {
-    flex: 1;
+	flex: 1 1 100px;          /* grow, shrink, preferred/min-ish width */
+	min-width: 100px;         /* ensures wrap happens instead of micro-buttons */
     background-color: #3E3A5F;
     color: white;
     font-weight: bold;
@@ -2424,20 +2447,23 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs-con
     transition: background-color 0.2s ease;
 }
 
+/* Core buttons: flexible, but don't shrink below a usable width */
 .ui-dialog .tab-content .charsheet .sheet-career-tab-buttons-core button {
-	flex: 1;
-    background-color: #4A4E54;
-    color: white;
-    font-weight: bold;
-    border: 1px solid black;
-    padding: 4px 0;
-    font-size: 85%;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+	flex: 1 1 100px;          /* grow, shrink, preferred/min-ish width */
+	min-width: 100px;         /* ensures wrap happens instead of micro-buttons */
+	background-color: #4A4E54;
+	color: white;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 4px 0;
+	font-size: 85%;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-tab-buttons-specialist button {
-	flex: 1;
+	flex: 1 1 100px;          /* grow, shrink, preferred/min-ish width */
+	min-width: 100px;         /* ensures wrap happens instead of micro-buttons */
     background-color: #52472F;
     color: white;
     font-weight: bold;
@@ -2463,6 +2489,7 @@ input[name="attr_selected_career"][value="combat_engineer"] ~ .sheet-career-tabs
 input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-tabs button[name="act_combat_medic"],
 input[name="attr_selected_career"][value="faceman"] ~ .sheet-career-tabs button[name="act_faceman"],
 input[name="attr_selected_career"][value="icon"] ~ .sheet-career-tabs button[name="act_icon"],
+input[name="attr_selected_career"][value="investigator"] ~ .sheet-career-tabs button[name="act_investigator"],
 input[name="attr_selected_career"][value="marksman"] ~ .sheet-career-tabs button[name="act_marksman"],
 input[name="attr_selected_career"][value="operator"] ~ .sheet-career-tabs button[name="act_operator"],
 input[name="attr_selected_career"][value="pathfinder"] ~ .sheet-career-tabs button[name="act_pathfinder"],
@@ -2685,6 +2712,10 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-icon input[name="attr_show_career_icon_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-icon input[name="attr_show_career_icon_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-icon input[name="attr_show_career_icon_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-investigator input[name="attr_show_career_investigator_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-investigator input[name="attr_show_career_investigator_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-investigator input[name="attr_show_career_investigator_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-investigator input[name="attr_show_career_investigator_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-marksman input[name="attr_show_career_marksman_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-marksman input[name="attr_show_career_marksman_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-marksman input[name="attr_show_career_marksman_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
@@ -2896,6 +2927,7 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 .ui-dialog .tab-content .charsheet .sheet-tab-combat_medic input[name="attr_combat_medic_ready"][value="1"] ~ .sheet-career-locked-overlay,
 .ui-dialog .tab-content .charsheet .sheet-tab-faceman input[name="attr_faceman_ready"][value="1"] ~ .sheet-career-locked-overlay,
 .ui-dialog .tab-content .charsheet .sheet-tab-icon input[name="attr_icon_ready"][value="1"] ~ .sheet-career-locked-overlay,
+.ui-dialog .tab-content .charsheet .sheet-tab-investigator input[name="attr_investigator_ready"][value="1"] ~ .sheet-career-locked-overlay,
 .ui-dialog .tab-content .charsheet .sheet-tab-marksman input[name="attr_marksman_ready"][value="1"] ~ .sheet-career-locked-overlay,
 .ui-dialog .tab-content .charsheet .sheet-tab-operator input[name="attr_operator_ready"][value="1"] ~ .sheet-career-locked-overlay,
 .ui-dialog .tab-content .charsheet .sheet-tab-pathfinder input[name="attr_pathfinder_ready"][value="1"] ~ .sheet-career-locked-overlay,
@@ -3440,7 +3472,7 @@ button[type="roll"]:hover.new-roll {
   align-items: center;
   justify-content: flex-start;
   margin-top: 5px;
-  padding: 4px;
+  padding: 0px;
 }
 
 
@@ -3450,6 +3482,7 @@ button[type="roll"]:hover.new-roll {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 5px;
 }
 
 /* Default input style */
@@ -5135,6 +5168,17 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
     display: flex;
 }
 
+/* Career Talent Tracker - Investigator - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_read_the_room"][value="1"] ~ .sheet-investigator-read-the-room,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_tell_tale_signs"][value="1"] ~ .sheet-investigator-tell-tale-signs,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_fast_draw_routine"][value="1"] ~ .sheet-investigator-fast-draw-routine,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_pressure_interrogation"][value="1"] ~ .sheet-investigator-pressure-interrogation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_hold_the_line"][value="1"] ~ .sheet-investigator-hold-the-line,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_predictive_stance"][value="1"] ~ .sheet-investigator-predictive-stance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_veil_thread_hunch"][value="1"] ~ .sheet-investigator-veil-thread-hunch {
+    display: flex;
+}
+
 /* Career Talent Tracker - Marksman - Scene (alphabetized) */
 .ui-dialog .tab-content .charsheet input[name="attr_show_marksman_aim_lock"][value="1"] ~ .sheet-marksman-aim-lock,
 .ui-dialog .tab-content .charsheet input[name="attr_show_marksman_cold_bore"][value="1"] ~ .sheet-marksman-cold-bore,
@@ -5333,6 +5377,27 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_icon_signature_crescendo"][value="1"] ~ .sheet-icon-signature-crescendo {
     display: flex;
 }
+
+/* Career Talent Tracker - Investigator - Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_close_quarters_control"][value="1"] ~ .sheet-investigator-close-quarters-control,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_scene_impression"][value="1"] ~ .sheet-investigator-scene-impression,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_pattern_sweep"][value="1"] ~ .sheet-investigator-pattern-sweep,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_professional_doubt"][value="1"] ~ .sheet-investigator-professional-doubt,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_trace_resonance"][value="1"] ~ .sheet-investigator-trace-resonance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_clean_entry"][value="1"] ~ .sheet-investigator-clean-entry,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_forensic_flashback"][value="1"] ~ .sheet-investigator-forensic-flashback,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_investigators_poise"][value="1"] ~ .sheet-investigator-investigators-poise,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_moment_of_truth"][value="1"] ~ .sheet-investigator-moment-of-truth,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_predictive_motive"][value="1"] ~ .sheet-investigator-predictive-motive,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_full_spectrum_sweep"][value="1"] ~ .sheet-investigator-full-spectrum-sweep,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_pressure_extraction"][value="1"] ~ .sheet-investigator-pressure-extraction,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_absolute_reconstruction"][value="1"] ~ .sheet-investigator-absolute-reconstruction,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_tactical_tapestry"][value="1"] ~ .sheet-investigator-tactical-tapestry,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_temporal_intuition"][value="1"] ~ .sheet-investigator-temporal-intuition {
+    display: flex;
+}
+
+
 
 /* Career Talent Tracker - Marksman - Session (alphabetized) */
 .ui-dialog .tab-content .charsheet input[name="attr_show_marksman_counter_sniper_protocol"][value="1"] ~ .sheet-marksman-counter-sniper-protocol,

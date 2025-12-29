@@ -8570,6 +8570,7 @@
 							<option value="combat_medic"      data-i18n="career_combat_medic-u">Combat Medic</option>
 							<option value="faceman"           data-i18n="career_faceman-u">Faceman</option>
 							<option value="icon"              data-i18n="career_icon-u">Icon</option>
+							<option value="investigator"      data-i18n="career_investigator-u">Investigator</option>							
 							<option value="marksman"          data-i18n="career_marksman-u">Marksman</option>
 							<option value="operator"          data-i18n="career_operator-u">Operator</option>
 							<option value="pathfinder"        data-i18n="career_pathfinder-u">Pathfinder</option>
@@ -8607,6 +8608,7 @@
 								<option value="combat_medic"      data-i18n="career_combat_medic-u">Combat Medic</option>
 								<option value="faceman"           data-i18n="career_faceman-u">Faceman</option>
 								<option value="icon"              data-i18n="career_icon-u">Icon</option>
+								<option value="investigator"      data-i18n="career_investigator-u">Investigator</option>									
 								<option value="marksman"          data-i18n="career_marksman-u">Marksman</option>
 								<option value="operator"          data-i18n="career_operator-u">Operator</option>
 								<option value="pathfinder"        data-i18n="career_pathfinder-u">Pathfinder</option>
@@ -8666,6 +8668,7 @@
 					<button type="action" name="act_combat_medic"      data-i18n="career_combat_medic-u">Combat Medic</button>
 					<button type="action" name="act_faceman"           data-i18n="career_faceman-u">Faceman</button>
 					<button type="action" name="act_icon"              data-i18n="career_icon-u">Icon</button>
+					<button type="action" name="act_investigator"      data-i18n="career_investigator-u">Investigator</button>
 					<button type="action" name="act_marksman"          data-i18n="career_marksman-u">Marksman</button>
 					<button type="action" name="act_operator"          data-i18n="career_operator-u">Operator</button>
 					<button type="action" name="act_pathfinder"        data-i18n="career_pathfinder-u">Pathfinder</button>
@@ -15794,17 +15797,6 @@
 							<input class="sheet-attr-input-small sheet-spell-capacity sheet-readonly" type="text" name="attr_spell_xp_remaining" placeholder="0" />
 						</div>
 					</div>
-
-					<div class="sheet-strain-buttons-row">
-						<div class="sheet-roll-wrapper">
-							<span class="sheet-roll-label" data-i18n="short_rest-u">Short Rest</span>
-							<button type="action" name="act_strain_short_rest" class="sheet-roll-hidden"></button>
-						</div>
-						<div class="sheet-rest-button-wrapper">
-							<span class="sheet-roll-label" data-i18n="full_rest-u">Full Rest</span>
-							<button type="action" class="sheet-roll-hidden sheet-rest-button" name="act_strain_full_rest"></button>
-						</div>
-					</div>
 				</div>
 			</div>
 
@@ -16582,6 +16574,18 @@
 		<!-- ------------------------- Tracker ------------------------- -->
 		<div class="sheet-tab-content sheet-tracker">
 
+			<h4 class="section-head" data-i18n="rest-u">Rest</h4>		
+			<div class="sheet-strain-buttons-row">
+				<div class="sheet-roll-wrapper">
+					<span class="sheet-roll-label" data-i18n="short_rest-u">Short Rest</span>
+					<button type="action" name="act_strain_short_rest" class="sheet-roll-hidden"></button>
+				</div>
+				<div class="sheet-rest-button-wrapper">
+					<span class="sheet-roll-label" data-i18n="full_rest-u">Full Rest</span>
+					<button type="action" class="sheet-roll-hidden sheet-rest-button" name="act_strain_full_rest"></button>
+				</div>
+			</div>
+
 			<input type="hidden" name="attr_showracials" class="sheet-tab-controller" />
 
 			<h4 class="section-head" data-i18n="stim_tracker-u">Stim Tracker</h4>
@@ -16634,8 +16638,10 @@
 						<span class="sheet-strain-pip-label">3</span>
 					</div>
 				</div>
-			</div>
 
+
+			</div>
+				
 			<h4 class="section-head" data-i18n="talent_tracker-u">Talent Tracker</h4>
 
 			<div class="sheet-tracker-section sheet-tracker-talent">
@@ -30329,8 +30335,14 @@ const careerDataMap = {
         }
     },
 	dreamshaper: {
+		name: "Dream Shaper",
+		career_type: "arcane",
+		career_type_name: "Arcane"	
 	},
 	gravesinger: {
+		name: "Gravesinger",
+		career_type: "arcane",
+		career_type_name: "Arcane"		
 	},
 	mindbender: {
 		name: "Mindbender",
@@ -30841,8 +30853,14 @@ const careerDataMap = {
 		}
 	},
 	soulmender: {
+		name: "Soul Mender",
+		career_type: "arcane",
+		career_type_name: "Arcane"		
 	},
 	spirit_warden: {
+		name: "Spirit Warden",
+		career_type: "arcane",
+		career_type_name: "Arcane"	
 	},
 	stormweaver: {
 		name: "Stormweaver",
@@ -31101,9 +31119,15 @@ const careerDataMap = {
 		}
 	},
 	veil_dancer: {
+		name: "Veil Dancer",
+		career_type: "arcane",
+		career_type_name: "Arcane"		
 	},
 	/* Core Career */
 	brawler: {
+		name: "Brawler",
+		career_type: "core",
+		career_type_name: "Core"	
 	},
     combat_engineer: {
         name: "Combat Engineer",
@@ -32269,6 +32293,11 @@ const careerDataMap = {
 			}
 		}
 	},
+	investigator: {
+		name: "Investigator",
+		career_type: "core",
+		career_type_name: "Core"	
+	},
 	marksman: {
 		name: "Marksman",
 		career_type: "core",
@@ -32803,6 +32832,9 @@ const careerDataMap = {
 	  }
 	},
 	pathfinder: {
+		name: "Pathfinder",
+		career_type: "core",
+		career_type_name: "Core"	
 	},
 	pilot: {
 	  name: "Pilot",
@@ -33962,6 +33994,9 @@ const careerDataMap = {
 		}
 	},
 	tactician: {
+		name: "Tactician",
+		career_type: "core",
+		career_type_name: "Core"
 	},
 	/* Specialist Career */
 	arcane_gunslinger: {

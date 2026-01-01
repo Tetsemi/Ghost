@@ -8541,15 +8541,18 @@
 			<div class="sheet-section">
 				<!-- ==== Career Tracker (Static Primary Career) ==== -->
 				<!-- Career Tracker Header -->
+				
 				<div class="sheet-career-tracker">
+				
 					<div class="sheet-career-grid sheet-career-header">
-					<div data-i18n="career_column_career-u">Career</div>
-					<div data-i18n="career_column_starting_skill_points-u">Starting Skill Points</div>
-					<div data-i18n="career_column_skill_to_xp-u">Skill→XP</div>
-					<div data-i18n="career_column_xp_spent-u">Career XP Spent</div>
-					<div data-i18n="career_column_xp_total-u">Career XP Total</div>
-					<div data-i18n="career_column_total_spell_xp-u">Total Spell XP</div>
-				</div>
+						<div data-i18n="career_column_career-u">Career</div>
+						<div data-i18n="career_column_starting_skill_points-u">Starting Skill Points</div>
+						<div data-i18n="career_column_skill_to_xp-u">Skill→XP</div>
+						<div data-i18n="career_column_xp_spent-u">Career XP Spent</div>
+						<div data-i18n="career_column_xp_total-u">Career XP Total</div>
+						<div data-i18n="career_column_total_spell_xp-u">Total Spell XP</div>
+						<div data-i18n="primary_arcane_career-u">Primary Arcane Career</div>
+					</div>
 
 					<!-- Static Primary Career Row -->
 					<div class="sheet-career-grid">
@@ -8566,7 +8569,7 @@
 							<option value="veil_dancer"       data-i18n="career_veil_dancer-u">Veil Dancer</option>
 							<option value="1S"                data-i18n="career_select_core_header-u">-- Core Career --</option>
 							<option value="brawler"           data-i18n="career_brawler-u">Brawler</option>
-							<option value="breacher"           data-i18n="career_breacher-u">Breacher</option>
+							<option value="breacher"          data-i18n="career_breacher-u">Breacher</option>
 							<option value="combat_engineer"   data-i18n="career_combat_engineer-u">Combat Engineer</option>
 							<option value="combat_medic"      data-i18n="career_combat_medic-u">Combat Medic</option>
 							<option value="faceman"           data-i18n="career_faceman-u">Faceman</option>
@@ -8586,7 +8589,18 @@
 						<input class="sheet-readonly" type="text" name="attr_primary_career_xp_spent" />
 						<input class="sheet-readonly" type="text" name="attr_primary_career_xp_total" />
 						<input class="sheet-readonly" type="text" name="attr_primary_career_spell_xp_total" />
-						<button type="action" name="act_clear_inactive_careers" class="sheet-tab-buttons" data-i18n="clear_inactive_careers-u">Clear Inactive Careers</button>
+						<select name="attr_primary_arcane_career" class="sheet-career-select">
+							<option value="@{none}"                			data-i18n="career_select_arcane_header-u">-- Primary Arcane Career --</option>
+							<option value="@{magic_technomancy_mdr}"        data-i18n="career_codeweaver-u">Codeweaver</option>
+							<option value="@{magic_illusion_mdr}"       	data-i18n="career_dreamshaper-u">Dreamshaper</option>
+							<option value="@{magic_necromancy_mdr}" 		data-i18n="career_gravesinger-u">Gravesinger</option>
+							<option value="@{magic_enchantment_mdr}"        data-i18n="career_mindbender-u">Mindbender</option>
+							<option value="@{magic_warding_mdr}"        	data-i18n="career_sigilbound-u">Sigilbound</option>
+							<option value="@{magic_restoration_mdr}"		data-i18n="career_soulmender-u">Soulmender</option>
+							<option value="@{magic_summoning_mdr}"     		data-i18n="career_spirit_warden-u">Spirit Warden</option>
+							<option value="@{magic_elemental_mdr}"    		data-i18n="career_stormweaver-u">Stormweaver</option>
+							<option value="@{magic_alteration_mdr}"       				data-i18n="career_veil_dancer-u">Veil Dancer</option>						
+						</select>
 					</div>
 
 					<!-- Repeating Secondary Career Rows -->
@@ -16210,7 +16224,9 @@
 
 				</div>
 			</div>
-
+			
+			<button type="action" name="act_clear_inactive_careers" class="sheet-tab-buttons" data-i18n="clear_inactive_careers-u">Clear Inactive Careers</button>
+			
 			<h4 class="section-head" data-i18n="careers-u">Careers</h4>
 			<div class="sheet-section">
 				<div class="sheet-career-label" name="attr_career1" data-i18n="careers1-u">Career 1</div>
@@ -39548,9 +39564,13 @@ on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
     const referenceString = v[skillAttr];
     const actualAttrName = referenceString.match(/@{([^}]+)}/)[1];
 	const checkboxAttr = `${actualAttrName}_checkbox`;
+	const primaryArcaneCareer = "primary_arcane_career"
 	
-	getAttrs ( [actualAttrName, checkboxAttr], function(values) {
-		const strainPenalty = ( actualAttrName === "magic_universal_mdr" || values[checkboxAttr] === "1" ) ? 0 : 1;
+	getAttrs ( [actualAttrName, checkboxAttr, primaryArcaneCareer ], function(values) {
+		const actualPrimaryArcaneCareerAttrName = values[primaryArcaneCareer].match(/@{([^}]+)}/)[1];	
+		if (debug_on) console.log ("[primary_arcane_career]:", actualPrimaryArcaneCareerAttrName);
+
+		const strainPenalty = ( actualAttrName === "magic_universal_mdr" || actualAttrName === actualPrimaryArcaneCareerAttrName ) ? 0 : 1;
 		const strainAttr = `repeating_spellsmdr_${repeatingId}_strain_penalty`;
 		
 		const skillValue = values[actualAttrName] || "0";

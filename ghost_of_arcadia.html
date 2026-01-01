@@ -37744,6 +37744,41 @@ const initNewCharacterSkills = () => {
   return updates;
 };
 
+/**
+ * Recompute global secondary career spell XP total by summing
+ * repeating_secondarycareer_<id>_secondary_career_spell_xp_total across all rows.
+ */
+function updateSecondaryCareerSpellXpTotal() {
+  getSectionIDs("repeating_secondarycareer", (ids) => {
+    if (!ids || !ids.length) {
+      setAttrs({ secondary_career_spell_xp_total: 0 });
+      return;
+    }
+
+    const rowTotalAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career_spell_xp_total`);
+
+    getAttrs(rowTotalAttrs, (v) => {
+      const total = rowTotalAttrs.reduce((sum, a) => {
+        const n = parseInt(v[a], 10);
+        return sum + (isNaN(n) ? 0 : n);
+      }, 0);
+
+      if (debug_on_trace) console.log("[updateSecondaryCareerSpellXpTotal] ids:", ids.length, "total:", total);
+      setAttrs({ secondary_career_spell_xp_total: total });
+    });
+  });
+}
+
+/**
+ * Fires when a secondary career row changes OR is removed.
+ * This will keep the global secondary_career_spell_xp_total in sync.
+ */
+ 
+on("change:repeating_secondarycareer remove:repeating_secondarycareer", () => {
+  if (debug_on_trace) console.log("[change/remove:repeating_secondarycareer] Recalc global secondary spell XP");
+  updateSecondaryCareerSpellXpTotal();
+});
+
 // === Helpers & guards ===
 let WATCHERS_BOOTSTRAPPED = false;
 

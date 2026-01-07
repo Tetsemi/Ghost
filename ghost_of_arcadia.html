@@ -1172,12 +1172,12 @@
 						  <div class="sheet-skill-col" data-i18n="skill_display-u">Val</div>
 						</div>
 						<div class="sheet-skill-grid">
-							<div><input type="checkbox" name="attr_archanotech_mdr_checkbox" value="1" /></div>
-							<div class="skill-label-wrapper"><input type="text" name="attr_archanotech_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="archanotech-u">Archanotech(01%)</span></div>
-							<div><input class="skill-input" type="text" name="attr_archanotech_skill_mdr" /></div>
+							<div><input type="checkbox" name="attr_arcanotech_mdr_checkbox" value="1" /></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_arcanotech_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="arcanotech-u">Arcanotech(01%)</span></div>
+							<div><input class="skill-input" type="text" name="attr_arcanotech_skill_mdr" /></div>
 							<div class="sheet-val-roll-static">
-								<input class="sheet-skill-input" type="text" name="attr_archanotech_mdr" readonly />
-								<button type="roll" name="roll_archanotech_mdr_check" value="&{template:coc-1} {{name=@{archanotech_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{archanotech_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{archanotech_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{archanotech_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}" ></button>
+								<input class="sheet-skill-input" type="text" name="attr_arcanotech_mdr" readonly />
+								<button type="roll" name="roll_arcanotech_mdr_check" value="&{template:coc-1} {{name=@{arcanotech_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{arcanotech_mdr}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{arcanotech_mdr}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{arcanotech_mdr}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}" ></button>
 							</div>
 							<div><input type="checkbox" name="attr_computer_use_mdr_checkbox" value="1" /></div>
 							<div class="skill-label-wrapper"><input type="text" name="attr_computer_use_improved_label" class="sheet-improved-indicator" readonly /><span class="skill-label" data-i18n="computer_use-u">Computer Use(10%)</span></div>
@@ -4908,9 +4908,9 @@
 
                                     <!-- Alphabetized -->
                                     <div class="sheet-bg-skill-row">
-                                        <input type="hidden" name="attr_bg_archanotech_mdr_checkbox_lock" value="0" />
-                                        <input type="checkbox" name="attr_bg_archanotech_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
-                                        <label class="sheet-bg-skill-label" data-i18n="archanotech-u">Archanotech</label>
+                                        <input type="hidden" name="attr_bg_arcanotech_mdr_checkbox_lock" value="0" />
+                                        <input type="checkbox" name="attr_bg_arcanotech_mdr_checkbox" value="1" class="sheet-bg-skill-checkbox" />
+                                        <label class="sheet-bg-skill-label" data-i18n="arcanotech-u">Arcanotech</label>
                                     </div>
                                     <div class="sheet-bg-skill-row">
                                         <input type="hidden" name="attr_bg_computer_use_mdr_checkbox_lock" value="0" />
@@ -27930,13 +27930,13 @@ const skillDataMap = {
 		notes:	"track_desc-u"
 	},
 /* Tech/Cyber */
-	archanotech: {
-		label:	"archanotech-u",
+	arcanotech: {
+		label:	"arcanotech-u",
 		base: 	1,
-		skill:	"archanotech_skill_mdr",
-		bonus:	"archanotech_mdr",
+		skill:	"arcanotech_skill_mdr",
+		bonus:	"arcanotech_mdr",
 		group:	"techcyber",
-		notes:	"archanotech_desc-u"
+		notes:	"arcanotech_desc-u"
 	},
 	computer_use: {
 		label:	"computer_use-u",
@@ -28735,7 +28735,7 @@ const backgroundDataMap = {
 	  starting_talents: ["slip_between", "cache_sense", "reflex_map"]
 	},
 	loop_minder_initiate: {
-	  trained_skills: ["slicing", "electronics", "computer_use", "insight", "perception", "occult_lore", "archanotech"],
+	  trained_skills: ["slicing", "electronics", "computer_use", "insight", "perception", "occult_lore", "arcanotech"],
 	  starting_item: "neural_interface_plug-u",
 	  starting_talents: ["signal_ghost", "circuit_whisperer", "mask_the_signal"]
 	},
@@ -35830,13 +35830,13 @@ const careerDataMap = {
 		    },
 		    {
 				any: [
-					{ type: "skill", key: "archanotech", min: 60 },
+					{ type: "skill", key: "arcanotech", min: 60 },
 					{ type: "skill", key: "mechanics", min: 60 },
 					{ type: "skill", key: "engineering", min: 60 },
 					{ type: "skill", key: "arcana",     min: 60 },
 					{
 						type: "group",
-						keys: ["archanotech", "mechanics", "engineering", "arcana"],
+						keys: ["arcanotech", "mechanics", "engineering", "arcana"],
 						count: 2,
 						min: 50
 					}
@@ -35884,7 +35884,7 @@ const careerDataMap = {
 	    workshop_wisp: {
 	        name_key: "career_soul_forger_workshop_wisp-u",
 	        rule_text_key: "career_soul_forger_workshop_wisp_rules-u",
-			affected_skill: [ "archanotech", "electronics", "mechanics" ],
+			affected_skill: [ "arcanotech", "electronics", "mechanics" ],
 	        prerequisite: "",
 	        tier: 1,
 	        cost: 10,
@@ -36602,6 +36602,8 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
   update.magic_universal_mdr = Math.max(...schoolValues) + baseUniversal;
 
   setAttrs(update);
+																	  
+						
 };
 
 const registerAllTalentChangeWatchers = () => {
@@ -38296,7 +38298,6 @@ function applyAllSkillBonuses(race) {
   setAttrs(updates);
 }
 
-// Apply race defaults/state (NO watcher registrations here)
 function initializeRaceState(race) {
   if (!race || race === "cr" || race === "unknown" || race === "0") return;
   if (debug_on_trace) console.log("[initializeRaceState] Start", { race });
@@ -38341,7 +38342,8 @@ function initializeRaceState(race) {
 
         getAttrs(Array.from(toRead), (values) => {
           calculateAndUpdateSkillValues(race, values); // exactly once
-          endSilent();
+          setTimeout(endSilent, 0);
+							   
         });
 
       }, { silent: true });
@@ -38741,7 +38743,6 @@ function handleRaceChange(race) {
   if (typeof updateTalentEnables === "function") updateTalentEnables(race);
 }
 
-// Register race-scoped watchers when needed (idempotent via your existing handlers)
 function ensureRaceWatchers(race) {
   if (registeredRaces.has(race)) return;
 
@@ -39000,7 +39001,6 @@ function registerBackgroundSkillLimiter(race){
   });
 };
 
-// Common parser function
 function parseDamageString(damageString, prefix) {
   if (debug_on_trace) console.log ("[parseDamageString] Start");
   const updates = {};
@@ -39140,7 +39140,7 @@ on("sheet:opened", function () {
 
 	const translationFields = [
 		"str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
-		"alchemy_txt", "animalhandling_txt", "anthropology_txt", "arcana_txt", "archaeology_txt", "archanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
+		"alchemy_txt", "animalhandling_txt", "anthropology_txt", "arcana_txt", "archaeology_txt", "arcanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
 		"chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computer_use_txt", "creditrating_txt", "cthulhumythos_txt",
 		"cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "drive_auto_txt",
 		"drone_operation_txt", "engineering_txt", "etiquette_draevi_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "etiquette_underworld_txt",
@@ -39224,7 +39224,6 @@ tabList.forEach(tab => {
     });
 });
 
-// Sheet Worker: Edit Mode Toggle
 on("clicked:edit_mode", () => {
   getAttrs(["edit_mode"], (values) => {
     const current = values.edit_mode || "off";
@@ -39236,7 +39235,6 @@ on("clicked:edit_mode", () => {
   });
 });
 
-// Dice Modifier Button Handler
 on("clicked:-20 clicked:-10 clicked:10 clicked:20", (event) => {
   const clicked = event.triggerName.replace("clicked:", "");
   getAttrs(["dice_modifier_checkbox"], (values) => {
@@ -39246,7 +39244,6 @@ on("clicked:-20 clicked:-10 clicked:10 clicked:20", (event) => {
   });
 });
 
-// Major Wound Handler
 on("clicked:major_wounds", (event) => {
   const clicked = 1;
   getAttrs(["major_wounds_checkbox"], (values) => {
@@ -39256,7 +39253,6 @@ on("clicked:major_wounds", (event) => {
   });
 });
 
-// Unconcious Handler
 on("clicked:unconcious", (event) => {
   const clicked = 1;
   getAttrs(["unconcious_checkbox"], (values) => {
@@ -39266,7 +39262,6 @@ on("clicked:unconcious", (event) => {
   });
 });
 
-// Dying Handler
 on("clicked:dying", (event) => {
   const clicked = 1;
   getAttrs(["dying_checkbox"], (values) => {
@@ -39310,7 +39305,6 @@ on("clicked:clear_inactive_careers", () => {
   runCleanupInactiveCareers();
 });
 
-//----------------------- Hidden Dice Trick Start --------------------//
 on("change:roll_weapon1_mdr_attack_impale_checkbox", function () {
   getAttrs(["roll_weapon1_mdr_attack_impale_checkbox"], function (v) {
     setAttrs({
@@ -39330,10 +39324,7 @@ on("change:repeating_weaponsmdr:attack_impale_checkbox", function(eventInfo) {
     });
   });
 });
-//----------------------- Hidden Dice Trick End --------------------//
 
-//----------------------- Repeating Spells --------------------//
-// Mirror select dropdown value to hidden input (for CSS Wizardry styling)
 on("change:repeating_spellsmdr:spell_prepared_mdr", function(eventInfo) {
   if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spell_prepared_mdr] Start");
   const match = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/);
@@ -39349,7 +39340,6 @@ on("change:repeating_spellsmdr:spell_prepared_mdr", function(eventInfo) {
   });
 });
 
-// Sum spellcosts only for prepared spells
 on("change:repeating_spellsmdr:spellcost change:repeating_spellsmdr:spell_prepared_mdr remove:repeating_spellsmdr", function() {
   if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spellcost change:repeating_spellsmdr:spell_prepared_mdr remove:repeating_spellsmdr] Start");
   getSectionIDs("repeating_spellsmdr", function(ids) {
@@ -39370,9 +39360,6 @@ on("change:repeating_spellsmdr:spellcost change:repeating_spellsmdr:spell_prepar
   });
 });
 
-//----------------------- Spell Cost Calculation --------------------//
-// Update overflow flag when spellcost or AC changes
-
 on("change:total_spellcost change:ac", function () {
   if (debug_on_trace) console.log ("[change:total_spellcost change:ac] Start");
   getAttrs(["total_spellcost", "ac"], function (values) {
@@ -39389,7 +39376,6 @@ on("change:total_spellcost change:ac", function () {
   });
 });
 
-// Blood-Born Survivor — add +2 current Vitality once per session
 on("change:used_session_perk_blood_born_survivor", (eventInfo) => {
   getAttrs([
     "used_session_perk_blood_born_survivor",
@@ -39551,7 +39537,6 @@ on("change:repeating_secondarycareer remove:repeating_secondarycareer", () => {
   updateSecondaryCareerSpellXpTotal();
 });
 
-/* Watchers: static rows + repeating rows + open/remove */
 on("change:showracials " +
   "change:armor1_equipped_checkbox change:armor1_physical_mdr change:armor1_arcane_mdr " +
   "change:armor2_equipped_checkbox change:armor2_physical_mdr change:armor2_arcane_mdr " +
@@ -39599,19 +39584,16 @@ on("clicked:repeating_spellsmdr:spelladvanced", function(eventInfo) {
 	});
 });
 
-// Non-repeating: weaponadvanced -> show_weapon_advanced
 on("clicked:weaponadvanced", () => {
   if (typeof debug_on !== "undefined" && debug_on) console.log("[clicked:weaponadvanced]");
   toggleFlag("show_weapon_advanced");
 });
 
-// Non-repeating: weaponadvanced_default -> show_weapon_advanced_default
 on("clicked:weaponadvanced_default", () => {
   if (typeof debug_on !== "undefined" && debug_on) console.log("[clicked:weaponadvanced_default]");
   toggleFlag("show_weapon_advanced_default");
 });
 
-// Repeating: repeating_weaponsmdr:* row button -> row's *_show_weapon_advanced
 on("clicked:repeating_weaponsmdr:weaponadvanced", (eventInfo = {}) => {
   if (typeof debug_on !== "undefined" && debug_on) console.log("[clicked:repeating_weaponsmdr:weaponadvanced]", eventInfo);
 
@@ -39625,7 +39607,6 @@ on("clicked:repeating_weaponsmdr:weaponadvanced", (eventInfo = {}) => {
   toggleFlag(rowAttr);
 });
 
-// Auto-calculate damage components for fixed weapon (weapon1_mdr)
 on("change:weapon1_mdr_damage", function() {
     if (debug_on_trace) console.log ("[change:weapon1_mdr_damage] Start");
   getAttrs(["weapon1_mdr_damage"], function(values) {
@@ -39665,7 +39646,6 @@ on("change:repeating_weaponsmdr:weaponskill_mdr", function(eventInfo) {
   });
 });
 
-// Auto-calculate damage components for repeating weapons (repeating_weaponsmdr) - change only
 on("change:repeating_weaponsmdr:weapondamage_mdr", function(eventInfo) {
     if (debug_on_trace) console.log ("[change:repeating_weaponsmdr:weapondamage_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
@@ -39705,7 +39685,6 @@ on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
   });
 });
 
-// Auto-calculate damage components for repeating spells (repeating_spellsmdr) - change only
 on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
     if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spell_damage_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/)[1];
@@ -39734,7 +39713,6 @@ on("change:repeating_omnidecksmdr:omnideck_skill_mdr", function(eventInfo) {
   });
 });
 
-// Auto-calculate damage components for repeating programs (repeating_programsmdr) - change only
 on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
     if (debug_on_trace) console.log ("[change:repeating_programsmdr:program_damage_mdr] Start");
   const repeatingId = eventInfo.sourceAttribute.match(/repeating_programsmdr_([^_]+)_/)[1];
@@ -39763,7 +39741,6 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-// === XP Remaining Calculation ===
 on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xp_spent_career_specialist change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reputation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
     if (debug_on_trace) console.log ("[change:background_xp] Start");
     getAttrs([
@@ -39809,7 +39786,6 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
     });
 });
 
-// === Repeating Ledger XP Category Aggregator ===
 on("change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {
     if (debug_on_trace) console.log("[change:repeating_ledger:ledger_choice] Start");
 
@@ -39921,7 +39897,6 @@ on(
   }
 );
 
-// === Spell XP Remaining Calculation ===
 on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr", function () {
     if (debug_on_trace) console.log("[XP Calc] Triggered");
 
@@ -39958,7 +39933,6 @@ on("add:repeating_secondarycareer remove:repeating_secondarycareer", () => {
     // Re-run stat updates
     registerStatHandler();
 });
-
 
 on(`change:repeating_${SECTION}:money_credit change:repeating_${SECTION}:money_debit change:_reporder:${SECTION} change:reporder:${SECTION} remove:repeating_${SECTION}`, recalcMoneyLedger);
 
@@ -40020,7 +39994,7 @@ on("change:repeating_minion:npc_weapon_skill1 change:repeating_minion:npc_weapon
     });
   }
 );
-/*	Watchers Section - End */
 
+/*	Watchers Section - End */
 
 </script>

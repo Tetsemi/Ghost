@@ -28203,7 +28203,7 @@ const flawDataMap = {
 };
 
 const raceDataMap = {
-  "alteri": {
+  alteri: {
     label: "Alteri",
     language: "Nualeth",
     stats: {
@@ -28237,7 +28237,7 @@ const raceDataMap = {
 	  }
 	}
   },
-  "draevi": {
+  draevi: {
     label: "Draevi",
     language: "Khevala",
     stats: {
@@ -28275,7 +28275,7 @@ const raceDataMap = {
       }
     }
   },
-  "feran": {
+  feran: {
     label: "Feran",
     language: "Halvrenn",
     stats: {
@@ -28315,7 +28315,7 @@ const raceDataMap = {
       }
     }
   },
-  "human": {
+  human: {
     label: "Human",
     language: "Caltheran",
     stats: {
@@ -28354,7 +28354,7 @@ const raceDataMap = {
       }
     }
   },
-  "khadra": {
+  khadra: {
     label: "Khadra",
     language: "Torahn",
     stats: {
@@ -28396,7 +28396,7 @@ const raceDataMap = {
       }
     }
   },
-  "kitsu": {
+  kitsu: {
     label: "Kitsu",
     language: "Nari",
     stats: {
@@ -28438,7 +28438,7 @@ const raceDataMap = {
       }
     }
   },
-  "lyranni": {
+  lyranni: {
     label: "Lyranni",
     language: "Thal’Resh",
     stats: {
@@ -28481,7 +28481,7 @@ const raceDataMap = {
       }
     }
   },
-  "veyra": {
+  veyra: {
     label: "Veyra",
     language: "Chirr",
     stats: {
@@ -38209,6 +38209,188 @@ const recalcMoneyLedger = () => {
   });
 };
 
+const bootstrapGlobalWatchersOnce = () => {
+  // Register global (race-agnostic) watchers ONCE
+  if (WATCHERS_BOOTSTRAPPED) return;
+
+  WATCHERS_BOOTSTRAPPED = true;
+
+  registerAllTalentChangeWatchers();
+  registerBackgroundTalentWatcher();
+  registerBackgroundTalentWatchers();
+  registerTalentSkillBonusWatchers();
+  registerXPTrackerWatcher();
+  registerStatHandler();
+  registerCareerTabWatchers();
+  registerBackgroundTabWatchers();
+  registerPerkSummaryWatcher();
+  registerFlawSummaryWatcher();
+  registerRacialTraitsSkillSummaryWatcher();
+  registerCareerTalentSummaryWatcher();
+  registerMirrorSkillWatcher();
+};
+
+const buildSheetMetaUpdates = () => {
+  const display = SHEET_BUILD
+    ? `v${SHEET_VERSION} (${SHEET_BUILD})`
+    : `v${SHEET_VERSION}`;
+
+  return {
+    sheet_version: SHEET_VERSION,
+    sheet_build: SHEET_BUILD,
+    sheet_schema: SHEET_SCHEMA,
+    sheet_version_display: display
+  };
+};
+
+const applyTranslationsOnOpen = (done) => {
+  if (typeof done !== "function") done = () => {};
+
+  if (debug_on_trace) console.log("[applyTranslationsOnOpen] Start");
+
+  const translationFields = [
+    "str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
+    "alchemy_txt", "animalhandling_txt", "anthropology_txt", "arcana_txt", "archaeology_txt", "arcanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
+    "chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computer_use_txt", "creditrating_txt", "cthulhumythos_txt",
+    "cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "drive_auto_txt",
+    "drone_operation_txt", "engineering_txt", "etiquette_draevi_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "etiquette_underworld_txt",
+    "fasttalk_txt", "fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "firearms_smg_txt", "first_aid_txt", "forbidden_lore_txt",
+    "forgery_txt", "gunnery_txt", "heavy_weapons_txt", "history_txt", "impersonation_txt", "instrument_txt", "etiquette_military_txt",
+    "intimidate_txt", "interrogation_txt", "insight_txt", "investigation_txt", "jump_txt", "law_txt", "leadership_txt", "libraryuse_txt",
+    "listen_txt", "locksmith_txt", "magic_alteration_txt", "magic_elemental_txt", "magic_enchantment_txt",
+    "magic_illusion_txt", "magic_necromancy_txt", "magic_restoration_txt", "magic_summoning_txt", "magic_technomancy_txt",
+    "magic_warding_txt", "magic_universal_txt", "mechrepair_txt", "mechanics_txt", "medicine_txt", "melee_weapons_txt",
+    "naturalworld_txt", "navigate_txt", "occult_lore_txt", "ophvmachine_txt", "perception_txt", "persuade_txt", "physics_txt",
+    "pilotaircraft_txt", "pilotarc_txt", "pilotboat_txt", "psychology_txt", "psychoanalysis_txt", "ride_txt", "security_txt",
+    "singing_txt", "sleightofhand_txt", "slicing_txt", "spirit_lore_txt", "spothidden_txt", "stealth_txt", "streetwise_txt",
+    "survival_wilderness_txt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt",
+    "electronics_txt", "etiquette_alteri_txt", "etiquette_other_txt", "survival_urban_txt", "survival_veil_touched_txt",
+    "perform_acting_txt", "perform_dance_txt", "perform_impersonation_txt", "perform_instrument_txt", "perform_vocal_txt",
+    "language_caltheran_txt", "language_own_txt", "language_other_txt", "otherskill3_txt"
+  ];
+
+  const EXCEPTIONS = {
+    str_txt: "STR-r-txt",
+    dex_txt: "DEX-r-txt",
+    pow_txt: "POW-r-txt",
+    con_txt: "CON-r-txt",
+    app_txt: "APP-r-txt",
+    edu_txt: "EDU-r-txt",
+    siz_txt: "SIZ-r-txt",
+    int_txt: "INT-r-txt",
+    mag_txt: "MAG-r-txt"
+  };
+
+  getAttrs(translationFields, (values) => {
+    const updates = {};
+    const missing = [];
+
+    translationFields.forEach((field) => {
+      const base = field.replace(/_txt$/, "");
+      const candidates = EXCEPTIONS[field]
+        ? [EXCEPTIONS[field]]
+        : [`${base}-r-txt`, `${base}-u`];
+
+      let text = "";
+      for (let i = 0; i < candidates.length; i++) {
+        const t = getTranslationByKey(candidates[i]);
+        if (t) { text = t; break; }
+      }
+
+      if (!text) {
+        missing.push(field);
+        return;
+      }
+      if (values[field] !== text) {
+        updates[field] = text;
+      }
+    });
+
+    if (Object.keys(updates).length > 0) {
+      // Keep this silent so translations don’t cascade skill/race recalcs.
+      setAttrs(updates, { silent: true }, done);
+    } else {
+      done();
+    }
+
+    if (missing.length && typeof debug_on !== "undefined" && debug_on) {
+      console.warn("[applyTranslationsOnOpen] Missing i18n keys for:", missing.join(", "));
+    }
+  });
+};
+
+const initializeSheetOnOpen = (eventInfo) => {
+  if (debug_on_trace) console.log("[initializeSheetOnOpen] Start", eventInfo || "");
+  if (debug_on) console.log("[initializeSheetOnOpen]");
+
+  bootstrapGlobalWatchersOnce();
+
+  // Read the minimal “open context”
+  getAttrs(["showracials", "new_character_flag", "background_xp", "selected_tab", "character_id"], (values) => {
+    const race  = values.showracials || "unknown";
+    const isNew = values.new_character_flag === "1";
+
+    const silentInit = {
+      ...buildSheetMetaUpdates(),
+      bonuspenalty_link: values.character_id ? `~${values.character_id}|bonuspenalty` : ""
+    };
+
+    const normalUpdates = {};
+
+    // Ensure background XP is 30 (diff-only)
+    const xp = parseInt(values.background_xp || "0", 10);
+    if (xp !== 30) normalUpdates.background_xp = 30;
+
+    // Only run new-character init when a real race is selected
+    if (!isUnselectedRace(race) && isNew) {
+      // IMPORTANT: keep this silent to prevent a cascade of per-skill change watchers on open
+      Object.assign(silentInit, initNewCharacterSkills()); // builds skill defaults & clears flag
+    }
+
+    const applyRaceState = () => {
+      if (isUnselectedRace(race)) return;
+
+      // Minimal, on-demand race watchers
+      ensureRaceWatchers(race);
+
+      // Seed/reset core values BEFORE recompute
+      if (typeof resetAllMDRToBase === "function") resetAllMDRToBase();
+      if (typeof setDefaultSkillBonuses === "function") setDefaultSkillBonuses(race);
+      if (typeof setDefaultTalentBonuses === "function") setDefaultTalentBonuses(race);
+      if (typeof setLanguage === "function") setLanguage(race);
+
+      // Re-apply race state (pure state apply + internal recompute paths)
+      initializeRaceState(race);
+
+      // Re-evaluate enables/locks that gate UI (talents, etc.)
+      if (typeof updateTalentEnables === "function") updateTalentEnables(race);
+    };
+
+    const afterAllSets = () => {
+      applyRaceState();
+      applyTranslationsOnOpen(() => {
+        if (debug_on_trace) console.log("[initializeSheetOnOpen] Done");
+      });
+    };
+
+    // Commit in two phases:
+    // 1) silentInit (meta + optional new-char skill defaults + link)
+    // 2) normalUpdates (background_xp, etc.)
+    const hasSilent = Object.keys(silentInit).length > 0;
+    const hasNormal = Object.keys(normalUpdates).length > 0;
+
+    if (hasSilent) {
+      setAttrs(silentInit, { silent: true }, () => {
+        if (hasNormal) setAttrs(normalUpdates, afterAllSets);
+        else afterAllSets();
+      });
+    } else {
+      if (hasNormal) setAttrs(normalUpdates, afterAllSets);
+      else afterAllSets();
+    }
+  });
+};
+
 /* Initialization Section - End  */
 
 /*  Function Section - Start  */
@@ -39024,163 +39206,7 @@ function updateSecondaryCareerSpellXpTotal() {
 
 /*	Watchers Section - Start  */
 
-on("sheet:opened", () => {
-    if (debug_on)       console.log("[sheet:opened] New Character check");
-    if (debug_on_trace) console.log("[sheet:opened] Start");
-
-    // Register global (race-agnostic) watchers ONCE
-    if (!WATCHERS_BOOTSTRAPPED) {
-        WATCHERS_BOOTSTRAPPED = true;
-        registerAllTalentChangeWatchers();
-        registerBackgroundTalentWatcher();
-        registerBackgroundTalentWatchers();
-        registerTalentSkillBonusWatchers();
-        registerXPTrackerWatcher();
-        registerStatHandler();
-        registerCareerTabWatchers();
-        registerBackgroundTabWatchers();
-		registerPerkSummaryWatcher();
-		registerFlawSummaryWatcher();
-		registerRacialTraitsSkillSummaryWatcher();
-		registerCareerTalentSummaryWatcher();
-		registerMirrorSkillWatcher();
-    }
-
-    // Initial attribute normalization
-    getAttrs(["showracials", "new_character_flag", "background_xp", "selected_tab", "character_id"], values => {
-        const race  = values.showracials || "unknown";
-        const isNew = values.new_character_flag === "1";
-        const updates = {};
-
-		updates.bonuspenalty_link = values.character_id ? `~${values.character_id}|bonuspenalty` : "";
-
-        if (debug_on) console.log("[sheet:opened]", { race, isNew });
-
-        // Only run new-character init when a real race is selected
-        if (!isUnselectedRace(race) && isNew) {
-            Object.assign(updates, initNewCharacterSkills()); // builds skill defaults & clears flag
-        }
-
-        // Ensure background XP is 30 (diff-only)
-        const xp = parseInt(values.background_xp || "0", 10);
-        if (xp !== 30) {
-            updates.background_xp = 30;
-            if (debug_on) console.log("Setting background_xp to 30");
-        }
-
-        const afterSet = () => {
-            if (!isUnselectedRace(race)) {
-                // Minimal, on-demand race watchers
-                ensureRaceWatchers(race);
-
-                // Seed/reset core values BEFORE recompute
-                if (typeof resetAllMDRToBase === "function") resetAllMDRToBase();
-                if (typeof setDefaultSkillBonuses === "function") setDefaultSkillBonuses(race);
-                if (typeof setDefaultTalentBonuses === "function") setDefaultTalentBonuses(race);
-				if (typeof setLanguage === "function") setLanguage(race);
-
-                // Re-apply race state (pure state apply + internal recompute paths)
-                initializeRaceState(race);
-
-                // Re-evaluate enables/locks that gate UI (talents, etc.)
-                if (typeof updateTalentEnables === "function") updateTalentEnables(race);
-
-                // One-shot nudge so all change-watchers run once on load
-                //setAttrs({ recompute_nonce: String(Date.now()) });
-
-            }
-        };
-
-        if (Object.keys(updates).length) setAttrs(updates, afterSet );
-        else afterSet();
-    });
-});
-
-on("sheet:opened", () => {
-  const display = SHEET_BUILD
-    ? `v${SHEET_VERSION} (${SHEET_BUILD})`
-    : `v${SHEET_VERSION}`;
-
-  setAttrs({
-    sheet_version: SHEET_VERSION,
-    sheet_build: SHEET_BUILD,
-    sheet_schema: SHEET_SCHEMA,
-    sheet_version_display: display
-  }, { silent: true });
-});
-
-on("sheet:opened", function () {
-	if (debug_on_trace) console.log("[sheet:opened] Translation");
-
-	const translationFields = [
-		"str_txt", "dex_txt", "pow_txt", "con_txt", "app_txt", "edu_txt", "siz_txt", "int_txt", "mag_txt", "luck_txt",
-		"alchemy_txt", "animalhandling_txt", "anthropology_txt", "arcana_txt", "archaeology_txt", "arcanotech_txt", "archery_txt", "architecture_txt", "biology_txt", "bureaucracy_txt",
-		"chant_txt", "charm_txt", "chemistry_txt", "climb_txt", "computer_use_txt", "creditrating_txt", "cthulhumythos_txt",
-		"cybernetics_txt", "dance_txt", "demolitions_txt", "disguise_txt", "deception_txt", "dodge_txt", "drive_auto_txt",
-		"drone_operation_txt", "engineering_txt", "etiquette_draevi_txt", "etiquette_high_society_txt", "etiquette_lyranni_txt", "etiquette_underworld_txt",
-		"fasttalk_txt", "fighting_brawl_txt", "firearms_hg_txt", "firearms_rifle_txt", "firearms_smg_txt", "first_aid_txt", "forbidden_lore_txt",
-		"forgery_txt", "gunnery_txt", "heavy_weapons_txt", "history_txt", "impersonation_txt", "instrument_txt", "etiquette_military_txt",
-		"intimidate_txt", "interrogation_txt", "insight_txt", "investigation_txt", "jump_txt", "law_txt", "leadership_txt", "libraryuse_txt",
-		"listen_txt", "locksmith_txt", "magic_alteration_txt", "magic_elemental_txt", "magic_enchantment_txt",
-		"magic_illusion_txt", "magic_necromancy_txt", "magic_restoration_txt", "magic_summoning_txt", "magic_technomancy_txt",
-		"magic_warding_txt", "magic_universal_txt", "mechrepair_txt", "mechanics_txt", "medicine_txt", "melee_weapons_txt",
-		"naturalworld_txt", "navigate_txt", "occult_lore_txt", "ophvmachine_txt", "perception_txt", "persuade_txt", "physics_txt",
-		"pilotaircraft_txt", "pilotarc_txt", "pilotboat_txt", "psychology_txt", "psychoanalysis_txt", "ride_txt", "security_txt",
-		"singing_txt", "sleightofhand_txt", "slicing_txt", "spirit_lore_txt", "spothidden_txt", "stealth_txt", "streetwise_txt",
-		"survival_wilderness_txt", "athletics_txt", "coordination_txt", "swim_txt", "throw_txt", "track_txt", "unarmed_txt", "veil_lore_txt",
-		"electronics_txt", "etiquette_alteri_txt", "etiquette_other_txt", "survival_urban_txt", "survival_veil_touched_txt",
-		"perform_acting_txt", "perform_dance_txt", "perform_impersonation_txt", "perform_instrument_txt", "perform_vocal_txt",
-		"language_caltheran_txt", "language_own_txt", "language_other_txt", "otherskill3_txt"
-	];
-
-	// Special-case keys that don't follow the default "<base>-r-txt" pattern
-	const EXCEPTIONS = {
-		str_txt: "STR-r-txt",
-		dex_txt: "DEX-r-txt",
-		pow_txt: "POW-r-txt",
-		con_txt: "CON-r-txt",
-		app_txt: "APP-r-txt",
-		edu_txt: "EDU-r-txt",
-		siz_txt: "SIZ-r-txt",
-		int_txt: "INT-r-txt",
-		mag_txt: "MAG-r-txt"
-	};
-
-	getAttrs(translationFields, values => {
-		const updates = {};
-		const missing = [];
-
-		translationFields.forEach(field => {
-			const base = field.replace(/_txt$/, "");
-			// Prefer exception key, otherwise try "<base>-r-txt" then "<base>-u"
-			const candidates = EXCEPTIONS[field]
-				? [EXCEPTIONS[field]]
-				: [`${base}-r-txt`, `${base}-u`];
-
-			let text = "";
-			for (let i = 0; i < candidates.length; i++) {
-				const t = getTranslationByKey(candidates[i]);
-				if (t) { text = t; break; }
-			}
-
-			if (!text) {
-				missing.push(field);
-				return;
-			}
-			if (values[field] !== text) {
-				updates[field] = text;
-			}
-		});
-
-		if (Object.keys(updates).length > 0) {
-			setAttrs(updates);
-		}
-
-		if (missing.length && typeof debug_on !== "undefined" && debug_on) {
-			console.warn("[sheet:opened] Missing i18n keys for:", missing.join(", "));
-		}
-	});
-});
+on("sheet:opened", initializeSheetOnOpen);
 
 on("change:character_id", () => {
   getAttrs(["character_id"], (v) => {

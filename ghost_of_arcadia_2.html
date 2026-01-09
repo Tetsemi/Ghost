@@ -35998,6 +35998,8 @@ const careerDataMap = {
 
 const tabList = ["skills", "perks", "flaws", "background", "careers", "talents",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "ledger", "tracker"];
 
+const isUnselectedRace = (r) => !r || r === "unknown" || r === "0" || r === "cr";
+
 const buildSheetMetaUpdates = () => {
   const display = SHEET_BUILD
     ? `v${SHEET_VERSION} (${SHEET_BUILD})`
@@ -36087,6 +36089,42 @@ const applyTranslationsOnOpen = (done) => {
   });
 };
 
+const initNewCharacterSkills = () => {
+  const updates = {};
+
+  // Source of truth: skillDataMap
+  Object.entries(skillDataMap || {}).forEach(([skillKey, row]) => {
+    const baseVal = parseInt((row && row.base), 10) || 0;
+
+    const baseAttr  = (row && row.skill) || `${skillKey}_skill_mdr`;
+    const totalAttr = (row && row.bonus) || `${skillKey}_mdr`;
+
+    updates[baseAttr]  = baseVal;
+    updates[totalAttr] = baseVal;
+
+    // Notes stored as i18n key (or blank)
+    updates[`${skillKey}_note`] = (row && row.notes) || "";
+  });
+
+  // Initialize generic Other slots (skip any otherskillN that is explicitly defined in skillDataMap)
+  const otherSlotCount = 12; // otherskill1..otherskill12
+  const usedOtherSlots = new Set(
+    Object.keys(skillDataMap || {}).filter(k => typeof k === "string" && /^otherskill\d+$/.test(k))
+  );
+
+  for (let i = 1; i <= otherSlotCount; i++) {
+    const k = `otherskill${i}`;
+    if (usedOtherSlots.has(k)) continue;
+
+    updates[`${k}_skill_mdr`] = 0;
+    updates[`${k}_mdr`] = 0;
+  }
+
+  updates.new_character_flag = "0";
+  if (debug_on) console.log("[New Character Skill Init]", updates);
+  return updates;
+};
+
 const initializeSheetOnOpen = (eventInfo) => {
   if (debug_on_trace) console.log("[initializeSheetOnOpen] Start", eventInfo || "");
   if (debug_on) console.log("[initializeSheetOnOpen]");
@@ -36102,6 +36140,13 @@ const initializeSheetOnOpen = (eventInfo) => {
     const silentInit = {
       bonuspenalty_link: values.character_id ? `~${values.character_id}|bonuspenalty` : ""
     };
+	
+	// Only run new-character init when a real race is selected
+//    if (!isUnselectedRace(race) && isNew) {
+	if (isNew) {
+      // IMPORTANT: keep this silent to prevent a cascade of per-skill change watchers on open
+      Object.assign(silentInit, initNewCharacterSkills()); // builds skill defaults & clears flag
+    }
 
 	setAttrs(silentInit, { silent: true });
   });

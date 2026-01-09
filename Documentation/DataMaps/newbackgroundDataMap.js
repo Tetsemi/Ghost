@@ -306,7 +306,7 @@ const backgroundDataMap = {
 				}
 			}
 		}
-	}
+	},
 	media: {
 		name: "media-u",
 		trained_skills: {
@@ -384,7 +384,6 @@ const backgroundDataMap = {
 			description: "always_an_exit_desc-u",
 			usage_limit: "session"
 		},
-
 		starting_kit: {
 			choose: 1,
 			options: {
@@ -578,7 +577,7 @@ const backgroundDataMap = {
 	},
 	survivor: {
 		name: "survivor-u",
-		trained_skills {
+		trained_skills: {
 			choose_total: 5,
 			options: [
 				"athletics", "first_aid", "insight", "navigate", "perception", "stealth", "streetwise", "survival_urban", "survival_veil_touched", "survival_wilderness"
@@ -676,6 +675,3 @@ const backgroundDataMap = {
 		}
 	}
 };
-
-
-

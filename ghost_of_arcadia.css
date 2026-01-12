@@ -1416,6 +1416,59 @@ input[type="text"].sheet-improved-indicator {
   word-break: break-word;  /* safety for long tokens */
 }
 
+/* =============================== */
+/* Backgrounds (v2) - CSS Wizardry */
+/* Controller: attr_background_choice */
+/* Generated from backgroundDataMap keys */
+/* =============================== */
+
+/* Hide all v2 background blocks by default (already true via .sheet-bgblock { display:none; }) */
+
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="academic"] ~ .sheet-bg-academic,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="corporate"] ~ .sheet-bg-corporate,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="devotee"] ~ .sheet-bg-devotee,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="enforcer"] ~ .sheet-bg-enforcer,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="fringer"] ~ .sheet-bg-fringer,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="laborer"] ~ .sheet-bg-laborer,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="media"] ~ .sheet-bg-media,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="nomad"] ~ .sheet-bg-nomad,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="offworlder"] ~ .sheet-bg-offworlder,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="privileged"] ~ .sheet-bg-privileged,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="streetborn"] ~ .sheet-bg-streetborn,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="survivor"] ~ .sheet-bg-survivor,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="underworld"] ~ .sheet-bg-underworld {
+  display: block;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="academic"] ~ .sheet-tab-buttons button[name="act_academic"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="corporate"] ~ .sheet-tab-buttons button[name="act_corporate"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="devotee"] ~ .sheet-tab-buttons button[name="act_devotee"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="enforcer"] ~ .sheet-tab-buttons button[name="act_enforcer"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="fringer"] ~ .sheet-tab-buttons button[name="act_fringer"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="laborer"] ~ .sheet-tab-buttons button[name="act_laborer"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="media"] ~ .sheet-tab-buttons button[name="act_media"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="nomad"] ~ .sheet-tab-buttons button[name="act_nomad"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="offworlder"] ~ .sheet-tab-buttons button[name="act_offworlder"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="privileged"] ~ .sheet-tab-buttons button[name="act_privileged"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="streetborn"] ~ .sheet-tab-buttons button[name="act_streetborn"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="survivor"] ~ .sheet-tab-buttons button[name="act_survivor"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="underworld"] ~ .sheet-tab-buttons button[name="act_underworld"] {
+  background-color: #333;
+}
+
+/* Locking for Backgrounds (v2) non-skill choice checkboxes */
+/* Pattern: hidden attr_*_checkbox_lock (value 1) immediately followed by checkbox attr_*_checkbox */
+.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_checkbox_lock"][value="1"] + input[type="checkbox"][name$="_checkbox"] {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_checkbox_lock"][value="1"] + input[type="checkbox"][name$="_checkbox"] ~ .sheet-bg-choice-text {
+  opacity: 0.6;
+}
+
+
 /* ------------------------------- Background and Talent ------------------------------------------- */
 
 .sheet-talent-section-head {

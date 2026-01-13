@@ -386,10 +386,10 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
   color: black;
 }
 
-/* Mini-grid for Age/Sex row */
-.sheet-grid-age-sex {
+/* Age/Sex row: add a 4th (auto) column for the toggle */
+.ui-dialog .tab-content .charsheet .sheet-grid-age-sex {
 	display: grid;
-	grid-template-columns: 1fr auto 1fr;
+	grid-template-columns: 1fr auto 1fr 100px; /* + toggle column */
 	width: 100%;
 	align-items: center;
 	gap: 2px;
@@ -397,6 +397,30 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 	margin: 0;
 	background: transparent;
 }
+
+/* Toggle cell layout */
+.ui-dialog .tab-content .charsheet .sheet-awakened-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-awakened-checkbox {
+	width: 14px;
+	height: 14px;
+	margin: 0;
+}
+
+/* Default: Mundane visible, Awakened hidden */
+.ui-dialog .tab-content .charsheet .sheet-awakened-on  { display: none; }
+.ui-dialog .tab-content .charsheet .sheet-awakened-off { display: inline; }
+
+/* Checked: swap */
+.ui-dialog .tab-content .charsheet .sheet-awakened-toggle input[type="checkbox"]:checked ~ .sheet-awakened-on  { display: inline; }
+.ui-dialog .tab-content .charsheet .sheet-awakened-toggle input[type="checkbox"]:checked ~ .sheet-awakened-off { display: none; }
+
 
 .sheet-grid-age-sex input[type="text"] {
 	width: 100%;

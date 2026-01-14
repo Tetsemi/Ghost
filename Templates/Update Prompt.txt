@@ -1,0 +1,68 @@
+Context: We are migrating to a new source of truth for Career talents. I will upload:
+
+ghost_of_arcadia.html (current sheet)
+
+ghost_of_arcadia.css (current sheet CSS)
+
+translation.json (i18n)
+
+And I will paste the updated text for this career/section.
+
+Task: Update ONLY the following for:
+
+Career key: arcane gunslinger
+
+Section: Tier 1
+
+What to produce (MUST be separate downloadable files):
+
+HTML patch/snippet for this section only (no unrelated HTML).
+
+CSS patch/snippet for this section only (no unrelated CSS).
+
+JSON patch/snippet containing only the new/changed translation.json entries required by this section.
+
+Hard rules:
+
+Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
+
+In chat output, include exactly one code block titled “Provenance & Checks” that lists validations and counts (see checklist below).
+
+Alphabetize everything you generate that is map-like or list-like (talent keys, i18n keys, etc.).
+
+Validate skill keys against skillDataMap in ghost_of_arcadia.html and explicitly list any missing/unknown skill keys (do not guess replacements).
+
+Follow existing sheet conventions (naming, class prefixes sheet-, hidden lock/enabled fields, tier layout conventions).
+
+i18n: add only missing keys; do not delete or rename existing keys unless I explicitly instruct you to.
+
+Career data requirements (new source of truth):
+
+Update/create the career’s data object for this section using i18n keys (e.g., nameKey, rulesKey, etc.) rather than hydrated label attrs.
+
+For talents: include tier, cost, usage_limit, prerequisite expression, and any tracker/icon hooks required by the existing UI patterns.
+
+Provenance & Checks (in the single code block):
+
+Files used: list the 3 uploaded filenames.
+
+Career + section targeted.
+
+Counts: talents updated/added, skills added/changed, i18n keys added/changed.
+
+Validations performed:
+
+JSON validity (parseable)
+
+No duplicate i18n keys created
+
+All referenced skill keys exist in skillDataMap (or list missing)
+
+HTML uses correct data-i18n keys present in the JSON snippet
+
+CSS selectors scope is correct for Roll20 (.ui-dialog .tab-content .charsheet ...)
+
+Inputs:
+
+Pistol is replaced by Handgun
+

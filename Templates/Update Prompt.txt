@@ -10,9 +10,9 @@ And I will paste the updated text for this career/section.
 
 Task: Update ONLY the following for, do not look ahead at other tiers, only the current one:
 
-Career key: sigilbound				
+Career key: hexbreaker	
 
-Section: Tier 5 Capstone
+Section: Tier 4 Capstone Talents
 
 What to produce (MUST be separate downloadable files):
 
@@ -20,7 +20,7 @@ HTML patch/snippet for this section only (no unrelated HTML).
 
 CSS patch/snippet for this section only (no unrelated CSS).
 
-JSON patch/snippet containing only the new/changed translation.json entries required by this section.
+JSON patch/snippet for this section only (no unrelated JSON).
 
 Hard rules:
 
@@ -70,6 +70,15 @@ CSS selectors scope is correct for Roll20 (.ui-dialog .tab-content .charsheet ..
 
 Tracker hooks updated: any talent with usage_limit scene/session appears in the correct tracker list and not the wrong one.
 
+Hard gates:
+
+Output patches MUST be ADD / REMOVE blocks only (no +/- diffs).
+
+Tracker coupling is mandatory: any tracker HTML ADD/REMOVE must have matching CSS attr_show_* selector ADD/REMOVE.
+
+Provenance must include Patch Manifest lines for: careerDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
+If any gate fails, regenerate in the same response.
+
 Corrections:
 
 Pistol is replaced by Handgun
@@ -79,10 +88,10 @@ archanotech is replaced by arcanotech
 
 Inputs:
 
-Sigilbound – Tier 5 Capstones (30 XP) — Choose One
+Hexbreaker – Tier 4 Capstones (40 XP each) – Choose One
 Talent	Description	Prerequisite
-Runesovereign	Type: Special Immediate (Double Cast) • Cost: 1d8 Strain • Usage: 1/Session — Cast two Warding spells in the same round, provided each has a casting time of 1 Action or 1 Maneuver. Both spells resolve normally and cannot benefit from cost reductions, reflections, or additional reactions this round. After resolving both spells, you cannot cast Warding spells until the start of your next turn.	Glyph Warder or Mirror Sigil
-Wardmaster’s Command	Type: Action (Empower Allies) • Cost: 1d6 Strain • Usage: 1/Session — Designate up to three allies within Medium. Until the end of the scene, they gain +2 Armor vs. Arcane damage and ignore Arcane terrain effects. This Armor bonus does not stack with other magical Armor bonuses. 	Warding Matrix and Sanctum Sigil
-Aegis Absolute	Type: Reaction (Total Intercept) • Cost: 1d6 Strain • Usage: 1/Session — Trigger: An ally within Short is targeted by a Targeted Arcane effect. Effect: Negate the effect entirely and anchor the energy harmlessly; no reflection occurs. This cannot be used against area effects or ongoing zones.	Mirror Sigil
-Sigilburst Protocol	Type: Special immediate (Detonate Ward) • Cost: 1d6 Strain • Usage: 1/Session — Detonate one active ward you control. Enemies in that ward’s area take 2d6 Arcane damage and suffer 1 penalty die on their next action. The ward ends immediately and cannot trigger additional detonations.	Glyph Warder and Sigil Pulse
-Line Unbroken	Type: Action (Anchor Zone) • Cost: 1d6 Strain • Usage: 1/Session — Create a fortified warded zone within Short for 2 rounds. Allies inside gain +1 bonus die on CON and POW to resist Arcane effects and cannot be forcibly moved. Only one Line Unbroken may be active at a time.	Sanctum Sigil
+Final Rend	Type: Action (Execution) • Cost: 1d6 + 1d4 Strain • Usage: 1/Session — You must be Engaged with an opponent you have already hit this Scene using your Bound Focus. Make a single melee attack with your Bound Focus against that opponent. On a hit, the attack deals arcane damage and gains +2d6 damage. Damage is reduced only by the opponent’s arcane damage reduction. If this attack reduces the opponent to half HP or lower, they are Staggered until the end of their next turn. After resolving this attack, you lose all Reactions and suffer 1 penalty die on all defenses until the start of your next turn. This attack cannot benefit from other Hex or Rider effects.	Shatter the Seal
+Edge of Attrition	Type: Action (Stance) • Cost: 1d6 Strain to enter; 1 Strain per Round to maintain • Usage: 1/Session — You enter a duelist’s stance against an opponent you are Engaged with. Choose one opponent you are Engaged with; the stance lasts while you remain Engaged with that opponent and continue to pay the upkeep cost. While active: (1) You gain +10% on all Fight Back reactions against the chosen opponent. (2) The chosen opponent suffers –10% to all melee or unarmed attacks against targets other than you. (3) The first time each Round you and the chosen opponent both succeed on opposed melee checks against each other, your success tier is treated as one step higher. This stance does not stack with other stance-based, zone-based, or threat-enforcing effects. The stance ends immediately if you disengage, lose Engaged status, fail to pay upkeep, or choose a new target. When the stance ends, you are Impaired until the start of your next turn.	Claim the Exchange
+Break the Pattern	Type: Action (Disruption) • Cost: 1d6 + 1d4 Strain • Usage: 1/Session — You slam your Bound Focus into the flow of the fight, fracturing timing and coordination. Choose one opponent you are Engaged with. Until the end of the current Round, all hostile opponents within Short range of that opponent suffer the following effects: they cannot benefit from Assist actions; they suffer 1 penalty die on the first Reaction they attempt this Round; and any opponent that moves, disengages, or changes targets during this Round suffers –10% to their next roll before the end of their next turn. After this effect ends, you are Shaken until the start of your next turn.	Faultline Strike
+Stand the Line	Type: Action (Stance) • Cost: 1d6 Strain to enter; 1 Strain per Round to maintain • Usage: 1/Session — You plant yourself and dare the fight to break on you. Until the stance ends, you project a Short-radius threat zone centered on you. While active: (1) Hostile opponents within the zone suffer –10% to all attacks against targets other than you. (2) The first time each Round an opponent within the zone attacks a target other than you, you may immediately take a Free Action to move one range band toward that opponent (ending Engaged if applicable). (3) The first time each Round you are hit by an attack while this stance is active, reduce the damage by 1d6 (after DR). This stance does not stack with other stance-based, zone-based, or threat-enforcing effects. The stance ends immediately if you are moved unwillingly, become Incapacitated, or fail to pay the upkeep cost. When the stance ends, you are Shaken until the start of your next turn.	Marked by Contact
+Oath of the Breach	Type: Action (Vow) • Cost: 1d6 + 1d4 Strain • Usage: 1/Session — Choose one opponent you can see and name them as your breach. Until the end of the Scene, while you and the chosen opponent are within Medium range of each other, the following effects apply: (1) The first time each Round the chosen opponent attacks, disengages, or targets someone other than you, they immediately become Shaken. (2) The first time each Round you hit the chosen opponent with a melee attack using your Bound Focus, you may either clear Shaken from yourself or gain +10% on your next melee or Fight Back roll against that opponent before the end of your next turn. This effect ends early if you become Incapacitated, voluntarily retreat beyond Medium range, or choose to end the vow as a Free Action.	Marked by Contact

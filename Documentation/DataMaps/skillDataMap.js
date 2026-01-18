@@ -5,7 +5,7 @@ const skillDataMap = {
 		base:	10,
 		skill:	"archery_skill_mdr",
 		bonus:	"archery_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_ranged" ],
 		notes:	"archery_desc-u"
 	},
 	dodge: {
@@ -21,7 +21,7 @@ const skillDataMap = {
 		base:	10,
 		skill:	"gunnery_skill_mdr",
 		bonus:	"gunnery_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_ranged" ],
 		notes:	"gunnery_desc-u"
 	},
 	heavy_weapons: {
@@ -29,7 +29,7 @@ const skillDataMap = {
 		base:	10,
 		skill:	"heavy_weapons_skill_mdr",
 		bonus:	"heavy_weapons_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_ranged" ],
 		notes:	"heavy_weapons_desc-u"
 	},
 	melee_weapons: {
@@ -37,7 +37,7 @@ const skillDataMap = {
 		base:	20,
 		skill:	"melee_weapons_skill_mdr",
 		bonus:	"melee_weapons_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_melee" ],
 		notes:	"melee_weapons_desc-u"
 	},
 	firearms_handgun: {
@@ -45,7 +45,7 @@ const skillDataMap = {
 		base:	20,
 		skill:	"firearms_handgun_skill_mdr",
 		bonus:	"firearms_handgun_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_ranged" ],
 		notes:	"firearms_handgun_desc-u"
 	},
 	firearms_rifle:	{
@@ -53,15 +53,23 @@ const skillDataMap = {
 		base:	25,
 		skill:	"firearms_rifle_skill_mdr",
 		bonus:	"firearms_rifle_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_ranged" ],
 		notes:	"firearms_rifle_desc-u"
+	},
+	firearms_shotgun:	{
+		label:	"firearms_shotgun-u",
+		base:	25,
+		skill:	"firearms_shotgun_skill_mdr",
+		bonus:	"firearms_shotgun_mdr",
+		group:	[ "combat", "combat_ranged" ],
+		notes:	"firearms_shotgun_desc-u"
 	},
 	firearms_smg: {
 		label:	"firearms_smg-u",
 		base:	15,
 		skill:	"firearms_smg_skill_mdr",
 		bonus:	"firearms_smg_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_ranged" ],
 		notes:	"firearms_smg_desc-u"
 	},
 	throw: {
@@ -69,7 +77,7 @@ const skillDataMap = {
 		base:	20,
 		skill:	"throw_skill_mdr",
 		bonus:	"throw_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_ranged" ],
 		notes:	"throw_desc-u"
 	},
 	unarmed: {
@@ -77,7 +85,7 @@ const skillDataMap = {
 		base:	25,
 		skill:	"unarmed_skill_mdr",
 		bonus:	"unarmed_mdr",
-		group:	"combat",
+		group:	[ "combat", "combat_melee" ],
 		notes:	"unarmed_desc-u"
 	},
 /* Language */
@@ -194,7 +202,7 @@ const skillDataMap = {
 		bonus:	"perform_acting_mdr",
 		group:	"perform",
 		notes:	"perform_acting_desc-u"
-		},
+	},
 	perform_dance: {
 		label:	"perform_dance-u",
 		base:	5,
@@ -218,6 +226,14 @@ const skillDataMap = {
 		bonus:	"perform_instrument_mdr",
 		group:	"perform",
 		notes:	"perform_instrument_desc-u"
+	},
+	perform_ritual: {
+		label:	"perform_ritual-u",
+		base:	5,
+		skill:	"perform_ritual_skill_mdr",
+		bonus:	"perform_ritual_mdr",
+		group:	"perform",
+		notes:	"perform_ritual_desc-u"
 	},
 	perform_vocal: {
 		label:	"perform_vocal-u",
@@ -293,14 +309,6 @@ const skillDataMap = {
 		notes:	"pilotboat_desc-u"
 	},
 /* Science */
-	alchemy: {
-		label:	"alchemy-u",
-		base:	1,
-		skill:	"alchemy_skill_mdr",
-		bonus:	"alchemy_mdr",
-		group:	"science",
-		notes:	"alchemy_desc-u"
-	},
 	anthropology: {
 		label:	"anthropology-u",
 		base:	1,
@@ -371,7 +379,7 @@ const skillDataMap = {
 		base:	0,
 		skill:	"forbidden_lore_skill_mdr",
 		bonus:	"forbidden_lore_mdr",
-		group:	"knowledge",
+		group:	["knowledge", "lore" ],
 		notes:	"forbidden_lore_desc-u"
 	},
 	history: {
@@ -406,7 +414,7 @@ const skillDataMap = {
 		group:	"knowledge",
 		notes:	"medicine_desc-u"
 	},
-	natural_world:   {
+	natural_world: {
 		label: "natural_world-u",
 		base: 10,
 		skill: "natural_world_skill_mdr",
@@ -414,28 +422,52 @@ const skillDataMap = {
 		group: "knowledge",
 		notes: "natural_world_desc-u"
 	},
-	occult_lore:     { 
-		label: "occult_lore-u",
-		base: 5,
-		skill: "occult_lore_skill_mdr",
-		bonus: "occult_lore_mdr",
-		group: "knowledge",
-		notes: "occult_lore_desc-u"
+	occult_lore: {
+		label:	"occult_lore-u",
+		base:	5,
+		skill:	"occult_lore_skill_mdr",
+		bonus:	"occult_lore_mdr",
+		group:	[ "knowledge", "lore" ],
+		notes:	"occult_lore_desc-u"
 	},
-	spirit_lore:     { 
-		label: "spirit_lore-u",
-		base: 5,
-		skill: "spirit_lore_skill_mdr",
-		bonus: "spirit_lore_mdr",
-		group: "knowledge",
-		notes: "spirit_lore_desc-u"
+	spirit_lore: {
+		label:	"spirit_lore-u",
+		base:	5,
+		skill:	"spirit_lore_skill_mdr",
+		bonus:	"spirit_lore_mdr",
+		group:	["knowledge", "lore" ],
+		notes:	"spirit_lore_desc-u"
 	},
-	veil_lore:       { 
+	tradecraft_creative: {
+		label:	"tradecraft_creative-u",
+		base:	5,
+		skill:	"tradecraft_creative_skill_mdr",
+		bonus:	"tradecraft_creative_mdr",
+		group:	"knowledge",
+		notes:	"tradecraft_creative_desc-u"
+	},
+	tradecraft_labor: {
+		label:	"tradecraft_labor-u",
+		base:	5,
+		skill:	"tradecraft_labor_skill_mdr",
+		bonus:	"tradecraft_labor_mdr",
+		group:	"knowledge",
+		notes:	"tradecraft_labor_desc-u"
+	},
+	tradecraft_media: {
+		label:	"tradecraft_media-u",
+		base:	5,
+		skill:	"tradecraft_media_skill_mdr",
+		bonus:	"tradecraft_media_mdr",
+		group:	"knowledge",
+		notes:	"tradecraft_media_desc-u"
+	},
+	veil_lore: {
 		label:	"veil_lore-u",
 		base:	5,
 		skill:	"veil_lore_skill_mdr",
 		bonus:	"veil_lore_mdr",
-		group:	"knowledge",
+		group:	["knowledge", "lore" ],
 		notes:	"veil_lore_desc-u"
 	},
 /* Social */
@@ -476,31 +508,63 @@ const skillDataMap = {
 		base:	10,
 		skill:	"etiquette_alteri_skill_mdr",
 		bonus:	"etiquette_alteri_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_alteri_desc-u"
-		},
+	},
+	etiquette_draevi: {
+		label:	"etiquette_draevi-u",
+		base:	10,
+		skill:	"etiquette_draevi_skill_mdr",
+		bonus:	"etiquette_draevi_mdr",
+		group:	[ "etiquette", "social" ],
+		notes:	"etiquette_draevi_desc-u"
+	},
+	etiquette_corporate: {
+		label:	"etiquette_corporate-u",
+		base:	10,
+		skill:	"etiquette_corporate_skill_mdr",
+		bonus:	"etiquette_corporate_mdr",
+		group:	[ "etiquette", "social" ],
+		notes:	"etiquette_corporate_desc-u"
+	},
 	etiquette_high_society: {
 		label:	"etiquette_high_society-u",
 		base:	10,
 		skill:	"etiquette_high_society_skill_mdr",
 		bonus:	"etiquette_high_society_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_high_society_desc-u"
-		},
+	},
 	etiquette_lyranni: {
 		label:	"etiquette_lyranni-u",
 		base:	10,
 		skill:	"etiquette_lyranni_skill_mdr",
 		bonus:	"etiquette_lyranni_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_lyranni_desc-u"
+	},
+	etiquette_magi: {
+		label:	"etiquette_magi-u",
+		base:	10,
+		skill:	"etiquette_magi_skill_mdr",
+		bonus:	"etiquette_magi_mdr",
+		group:	[ "etiquette", "social" ],
+		notes:	"etiquette_magi_desc-u"
+	},
+	etiquette_military: {
+		label:	"etiquette_military-u",
+		base:	10,
+		skill:	"etiquette_military_skill_mdr",
+		bonus:	"etiquette_military_mdr",
+		group:	[ "etiquette", "social" ],
+		notes:	"etiquette_military_desc-u"
 	},
 	etiquette_underworld: {
 		label:	"etiquette_underworld-u",
 		base:	10,
 		skill:	"etiquette_underworld_skill_mdr",
 		bonus:	"etiquette_underworld_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_underworld_desc-u"
 	},
 	etiquette_other: {
@@ -508,25 +572,9 @@ const skillDataMap = {
 		base:	10,
 		skill:	"etiquette_other_skill_mdr",
 		bonus:	"etiquette_other_mdr",
-		group:	"social",
+		group:	[ "etiquette", "social" ],
 		notes:	"etiquette_other_desc-u"
 	},
-	forgery: {
-		label:	"forgery-u",
-		base:	1,
-		skill:	"forgery_skill_mdr",
-		bonus:	"forgery_mdr",
-		group:	"social",
-		notes:	"forgery_desc-u"
-		},
-	insight: {
-		label:	"insight-u",
-		base:	10,
-		skill:	"insight_skill_mdr",
-		bonus:	"insight_mdr",
-		group:	"social",
-		notes:	"insight_desc-u"
-		},
 	interrogation: {
 		label:	"interrogation-u",
 		base:	5,
@@ -550,7 +598,7 @@ const skillDataMap = {
 		bonus:	"leadership_mdr",
 		group:	"social",
 		notes:	"leadership_desc-u"
-		},		
+		},
 	persuade: {
 		label:	"persuade-u",
 		base:	10,
@@ -616,6 +664,14 @@ const skillDataMap = {
 		group:	"survival",
 		notes:	"sleight_of_hand_desc-u"
 	},
+	insight: {
+		label:	"insight-u",
+		base:	10,
+		skill:	"insight_skill_mdr",
+		bonus:	"insight_mdr",
+		group:	"survival",
+		notes:	"insight_desc-u"
+		},
 	stealth: {
 		label:	"stealth-u",
 		base:	20,
@@ -631,6 +687,14 @@ const skillDataMap = {
 		bonus:	"survival_urban_mdr",
 		group:	"survival",
 		notes:	"survival_urban_desc-u"
+	},
+	survival_veil_touched: {
+		label:	"survival_veil_touched-u",
+		base:	10,
+		skill:	"survival_veil_touched_skill_mdr",
+		bonus:	"survival_veil_touched_mdr",
+		group:	"survival",
+		notes:	"survival_veil_touched_desc-u"
 	},
 	survival_wilderness: {
 		label:	"survival_wilderness-u",
@@ -649,13 +713,13 @@ const skillDataMap = {
 		notes:	"track_desc-u"
 	},
 /* Tech/Cyber */
-	archanotech: {
-		label:	"archanotech-u",
+	arcanotech: {
+		label:	"arcanotech-u",
 		base: 	1,
-		skill:	"archanotech_skill_mdr",
-		bonus:	"archanotech_mdr",
+		skill:	"arcanotech_skill_mdr",
+		bonus:	"arcanotech_mdr",
 		group:	"techcyber",
-		notes:	"archanotech_desc-u"
+		notes:	"arcanotech_desc-u"
 	},
 	computer_use: {
 		label:	"computer_use-u",
@@ -689,6 +753,14 @@ const skillDataMap = {
 		group: "techcyber",
 		notes: "electronics_desc-u"
 	},
+	forgery: {
+		label:	"forgery-u",
+		base:	1,
+		skill:	"forgery_skill_mdr",
+		bonus:	"forgery_mdr",
+		group:	"techcyber",
+		notes:	"forgery_desc-u"
+		},
 	mechanics: {
 		label:	"mechanics-u",
 		base:	10,

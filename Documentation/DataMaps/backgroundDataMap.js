@@ -1,223 +1,677 @@
 const backgroundDataMap = {
-  alteri: {
-    soft_year_drifter: {
-      trained_skills: ["coordination", "deception", "disguise", "perform_impersonation", "insight", "stealth", "streetwise"],
-      starting_item: "mask_journal-u",
-      starting_talents: ["second_skin", "reflexive_shift", "grace_of_the_many"]
-    },
-	veilhaven_attendant: {
-	  trained_skills: ["arcana", "insight", "disguise", "history", "etiquette_alteri", "perform_impersonation", "occult"],
-	  starting_item: "kin_token-u",
-	  starting_talents: ["maskwrights_grace", "whisper_touched", "social_chameleon"]
+	academic: {
+		name: "academic-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"anthropology", "archaeology", "architecture", "history", "investigation", "law", "occult_lore"
+			],
+			group_rules: [
+				{
+					group: "science",
+					allow_additional: true,
+					max_additional_picks: 1,
+					exclude_explicit_options: true
+				}
+			]
+		},
+		feature: {
+			name: "contextual_analysis-u",
+			description: "contextual_analysis_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				research_go_bag: {
+					name: "research_go_bag-u",
+					description: "research_go_bag_desc-u"
+				},
+				specialized_reference_cache: {
+					name: "specialized_reference_cache-u",
+					description: "specialized_reference_cache_desc-u"
+				},
+				field_analysis_tools: {
+					name: "field_analysis_tools-u",
+					description: "field_analysis_tools_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				archivist_or_librarian: {
+					name: "archivist_or_librarian-u",
+					description: "archivist_or_librarian_desc-u"
+				},
+				former_colleague: {
+					name: "former_colleague-u",
+					description: "former_colleague_desc-u"
+				},
+				institutional_liaison: {
+					name: "institutional_liaison-u",
+					description: "institutional_liaison_desc-u"
+				}
+			}
+		}
 	},
-	ghostline_runner: {
-	  trained_skills: ["slicing", "streetwise", "stealth", "electronics", "deception", "insight", "perform_impersonation"],
-	  starting_item: "burner_id_package-u",
-	  starting_talents: ["ghost_protocol", "shaped_for_subtlety", "echoed_voice"]
+	corporate: {
+		name: "corporate-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"bureaucracy", "computer_use", "insight", "investigation", "law", "leadership", "persuade", "etiquette_corporate", "etiquette_high_society"
+			],
+			exclusive_skill_sets: [
+				["etiquette_corporate", "etiquette_high_society"]
+			]
+		},
+		feature: {
+			name: "corporate_framing-u",
+			description: "corporate_framing_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				corporate_credentials: {
+					name: "corporate_credentials-u",
+					description: "corporate_credentials_desc-u"
+				},
+				encrypted_commlink: {
+					name: "encrypted_commlink-u",
+					description: "encrypted_commlink_desc-u"
+				},
+				performance_archive: {
+					name: "performance_archive-u",
+					description: "performance_archive_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				middle_manager: {
+					name: "middle_manager-u",
+					description: "middle_manager_desc-u"
+				},
+				corporate_fixer: {
+					name: "corporate_fixer-u",
+					description: "corporate_fixer_desc-u"
+				},
+				disgruntled_analyst: {
+					name: "disgruntled_analyst-u",
+					description: "disgruntled_analyst_desc-u"
+				}
+			}
+		}
 	},
-    legacy_bearer: {
-      trained_skills: ["perform_impersonation", "history", "insight", "arcana", "etiquette_alteri", "disguise", "occult"],
-      starting_item: "legacy_ritual_item-u",
-      starting_talents: ["echoed_voice", "maskwrights_grace", "second_skin"]
-    },
-    break_faced_radical: {
-      trained_skills: ["persuade", "deception", "perform_impersonation", "insight", "streetwise", "disguise", "charm"],
-      starting_item: "digital_mask_manifest-u",
-      starting_talents: ["social_chameleon", "reflexive_shift", "shaped_for_subtlety"]
-    }
-  },
-  draevi: {
-    horn_carved_wanderer: {
-      trained_skills: ["veil_lore", "occult", "survival_wilderness", "first_aid", "insight", "track", "arcana"],
-      starting_item: "clan_ritual_token-u",
-      starting_talents: ["spirits_in_stone", "clan_blooded", "iron_stomach"]
-    },
-    spiritbound_techshaper: {
-      trained_skills: ["slicing", "spirit_lore", "electronics", "arcana", "insight", "mechanics", "streetwise"],
-      starting_item: "ram_shell_unfinished-u",
-      starting_talents: ["spirits_in_stone", "scavengers_edge", "clan_blooded"]
-    },
-    tradition_keeper: {
-      trained_skills: ["survival_wilderness", "navigate", "perception", "athletics", "occult", "track", "first_aid"],
-      starting_item: "rite_of_passage_horn-u",
-      starting_talents: ["trailborn_reflexes", "iron_stomach", "spirits_in_stone"]
-    },
-    urban_tread: {
-      trained_skills: ["athletics", "streetwise", "stealth", "coordination", "perception", "mechanics", "climb"],
-      starting_item: "repurposed_clan_token-u",
-      starting_talents: ["gutter_stalker", "urban_climber", "trailborn_reflexes"]
-    },
-    forgeblood_scavenger: {
-      trained_skills: ["mechanics", "electronics", "insight", "streetwise", "coordination", "perception", "survival_wilderness"],
-      starting_item: "salvaged_veil_artifact-u",
-      starting_talents: ["scavengers_edge", "iron_stomach", "urban_climber"]
-    }
-  },
-  feran: {
-    clawbound_kin_warder: {
-      trained_skills: ["athletics", "first_aid", "insight", "perception", "streetwise", "track", "unarmed"],
-      starting_item: "claw_etched_oathstone-u",
-      starting_talents: ["preadtors_focus", "silent_leap", "threadrunners_poise"]
-    },
-    packborn_drifter: {
-      trained_skills: ["athletics", "dodge", "insight", "navigate", "perception", "stealth", "survival_wilderness"],
-      starting_item: "scent_marked_scrap-u",
-      starting_talents: ["predators_focus", "threadrunners_poise", "wallrunners_step"]
-    },
-    scorchborn_fugitive: {
-      trained_skills: ["deception", "dodge", "insight", "stealth", "streetwise", "survival_wilderness", "track"],
-      starting_item: "blade_or_relic_salvaged-u",
-      starting_talents: ["razorstep_pounce", "threadrunners_poise", "wallrunners_step"]
-    },
-    urban_stalkkit: {
-      trained_skills: ["athletics", "coordination", "dodge", "navigate", "sleight_of_hand", "stealth", "streetwise"],
-      starting_item: "harness_rig-u",
-      starting_talents: ["silent_leap", "threadrunners_poise", "wallrunners_step"]
-    },
-    veil_hunters_cub: {
-      trained_skills: ["arcana", "athletics", "firearms_rifle", "insight", "perception", "survival_wilderness", "track"],
-      starting_item: "veil_creature_token-u",
-      starting_talents: ["predators_focus", "scent_of_the_kill", "threadrunners_poise"]
-    }
-  },  
-  human: {
-    scavsteel_whelp: {
-      trained_skills: ["mechanics", "electronics", "streetwise", "insight", "slicing", "survival_urban", "perception"],
-      starting_item: ["trusted_toolset-u", "modded_wearable-u"],
-      starting_talents: ["quick_fixer", "hard_lesson", "skilled_focus"]
-    },
-    enclave_born: {
-      trained_skills: ["etiquette_high_society", "persuade", "insight", "perform_vocal", "charm", "bureaucracy", "history"],
-      starting_item: "pristine_id_code_uptier_zone-u",
-      starting_talents: ["social_versatility", "instinct_over_training", "battle_tested_gut"]
-    },
-    gutterfire_youth: {
-      trained_skills: ["stealth", "streetwise", "sleight_of_hand", "deception", "perception", "dodge", "slicing"],
-      starting_item: "personal_survival_kit-u",
-      starting_talents: ["social_versatility", "hard_lesson", "skilled_focus"]
-    },
-    outpost_raised: {
-      trained_skills: ["survival_wilderness", "firearms_rifle", "mechanics", "navigate", "first_aid", "insight", "drive"],
-      starting_item: "outpost_keepsake-u",
-      starting_talents: ["battle_tested_gut", "no_stranger_to_pain", "hard_lesson"]
-    },
-    data_hatched: {
-      trained_skills: ["slicing", "science", "electronics", "insight", "occult", "bureaucracy", "perform_vocal"],
-      starting_item: ["memory_shard-u", "ai_record-u"],
-      starting_talents: ["instinct_over_training", "quick_fixer", "skilled_focus"]
-    },
-    ash_war_refugee: {
-      trained_skills: ["first_aid", "insight", "athletics", "dodge", "survival_urban", "perception", "stealth"],
-      starting_item: "faded_token_of_past-u",
-      starting_talents: ["makeshift_medic", "no_stranger_to_pain", "hard_lesson"]
-    }
-  },
-  khadra: {
-	stonehold_disciple: {
-	  trained_skills: ["athletics", "dodge", "insight", "history", "melee_weapons", "first_aid", "survival_wilderness"],
-	  starting_item: "stonehold_ward_token-u",
-	  starting_talents: ["oathbound_grit", "still_as_judgment", "unbreakable_focus"]
+	devotee: {
+		name: "devotee-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"occult_lore", "veil_lore",	"insight", "persuade", "intimidate", "history", "perform_ritual", "perform_vocal", "streetwise"
+			],
+			exclusive_skill_sets: [
+				["perform_ritual", "perform_vocal"]
+			]
+		},
+		feature: {
+			name: "doctrine_before_fear-u",
+			description: "doctrine_before_fear_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				ritual_implements: {
+					name: "ritual_implements-u",
+					description: "ritual_implements_desc-u"
+				},
+				hidden_doctrine_cache: {
+					name: "hidden_doctrine_cache-u",
+					description: "hidden_doctrine_cache_desc-u"
+				},
+				mark_of_the_faithful: {
+					name: "mark_of_the_faithful-u",
+					description: "mark_of_the_faithful_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				fellow_believer: {
+					name: "fellow_believer-u",
+					description: "fellow_believer_desc-u"
+				},
+				defector_or_heretic: {
+					name: "defector_or_heretic-u",
+					description: "defector_or_heretic_desc-u"
+				},
+				watcher_or_handler: {
+					name: "watcher_or_handler-u",
+					description: "watcher_or_handler_desc-u"
+				}
+			}
+		}
 	},
-	cliffborn_laborer: {
-	  trained_skills: ["mechanics", "athletics", "perception", "coordination", "survival_urban", "drive_auto", "history"],
-	  starting_item: "cliffborn_work_harness-u",
-	  starting_talents: ["measured_advance", "legacy_of_iron", "anchorpoint"]
+	enforcer: {
+		name: "enforcer-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"firearms_handgun", "firearms_rifle", "firearms_shotgun", "firearms_smg", "first_aid", "insight", "interrogation", "investigation", "law", "leadership", "perception"
+			],
+			exclusive_skill_sets: [
+				["firearms_handgun", "firearms_rifle", "firearms_shotgun",  "firearms_smg"]
+			]
+		},
+		feature: {
+			name: "command_presence-u",
+			description: "command_presence_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				duty_gear: {
+					name: "duty_gear-u",
+					description: "duty_gear_desc-u"
+				},
+				personal_sidearm_package: {
+					name: "personal_sidearm_package-u",
+					description: "personal_sidearm_package_desc-u"
+				},
+				response_loadout: {
+					name: "response_loadout-u",
+					description: "response_loadout_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				former_partner: {
+					name: "former_partner-u",
+					description: "former_partner_desc-u"
+				},
+				department_insider: {
+					name: "department_insider-u",
+					description: "department_insider_desc-u"
+				},
+				private_security_handler: {
+					name: "private_security_handler-u",
+					description: "private_security_handler_desc-u"
+				}
+			}
+		}
 	},
-	oathbreakers_kin: {
-	  trained_skills: ["unarmed", "streetwise", "insight", "intimidate", "dodge", "survival_urban", "first_aid"],
-	  starting_item: "oathbreakers_kin_oathstone-u",
-	  starting_talents: ["slow_to_bleed", "unbreakable_focus", "steady_as_stone"]
+	fringer: {
+		name: "fringer-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"athletics", "coordination", "insight", "navigate", "perception", "streetwise",	"stealth", "survival_urban", "survival_wilderness",	"survival_veil_touched"
+			],
+			exclusive_skill_sets: [
+				["survival_urban", "survival_wilderness", "survival_veil_touched"]
+			]
+		},
+		feature: {
+			name: "edge_sense-u",
+			description: "edge_sense_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				scrap_survival_kit: {
+					name: "scrap_survival_kit-u",
+					description: "scrap_survival_kit_desc-u"
+				},
+				fringe_mobility_gear: {
+					name: "fringe_mobility_gear-u",
+					description: "fringe_mobility_gear_desc-u"
+				},
+				hidden_cache_marker: {
+					name: "hidden_cache_marker-u",
+					description: "hidden_cache_marker_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				fringe_fixer: {
+					name: "fringe_fixer-u",
+					description: "fringe_fixer_desc-u"
+				},
+				settlement_elder_or_organizer: {
+					name: "settlement_elder_or_organizer-u",
+					description: "settlement_elder_or_organizer_desc-u"
+				},
+				scavenger_guide: {
+					name: "scavenger_guide-u",
+					description: "scavenger_guide_desc-u"
+				}
+			}
+		}
 	},
-	wardens_apprentice: {
-	  trained_skills: ["perception", "insight", "intimidate", "dodge", "law", "melee_weapons", "track"],
-	  starting_item: "wardens_apprentice_discipline_token-u",
-	  starting_talents: ["still_as_judgment", "anchorpoint", "steady_as_stone"]
+	laborer: {
+		name: "laborer-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"athletics", "coordination", "electronics", "first_aid", "mechanics", "security", "perception", "tradecraft_labor"
+			]
+		},
+		feature: {
+			name: "work_through_it-u",
+			description: "work_through_it_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				tool_harness: {
+					name: "tool_harness-u",
+					description: "tool_harness_desc-u"
+				},
+				protective_gear: {
+					name: "protective_gear-u",
+					description: "protective_gear_desc-u"
+				},
+				union_or_work_crew_token: {
+					name: "union_or_work_crew_token-u",
+					description: "union_or_work_crew_token_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				shift_foreman: {
+					name: "shift_foreman-u",
+					description: "shift_foreman_desc-u"
+				},
+				infrastructure_tech: {
+					name: "infrastructure_tech-u",
+					description: "infrastructure_tech_desc-u"
+				},
+				labor_fixer: {
+					name: "labor_fixer-u",
+					description: "labor_fixer_desc-u"
+				}
+			}
+		}
 	},
-	dust_seer_novice: {
-	  trained_skills: ["veil_lore", "arcana", "insight", "history", "survival_wilderness", "occult_lore", "magic_warding"],
-	  starting_item: "dust_seer_focus_stone-u",
-	  starting_talents: ["oathbound_grit", "legacy_of_iron", "still_as_judgment"]
+	media: {
+		name: "media-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [ "charm", "computer_use", "deception", "insight", "investigation", "persuade", "streetwise", "tradecraft_media", "tradecraft_creative"
+			],
+			group_rules: [
+				{
+					group: "perform",
+					allow_additional: true,
+					max_additional_picks: 1,
+					exclude_explicit_options: true
+				}
+			],
+			exclusive_skill_sets: [
+				["tradecraft_media", "tradecraft_creative"]
+			]
+		},
+
+		feature: {
+			name: "control_the_narrative-u",
+			description: "control_the_narrative_desc-u",
+			usage_limit: "session"
+		},
+
+		starting_kit: {
+			choose: 1,
+			options: {
+				recording_kit: {
+					name: "recording_kit-u",
+					description: "recording_kit_desc-u"
+				},
+				influencer_rig: {
+					name: "influencer_rig-u",
+					description: "influencer_rig_desc-u"
+				},
+				press_credentials: {
+					name: "press_credentials-u",
+					description: "press_credentials_desc-u"
+				}
+			}
+		},
+
+		contacts: {
+			choose: 1,
+			options: {
+				editor_or_producer: {
+					name: "editor_or_producer-u",
+					description: "editor_or_producer_desc-u"
+				},
+				info_broker: {
+					name: "info_broker-u",
+					description: "info_broker_desc-u"
+				},
+				audience_liaison: {
+					name: "audience_liaison-u",
+					description: "audience_liaison_desc-u"
+				}
+			}
+		}
+	},
+	nomad: {
+		name: "nomad-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"athletics", "deception", "listen",	"navigate",	"perception", "stealth", "streetwise", "survival_urban", "survival_veil_touched", "survival_wilderness"
+			],
+			exclusive_skill_sets: [
+				["survival_urban", "survival_veil_touched", "survival_wilderness"]
+			]
+		},
+		feature: {
+			name: "always_an_exit-u",
+			description: "always_an_exit_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				travel_pack: {
+					name: "travel_pack-u",
+					description: "travel_pack_desc-u"
+				},
+				worn_map_set: {
+					name: "worn_map_set-u",
+					description: "worn_map_set_desc-u"
+				},
+				keepsake_relic: {
+					name: "keepsake_relic-u",
+					description: "keepsake_relic_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				transit_network_contact: {
+					name: "transit_network_contact-u",
+					description: "transit_network_contact_desc-u"
+				},
+				temporary_employer: {
+					name: "temporary_employer-u",
+					description: "temporary_employer_desc-u"
+				},
+				fellow_nomad: {
+					name: "fellow_nomad-u",
+					description: "fellow_nomad_desc-u"
+				}
+			}
+		}
+	},
+	offworlder: {
+		name: "offworlder-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"athletics", "coordination", "electronics",	"mechanics", "navigate", "perception", "physics", "engineering", "pilotaircraft", "pilotarc", "pilotboat"
+			],
+			exclusive_skill_sets: [
+				[ "physics", "engineering" ],
+				[ "pilotaircraft", "pilotarc", "pilotboat" ]
+			]
+		},
+		feature: {
+			name: "environmental_discipline-u",
+			description: "environmental_discipline_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				vacuum_go_bag: {
+					name: "vacuum_go_bag-u",
+					description: "vacuum_go_bag_desc-u"
+				},
+				systems_toolkit: {
+					name: "systems_toolkit-u",
+					description: "systems_toolkit_desc-u"
+				},
+				transit_locker: {
+					name: "transit_locker-u",
+					description: "transit_locker_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				station_tech_or_dockmaster: {
+					name: "station_tech_or_dockmaster-u",
+					description: "station_tech_or_dockmaster_desc-u"
+				},
+				colony_logistics_contact: {
+					name: "colony_logistics_contact-u",
+					description: "colony_logistics_contact_desc-u"
+				},
+				former_crew_member: {
+					name: "former_crew_member-u",
+					description: "former_crew_member_desc-u"
+				}
+			}
+		}
+	},
+	privileged: {
+		name: "privileged-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"etiquette_high_society", "persuade", "charm", "leadership", "law", "insight", "history"
+			],
+			group_rules: [
+				{
+					group: "perform",
+					allow_additional: true,
+					max_additional_picks: 1,
+					exclude_explicit_options: true
+				}
+			]
+		},
+		feature: {
+			name: "social_gravity-u",
+			description: "social_gravity_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				tailored_wardrobe: {
+					name: "tailored_wardrobe-u",
+					description: "tailored_wardrobe_desc-u"
+				},
+				encrypted_personal_device: {
+					name: "encrypted_personal_device-u",
+					description: "encrypted_personal_device_desc-u"
+				},
+				family_relic: {
+					name: "family_relic-u",
+					description: "family_relic_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				family_connection: {
+					name: "family_connection-u",
+					description: "family_connection_desc-u"
+				},
+				corporate_or_political_insider: {
+					name: "corporate_or_political_insider-u",
+					description: "corporate_or_political_insider_desc-u"
+				},
+				social_fixer: {
+					name: "social_fixer-u",
+					description: "social_fixer_desc-u"
+				}
+			}
+		}
+	},
+	streetborn: {
+		name: "streetborn-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"deception", "insight", "intimidate", "listen", "perception", "persuade", "sleight_of_hand", "streetwise"
+			]
+		},
+		feature: {
+			name: "read_the_room-u",
+			description: "read_the_room_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				everyday_carry: {
+					name: "everyday_carry-u",
+					description: "everyday_carry_desc-u"
+				},
+				back_alley_gear: {
+					name: "back_alley_gear-u",
+					description: "back_alley_gear_desc-u"
+				},
+				personal_stash: {
+					name: "personal_stash-u",
+					description: "personal_stash_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				neighborhood_fixer: {
+					name: "neighborhood_fixer-u",
+					description: "neighborhood_fixer_desc-u"
+				},
+				street_medic_or_fence: {
+					name: "street_medic_or_fence-u",
+					description: "street_medic_or_fence_desc-u"
+				},
+				old_crew_contact: {
+					name: "old_crew_contact-u",
+					description: "old_crew_contact_desc-u"
+				}
+			}
+		}
+	},
+	survivor: {
+		name: "survivor-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"athletics", "first_aid", "insight", "navigate", "perception", "stealth", "streetwise", "survival_urban", "survival_veil_touched", "survival_wilderness"
+			],
+			exclusive_skill_sets: [
+				[ "survival_urban", "survival_veil_touched", "survival_wilderness" ]
+			]
+		},
+		feature: {
+			name: "keep_moving-u",
+			description: "keep_moving_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				go_bag: {
+					name: "go_bag-u",
+					description: "go_bag_desc-u"
+				},
+				worn_map_set: {
+					name: "worn_map_set-u",
+					description: "worn_map_set_desc-u"
+				},
+				keepsake_relic: {
+					name: "keepsake_relic-u",
+					description: "keepsake_relic_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				refuge_network_contact: {
+					name: "refuge_network_contact-u",
+					description: "refuge_network_contact_desc-u"
+				},
+				smuggler_or_guide: {
+					name: "smuggler_or_guide-u",
+					description: "smuggler_or_guide_desc-u"
+				},
+				fellow_survivor: {
+					name: "fellow_survivor-u",
+					description: "fellow_survivor_desc-u"
+				}
+			}
+		}
+	},
+	underworld: {
+		name: "underworld-u",
+		trained_skills: {
+			choose_total: 5,
+			options: [
+				"streetwise", "deception", "intimidate", "sleight_of_hand", "security",	"forgery", "perception", "persuade"
+			]
+		},
+		feature: {
+			name: "known_quantity-u",
+			description: "known_quantity_desc-u",
+			usage_limit: "session"
+		},
+		starting_kit: {
+			choose: 1,
+			options: {
+				burner_package: {
+					name: "burner_package-u",
+					description: "burner_package_desc-u"
+				},
+				concealment_rig: {
+					name: "concealment_rig-u",
+					description: "concealment_rig_desc-u"
+				},
+				debt_marker: {
+					name: "debt_marker-u",
+					description: "debt_marker_desc-u"
+				}
+			}
+		},
+		contacts: {
+			choose: 1,
+			options: {
+				fixer: {
+					name: "fixer-u",
+					description: "fixer_desc-u"
+				},
+				fence: {
+					name: "fence-u",
+					description: "fence_desc-u"
+				},
+				enforcer_or_crew_mate: {
+					name: "enforcer_or_crew_mate-u",
+					description: "enforcer_or_crew_mate_desc-u"
+				}
+			}
+		}
 	}
-  },
-  kitsu: {
-	shrine_den_scion: {
-	  trained_skills: ["spirit_lore", "insight", "magic_enchantment", "veil_lore", "charm", "perform_vocal", "coordination"],
-      starting_item: "ceremonial_talisman-u",
-      starting_talents: ["veil_sniff", "whisperstep", "aether_flick"]
-	},
-	ghostline_whelp: {
-	  trained_skills: ["stealth", "slicing", "spirit_lore", "insight", "electronics", "magic_illusion", "streetwise" ],
-	  starting_item: "veil_modulator-u",
-	  starting_talents: ["veil_sniff", "aether_flick", "twitch_reflex"]
-	},
-	contract_born: {
-      trained_skills: ["persuade", "etiquette_underworld", "deception", "insight", "melee_weapons", "charm", "streetwise"],
-      starting_item: "sigil_etched_blade-u",
-      starting_talents: ["streetwise_instincts", "mask_of_the_moment", "twitch_reflex"]
-	},
-	run_shadow_cub: {
-	  trained_skills: ["athletics", "dodge", "stealth", "navigate", "perception", "survival_urban", "coordination"],
-	  starting_item: "enchanted_cloak-u",
-	  starting_talents: ["whisperstep", "twitch_reflex", "mask_of_the_moment"]
-	},
-	code_seer_prodigy: {
-	  trained_skills: ["electronics", "magic_illusion", "alchemy", "anthropology", "archaeology", "biology", "chemistry", "engineering", "physics", "spirit_lore", "insight", "slicing", "arcana"],
-	  starting_item: "encrypted_dataplate-u",
-	  starting_talents: ["aether_flick", "veil_sniff", "mask_of_the_moment"]
-	}	
-  },  
-  lyranni: {
-	whisper_walker: {
-		trained_skills: ["perception", "occult", "spirit_lore", "insight", "survival_wilderness", "stealth", "magic_warding"],
-		starting_item: "veilmark_living-sigil-u",
-		starting_talents: ["threadwalker", "veilsight", "veil_blooded_sense"]
-	},
-	zurethkai_flameborn: {
-		trained_skills: ["slicing", "magic_technomancy", "electronics", "arcana", "deception", "magic_illusion", "insight"],
-		starting_item: "symbolic_magitech_mod-u",
-		starting_talents: ["aether_override", "veil_blooded_sense", "echo_in_the_veins"]
-	},
-	aelvareth_devotee: {
-		trained_skills: ["occult", "etiquette_lyranni", "arcana", "perform_vocal", "magic_warding", "bureaucracy", "veil_lore"],
-		starting_item: "aelvareth_veilmark-u",
-		starting_talents: ["threadwalker", "legacy_spark", "veilsight"]
-	},
-    echoborne: {
-      trained_skills: ["arcana", "etiquette_lyranni", "occult", "history", "insight", "perform_vocal", "bureaucracy"],
-      starting_item: "ancestral_veilmark-u",
-      starting_talents: ["legacy_spark", "veilsight", "threadwalker"]
-    },
-	glide_spire_scion: {
-		trained_skills: ["persuade", "streetwise", "charm", "insight", "etiquette_high_society", "perform_dance", "deception"],
-		starting_item: "veil_threaded_accessory-u",
-		starting_talents: ["social_ghost", "echo_in_the_veins", "legacy_spark"]
-	}
-  },
-  veyra: {
-	hatchwarren_drifter: {
-	  trained_skills: ["stealth", "streetwise", "security", "perception", "coordination", "mechanics", "survival_urban"],
-	  starting_item: "signal_mask-u",
-	  starting_talents: ["slip_between", "cache_sense", "reflex_map"]
-	},
-	loop_minder_initiate: {
-	  trained_skills: ["slicing", "electronics", "computer_use", "insight", "perception", "occult", "archanotech"],
-	  starting_item: "neural_interface_plug-u",
-	  starting_talents: ["signal_ghost", "circuit_whisperer", "mask_the_signal"]
-	},
-	corpsepath_reclaimer: {
-      trained_skills: ["magic_necromancy", "cybernetics", "medicine", "mechanics", "first_aid", "occult", "veil_lore" ],
-	  starting_item: "bone_tagged_surgical_injector-u",
-	  starting_talents: ["patchwork_fixer", "circuit_whispers", "cache_sense"]
-	},
-	shatterlink_courier: {
-	  trained_skills: ["navigate", "stealth", "dodge", "streetwise", "athletics", "drive_auto", "magic_illusion" ],
-	  starting_item: "bonded_courier_node-u",
-	  starting_talents: ["no_footprints", "mask_the_signal", "echo_sense"]
-	},
-	cross_signal_raised: {
-	  trained_skills: ["insight", "persuade", "deception", "disguise", "streetwise", "etiquette_other", "otherskill3" ],
-	  starting_item: "translation_implant-u",
-	  starting_talents: ["echo_sense", "reflex_map", "no_footprints"]
-	}
-  }
 };

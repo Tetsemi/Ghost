@@ -38995,7 +38995,7 @@ const careerDataMap = {
 	  name: "Arcane Gunslinger",
 	  career_type: "specialist",
 	  career_type_name: "Specialist",
-	  career_cost: 30,
+	  career_cost: 0,
 	  skill_points_primary_display: "—",
 	  skill_points_secondary: 0,
 	  spell_xp_primary: 0,
@@ -39214,7 +39214,7 @@ const careerDataMap = {
 	  name: "Hexbreaker",
 	  career_type: "specialist",
 	  career_type_name: "Specialist",
-	  career_cost: 30,
+	  career_cost: 0,
 	  skill_points_primary_display: "—",
 	  skill_points_secondary: 0,
 	  spell_xp_primary: 0,
@@ -39450,7 +39450,7 @@ const careerDataMap = {
 	  name: "Soul Forger",
 	  career_type: "specialist",
 	  career_type_name: "Specialist",
-	  career_cost: 30,
+	  career_cost: 0,
 	  skill_points_primary_display: "—",
 	  skill_points_secondary: 0,
 	  spell_xp_primary: 0,
@@ -43176,20 +43176,24 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
       });
     });
 
-    // specialist buy-in sum
-    const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
-    getAttrs(keys, (vals) => {
-      const uniqueCareers = Array.from(new Set(
-        ids.map(id => vals[`repeating_secondarycareer_${id}_secondary_career`] || "").filter(Boolean)
-      ));
-      const totalSpecialist = uniqueCareers.reduce((sum, key) => {
-        const cfg = careerDataMap[key];
-        return (cfg?.career_type === "specialist")
-          ? sum + (parseInt(cfg.career_cost, 10) || 0)
-          : sum;
-      }, 0);
-      setAttrs({ xp_spent_career_specialist: String(totalSpecialist) });
-    });
+
+	// specialist buy-in sum  --> flat secondary-career buy-in
+	const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+	getAttrs(keys, (vals) => {
+		const uniqueCareers = Array.from(new Set(
+			ids
+				.map(id => vals[`repeating_secondarycareer_${id}_secondary_career`] || "")
+				.filter(Boolean)
+		));
+
+		// NEW: tiered buy-in: 20 for 1st, 30 for 2nd, 40 for 3rd, ...
+		const n = uniqueCareers.length;
+		// total = 10 * (n * (n + 3) / 2)
+		const totalSecondaryBuyIn = 10 * (n * (n + 3) / 2);
+
+		// Keeping the same target attr for minimal downstream impact
+		setAttrs({ xp_spent_career_specialist: String(totalSecondaryBuyIn) });
+	});
   });
 
   updateCareerReadyState(() => {
@@ -43197,6 +43201,7 @@ on("clicked:careers change:primary_career change:repeating_secondarycareer:secon
     registerCareerSkillLimiter();
   });
 });
+
 
 on("change:repeating_secondarycareer remove:repeating_secondarycareer", () => {
   if (debug_on_trace) console.log("[change/remove:repeating_secondarycareer] Recalc global secondary spell XP");

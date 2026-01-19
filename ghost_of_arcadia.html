@@ -10570,24 +10570,19 @@
      										<h3 class="sheet-career-skill-header"><span data-i18n="career_secondary_skills-u">Secondary Skills</span></h3>
 
      										<div class="sheet-career-skill-wrapper">
-     											<input type="hidden" name="attr_cs_spirit_warden_athletics_mdr_checkbox_lock" value="0" />
-     											<input type="checkbox" name="attr_cs_spirit_warden_athletics_mdr_checkbox" value="1" />
-     											<label><span data-i18n="athletics-u">Athletics</span></label>
-     										</div>
-     										<div class="sheet-career-skill-wrapper">
      											<input type="hidden" name="attr_cs_spirit_warden_investigation_mdr_checkbox_lock" value="0" />
      											<input type="checkbox" name="attr_cs_spirit_warden_investigation_mdr_checkbox" value="1" />
      											<label><span data-i18n="investigation-u">Investigation</span></label>
      										</div>
      										<div class="sheet-career-skill-wrapper">
+     											<input type="hidden" name="attr_cs_spirit_warden_occult_lore_mdr_checkbox_lock" value="0" />
+     											<input type="checkbox" name="attr_cs_spirit_warden_occult_lore_mdr_checkbox" value="1" />
+     											<label><span data-i18n="occult_lore-u">Occult Lore</span></label>
+     										</div>
+     										<div class="sheet-career-skill-wrapper">
      											<input type="hidden" name="attr_cs_spirit_warden_perception_mdr_checkbox_lock" value="0" />
      											<input type="checkbox" name="attr_cs_spirit_warden_perception_mdr_checkbox" value="1" />
      											<label><span data-i18n="perception-u">Perception</span></label>
-     										</div>
-     										<div class="sheet-career-skill-wrapper">
-     											<input type="hidden" name="attr_cs_spirit_warden_security_mdr_checkbox_lock" value="0" />
-     											<input type="checkbox" name="attr_cs_spirit_warden_security_mdr_checkbox" value="1" />
-     											<label><span data-i18n="security-u">Security Systems</span></label>
      										</div>
      										<div class="sheet-career-skill-wrapper">
      											<input type="hidden" name="attr_cs_spirit_warden_survival_urban_mdr_checkbox_lock" value="0" />
@@ -10600,8 +10595,8 @@
      											<label><span data-i18n="survival_veil_touched-u">Survival (Veil-Touched)</span></label>
      										</div>
      										<div class="sheet-career-skill-wrapper">
-     											<input type="hidden" name="attr_cs_spirit_warden_survival_wild_mdr_checkbox_lock" value="0" />
-     											<input type="checkbox" name="attr_cs_spirit_warden_survival_wild_mdr_checkbox" value="1" />
+     											<input type="hidden" name="attr_cs_spirit_warden_survival_wilderness_mdr_checkbox_lock" value="0" />
+     											<input type="checkbox" name="attr_cs_spirit_warden_survival_wilderness_mdr_checkbox" value="1" />
      											<label><span data-i18n="survival_wilderness-u">Survival (Wilderness)</span></label>
      										</div>
      										<div class="sheet-career-skill-wrapper">
@@ -10609,7 +10604,11 @@
      											<input type="checkbox" name="attr_cs_spirit_warden_unarmed_mdr_checkbox" value="1" />
      											<label><span data-i18n="unarmed-u">Unarmed</span></label>
      										</div>
-     									</div>
+     										<div class="sheet-career-skill-wrapper">
+     											<input type="hidden" name="attr_cs_spirit_warden_veil_lore_mdr_checkbox_lock" value="0" />
+     											<input type="checkbox" name="attr_cs_spirit_warden_veil_lore_mdr_checkbox" value="1" />
+     											<label><span data-i18n="veil_lore-u">Veil Lore</span></label>
+     										</div>     									</div>
      								</div>
      							</div>
 
@@ -34010,11 +34009,12 @@ const careerDataMap = {
         name: "Codeweaver",
         career_type: "arcane",
         career_type_name: "Arcane",
+		base_skill_points: 80,
         skill_points_primary_formula: {
-            attributes: ["EDU", "INT"],
-            multipliers: [2, 2]
-        },
-        skill_points_primary_display: "EDU × 2 + INT × 2",
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
         skill_points_secondary: 20,
         spell_xp_primary: 30,
         spell_xp_secondary: 10,
@@ -34278,22 +34278,35 @@ const careerDataMap = {
 	dreamshaper: {
 		name: "Dream Shaper",
 		career_type: "arcane",
-		career_type_name: "Arcane"
+		career_type_name: "Arcane",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3"
 	},
 	gravesinger: {
 		name: "Gravesinger",
 		career_type: "arcane",
-		career_type_name: "Arcane"
+		career_type_name: "Arcane",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3"
 	},
 	mindbender: {
 		name: "Mindbender",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		skill_points_primary_formula: {
-			attributes: ["EDU", "POW"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "EDU × 2 + POW × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -34596,11 +34609,12 @@ const careerDataMap = {
 		name: "Sigilbound",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		skill_points_primary_formula: {
-			attributes: ["EDU", "POW"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "EDU × 2 + POW × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -34875,38 +34889,45 @@ const careerDataMap = {
 	soulmender: {
 		name: "Soul Mender",
 		career_type: "arcane",
-		career_type_name: "Arcane"
+		career_type_name: "Arcane",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3"
 	},
 	spirit_warden: {
 		name: "Spirit Warden",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		skill_points_primary_formula: {
-			attributes: ["EDU", "INT"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "EDU × 2 + INT × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
 		primary_skills: {
-			arcana: "Arcana",
-			insight: "Insight",
-			magic_summoning: "Magic (Summoning)",
-			spirit_lore: "Spirit Lore"
+			arcana: "arcana-u",
+			insight: "insight-u",
+			magic_summoning: "magic_summoning-u",
+			spirit_lore: "spirit_lore-u"
 		},
 		secondary_skills: {
-			athletics: "Athletics",
-			investigation: "Investigation",
-			perception: "Perception",
-			security: "Security",
-			survival_urban: "Survival (Urban)",
-			survival_veil_touched: "Survival (Urban)",
-			survival_wild: "Survival (Wilderness)",
-			unarmed: "Unarmed"
+			investigation: "investigation-u",
+			occult_lore: "occult_lore-u",
+			perception: "perception-u",
+			survival_urban: "survival_urban-u",
+			survival_veil_touched: "survival_veil_touched-u",
+			survival_wilderness: "survival_wilderness-u",
+			unarmed: "unarmed-u",
+			veil_lore: "veil_lore-u"
 		},
 		exclusive_skill_sets: [
-			[ "survival_urban", "survival_veil_touched", "survival_wild" ]
+			[ "survival_urban", "survival_veil_touched", "survival_wilderness" ]
 		],
 		talents: {
 			basic_ritual_circle: {
@@ -35143,11 +35164,12 @@ const careerDataMap = {
 		name: "Stormweaver",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		skill_points_primary_formula: {
-			attributes: ["EDU", "POW"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "EDU × 2 + POW × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -35436,11 +35458,12 @@ const careerDataMap = {
 		name: "Veil Dancer",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		skill_points_primary_formula: {
-			attributes: ["EDU", "POW"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "EDU × 2 + POW × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -35761,19 +35784,35 @@ const careerDataMap = {
 	brawler: {
 		name: "Brawler",
 		career_type: "core",
-		career_type_name: "Core"
+		career_type_name: "Core",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3"
 	},
 	breacher: {
+		name: "Breacher",
+		career_type: "core",
+		career_type_name: "Core",	
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3"	
 	},
     combat_engineer: {
         name: "Combat Engineer",
         career_type: "core",
         career_type_name: "Core",
+		base_skill_points: 80,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [4]
-        },
-        skill_points_primary_display: "EDU × 4",
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
         skill_points_secondary: 20,
         spell_xp_primary: 0,
         spell_xp_secondary: 0,
@@ -36103,11 +36142,12 @@ const careerDataMap = {
 		name: "Combat Medic",
 		career_type: "core",
 		career_type_name: "Core",
-		skill_points_primary_formula: {
-			attributes: ["EDU"],
-			multipliers: [4]
-		},
-		skill_points_primary_display: "EDU × 4",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -36375,11 +36415,12 @@ const careerDataMap = {
 		name: "Faceman",
 		career_type: "core",
 		career_type_name: "Core",
-		skill_points_primary_formula: {
-			attributes: ["EDU"],
-			multipliers: [4]
-		},
-		skill_points_primary_display: "EDU × 4",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -36663,11 +36704,12 @@ const careerDataMap = {
 		name: "Icon",
 		career_type: "core",
 		career_type_name: "Core",
-		skill_points_primary_formula: {
-			attributes: ["APP", "EDU"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "APP × 2 + EDU × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -36947,11 +36989,12 @@ const careerDataMap = {
 		name: "Investigator",
 		career_type: "core",
 		career_type_name: "Core",
-		skill_points_primary_formula: {
-			attributes: ["EDU", "INT"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "EDU × 2 + INT × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -37233,11 +37276,12 @@ const careerDataMap = {
 		name: "Marksman",
 		career_type: "core",
 		career_type_name: "Core",
-		skill_points_primary_formula: {
-			attributes: ["EDU", "DEX"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "EDU × 2 + DEX × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -37500,11 +37544,12 @@ const careerDataMap = {
 	  name: "Operator",
 	  career_type: "core",
 	  career_type_name: "Core",
-	  skill_points_primary_formula: {
-	    attributes: ["EDU", "DEX"],
-	    multipliers: [2, 2]
-	  },
-	  skill_points_primary_display: "EDU × 2 + DEX × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 	  skill_points_secondary: 20,
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
@@ -37765,17 +37810,24 @@ const careerDataMap = {
 	pathfinder: {
 		name: "Pathfinder",
 		career_type: "core",
-		career_type_name: "Core"
+		career_type_name: "Core",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3"
 	},
 	pilot: {
 	  name: "Pilot",
 	  career_type: "core",
 	  career_type_name: "Core",
-	  skill_points_primary_formula: {
-	    attributes: ["EDU", "DEX"],
-	    multipliers: [2, 2]
-	  },
-	  skill_points_primary_display: "EDU × 2 + DEX × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 	  skill_points_secondary: 20,
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
@@ -38039,11 +38091,12 @@ const careerDataMap = {
 	  name: "Shadowblade",
 	  career_type: "core",
 	  career_type_name: "Core",
-	  skill_points_primary_formula: {
-	    attributes: ["EDU", "DEX"],
-	    multipliers: [2, 2]
-	  },
-	  skill_points_primary_display: "EDU × 2 + DEX × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 	  skill_points_secondary: 20,
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
@@ -38351,11 +38404,12 @@ const careerDataMap = {
 	  name: "Slicer",
 	  career_type: "core",
 	  career_type_name: "Core",
-	  skill_points_primary_formula: {
-	    attributes: ["EDU", "INT"],
-	    multipliers: [2, 2]
-	  },
-	  skill_points_primary_display: "EDU × 2 + INT × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 	  skill_points_secondary: 20,
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
@@ -38653,11 +38707,12 @@ const careerDataMap = {
 		name: "Street Ronin",
 		career_type: "core",
 		career_type_name: "Core",
-		skill_points_primary_formula: {
-			attributes: ["EDU", "DEX"],
-			multipliers: [2, 2]
-		},
-		skill_points_primary_display: "EDU × 2 + DEX × 2",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -38927,7 +38982,13 @@ const careerDataMap = {
 	tactician: {
 		name: "Tactician",
 		career_type: "core",
-		career_type_name: "Core"
+		career_type_name: "Core",
+		base_skill_points: 80,
+        skill_points_primary_formula: {
+            attributes: ["EDU"],
+            multipliers: [3]
+        },		
+		skill_points_primary_display: "EDU × 3"
 	},
 	/* Specialist Career */
 	arcane_gunslinger: {
@@ -40634,7 +40695,7 @@ const registerPrimaryCareerXPWatcher = () => {
 						statLookup[stat] = parseInt(values[stat], 10) || 0;
 					}
 
-					let baseSkillPoints = 0;
+					let baseSkillPoints = parseInt(career.base_skill_points, 10) || 0;
 					if (career.skill_points_primary_formula) {
 						const { attributes, multipliers } = career.skill_points_primary_formula;
 						for (let i = 0; i < attributes.length; i++) {

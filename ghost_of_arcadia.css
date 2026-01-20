@@ -1174,8 +1174,8 @@ select[name="attr_damage_bonus"] {
 .sheet-tab-controller[value="skills"] ~ .sheet-skills,
 .sheet-tab-controller[value="perks"] ~ .sheet-perks,
 .sheet-tab-controller[value="flaws"] ~ .sheet-flaws,
+.sheet-tab-controller[value="ancestry"] ~ .sheet-ancestry,
 .sheet-tab-controller[value="background"] ~ .sheet-background,
-.sheet-tab-controller[value="talents"] ~ .sheet-talents,
 .sheet-tab-controller[value="careers"] ~ .sheet-careers,
 .sheet-tab-controller[value="combat"] ~ .sheet-combat,
 .sheet-tab-controller[value="spells"] ~ .sheet-spells,
@@ -1213,8 +1213,8 @@ select[name="attr_damage_bonus"] {
 .sheet-tab-controller[value="skills"] ~ .sheet-tab-buttons button[name="act_skills"],
 .sheet-tab-controller[value="perks"] ~ .sheet-tab-buttons button[name="act_perks"],
 .sheet-tab-controller[value="flaws"] ~ .sheet-tab-buttons button[name="act_flaws"],
+.sheet-tab-controller[value="ancestry"] ~ .sheet-tab-buttons button[name="act_ancestry"],
 .sheet-tab-controller[value="background"] ~ .sheet-tab-buttons button[name="act_background"],
-.sheet-tab-controller[value="talents"] ~ .sheet-tab-buttons button[name="act_talents"],
 .sheet-tab-controller[value="careers"] ~ .sheet-tab-buttons button[name="act_careers"],
 .sheet-tab-controller[value="combat"] ~ .sheet-tab-buttons button[name="act_combat"],
 .sheet-tab-controller[value="spells"] ~ .sheet-tab-buttons button[name="act_spells"],
@@ -1658,12 +1658,12 @@ input[type="text"].sheet-improved-indicator {
 .sheet-talent-description   { grid-column: 3; }
 .sheet-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
 
-/* Toggle: when the checkbox BEFORE .sheet-talents is checked, expand grid + show prereqs */
-.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-row,
-.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-header-row {
+/* Toggle: when the checkbox BEFORE .sheet-ancestry is checked, expand grid + show prereqs */
+.sheet-prereq-toggle:checked ~ .sheet-ancestry .sheet-talent-row,
+.sheet-prereq-toggle:checked ~ .sheet-ancestry .sheet-talent-header-row {
   grid-template-columns: 30px 1fr 2fr 1fr 40px; /* + prereq column */
 }
-.sheet-prereq-toggle:checked ~ .sheet-talents .sheet-talent-prereq {
+.sheet-prereq-toggle:checked ~ .sheet-ancestry .sheet-talent-prereq {
   display: block;
   grid-column: 4;
   color: white;
@@ -1986,13 +1986,13 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
   background-color: #222;
 }
 
-.sheet-talents-flex {
+.sheet-ancestry-flex {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.sheet-talents-label {
+.sheet-ancestry-label {
   font-weight: bold;
   font-size: 90%;
   color: black;
@@ -2015,42 +2015,42 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 /* --------------------- Tabs - Talent styling - Start ----------------------------------------------------- */
 
 /* Talents tab: hide all race blocks by default */
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials1,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials2,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials3,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials4,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials5,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials6,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials7,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-racials8 {
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials1,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials2,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials3,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials4,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials5,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials6,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials7,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials8 {
 	display: none; }
 
 /* === Show selected race inside the Talents tab === */
 /* Each rule shows both direct siblings and descendants that appear AFTER the controller */
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="alteri"] ~ .sheet-racials1,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="alteri"] ~ * .sheet-racials1 { display: block; }
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="alteri"] ~ .sheet-racials1,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="alteri"] ~ * .sheet-racials1 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="draevi"] ~ .sheet-racials2,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="draevi"] ~ * .sheet-racials2 { display: block; }
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="draevi"] ~ .sheet-racials2,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="draevi"] ~ * .sheet-racials2 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="feran"] ~ .sheet-racials3,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="feran"] ~ * .sheet-racials3 { display: block; }
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="feran"] ~ .sheet-racials3,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="feran"] ~ * .sheet-racials3 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="human"] ~ .sheet-racials4,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="human"] ~ * .sheet-racials4 { display: block; }
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="human"] ~ .sheet-racials4,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="human"] ~ * .sheet-racials4 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="khadra"] ~ .sheet-racials5,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="khadra"] ~ * .sheet-racials5 { display: block; }
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="khadra"] ~ .sheet-racials5,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="khadra"] ~ * .sheet-racials5 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="kitsu"] ~ .sheet-racials6,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="kitsu"] ~ * .sheet-racials6 { display: block; }
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="kitsu"] ~ .sheet-racials6,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="kitsu"] ~ * .sheet-racials6 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="lyranni"] ~ .sheet-racials7,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="lyranni"] ~ * .sheet-racials7 { display: block; }
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="lyranni"] ~ .sheet-racials7,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="lyranni"] ~ * .sheet-racials7 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents input[name="attr_showracials"][value="veyra"] ~ * .sheet-racials8 { display: block; }
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="veyra"] ~ * .sheet-racials8 { display: block; }
 
 
 /* Talent tab layout styling */
@@ -2351,23 +2351,23 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 /* ===== Talents → Racial Traits (Name | Rules Text) ===== */
 /* Single-row cards, 20% / 80% split */
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-traits {
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-traits {
     margin-top: 0.5rem;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-traits .sheet-talent-tier-header {
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-traits .sheet-talent-tier-header {
     margin: 0 0 0.5rem 0;
 	color: black;
 	text-align: center;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-trait-list {
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-list {
     display: flex;
     flex-direction: column;
     gap: 0.6rem; /* spacing between rows */
 }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-trait-row {
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-row {
     display: grid;
     grid-template-columns: minmax(110px, 10%) minmax(0, 1fr);
     gap: 8px 12px;
@@ -2378,14 +2378,14 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
     box-sizing: border-box;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-trait-name {
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-name {
     font-weight: 600;
     align-self: start;
     line-height: 1.25;
 	color: #cfcfcf;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-talents .sheet-talent-racials .sheet-racial-trait-text {
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-text {
     line-height: 1.35;
 	color: #cfcfcf;
 }

@@ -126,12 +126,10 @@
 							<button class="sheet-int-roll" type="roll" name="roll_int_check" value="&{template:coc-1} {{name=@{int_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{int}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{int}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{int}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
  						</div>
 
- 						<!-- MAG -->
-						<div class="sheet-attr-label" data-i18n="MAG-u">MAG</div>
-						<div class="sheet-mag-wrapper sheet-input-roll-wrapper">
-							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_mag" type="text" />
-							<button class="sheet-mag-roll" type="roll" name="roll_mag_check" value="&{template:coc-1} {{name=@{mag_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{mag}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{mag}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{mag}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
-						</div>
+						<!-- Placeholder -->
+						<div class="sheet-attr-label"></div>
+						<div class="sheet-int-wrapper sheet-input-roll-wrapper"></div>
+						
 						<div class="sheet-vertical-divider"></div>
 
 						<!-- HP -->
@@ -10623,20 +10621,20 @@
      									<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_basic_ritual_circle_rules-u"></span>
      								</div>
 
-     								<!-- Rite Efficiency -->
-     								<div class="sheet-career-talent-row">
-     									<input type="hidden" name="attr_spirit_warden_rite_efficiency_lockflag" value="0" />
-     									<input type="checkbox" name="attr_spirit_warden_rite_efficiency" value="1" class="sheet-career-talent-checkbox" />
-     									<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_rite_efficiency-u"></span></label>
-     									<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_rite_efficiency_rules-u"></span>
-     								</div>
-
      								<!-- Lesser Companion Bond -->
      								<div class="sheet-career-talent-row">
      									<input type="hidden" name="attr_spirit_warden_lesser_companion_bond_lockflag" value="0" />
      									<input type="checkbox" name="attr_spirit_warden_lesser_companion_bond" value="1" class="sheet-career-talent-checkbox" />
      									<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_lesser_companion_bond-u"></span></label>
      									<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_lesser_companion_bond_rules-u"></span>
+     								</div>
+
+     								<!-- Rite Efficiency -->
+     								<div class="sheet-career-talent-row">
+     									<input type="hidden" name="attr_spirit_warden_rite_efficiency_lockflag" value="0" />
+     									<input type="checkbox" name="attr_spirit_warden_rite_efficiency" value="1" class="sheet-career-talent-checkbox" />
+     									<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_rite_efficiency-u"></span></label>
+     									<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_rite_efficiency_rules-u"></span>
      								</div>
 
      								<!-- Spirit-Sense Attunement -->
@@ -10654,6 +10652,7 @@
      									<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_wardbreaker_gesture-u"></span></label>
      									<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_wardbreaker_gesture_rules-u"></span>
      								</div>
+
      							</div>
 
      							<div class="sheet-career-talent-tier" data-tier="2">
@@ -10672,24 +10671,14 @@
 
      									<div class="sheet-career-talents">
 
-     										<!-- Warden’s Binding Circle -->
+     										<!-- Circle Flow Discipline -->
      										<div class="sheet-career-talent-row">
-     											<input type="hidden" name="attr_spirit_warden_wardens_binding_circle_enabled" value="0" />
-     											<input type="hidden" name="attr_spirit_warden_wardens_binding_circle_lockflag" value="0" />
-     											<input type="checkbox" name="attr_spirit_warden_wardens_binding_circle" value="1" class="sheet-career-talent-checkbox" />
-     											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_wardens_binding_circle-u"></span></label>
-     											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_wardens_binding_circle_rules-u"></span>
+     											<input type="hidden" name="attr_spirit_warden_circle_flow_discipline_enabled" value="0" />
+     											<input type="hidden" name="attr_spirit_warden_circle_flow_discipline_lockflag" value="0" />
+     											<input type="checkbox" name="attr_spirit_warden_circle_flow_discipline" value="1" class="sheet-career-talent-checkbox" />
+     											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_circle_flow_discipline-u"></span></label>
+     											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_circle_flow_discipline_rules-u"></span>
      											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_basic_ritual_circle-u"></span>
-     										</div>
-
-     										<!-- Confront the Echo -->
-     										<div class="sheet-career-talent-row">
-     											<input type="hidden" name="attr_spirit_warden_confront_the_echo_enabled" value="0" />
-     											<input type="hidden" name="attr_spirit_warden_confront_the_echo_lockflag" value="0" />
-     											<input type="checkbox" name="attr_spirit_warden_confront_the_echo" value="1" class="sheet-career-talent-checkbox" />
-     											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_confront_the_echo-u"></span></label>
-     											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_confront_the_echo_rules-u"></span>
-     											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_wardbreaker_gesture-u"></span>
      										</div>
 
      										<!-- Circle-Marked Recall -->
@@ -10702,6 +10691,16 @@
      											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_rite_efficiency-u"></span>
      										</div>
 
+     										<!-- Confront the Echo -->
+     										<div class="sheet-career-talent-row">
+     											<input type="hidden" name="attr_spirit_warden_confront_the_echo_enabled" value="0" />
+     											<input type="hidden" name="attr_spirit_warden_confront_the_echo_lockflag" value="0" />
+     											<input type="checkbox" name="attr_spirit_warden_confront_the_echo" value="1" class="sheet-career-talent-checkbox" />
+     											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_confront_the_echo-u"></span></label>
+     											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_confront_the_echo_rules-u"></span>
+     											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_wardbreaker_gesture-u"></span>
+     										</div>
+
      										<!-- Lesser Spirit Conjuration -->
      										<div class="sheet-career-talent-row">
      											<input type="hidden" name="attr_spirit_warden_lesser_spirit_conjuration_enabled" value="0" />
@@ -10712,13 +10711,13 @@
      											<span class="sheet-career-talent-prereq" data-i18n="career_talent_any_one_tier1_talent-u"></span>
      										</div>
 
-     										<!-- Circle Flow Discipline -->
+     										<!-- Warden’s Binding Circle -->
      										<div class="sheet-career-talent-row">
-     											<input type="hidden" name="attr_spirit_warden_circle_flow_discipline_enabled" value="0" />
-     											<input type="hidden" name="attr_spirit_warden_circle_flow_discipline_lockflag" value="0" />
-     											<input type="checkbox" name="attr_spirit_warden_circle_flow_discipline" value="1" class="sheet-career-talent-checkbox" />
-     											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_circle_flow_discipline-u"></span></label>
-     											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_circle_flow_discipline_rules-u"></span>
+     											<input type="hidden" name="attr_spirit_warden_wardens_binding_circle_enabled" value="0" />
+     											<input type="hidden" name="attr_spirit_warden_wardens_binding_circle_lockflag" value="0" />
+     											<input type="checkbox" name="attr_spirit_warden_wardens_binding_circle" value="1" class="sheet-career-talent-checkbox" />
+     											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_wardens_binding_circle-u"></span></label>
+     											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_wardens_binding_circle_rules-u"></span>
      											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_basic_ritual_circle-u"></span>
      										</div>
 
@@ -10752,6 +10751,16 @@
      											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_wardens_binding_circle-u"></span>
      										</div>
 
+     										<!-- Purification’s Edge -->
+     										<div class="sheet-career-talent-row">
+     											<input type="hidden" name="attr_spirit_warden_purifications_edge_enabled" value="0" />
+     											<input type="hidden" name="attr_spirit_warden_purifications_edge_lockflag" value="0" />
+     											<input type="checkbox" name="attr_spirit_warden_purifications_edge" value="1" class="sheet-career-talent-checkbox" />
+     											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_purifications_edge-u"></span></label>
+     											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_purifications_edge_rules-u"></span>
+     											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_confront_the_echo-u"></span>
+     										</div>
+
      										<!-- Silencing Hand -->
      										<div class="sheet-career-talent-row">
      											<input type="hidden" name="attr_spirit_warden_silencing_hand_enabled" value="0" />
@@ -10769,7 +10778,7 @@
      											<input type="checkbox" name="attr_spirit_warden_spirit_economy" value="1" class="sheet-career-talent-checkbox" />
      											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_spirit_economy-u"></span></label>
      											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_spirit_economy_rules-u"></span>
-     											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_circle_flow_discipline-u"></span>
+     											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_wardens_binding_circle-u"></span>
      										</div>
 
      										<!-- Warden’s Wards -->
@@ -10779,17 +10788,7 @@
      											<input type="checkbox" name="attr_spirit_warden_wardens_wards" value="1" class="sheet-career-talent-checkbox" />
      											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_wardens_wards-u"></span></label>
      											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_wardens_wards_rules-u"></span>
-     											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_spirit_sense_attunement-u"></span>
-     										</div>
-
-     										<!-- Purification’s Edge -->
-     										<div class="sheet-career-talent-row">
-     											<input type="hidden" name="attr_spirit_warden_purifications_edge_enabled" value="0" />
-     											<input type="hidden" name="attr_spirit_warden_purifications_edge_lockflag" value="0" />
-     											<input type="checkbox" name="attr_spirit_warden_purifications_edge" value="1" class="sheet-career-talent-checkbox" />
-     											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_purifications_edge-u"></span></label>
-     											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_purifications_edge_rules-u"></span>
-     											<span class="sheet-career-talent-prereq" data-i18n="career_talent_any_one_tier2_talent-u"></span>
+     											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_circle_marked_recall-u"></span>
      										</div>
 
      									</div>
@@ -10822,14 +10821,24 @@
 	   											<span class="sheet-career-talent-prereq" data-i18n="career_talent_any_one_tier3_talent-u"></span>
 	   										</div>
 
-	   										<!-- Master Circle — Seal of Accord -->
+	   										<!-- Custodian’s Stand -->
 	   										<div class="sheet-career-talent-row">
-	   											<input type="hidden" name="attr_spirit_warden_master_circle_seal_of_accord_enabled" value="0" />
-	   											<input type="hidden" name="attr_spirit_warden_master_circle_seal_of_accord_lockflag" value="0" />
-	   											<input type="checkbox" name="attr_spirit_warden_master_circle_seal_of_accord" value="1" class="sheet-career-talent-checkbox" />
-	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_master_circle_seal_of_accord-u"></span></label>
-	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_master_circle_seal_of_accord_rules-u"></span>
-	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_wardens_binding_circle-u"></span>
+	   											<input type="hidden" name="attr_spirit_warden_custodians_stand_enabled" value="0" />
+	   											<input type="hidden" name="attr_spirit_warden_custodians_stand_lockflag" value="0" />
+	   											<input type="checkbox" name="attr_spirit_warden_custodians_stand" value="1" class="sheet-career-talent-checkbox" />
+	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_custodians_stand-u"></span></label>
+	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_custodians_stand_rules-u"></span>
+	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_domain_resonance_circle-u"></span>
+	   										</div>
+
+	   										<!-- Rite of Echo Severance -->
+	   										<div class="sheet-career-talent-row">
+	   											<input type="hidden" name="attr_spirit_warden_rite_of_echo_severance_enabled" value="0" />
+	   											<input type="hidden" name="attr_spirit_warden_rite_of_echo_severance_lockflag" value="0" />
+	   											<input type="checkbox" name="attr_spirit_warden_rite_of_echo_severance" value="1" class="sheet-career-talent-checkbox" />
+	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_rite_of_echo_severance-u"></span></label>
+	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_rite_of_echo_severance_rules-u"></span>
+	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_purifications_edge-u"></span>
 	   										</div>
 
 	   										<!-- Sovereign Pattern -->
@@ -10853,21 +10862,7 @@
 	   											<input type="checkbox" name="attr_spirit_warden_wardens_barrier_sigil" value="1" class="sheet-career-talent-checkbox" />
 	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_wardens_barrier_sigil-u"></span></label>
 	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_wardens_barrier_sigil_rules-u"></span>
-	   											<span class="sheet-career-talent-prereq" data-i18n="career_talent_any_one_tier3_talent-u"></span>
-	   										</div>
-
-	   										<!-- Rite of Echo Severance -->
-	   										<div class="sheet-career-talent-row">
-	   											<input type="hidden" name="attr_spirit_warden_rite_of_echo_severance_enabled" value="0" />
-	   											<input type="hidden" name="attr_spirit_warden_rite_of_echo_severance_lockflag" value="0" />
-	   											<input type="checkbox" name="attr_spirit_warden_rite_of_echo_severance" value="1" class="sheet-career-talent-checkbox" />
-	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_rite_of_echo_severance-u"></span></label>
-	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_rite_of_echo_severance_rules-u"></span>
-	   											<span class="sheet-career-talent-prereq">
-	   												<span data-i18n="career_spirit_warden_confront_the_echo-u"></span>
-	   												<span data-i18n="career_talent_or-u">or</span> <!-- or/and/any/all -->
-	   												<span data-i18n="career_spirit_warden_purifications_edge-u"></span>
-	   											</span>
+	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_wardens_wards-u"></span>
 	   										</div>
 
 	   									</div>
@@ -10890,20 +10885,6 @@
 
 	   									<div class="sheet-career-talents">
 
-	   										<!-- Grand Exorcism Rite -->
-	   										<div class="sheet-career-talent-row">
-	   											<input type="hidden" name="attr_spirit_warden_grand_exorcism_rite_enabled" value="0" />
-	   											<input type="hidden" name="attr_spirit_warden_grand_exorcism_rite_lockflag" value="0" />
-	   											<input type="checkbox" name="attr_spirit_warden_grand_exorcism_rite" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
-	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_grand_exorcism_rite-u"></span></label>
-	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_grand_exorcism_rite_rules-u"></span>
-	   											<span class="sheet-career-talent-prereq">
-	   												<span data-i18n="career_spirit_warden_rite_of_echo_severance-u"></span>
-	   												<span data-i18n="career_talent_or-u">or</span> <!-- or/and/any/all -->
-	   												<span data-i18n="career_spirit_warden_silencing_hand-u"></span>
-	   											</span>
-	   										</div>
-
 	   										<!-- Avatar’s Mandate -->
 	   										<div class="sheet-career-talent-row">
 	   											<input type="hidden" name="attr_spirit_warden_avatars_mandate_enabled" value="0" />
@@ -10911,11 +10892,7 @@
 	   											<input type="checkbox" name="attr_spirit_warden_avatars_mandate" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
 	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_avatars_mandate-u"></span></label>
 	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_avatars_mandate_rules-u"></span>
-	   											<span class="sheet-career-talent-prereq">
-	   												<span data-i18n="career_spirit_warden_domain_resonance_circle-u"></span>
-	   												<span data-i18n="career_talent_or-u">or</span> <!-- or/and/any/all -->
-	   												<span data-i18n="career_spirit_warden_sovereign_pattern-u"></span>
-	   											</span>
+	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_sovereign_pattern-u"></span>
 	   										</div>
 
 	   										<!-- Eidolon Apotheosis -->
@@ -10928,16 +10905,36 @@
 	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_bound_spirit_partner-u"></span>
 	   										</div>
 
-	   										<!-- +5% Stat Boost -->
+	   										<!-- Grand Exorcism Rite -->
 	   										<div class="sheet-career-talent-row">
-	   											<input type="hidden" name="attr_spirit_warden_stat_boost_enabled" value="0" />
-	   											<input type="hidden" name="attr_spirit_warden_stat_boost_lockflag" value="0" />
-	   											<input type="checkbox" name="attr_spirit_warden_stat_boost" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
-	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_stat_boost-u"></span></label>
-	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_stat_boost_rules-u"></span>
-	   											<span class="sheet-career-talent-prereq" data-i18n="career_talent_any_one_tier4_talent-u"></span>
+	   											<input type="hidden" name="attr_spirit_warden_grand_exorcism_rite_enabled" value="0" />
+	   											<input type="hidden" name="attr_spirit_warden_grand_exorcism_rite_lockflag" value="0" />
+	   											<input type="checkbox" name="attr_spirit_warden_grand_exorcism_rite" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_grand_exorcism_rite-u"></span></label>
+	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_grand_exorcism_rite_rules-u"></span>
+	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_rite_of_echo_severance-u"></span>
 	   										</div>
 
+	   										<!-- Line Held Against the Veil -->
+	   										<div class="sheet-career-talent-row">
+	   											<input type="hidden" name="attr_spirit_warden_line_held_against_the_veil_enabled" value="0" />
+	   											<input type="hidden" name="attr_spirit_warden_line_held_against_the_veil_lockflag" value="0" />
+	   											<input type="checkbox" name="attr_spirit_warden_line_held_against_the_veil" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_line_held_against_the_veil-u"></span></label>
+	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_line_held_against_the_veil_rules-u"></span>
+	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_custodians_stand-u"></span>
+	   										</div>
+
+	   										<!-- Sanctify the Ground -->
+	   										<div class="sheet-career-talent-row">
+	   											<input type="hidden" name="attr_spirit_warden_sanctify_the_ground_enabled" value="0" />
+	   											<input type="hidden" name="attr_spirit_warden_sanctify_the_ground_lockflag" value="0" />
+	   											<input type="checkbox" name="attr_spirit_warden_sanctify_the_ground" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+	   											<label class="sheet-career-talent-label"><span data-i18n="career_spirit_warden_sanctify_the_ground-u"></span></label>
+	   											<span class="sheet-career-talent-description" data-i18n="career_spirit_warden_sanctify_the_ground_rules-u"></span>
+	   											<span class="sheet-career-talent-prereq" data-i18n="career_spirit_warden_custodians_stand-u"></span>
+	   										</div>
+										
 	   									</div>
 	   								</div>
 	   							</div>
@@ -13532,6 +13529,11 @@
 												<label><span data-i18n="perform_instrument-u">Perform (Instrument)</span></label>
 											</div>
 											<div class="sheet-career-skill-wrapper">
+												<input type="hidden" name="attr_cs_icon_perform_ritual_mdr_checkbox_lock" value="0" />
+												<input type="checkbox" name="attr_cs_icon_perform_ritual_mdr_checkbox" value="1" />
+												<label><span data-i18n="perform_ritual-u">Perform (Ritual)</span></label>
+											</div>											
+											<div class="sheet-career-skill-wrapper">
 												<input type="hidden" name="attr_cs_icon_perform_vocal_mdr_checkbox_lock" value="0" />
 												<input type="checkbox" name="attr_cs_icon_perform_vocal_mdr_checkbox" value="1" />
 												<label><span data-i18n="perform_vocal-u">Perform (Vocal)</span></label>
@@ -13721,16 +13723,16 @@
 												<span class="sheet-career-talent-prereq" data-i18n="career_icon_street_stage_discipline-u"></span>
 											</div>
 
-											<!-- Endurance Conditioning -->
+											<!-- Hold the Line -->
 											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_icon_endurance_conditioning_enabled" value="0" />
-												<input type="hidden" name="attr_icon_endurance_conditioning_lockflag" value="0" />
-												<input type="checkbox" name="attr_icon_endurance_conditioning" value="1" class="sheet-career-talent-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_icon_endurance_conditioning-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_icon_endurance_conditioning_rules-u"></span>
+												<input type="hidden" name="attr_icon_hold_the_line_enabled" value="0" />
+												<input type="hidden" name="attr_icon_hold_the_line_lockflag" value="0" />
+												<input type="checkbox" name="attr_icon_hold_the_line" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_icon_hold_the_line-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_icon_hold_the_line_rules-u"></span>
 												<span class="sheet-career-talent-prereq" data-i18n="career_icon_street_stage_discipline-u"></span>
 											</div>
-
+											
 											<!-- Resonant Persona -->
 											<div class="sheet-career-talent-row">
 												<input type="hidden" name="attr_icon_resonant_persona_enabled" value="0" />
@@ -17943,7 +17945,7 @@
 												<span class="sheet-career-talent-description" data-i18n="career_soul_forger_nullwave_bloom_rules-u"></span>
 												<span class="sheet-career-talent-prereq" data-i18n="career_soul_forger_spirit_lattice_field-u"></span>
 											</div>
-											
+
 										</div>
 									</div>
 								</div>
@@ -19813,12 +19815,12 @@
 						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_basic_ritual_circle-u"></span>
 						    </div>
 
-						    <!-- Career Talent: Warden’s Binding Circle (scene) -->
-						    <input type="hidden" name="attr_show_spirit_warden_wardens_binding_circle" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-wardens-binding-circle">
-						    	<input type="checkbox" name="attr_used_scene_spirit_warden_wardens_binding_circle" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_wardens_binding_circle-u"></span>
-						    </div>
+							<!-- Career Talent: Bound Spirit Partner (scene) -->
+							<input type="hidden" name="attr_show_spirit_warden_bound_spirit_partner" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-bound-spirit-partner">
+								<input type="checkbox" name="attr_used_scene_spirit_warden_bound_spirit_partner" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_bound_spirit_partner-u"></span>
+							</div>
 
 						    <!-- Career Talent: Circle-Marked Recall (scene) -->
 						    <input type="hidden" name="attr_show_spirit_warden_circle_marked_recall" />
@@ -19832,6 +19834,34 @@
 						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-circle-flow-discipline">
 						    	<input type="checkbox" name="attr_used_scene_spirit_warden_circle_flow_discipline" class="sheet-tracker-checkbox" />
 						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_circle_flow_discipline-u"></span>
+						    </div>
+
+							<!-- Career Talent: Custodian’s Stand (scene) -->
+							<input type="hidden" name="attr_show_spirit_warden_custodians_stand" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-custodians-stand">
+								<input type="checkbox" name="attr_used_scene_spirit_warden_custodians_stand" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_custodians_stand-u"></span>
+							</div>
+
+						    <!-- Career Talent: Purification’s Edge (scene) -->
+						    <input type="hidden" name="attr_show_spirit_warden_purifications_edge" />
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-purifications-edge">
+						    	<input type="checkbox" name="attr_used_scene_spirit_warden_purifications_edge" class="sheet-tracker-checkbox" />
+						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_purifications_edge-u"></span>
+						    </div>
+
+						    <!-- Career Talent: Rite Efficiency (scene) -->
+						    <input type="hidden" name="attr_show_spirit_warden_rite_efficiency" />
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-rite-efficiency">
+						    	<input type="checkbox" name="attr_used_scene_spirit_warden_rite_efficiency" class="sheet-tracker-checkbox" />
+						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_rite_efficiency-u"></span>
+						    </div>
+
+						    <!-- Career Talent: Rite of Echo Severance (scene) -->
+						    <input type="hidden" name="attr_show_spirit_warden_rite_of_echo_severance" />
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-rite-of-echo-severance">
+						    	<input type="checkbox" name="attr_used_scene_spirit_warden_rite_of_echo_severance" class="sheet-tracker-checkbox" />
+						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_rite_of_echo_severance-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Silencing Hand (scene) -->
@@ -19848,39 +19878,25 @@
 						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_spirit_economy-u"></span>
 						    </div>
 
+							<!-- Career Talent: Warden’s Barrier Sigil (scene) -->
+							<input type="hidden" name="attr_show_spirit_warden_wardens_barrier_sigil" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-wardens-barrier-sigil">
+								<input type="checkbox" name="attr_used_scene_spirit_warden_wardens_barrier_sigil" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_wardens_barrier_sigil-u"></span>
+							</div>
+
+						    <!-- Career Talent: Warden’s Binding Circle (scene) -->
+						    <input type="hidden" name="attr_show_spirit_warden_wardens_binding_circle" />
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-wardens-binding-circle">
+						    	<input type="checkbox" name="attr_used_scene_spirit_warden_wardens_binding_circle" class="sheet-tracker-checkbox" />
+						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_wardens_binding_circle-u"></span>
+						    </div>
+
 						    <!-- Career Talent: Warden’s Wards (scene) -->
 						    <input type="hidden" name="attr_show_spirit_warden_wardens_wards" />
 						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-wardens-wards">
 						    	<input type="checkbox" name="attr_used_scene_spirit_warden_wardens_wards" class="sheet-tracker-checkbox" />
 						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_wardens_wards-u"></span>
-						    </div>
-
-						    <!-- Career Talent: Purification’s Edge (scene) -->
-						    <input type="hidden" name="attr_show_spirit_warden_purifications_edge" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-purifications-edge">
-						    	<input type="checkbox" name="attr_used_scene_spirit_warden_purifications_edge" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_purifications_edge-u"></span>
-						    </div>
-
-						    <!-- Career Talent: Bound Spirit Partner (scene) -->
-						    <input type="hidden" name="attr_show_spirit_warden_bound_spirit_partner" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-bound-spirit-partner">
-						    	<input type="checkbox" name="attr_used_scene_spirit_warden_bound_spirit_partner" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_bound_spirit_partner-u"></span>
-						    </div>
-
-						    <!-- Career Talent: Warden’s Barrier Sigil (scene) -->
-						    <input type="hidden" name="attr_show_spirit_warden_wardens_barrier_sigil" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-wardens-barrier-sigil">
-						    	<input type="checkbox" name="attr_used_scene_spirit_warden_wardens_barrier_sigil" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_wardens_barrier_sigil-u"></span>
-						    </div>
-
-						    <!-- Career Talent: Rite of Echo Severance (scene) -->
-						    <input type="hidden" name="attr_show_spirit_warden_rite_of_echo_severance" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-spirit-warden-rite-of-echo-severance">
-						    	<input type="checkbox" name="attr_used_scene_spirit_warden_rite_of_echo_severance" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_rite_of_echo_severance-u"></span>
 						    </div>
 
 							<!-- Career Talent: Arc Feedback (scene) -->
@@ -20387,6 +20403,20 @@
 						        <span class="sheet-tracker-label" data-i18n="career_icon_all_eyes_on_me-u"></span>
 						    </div>
 
+							<!-- Career Talent: Burn It Brighter (scene) -->
+							<input type="hidden" name="attr_show_icon_burn_it_brighter" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-icon-burn-it-brighter">
+								<input type="checkbox" name="attr_used_scene_icon_burn_it_brighter" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_icon_burn_it_brighter-u"></span>
+							</div>
+									
+							<!-- Career Talent: Burning Signature (scene) -->
+							<input type="hidden" name="attr_show_icon_burning_signature" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-icon-burning-signature">
+							    <input type="checkbox" name="attr_used_scene_icon_burning_signature" class="sheet-tracker-checkbox" />
+							    <span class="sheet-tracker-label" data-i18n="career_icon_burning_signature-u"></span>
+							</div>
+								
 						    <!-- Career Talent: Command the Stage (scene) -->
 						    <input type="hidden" name="attr_show_icon_command_the_stage" />
 						    <div class="sheet-tracker-item sheet-tracker-scene sheet-icon-command-the-stage">
@@ -20401,13 +20431,13 @@
 						        <span class="sheet-tracker-label" data-i18n="career_icon_crowd_momentum-u"></span>
 						    </div>
 
-                            <!-- Career Talent: Encore Effect (scene) -->
-                            <input type="hidden" name="attr_show_icon_encore_effect" />
-                            <div class="sheet-tracker-item sheet-tracker-scene sheet-icon-encore-effect">
-                                <input type="checkbox" name="attr_used_scene_icon_encore_effect" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_icon_encore_effect-u"></span>
-                            </div>
-
+							<!-- Career Talent: Hold the Line (scene) -->
+							<input type="hidden" name="attr_show_icon_hold_the_line" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-icon-hold-the-line">
+								<input type="checkbox" name="attr_used_scene_icon_hold_the_line" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_icon_hold_the_line-u"></span>
+							</div>
+									
 							<!-- Career Talent: Anchor the Moment (scene) -->
                             <input type="hidden" name="attr_show_investigator_anchor_the_moment" />
                             <div class="sheet-tracker-item sheet-tracker-scene sheet-investigator-anchor-the-moment">
@@ -20981,7 +21011,7 @@
 						        <input type="checkbox" name="attr_used_scene_soul_forger_counteremp_veil" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_soul_forger_counteremp_veil-u"></span>
 						    </div>
-						    
+
 						    <!-- Career Talent: Hand of the Forge (scene) -->
 						    <input type="hidden" name="attr_show_soul_forger_hand_of_the_forge" value="0" />
 						    <div class="sheet-tracker-item sheet-tracker-scene sheet-soul_forger-hand_of_the_forge">
@@ -21016,7 +21046,7 @@
 						        <input type="checkbox" name="attr_used_scene_soul_forger_soulstitch" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_soul_forger_soulstitch-u"></span>
 						    </div>
-				    
+
 						    <!-- Career Talent: Spirit Lattice Field (scene) -->
 						    <input type="hidden" name="attr_show_soul_forger_spirit_lattice_field" value="0" />
 						    <div class="sheet-tracker-item sheet-tracker-scene sheet-soul_forger-spirit_lattice_field">
@@ -22522,55 +22552,62 @@
                                 <span class="sheet-tracker-label" data-i18n="career_sigilbound_wardmasters_command-u"></span>
                             </div>
 
-						    <!-- Career Talent: Lesser Companion Bond (session) -->
-						    <input type="hidden" name="attr_show_spirit_warden_lesser_companion_bond" />
-						    <div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-lesser-companion-bond">
-						    	<input type="checkbox" name="attr_used_session_spirit_warden_lesser_companion_bond" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_lesser_companion_bond-u"></span>
-						    </div>
+							<!-- Career Talent: Avatar’s Mandate (session) -->
+							<input type="hidden" name="attr_show_spirit_warden_avatars_mandate" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-avatars-mandate">
+								<input type="checkbox" name="attr_used_session_spirit_warden_avatars_mandate" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_avatars_mandate-u"></span>
+							</div>
 
-						    <!-- Career Talent: Wardbreaker Gesture (session) -->
-						    <input type="hidden" name="attr_show_spirit_warden_wardbreaker_gesture" />
-						    <div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-wardbreaker-gesture">
-						    	<input type="checkbox" name="attr_used_session_spirit_warden_wardbreaker_gesture" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_wardbreaker_gesture-u"></span>
-						    </div>
+							<!-- Career Talent: Domain Resonance Circle (session) -->
+							<input type="hidden" name="attr_show_spirit_warden_domain_resonance_circle" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-domain-resonance-circle">
+								<input type="checkbox" name="attr_used_session_spirit_warden_domain_resonance_circle" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_domain_resonance_circle-u"></span>
+							</div>
 
-						    <!-- Career Talent: Domain Resonance Circle (session) -->
-						    <input type="hidden" name="attr_show_spirit_warden_domain_resonance_circle" />
-						    <div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-domain-resonance-circle">
-						    	<input type="checkbox" name="attr_used_session_spirit_warden_domain_resonance_circle" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_domain_resonance_circle-u"></span>
-						    </div>
+							<!-- Career Talent: Eidolon Apotheosis (session) -->
+							<input type="hidden" name="attr_show_spirit_warden_eidolon_apotheosis" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-eidolon-apotheosis">
+								<input type="checkbox" name="attr_used_session_spirit_warden_eidolon_apotheosis" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_eidolon_apotheosis-u"></span>
+							</div>
 
-						    <!-- Career Talent: Master Circle — Seal of Accord (session) -->
-						    <input type="hidden" name="attr_show_spirit_warden_master_circle_seal_of_accord" />
-						    <div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-master-circle-seal-of-accord">
-						    	<input type="checkbox" name="attr_used_session_spirit_warden_master_circle_seal_of_accord" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_master_circle_seal_of_accord-u"></span>
-						    </div>
+							<!-- Career Talent: Grand Exorcism Rite (session) -->
+							<input type="hidden" name="attr_show_spirit_warden_grand_exorcism_rite" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-grand-exorcism-rite">
+								<input type="checkbox" name="attr_used_session_spirit_warden_grand_exorcism_rite" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_grand_exorcism_rite-u"></span>
+							</div>
 
-						    <!-- Career Talent: Grand Exorcism Rite (session) -->
-						    <input type="hidden" name="attr_show_spirit_warden_grand_exorcism_rite" />
-						    <div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-grand-exorcism-rite">
-						    	<input type="checkbox" name="attr_used_session_spirit_warden_grand_exorcism_rite" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_grand_exorcism_rite-u"></span>
-						    </div>
+							<!-- Career Talent: Lesser Companion Bond (session) -->
+							<input type="hidden" name="attr_show_spirit_warden_lesser_companion_bond" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-lesser-companion-bond">
+								<input type="checkbox" name="attr_used_session_spirit_warden_lesser_companion_bond" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_lesser_companion_bond-u"></span>
+							</div>
 
-						    <!-- Career Talent: Avatar’s Mandate (session) -->
-						    <input type="hidden" name="attr_show_spirit_warden_avatars_mandate" />
-						    <div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-avatars-mandate">
-						    	<input type="checkbox" name="attr_used_session_spirit_warden_avatars_mandate" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_avatars_mandate-u"></span>
-						    </div>
+							<!-- Career Talent: Line Held Against the Veil (session) -->
+							<input type="hidden" name="attr_show_spirit_warden_line_held_against_the_veil" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-line-held-against-the-veil">
+								<input type="checkbox" name="attr_used_session_spirit_warden_line_held_against_the_veil" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_line_held_against_the_veil-u"></span>
+							</div>
 
-						    <!-- Career Talent: Eidolon Apotheosis (session) -->
-						    <input type="hidden" name="attr_show_spirit_warden_eidolon_apotheosis" />
-						    <div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-eidolon-apotheosis">
-						    	<input type="checkbox" name="attr_used_session_spirit_warden_eidolon_apotheosis" class="sheet-tracker-checkbox" />
-						    	<span class="sheet-tracker-label" data-i18n="career_spirit_warden_eidolon_apotheosis-u"></span>
-						    </div>
+							<!-- Career Talent: Sanctify the Ground (session) -->
+							<input type="hidden" name="attr_show_spirit_warden_sanctify_the_ground" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-sanctify-the-ground">
+								<input type="checkbox" name="attr_used_session_spirit_warden_sanctify_the_ground" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_sanctify_the_ground-u"></span>
+							</div>
 
+							<!-- Career Talent: Wardbreaker Gesture (session) -->
+							<input type="hidden" name="attr_show_spirit_warden_wardbreaker_gesture" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-spirit-warden-wardbreaker-gesture">
+								<input type="checkbox" name="attr_used_session_spirit_warden_wardbreaker_gesture" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_spirit_warden_wardbreaker_gesture-u"></span>
+							</div>
+							
                             <!-- Career Talent: Eye of the Storm (session) -->
                             <input type="hidden" name="attr_show_stormweaver_eye_of_the_storm" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-stormweaver-eye-of-the-storm">
@@ -22907,13 +22944,6 @@
 								<span class="sheet-tracker-label" data-i18n="career_faceman_master_of_disguise-u"></span>
 							</div>
 
-                            <!-- Career Talent: Burning Signature (session) -->
-                            <input type="hidden" name="attr_show_icon_burning_signature" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-icon-burning-signature">
-                                <input type="checkbox" name="attr_used_session_icon_burning_signature" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_icon_burning_signature-u"></span>
-                            </div>
-
                             <!-- Career Talent: Crowdcarver (session) -->
                             <input type="hidden" name="attr_show_icon_crowdcarver" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-icon-crowdcarver">
@@ -22934,7 +22964,14 @@
                                 <input type="checkbox" name="attr_used_session_icon_emotional_contagion" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_icon_emotional_contagion-u"></span>
                             </div>
-
+                            
+							<!-- Career Talent: Encore Effect (session) -->
+                            <input type="hidden" name="attr_show_icon_encore_effect" />
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-icon-encore-effect">
+                                <input type="checkbox" name="attr_used_session_icon_encore_effect" class="sheet-tracker-checkbox" />
+                                <span class="sheet-tracker-label" data-i18n="career_icon_encore_effect-u"></span>
+                            </div>
+							
                             <!-- Career Talent: Encore of Will (session) -->
                             <input type="hidden" name="attr_show_icon_encore_of_will" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-icon-encore-of-will">
@@ -23782,7 +23819,7 @@
 								<input type="checkbox" name="attr_used_session_soul_forger_nullwave_bloom" class="sheet-tracker-checkbox" />
 								<span class="sheet-tracker-label" data-i18n="career_soul_forger_nullwave_bloom-u"></span>
 							</div>
-							
+
         					<!-- Career Talent Session End -->
 						</div>
 					</div>
@@ -30432,7 +30469,7 @@ const raceDataMap = {
     label: "Draevi",
     language: "Khevala",
     stats: {
-      str: { base: 15, max: 70 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 90 },
+      str: { base: 15, max: 70 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
       siz: { base: 40, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
       pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     },
@@ -30470,7 +30507,7 @@ const raceDataMap = {
     label: "Feran",
     language: "Halvrenn",
     stats: {
-      str: { base: 15, max: 80 }, dex: { base: 15, max: 90 }, con: { base: 15, max: 80 },
+      str: { base: 15, max: 80 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
       siz: { base: 35, max: 70 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
       pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     },
@@ -30549,8 +30586,8 @@ const raceDataMap = {
     label: "Khadra",
     language: "Torahn",
     stats: {
-      str: { base: 15, max: 90 }, dex: { base: 15, max: 70 }, con: { base: 15, max: 80 },
-      siz: { base: 50, max: 90 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
+      str: { base: 15, max: 80 }, dex: { base: 15, max: 70 }, con: { base: 15, max: 80 },
+      siz: { base: 50, max: 80 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
       pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 70 }
     },
     traits: {
@@ -30635,7 +30672,7 @@ const raceDataMap = {
     stats: {
       str: { base: 15, max: 70 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
       siz: { base: 30, max: 70 }, int: { base: 40, max: 80 }, edu: { base: 15, max: 80 },
-      pow: { base: 15, max: 90 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 90 }
+      pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     },
     traits: {
       group_label_key: "senses_and_racial_traits-u",
@@ -30677,7 +30714,7 @@ const raceDataMap = {
     language: "Chirr",
     stats: {
       str: { base: 15, max: 80 }, dex: { base: 15, max: 80 }, con: { base: 15, max: 80 },
-      siz: { base: 30, max: 60 }, int: { base: 40, max: 90 }, edu: { base: 40, max: 90 },
+      siz: { base: 30, max: 60 }, int: { base: 40, max: 80 }, edu: { base: 40, max: 80 },
       pow: { base: 15, max: 80 }, app: { base: 15, max: 80 }, mag: { base: 0, max: 80 }
     },
     traits: {
@@ -34009,12 +34046,12 @@ const careerDataMap = {
         name: "Codeweaver",
         career_type: "arcane",
         career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
         skill_points_secondary: 20,
         spell_xp_primary: 30,
         spell_xp_secondary: 10,
@@ -34279,34 +34316,34 @@ const careerDataMap = {
 		name: "Dream Shaper",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3"
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2"
 	},
 	gravesinger: {
 		name: "Gravesinger",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3"
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2"
 	},
 	mindbender: {
 		name: "Mindbender",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -34609,12 +34646,12 @@ const careerDataMap = {
 		name: "Sigilbound",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -34688,7 +34725,7 @@ const careerDataMap = {
 				tier: 1,
 				cost: 5,
 				capstone: false,
-			    usage_limit: "permanent"
+			    usage_limit: ""
 			},
 			barrier_projection: {
 				name_key: "career_sigilbound_barrier_projection-u",
@@ -34890,23 +34927,23 @@ const careerDataMap = {
 		name: "Soul Mender",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3"
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2"
 	},
 	spirit_warden: {
 		name: "Spirit Warden",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -34936,6 +34973,7 @@ const careerDataMap = {
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
+				strain: "1",
 				capstone: false,
 				usage_limit: "scene"
 			},
@@ -34945,6 +34983,7 @@ const careerDataMap = {
 				prerequisite: "",
 				tier: 1,
 				cost: 5,
+				strain: "1",
 				capstone: false,
 				usage_limit: "session"
 			},
@@ -34955,7 +34994,7 @@ const careerDataMap = {
 				tier: 1,
 				cost: 5,
 				capstone: false,
-				usage_limit: ""
+				usage_limit: "scene"
 			},
 			spirit_sense_attunement: {
 				name_key: "career_spirit_warden_spirit_sense_attunement-u",
@@ -34975,11 +35014,23 @@ const careerDataMap = {
 				capstone: false,
 				usage_limit: "session"
 			},
-			wardens_binding_circle: {
-				name_key: "career_spirit_warden_wardens_binding_circle-u",
-				rule_text_key: "career_spirit_warden_wardens_binding_circle_rules-u",
+			circle_flow_discipline: {
+				name_key: "career_spirit_warden_circle_flow_discipline-u",
+				rule_text_key: "career_spirit_warden_circle_flow_discipline_rules-u",
 				affected_skill: "",
 				prerequisite: "basic_ritual_circle",
+				strain: "1",
+				tier: 2,
+				cost: 10,
+				capstone: false,
+				usage_limit: "scene"
+			},
+			circle_marked_recall: {
+				name_key: "career_spirit_warden_circle_marked_recall-u",
+				rule_text_key: "career_spirit_warden_circle_marked_recall_rules-u",
+				affected_skill: "",
+				prerequisite: "rite_efficiency",
+				strain: "1",
 				tier: 2,
 				cost: 10,
 				capstone: false,
@@ -34995,32 +35046,24 @@ const careerDataMap = {
 				capstone: false,
 				usage_limit: ""
 			},
-			circle_marked_recall: {
-				name_key: "career_spirit_warden_circle_marked_recall-u",
-				rule_text_key: "career_spirit_warden_circle_marked_recall_rules-u",
-				affected_skill: "",
-				prerequisite: "rite_efficiency",
-				tier: 2,
-				cost: 10,
-				capstone: false,
-				usage_limit: "scene"
-			},
 			lesser_spirit_conjuration: {
 				name_key: "career_spirit_warden_lesser_spirit_conjuration-u",
 				rule_text_key: "career_spirit_warden_lesser_spirit_conjuration_rules-u",
 				affected_skill: "",
 				prerequisite: "",
 				prerequisiteAny: { tier: 1, count: 1 },
+				strain: "1d4",
 				tier: 2,
 				cost: 10,
 				capstone: false,
 				usage_limit: ""
 			},
-			circle_flow_discipline: {
-				name_key: "career_spirit_warden_circle_flow_discipline-u",
-				rule_text_key: "career_spirit_warden_circle_flow_discipline_rules-u",
+			wardens_binding_circle: {
+				name_key: "career_spirit_warden_wardens_binding_circle-u",
+				rule_text_key: "career_spirit_warden_wardens_binding_circle_rules-u",
 				affected_skill: "",
 				prerequisite: "basic_ritual_circle",
+				strain: "1",
 				tier: 2,
 				cost: 10,
 				capstone: false,
@@ -35032,8 +35075,19 @@ const careerDataMap = {
 				prerequisite: "wardens_binding_circle",
 				tier: 3,
 				cost: 15,
+				strain: "2",
 				capstone: false,
 				usage_limit: "session"
+			},
+			purifications_edge: {
+				name_key: "career_spirit_warden_purifications_edge-u",
+				rule_text_key: "career_spirit_warden_purifications_edge_rules-u",
+				prerequisite: "confront_the_echo",
+				tier: 3,
+				cost: 15,
+				strain: "1",
+				capstone: false,
+				usage_limit: "scene"
 			},
 			silencing_hand: {
 				name_key: "career_spirit_warden_silencing_hand-u",
@@ -35047,28 +35101,20 @@ const careerDataMap = {
 			spirit_economy: {
 				name_key: "career_spirit_warden_spirit_economy-u",
 				rule_text_key: "career_spirit_warden_spirit_economy_rules-u",
-				prerequisite: "circle_flow_discipline",
+				prerequisite: "wardens_binding_circle",
 				tier: 3,
 				cost: 15,
+				strain: "1d4",
 				capstone: false,
 				usage_limit: "scene"
 			},
 			wardens_wards: {
 				name_key: "career_spirit_warden_wardens_wards-u",
 				rule_text_key: "career_spirit_warden_wardens_wards_rules-u",
-				prerequisite: "spirit_sense_attunement",
+				prerequisite: "circle_marked_recall",
 				tier: 3,
 				cost: 15,
-				capstone: false,
-				usage_limit: "scene"
-			},
-			purifications_edge: {
-				name_key: "career_spirit_warden_purifications_edge-u",
-				rule_text_key: "career_spirit_warden_purifications_edge_rules-u",
-				prerequisite: "",
-				prerequisiteAny: { tier: 2, count: 1 },
-				tier: 3,
-				cost: 15,
+				strain: "1",
 				capstone: false,
 				usage_limit: "scene"
 			},
@@ -35079,17 +35125,29 @@ const careerDataMap = {
 				prerequisiteAny: { tier: 3, count: 1 },
 				tier: 4,
 				cost: 20,
+				strain: "1d6",
 				capstone: false,
 				usage_limit: "scene"
 			},
-			master_circle_seal_of_accord: {
-				name_key: "career_spirit_warden_master_circle_seal_of_accord-u",
-				rule_text_key: "career_spirit_warden_master_circle_seal_of_accord_rules-u",
-				prerequisite: "wardens_binding_circle",
+			custodians_stand: {
+				name_key: "career_spirit_warden_custodians_stand-u",
+				rule_text_key: "career_spirit_warden_custodians_stand_rules-u",
+				prerequisite: "domain_resonance_circle",
 				tier: 4,
 				cost: 20,
+				strain: "1",
 				capstone: false,
-				usage_limit: "session"
+				usage_limit: "scene"
+			},
+			rite_of_echo_severance: {
+				name_key: "career_spirit_warden_rite_of_echo_severance-u",
+				rule_text_key: "career_spirit_warden_rite_of_echo_severance_rules-u",
+				prerequisite: "purifications_edge",
+				tier: 4,
+				cost: 20,
+				strain: "1d4",
+				capstone: false,
+				usage_limit: "scene"
 			},
 			sovereign_pattern: {
 				name_key: "career_spirit_warden_sovereign_pattern-u",
@@ -35103,39 +35161,21 @@ const careerDataMap = {
 			wardens_barrier_sigil: {
 				name_key: "career_spirit_warden_wardens_barrier_sigil-u",
 				rule_text_key: "career_spirit_warden_wardens_barrier_sigil_rules-u",
-				prerequisite: "",
-				prerequisiteAny: { tier: 3, count: 1 },
+				prerequisite: "wardens_wards",
 				tier: 4,
 				cost: 20,
+				strain: "1d4",
 				capstone: false,
 				usage_limit: "scene"
-			},
-			rite_of_echo_severance: {
-				name_key: "career_spirit_warden_rite_of_echo_severance-u",
-				rule_text_key: "career_spirit_warden_rite_of_echo_severance_rules-u",
-				prerequisite: ["confront_the_echo", "purifications_edge"],
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "scene"
-			},
-			grand_exorcism_rite: {
-				name_key: "career_spirit_warden_grand_exorcism_rite-u",
-				rule_text_key: "career_spirit_warden_grand_exorcism_rite_rules-u",
-				affected_skill: "magic_summoning",
-				prerequisite: [ "rite_of_echo_severance", "silencing_hand" ],
-				tier: 5,
-				cost: 30,
-				capstone: true,
-				usage_limit: "session"
 			},
 			avatars_mandate: {
 				name_key: "career_spirit_warden_avatars_mandate-u",
 				rule_text_key: "career_spirit_warden_avatars_mandate_rules-u",
 				affected_skill: "magic_summoning",
-				prerequisite: [ "domain_resonance_circle", "sovereign_pattern" ],
+				prerequisite: "sovereign_pattern",
 				tier: 5,
 				cost: 30,
+				strain: "1d4 + 1d6",
 				capstone: true,
 				usage_limit: "session"
 			},
@@ -35146,17 +35186,42 @@ const careerDataMap = {
 				prerequisite: "bound_spirit_partner",
 				tier: 5,
 				cost: 30,
+				strain: "2d6",
 				capstone: true,
 				usage_limit: "session"
 			},
-			stat_boost: {
-				name_key: "career_spirit_warden_stat_boost-u",
-				rule_text_key: "career_spirit_warden_stat_boost_rules-u",
-				prerequisiteAny: { tier: 4, count: 1 },
+			grand_exorcism_rite: {
+				name_key: "career_spirit_warden_grand_exorcism_rite-u",
+				rule_text_key: "career_spirit_warden_grand_exorcism_rite_rules-u",
+				affected_skill: "magic_summoning",
+				prerequisite: "rite_of_echo_severance",
 				tier: 5,
 				cost: 30,
+				strain: "2d4",
 				capstone: true,
-				usage_limit: ""
+				usage_limit: "session"
+			},
+			line_held_against_the_veil: {
+				name_key: "career_spirit_warden_line_held_against_the_veil-u",
+				rule_text_key: "career_spirit_warden_line_held_against_the_veil_rules-u",
+				affected_skill: "",
+				prerequisite: "custodians_stand",
+				tier: 5,
+				cost: 30,
+				strain: "1d6",
+				capstone: true,
+				usage_limit: "session"
+			},
+			sanctify_the_ground: {
+				name_key: "career_spirit_warden_sanctify_the_ground-u",
+				rule_text_key: "career_spirit_warden_sanctify_the_ground_rules-u",
+				affected_skill: "",
+				prerequisite: "custodians_stand",
+				tier: 5,
+				cost: 30,
+				strain: "1d6",
+				capstone: true,
+				usage_limit: "session"
 			}
 		}
 	},
@@ -35164,12 +35229,12 @@ const careerDataMap = {
 		name: "Stormweaver",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -35221,7 +35286,7 @@ const careerDataMap = {
 				tier: 1,
 				cost: 5,
 				capstone: false,
-			    usage_limit: "permanent"
+			    usage_limit: ""
 			},
 			tinder_spark: {
 				name_key: "career_stormweaver_tinder_spark-u",
@@ -35458,12 +35523,12 @@ const careerDataMap = {
 		name: "Veil Dancer",
 		career_type: "arcane",
 		career_type_name: "Arcane",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
 		spell_xp_secondary: 10,
@@ -35517,7 +35582,7 @@ const careerDataMap = {
 				tier: 1,
 				cost: 5,
 				capstone: false,
-				usage_limit: "permanent"
+				usage_limit: ""
 			},
 			veilstep_initiate: {
 				name_key: "career_veil_dancer_veilstep_initiate-u",
@@ -35785,34 +35850,34 @@ const careerDataMap = {
 		name: "Brawler",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3"
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2"
 	},
 	breacher: {
 		name: "Breacher",
 		career_type: "core",
-		career_type_name: "Core",	
-		base_skill_points: 80,
+		career_type_name: "Core",
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3"	
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2"
 	},
     combat_engineer: {
         name: "Combat Engineer",
         career_type: "core",
         career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
         skill_points_secondary: 20,
         spell_xp_primary: 0,
         spell_xp_secondary: 0,
@@ -36142,12 +36207,12 @@ const careerDataMap = {
 		name: "Combat Medic",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -36415,12 +36480,12 @@ const careerDataMap = {
 		name: "Faceman",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -36704,35 +36769,36 @@ const careerDataMap = {
 		name: "Icon",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
 		primary_skills: {
-			charm: "Charm",
-			insight: "Insight",
-			perform_acting: "Perform Acting",
-			perform_dance: "Perform Dance",
-			perform_impersonation: "Perform Impersonation",
-			perform_instrument: "Perform Instrument",
-			perform_vocal: "Perform Vocal",
-			persuade: "Persuade"
+			charm: "charm-u",
+			insight: "insight-u",
+			perform_acting: "perform_acting-u",
+			perform_dance: "perform_dance-u",
+			perform_impersonation: "perform_impersonation-u",
+			perform_instrument: "perform_instrument-u",
+			perform_ritual: "perform_ritual-u",
+			perform_vocal: "perform_vocal-u",
+			persuade: "persuade-u"
 		},
 		secondary_skills: {
-			coordination: "Coordination",
-			deception: "Deception",
-			disguise: "Disguise",
-			electronics: "Electronics",
-			leadership: "Leadership",
-			streetwise: "Streetwise"
+			coordination: "coordination-u",
+			deception: "deception-u",
+			disguise: "disguise-u",
+			electronics: "electronics-u",
+			leadership: "leadership-u",
+			streetwise: "streetwise-u"
 		},
 		exclusive_skill_sets: [
-			["perform_acting", "perform_dance", "perform_impersonation", "perform_instrument", "perform_vocal"]
+			["perform_acting", "perform_dance", "perform_impersonation", "perform_instrument", "perform_ritual", "perform_vocal"]
 		],
 		talents: {
 			command_the_stage: {
@@ -36808,7 +36874,7 @@ const careerDataMap = {
 			pulse_of_the_crowd: {
 				name_key: "career_icon_pulse_of_the_crowd-u",
 				rule_text_key: "career_icon_pulse_of_the_crowd_rules-u",
-				affected_skill: "persuade",
+				affected_skill_group: "perform",
 				prerequisite: "encore_effect",
 				tier: 2,
 				cost: 10,
@@ -36838,22 +36904,22 @@ const careerDataMap = {
 			burn_it_brighter: {
 				name_key: "career_icon_burn_it_brighter-u",
 				rule_text_key: "career_icon_burn_it_brighter_rules-u",
-				name: "Burn It Brighter",
-				description: "When you are below 50% of your maximum HP or Strain, additional Maneuvers cost only 2 Strain each instead of the usual 3. If your HP or Strain are restored above 50%, this benefit ends until the condition is met again.",
 				prerequisite: "street_stage_discipline",
 				tier: 3,
 				cost: 15,
 				capstone: false,
-				usage_limit: ""
+				strain: "2",
+				usage_limit: "scene"
 			},
-			endurance_conditioning: {
-				name_key: "career_icon_endurance_conditioning-u",
-				rule_text_key: "career_icon_endurance_conditioning_rules-u",
+			hold_the_line: {
+				name_key: "career_icon_hold_the_line-u",
+				rule_text_key: "career_icon_hold_the_line_rules-u",
 				prerequisite: "street_stage_discipline",
 				tier: 3,
 				cost: 15,
 				capstone: false,
-				usage_limit: ""
+				strain: "2",
+				usage_limit: "scene"
 			},
 			resonant_persona: {
 				name_key: "career_icon_resonant_persona-u",
@@ -36873,6 +36939,7 @@ const careerDataMap = {
 				tier: 3,
 				cost: 15,
 				capstone: false,
+				strain: "2",
 				usage_limit: "session"
 			},
 			voice_of_the_moment: {
@@ -36882,54 +36949,59 @@ const careerDataMap = {
 				tier: 3,
 				cost: 15,
 				capstone: false,
+				strain: "2",
 				usage_limit: "session"
 			},
 			all_eyes_on_me: {
-				name_key: "career_icon_all_eyes_on_me-u",
-				rule_text_key: "career_icon_all_eyes_on_me_rules-u",
-				prerequisite: "voice_of_the_moment",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "scene"
+			  name_key: "career_icon_all_eyes_on_me-u",
+			  rule_text_key: "career_icon_all_eyes_on_me_rules-u",
+			  prerequisite: "voice_of_the_moment",
+			  tier: 4,
+			  cost: 20,
+			  capstone: false,
+			  usage_limit: "scene",
+			  strain: "3",
+			  affected_skill_group: "social"
 			},
 			burning_signature: {
-				name_key: "career_icon_burning_signature-u",
-				rule_text_key: "career_icon_burning_signature_rules-u",
-				affected_skill_group: "social",
-				prerequisite: "resonant_persona",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "session"
+			  name_key: "career_icon_burning_signature-u",
+			  rule_text_key: "career_icon_burning_signature_rules-u",
+			  prerequisite: "resonant_persona",
+			  tier: 4,
+			  cost: 20,
+			  capstone: false,
+			  usage_limit: "scene",
+			  strain: ""
 			},
 			cultural_gravity: {
-				name_key: "career_icon_cultural_gravity-u",
-				rule_text_key: "career_icon_cultural_gravity_rules-u",
-				affected_skill_group: "perform",
-				prerequisite: "resonant_persona",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: ""
+			  name_key: "career_icon_cultural_gravity-u",
+			  rule_text_key: "career_icon_cultural_gravity_rules-u",
+			  prerequisite: "resonant_persona",
+			  tier: 4,
+			  cost: 20,
+			  capstone: false,
+			  usage_limit: "",
+			  strain: ""
 			},
 			encore_of_will: {
-				name_key: "career_icon_encore_of_will-u",
-				rule_text_key: "career_icon_encore_of_will_rules-u",
-				prerequisite: "voice_of_the_moment",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "session"
+			  name_key: "career_icon_encore_of_will-u",
+			  rule_text_key: "career_icon_encore_of_will_rules-u",
+			  prerequisite: "voice_of_the_moment",
+			  tier: 4,
+			  cost: 20,
+			  capstone: false,
+			  usage_limit: "session",
+			  strain: "2"
 			},
 			iconic_rally: {
-				name_key: "career_icon_iconic_rally-u",
-				rule_text_key: "career_icon_iconic_rally_rules-u",
-				prerequisite: "shared_spotlight",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "session"
+			  name_key: "career_icon_iconic_rally-u",
+			  rule_text_key: "career_icon_iconic_rally_rules-u",
+			  prerequisite: "shared_spotlight",
+			  tier: 4,
+			  cost: 20,
+			  capstone: false,
+			  usage_limit: "session",
+			  strain: "2"
 			},
 			crowdcarver: {
 				name_key: "career_icon_crowdcarver-u",
@@ -36989,12 +37061,12 @@ const careerDataMap = {
 		name: "Investigator",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -37276,12 +37348,12 @@ const careerDataMap = {
 		name: "Marksman",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -37544,12 +37616,12 @@ const careerDataMap = {
 	  name: "Operator",
 	  career_type: "core",
 	  career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 	  skill_points_secondary: 20,
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
@@ -37811,23 +37883,23 @@ const careerDataMap = {
 		name: "Pathfinder",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3"
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2"
 	},
 	pilot: {
 	  name: "Pilot",
 	  career_type: "core",
 	  career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 	  skill_points_secondary: 20,
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
@@ -38091,12 +38163,12 @@ const careerDataMap = {
 	  name: "Shadowblade",
 	  career_type: "core",
 	  career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 	  skill_points_secondary: 20,
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
@@ -38404,12 +38476,12 @@ const careerDataMap = {
 	  name: "Slicer",
 	  career_type: "core",
 	  career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 	  skill_points_secondary: 20,
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
@@ -38707,12 +38779,12 @@ const careerDataMap = {
 		name: "Street Ronin",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3",
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 0,
 		spell_xp_secondary: 0,
@@ -38983,12 +39055,12 @@ const careerDataMap = {
 		name: "Tactician",
 		career_type: "core",
 		career_type_name: "Core",
-		base_skill_points: 80,
+		base_skill_points: 180,
         skill_points_primary_formula: {
             attributes: ["EDU"],
-            multipliers: [3]
-        },		
-		skill_points_primary_display: "EDU × 3"
+            multipliers: [2]
+        },
+		skill_points_primary_display: "base_skill_points + EDU x 2"
 	},
 	/* Specialist Career */
 	arcane_gunslinger: {
@@ -40673,7 +40745,7 @@ const registerPrimaryCareerXPWatcher = () => {
             if (!career) return;
 
             const talentKeys = Object.keys(career.talents || {});
-            const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag"];
+            const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int"];
             const allKeysToGet = [
                 ...statKeys,
                 ...talentKeys.map(k => `${selectedCareer}_${k}`),
@@ -42518,7 +42590,7 @@ function applyRacialBaseStats(race, callback, options) {
   }
 
   const raceStats = raceDataMap[race].stats;
-  const statKeys = ["str","dex","pow","con","app","edu","siz","int","mag"];
+  const statKeys = ["str","dex","pow","con","app","edu","siz","int"];
 
   getAttrs(statKeys, values => {
     const updates = {};
@@ -42630,7 +42702,7 @@ function registerStatHandler() {
 	if (debug_on_trace) console.log ("[registerStatHandler] Start");
 
 	const watched = [
-		"age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag", "vitality", "char_creation_lock", "major_wounds",
+		"age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "vitality", "char_creation_lock", "major_wounds", "awakened",
 		"primary_career",                         // Watch primary career changes
 		"repeating_secondarycareer:secondary_career", // Watch for changes to career name
 		"perk_resilient_frame", "perk_blood_born_survivor", "perk_blood_born_survivor_hp_bonus"
@@ -42654,10 +42726,10 @@ function registerStatHandler() {
             const iedu = parseInt(values.edu, 10) || 0;
             const isiz = parseInt(values.siz, 10) || 0;
             const iint = parseInt(values.int, 10) || 0;
-            const imag = parseInt(values.mag, 10) || 0;
             const ivit = parseInt(values.vitality, 10) || 0;
 			const iwound = parseInt(values.major_wounds, 10) || 0;
 			const ichar_lock = parseInt(values.char_creation_lock, 10) || 0;
+			const iawakened = parseInt(values.awakened, 10) || 0;
 
             const update = {};
 
@@ -42665,15 +42737,14 @@ function registerStatHandler() {
 				update["personal_skill_points"] = iint * 2;
 			}
 
+			update["vitality_max"] = ipow;
+			
 			// === Perk-driven Vitality bonuses ===
 			// Resilient Frame: static +4 while perk is owned (permanent while checked)
 			let perkVitalityBonus = (values.perk_resilient_frame === "1") ? 4 : 0;
 
-			// Base Vitality is POW, then add perks
-			update["vitality_max"] = ipow + perkVitalityBonus;
-
-			update["pulphp_max"] = Math.floor((icon + isiz)/5);
-			update["major_wounds"]= Math.floor(((icon + isiz)/5)/2);
+			update["pulphp_max"] = Math.floor((icon + isiz)/5) + perkVitalityBonus;
+			update["major_wounds"]= Math.floor(((icon + isiz)/5)/2) + perkVitalityBonus;
 
 			// Calculate strain max with career strain buffer
             calculateStrainMax(ipow, icon, update);
@@ -42682,7 +42753,7 @@ function registerStatHandler() {
 //			This is for using the template:coc-penalty and template:coc-bonus rolls. Changing the values so it's no longer using the extra roll without having to remove a bumch of code, till later.
 			update["social_mode_toggle"] = (iapp <= 0 ) ? 1 : ( iapp >= 101 ) ? 2 : 0;
 			// Attribute Points Total Calculation
-			const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int", "mag"];
+			const statKeys = ["str", "dex", "pow", "con", "app", "edu", "siz", "int"];
 
 			let totalAttrPointsSpent = 0;
 
@@ -42693,8 +42764,8 @@ function registerStatHandler() {
 
 			update["total_attr_points_spent"] = totalAttrPointsSpent;
 
-            // Arcane Capcity = min(MAG, VITALITY)
-            update.ac = Math.min(imag, ivit);
+            // Arcane Capcity = VITALITY
+            update.ac = ( ( iawakened === 1 ) ? ivit : 0 );
 
             // Damage Bonus and Build
             const siz_str_tot = istr + isiz;
@@ -43238,7 +43309,6 @@ on("change:showracials change:recompute_nonce", (evt) => {
     if (typeof updateTalentEnables === "function") updateTalentEnables(race);
   });
 });
-
 
 on("clicked:repeating_spellsmdr:spelladvanced", function(eventInfo) {
 	console.log("[clicked:repeating_spellsmdr:spelladvanced]");

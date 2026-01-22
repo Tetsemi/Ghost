@@ -10,101 +10,7 @@ And I will paste the updated text for this career/section.
 
 Task: Update ONLY the following for, do not look ahead at other tiers, only the current one:
 
-Ancestry key: ancestryTalentDataMap.human
-
-Section: <talent name>.tier === 4, capstone === true
-
-What to produce (MUST be separate downloadable files):
-
-HTML patch/snippet for this section only (no unrelated HTML), group sections together careerDataMapObject, Ancestry HTML, Tracker HTML
-
-CSS patch/snippet for this section only (no unrelated CSS).
-
-JSON patch/snippet for this section only (no unrelated JSON).
-
-Hard rules:
-
-Use the indentation and formatting in existing files
-
-Provide additions and deletions for the section requested only
-
-Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
-
-In chat output, include exactly one code block titled “Provenance & Checks” that lists validations and counts (see checklist below).
-
-Alphabetize everything you generate that is map-like or list-like (talent keys, i18n keys, etc.).
-
-Validate skill keys against skillDataMap in ghost_of_arcadia.html and explicitly list any missing/unknown skill keys (do not guess replacements).
-
-Follow existing sheet conventions (naming, class prefixes sheet-, hidden lock/enabled fields, tier layout conventions). Do not invent new structure.
-
-i18n: provide full changes including names and description fields
-
-Higher tiers intentionally ignored and may be temporarily broken until migrated
-
-Ancestry data requirements (new source of truth):
-
-Update/create the career’s data object for this section using i18n keys (e.g., nameKey, rulesKey, etc.) rather than hydrated label attrs.
-
-For talents: include tier, cost, usage_limit, strain, prerequisite expression, and any tracker/icon hooks required by the existing UI patterns.
-
-Section includes: careerDataMap entries, Tier X talent UI rows, and any tracker rows/CSS affected by usage_limit changes.
-
-Provenance & Checks (in the single code block):
-
-Files used: list the 3 uploaded filenames.
-
-Ancestry + section targeted.
-
-Counts: talents updated/added, skills added/changed, i18n keys added/changed.
-
-Validations performed:
-
-JSON validity (parseable)
-
-No duplicate i18n keys created
-
-All referenced skill keys exist in skillDataMap (or list missing)
-
-HTML uses correct data-i18n keys present in the JSON snippet
-
-CSS selectors scope is correct for Roll20 (.ui-dialog .tab-content .charsheet ...)
-
-Tracker hooks updated: any talent with usage_limit scene/session appears in the correct tracker list and not the wrong one.
-
-Hard gates:
-
-Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
-
-Output patches MUST be ADD / REMOVE blocks only (no +/- diffs).
-
-Tracker coupling is mandatory: any tracker HTML ADD/REMOVE must have matching CSS attr_show_* selector ADD/REMOVE.
-
-Provenance must include Patch Manifest lines for: careerDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
-If any gate fails, regenerate in the same response.
-
-Corrections:
-
-Pistol is replaced by Handgun
-pistol is replaced by handgun
-Archanotech is replaced by Arcanotech
-archanotech is replaced by arcanotech
-
-Inputs:
-
-Context: We are migrating to a new source of truth for Ancestry talents. I will upload:
-
-ghost_of_arcadia.html (current sheet)
-
-ghost_of_arcadia.css (current sheet CSS)
-
-translation.json (i18n)
-
-And I will paste the updated text for this career/section.
-
-Task: Update ONLY the following for, do not look ahead at other tiers, only the current one:
-
-Ancestry key: ancestryTalentDataMap.human
+Ancestry key: ancestryTalentDataMap.lyranni
 
 Section: <talent name>.tier === 3
 
@@ -186,11 +92,12 @@ archanotech is replaced by arcanotech
 
 Inputs:
 
-Humans - Tier 4 Capstones (40 XP) - Choose One
+Lyranni — Tier 3 Talents (30 XP)
 Talent Description Prerequisite
 
-If This Works, We Win Type: Action (All-In Commitment) • Cost: 1d6 Strain • Usage: 1/Session — Choose one clearly defined objective that would decisively end or turn the scene if completed. Until the end of the scene, all of your actions must directly advance that objective . While doing so, you gain +1 bonus die on skill rolls made toward it. This bonus applies only once per round. If the objective is completed, the scene immediately resolves or shifts in your favor. If you fail or abandon the objective, consequences escalate sharply and immediately. It Only Has to Work Once
-I’ll Take the Hit Type: Reaction (Deliberate Sacrifice) • Cost: 1d4 Strain • Usage: 1/Session — When an ally within Short range would suffer damage or a condition that would remove them from meaningful participation in the scene, you may take that damage or condition instead. All effects apply to you exactly as if you were the original target. This transfer cannot be reduced, redirected, delayed, or avoided. If the effect would incapacitate you, it does so. Hold It Together
-I’ve Been in Worse Type: Reaction (Refusal to Fall) • Cost: 1d6 Strain • Usage: 1/Session — When you would suffer a Major Wound , become Exhausted, or gain a condition that would remove you from action , you may ignore that effect until the end of the scene. You may act normally, but you cannot recover Strain, remove conditions, or benefit from effects that reduce damage or mitigate harm. When the scene ends, all ignored effects apply immediately and in full. Inside the Blast Radius
-Never Tell Me the Odds Type: Special (Defiant Resolution) • Cost: 1d6 Strain • Usage: 1/Session — When you attempt a single skill-based action whose success would decisively alter the scene, you do not roll to determine success . The action automatically succeeds . Immediately after, roll the appropriate skill to determine the severity of consequences caused by forcing the outcome. On a Success , the consequences are minor and contained . On a Failure, the consequences are serious and disruptive. On a Fumble , the consequences are catastrophic and lasting . This roll cannot be pushed, assisted, or modified, and this talent cannot be used for attacks. Too Late to Stop Me
-Someone Has to Do It Type: Action (Assumed Burden) • Cost: 2d4 Strain • Usage: 1/Session — When you attempt a task that is necessary to resolve the scene and failure would impose consequences on multiple allies, civilians, or the wider situation , you may declare this talent before rolling. Resolve the attempt normally. If the roll fails, you alone suffer all narrative, social, positional, or situational consequences that would have affected others. Secondary effects that are unavoidable still occur. This talent does not guarantee success or safety; it allows the scene to continue by placing the cost entirely on you. I’ve Run Worse Odds
+Arcane Composure Type: Reaction (Arcane Reserve) • Cost: 1 Strain • Usage: 1/Scene • Trigger: A creature you can perceive attempts to notice a spell being cast, prepared, or shaped by you, or you attempt to notice another creature casting or manipulating arcane energy. Perception and Arcana checks made to notice you casting or preparing a spell suffer one penalty die , and you gain +1 bonus die on Perception or Arcana checks made to notice another creature casting or manipulating arcane energy. This does not conceal overt spell effects once manifested and does not block direct magical detection or intrusion. Held Intent
+Spirit-Marked Type: Reaction (Veil Claim) • Cost: 1d4 Strain • Usage: 1/Session — When a spirit, Veil entity, or arcane remnant directly interacts with you through influence, communication, possession attempt, or attack, you may assert recognition. Until the end of the scene, that entity suffers one penalty die on rolls made to deceive, surprise, or overwhelm you. This does not grant control, immunity, or protection. Between the Currents
+True Veilsight Type: Action (Perception) • Cost: 2 Strain (1 round) or 1d6 Strain (entire scene) • Usage: Atwill — You perceive Veil phenomena directly, including spirits, Veil entities, lingering arcane effects, corrupted zones, rifts, echoes, and magical residue. While True Veilsight is active, the first Arcana, Veil Lore, or Spirit Lore roll you make during its duration gains +1 bonus die. You may distinguish natural Veil fluctuation from deliberate arcane or spiritual influence, but you do not perceive spell formulas, prepared spells, or active casting mechanics. While active, you ignore penalties from low-light or shadowed conditions. This does not grant vision in total sensory voids and does not bypass non-Veil concealment. Between the Currents
+Unspoken Leverage Type: Passive (Social Pressure) • Cost: — • Usage: At-will — In social scenes involving hierarchy, negotiation, or concealed power dynamics, neutral or hostile parties cannot treat you as harmless or irrelevant. The first roll made to dismiss, ignore, or bypass you without engagement suffers one penalty die . This does not compel respect or cooperation; it ensures your presence carries weight even when silent. Quiet Read
+Veil-Hardened Mind Type: Reaction (Arcane Resistance) • Cost: 1d4 Strain • Usage: 1/Session — When you would gain Disoriented, Shaken, Panicked, Suppressed, or Stunned due to a spell, Veil effect, spiritual influence, or arcane pressure, reduce the severity or duration to the minimum possible. If the condition would last multiple rounds, it instead ends at the close of the current round. This does not negate damage or remove conditions entirely and does not apply to purely mundane sources. Veiled Composure
+

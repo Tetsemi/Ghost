@@ -6,21 +6,21 @@ ghost_of_arcadia.css (current sheet CSS)
 
 translation.json (i18n)
 
-And I will paste the updated text for this career/section.
+And I will paste the updated text for this section.
 
 Task: Update ONLY the following for, do not look ahead at other tiers, only the current one:
 
 Ancestry key: ancestryTalentDataMap.lyranni
 
-Section: <talent name>.tier === 3
+Section: <talent name>.tier === 4, capstone === true
 
 What to produce (MUST be separate downloadable files):
 
-HTML patch/snippet for this section only (no unrelated HTML), group sections together careerDataMapObject, Ancestry HTML, Tracker HTML
+HTML patch/snippet for this section only (no unrelated HTML), group sections together ancestoryTalentDataMap objects, Ancestry HTML, Tracker HTML, use existing style in files provided
 
-CSS patch/snippet for this section only (no unrelated CSS).
+CSS patch/snippet for this section only (no unrelated CSS), use existing style in files provided.
 
-JSON patch/snippet for this section only (no unrelated JSON).
+JSON patch/snippet for this section only (no unrelated JSON), use existing style in files provided.
 
 Hard rules:
 
@@ -44,11 +44,11 @@ Higher tiers intentionally ignored and may be temporarily broken until migrated
 
 Ancestry data requirements (new source of truth):
 
-Update/create the career’s data object for this section using i18n keys (e.g., nameKey, rulesKey, etc.) rather than hydrated label attrs.
+Update/create the data object for this section using i18n keys (e.g., nameKey, rulesKey, etc.) rather than hydrated label attrs.
 
 For talents: include tier, cost, usage_limit, strain, prerequisite expression, and any tracker/icon hooks required by the existing UI patterns.
 
-Section includes: careerDataMap entries, Tier X talent UI rows, and any tracker rows/CSS affected by usage_limit changes.
+Section includes: ancestoryTalentDataMap entries, Tier X talent UI rows, and any tracker rows/CSS affected by usage_limit changes.
 
 Provenance & Checks (in the single code block):
 
@@ -80,7 +80,7 @@ Output patches MUST be ADD / REMOVE blocks only (no +/- diffs).
 
 Tracker coupling is mandatory: any tracker HTML ADD/REMOVE must have matching CSS attr_show_* selector ADD/REMOVE.
 
-Provenance must include Patch Manifest lines for: careerDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
+Provenance must include Patch Manifest lines for: ancestoryTalentDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
 If any gate fails, regenerate in the same response.
 
 Corrections:
@@ -92,12 +92,13 @@ archanotech is replaced by arcanotech
 
 Inputs:
 
-Lyranni — Tier 3 Talents (30 XP)
+Lyranni — Tier 4 Capstones (40 XP) — Choose One
 Talent Description Prerequisite
 
-Arcane Composure Type: Reaction (Arcane Reserve) • Cost: 1 Strain • Usage: 1/Scene • Trigger: A creature you can perceive attempts to notice a spell being cast, prepared, or shaped by you, or you attempt to notice another creature casting or manipulating arcane energy. Perception and Arcana checks made to notice you casting or preparing a spell suffer one penalty die , and you gain +1 bonus die on Perception or Arcana checks made to notice another creature casting or manipulating arcane energy. This does not conceal overt spell effects once manifested and does not block direct magical detection or intrusion. Held Intent
-Spirit-Marked Type: Reaction (Veil Claim) • Cost: 1d4 Strain • Usage: 1/Session — When a spirit, Veil entity, or arcane remnant directly interacts with you through influence, communication, possession attempt, or attack, you may assert recognition. Until the end of the scene, that entity suffers one penalty die on rolls made to deceive, surprise, or overwhelm you. This does not grant control, immunity, or protection. Between the Currents
-True Veilsight Type: Action (Perception) • Cost: 2 Strain (1 round) or 1d6 Strain (entire scene) • Usage: Atwill — You perceive Veil phenomena directly, including spirits, Veil entities, lingering arcane effects, corrupted zones, rifts, echoes, and magical residue. While True Veilsight is active, the first Arcana, Veil Lore, or Spirit Lore roll you make during its duration gains +1 bonus die. You may distinguish natural Veil fluctuation from deliberate arcane or spiritual influence, but you do not perceive spell formulas, prepared spells, or active casting mechanics. While active, you ignore penalties from low-light or shadowed conditions. This does not grant vision in total sensory voids and does not bypass non-Veil concealment. Between the Currents
-Unspoken Leverage Type: Passive (Social Pressure) • Cost: — • Usage: At-will — In social scenes involving hierarchy, negotiation, or concealed power dynamics, neutral or hostile parties cannot treat you as harmless or irrelevant. The first roll made to dismiss, ignore, or bypass you without engagement suffers one penalty die . This does not compel respect or cooperation; it ensures your presence carries weight even when silent. Quiet Read
-Veil-Hardened Mind Type: Reaction (Arcane Resistance) • Cost: 1d4 Strain • Usage: 1/Session — When you would gain Disoriented, Shaken, Panicked, Suppressed, or Stunned due to a spell, Veil effect, spiritual influence, or arcane pressure, reduce the severity or duration to the minimum possible. If the condition would last multiple rounds, it instead ends at the close of the current round. This does not negate damage or remove conditions entirely and does not apply to purely mundane sources. Veiled Composure
+Heir to the Veiled Houses Type: Special (Inherited Authority) • Cost: 1d6 Strain • Usage: 1/Session — When you formally assert your lineage, House ties, or cultural standing in a social, political, arcane, or spirit-mediated interaction, choose one audience present: mortals, spirits, or institutional actors. For the remainder of the scene, that audience must treat you as a legitimate stakeholder whose words carry consequence. The first attempt by that audience to dismiss, override, or disregard you without engagement suffers one penalty die, and you gain +1 bonus die on your next roll this scene to negotiate, assert precedent, invoke obligation, or demand acknowledgment. This does not compel obedience or trust and often invites scrutiny, challenge, or future consequence. Unspoken Leverage
+I Will Not Be Carried Type: Reaction (Defiant Continuance) • Cost: 1d6 Strain • Usage: 1/Session • Trigger: A spell, Veil effect, spiritual influence, or supernatural event would incapacitate you, forcibly remove you from the scene, or otherwise end your meaningful participation. — The triggering effect resolves, but you remain conscious, present, and able to act until the scene ends. You take all damage normally and still accrue conditions as they occur, but none of those conditions may remove you from play until the scene concludes. You cannot recover Strain, reduce damage, or remove conditions during this time. When the scene ends, all delayed effects, conditions, and consequences apply immediately and in full. This talent does not protect allies, negate harm, or reduce cost; it ensures you are not erased from the moment. Veil-Hardened Mind
+Let It Pass Through Me Type: Reaction (Veil Mediation) • Cost: 2d4 Strain • Usage: 1/Session • Trigger: A spell, Veil effect, spiritual influence, or supernatural action would directly affect multiple creatures, escalate beyond a single target, or impose widespread supernatural consequences. — You interpose yourself and force the effect to resolve through you. The effect still occurs, but all transferable portions of it—damage, conditions, spiritual influence, and narrative consequences—are redirected to you. When resolving those effects, choose one: halve the total damage dice rolled against you (round down); or reduce the severity or duration of one condition applied to you to its minimum value; or remove one secondary rider effect attached to the original effect. Any excess power displaced by this mediation bleeds into the surrounding environment or the Veil, creating an immediate and visible disturbance, scar, omen, or spiritual backlash. You suffer all remaining effects immediately and in full; this talent does not negate harm or prevent incapacitation. After the resolution, you may define how responsibility, blame, or obligation is perceived in the aftermath, subject to normal narrative adjudication. Spirit-Marked
+The Veil Knows My Name Type: Special (Recognized Presence) • Cost: 1d6 Strain • Usage: 1/Session — When you enter a scene containing a spirit, Veil entity, corrupted zone, or active arcane phenomenon, you may declare this talent. Until the end of the scene, Veil-aligned forces recognize you as an acknowledged actor rather than an intrusion. They do not automatically escalate, reject, or target you solely for being present. The first hostile action taken directly against you by a Veil-aligned entity this scene suffers one penalty die. This does not prevent hostility, manipulation, collateral damage, or indirect harm. At the end of the scene, the GM establishes how the Veil records this recognition—favor, obligation, scrutiny, or resentment—which persists beyond the scene. Spirit-Marked
+The Weight Before the Step Type: Special (Veil Pressure Awareness) • Cost: 1d6 Strain • Usage: 1/Session — When a spirit, Veil entity, summoning effect, breach, or supernatural intrusion would manifest, enter the scene, or exert influence during the current or next round within Medium range, the GM must alert you to the disturbance before it fully resolves, even if the source is concealed or indirect. Until the end of the scene, you perceive the entity’s tether to the world—whether it is summoned, bound, anchored, escaped, or freely present—and learn one structural truth about that tether chosen by the GM (such as what sustains it, what would weaken or sever it, what it is constrained from doing, or what kind of bargain or condition it responds to). In addition, choose one: gain +1 bonus die on your next roll this scene to banish, disrupt, bargain with, ward against, or safely withdraw from the entity; or grant that bonus to one ally acting on your insight before the end of the next round. This talent does not reveal intent, future actions, true names, or guaranteed solutions. True Veilsight
+
 

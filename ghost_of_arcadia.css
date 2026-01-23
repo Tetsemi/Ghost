@@ -1492,6 +1492,215 @@ input[type="text"].sheet-improved-indicator {
   opacity: 0.6;
 }
 
+/* ===================================================================== */
+/* Backgrounds (v2) — Universal 13-Tab Layout                              */
+/* Adds: feature row + 3-column grid (trained skills / starting kit / contacts) */
+/* ===================================================================== */
+
+.ui-dialog .tab-content .charsheet .sheet-bgblock-v2 {
+	display: none;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-tab-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	height: auto;              /* override fixed 25px so it can wrap */
+	justify-content: flex-start; /* space-around looks odd when wrapped */
+	gap: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-tab-buttons button {
+	flex: 1 1 100px;  /* grow + shrink, base size 100px */
+	min-width: 100px; /* hard minimum */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	grid-auto-rows: auto;
+	gap: 4px 8px;
+	padding: 6px 8px;
+	border: 1px solid rgba(0,0,0,0.12);
+	border-radius: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-name {
+	font-weight: 700;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-usage {
+	justify-self: end;
+	font-size: 11px;
+	opacity: 0.8;
+	white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-desc {
+	grid-column: 1 / -1;
+	font-size: 12px;
+	line-height: 1.35;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-columns {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 8px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-col {
+	border: 1px solid rgba(0,0,0,0.12);
+	border-radius: 6px;
+	padding: 6px 8px;
+	min-width: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-col-header {
+	font-weight: 700;
+	margin-bottom: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-col-body {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	background: lightgray;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-item-name {
+	font-weight: 700;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-item-desc {
+	font-size: 12px;
+	line-height: 1.3;
+	opacity: 0.95;
+}
+
+@media (max-width: 700px) {
+	.ui-dialog .tab-content .charsheet .sheet-bg-v2-columns {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice {
+	display: flex;
+	gap: 6px;
+	align-items: flex-start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice > input[type="checkbox"] {
+	margin: 2px 0 0 0;
+	flex: 0 0 auto;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice .sheet-bg-v2-item {
+	flex: 1 1 auto;
+}
+
+.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice {
+	color: inherit;
+	opacity: 1;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-trained .sheet-bg-skill-row {
+	column-gap: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-trained .sheet-bg-skill-row input[type="checkbox"] {
+	margin-right: 6px;
+}
+
+.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-name,
+.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-desc{
+	color: inherit;
+	font-size:85%;
+	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-desc {
+	font-weight: normal;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ input[type="checkbox"][name^="attr_bg_"][name$="_mdr_checkbox"] {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+/* Grey out the label text when locked */
+.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ .sheet-bg-skill-label {
+	opacity: 0.5;
+}
+
+/* Optional: show a “not-allowed” cursor on the row when locked */
+.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ * {
+	cursor: not-allowed;
+}
+
+/* PATCH: Background Feature Tracker visibility (show only for active background tab) */
+.ui-dialog .tab-content .charsheet .sheet-tracker-item.sheet-bg-feature {
+	display: none;
+}
+
+/* Hide all background feature tracker items by default */
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-item.sheet-bg-feature {
+	display: none;
+}
+
+/* Show only the active background’s items */
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="academic"] ~ .sheet-tracker-column .sheet-bg-academic {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="corporate"] ~ .sheet-tracker-column .sheet-bg-corporate {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="devotee"] ~ .sheet-tracker-column .sheet-bg-devotee {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="enforcer"] ~ .sheet-tracker-column .sheet-bg-enforcer {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="fringer"] ~ .sheet-tracker-column .sheet-bg-fringer {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="laborer"] ~ .sheet-tracker-column .sheet-bg-laborer {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="media"] ~ .sheet-tracker-column .sheet-bg-media {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="nomad"] ~ .sheet-tracker-column .sheet-bg-nomad {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="offworlder"] ~ .sheet-tracker-column .sheet-bg-offworlder {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="privileged"] ~ .sheet-tracker-column .sheet-bg-privileged {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="streetborn"] ~ .sheet-tracker-column .sheet-bg-streetborn {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="survivor"] ~ .sheet-tracker-column .sheet-bg-survivor {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent input[name="attr_background_choice"][value="underworld"] ~ .sheet-tracker-column .sheet-bg-underworld {
+	display: flex;
+}
 
 /* ------------------------------- Background and Talent ------------------------------------------- */
 

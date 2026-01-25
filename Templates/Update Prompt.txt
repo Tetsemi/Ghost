@@ -1,4 +1,4 @@
-Context: We are migrating to a new source of truth for Ancestry talents. I will upload:
+Context: We are migrating to a new source of truth for Career talents. I will upload:
 
 ghost_of_arcadia.html (current sheet)
 
@@ -8,15 +8,17 @@ translation.json (i18n)
 
 And I will paste the updated text for this section.
 
+For the creation of content use careerDataMap.soul_forger as your template/reference.  All necessary objects are there for reference
+
 Task: Update ONLY the following for, do not look ahead at other tiers, only the current one:
 
-Ancestry key: ancestryTalentDataMap.lyranni
+Career key: careerDataMap.bioforged
 
-Section: <talent name>.tier === 4, capstone === true
+Section: talents.tier === 4, capstone === true
 
 What to produce (MUST be separate downloadable files):
 
-HTML patch/snippet for this section only (no unrelated HTML), group sections together ancestoryTalentDataMap objects, Ancestry HTML, Tracker HTML, use existing style in files provided
+HTML patch/snippet for this section only (no unrelated HTML), group sections together careerDataMap objects, Career HTML, Tracker HTML, use existing style in files provided
 
 CSS patch/snippet for this section only (no unrelated CSS), use existing style in files provided.
 
@@ -42,19 +44,19 @@ i18n: provide full changes including names and description fields
 
 Higher tiers intentionally ignored and may be temporarily broken until migrated
 
-Ancestry data requirements (new source of truth):
+Career data requirements (new source of truth):
 
 Update/create the data object for this section using i18n keys (e.g., nameKey, rulesKey, etc.) rather than hydrated label attrs.
 
 For talents: include tier, cost, usage_limit, strain, prerequisite expression, and any tracker/icon hooks required by the existing UI patterns.
 
-Section includes: ancestoryTalentDataMap entries, Tier X talent UI rows, and any tracker rows/CSS affected by usage_limit changes.
+Section includes: careerDataMap entries, Tier X talent UI rows, and any tracker rows/CSS affected by usage_limit changes.
 
 Provenance & Checks (in the single code block):
 
 Files used: list the 3 uploaded filenames.
 
-Ancestry + section targeted.
+Career + section targeted.
 
 Counts: talents updated/added, skills added/changed, i18n keys added/changed.
 
@@ -80,7 +82,7 @@ Output patches MUST be ADD / REMOVE blocks only (no +/- diffs).
 
 Tracker coupling is mandatory: any tracker HTML ADD/REMOVE must have matching CSS attr_show_* selector ADD/REMOVE.
 
-Provenance must include Patch Manifest lines for: ancestoryTalentDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
+Provenance must include Patch Manifest lines for: careerDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
 If any gate fails, regenerate in the same response.
 
 Corrections:
@@ -92,13 +94,11 @@ archanotech is replaced by arcanotech
 
 Inputs:
 
-Lyranni — Tier 4 Capstones (40 XP) — Choose One
+Bioforged – Tier 4 Capstones 40 XP — (Choose One)
 Talent Description Prerequisite
 
-Heir to the Veiled Houses Type: Special (Inherited Authority) • Cost: 1d6 Strain • Usage: 1/Session — When you formally assert your lineage, House ties, or cultural standing in a social, political, arcane, or spirit-mediated interaction, choose one audience present: mortals, spirits, or institutional actors. For the remainder of the scene, that audience must treat you as a legitimate stakeholder whose words carry consequence. The first attempt by that audience to dismiss, override, or disregard you without engagement suffers one penalty die, and you gain +1 bonus die on your next roll this scene to negotiate, assert precedent, invoke obligation, or demand acknowledgment. This does not compel obedience or trust and often invites scrutiny, challenge, or future consequence. Unspoken Leverage
-I Will Not Be Carried Type: Reaction (Defiant Continuance) • Cost: 1d6 Strain • Usage: 1/Session • Trigger: A spell, Veil effect, spiritual influence, or supernatural event would incapacitate you, forcibly remove you from the scene, or otherwise end your meaningful participation. — The triggering effect resolves, but you remain conscious, present, and able to act until the scene ends. You take all damage normally and still accrue conditions as they occur, but none of those conditions may remove you from play until the scene concludes. You cannot recover Strain, reduce damage, or remove conditions during this time. When the scene ends, all delayed effects, conditions, and consequences apply immediately and in full. This talent does not protect allies, negate harm, or reduce cost; it ensures you are not erased from the moment. Veil-Hardened Mind
-Let It Pass Through Me Type: Reaction (Veil Mediation) • Cost: 2d4 Strain • Usage: 1/Session • Trigger: A spell, Veil effect, spiritual influence, or supernatural action would directly affect multiple creatures, escalate beyond a single target, or impose widespread supernatural consequences. — You interpose yourself and force the effect to resolve through you. The effect still occurs, but all transferable portions of it—damage, conditions, spiritual influence, and narrative consequences—are redirected to you. When resolving those effects, choose one: halve the total damage dice rolled against you (round down); or reduce the severity or duration of one condition applied to you to its minimum value; or remove one secondary rider effect attached to the original effect. Any excess power displaced by this mediation bleeds into the surrounding environment or the Veil, creating an immediate and visible disturbance, scar, omen, or spiritual backlash. You suffer all remaining effects immediately and in full; this talent does not negate harm or prevent incapacitation. After the resolution, you may define how responsibility, blame, or obligation is perceived in the aftermath, subject to normal narrative adjudication. Spirit-Marked
-The Veil Knows My Name Type: Special (Recognized Presence) • Cost: 1d6 Strain • Usage: 1/Session — When you enter a scene containing a spirit, Veil entity, corrupted zone, or active arcane phenomenon, you may declare this talent. Until the end of the scene, Veil-aligned forces recognize you as an acknowledged actor rather than an intrusion. They do not automatically escalate, reject, or target you solely for being present. The first hostile action taken directly against you by a Veil-aligned entity this scene suffers one penalty die. This does not prevent hostility, manipulation, collateral damage, or indirect harm. At the end of the scene, the GM establishes how the Veil records this recognition—favor, obligation, scrutiny, or resentment—which persists beyond the scene. Spirit-Marked
-The Weight Before the Step Type: Special (Veil Pressure Awareness) • Cost: 1d6 Strain • Usage: 1/Session — When a spirit, Veil entity, summoning effect, breach, or supernatural intrusion would manifest, enter the scene, or exert influence during the current or next round within Medium range, the GM must alert you to the disturbance before it fully resolves, even if the source is concealed or indirect. Until the end of the scene, you perceive the entity’s tether to the world—whether it is summoned, bound, anchored, escaped, or freely present—and learn one structural truth about that tether chosen by the GM (such as what sustains it, what would weaken or sever it, what it is constrained from doing, or what kind of bargain or condition it responds to). In addition, choose one: gain +1 bonus die on your next roll this scene to banish, disrupt, bargain with, ward against, or safely withdraw from the entity; or grant that bonus to one ally acting on your insight before the end of the next round. This talent does not reveal intent, future actions, true names, or guaranteed solutions. True Veilsight
-
-
+Adamant Frame Type: Action • Cost: 1d6 Strain • Usage: 1/Session — You harden skin, bone, and connective tissue into an impossibly dense living shell. Until the end of the Scene, you gain Damage Reduction 2 against all incoming damage (applied after armor). In addition, the first two times each Round you would be forcibly repositioned, knocked prone, or disarmed, the effect fails. Damage still resolves normally. Extreme Adaptation
+Adaptive Apex Type: Reaction • Cost: 1d6 Strain • Usage: 1/Session — Trigger: You would suffer a Major Wound or a physical effect that would Stun, Immobilize, Knock Prone, Disarm, or otherwise remove your control of your body . You negate the triggering effect entirely. Damage still resolves normally. Extreme Adaptation
+Kinetic Singularity Type: Action • Cost: 1d6 Strain • Usage: 1/Session — You compress all kinetic output into a single, perfectly controlled surge. Until the end of your turn, you may make up to two melee or unarmed attacks , and you may move one range band between these attacks without triggering reactions . These attacks resolve normally and do not grant additional Reactions or trigger follow-up effects. Momentum Pressure
+Perfected Fleshcraft Type: Action • Cost: 1d6 + 2 Strain • Usage: 1/Session — Required Stance: Any Stance . You assume a perfected living-weapon form. Until the end of the Scene, your melee and unarmed attacks deal 1d10 damage , have Armor Piercing 1 , and Impale. Your body counts as a single integrated biological weapon. This does not stack with Bone Weaponization or Fleshcraft Blades. Fleshcraft Blades
+Unyielding Physiology Type: Action • Cost: 1d6 Strain • Usage: 1/Session — Until the end of the Scene, your body continues to function regardless of systemic failure. You do not lose Actions, Reactions, or mobility due to being Injured, Exhausted, suffocating, exposed to vacuum, crushing pressure, extreme temperatures, poison, or environmental hazards . You ignore effects that would otherwise Stun, Immobilize, Slow, Impair, or physically disable you . Damage and Strain still apply normally. This effect ends immediately if you are reduced below 0 HP or become Unconscious. Extreme Adaptation

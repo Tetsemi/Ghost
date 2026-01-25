@@ -90,12 +90,34 @@
 							<button class="sheet-con-roll" type="roll" name="roll_con_check" value="&{template:coc-1} {{name=@{con_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{con}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{con}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{con}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
 						</div>
 
-						<!-- APP -->
-						<div class="sheet-attr-label" data-i18n="APP-u">APP</div>
-						<div class="sheet-app-wrapper sheet-input-roll-wrapper">
-							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_app" type="text" />
-							<button class="sheet-app-roll" type="roll" name="roll_app_check" value="&{template:coc-1} {{name=@{app_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{app}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{app}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{app}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
+						<!-- Attribute Mode (Mundane vs Awakened options) -->
+						<div class="sheet-awakened-mode-wrapper sheet-input-roll-wrapper">
+							<input type="hidden" name="attr_show_awakened_mode" value="0" />
+							<!-- Mundane: Focused / Balanced -->
+							<div class="sheet-mundane-mode-pair">
+								<label class="sheet-mode-option">
+									<input type="checkbox" name="attr_mundane_mode_checkbox" value="focused" />
+									<span>Focused</span>
+								</label>
+								<label class="sheet-mode-option">
+									<input type="checkbox" name="attr_mundane_mode_checkbox" value="balanced" />
+									<span>Balanced</span>
+								</label>
+							</div>
+
+							<!-- Awakened: Physical / Aptitude -->
+							<div class="sheet-awakened-mode-pair">
+								<label class="sheet-mode-option">
+									<input type="checkbox" name="attr_awakened_mode_checkbox" value="physical" />
+									<span>Physical</span>
+								</label>
+								<label class="sheet-mode-option">
+									<input type="checkbox" name="attr_awakened_mode_checkbox" value="aptitude" />
+									<span>Aptitude</span>
+								</label>
+							</div>
 						</div>
+						<div class="sheet-attr-label"></div>
 
 						<!-- EDU -->
 						<div class="sheet-attr-label" data-i18n="EDU-u">EDU</div>
@@ -126,9 +148,12 @@
 							<button class="sheet-int-roll" type="roll" name="roll_int_check" value="&{template:coc-1} {{name=@{int_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{int}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{int}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{int}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
  						</div>
 
-						<!-- Placeholder -->
-						<div class="sheet-attr-label"></div>
-						<div class="sheet-int-wrapper sheet-input-roll-wrapper"></div>
+						<!-- APP -->
+						<div class="sheet-attr-label" data-i18n="APP-u">APP</div>
+						<div class="sheet-app-wrapper sheet-input-roll-wrapper">
+							<input class="sheet-attr-input sheet-edit-toggle-field" name="attr_app" type="text" />
+							<button class="sheet-app-roll" type="roll" name="roll_app_check" value="&{template:coc-1} {{name=@{app_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[@{app}+@{dice_modifier_checkbox}]]}} {{hard=[[floor((@{app}+@{dice_modifier_checkbox})/2)]]}} {{extreme=[[floor((@{app}+@{dice_modifier_checkbox})/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
+						</div>
 
 						<div class="sheet-vertical-divider"></div>
 
@@ -225,8 +250,10 @@
                         <h4 class="sheet-section-head" data-i18n="spenders-u">Spenders</h4>
                         <div class="sheet-grid-spenders">
                             <div class="sheet-info-label-small" data-i18n="total_attr_points_spent-u">AS</div>
-                            <input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_total_attr_points_spent" />
-                            <div></div>
+							<input type="hidden" class="sheet-attr-budget-mirror" name="attr_phys_attr_points_budget_state" />
+							<input class="sheet-attr-input-small sheet-readonly sheet-attr-budget-sensitive" type="text" name="attr_total_phys_attr_points_spent" />
+							<input type="hidden" class="sheet-attr-budget-mirror" name="attr_apt_attr_points_budget_state" />
+							<input class="sheet-attr-input-small sheet-readonly sheet-attr-budget-sensitive" type="text" name="attr_total_apt_attr_points_spent" />
                             <div class="sheet-info-label-small" data-i18n="total_skill_points_spent-u">SPS</div>
                             <input class="sheet-attr-input-small sheet-readonly" type="text" name="attr_total_skill_points_spent" />
                         </div>
@@ -1670,7 +1697,7 @@
 		<!-- ------------------- Ancestry  -------------------- -->
 		<div class="sheet-tab-content sheet-ancestry">
 			<input type="hidden" name="attr_showracials" class="sheet-tab-controller" />
-			<h4 class="section-head" data-i18n="ancestry-u">Ancestory</h4>
+			<h4 class="section-head" data-i18n="ancestry-u">Ancestry</h4>
 
 			<div class="sheet-section sheet-racial-benefits">
 
@@ -6331,6 +6358,7 @@
 								<option value="tactician"         data-i18n="career_tactician-u">Tactician</option>
 								<option value="2P"                data-i18n="career_select_specialist_header-u">-- Specialist Career --</option>
 								<option value="arcane_gunslinger" data-i18n="career_arcane_gunslinger-u">Arcane Gunslinger</option>
+								<option value="bioforged"		  data-i18n="career_bioforged-u">Bioforged</option>
 								<option value="hexbreaker"		  data-i18n="career_hexbreaker-u">Hexbreaker</option>
 								<option value="soul_forger"       data-i18n="career_soul_forger-u">Soul Forger</option>
 							</select>
@@ -6396,6 +6424,7 @@
 				<!-- Specialist -->
 				<div class="sheet-career-tabs sheet-career-tab-buttons-specialist">
 					<button type="action" name="act_arcane_gunslinger" data-i18n="career_arcane_gunslinger-u">Arcane Gunslinger</button>
+					<button type="action" name="act_bioforged"         data-i18n="career_bioforged-u">Bioforged</button>
 					<button type="action" name="act_hexbreaker"        data-i18n="career_hexbreaker-u">Hexbreaker</button>
 					<button type="action" name="act_soul_forger"       data-i18n="career_soul_forger-u">Soul Forger</button>
 				</div>
@@ -15041,6 +15070,278 @@
 						</div>
 					</div>
 
+					<!-- Bioforged -->
+					<div class="sheet-career-tab sheet-tab-bioforged">
+						<input type="hidden" name="attr_bioforged_ready" class="sheet-career-ready-controller" value="0" />
+						<div class="sheet-career-locked-overlay" data-i18n="career_not_active-u">Career not active</div>
+						<div class="sheet-career-interactive-block">
+							<div class="sheet-career-talent-tree">
+
+								<div class="sheet-career-talent-tier" data-tier="1">
+									<h3 class="sheet-career-talent-tier-header" data-i18n="tier1_career_specialist-u">Tier 1 Talents (10 XP)</h3>
+
+									<!-- Adaptive Stance -->
+									<div class="sheet-career-talent-row">
+									    <input type="hidden" name="attr_bioforged_adaptive_stance_lockflag" value="0" />
+									    <input type="checkbox" name="attr_bioforged_adaptive_stance" value="1" class="sheet-career-talent-checkbox" />
+									    <label class="sheet-career-talent-label"><span data-i18n="career_bioforged_adaptive_stance-u"></span></label>
+									    <span class="sheet-career-talent-description" data-i18n="career_bioforged_adaptive_stance_rules-u"></span>
+									</div>
+
+									<!-- Breath Control -->
+									<div class="sheet-career-talent-row">
+									    <input type="hidden" name="attr_bioforged_breath_control_lockflag" value="0" />
+									    <input type="checkbox" name="attr_bioforged_breath_control" value="1" class="sheet-career-talent-checkbox" />
+									    <label class="sheet-career-talent-label"><span data-i18n="career_bioforged_breath_control-u"></span></label>
+									    <span class="sheet-career-talent-description" data-i18n="career_bioforged_breath_control_rules-u"></span>
+									</div>
+
+									<!-- Density Stance -->
+									<div class="sheet-career-talent-row">
+									    <input type="hidden" name="attr_bioforged_density_stance_lockflag" value="0" />
+									    <input type="checkbox" name="attr_bioforged_density_stance" value="1" class="sheet-career-talent-checkbox" />
+									    <label class="sheet-career-talent-label"><span data-i18n="career_bioforged_density_stance-u"></span></label>
+									    <span class="sheet-career-talent-description" data-i18n="career_bioforged_density_stance_rules-u"></span>
+									</div>
+
+									<!-- Inertial Bracing -->
+									<div class="sheet-career-talent-row">
+									    <input type="hidden" name="attr_bioforged_inertial_bracing_lockflag" value="0" />
+									    <input type="checkbox" name="attr_bioforged_inertial_bracing" value="1" class="sheet-career-talent-checkbox" />
+									    <label class="sheet-career-talent-label"><span data-i18n="career_bioforged_inertial_bracing-u"></span></label>
+									    <span class="sheet-career-talent-description" data-i18n="career_bioforged_inertial_bracing_rules-u"></span>
+									</div>
+
+									<!-- Kinetic Stance -->
+									<div class="sheet-career-talent-row">
+									    <input type="hidden" name="attr_bioforged_kinetic_stance_lockflag" value="0" />
+									    <input type="checkbox" name="attr_bioforged_kinetic_stance" value="1" class="sheet-career-talent-checkbox" />
+									    <label class="sheet-career-talent-label"><span data-i18n="career_bioforged_kinetic_stance-u"></span></label>
+									    <span class="sheet-career-talent-description" data-i18n="career_bioforged_kinetic_stance_rules-u"></span>
+									</div>
+
+								</div>
+
+								<div class="sheet-career-talent-tier" data-tier="2">
+									<h3 class="sheet-career-talent-tier-header" data-i18n="tier2_career_specialist-u">Tier 2 Talents (20 XP)</h3>
+
+									<div class="sheet-career-block sheet-career-bioforged">
+										<!-- controller (must come before the section it controls) -->
+										<input type="checkbox" id="show_career_bioforged_prereqs_t2" class="sheet-career-prereq-toggle" name="attr_show_career_bioforged_prereqs_t2" value="1" />
+
+										<!-- visual control -->
+										<div class="sheet-career-talent-toolbar">
+											<label class="sheet-career-prereq-toggle-label" for="show_career_bioforged_prereqs_t2">
+												<span data-i18n="show_career_prereqs-u">Show prerequisites</span>
+											</label>
+										</div>
+
+										<div class="sheet-career-talents">
+
+											<!-- Bone Weaponization -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_bone_weaponization_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_bone_weaponization_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_bone_weaponization" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_bone_weaponization-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_bone_weaponization_rules-u"></span>
+												<span class="sheet-career-talent-prereq">
+													<span data-i18n="career_bioforged_density_stance-u"></span>
+													<span data-i18n="career_talent_or-u">or</span>
+													<span data-i18n="career_bioforged_kinetic_stance-u"></span>
+												</span>
+											</div>
+
+											<!-- Density Reinforcement -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_density_reinforcement_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_density_reinforcement_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_density_reinforcement" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_density_reinforcement-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_density_reinforcement_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_density_stance-u"></span>
+											</div>
+
+											<!-- Explosive Entry -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_explosive_entry_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_explosive_entry_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_explosive_entry" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_explosive_entry-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_explosive_entry_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_kinetic_stance-u"></span>
+											</div>
+
+											<!-- No Safety Margin -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_no_safety_margin_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_no_safety_margin_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_no_safety_margin" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_no_safety_margin-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_no_safety_margin_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_inertial_bracing-u"></span>
+											</div>
+
+											<!-- Reactive Hardening -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_reactive_hardening_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_reactive_hardening_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_reactive_hardening" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_reactive_hardening-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_reactive_hardening_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_adaptive_stance-u"></span>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							
+								<div class="sheet-career-talent-tier" data-tier="3">
+
+									<h3 class="sheet-career-talent-tier-header" data-i18n="tier3_career_specialist-u">Tier 3 Talents (30 XP)</h3>
+
+									<div class="sheet-career-block sheet-career-bioforged">
+										<!-- controller (must come before the section it controls) -->
+										<input type="checkbox" id="show_career_bioforged_prereqs_t3" class="sheet-career-prereq-toggle" name="attr_show_career_bioforged_prereqs_t3" value="1" />
+
+										<!-- visual control -->
+										<div class="sheet-career-talent-toolbar">
+											<label class="sheet-career-prereq-toggle-label" for="show_career_bioforged_prereqs_t3">
+												<span data-i18n="show_career_prereqs-u">Show prerequisites</span>
+											</label>
+										</div>
+
+										<div class="sheet-career-talents">
+
+											<!-- Extreme Adaptation -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_extreme_adaptation_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_extreme_adaptation_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_extreme_adaptation" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_extreme_adaptation-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_extreme_adaptation_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_density_reinforcement-u"></span>
+											</div>
+
+											<!-- Fleshcraft Blades -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_fleshcraft_blades_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_fleshcraft_blades_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_fleshcraft_blades" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_fleshcraft_blades-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_fleshcraft_blades_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_bone_weaponization-u"></span>
+											</div>
+
+											<!-- Momentum Pressure -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_momentum_pressure_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_momentum_pressure_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_momentum_pressure" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_momentum_pressure-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_momentum_pressure_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_explosive_entry-u"></span>
+											</div>
+
+											<!-- Structural Interface -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_structural_interface_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_structural_interface_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_structural_interface" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_structural_interface-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_structural_interface_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_breath_control-u"></span>
+											</div>
+
+											<!-- Thorn Mantle -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_thorn_mantle_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_thorn_mantle_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_thorn_mantle" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_thorn_mantle-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_thorn_mantle_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_bone_weaponization-u"></span>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="sheet-career-talent-tier" data-tier="4">
+									<h3 class="sheet-career-talent-tier-header" data-i18n="tier4_career_specialist-u">Tier 4 Talents (40 XP - Capstone)</h3>
+
+									<div class="sheet-career-block sheet-career-bioforged">
+										<!-- controller (must come before the section it controls) -->
+										<input type="checkbox" id="show_career_bioforged_prereqs_t4" class="sheet-career-prereq-toggle" name="attr_show_career_bioforged_prereqs_t4" value="1" />
+
+										<!-- visual control -->
+										<div class="sheet-career-talent-toolbar">
+											<label class="sheet-career-prereq-toggle-label" for="show_career_bioforged_prereqs_t4">
+												<span data-i18n="show_career_prereqs-u">Show prerequisites</span>
+											</label>
+										</div>
+
+										<div class="sheet-career-talents">
+
+											<!-- Adamant Frame -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_adamant_frame_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_adamant_frame_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_adamant_frame" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_adamant_frame-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_adamant_frame_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_extreme_adaptation-u"></span>
+											</div>
+
+											<!-- Adaptive Apex -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_adaptive_apex_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_adaptive_apex_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_adaptive_apex" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_adaptive_apex-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_adaptive_apex_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_extreme_adaptation-u"></span>
+											</div>
+
+											<!-- Kinetic Singularity -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_kinetic_singularity_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_kinetic_singularity_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_kinetic_singularity" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_kinetic_singularity-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_kinetic_singularity_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_momentum_pressure-u"></span>
+											</div>
+
+											<!-- Perfected Fleshcraft -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_perfected_fleshcraft_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_perfected_fleshcraft_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_perfected_fleshcraft" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_perfected_fleshcraft-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_perfected_fleshcraft_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_fleshcraft_blades-u"></span>
+											</div>
+
+											<!-- Unyielding Physiology -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_bioforged_unyielding_physiology_enabled" value="0" />
+												<input type="hidden" name="attr_bioforged_unyielding_physiology_lockflag" value="0" />
+												<input type="checkbox" name="attr_bioforged_unyielding_physiology" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_bioforged_unyielding_physiology-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_bioforged_unyielding_physiology_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_bioforged_extreme_adaptation-u"></span>
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+
 					<!-- Hexbreaker -->
 					<div class="sheet-career-tab sheet-tab-hexbreaker">
 						<input type="hidden" name="attr_hexbreaker_ready" class="sheet-career-ready-controller" value="0" />
@@ -16932,13 +17233,6 @@
                                 <input type="checkbox" name="attr_used_scene_alteri_seamless_transition" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="talent_alteri_seamless_transition-u"></span>
                             </div>
-								
-                            <!-- Ancestry Talent: Shift Reflex (scene) -->
-                            <input type="hidden" name="attr_show_alteri_shift_reflex" />
-                            <div class="sheet-tracker-item sheet-tracker-scene sheet-alteri-shift-reflex">
-                                <input type="checkbox" name="attr_used_scene_alteri_shift_reflex" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_alteri_shift_reflex-u"></span>
-                            </div>
 
                             <!-- Ancestry Talent: Social Attunement (scene) -->
                             <input type="hidden" name="attr_show_alteri_social_attunement" />
@@ -17644,13 +17938,6 @@
 						        <span class="sheet-tracker-label" data-i18n="career_stormweaver_hold_the_current-u"></span>
 						    </div>
 
-						    <!-- Career Talent: Reactive Veilwalk (scene) -->
-						    <input type="hidden" name="attr_show_stormweaver_reactive_veilwalk" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-stormweaver-reactive-veilwalk">
-						        <input type="checkbox" name="attr_used_scene_stormweaver_reactive_veilwalk" class="sheet-tracker-checkbox" />
-						        <span class="sheet-tracker-label" data-i18n="career_stormweaver_reactive_veilwalk-u"></span>
-						    </div>
-
 							<!-- Career Talent: Scorchmark (scene) -->
 							<input type="hidden" name="attr_show_stormweaver_scorchmark" />
 							<div class="sheet-tracker-item sheet-tracker-scene sheet-stormweaver-scorchmark">
@@ -17709,98 +17996,98 @@
 
 						    <!-- Career Talent: Borrowed Trajectory (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_borrowed_trajectory" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-borrowed-trajectory">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-borrowed-trajectory">
 						    	<input type="checkbox" name="attr_used_scene_veil_dancer_borrowed_trajectory" class="sheet-tracker-checkbox" />
 						    	<span class="sheet-tracker-label" data-i18n="career_veil_dancer_borrowed_trajectory-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Gravity Pin (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_gravity_pin" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-gravity-pin">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-gravity-pin">
 						    	<input type="checkbox" name="attr_used_scene_veil_dancer_gravity_pin" class="sheet-tracker-checkbox" />
 						    	<span class="sheet-tracker-label" data-i18n="career_veil_dancer_gravity_pin-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Inertial Shear (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_inertial_shear" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-inertial-shear">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-inertial-shear">
 						    	<input type="checkbox" name="attr_used_scene_veil_dancer_inertial_shear" class="sheet-tracker-checkbox" />
 						    	<span class="sheet-tracker-label" data-i18n="career_veil_dancer_inertial_shear-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Phase-Latched Strike (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_phase_latched_strike" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-phase-latched-strike">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-phase-latched-strike">
 						    	<input type="checkbox" name="attr_used_scene_veil_dancer_phase_latched_strike" class="sheet-tracker-checkbox" />
 						    	<span class="sheet-tracker-label" data-i18n="career_veil_dancer_phase_latched_strike-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Veil Reserve Step (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_veil_reserve_step" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-veil-reserve-step">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-veil-reserve-step">
 						    	<input type="checkbox" name="attr_used_scene_veil_dancer_veil_reserve_step" class="sheet-tracker-checkbox" />
 						    	<span class="sheet-tracker-label" data-i18n="career_veil_dancer_veil_reserve_step-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Flow Severance (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_flow_severance" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-flow-severance">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-flow-severance">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_flow_severance" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_flow_severance-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Inertial Claim (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_inertial_claim" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-inertial-claim">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-inertial-claim">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_inertial_claim" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_inertial_claim-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Mass Lock Technique (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_mass_lock_technique" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-mass-lock-technique">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-mass-lock-technique">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_mass_lock_technique" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_mass_lock_technique-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Vector Reversal (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_vector_reversal" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-vector-reversal">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-vector-reversal">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_vector_reversal" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_vector_reversal-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Borrowed Horizon (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_borrowed_horizon" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-borrowed-horizon">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-borrowed-horizon">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_borrowed_horizon" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_borrowed_horizon-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Dance of the Unbound Form (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_dance_of_the_unbound_form" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-dance-of-the-unbound-form">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-dance-of-the-unbound-form">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_dance_of_the_unbound_form" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_dance_of_the_unbound_form-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Impossible Footing (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_impossible_footing" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-impossible-footing">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-impossible-footing">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_impossible_footing" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_impossible_footing-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Veilbreaker Palm (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_veilbreaker_palm" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-veilbreaker-palm">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-veilbreaker-palm">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_veilbreaker_palm" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_veilbreaker_palm-u"></span>
 						    </div>
 
 						    <!-- Career Talent: World Refuses You (scene) -->
 						    <input type="hidden" name="attr_show_veil_dancer_world_refuses_you" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil_dancer-world-refuses-you">
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-veil-dancer-world-refuses-you">
 						        <input type="checkbox" name="attr_used_scene_veil_dancer_world_refuses_you" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_veil_dancer_world_refuses_you-u"></span>
 						    </div>
@@ -17994,6 +18281,13 @@
 								<span class="sheet-tracker-label" data-i18n="career_faceman_cover_flip-u"></span>
 							</div>
 
+							<!-- Career Talent: Clock The Rules (scene) -->
+							<input type="hidden" name="attr_show_faceman_clock_the_rules" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-faceman-clock-the-rules">
+								<input type="checkbox" name="attr_used_scene_faceman_clock_the_rules" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_faceman_clock_the_rules-u"></span>
+							</div>
+							
 							<!-- Career Talent: Deep Cover Switch (scene) -->
 							<input type="hidden" name="attr_show_faceman_deep_cover_switch" />
 							<div class="sheet-tracker-item sheet-tracker-scene sheet-faceman-deep-cover-switch">
@@ -18141,6 +18435,13 @@
 	                            	<span class="sheet-tracker-label" data-i18n="career_investigator_anchor_the_moment-u"></span>
                             </div>
 
+							<!-- Career Talent: Anticipated Response (scene) -->
+                            <input type="hidden" name="attr_show_investigator_anticipated_response" />
+                            <div class="sheet-tracker-item sheet-tracker-scene sheet-investigator-anticipated-response">
+	                            	<input type="checkbox" name="attr_used_scene_investigator_anticipated_response" class="sheet-tracker-checkbox" />
+	                            	<span class="sheet-tracker-label" data-i18n="career_investigator_anticipated_response-u"></span>
+                            </div>
+							
                             <!-- Career Talent: Casefile Momentum (scene) -->
                             <input type="hidden" name="attr_show_investigator_casefile_momentum" />
                             <div class="sheet-tracker-item sheet-tracker-scene sheet-investigator-casefile-momentum">
@@ -18148,6 +18449,13 @@
 	                            	<span class="sheet-tracker-label" data-i18n="career_investigator_casefile_momentum-u"></span>
                             </div>
 
+							<!-- Career Talent: Clean Execution (scene) -->
+                            <input type="hidden" name="attr_show_investigator_clean_execution" />
+                            <div class="sheet-tracker-item sheet-tracker-scene sheet-investigator-clean-execution">
+	                            	<input type="checkbox" name="attr_used_scene_investigator_clean_execution" class="sheet-tracker-checkbox" />
+	                            	<span class="sheet-tracker-label" data-i18n="career_investigator_clean_execution-u"></span>
+                            </div>
+							
                             <!-- Career Talent: Deliberate Follow-Up (scene) -->
                             <input type="hidden" name="attr_show_investigator_deliberate_follow_up" />
                             <div class="sheet-tracker-item sheet-tracker-scene sheet-investigator-deliberate-follow-up">
@@ -18631,6 +18939,97 @@
 						        <span class="sheet-tracker-label" data-i18n="career_arcane_gunslinger_short_fold-u"></span>
 						    </div>
 
+							<!-- Adaptive Stance -->
+							<input type="hidden" name="attr_show_bioforged_adaptive_stance" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-adaptive_stance">
+							    <input type="checkbox" name="attr_used_scene_bioforged_adaptive_stance" class="sheet-tracker-checkbox" />
+							    <span class="sheet-tracker-label" data-i18n="career_bioforged_adaptive_stance-u"></span>
+							</div>
+
+							<!-- Bone Weaponization -->
+							<input type="hidden" name="attr_show_bioforged_bone_weaponization" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-bone_weaponization">
+								<input type="checkbox" name="attr_used_scene_bioforged_bone_weaponization" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_bone_weaponization-u"></span>
+							</div>
+
+							<!-- Density Reinforcement -->
+							<input type="hidden" name="attr_show_bioforged_density_reinforcement" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-density_reinforcement">
+								<input type="checkbox" name="attr_used_scene_bioforged_density_reinforcement" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_density_reinforcement-u"></span>
+							</div>
+
+							<!-- Density Stance -->
+							<input type="hidden" name="attr_show_bioforged_density_stance" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-density_stance">
+							    <input type="checkbox" name="attr_used_scene_bioforged_density_stance" class="sheet-tracker-checkbox" />
+							    <span class="sheet-tracker-label" data-i18n="career_bioforged_density_stance-u"></span>
+							</div>
+
+							<!-- Extreme Adaptation -->
+							<input type="hidden" name="attr_show_bioforged_extreme_adaptation" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-extreme_adaptation">
+								<input type="checkbox" name="attr_used_scene_bioforged_extreme_adaptation" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_extreme_adaptation-u"></span>
+							</div>
+							
+							<!-- Explosive Entry -->
+							<input type="hidden" name="attr_show_bioforged_explosive_entry" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-explosive_entry">
+								<input type="checkbox" name="attr_used_scene_bioforged_explosive_entry" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_explosive_entry-u"></span>
+							</div>
+
+							<!-- Fleshcraft Blades -->
+							<input type="hidden" name="attr_show_bioforged_fleshcraft_blades" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-fleshcraft_blades">
+								<input type="checkbox" name="attr_used_scene_bioforged_fleshcraft_blades" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_fleshcraft_blades-u"></span>
+							</div>
+							
+							<!-- Inertial Bracing -->
+							<input type="hidden" name="attr_show_bioforged_inertial_bracing" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-inertial_bracing">
+							    <input type="checkbox" name="attr_used_scene_bioforged_inertial_bracing" class="sheet-tracker-checkbox" />
+							    <span class="sheet-tracker-label" data-i18n="career_bioforged_inertial_bracing-u"></span>
+							</div>
+
+							<!-- Kinetic Stance -->
+							<input type="hidden" name="attr_show_bioforged_kinetic_stance" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-kinetic_stance">
+							    <input type="checkbox" name="attr_used_scene_bioforged_kinetic_stance" class="sheet-tracker-checkbox" />
+							    <span class="sheet-tracker-label" data-i18n="career_bioforged_kinetic_stance-u"></span>
+							</div>
+
+							<!-- Momentum Pressure -->
+							<input type="hidden" name="attr_show_bioforged_momentum_pressure" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-momentum_pressure">
+								<input type="checkbox" name="attr_used_scene_bioforged_momentum_pressure" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_momentum_pressure-u"></span>
+							</div>
+
+							<!-- Reactive Hardening -->
+							<input type="hidden" name="attr_show_bioforged_reactive_hardening" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-reactive_hardening">
+								<input type="checkbox" name="attr_used_scene_bioforged_reactive_hardening" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_reactive_hardening-u"></span>
+							</div>
+
+							<!-- Structural Interface -->
+							<input type="hidden" name="attr_show_bioforged_structural_interface" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-structural_interface">
+								<input type="checkbox" name="attr_used_scene_bioforged_structural_interface" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_structural_interface-u"></span>
+							</div>
+
+							<!-- Thorn Mantle -->
+							<input type="hidden" name="attr_show_bioforged_thorn_mantle" />
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-bioforged-thorn_mantle">
+								<input type="checkbox" name="attr_used_scene_bioforged_thorn_mantle" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_bioforged_thorn_mantle-u"></span>
+							</div>
+							
 							<!-- Close-In Guard -->
 							<input type="hidden" name="attr_show_hexbreaker_close_in_guard" />
 							<div class="sheet-tracker-item sheet-tracker-scene sheet-hexbreaker-close_in_guard">
@@ -18972,32 +19371,11 @@
 						<div class="sheet-tracker-group-title" data-i18n="ancestry_talents-u">Ancestry Talents</div>
 						<div class="sheet-tracker-group-body">
 
-                            <!-- Ancestry Talent: Adaptive Memory (session) -->
-                            <input type="hidden" name="attr_show_alteri_adaptive_memory" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-adaptive-memory">
-                                <input type="checkbox" name="attr_used_session_alteri_adaptive_memory" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_alteri_adaptive_memory-u"></span>
-                            </div>
-
 							<!-- Ancestry Talent: Author of the Moment (session) -->
                             <input type="hidden" name="attr_show_alteri_author_of_the_moment" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-author-of-the-moment">
                                 <input type="checkbox" name="attr_used_session_alteri_author_of_the_moment" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="talent_alteri_author_of_the_moment-u"></span>
-                            </div>
-
-                            <!-- Ancestry Talent: Facial Recalibration (session) -->
-                            <input type="hidden" name="attr_show_alteri_facial_recalibration" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-facial-recalibration">
-                                <input type="checkbox" name="attr_used_session_alteri_facial_recalibration" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_alteri_facial_recalibration-u"></span>
-                            </div>
-
-                            <!-- Ancestry Talent: Ghost Signature (session) -->
-                            <input type="hidden" name="attr_show_alteri_ghost_signature" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-ghost-signature">
-                                <input type="checkbox" name="attr_used_session_alteri_ghost_signature" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_alteri_ghost_signature-u"></span>
                             </div>
 
                             <!-- Ancestry Talent: Hardened Biometric Assimilation (session) -->
@@ -19021,25 +19399,11 @@
                                 <span class="sheet-tracker-label" data-i18n="talent_alteri_living_mask_archive-u"></span>
                             </div>
 
-                            <!-- Ancestry Talent: Mirror Weave (session) -->
-                            <input type="hidden" name="attr_show_alteri_mirror_weave" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-mirror-weave">
-                                <input type="checkbox" name="attr_used_session_alteri_mirror_weave" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_alteri_mirror_weave-u"></span>
-                            </div>
-
 							<!-- Ancestry Talent: Perfect Adaptation (session) -->
                             <input type="hidden" name="attr_show_alteri_perfect_adaptation" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-perfect-adaptation">
                                 <input type="checkbox" name="attr_used_session_alteri_perfect_adaptation" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="talent_alteri_perfect_adaptation-u"></span>
-                            </div>
-							
-                            <!-- Ancestry Talent: Silent Archive (session) -->
-                            <input type="hidden" name="attr_show_alteri_silent_archive" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-silent-archive">
-                                <input type="checkbox" name="attr_used_session_alteri_silent_archive" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_alteri_silent_archive-u"></span>
                             </div>
 
 							<!-- Ancestry Talent: Social Null Field (session) -->
@@ -19047,13 +19411,6 @@
                             <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-social-null-field">
                                 <input type="checkbox" name="attr_used_session_alteri_social_null_field" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="talent_alteri_social_null_field-u"></span>
-                            </div>
-							
-                            <!-- Ancestry Talent: Veil Echo Memory (session) -->
-                            <input type="hidden" name="attr_show_alteri_veil_echo_memory" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-alteri-veil-echo-memory">
-                                <input type="checkbox" name="attr_used_session_alteri_veil_echo_memory" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_alteri_veil_echo_memory-u"></span>
                             </div>
 
 							<!-- Ancestry Talent: Bound to the Old Paths (session) -->
@@ -19070,13 +19427,6 @@
 								<span class="sheet-tracker-label" data-i18n="talent_draevi_circle_of_the_standing_stones-u"></span>
 							</div>
 						
-                            <!-- Ancestry Talent: Echo-Binder’s Rite (session) -->
-                            <input type="hidden" name="attr_show_draevi_echo_binders_rite" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-echo-binders-rite">
-                                <input type="checkbox" name="attr_used_session_draevi_echo_binders_rite" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_draevi_echo_binders_rite-u"></span>
-                            </div>
-
 							<!-- Ancestry Talent: Echoes Beneath the Stone (session) -->
 							<input type="hidden" name="attr_show_draevi_echoes_beneath_the_stone" />
 							<div class="sheet-tracker-item sheet-tracker-session sheet-draevi-echoes-beneath-the-stone">
@@ -19096,13 +19446,6 @@
                             <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-eyes-of-the-pathkeeper">
                                 <input type="checkbox" name="attr_used_session_draevi_eyes_of_the_pathkeeper" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="talent_draevi_eyes_of_the_pathkeeper-u"></span>
-                            </div>
-							
-                            <!-- Ancestry Talent: Hardened Trailwalker (session) -->
-                            <input type="hidden" name="attr_show_draevi_hardened_trailwalker" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-hardened-trailwalker">
-                                <input type="checkbox" name="attr_used_session_draevi_hardened_trailwalker" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_draevi_hardened_trailwalker-u"></span>
                             </div>
 
                             <!-- Ancestry Talent: Shared Burden, Shared Breath (session) -->
@@ -19132,21 +19475,7 @@
 								<input type="checkbox" name="attr_used_session_draevi_unbroken_path" class="sheet-tracker-checkbox" />
 								<span class="sheet-tracker-label" data-i18n="talent_draevi_unbroken_path-u"></span>
 							</div>
-
-                            <!-- Ancestry Talent: Urban Climber (session) -->
-                            <input type="hidden" name="attr_show_draevi_urban_climber" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-urban-climber">
-                                <input type="checkbox" name="attr_used_session_draevi_urban_climber" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_draevi_urban_climber-u"></span>
-                            </div>
-
-                            <!-- Ancestry Talent: Veins of Stone (session) -->
-                            <input type="hidden" name="attr_show_draevi_veins_of_stone" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-draevi-veins-of-stone">
-                                <input type="checkbox" name="attr_used_session_draevi_veins_of_stone" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_draevi_veins_of_stone-u"></span>
-                            </div>
-							
+					
 							<!-- Ancestry Talent: Voice of Those Who Remain (session) -->
 							<input type="hidden" name="attr_show_draevi_voice_of_those_who_remain" />
 							<div class="sheet-tracker-item sheet-tracker-session sheet-draevi-voice-of-those-who-remain">
@@ -19357,13 +19686,6 @@
 								<span class="sheet-tracker-label" data-i18n="talent_human_ive_run_worse_odds-u"></span>
 							</div>
 
-                            <!-- Ancestry Talent: Momentum Shift (session) -->
-                            <input type="hidden" name="attr_show_human_momentum_shift" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-human-momentum-shift">
-                                <input type="checkbox" name="attr_used_session_human_momentum_shift" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="talent_human_momentum_shift-u"></span>
-                            </div>
-
                             <!-- Ancestry Talent: Never Tell Me the Odds (session) -->
                             <input type="hidden" name="attr_show_human_never_tell_me_the_odds" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-human-never-tell-me-the-odds">
@@ -19520,7 +19842,7 @@
 
                             <!-- Stone-Sung Authority (session, capstone) -->
                             <input type="hidden" name="attr_show_khadra_stone_sung_authority" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-stone_sung_authority">
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-khadra-stone-sung-authority">
                                 <input type="checkbox" name="attr_used_session_khadra_stone_sung_authority" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="talent_khadra_stone_sung_authority-u"></span>
                             </div>
@@ -19938,7 +20260,7 @@
 
                             <!-- Career Talent: Cascade Override (session) -->
                             <input type="hidden" name="attr_show_codeweaver_cascade_override" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-cascade-override-">
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-cascade-override">
                                 <input type="checkbox" name="attr_used_session_codeweaver_cascade_override" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_codeweaver_cascade_override-u"></span>
                             </div>
@@ -19964,13 +20286,13 @@
                                 <span class="sheet-tracker-label" data-i18n="career_codeweaver_signal_possession-u"></span>
                             </div>
 
-                            <!-- Career Talent: Protocol Ascendance (session) -->
-                            <input type="hidden" name="attr_show_codeweaver_protocol_ascendance" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-protocol-protocol-ascendance">
-                            	<input type="checkbox" name="attr_used_session_codeweaver_protocol_ascendance" class="sheet-tracker-checkbox" />
-                            	<span class="sheet-tracker-label" data-i18n="career_codeweaver_protocol_ascendance-u"></span>
-                            </div>
-
+						    <!-- Career Talent: Protocol Ascendance (session) -->
+						    <input type="hidden" name="attr_show_codeweaver_protocol_ascendance" />
+						    <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-protocol-ascendance">
+						        <input type="checkbox" name="attr_used_session_codeweaver_protocol_ascendance" class="sheet-tracker-checkbox" />
+						        <span class="sheet-tracker-label" data-i18n="career_codeweaver_protocol_ascendance-u"></span>
+						    </div>
+							
                             <!-- Career Talent: System Sovereignty Protocol (session) -->
                             <input type="hidden" name="attr_show_codeweaver_system_sovereignty_protocol" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-codeweaver-system-sovereignty-protocol">
@@ -20225,35 +20547,35 @@
 
                             <!-- Career Talent: Body Like a Falling Star (session) -->
                             <input type="hidden" name="attr_show_veil_dancer_body_like_a_falling_star" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil_dancer-body-like-a-falling-star">
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil-dancer-body-like-a-falling-star">
                                 <input type="checkbox" name="attr_used_session_veil_dancer_body_like_a_falling_star" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_veil_dancer_body_like_a_falling_star-u"></span>
                             </div>
 
                             <!-- Career Talent: HeavenShattering Sequence (session) -->
                             <input type="hidden" name="attr_show_veil_dancer_heavenshattering_sequence" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil_dancer-heavenshattering-sequence">
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil-dancer-heavenshattering-sequence">
                                 <input type="checkbox" name="attr_used_session_veil_dancer_heavenshattering_sequence" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_veil_dancer_heavenshattering_sequence-u"></span>
                             </div>
 
                             <!-- Career Talent: Stillness Between Heartbeats (session) -->
                             <input type="hidden" name="attr_show_veil_dancer_stillness_between_heartbeats" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil_dancer-stillness-between-heartbeats">
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil-dancer-stillness-between-heartbeats">
                                 <input type="checkbox" name="attr_used_session_veil_dancer_stillness_between_heartbeats" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_veil_dancer_stillness_between_heartbeats-u"></span>
                             </div>
 
                             <!-- Career Talent: The Veil Remembers You (session) -->
                             <input type="hidden" name="attr_show_veil_dancer_the_veil_remembers_you" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil_dancer-the-veil-remembers-you">
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil-dancer-the-veil-remembers-you">
                                 <input type="checkbox" name="attr_used_session_veil_dancer_the_veil_remembers_you" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_veil_dancer_the_veil_remembers_you-u"></span>
                             </div>
 
                             <!-- Career Talent: Zero-Point Mastery (session) -->
                             <input type="hidden" name="attr_show_veil_dancer_zero_point_mastery" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil_dancer-zero-point-mastery">
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-veil-dancer-zero-point-mastery">
                                 <input type="checkbox" name="attr_used_session_veil_dancer_zero_point_mastery" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_veil_dancer_zero_point_mastery-u"></span>
                             </div>
@@ -20580,21 +20902,6 @@
 	                            	<span class="sheet-tracker-label" data-i18n="career_investigator_broad_spectrum_assessment-u"></span>
                             </div>
 
-                            <!-- Career Talent: Clean Entry (session) -->
-                            <input type="hidden" name="attr_show_investigator_clean_entry" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-investigator-clean-entry">
-                            	<input type="checkbox" name="attr_used_session_investigator_clean_entry" class="sheet-tracker-checkbox" />
-                            	<span class="sheet-tracker-label" data-i18n="career_investigator_clean_entry-u"></span>
-                            </div>
-
-							<!-- Career Talent: Close Quarters Control (session) -->
-                            <input type="hidden" name="attr_show_investigator_close_quarters_control" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-investigator-close-quarters-control">
-                            	<input type="checkbox" name="attr_used_session_investigator_close_quarters_control" class="sheet-tracker-checkbox" />
-                            	<span class="sheet-tracker-label" data-i18n="career_investigator_close_quarters_control-u"></span>
-                            </div>
-
-
                             <!-- Career Talent: Cold Case Instinct (session) -->
                             <input type="hidden" name="attr_show_investigator_cold_case_instinct" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-investigator-cold-case-instinct">
@@ -20644,13 +20951,6 @@
                               <span class="sheet-tracker-label" data-i18n="career_investigator_resonance_trace-u"></span>
                             </div>
 
-                            <!-- Career Talent: Scene Impression (session) -->
-                            <input type="hidden" name="attr_show_investigator_scene_impression" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-investigator-scene-impression">
-                            	<input type="checkbox" name="attr_used_session_investigator_scene_impression" class="sheet-tracker-checkbox" />
-                            	<span class="sheet-tracker-label" data-i18n="career_investigator_scene_impression-u"></span>
-                            </div>
-
                             <!-- Career Talent: Temporal Intuition (session) -->
                             <input type="hidden" name="attr_show_investigator_temporal_intuition" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-investigator-temporal-intuition">
@@ -20686,32 +20986,11 @@
 								<span class="sheet-tracker-label" data-i18n="career_marksman_kill_confirmed-u"></span>
 							</div>
 
-                            <!-- Career Talent: Aerial Pivot Shot (session) -->
-                            <input type="hidden" name="attr_show_pilot_aerial_pivot_shot" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-aerial-pivot-shot">
-                                <input type="checkbox" name="attr_used_session_pilot_aerial_pivot_shot" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_pilot_aerial_pivot_shot-u"></span>
-                            </div>
-
                             <!-- Career Talent: Deadzone Entry (session) -->
                             <input type="hidden" name="attr_show_operator_deadzone_entry" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-operator-deadzone-entry">
                                 <input type="checkbox" name="attr_used_session_operator_deadzone_entry" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_operator_deadzone_entry-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Deadzone Reflex (session) -->
-                            <input type="hidden" name="attr_show_pilot_deadzone_reflex" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-deadzone-reflex">
-                                <input type="checkbox" name="attr_used_session_pilot_deadzone_reflex" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_pilot_deadzone_reflex-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Drone Lock Protocol (session) -->
-                            <input type="hidden" name="attr_show_pilot_drone_lock_protocol" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-drone-lock-protocol">
-                                <input type="checkbox" name="attr_used_session_pilot_drone_lock_protocol" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_pilot_drone_lock_protocol-u"></span>
                             </div>
 
                             <!-- Career Talent: Grim Resolve (session) -->
@@ -20742,32 +21021,11 @@
                                 <span class="sheet-tracker-label" data-i18n="career_operator_lockstep_execution-u"></span>
                             </div>
 
-                            <!-- Career Talent: Overclock Sync Node (session) -->
-                            <input type="hidden" name="attr_show_pilot_overclock_sync_node" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-overclock-sync-node">
-                                <input type="checkbox" name="attr_used_session_pilot_overclock_sync_node" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_pilot_overclock_sync_node-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Overdrive Calibration (session) -->
-                            <input type="hidden" name="attr_show_pilot_overdrive_calibration" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-overdrive-calibration">
-                                <input type="checkbox" name="attr_used_session_pilot_overdrive_calibration" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_pilot_overdrive_calibration-u"></span>
-                            </div>
-
                             <!-- Career Talent: Precision Reacquired (session) -->
                             <input type="hidden" name="attr_show_operator_precision_reacquired" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-operator-precision-reacquired">
                                 <input type="checkbox" name="attr_used_session_operator_precision_reacquired" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_operator_precision_reacquired-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Rigsight Linkage (session) -->
-                            <input type="hidden" name="attr_show_pilot_rigsight_linkage" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-rigsight-linkage">
-                                <input type="checkbox" name="attr_used_session_pilot_rigsight_linkage" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_pilot_rigsight_linkage-u"></span>
                             </div>
 
                             <!-- Career Talent: Saturation Fire (session) -->
@@ -20868,13 +21126,6 @@
                                 <span class="sheet-tracker-label" data-i18n="career_pilot_drone_lock_protocol-u"></span>
                             </div>
 
-                            <!-- Career Talent: Endurance Conditioning (session) -->
-                            <input type="hidden" name="attr_show_pilot_endurance_conditioning" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-endurance-conditioning">
-                                <input type="checkbox" name="attr_used_session_pilot_endurance_conditioning" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_pilot_endurance_conditioning-u"></span>
-                            </div>
-
                             <!-- Career Talent: Overclock Sync Node (session) -->
                             <input type="hidden" name="attr_show_pilot_overclock_sync_node" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-overclock-sync-node">
@@ -20903,6 +21154,13 @@
                                 <span class="sheet-tracker-label" data-i18n="career_pilot_swarm_logic_override-u"></span>
                             </div>
 
+							<!-- Career Talent: Tethered Assault AI (session) -->
+                            <input type="hidden" name="attr_show_pilot_tethered_assault_ai" />
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-tethered-assault-ai">
+                                <input type="checkbox" name="attr_used_session_pilot_tethered_assault_ai" class="sheet-tracker-checkbox" />
+                                <span class="sheet-tracker-label" data-i18n="career_pilot_tethered_assault_ai-u"></span>
+                            </div>
+							
                             <!-- Career Talent: Thruster Kickout (session) -->
                             <input type="hidden" name="attr_show_pilot_thruster_kickout" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-pilot-thruster-kickout">
@@ -20917,74 +21175,11 @@
                                 <span class="sheet-tracker-label" data-i18n="career_pilot_trace_disruptor_grid-u"></span>
                             </div>
 
-                            <!-- Career Talent: Blade-Linked Motion (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_blade_linked_motion" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-blade-linked-motion">
-                                <input type="checkbox" name="attr_used_session_shadowblade_blade_linked_motion" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_blade_linked_motion-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Cloak in Motion (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_cloak_in_motion" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-cloak-in-motion">
-                                <input type="checkbox" name="attr_used_session_shadowblade_cloak_in_motion" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_cloak_in_motion-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Cloaked Predator (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_cloaked_predator" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-cloaked-predator">
-                                <input type="checkbox" name="attr_used_session_shadowblade_cloaked_predator" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_cloaked_predator-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Crimson Cascade (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_crimson_cascade" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-crimson-cascade">
-                                <input type="checkbox" name="attr_used_session_shadowblade_crimson_cascade" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_crimson_cascade-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Crimson Rhythm (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_crimson_rhythm" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-crimson-rhythm">
-                                <input type="checkbox" name="attr_used_session_shadowblade_crimson_rhythm" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_crimson_rhythm-u"></span>
-                            </div>
-
                             <!-- Career Talent: Final Knife (session) -->
                             <input type="hidden" name="attr_show_shadowblade_final_knife" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-final-knife">
                                 <input type="checkbox" name="attr_used_session_shadowblade_final_knife" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_shadowblade_final_knife-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Knife Logic (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_knife_logic" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-knife-logic">
-                                <input type="checkbox" name="attr_used_session_shadowblade_knife_logic" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_knife_logic-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Knife’s Memory (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_knifes_memory" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-knifes-memory">
-                                <input type="checkbox" name="attr_used_session_shadowblade_knifes_memory" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_knifes_memory-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Momentum Slice (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_momentum_slice" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-momentum-slice">
-                                <input type="checkbox" name="attr_used_session_shadowblade_momentum_slice" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_momentum_slice-u"></span>
-                            </div>
-
-                            <!-- Career Talent: One Among Many (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_one_among_many" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-one-among-many">
-                                <input type="checkbox" name="attr_used_session_shadowblade_one_among_many" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_one_among_many-u"></span>
                             </div>
 
                             <!-- Career Talent: Phantom Execution (session) -->
@@ -20999,20 +21194,6 @@
                             <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-shatterpoint-strike">
                                 <input type="checkbox" name="attr_used_session_shadowblade_shatterpoint_strike" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_shadowblade_shatterpoint_strike-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Sightless Kill (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_sightless_kill" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-sightless-kill">
-                                <input type="checkbox" name="attr_used_session_shadowblade_sightless_kill" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_sightless_kill-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Strong Arm Form (session) -->
-                            <input type="hidden" name="attr_show_shadowblade_strong_arm_form" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-shadowblade-strong-arm-form">
-                                <input type="checkbox" name="attr_used_session_shadowblade_strong_arm_form" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_shadowblade_strong_arm_form-u"></span>
                             </div>
 
                             <!-- Career Talent: Unerring Step (session) -->
@@ -21302,6 +21483,41 @@
 						        <span class="sheet-tracker-label" data-i18n="career_arcane_gunslinger_spell_conduit_round-u"></span>
 						    </div>
 
+						    <!-- Career Talent: Adamant Frame (session) -->
+						    <input type="hidden" name="attr_show_bioforged_adamant_frame" />
+						    <div class="sheet-tracker-item sheet-tracker-session sheet-bioforged-adamant_frame">
+						        <input type="checkbox" name="attr_used_session_bioforged_adamant_frame" value="1" class="sheet-tracker-checkbox" />
+						        <span class="sheet-tracker-label" data-i18n="career_bioforged_adamant_frame-u"></span>
+						    </div>
+
+						    <!-- Career Talent: Adaptive Apex (session) -->
+						    <input type="hidden" name="attr_show_bioforged_adaptive_apex" />
+						    <div class="sheet-tracker-item sheet-tracker-session sheet-bioforged-adaptive_apex">
+						        <input type="checkbox" name="attr_used_session_bioforged_adaptive_apex" value="1" class="sheet-tracker-checkbox" />
+						        <span class="sheet-tracker-label" data-i18n="career_bioforged_adaptive_apex-u"></span>
+						    </div>
+
+						    <!-- Career Talent: Kinetic Singularity (session) -->
+						    <input type="hidden" name="attr_show_bioforged_kinetic_singularity" />
+						    <div class="sheet-tracker-item sheet-tracker-session sheet-bioforged-kinetic_singularity">
+						        <input type="checkbox" name="attr_used_session_bioforged_kinetic_singularity" value="1" class="sheet-tracker-checkbox" />
+						        <span class="sheet-tracker-label" data-i18n="career_bioforged_kinetic_singularity-u"></span>
+						    </div>
+
+						    <!-- Career Talent: Perfected Fleshcraft (session) -->
+						    <input type="hidden" name="attr_show_bioforged_perfected_fleshcraft" />
+						    <div class="sheet-tracker-item sheet-tracker-session sheet-bioforged-perfected_fleshcraft">
+						        <input type="checkbox" name="attr_used_session_bioforged_perfected_fleshcraft" value="1" class="sheet-tracker-checkbox" />
+						        <span class="sheet-tracker-label" data-i18n="career_bioforged_perfected_fleshcraft-u"></span>
+						    </div>
+
+						    <!-- Career Talent: Unyielding Physiology (session) -->
+						    <input type="hidden" name="attr_show_bioforged_unyielding_physiology" />
+						    <div class="sheet-tracker-item sheet-tracker-session sheet-bioforged-unyielding_physiology">
+						        <input type="checkbox" name="attr_used_session_bioforged_unyielding_physiology" value="1" class="sheet-tracker-checkbox" />
+						        <span class="sheet-tracker-label" data-i18n="career_bioforged_unyielding_physiology-u"></span>
+						    </div>
+							
 							<!-- Break the Pattern -->
 							<input type="hidden" name="attr_show_hexbreaker_break_the_pattern" />
 							<div class="sheet-tracker-item sheet-tracker-session sheet-hexbreaker-break_the_pattern">
@@ -26971,9 +27187,9 @@ const debug_on = true;
 const debug_on_trace = true;
 const debug_on_watcher = true;
 
-const SHEET_VERSION = "1.0.1";
-const SHEET_BUILD   = "2026-01-13"; // optional (date, short SHA, etc.)
-const SHEET_SCHEMA  = 1;            // bump when you do a breaking data migration
+const SHEET_VERSION = "2.0.1";
+const SHEET_BUILD   = "2026-01-24"; // optional (date, short SHA, etc.)
+const SHEET_SCHEMA  = 2;            // bump when you do a breaking data migration
 
 // === Unified guard utilities (single source of truth) ===
 let WATCHERS_BOOTSTRAPPED = false;
@@ -30792,7 +31008,7 @@ const careerDataMap = {
 		skill_points_primary_display: "base_skill_points + EDU x 2",
         skill_points_secondary: 20,
         spell_xp_primary: 30,
-        spell_xp_secondary: 10,
+        spell_xp_secondary: 0,
         primary_skills: {
 			computer_use: "computer_use-u",
             electronics: "electronics-u",
@@ -31084,7 +31300,7 @@ const careerDataMap = {
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
-		spell_xp_secondary: 10,
+		spell_xp_secondary: 0,
 		primary_skills: {
 			arcana: "arcana-u",
 			insight: "insight-u",
@@ -31392,7 +31608,7 @@ const careerDataMap = {
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
-		spell_xp_secondary: 10,
+		spell_xp_secondary: 0,
 		primary_skills: {
 			arcana: "arcana-u",
 			insight: "insight-u",
@@ -31684,7 +31900,7 @@ const careerDataMap = {
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
-		spell_xp_secondary: 10,
+		spell_xp_secondary: 0,
 		primary_skills: {
 			arcana: "arcana-u",
 			insight: "insight-u",
@@ -31975,7 +32191,7 @@ const careerDataMap = {
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
-		spell_xp_secondary: 10,
+		spell_xp_secondary: 0,
 		primary_skills: {
 			arcana: "arcana-u",
 			dodge: "dodge-u",
@@ -32269,7 +32485,7 @@ const careerDataMap = {
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
-		spell_xp_secondary: 10,
+		spell_xp_secondary: 0,
 		primary_skills: {
 			magic_alteration: "Magic (Alteration)",
 			athletics: "Athletics",
@@ -36031,8 +36247,227 @@ const careerDataMap = {
 	  primary_skills: {},
 	  secondary_skills: {},
 	  entry_requirements: {
+		all: [
+			{
+				any: [
+					// Either 60% in Athletics, Coordination, Unarmed, or Melee (melee_weapons)
+					{ type: "skill", key: "athletics", min: 60 },
+					{ type: "skill", key: "coordination", min: 60 },
+					{ type: "skill", key: "melee_weapons", min: 60 },
+					{ type: "skill", key: "unarmed", min: 60 },
+					// Or 50% in any two of those skills
+					{
+						type: "group",
+						keys: [ "athletics", "coordination", "melee_weapons", "unarmed" ],
+						count: 2,
+						min: 50
+					}
+				]
+			},
+			{ type: "ancestry_capstone", key: "alteri" }			
+		  ]
 		},
 	  talents: {
+	    adaptive_stance: {
+	        name_key: "career_bioforged_adaptive_stance-u",
+	        rule_text_key: "career_bioforged_adaptive_stance_rules-u",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: 10,
+	        strain: "1",
+	        capstone: false,
+	        usage_limit: "scene"
+	    },
+	    breath_control: {
+	        name_key: "career_bioforged_breath_control-u",
+	        rule_text_key: "career_bioforged_breath_control_rules-u",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: 10,
+	        strain: "",
+	        capstone: false,
+	        usage_limit: ""
+	    },
+	    density_stance: {
+	        name_key: "career_bioforged_density_stance-u",
+	        rule_text_key: "career_bioforged_density_stance_rules-u",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: 10,
+	        strain: "1",
+	        capstone: false,
+	        usage_limit: "scene"
+	    },
+	    inertial_bracing: {
+	        name_key: "career_bioforged_inertial_bracing-u",
+	        rule_text_key: "career_bioforged_inertial_bracing_rules-u",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: 10,
+	        strain: "1",
+	        capstone: false,
+	        usage_limit: "scene"
+	    },
+	    kinetic_stance: {
+	        name_key: "career_bioforged_kinetic_stance-u",
+	        rule_text_key: "career_bioforged_kinetic_stance_rules-u",
+	        prerequisite: "",
+	        tier: 1,
+	        cost: 10,
+	        strain: "1",
+	        capstone: false,
+	        usage_limit: "scene"
+	    },
+		bone_weaponization: {
+			name_key: "career_bioforged_bone_weaponization-u",
+			rule_text_key: "career_bioforged_bone_weaponization_rules-u",
+			prerequisite: ["density_stance", "kinetic_stance"],
+			tier: 2,
+			cost: 20,
+			strain: "1d4",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		density_reinforcement: {
+			name_key: "career_bioforged_density_reinforcement-u",
+			rule_text_key: "career_bioforged_density_reinforcement_rules-u",
+			prerequisite: "density_stance",
+			tier: 2,
+			cost: 20,
+			strain: "1",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		explosive_entry: {
+			name_key: "career_bioforged_explosive_entry-u",
+			rule_text_key: "career_bioforged_explosive_entry_rules-u",
+			prerequisite: "kinetic_stance",
+			tier: 2,
+			cost: 20,
+			strain: "2",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		no_safety_margin: {
+			name_key: "career_bioforged_no_safety_margin-u",
+			rule_text_key: "career_bioforged_no_safety_margin_rules-u",
+			prerequisite: "inertial_bracing",
+			tier: 2,
+			cost: 20,
+			strain: "",
+			capstone: false,
+			usage_limit: ""
+		},
+		reactive_hardening: {
+			name_key: "career_bioforged_reactive_hardening-u",
+			rule_text_key: "career_bioforged_reactive_hardening_rules-u",
+			prerequisite: "adaptive_stance",
+			tier: 2,
+			cost: 20,
+			strain: "1",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		extreme_adaptation: {
+			name_key: "career_bioforged_extreme_adaptation-u",
+			rule_text_key: "career_bioforged_extreme_adaptation_rules-u",
+			prerequisite: "density_reinforcement",
+			tier: 3,
+			cost: 30,
+			strain: "2",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		fleshcraft_blades: {
+			name_key: "career_bioforged_fleshcraft_blades-u",
+			rule_text_key: "career_bioforged_fleshcraft_blades_rules-u",
+			prerequisite: "bone_weaponization",
+			tier: 3,
+			cost: 30,
+			strain: "2+1d4",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		momentum_pressure: {
+			name_key: "career_bioforged_momentum_pressure-u",
+			rule_text_key: "career_bioforged_momentum_pressure_rules-u",
+			prerequisite: "explosive_entry",
+			tier: 3,
+			cost: 30,
+			strain: "1",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		structural_interface: {
+			name_key: "career_bioforged_structural_interface-u",
+			rule_text_key: "career_bioforged_structural_interface_rules-u",
+			prerequisite: "breath_control",
+			tier: 3,
+			cost: 30,
+			strain: "1",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		thorn_mantle: {
+			name_key: "career_bioforged_thorn_mantle-u",
+			rule_text_key: "career_bioforged_thorn_mantle_rules-u",
+			prerequisite: "bone_weaponization",
+			tier: 3,
+			cost: 30,
+			strain: "2",
+			capstone: false,
+			usage_limit: "scene"
+		},
+		adamant_frame: {
+			name_key: "career_bioforged_adamant_frame-u",
+			rule_text_key: "career_bioforged_adamant_frame_rules-u",
+			prerequisite: "extreme_adaptation",
+			tier: 4,
+			cost: 40,
+			strain: "1d6",
+			capstone: true,
+			usage_limit: "session"
+		},
+		adaptive_apex: {
+			name_key: "career_bioforged_adaptive_apex-u",
+			rule_text_key: "career_bioforged_adaptive_apex_rules-u",
+			prerequisite: "extreme_adaptation",
+			tier: 4,
+			cost: 40,
+			strain: "1d6",
+			capstone: true,
+			usage_limit: "session"
+		},
+		kinetic_singularity: {
+			name_key: "career_bioforged_kinetic_singularity-u",
+			rule_text_key: "career_bioforged_kinetic_singularity_rules-u",
+			prerequisite: "momentum_pressure",
+			tier: 4,
+			cost: 40,
+			strain: "1d6",
+			capstone: true,
+			usage_limit: "session"
+		},
+		perfected_fleshcraft: {
+			name_key: "career_bioforged_perfected_fleshcraft-u",
+			rule_text_key: "career_bioforged_perfected_fleshcraft_rules-u",
+			prerequisite: "fleshcraft_blades",
+			tier: 4,
+			cost: 40,
+			strain: "1d6+2",
+			capstone: true,
+			usage_limit: "session"
+		},
+		unyielding_physiology: {
+			name_key: "career_bioforged_unyielding_physiology-u",
+			rule_text_key: "career_bioforged_unyielding_physiology_rules-u",
+			prerequisite: "extreme_adaptation",
+			tier: 4,
+			cost: 40,
+			strain: "1d6",
+			capstone: true,
+			usage_limit: "session"
+		}
 	  }
 	},
 	hexbreaker: {
@@ -36519,6 +36954,7 @@ let talentWatchersRegistered = false;
 let careerWatcherInitialized = false;
 let backgroundTabWatchersReady = false;
 let careerTabWatchersReady = false;
+let careerReadyWatchersReady = false;
 let BG_LIMITER_V2_REGISTERED = false;
 
 /* Initialization Section - Start  */
@@ -36526,6 +36962,7 @@ let BG_LIMITER_V2_REGISTERED = false;
 const tabList = ["skills", "perks", "flaws", "ancestry", "background", "careers",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "ledger", "tracker"];
 
 const registeredRaces = new Set();
+const registeredSkillHandlers = new Set();
 const talentSummaryRegistered = new Set();
 const bgLimiterRegistered = new Set();
 const hasLimit = (val, limit) => Array.isArray(val) ? val.includes(limit) : val === limit;
@@ -36538,6 +36975,35 @@ const CODE_ORDER_ATTR =  `reporder_repeating_${SECTION}`;  // setSectionOrder wr
 const guarded = (fn) => (...args) => {
   if (IS_BOOTSTRAPPING || SILENT_DEPTH > 0) return;
   fn(...args);
+};
+
+const registerCareerReadyWatchers = () => {
+  if (careerReadyWatchersReady) return;
+  careerReadyWatchersReady = true;
+
+  const skillEvents = Object.keys(skillDataMap || {})
+    .flatMap(k => [`change:${k}`, `change:${k}_mdr`]);
+
+  const capstoneEvents = [];
+  Object.keys(ancestryTalentDataMap || {}).forEach(race => {
+    Object.entries(ancestryTalentDataMap[race] || {})
+      .filter(([, t]) => t.capstone === true)
+      .forEach(([talentKey]) => capstoneEvents.push(`change:${race}_${talentKey}`));
+  });
+
+  const events = [
+    "sheet:opened",
+    "clicked:careers",
+    "change:primary_career",
+    "change:repeating_secondarycareer:secondary_career",
+    "remove:repeating_secondarycareer",
+    ...skillEvents,
+    ...capstoneEvents
+  ];
+
+  on([...new Set(events)].join(" "), () => {
+    updateCareerReadyState();
+  });
 };
 
 const registerBackgroundTabWatchers = () => {
@@ -38392,7 +38858,39 @@ const getHasCapstoneMap = (careers, cb) => {
   });
 };
 
-const evalEntryRequirements = (req, values, hasCapstone, traceKey) => {
+const getHasAncestryCapstoneMap = (races, cb) => {
+  const capstoneKeysByRace = {};
+  const need = [];
+  const isCheckedLocal = v => v === "1" || v === 1 || v === "on" || v === "true";
+
+  (races || []).forEach(race => {
+    const caps = Object.entries(ancestryTalentDataMap?.[race] || {})
+      .filter(([, t]) => t && t.capstone === true)
+      .map(([tk]) => tk);
+
+    capstoneKeysByRace[race] = caps;
+
+    // checkbox attrs are: `${race}_${talentKey}` (e.g., alteri_author_of_the_moment)
+    caps.forEach(tk => need.push(`${race}_${tk}`));
+  });
+
+  if (need.length === 0) {
+    const none = {};
+    (races || []).forEach(r => (none[r] = false));
+    return cb(none);
+  }
+
+  getAttrs(need, values => {
+    const has = {};
+    (races || []).forEach(race => {
+      const caps = capstoneKeysByRace[race] || [];
+      has[race] = caps.some(tk => isCheckedLocal(values[`${race}_${tk}`]));
+    });
+    cb(has);
+  });
+};
+
+const evalEntryRequirements = (req, values, hasCapstone, hasAncestryCapstone, traceKey) => {
   if (!req) return true;
 
   // Build a derived map of capstones by career_type without changing callers.
@@ -38450,6 +38948,18 @@ const evalEntryRequirements = (req, values, hasCapstone, traceKey) => {
         return false;
       }
 
+      case "ancestry_capstone": {
+        // { key: "alteri" } — this ancestry has a capstone
+        if (node.key) return !!(hasAncestryCapstone && hasAncestryCapstone[node.key]);
+
+        // { keys: ["alteri","draevi"] } — any of these ancestries has a capstone
+        if (Array.isArray(node.keys) && node.keys.length) {
+          return node.keys.some(k => !!(hasAncestryCapstone && hasAncestryCapstone[k]));
+        }
+
+        return false;
+      }
+
       default:
         return false;
     }
@@ -38471,12 +38981,17 @@ const updateCareerReadyState = (callback) => {
 
     // collect skill attrs needed by any entry_requirements
     const skillKeys = new Set();
+    const ancestryKeys = new Set();
     const collect = n => {
       if (!n) return;
       if (n.all) n.all.forEach(collect);
       if (n.any) n.any.forEach(collect);
       if (n.type === "skill") skillKeys.add(n.key);
       if (n.type === "group" && Array.isArray(n.keys)) n.keys.forEach(k => skillKeys.add(k));
+      if (n.type === "ancestry_capstone") {
+        if (n.key) ancestryKeys.add(n.key);
+        if (Array.isArray(n.keys)) n.keys.forEach(k => ancestryKeys.add(k));
+      }
     };
     allCareers.forEach(c => collect(careerDataMap[c]?.entry_requirements));
 
@@ -38485,31 +39000,42 @@ const updateCareerReadyState = (callback) => {
 
     getAttrs(need, skillVals => {
       getHasCapstoneMap(allCareers, hasCapstone => {
-        // Primary
-        if (!careerDataMap[primary] || evalEntryRequirements(careerDataMap[primary].entry_requirements, skillVals, hasCapstone)) {
-          if (careerDataMap[primary]) output[`${primary}_ready`] = "1";
-        }
+        const racesNeeded = Array.from(ancestryKeys);
 
-        // Secondary rows
-        getSectionIDs("repeating_secondarycareer", ids => {
-          if (ids.length) {
-            const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
-            getAttrs(keys, entries => {
-              ids.forEach(id => {
-                const key = entries[`repeating_secondarycareer_${id}_secondary_career`] || "";
-                if (!key || !careerDataMap[key]) return;
-                if (evalEntryRequirements(careerDataMap[key].entry_requirements, skillVals, hasCapstone)) {
-                  output[`${key}_ready`] = "1";
-                }
+        const afterAncestry = (hasAncestryCapstone) => {
+
+          // Primary
+          if (!careerDataMap[primary] || evalEntryRequirements(careerDataMap[primary].entry_requirements, skillVals, hasCapstone, hasAncestryCapstone)) {
+            if (careerDataMap[primary]) output[`${primary}_ready`] = "1";
+          }
+
+          // Secondary rows
+          getSectionIDs("repeating_secondarycareer", ids => {
+            if (ids.length) {
+              const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+              getAttrs(keys, entries => {
+                ids.forEach(id => {
+                  const key = entries[`repeating_secondarycareer_${id}_secondary_career`] || "";
+                  if (!key || !careerDataMap[key]) return;
+                  if (evalEntryRequirements(careerDataMap[key].entry_requirements, skillVals, hasCapstone, hasAncestryCapstone)) {
+                    output[`${key}_ready`] = "1";
+                  }
+                });
+                if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
+                setAttrs(output, { silent: true }, callback);
               });
+            } else {
               if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
               setAttrs(output, { silent: true }, callback);
-            });
-          } else {
-            if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
-            setAttrs(output, { silent: true }, callback);
-          }
-        });
+            }
+          });
+        };
+
+        if (racesNeeded.length) {
+          getHasAncestryCapstoneMap(racesNeeded, afterAncestry);
+        } else {
+          afterAncestry({});
+        }
       });
     });
   });
@@ -38857,6 +39383,16 @@ const registerBackgroundLockDropdownWatcher = () => {
 	});
 };
 
+const registerAwakenedModeDisplayWatcher = () => {
+  on("sheet:opened change:awakened", () => {
+    getAttrs(["awakened"], (v) => {
+      setAttrs({
+        show_awakened_mode: v.awakened === "1" ? "1" : "0"
+      }, { silent: true });
+    });
+  });
+};
+
 const bootstrapGlobalWatchersOnce = () => {
   // Register global (race-agnostic) watchers ONCE
   if (WATCHERS_BOOTSTRAPPED) return;
@@ -38870,6 +39406,7 @@ const bootstrapGlobalWatchersOnce = () => {
   registerTalentSkillBonusWatchers();
   registerXPTrackerWatcher();
   registerStatHandler();
+  registerAwakenedModeDisplayWatcher();
   registerCareerTabWatchers();
   registerBackgroundTabWatchers();
   registerPerkSummaryWatcher();
@@ -39311,10 +39848,10 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
   if (!racePrefix) return;
   if (debug_on_trace) console.log("[registerSkillHandler] Start", { racePrefix });
 
-  // idempotent per race
+// idempotent per race
   const key = `${racePrefix}`;
-  if (registeredRaces.has(key)) return;
-  registeredRaces.add(key);
+  if (registeredSkillHandlers.has(key)) return;
+  registeredSkillHandlers.add(key);
 
   // ---- derive lists safely from skillDataMap ----
   const allSkills = Object.keys(skillDataMap || {});
@@ -39554,6 +40091,9 @@ function handleRaceChange(race) {
 }
 
 function ensureRaceWatchers(race) {
+  // Always ensure the skill handler is registered (it is idempotent on its own Set)
+  if (typeof registerSkillHandler === "function") registerSkillHandler(race);
+
   if (registeredRaces.has(race)) return;
 
   if (typeof registerTalentSummaryWatcher === "function") registerTalentSummaryWatcher(race);
@@ -39614,6 +40154,7 @@ function registerStatHandler() {
 
 	const watched = [
 		"age", "str", "dex", "pow", "con", "app", "edu", "siz", "int", "vitality", "char_creation_lock", "major_wounds", "awakened",
+		"mundane_mode_checkbox", "awakened_mode_checkbox",
 		"primary_career",                         // Watch primary career changes
 		"repeating_secondarycareer:secondary_career", // Watch for changes to career name
 		"perk_resilient_frame", "perk_blood_born_survivor", "perk_blood_born_survivor_hp_bonus"
@@ -39674,6 +40215,64 @@ function registerStatHandler() {
 			});
 
 			update["total_attr_points_spent"] = totalAttrPointsSpent;
+			
+			const physStatKeys = ["str", "con", "siz", "dex"];
+
+			let totalPhysAttrPointsSpent = 0;
+
+			physStatKeys.forEach(stat => {
+				const val = parseInt(values[stat], 10) || 0;
+				totalPhysAttrPointsSpent += val;
+			});
+
+			update["total_phys_attr_points_spent"] = totalPhysAttrPointsSpent;
+			
+			const aptStatKeys = ["app", "int", "pow", "edu"];
+
+			let totalAptAttrPointsSpent = 0;
+
+			aptStatKeys.forEach(stat => {
+				const val = parseInt(values[stat], 10) || 0;
+				totalAptAttrPointsSpent += val;
+			});
+
+			update["total_apt_attr_points_spent"] = totalAptAttrPointsSpent;
+			
+			// Attribute point budget thresholds by build mode
+			const mundaneMode = values.mundane_mode_checkbox || "";
+			const awakenedMode = values.awakened_mode_checkbox || "";
+
+			let maxPhys = 0;
+			let maxApt = 0;
+
+			if (iawakened === 0) {
+				if (mundaneMode === "focused") {
+					maxPhys = 260;
+					maxApt = 220;
+				} else if (mundaneMode === "balanced") {
+					maxPhys = 240;
+					maxApt = 240;
+				}
+			} else {
+				if (awakenedMode === "physical") {
+					maxPhys = 230;
+					maxApt = 200;
+				} else if (awakenedMode === "aptitude") {
+					maxPhys = 200;
+					maxApt = 230;
+				}
+			}
+
+			if (maxPhys > 0 && maxApt > 0) {
+				const physState = (totalPhysAttrPointsSpent < maxPhys) ? 0 : (totalPhysAttrPointsSpent === maxPhys) ? 1 : 2;
+				const aptState  = (totalAptAttrPointsSpent  < maxApt)  ? 0 : (totalAptAttrPointsSpent  === maxApt)  ? 1 : 2;
+
+				update.phys_attr_points_budget_state = String(physState);
+				update.apt_attr_points_budget_state  = String(aptState);
+			} else {
+				update.phys_attr_points_budget_state = "";
+				update.apt_attr_points_budget_state  = "";
+			}			
 
             // Arcane Capcity = VITALITY
             update.ac = ( ( iawakened === 1 ) ? ivit : 0 );
@@ -40038,6 +40637,7 @@ on("clicked:careers", () => {
 		registerSecondaryCareerXPWatcher();
 		registerPrimaryExclusiveSkillWatchers();
 		registerActiveSecondaryCareerWatchers();
+		registerCareerReadyWatchers();
 		updateCareerReadyState();
 
 		getAttrs(["primary_career"], (values) => {

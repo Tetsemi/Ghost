@@ -141,7 +141,7 @@
 }
 
 /* Label cells */
-.sheet-attr-label {
+.ui-dialog .tab-content .charsheet .sheet-attr-label {
     font-weight: bold;
     text-align: left;
     padding: 2px 4px;
@@ -421,6 +421,70 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 .ui-dialog .tab-content .charsheet .sheet-awakened-toggle input[type="checkbox"]:checked ~ .sheet-awakened-on  { display: inline; }
 .ui-dialog .tab-content .charsheet .sheet-awakened-toggle input[type="checkbox"]:checked ~ .sheet-awakened-off { display: none; }
 
+/* Attribute Mode (Mundane vs Awakened options): default + toggle via attr_show_awakened_mode */
+.ui-dialog .tab-content .charsheet .sheet-awakened-mode-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	width: 35px;
+	margin-left: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-awakened-mode-wrapper .sheet-mundane-mode-pair {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-awakened-mode-wrapper .sheet-awakened-mode-pair {
+	display: none;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-awakened-mode-wrapper input[name="attr_show_awakened_mode"][value="1"] ~ .sheet-mundane-mode-pair {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-awakened-mode-wrapper input[name="attr_show_awakened_mode"][value="1"] ~ .sheet-awakened-mode-pair {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-awakened-mode-wrapper .sheet-mode-option {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin: 0;
+	margin-top: 4px;
+	margin-left: 10px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-awakened-mode-wrapper .sheet-mode-option span {
+	color: #000;
+	font-size: 75%;
+	line-height: 1;
+	
+}
+
+.ui-dialog .tab-content .charsheet .sheet-grid-characteristics .sheet-attr-label {
+	text-align: right;
+}
+
+/* Base style: under max (light blue) */
+.ui-dialog .tab-content .charsheet input.sheet-attr-budget-sensitive {
+	background-color: rgba(173, 216, 230, 0.60); /* light blue */
+	color: #000;
+}
+
+/* Equal to max (light green) */
+.ui-dialog .tab-content .charsheet input.sheet-attr-budget-mirror[value="1"] + input.sheet-attr-budget-sensitive {
+	background-color: rgba(144, 238, 144, 0.60); /* light green */
+}
+
+/* Over max (light red) */
+.ui-dialog .tab-content .charsheet input.sheet-attr-budget-mirror[value="2"] + input.sheet-attr-budget-sensitive {
+	background-color: rgba(255, 182, 193, 0.70); /* light red */
+}
 
 .sheet-grid-age-sex input[type="text"] {
 	width: 100%;
@@ -519,7 +583,7 @@ input[name="attr_edit_mode"][value="on"] ~ .sheet-layout input.sheet-edit-toggle
 /* ---------------------------- */
 .sheet-grid-spenders {
   display: grid;
-  grid-template-columns: 0.5fr auto 1em 0.5fr auto 1em;
+  grid-template-columns: 0.5fr auto auto 0.5fr auto 1em;
   align-items: center;
   background: #d0cabe;
   border: none;
@@ -2117,158 +2181,6 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
   display: block;
 }
 
-/* Alteri Background Tab Display Logic */
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="break_faced_radical"] ~ .sheet-bg-break_faced_radical,
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="ghostline_runner"] ~ .sheet-bg-ghostline_runner,
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="legacy_bearer"] ~ .sheet-bg-legacy_bearer,
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="soft_year_drifter"] ~ .sheet-bg-soft_year_drifter,
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="veilhaven_attendant"] ~ .sheet-bg-veilhaven_attendant {
-  display: block;
-  background: #dce7ed;
-}
-
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="break_faced_radical"] ~ .sheet-tab-buttons button[name="act_break_faced_radical"],
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="ghostline_runner"] ~ .sheet-tab-buttons button[name="act_ghostline_runner"],
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="legacy_bearer"] ~ .sheet-tab-buttons button[name="act_legacy_bearer"],
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="soft_year_drifter"] ~ .sheet-tab-buttons button[name="act_soft_year_drifter"],
-.sheet-tab-controller[name="attr_alteri_background_choice"][value="veilhaven_attendant"] ~ .sheet-tab-buttons button[name="act_veilhaven_attendant"] {
-  background-color: #222;
-}
-
-/* Show correct Draevi background block */
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="forgeblood_scavenger"] ~ .sheet-bg-forgeblood_scavenger,
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="horn_carved_wanderer"] ~ .sheet-bg-horn_carved_wanderer,
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="spiritbound_techshaper"] ~ .sheet-bg-spiritbound_techshaper,
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="tradition_keeper"] ~ .sheet-bg-tradition_keeper,
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="urban_tread"] ~ .sheet-bg-urban_tread  {
-  display: block;
-  background: #e7e2d3;
-}
-
-/* Highlight active Draevi tab button */
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="forgeblood_scavenger"] ~ .sheet-tab-buttons button[name="act_forgeblood_scavenger"],
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="horn_carved_wanderer"] ~ .sheet-tab-buttons button[name="act_horn_carved_wanderer"],
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="spiritbound_techshaper"] ~ .sheet-tab-buttons button[name="act_spiritbound_techshaper"],
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="tradition_keeper"] ~ .sheet-tab-buttons button[name="act_tradition_keeper"],
-.sheet-tab-controller[name="attr_draevi_background_choice"][value="urban_tread"] ~ .sheet-tab-buttons button[name="act_urban_tread"] {
-  background-color: #222;
-}
-
-/* Feran Background Tab Display Logic */
-.sheet-tab-controller[name="attr_feran_background_choice"][value="clawbound_kin_warder"] ~ .sheet-bg-clawbound_kin_warder,
-.sheet-tab-controller[name="attr_feran_background_choice"][value="packborn_drifter"] ~ .sheet-bg-packborn_drifter,
-.sheet-tab-controller[name="attr_feran_background_choice"][value="scorchborn_fugitive"] ~ .sheet-bg-scorchborn_fugitive,
-.sheet-tab-controller[name="attr_feran_background_choice"][value="urban_stalkkit"] ~ .sheet-bg-urban_stalkkit,
-.sheet-tab-controller[name="attr_feran_background_choice"][value="veil_hunters_cub"] ~ .sheet-bg-veil_hunters_cub {
-  display: block;
-  background: #dce7ed;
-}
-
-.sheet-tab-controller[name="attr_feran_background_choice"][value="packborn_drifter"] ~ .sheet-tab-buttons button[name="act_packborn_drifter"],
-.sheet-tab-controller[name="attr_feran_background_choice"][value="urban_stalkkit"] ~ .sheet-tab-buttons button[name="act_urban_stalkkit"],
-.sheet-tab-controller[name="attr_feran_background_choice"][value="clawbound_kin_warder"] ~ .sheet-tab-buttons button[name="act_clawbound_kin_warder"],
-.sheet-tab-controller[name="attr_feran_background_choice"][value="scorchborn_fugitive"] ~ .sheet-tab-buttons button[name="act_scorchborn_fugitive"],
-.sheet-tab-controller[name="attr_feran_background_choice"][value="veil_hunters_cub"] ~ .sheet-tab-buttons button[name="act_veil_hunters_cub"] {
-  background-color: #222;
-}
-
-/* Show correct Human background block */
-.sheet-tab-controller[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-bg-ash_war_refugee,
-.sheet-tab-controller[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-bg-data_hatched,
-.sheet-tab-controller[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-bg-enclave_born,
-.sheet-tab-controller[name="attr_human_background_choice"][value="gutterfire_youth"] ~ .sheet-bg-gutterfire_youth,
-.sheet-tab-controller[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-bg-outpost_raised,
-.sheet-tab-controller[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-bg-scavsteel_whelp {
-  display: block;
-  background: #f0f0eb;
-}
-
-/* Display only the active human background section */
-.sheet-tab-controller[name="attr_human_background_choice"][value="ash_war_refugee"] ~ .sheet-tab-buttons button[name="act_ash_war_refugee"],
-.sheet-tab-controller[name="attr_human_background_choice"][value="data_hatched"] ~ .sheet-tab-buttons button[name="act_data_hatched"],
-.sheet-tab-controller[name="attr_human_background_choice"][value="enclave_born"] ~ .sheet-tab-buttons button[name="act_enclave_born"],
-.sheet-tab-controller[name="attr_human_background_choice"][value="gutterfire_youth"] ~ .sheet-tab-buttons button[name="act_gutterfire_youth"],
-.sheet-tab-controller[name="attr_human_background_choice"][value="outpost_raised"] ~ .sheet-tab-buttons button[name="act_outpost_raised"],
-.sheet-tab-controller[name="attr_human_background_choice"][value="scavsteel_whelp"] ~ .sheet-tab-buttons button[name="act_scavsteel_whelp"] {
-  background-color: #222;
-}
-
-/* Show the selected Khadra background block (set background color to your Khadra palette) */
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="stonehold_disciple"] ~ .sheet-bg-stonehold_disciple,
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="cliffborn_laborer"] ~ .sheet-bg-cliffborn_laborer,
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="oathbreakers_kin"] ~ .sheet-bg-oathbreakers_kin,
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="wardens_apprentice"] ~ .sheet-bg-wardens_apprentice,
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="dust_seer_novice"] ~ .sheet-bg-dust_seer_novice {
-  display: block;
-  background: #d9d7cf; /* Khadra: stone-gray (adjust to your final palette) */
-}
-
-/* Highlight the active Khadra tab button */
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="stonehold_disciple"] ~ .sheet-tab-buttons button[name="act_stonehold_disciple"],
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="cliffborn_laborer"] ~ .sheet-tab-buttons button[name="act_cliffborn_laborer"],
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="oathbreakers_kin"] ~ .sheet-tab-buttons button[name="act_oathbreakers_kin"],
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="wardens_apprentice"] ~ .sheet-tab-buttons button[name="act_wardens_apprentice"],
-.sheet-tab-controller[name="attr_khadra_background_choice"][value="dust_seer_novice"] ~ .sheet-tab-buttons button[name="act_dust_seer_novice"] {
-  background-color: #222;
-}
-
-/* Kitsu Background: show the selected block */
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="code_seer_prodigy"] ~ .sheet-bg-code_seer_prodigy,
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="contract_born"] ~ .sheet-bg-contract_born,
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="ghostline_whelp"] ~ .sheet-bg-ghostline_whelp,
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="run_shadow_cub"] ~ .sheet-bg-run_shadow_cub,
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="shrine_den_scion"] ~ .sheet-bg-shrine_den_scion {
-  display: block;
-  background: #e9f1fb;
-}
-
-/* Optional: give the active button a highlight (match your theme) */
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="code_seer_prodigy"] ~ .sheet-tab-buttons button[name="act_code_seer_prodigy"],
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="contract_born"] ~ .sheet-tab-buttons button[name="act_contract_born"],
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="ghostline_whelp"] ~ .sheet-tab-buttons button[name="act_ghostline_whelp"],
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="run_shadow_cub"] ~ .sheet-tab-buttons button[name="act_run_shadow_cub"],
-.sheet-tab-controller[name="attr_kitsu_background_choice"][value="shrine_den_scion"] ~ .sheet-tab-buttons button[name="act_shrine_den_scion"] {
-  background-color: #222;
-}
-
-/* Show correct Lyranni background block */
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-bg-aelvareth_devotee,
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="echoborne"] ~ .sheet-bg-echoborne,
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="glide_spire_scion"] ~ .sheet-bg-glide_spire_scion,
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="whisper_walker"] ~ .sheet-bg-whisper_walker,
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-bg-zurethkai_flameborn {
-  display: block;
-  background: #ede5f5;
-}
-
-/* Highlight active Lyranni tab button */
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="aelvareth_devotee"] ~ .sheet-tab-buttons button[name="act_aelvareth_devotee"],
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="echoborne"] ~ .sheet-tab-buttons button[name="act_echoborne"],
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="glide_spire_scion"] ~ .sheet-tab-buttons button[name="act_glide_spire_scion"],
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="whisper_walker"] ~ .sheet-tab-buttons button[name="act_whisper_walker"],
-.sheet-tab-controller[name="attr_lyranni_background_choice"][value="zurethkai_flameborn"] ~ .sheet-tab-buttons button[name="act_zurethkai_flameborn"] {
-  background-color: #222;
-}
-/* ------------------- Veyra Background Tab Display Logic ------------------- */
-/* Show correct Veyra background block */
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="corpsepath_reclaimer"] ~ .sheet-bg-corpsepath_reclaimer,
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="cross_signal_raised"] ~ .sheet-bg-cross_signal_raised,
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="hatchwarren_drifter"] ~ .sheet-bg-hatchwarren_drifter,
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="loop_minder_initiate"] ~ .sheet-bg-loop_minder_initiate,
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="shatterlink_courier"] ~ .sheet-bg-shatterlink_courier {
-  display: block;
-  background: #dce7ed; /* matches existing background highlight style */
-}
-
-/* Highlight active Veyra tab button */
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="corpsepath_reclaimer"] ~ .sheet-tab-buttons button[name="act_corpsepath_reclaimer"],
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="cross_signal_raised"] ~ .sheet-tab-buttons button[name="act_cross_signal_raised"],
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="hatchwarren_drifter"] ~ .sheet-tab-buttons button[name="act_hatchwarren_drifter"],
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="loop_minder_initiate"] ~ .sheet-tab-buttons button[name="act_loop_minder_initiate"],
-.sheet-tab-controller[name="attr_veyra_background_choice"][value="shatterlink_courier"] ~ .sheet-tab-buttons button[name="act_shatterlink_courier"] {
-  background-color: #222;
-}
-
 .sheet-ancestry-flex {
   display: flex;
   flex-direction: column;
@@ -2757,6 +2669,7 @@ input[name="attr_selected_career"][value="slicer"] ~ .sheet-career-tabs-containe
 input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs-container .sheet-tab-street_ronin,
 input[name="attr_selected_career"][value="tactician"] ~ .sheet-career-tabs-container .sheet-tab-tactician,
 input[name="attr_selected_career"][value="arcane_gunslinger"] ~ .sheet-career-tabs-container .sheet-tab-arcane_gunslinger,
+input[name="attr_selected_career"][value="bioforged"] ~ .sheet-career-tabs-container .sheet-tab-bioforged,
 input[name="attr_selected_career"][value="hexbreaker"] ~ .sheet-career-tabs-container .sheet-tab-hexbreaker,
 input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs-container .sheet-tab-soul_forger {
     display: block;
@@ -2890,6 +2803,7 @@ input[name="attr_selected_career"][value="slicer"] ~ .sheet-career-tabs button[n
 input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-tabs button[name="act_street_ronin"],
 input[name="attr_selected_career"][value="tactician"] ~ .sheet-career-tabs button[name="act_tactician"],
 input[name="attr_selected_career"][value="arcane_gunslinger"] ~ .sheet-career-tabs button[name="act_arcane_gunslinger"],
+input[name="attr_selected_career"][value="bioforged"] ~ .sheet-career-tabs button[name="act_bioforged"],
 input[name="attr_selected_career"][value="hexbreaker"] ~ .sheet-career-tabs button[name="act_hexbreaker"],
 input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs button[name="act_soul_forger"] {
     background-color: #333;
@@ -3149,6 +3063,10 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-arcane_gunslinger input[name="attr_show_career_arcane_gunslinger_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-arcane_gunslinger input[name="attr_show_career_arcane_gunslinger_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-arcane_gunslinger input[name="attr_show_career_arcane_gunslinger_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-bioforged input[name="attr_show_career_bioforged_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-bioforged input[name="attr_show_career_bioforged_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-bioforged input[name="attr_show_career_bioforged_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-bioforged input[name="attr_show_career_bioforged_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-hexbreaker input[name="attr_show_career_hexbreaker_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-hexbreaker input[name="attr_show_career_hexbreaker_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-hexbreaker input[name="attr_show_career_hexbreaker_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
@@ -3343,6 +3261,7 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 .ui-dialog .tab-content .charsheet .sheet-tab-tactician input[name="attr_tactician_ready"][value="1"] ~ .sheet-career-locked-overlay,
 
 .ui-dialog .tab-content .charsheet .sheet-tab-arcane_gunslinger input[name="attr_arcane_gunslinger_ready"][value="1"] ~ .sheet-career-locked-overlay,
+.ui-dialog .tab-content .charsheet .sheet-tab-bioforged input[name="attr_bioforged_ready"][value="1"] ~ .sheet-career-locked-overlay,
 .ui-dialog .tab-content .charsheet .sheet-tab-hexbreaker input[name="attr_hexbreaker_ready"][value="1"] ~ .sheet-career-locked-overlay,
 .ui-dialog .tab-content .charsheet .sheet-tab-soul_forger input[name="attr_soul_forger_ready"][value="1"] ~ .sheet-career-locked-overlay {
   display: none;
@@ -5162,6 +5081,8 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_alteri_seamless_transition"][value="1"] ~ .sheet-alteri-seamless-transition,
 .ui-dialog .tab-content .charsheet input[name="attr_show_alteri_social_attunement"][value="1"] ~ .sheet-alteri-social-attunement,
 .ui-dialog .tab-content .charsheet input[name="attr_show_draevi_claim_the_ground"][value="1"] ~ .sheet-draevi-claim-the-ground,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_read_the_ground"][value="1"] ~ .sheet-draevi-read-the-ground,
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_stand_when_others_stagger"][value="1"] ~ .sheet-draevi-stand-when-others-stagger,
 .ui-dialog .tab-content .charsheet input[name="attr_show_feran_ambush_instincts"][value="1"] ~ .sheet-feran-ambush-instincts,
 .ui-dialog .tab-content .charsheet input[name="attr_show_feran_scent_of_the_kill"][value="1"] ~ .sheet-feran-scent-of-the-kill,
 .ui-dialog .tab-content .charsheet input[name="attr_show_human_bad_idea_lets_go"][value="1"] ~ .sheet-human-bad-idea-lets-go,
@@ -5422,17 +5343,17 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 }
 
 /* Career Talent Tracker - Codeweaver - Scene */
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_clean_loop_feedback"][value="1"] ~ .sheet-codeweaver-clean-loop-feedback,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_pulse_hijack"][value="1"] ~ .sheet-codeweaver-pulse-hijack,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_signal_sync"][value="1"] ~ .sheet-codeweaver-signal-sync,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_veil_thread_tap"][value="1"] ~ .sheet-codeweaver-veil-thread-tap,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_hardlight_override"][value="1"] ~ .sheet-codeweaver-hardlight-override,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_recursive_pulse"][value="1"] ~ .sheet-codeweaver-recursive-pulse,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_code_injection"][value="1"] ~ .sheet-codeweaver-code-injection,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_arc_thread_override"][value="1"] ~ .sheet-codeweaver-arc-thread-override,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_synthetic_harmony"][value="1"] ~ .sheet-codeweaver-synthetic-harmony,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_backdoor_ritual"][value="1"] ~ .sheet-codeweaver-backdoor-ritual,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_clean_loop_feedback"][value="1"] ~ .sheet-codeweaver-clean-loop-feedback,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_code_injection"][value="1"] ~ .sheet-codeweaver-code-injection,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_command_injection"][value="1"] ~ .sheet-codeweaver-command-injection,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_backdoor_ritual"][value="1"] ~ .sheet-codeweaver-backdoor-ritual {
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_hardlight_override"][value="1"] ~ .sheet-codeweaver-hardlight-override,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_pulse_hijack"][value="1"] ~ .sheet-codeweaver-pulse-hijack,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_recursive_pulse"][value="1"] ~ .sheet-codeweaver-recursive-pulse,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_signal_sync"][value="1"] ~ .sheet-codeweaver-signal-sync,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_synthetic_harmony"][value="1"] ~ .sheet-codeweaver-synthetic-harmony,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_veil_thread_tap"][value="1"] ~ .sheet-codeweaver-veil-thread-tap {
 	display: flex;
 }
 
@@ -5442,16 +5363,18 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_commanding_presence"][value="1"] ~ .sheet-mindbender-commanding-presence,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_cracking_resolve"][value="1"] ~ .sheet-mindbender-cracking-resolve,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_false_choice"][value="1"] ~ .sheet-mindbender-false-choice,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_emotional_fracture"][value="1"] ~ .sheet-mindbender-emotional-fracture,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_emotional_read"][value="1"] ~ .sheet-mindbender-emotional-read,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_eroded_confidence"][value="1"] ~ .sheet-mindbender-eroded-confidence,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_focused_intrusion"][value="1"] ~ .sheet-mindbender-focused-intrusion,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_hesitation_loop"][value="1"] ~ .sheet-mindbender-hesitation-loop,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_mental_backlash"][value="1"] ~ .sheet-mindbender-mental-backlash,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_mental_static"][value="1"] ~ .sheet-mindbender-mental-static,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_mental_interference"][value="1"] ~ .sheet-mindbender-mental-interference,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_moment_of_doubt"][value="1"] ~ .sheet-mindbender-moment-of-doubt,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_moments_hesitation"][value="1"] ~ .sheet-mindbender-moments-hesitation,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_overextension"][value="1"] ~ .sheet-mindbender-overextension,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_press_the_advantage"][value="1"] ~ .sheet-mindbender-press-the-advantage,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_read_the_room"][value="1"] ~ .sheet-mindbender-read-the-room,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_seed_of_doubt"][value="1"] ~ .sheet-mindbender-seed-of-doubt,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_shaken_resolve"][value="1"] ~ .sheet-mindbender-shaken-resolve,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_spatial_misjudgment"][value="1"] ~ .sheet-mindbender-spatial-misjudgment,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_split_focus"][value="1"] ~ .sheet-mindbender-split-focus,
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_subtle_suggestion"][value="1"] ~ .sheet-mindbender-subtle-suggestion,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_turn_the_knife"][value="1"] ~ .sheet-mindbender-turn-the-knife {
 	display: flex;
 }
@@ -5474,6 +5397,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 
 /* Career Talent Tracker - Spirit Warden - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_spirit_warden_basic_ritual_circle"][value="1"] ~ .sheet-spirit-warden-basic-ritual-circle,
+.ui-dialog .tab-content .charsheet input[name="attr_show_spirit_warden_rite_efficiency"][value="1"] ~ .sheet-spirit-warden-rite-efficiency,
 .ui-dialog .tab-content .charsheet input[name="attr_show_spirit_warden_wardens_binding_circle"][value="1"] ~ .sheet-spirit-warden-wardens-binding-circle,
 .ui-dialog .tab-content .charsheet input[name="attr_show_spirit_warden_circle_marked_recall"][value="1"] ~ .sheet-spirit-warden-circle-marked-recall,
 .ui-dialog .tab-content .charsheet input[name="attr_show_spirit_warden_circle_flow_discipline"][value="1"] ~ .sheet-spirit-warden-circle-flow-discipline,
@@ -5505,23 +5429,23 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 }
 
 /* Career Talent Tracker - Veil Dancer - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_borrowed_horizon"][value="1"] ~ .sheet-veil-dancer-borrowed-horizon,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_borrowed_trajectory"][value="1"] ~ .sheet-veil-dancer-borrowed-trajectory,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_dance_of_the_unbound_form"][value="1"] ~ .sheet-veil-dancer-dance-of-the-unbound-form,
 .ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_flow_entry"][value="1"] ~ .sheet-veil-dancer-flow-entry,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_flow_severance"][value="1"] ~ .sheet-veil-dancer-flow-severance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_gravity_pin"][value="1"] ~ .sheet-veil-dancer-gravity-pin,
 .ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_grounded_form"][value="1"] ~ .sheet-veil-dancer-grounded-form,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_impossible_footing"][value="1"] ~ .sheet-veil-dancer-impossible-footing,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_inertial_claim"][value="1"] ~ .sheet-veil-dancer-inertial-claim,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_inertial_shear"][value="1"] ~ .sheet-veil-dancer-inertial-shear,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_mass_lock_technique"][value="1"] ~ .sheet-veil-dancer-mass-lock-technique,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_phase_latched_strike"][value="1"] ~ .sheet-veil-dancer-phase-latched-strike,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_vector_reversal"][value="1"] ~ .sheet-veil-dancer-vector-reversal,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_veil_reserve_step"][value="1"] ~ .sheet-veil-dancer-veil-reserve-step,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_veilbreaker_palm"][value="1"] ~ .sheet-veil-dancer-veilbreaker-palm,
 .ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_veilstep_initiate"][value="1"] ~ .sheet-veil-dancer-veilstep-initiate,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_borrowed_trajectory"][value="1"] ~ .sheet-veil_dancer-borrowed-trajectory,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_gravity_pin"][value="1"] ~ .sheet-veil_dancer-gravity-pin,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_inertial_shear"][value="1"] ~ .sheet-veil_dancer-inertial-shear,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_phase_latched_strike"][value="1"] ~ .sheet-veil_dancer-phase-latched-strike,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_veil_reserve_step"][value="1"] ~ .sheet-veil_dancer-veil-reserve-step,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_flow_severance"][value="1"] ~ .sheet-veil_dancer-flow-severance,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_inertial_claim"][value="1"] ~ .sheet-veil_dancer-inertial-claim,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_mass_lock_technique"][value="1"] ~ .sheet-veil_dancer-mass-lock-technique,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_vector_reversal"][value="1"] ~ .sheet-veil_dancer-vector-reversal,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_borrowed_horizon"][value="1"] ~ .sheet-veil_dancer-borrowed-horizon,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_dance_of_the_unbound_form"][value="1"] ~ .sheet-veil_dancer-dance-of-the-unbound-form,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_impossible_footing"][value="1"] ~ .sheet-veil_dancer-impossible-footing,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_veilbreaker_palm"][value="1"] ~ .sheet-veil_dancer-veilbreaker-palm,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_world_refuses_you"][value="1"] ~ .sheet-veil_dancer-world-refuses-you {
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_world_refuses_you"][value="1"] ~ .sheet-veil-dancer-world-refuses-you {
 	display: flex;
 }
 
@@ -5558,7 +5482,8 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 }
 
 /* Career Talent Tracker - Faceman - Scene */
-.ui-dialog .tab-content .charsheet input[name="attr_show_faceman_cover_flip"][value="1"]               ~ .sheet-faceman-cover-flip,
+.ui-dialog .tab-content .charsheet input[name="attr_show_faceman_clock_the_rules"][value="1"] 		  ~ .sheet-faceman-clock-the-rules,
+.ui-dialog .tab-content .charsheet input[name="attr_show_faceman_cover_flip"][value="1"]              ~ .sheet-faceman-cover-flip,
 .ui-dialog .tab-content .charsheet input[name="attr_show_faceman_deep_cover_switch"][value="1"]       ~ .sheet-faceman-deep-cover-switch,
 .ui-dialog .tab-content .charsheet input[name="attr_show_faceman_follow_my_lead"][value="1"]          ~ .sheet-faceman-follow-my-lead,
 .ui-dialog .tab-content .charsheet input[name="attr_show_faceman_host_escort"][value="1"]             ~ .sheet-faceman-host-escort,
@@ -5588,7 +5513,9 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 
 /* Career Talent Tracker - Investigator - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_investigator_anchor_the_moment"][value="1"] ~ .sheet-investigator-anchor-the-moment,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_anticipated_response"][value="1"] ~ .sheet-investigator-anticipated-response,
 .ui-dialog .tab-content .charsheet input[name="attr_show_investigator_casefile_momentum"][value="1"] ~ .sheet-investigator-casefile-momentum,
+.ui-dialog .tab-content .charsheet input[name="attr_show_investigator_clean_execution"][value="1"] ~ .sheet-investigator-clean-execution,
 .ui-dialog .tab-content .charsheet input[name="attr_show_investigator_deliberate_follow_up"][value="1"] ~ .sheet-investigator-deliberate-follow-up,
 .ui-dialog .tab-content .charsheet input[name="attr_show_investigator_exploit_tension"][value="1"] ~ .sheet-investigator-exploit-tension,
 .ui-dialog .tab-content .charsheet input[name="attr_show_investigator_focused_subject"][value="1"] ~ .sheet-investigator-focused-subject,
@@ -5648,6 +5575,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 /* Career Talent Tracker - Shadowblade - Scene (alphabetized) */
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_blurred_step"][value="1"] ~ .sheet-shadowblade-blurred-step,
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_cut_and_vanish"][value="1"] ~ .sheet-shadowblade-cut-and-vanish,
+.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_draw_and_cut"][value="1"] ~ .sheet-shadowblade-draw-and-cut,
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_flashing_return"][value="1"] ~ .sheet-shadowblade-flashing-return,
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_ghost_opener"][value="1"] ~ .sheet-shadowblade-ghost-opener,
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_phantom_reversal"][value="1"] ~ .sheet-shadowblade-phantom-reversal,
@@ -5689,6 +5617,23 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	display: flex;
 }
 
+/* Career Talent Tracker - Bioforged - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_adaptive_stance"][value="1"] ~ .sheet-bioforged-adaptive_stance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_bone_weaponization"][value="1"] ~ .sheet-bioforged-bone_weaponization,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_density_reinforcement"][value="1"] ~ .sheet-bioforged-density_reinforcement,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_density_stance"][value="1"] ~ .sheet-bioforged-density_stance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_explosive_entry"][value="1"] ~ .sheet-bioforged-explosive_entry,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_extreme_adaptation"][value="1"] ~ .sheet-bioforged-extreme_adaptation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_fleshcraft_blades"][value="1"] ~ .sheet-bioforged-fleshcraft_blades,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_inertial_bracing"][value="1"] ~ .sheet-bioforged-inertial_bracing,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_kinetic_stance"][value="1"] ~ .sheet-bioforged-kinetic_stance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_momentum_pressure"][value="1"] ~ .sheet-bioforged-momentum_pressure,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_reactive_hardening"][value="1"] ~ .sheet-bioforged-reactive_hardening 
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_structural_interface"][value="1"] ~ .sheet-bioforged-structural_interface,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_thorn_mantle"][value="1"] ~ .sheet-bioforged-thorn_mantle {
+	display: flex;
+}
+
 /* Career Talent Tracker - Hexbreaker - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_hexbreaker_close_in_guard"][value="1"] ~ .sheet-hexbreaker-close_in_guard,
 .ui-dialog .tab-content .charsheet input[name="attr_show_hexbreaker_disruptive_grip"][value="1"] ~ .sheet-hexbreaker-disruptive_grip,
@@ -5724,20 +5669,17 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_overcode_detonation"][value="1"] ~ .sheet-codeweaver-overcode-detonation,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_signal_possession"][value="1"] ~ .sheet-codeweaver-signal-possession,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_reality_patch"][value="1"] ~ .sheet-codeweaver-reality-patch,
-.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_protocol_ascendance"][value="1"] ~ .sheet-codeweaver-protocol-protocol-ascendance,
+.ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_protocol_ascendance"][value="1"] ~ .sheet-codeweaver-protocol-ascendance,
 .ui-dialog .tab-content .charsheet input[name="attr_show_codeweaver_system_sovereignty_protocol"][value="1"] ~ .sheet-codeweaver-system-sovereignty-protocol {
 	display: flex;
 }
 
 /* Career Talent Tracker - Mindbender - Session */
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_emotional_collapse"][value="1"] ~ .sheet-mindbender-emotional-collapse,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_puppetmaster_protocol"][value="1"] ~ .sheet-mindbender-puppetmaster-protocol,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_scene_fracture"][value="1"] ~ .sheet-mindbender-scene-fracture,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_fractured_reality"][value="1"] ~ .sheet-mindbender-fractured-reality,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_inevitable_choice"][value="1"] ~ .sheet-mindbender-inevitable-choice,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_overwhelming_urge"][value="1"] ~ .sheet-mindbender-overwhelming-urge,
 .ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_planted_certainty"][value="1"] ~ .sheet-mindbender-planted-certainty,
-.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_unassailable_mind"][value="1"] ~ .sheet-mindbender-unassailable-mind  {
+.ui-dialog .tab-content .charsheet input[name="attr_show_mindbender_unassailable_mind"][value="1"] ~ .sheet-mindbender-unassailable-mind {
 	display: flex;
 }
 
@@ -5782,12 +5724,12 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	display: flex;
 }
 
-/* Career Talent Tracker — Veil Dancer — Session (Tier 5)      */
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_body_like_a_falling_star"][value="1"] ~ .sheet-veil_dancer-body-like-a-falling-star,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_heavenshattering_sequence"][value="1"] ~ .sheet-veil_dancer-heavenshattering-sequence,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_stillness_between_heartbeats"][value="1"] ~ .sheet-veil_dancer-stillness-between-heartbeats,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_the_veil_remembers_you"][value="1"] ~ .sheet-veil_dancer-the-veil-remembers-you,
-.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_zero_point_mastery"][value="1"] ~ .sheet-veil_dancer-zero-point-mastery {
+/* Career Talent Tracker — Veil Dancer — Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_body_like_a_falling_star"][value="1"] ~ .sheet-veil-dancer-body-like-a-falling-star,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_heavenshattering_sequence"][value="1"] ~ .sheet-veil-dancer-heavenshattering-sequence,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_stillness_between_heartbeats"][value="1"] ~ .sheet-veil-dancer-stillness-between-heartbeats,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_the_veil_remembers_you"][value="1"] ~ .sheet-veil-dancer-the-veil-remembers-you,
+.ui-dialog .tab-content .charsheet input[name="attr_show_veil_dancer_zero_point_mastery"][value="1"] ~ .sheet-veil-dancer-zero-point-mastery {
     display: flex;
 }
 
@@ -5907,32 +5849,20 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_deadzone_reflex"][value="1"] ~ .sheet-pilot-deadzone-reflex,
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_drop_vector_override"][value="1"] ~ .sheet-pilot-drop-vector-override,
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_drone_lock_protocol"][value="1"] ~ .sheet-pilot-drone-lock-protocol,
-.ui-dialog .tab-content .charsheet input[name="attr_show_pilot_endurance_conditioning"][value="1"] ~ .sheet-pilot-endurance-conditioning,
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_overclock_sync_node"][value="1"] ~ .sheet-pilot-overclock-sync-node,
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_overdrive_calibration"][value="1"] ~ .sheet-pilot-overdrive-calibration,
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_rigsight_linkage"][value="1"] ~ .sheet-pilot-rigsight-linkage,
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_swarm_logic_override"][value="1"] ~ .sheet-pilot-swarm-logic-override,
+.ui-dialog .tab-content .charsheet input[name="attr_show_pilot_tethered_assault_ai"][value="1"] ~ .sheet-pilot-tethered-assault-ai,
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_thruster_kickout"][value="1"] ~ .sheet-pilot-thruster-kickout,
 .ui-dialog .tab-content .charsheet input[name="attr_show_pilot_trace_disruptor_grid"][value="1"] ~ .sheet-pilot-trace-disruptor-grid {
 	display: flex;
 }
 
 /* Career Talent Tracker - Shadowblade - Session (alphabetized) */
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_blade_linked_motion"][value="1"] ~ .sheet-shadowblade-blade-linked-motion,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_cloak_in_motion"][value="1"] ~ .sheet-shadowblade-cloak-in-motion,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_cloaked_predator"][value="1"] ~ .sheet-shadowblade-cloaked-predator,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_crimson_cascade"][value="1"] ~ .sheet-shadowblade-crimson-cascade,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_crimson_rhythm"][value="1"] ~ .sheet-shadowblade-crimson-rhythm,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_draw_and_cut"][value="1"] ~ .sheet-shadowblade-draw-and-cut,
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_final_knife"][value="1"] ~ .sheet-shadowblade-final-knife,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_knife_logic"][value="1"] ~ .sheet-shadowblade-knife-logic,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_knifes_memory"][value="1"] ~ .sheet-shadowblade-knifes-memory,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_momentum_slice"][value="1"] ~ .sheet-shadowblade-momentum-slice,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_one_among_many"][value="1"] ~ .sheet-shadowblade-one-among-many,
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_phantom_execution"][value="1"] ~ .sheet-shadowblade-phantom-execution,
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_shatterpoint_strike"][value="1"] ~ .sheet-shadowblade-shatterpoint-strike,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_sightless_kill"][value="1"] ~ .sheet-shadowblade-sightless-kill,
-.ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_strong_arm_form"][value="1"] ~ .sheet-shadowblade-strong-arm-form,
 .ui-dialog .tab-content .charsheet input[name="attr_show_shadowblade_unerring_step"][value="1"] ~ .sheet-shadowblade-unerring-step {
 	display: flex;
 }
@@ -5980,6 +5910,7 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
     display: flex;
 }
 
+/* Career Talent Tracker - Arcane Gunslinger - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_arcane_gunslinger_anchor_shot"][value="1"]        ~ .sheet-arcane_gunslinger-anchor-shot,
 .ui-dialog .tab-content .charsheet input[name="attr_show_arcane_gunslinger_blackout_salvo"][value="1"]    ~ .sheet-arcane_gunslinger-blackout-salvo,
 .ui-dialog .tab-content .charsheet input[name="attr_show_arcane_gunslinger_deadmark_beacon"][value="1"]   ~ .sheet-arcane_gunslinger-deadmark-beacon,
@@ -5988,6 +5919,16 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	display: flex;
 }
 
+/* Career Talent Tracker - Bioforged - Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_adamant_frame"][value="1"] ~ .sheet-bioforged-adamant_frame,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_adaptive_apex"][value="1"] ~ .sheet-bioforged-adaptive_apex,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_kinetic_singularity"][value="1"] ~ .sheet-bioforged-kinetic_singularity,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_perfected_fleshcraft"][value="1"] ~ .sheet-bioforged-perfected_fleshcraft,
+.ui-dialog .tab-content .charsheet input[name="attr_show_bioforged_unyielding_physiology"][value="1"] ~ .sheet-bioforged-unyielding_physiology {
+	display: flex;
+}
+
+/* Career Talent Tracker - Hexbreaker - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_hexbreaker_break_the_pattern"][value="1"] ~ .sheet-hexbreaker-break_the_pattern,
 .ui-dialog .tab-content .charsheet input[name="attr_show_hexbreaker_edge_of_attrition"][value="1"] ~ .sheet-hexbreaker-edge_of_attrition,
 .ui-dialog .tab-content .charsheet input[name="attr_show_hexbreaker_final_rend"][value="1"] ~ .sheet-hexbreaker-final_rend,

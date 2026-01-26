@@ -3210,16 +3210,43 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
   position: relative;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="0"]
-~ .sheet-career-locked-overlay {
+.ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="0"] ~ .sheet-career-locked-overlay {
   position: absolute;
-  background: rgba(0, 0, 0, 0.6);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   color: white;
   font-weight: bold;
   padding: 10px;
   text-align: center;
-  width: 100%;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* since you removed centering */
+  gap: 4px;
+}
+
+.sheet-career-locked-overlay .sheet-career-prereq-text {
+  font-weight: normal;
+  white-space: pre-wrap;
+  tab-size: 4;
+  -moz-tab-size: 4;  
+  text-align: left;
+  line-height: 1.2;
+  font-size: 12px;
+  padding: 4px 8px;
+  margin-top: 2px;
+}
+
+.sheet-career-locked-overlay .sheet-career-prereq-text span {
+  display: block;
+  white-space: pre-wrap;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  overflow-wrap: anywhere;
+  margin-left: 210px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="0"] ~ .sheet-career-interactive-block {

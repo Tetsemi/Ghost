@@ -5094,11 +5094,15 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	text-align: center;
 }
 
-/* Perk and Flaws Tracker - Scene */
-.ui-dialog .tab-content .charsheet input[name="attr_show_perk_dirty_fighter"][value="1"] ~ .sheet-perk-dirty-fighter,
-.ui-dialog .tab-content .charsheet input[name="attr_show_perk_blood_born_survivor"][value="1"] ~ .sheet-perk-blood-born-survivor,
-.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_hex_stained"][value="1"] ~ .sheet-flaw-hex-stained,
+/* Flaws Tracker - Scene */
 .ui-dialog .tab-content .charsheet input[name="attr_show_flaw_soul_flare"][value="1"] ~ .sheet-flaw-soul-flare {
+  display: flex;
+}
+
+/* Perk Tracker - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_blood_born_survivor"][value="1"] ~ .sheet-perk-blood-born-survivor,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_dirty_fighter"][value="1"] ~ .sheet-perk-dirty-fighter,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_resilient_frame"][value="1"] ~ .sheet-perk-resilient-frame {
   display: flex;
 }
 
@@ -5144,17 +5148,39 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	display: flex;
 }
 
-/* Perk and Flaws Tracker - Session */
-.ui-dialog .tab-content .charsheet input[name="attr_show_perk_blood_born_survivor"][value="1"] ~ .sheet-perk-blood-born-survivor,
+/* Perk Tracker - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_perk_combat_veteran"][value="1"] ~ .sheet-perk-combat-veteran,
 .ui-dialog .tab-content .charsheet input[name="attr_show_perk_corp_groomed"][value="1"] ~ .sheet-perk-corp-groomed,
 .ui-dialog .tab-content .charsheet input[name="attr_show_perk_danger_sense"][value="1"] ~ .sheet-perk-danger-sense,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_final_stand"][value="1"] ~ .sheet-perk-final-stand,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_forgettable_presence"][value="1"] ~ .sheet-perk-forgettable-presence,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_hard_preparation"][value="1"] ~ .sheet-perk-hard-preparation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_institutional_weight"][value="1"] ~ .sheet-perk-institutional-weight,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_last_clear_thought"][value="1"] ~ .sheet-perk-last-clear-thought,
 .ui-dialog .tab-content .charsheet input[name="attr_show_perk_mind_leash"][value="1"] ~ .sheet-perk-mind-leash,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_photographic_recall"][value="1"] ~ .sheet-perk-photographic-recall,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_scorched_soul"][value="1"] ~ .sheet-perk-scorched-soul,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_shadow_mark"][value="1"] ~ .sheet-perk-shadow-mark,
 .ui-dialog .tab-content .charsheet input[name="attr_show_perk_tactical_instinct"][value="1"] ~ .sheet-perk-tactical-instinct,
-.ui-dialog .tab-content .charsheet input[name="attr_show_perk_veil_drenched_intuition"][value="1"] ~ .sheet-perk-veil-drenched-intuition,
-.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_wanted_low_priority"][value="1"] ~ .sheet-flaw-wanted-low-priority,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_veil_anchor"][value="1"] ~ .sheet-perk-veil-anchor,
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_veil_drenched_intuition"][value="1"] ~ .sheet-perk-veil-drenched-intuition {
+  display: flex;
+}
+
+/* Flaws Tracker - Session */
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_blood_debt"][value="1"] ~ .sheet-flaw-blood-debt,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_burned_bridges"][value="1"] ~ .sheet-flaw-burned-bridges,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_distinctive_look"][value="1"] ~ .sheet-flaw-distinctive-look,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_hex_stained"][value="1"] ~ .sheet-flaw-hex-stained,
 .ui-dialog .tab-content .charsheet input[name="attr_show_flaw_hunted"][value="1"] ~ .sheet-flaw-hunted,
-.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_mental_scar"][value="1"] ~ .sheet-flaw-mental-scar {
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_marked_by_the_black"][value="1"] ~ .sheet-flaw-marked-by-the-black,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_obligation"][value="1"] ~ .sheet-flaw-obligation,
+.ui-dialog .tab-content .charsheet input[name="attr_show_flaw_wanted_low_priority"][value="1"] ~ .sheet-flaw-wanted-low-priority {
+  display: flex;
+}
+
+/* Perk Tracker - Campaign */
+.ui-dialog .tab-content .charsheet input[name="attr_show_perk_blood_born_survivor"][value="1"] ~ .sheet-perk-blood-born-survivor {
   display: flex;
 }
 
@@ -6080,6 +6106,54 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   text-align: center; /* keeps consistent with existing tracker h4 styling */
   margin-bottom: 0.25em;
 }
+
+/* Trained Skills Tracker */
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip {
+	margin: 8px 0;
+	border: 1px solid black;
+	background: #beccd0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip .sheet-trained-skills-row {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	border-top: 1px solid black;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip .sheet-trained-skills-row:first-child {
+	border-top: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip .sheet-trained-skills-label {
+	width: 140px;
+	padding: 4px 6px;
+	border-right: 1px solid black;
+	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip .sheet-trained-skills-value {
+	flex: 1;
+	padding: 4px 6px;
+	background: #d0cabe;
+	min-height: 18px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip span[name="attr_trained_skills_summary"],
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip span[name="attr_trained_skills_duplicates_summary"] {
+	display: block;
+	white-space: pre-wrap;
+	tab-size: 2;
+	line-height: 1.2;
+	word-break: break-word;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip span[name="attr_trained_skills_summary"]:empty::before,
+.ui-dialog .tab-content .charsheet .sheet-trained-skills-strip span[name="attr_trained_skills_duplicates_summary"]:empty::before {
+	content: "—";
+	opacity: 0.6;
+}
+
 
 /* ------------------ NPC Section Scoped Styles ------------------ */
 .sheet-companions .sheet-npc-content-left {

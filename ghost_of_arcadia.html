@@ -368,6 +368,10 @@
 		    <button type="action" name="act_npcs"        data-i18n="npcs-u">NPCs</button>
 		    <button type="action" name="act_vehicles"    data-i18n="vehicles-u">Vehicles</button>
 		</div>
+		<div class="sheet-tab-buttons">
+			<button type="action" name="act_summary_text"     data-i18n="summary_text-u">Summary Text</button>
+			<button type="action" name="act_summary_type"     data-i18n="summary_type-u">Summary Type</button>
+		</div>
 
 		<!-- ------------------- SKILLS -------------------- -->
 		<div class="sheet-tab-content sheet-skills">
@@ -1380,26 +1384,6 @@
 			<input type="hidden" name="attr_perk_slots_full" value="0" />
             <h4 class="section-head" data-i18n="perks-u">Perks</h4>
 
-            <div class="sheet-section sheet-perks">
-              <div class="sheet-perk-row-one">
-                <!-- Left: XP badge -->
-                <div class="sheet-xp-tracker sheet-perk-xp">
-                  <div class="sheet-xp-row">
-                    <label data-i18n="perks_spent_xp_label-u">Spent XP (Perks)</label>
-                    <input type="text" name="attr_xpledger_perks_cost"
-                           class="sheet-xp-field sheet-readonly" />
-                  </div>
-                </div>
-
-                <!-- Right: summary panel -->
-                <div class="sheet-perk-summary">
-                  <h3 class="sheet-perk-summary-header"
-                      data-i18n="perks_summary_header-u">Chosen Perks Summary</h3>
-                  <span name="attr_perk_summary"></span>
-                </div>
-              </div>
-            </div>
-
             <!-- ===== 10 XP Perks ===== -->
             <div class="sheet-perk-group">
             	<input type="hidden" name="attr_perk10_slots_full" value="0" />
@@ -1590,26 +1574,6 @@
 
 			<input type="hidden" name="attr_flaw_slots_full" value="0" />
 			<h4 class="section-head" data-i18n="flaws-u">Flaws</h4>
-
-            <div class="sheet-section sheet-flaws">
-              <div class="sheet-flaw-row-one">
-                <!-- Left: XP badge -->
-                <div class="sheet-xp-tracker sheet-flaw-xp">
-                  <div class="sheet-xp-row">
-                    <label data-i18n="flaws_xp_gained_label-u">XP Gained (Flaws)</label>
-                    <input type="text" name="attr_xpledger_flaws_gain"
-                           class="sheet-xp-field sheet-readonly" />
-                  </div>
-                </div>
-
-                <!-- Right: summary panel -->
-                <div class="sheet-flaw-summary">
-                  <h3 class="sheet-flaw-summary-header"
-                      data-i18n="flaws_summary_header-u">Chosen Flaws Summary</h3>
-                  <span name="attr_flaw_summary"></span>
-                </div>
-              </div>
-            </div>
 
 		    <!-- ===== 5 XP Flaws ===== -->
 		    <div class="sheet-flaw-group">
@@ -2079,22 +2043,6 @@
 				    </div>
 				</div>
 
-			</div>
-
-			<div class="sheet-section">
-				<div class="sheet-talent-row-one">
-					<div class="sheet-xp-tracker sheet-talent-xp">
-						<div class="sheet-xp-row">
-							<label data-i18n="spent_xp_talent-u">Spent XP (Talent)</label>
-							<input type="text" name="attr_xp_spent_talent" class="sheet-xp-field sheet-readonly" />
-						</div>
-					</div>
-
-					<div class="sheet-talent-summary">
-						<h3 class="sheet-talent-tier-header" data-i18n="chosen_talents_summary-u">Chosen Talents Summary</h3>
-						<span name="attr_talent_summary"></span>
-					</div>
-				</div>
 			</div>
 
 			<!-- Alteri Talents -->
@@ -6453,18 +6401,6 @@
 							<input class="sheet-readonly" type="text" name="attr_secondary_career_spell_xp_total" />
 						</div>
 					</fieldset>
-				</div>
-			</div>
-
-			<div class="sheet-section">
-				<div class="sheet-primary-career-summary">
-					<h3 class="sheet-career-talent-tier-header" data-i18n="primary_career_talents_summary-u">Primary Career Talents Summary</h3>
-					<span name="attr_primary_career_talent_summary"></span>
-				</div>
-
-				<div class="sheet-secondary-career-summary">
-					<h3 class="sheet-career-talent-tier-header" data-i18n="secondary_career_talents_summary-u">Secondary Career Talents Summary</h3>
-					<span name="attr_secondary_career_talent_summary"></span>
 				</div>
 			</div>
 
@@ -17515,7 +17451,7 @@
 		<div class="sheet-tab-content sheet-backstory">
 
 			<div class="sheet-section-full">
-				<h4 class="section-head" data-i18n="contacts-u">Contacts</h4>
+				<h4 class="section-head" data-i18n="contacts_and_allies-u">Contacts and Allies</h4>
 				<div class="section-head-row">
 					<label class="sheet-contact-head-type" data-i18n="type-u">Type</label>
 					<label class="sheet-contact-head-name" data-i18n="name-u">Name</label>
@@ -22730,6 +22666,181 @@
 					</fieldset>
 				</div>
 			</div>
+		</div>
+
+		<!-- ------------------------- Summary Text ------------------------- -->
+		<div class="sheet-tab-content sheet-summary-text">
+			<h4 class="section-head" data-i18n="summary_text-u">Summary Text</h4>
+
+			<div class="sheet-section sheet-summary-collapsible">
+				<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-perks" name="attr_summary_perks_open" value="1" />
+
+				<label class="sheet-summary-header" for="sheet-summary-perks">
+					<h3 class="sheet-talent-tier-header" data-i18n="perks_summary_header-u">Chosen Perks Summary</h3>
+				</label>
+
+				<div class="sheet-summary-body sheet-talent-summary">
+					<span name="attr_perk_summary"></span>
+				</div>
+			</div>
+
+			<div class="sheet-section sheet-summary-collapsible">
+				<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-flaws" name="attr_summary_flaws_open" value="1" />
+
+				<label class="sheet-summary-header" for="sheet-summary-flaws">
+					<h3 class="sheet-talent-tier-header" data-i18n="flaws_summary_header-u">Chosen Flaws Summary</h3>
+				</label>
+
+				<div class="sheet-summary-body sheet-talent-summary">
+					<span name="attr_flaw_summary"></span>
+				</div>
+			</div>
+
+			<div class="sheet-section sheet-summary-collapsible">
+				<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-chosen_talents" name="attr_summary_chosen_talents_open" value="1" />
+
+				<label class="sheet-summary-header" for="sheet-summary-chosen_talents">
+					<h3 class="sheet-talent-tier-header" data-i18n="chosen_talents_summary-u">Ancestory Talents Summary</h3>
+				</label>
+
+				<div class="sheet-summary-body sheet-talent-summary">
+					<span name="attr_talent_summary"></span>
+				</div>
+			</div>
+
+			<div class="sheet-section sheet-summary-collapsible">
+				<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-primary_career_talents" name="attr_summary_primary_career_talents_open" value="1" />
+
+				<label class="sheet-summary-header" for="sheet-summary-primary_career_talents">
+					<h3 class="sheet-talent-tier-header" data-i18n="primary_career_talents_summary-u">Primary Career Talents Summary</h3>
+				</label>
+
+				<div class="sheet-summary-body sheet-talent-summary">
+					<span name="attr_primary_career_talent_summary"></span>
+				</div>
+			</div>
+
+			<div class="sheet-section sheet-summary-collapsible">
+				<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-secondary_career_talents" name="attr_summary_secondary_career_talents_open" value="1" />
+
+				<label class="sheet-summary-header" for="sheet-summary-secondary_career_talents">
+					<h3 class="sheet-talent-tier-header" data-i18n="secondary_career_talents_summary-u">Secondary Career Talents Summary</h3>
+				</label>
+
+				<div class="sheet-summary-body sheet-talent-summary">
+					<span name="attr_secondary_career_talent_summary"></span>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- ------------------------- Summary Type ------------------------- -->
+		<div class="sheet-tab-content sheet-summary-type">
+			<h4 class="section-head" data-i18n="summary_type-u">Summary Type</h4>
+
+			<!-- Talents by Type Summary -->
+			<div class="sheet-section">
+
+				<!-- Reaction -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-reaction" name="attr_summary_type_reaction_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-reaction">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_reaction-u">Reaction</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_reaction"></span>
+					</div>
+				</div>
+
+				<!-- Special Immediate -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-special-immediate" name="attr_summary_type_special_immediate_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-special-immediate">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_special_immediate-u">Special Immediate</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_special_immediate"></span>
+					</div>
+				</div>
+
+				<!-- Special -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-special" name="attr_summary_type_special_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-special">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_special-u">Special</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_special"></span>
+					</div>
+				</div>
+
+				<!-- Action -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-action" name="attr_summary_type_action_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-action">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_action-u">Action</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_action"></span>
+					</div>
+				</div>
+
+				<!-- Maneuver -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-maneuver" name="attr_summary_type_maneuver_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-maneuver">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_maneuver-u">Maneuver</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_maneuver"></span>
+					</div>
+				</div>
+
+				<!-- Free Action -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-free" name="attr_summary_type_free_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-free">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_free-u">Free Action</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_free"></span>
+					</div>
+				</div>
+
+				<!-- Active -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-active" name="attr_summary_type_active_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-active">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_active-u">Active</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_active"></span>
+					</div>
+				</div>
+
+				<!-- Passive -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-passive" name="attr_summary_type_passive_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-passive">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_passive-u">Passive</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_passive"></span>
+					</div>
+				</div>
+
+				<!-- Downtime Creation -->
+				<div class="sheet-section sheet-summary-collapsible">
+					<input type="checkbox" class="sheet-summary-toggle" id="sheet-summary-type-downtime-creation" name="attr_summary_type_downtime_creation_open" value="1" />
+					<label class="sheet-summary-header" for="sheet-summary-type-downtime-creation">
+						<h3 class="sheet-summary-type-header"><span data-i18n="type_downtime_creation-u">Downtime Creation</span></h3>
+					</label>
+					<div class="sheet-summary-body">
+						<span name="attr_summary_type_downtime_creation"></span>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 	</div>
@@ -28775,6 +28886,18 @@ const skillDataMap = {
 	}
 };
 
+const talentTypeMap = {
+	reaction:           { label_key: "type_reaction-u",           order: 10 },
+	special_immediate:  { label_key: "type_special_immediate-u",  order: 20 },
+	special:            { label_key: "type_special-u",            order: 30 },
+	action:             { label_key: "type_action-u",             order: 40 },
+	maneuver:           { label_key: "type_maneuver-u",           order: 50 },
+	free:               { label_key: "type_free-u",               order: 60 },
+	active:             { label_key: "type_active-u",             order: 70 },
+	passive:            { label_key: "type_passive-u",            order: 80 },
+	downtime_creation:  { label_key: "type_downtime_creation-u",  order: 90 }
+};
+
 const perkDataMap = {
     blood_born_survivor: {
         name: "perk_blood_born_survivor-u",
@@ -31869,7 +31992,8 @@ const careerDataMap = {
                 tier: 1,
                 cost: 5,
                 capstone: false,
-                usage_limit: "scene"
+                usage_limit: "scene",
+				type: { action: "maneuver", tag: "override" }
             },
             recursive_pulse: {
 				name_key: "career_codeweaver_recursive_pulse-u",
@@ -31879,7 +32003,8 @@ const careerDataMap = {
                 tier: 1,
                 cost: 5,
                 capstone: false,
-                usage_limit: "scene"
+                usage_limit: "scene",
+				type: { action: "reaction", tag: "retry" }
             },
             signal_sync: {
 				name_key: "career_codeweaver_signal_sync-u",
@@ -31889,7 +32014,8 @@ const careerDataMap = {
                 tier: 1,
                 cost: 5,
                 capstone: false,
-                usage_limit: "scene"
+                usage_limit: "scene",
+				type: { action: "free", tag: "setup" }
             },
             strain_buffer: {
 				name_key: "career_codeweaver_strain_buffer-u",
@@ -31898,7 +32024,8 @@ const careerDataMap = {
                 tier: 1,
                 cost: 5,
                 capstone: false,
-                usage_limit: ""
+                usage_limit: "",
+				type: { action: "passive" }
             },
 			veil_thread_tap: {
 				name_key: "career_codeweaver_veil_thread_tap-u",
@@ -31908,7 +32035,8 @@ const careerDataMap = {
                 tier: 1,
                 cost: 5,
                 capstone: false,
-                usage_limit: "scene"
+                usage_limit: "scene",
+				type: { action: "maneuver", tag: "scan" }
             },
             arc_sigil_link: {
 				name_key: "career_codeweaver_arc_sigil_link-u",
@@ -37778,7 +37906,7 @@ let BG_LIMITER_V2_REGISTERED = false;
 
 /* Initialization Section - Start  */
 
-const tabList = ["skills", "perks", "flaws", "ancestry", "background", "careers",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "ledger", "tracker"];
+const tabList = ["skills", "perks", "flaws", "ancestry", "background", "careers",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "summary_text", "summary_type", "ledger", "tracker"];
 
 const registeredRaces = new Set();
 const registeredSkillHandlers = new Set();
@@ -38524,6 +38652,7 @@ const registerAllTalentChangeWatchers = () => {
 		const race = eventInfo.sourceAttribute.split("_")[0];
 		if (ancestryTalentDataMap[race]) {
 			updateTalentEnables(race);
+			buildCareerTalentTypeSummary(careerKey)
 		} else {
 			getAttrs(["showracials"], values => {
 				updateTalentEnables(values.showracials);
@@ -39251,7 +39380,7 @@ const updateCareerTalentEnables = (career) => {
   if (debug_on_trace) console.log ("[updateCareerTalentEnables] Start");
     const careerTalents = careerDataMap[career]?.talents;
     if (!careerTalents) return;
-
+	
     const allTalentKeys = Object.keys(careerTalents);
     const allTalentCheckboxes = allTalentKeys.map(k => `${career}_${k}`);
     const skillLockKeys = allTalentKeys.map(k => `${career}_${k}_lockflag_skill`);
@@ -39384,6 +39513,7 @@ const updateCareerTalentEnables = (career) => {
 			updates[`show_${career}_${key}`] = checked ? "1" : "0";
         }
 
+		buildCareerTalentTypeSummary(career);
         setAttrs(updates);
     });
 };
@@ -40512,6 +40642,96 @@ const initializeSheetOnOpen = (eventInfo) => {
 /* Initialization Section - End  */
 
 /*  Function Section - Start  */
+
+// Build the "Talents by Type" summary across ACTIVE careers only:
+// - Primary career: attr_primary_career
+// - Secondary careers: repeating_secondarycareer_*_secondary_career
+//
+// Output attrs:
+// - summary_type_<typeKey> for each key in talentTypeMap
+const buildCareerTalentTypeSummary = () => {
+  const typeOrder = Object.entries(talentTypeMap)
+    .sort((a, b) => (a[1]?.order || 0) - (b[1]?.order || 0))
+    .map(([k]) => k);
+
+  const blank = " "; // IMPORTANT: consistent with your other summaries:contentReference[oaicite:2]{index=2}
+
+  // 1) Resolve active careers (primary + repeating secondary rows)
+  getAttrs(["primary_career"], (pv) => {
+    const primary = (pv.primary_career || "").trim();
+
+    getSectionIDs("repeating_secondarycareer", (ids) => {
+      const rowCareerAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+
+      getAttrs(rowCareerAttrs, (sv) => {
+        const activeCareers = new Set();
+
+        if (primary) activeCareers.add(primary);
+
+        ids.forEach((id) => {
+          const c = (sv[`repeating_secondarycareer_${id}_secondary_career`] || "").trim();
+          if (c) activeCareers.add(c);
+        });
+
+        // Nothing selected -> clear all buckets
+        if (!activeCareers.size) {
+          const out = {};
+          typeOrder.forEach((typeKey) => { out[`summary_type_${typeKey}`] = blank; });
+          setAttrs(out);
+          return;
+        }
+
+        // 2) Build checkbox attr list for ONLY those careers
+        const careers = Array.from(activeCareers).filter(c => careerDataMap[c]?.talents);
+        const checkboxAttrs = [];
+
+        careers.forEach((careerKey) => {
+          Object.keys(careerDataMap[careerKey].talents || {}).forEach((tKey) => {
+            checkboxAttrs.push(`${careerKey}_${tKey}`);
+          });
+        });
+
+        // Dedup checkbox attrs
+        const attrsToGet = Array.from(new Set(checkboxAttrs));
+
+        // 3) Read checkboxes and bucket checked talents by type.action
+        getAttrs(attrsToGet, (v) => {
+          const buckets = Object.fromEntries(typeOrder.map(t => [t, []]));
+          const col = new Intl.Collator(undefined, { sensitivity: "base" });
+
+          careers.forEach((careerKey) => {
+            const talents = careerDataMap[careerKey].talents || {};
+            Object.entries(talents).forEach(([tKey, t]) => {
+              const boxAttr = `${careerKey}_${tKey}`;
+              if (v[boxAttr] !== "1") return; // checked only
+
+              const action = t?.type?.action;
+              if (!action || !buckets[action]) return;
+
+              // Display name from i18n key
+              const name = (typeof getTranslationByKey === "function")
+                ? (getTranslationByKey(t.name_key) || t.name_key || tKey)
+                : (t.name_key || tKey);
+
+              buckets[action].push(name);
+            });
+          });
+
+          // 4) Overwrite ALL summary_type_* outputs every run (so unchecks remove)
+          const out = {};
+          typeOrder.forEach((typeKey) => {
+            const names = (buckets[typeKey] || []).sort(col.compare);
+            out[`summary_type_${typeKey}`] = names.length
+              ? `• ${names.join("\n• ")}`
+              : blank;
+          });
+
+          setAttrs(out);
+        });
+      });
+    });
+  });
+};
 
 function getAllTalentSkills(race) {
   if (debug_on_trace) console.log("[getAllTalentSkills] Start");

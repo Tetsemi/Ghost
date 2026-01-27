@@ -1247,6 +1247,8 @@ select[name="attr_damage_bonus"] {
 .sheet-tab-controller[value="backstory"] ~ .sheet-backstory,
 .sheet-tab-controller[value="npcs"] ~ .sheet-npcs,
 .sheet-tab-controller[value="vehicles"] ~ .sheet-vehicles,
+.sheet-tab-controller[value="summary_text"] ~ .sheet-summary-text,
+.sheet-tab-controller[value="summary_type"] ~ .sheet-summary-type,
 .sheet-tab-controller[value="ledger"] ~ .sheet-ledger,
 .sheet-tab-controller[value="tracker"] ~ .sheet-tracker {
   display: block;
@@ -1285,6 +1287,8 @@ select[name="attr_damage_bonus"] {
 .sheet-tab-controller[value="inventory"] ~ .sheet-tab-buttons button[name="act_inventory"],
 .sheet-tab-controller[value="backstory"] ~ .sheet-tab-buttons button[name="act_backstory"],
 .sheet-tab-controller[value="npcs"] ~ .sheet-tab-buttons button[name="act_npcs"],
+.sheet-tab-controller[value="summary_text"] ~ .sheet-tab-buttons button[name="act_summary_text"],
+.sheet-tab-controller[value="summary_type"] ~ .sheet-tab-buttons button[name="act_summary_type"],
 .sheet-tab-controller[value="vehicles"] ~ .sheet-tab-buttons button[name="act_vehicles"],
 .sheet-tab-controller[value="ledger"] ~ .sheet-tab-buttons button[name="act_ledger"],
 .sheet-tab-controller[value="tracker"] ~ .sheet-tab-buttons button[name="act_tracker"] {
@@ -2290,11 +2294,9 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
   width: 40px;
 }
 .ui-dialog .tab-content .charsheet .sheet-talent-summary {
-  margin-top: 1rem;
   padding: 0.75rem;
   background-color: #1a1a1a;
   border: 1px solid #333;
-  border-radius: 6px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-talent-summary-header {
@@ -2304,6 +2306,24 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
   color: #ccc;
   border-bottom: 1px solid #444;
   padding-bottom: 0.25rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"] {
+  display: block;
+  white-space: pre-wrap;
+  color: #ddd;
+  font-size: 100%;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"] {
+  display: block;
+  white-space: pre-wrap;
+  color: #ddd;
+  font-size: 100%;
+  line-height: 1.4;
+  margin-top: 0.5rem;
 }
 
 .ui-dialog .tab-content .charsheet span[name="attr_talent_summary"] {
@@ -2375,10 +2395,8 @@ input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8 {
 /* Header for Talent Tier */
 .ui-dialog .tab-content .charsheet .sheet-talent-tier-header {
   font-size: 100%;
-  margin-bottom: 0.5rem;
   color: #ccc;
   border-bottom: 1px solid #444;
-  padding-bottom: 0.25rem;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-talent-row {
@@ -3171,15 +3189,19 @@ input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-tabs but
 
 
 .ui-dialog .tab-content .charsheet .sheet-career-skill-block {
-  display: none;
-}
-
-.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] ~ .sheet-career-skill-block {
   display: block;
 }
 
+.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] ~ .sheet-career-skill-block {
+  display: none;
+}
+
 .ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] ~ .sheet-career-tabs button[name="act_toggle_career_skills"] {
-    background-color: #333;
+    background-color: #444;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="0"] ~ .sheet-career-tabs button[name="act_toggle_career_skills"] {
+    background-color: #222;
 }
 
 /* Locking career skill checkboxes using *_lock hidden inputs */
@@ -4815,25 +4837,16 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   background: black;
   border: 1px solid black;
   border-radius: 6px;
-  padding: 0.5rem;
+  font-size: 110%;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-perk-summary-header {
-  margin: 0 0 0.35rem 0;
+  margin: 0;
   font-weight: 700;
   font-size: 1.1em;
   color: #0f2d1f;
   background: #7fbe93;
   border-bottom: 1px solid black;
-  padding-bottom: 0.25rem;
-}
-
-.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"] {
-  display: block;
-  white-space: pre-wrap; /* show one-per-line items */
-  line-height: 1.35;
-  font-size: 0.95em;
-  color: #fff;
 }
 
 /* Perks — lock remaining unchecked within a filled group */
@@ -4992,14 +5005,6 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   background: #e58f8f;
   border-bottom: 1px solid black;
   padding-bottom: 0.25rem;
-}
-
-.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"] {
-  display: block;
-  white-space: pre-wrap;
-  line-height: 1.35;
-  font-size: 0.95em;
-  color: #FFF;
 }
 
 /* Flaws — lock remaining unchecked within a filled group */
@@ -6553,10 +6558,6 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
     justify-content: flex-start;
 }
 
-
-
-
-
 /* --------------------------- Vehicles -------------------------------------------------------------*/
 .sheet-vehicle-grid {
   display: flex;
@@ -6664,6 +6665,89 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
   align-items: left;
 }
 
+/* ------------------------ Summary Text - Start ---------------------------------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible {
+	position: relative;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible label {
+	background: black;
+	margin: 0px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible h3 {
+	color: #ccc;
+	font-size: 85%;
+	margin-left: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-toggle {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-header {
+	display: block;
+	cursor: pointer;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-body {
+	display: none; /* collapsed by default */
+}
+
+/* expand */
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-summary-body {
+	display: block;
+}
+
+/* optional: chevron */
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-header::after {
+	content: "▸";
+	float: right;
+	opacity: 0.8;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-summary-header::after {
+	content: "▾";
+}
+
+/* ------------------------ Summary Text - End---------------------------------------------------- */
+/* ------------------------ Summary Type - Start ---------------------------------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-summary-collapsible {
+	position: relative;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-header {
+	display: block;
+	cursor: pointer;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-body {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-body {
+	display: block;
+}
+
+/* allow "\n" in attr spans */
+.ui-dialog .tab-content .charsheet .sheet-summary-body span[name^="attr_summary_type_"] {
+	white-space: pre-line;
+}
+/* ------------------------ Summary Type - End ---------------------------------------------------- */
 
 /* ------------------------ Ledger Start ---------------------------------------------------- */
 

@@ -1,5 +1,5 @@
 const raceDataMap = {
-  "alteri": {
+  alteri: {
     label: "Alteri",
     language: "Nualeth",
     stats: {
@@ -13,11 +13,13 @@ const raceDataMap = {
 		arcane_sensitivity: {
 		  name_key:        "racial_alteri_arcane_sensitivity-u",
 		  rule_text_key:   "racial_alteri_arcane_sensitivity_rules-u",
+		  affected_skill:  [ "arcana", "spirit_lore", "veil_lore" ],
 		  usage_limit:     "session"
-		},	  
+		},
 		empathic_instinct: {
 		  name_key:        "racial_alteri_empathic_instinct-u",
 		  rule_text_key:   "racial_alteri_empathic_instinct_rules-u",
+		  affected_skill:  "insight",
 		  usage_limit:     "scene"
 		},
 		fixed_tell: {
@@ -31,7 +33,7 @@ const raceDataMap = {
 	  }
 	}
   },
-  "draevi": {
+  draevi: {
     label: "Draevi",
     language: "Khevala",
     stats: {
@@ -45,11 +47,13 @@ const raceDataMap = {
         instinctive_balance: {
           name_key:      "racial_draevi_instinctive_balance-u",
           rule_text_key: "racial_draevi_instinctive_balance_rules-u",
+		  affected_skill: [ "athletics", "coordination" ],
 		  usage_limit:     "scene"
         },
         keen_environmental_awareness: {
           name_key:      "racial_draevi_keen_environmental_awareness-u",
-          rule_text_key: "racial_draevi_keen_environmental_awareness_rules-u"
+          rule_text_key: "racial_draevi_keen_environmental_awareness_rules-u",
+		  affected_skill: [ "insight", "perception" ]
         },
         low_light_vision: {
           name_key:      "racial_draevi_low_light_vision-u",
@@ -57,7 +61,8 @@ const raceDataMap = {
         },
         primal_resilience: {
           name_key:      "racial_draevi_primal_resilience-u",
-          rule_text_key: "racial_draevi_primal_resilience_rules-u"
+          rule_text_key: "racial_draevi_primal_resilience_rules-u",
+		  affected_stat: "con"
         },
         tattooed_memory: {
           name_key:      "racial_draevi_tattooed_memory-u",
@@ -66,7 +71,7 @@ const raceDataMap = {
       }
     }
   },
-  "feran": {
+  feran: {
     label: "Feran",
     language: "Halvrenn",
     stats: {
@@ -79,7 +84,8 @@ const raceDataMap = {
       items: {
         natural_weapons: {
           name_key:      "racial_feran_natural_weapons-u",
-          rule_text_key: "racial_feran_natural_weapons_rules-u"
+          rule_text_key: "racial_feran_natural_weapons_rules-u",
+		  affected_skill: "unarmed"
         },
         night_honed_vision: {
           name_key:      "racial_feran_night_honed_vision-u",
@@ -88,21 +94,24 @@ const raceDataMap = {
         pack_instinct: {
           name_key:      "racial_feran_pack_instinct-u",
           rule_text_key: "racial_feran_pack_instinct_rules-u",
+		  affected_skill: "dodge",
 		  usage_limit:     "scene"
         },
         predator_reflexes: {
           name_key:      "racial_feran_predator_reflexes-u",
           rule_text_key: "racial_feran_predator_reflexes_rules-u",
+		  affected_skill: [ "coordination", "dodge" ],
 		  usage_limit:     "session"
         },
         wallrunners_grace: {
           name_key:      "racial_feran_wallrunners_grace-u",
-          rule_text_key: "racial_feran_wallrunners_grace_rules-u"
+          rule_text_key: "racial_feran_wallrunners_grace_rules-u",
+		  affected_skill: "athletics"
         }
       }
     }
   },
-  "human": {
+  human: {
     label: "Human",
     language: "Caltheran",
     stats: {
@@ -125,11 +134,13 @@ const raceDataMap = {
         resilient_spirit: {
           name_key:      "racial_human_resilient_spirit-u",
           rule_text_key: "racial_human_resilient_spirit_rules-u",
+		  affected_stat: [ "con", "pow" ],
 		  usage_limit:     "session"
         },
         unshaped_by_the_veil: {
           name_key:      "racial_human_unshaped_by_the_veil-u",
           rule_text_key: "racial_human_unshaped_by_the_veil_rules-u",
+		  affected_stat: "con",
 		  usage_limit:     "session"
         },
         versatile_origin: {
@@ -139,7 +150,7 @@ const raceDataMap = {
       }
     }
   },
-  "khadra": {
+  khadra: {
     label: "Khadra",
     language: "Torahn",
     stats: {
@@ -153,30 +164,35 @@ const raceDataMap = {
         natural_armor: {
           name_key:      "racial_khadra_natural_armor-u",
           rule_text_key: "racial_khadra_natural_armor_rules-u"
+		  /* Physical Damage Reduction is handled in the Comabt Section with a +1 Physical Armor point */
         },
         oathweight_presence: {
           name_key:      "racial_khadra_oathweight_presence-u",
           rule_text_key: "racial_khadra_oathweight_presence_rules-u",
+		  affected_skill: [ "intimidate", "persuade" ],
 		  usage_limit:     "scene"
         },
         stonebound_endurance: {
           name_key:      "racial_khadra_stonebound_endurance-u",
           rule_text_key: "racial_khadra_stonebound_endurance_rules-u",
+		  affected_stat: "con",
 		  usage_limit:     "session"
         },
         unshaken_resolve: {
           name_key:      "racial_khadra_unshaken_resolve-u",
           rule_text_key: "racial_khadra_unshaken_resolve_rules-u",
+		  affected_stat: "pow",
 		  usage_limit:     "session"
         },
         weight_of_stone: {
           name_key:      "racial_khadra_weight_of_stone-u",
-          rule_text_key: "racial_khadra_weight_of_stone_rules-u"
+          rule_text_key: "racial_khadra_weight_of_stone_rules-u",
+		  affected_stat: "con"
         }
       }
     }
   },
-  "kitsu": {
+  kitsu: {
     label: "Kitsu",
     language: "Nari",
     stats: {
@@ -194,27 +210,31 @@ const raceDataMap = {
         cyber_spirit_instinct: {
           name_key:      "racial_kitsu_cyber_spirit_instinct-u",
           rule_text_key: "racial_kitsu_cyber_spirit_instinct_rules-u",
+		  affected_skill: "perception",
 		  usage_limit:     "session"
         },
         fox_eared_reflexes: {
           name_key:      "racial_kitsu_fox_eared_reflexes-u",
           rule_text_key: "racial_kitsu_fox_eared_reflexes_rules-u",
+		  affected_skill: [ "coordination", "dodge" ],
 		  usage_limit:     "session"
         },
         mask_of_the_foxfire: {
           name_key:      "racial_kitsu_mask_of_the_foxfire-u",
           rule_text_key: "racial_kitsu_mask_of_the_foxfire_rules-u",
+		  affected_skill: [ "charm", "deception", "stealth" ],
 		  usage_limit:     "session"
         },
         strain_the_moment: {
           name_key:      "racial_kitsu_strain_the_moment-u",
           rule_text_key: "racial_kitsu_strain_the_moment_rules-u",
+		  affected_skill: "dodge",
 		  usage_limit:     "session"
         }
       }
     }
   },
-  "lyranni": {
+  lyranni: {
     label: "Lyranni",
     language: "Thal’Resh",
     stats: {
@@ -228,11 +248,14 @@ const raceDataMap = {
         arcane_resonance: {
           name_key:      "racial_lyranni_arcane_resonance-u",
           rule_text_key: "racial_lyranni_arcane_resonance_rules-u",
+		  affected_skill: [ "arcana", "spirit_lore" ],
 		  usage_limit:     "session"
         },
         cultural_elegance: {
           name_key:      "racial_lyranni_cultural_elegance-u",
           rule_text_key: "racial_lyranni_cultural_elegance_rules-u",
+		  affected_skill: "charm",
+		  affected_skill_group: [ "etiquette", "perform" ],
 		  usage_limit:     "session"
         },
         low_light_vision: {
@@ -242,17 +265,19 @@ const raceDataMap = {
         unseen_grace: {
           name_key:      "racial_lyranni_unseen_grace-u",
           rule_text_key: "racial_lyranni_unseen_grace_rules-u",
+		  affected_skill: [ "coordination", "stealth" ],
 		  usage_limit:     "session"
         },
         veil_sensitivity: {
           name_key:      "racial_lyranni_veil_sensitivity-u",
           rule_text_key: "racial_lyranni_veil_sensitivity_rules-u",
+		  affected_skill: [ "arcana", "occult_lore", "spirit_lore" ],
 		  usage_limit:     "session"
         }
       }
     }
   },
-  "veyra": {
+  veyra: {
     label: "Veyra",
     language: "Chirr",
     stats: {
@@ -266,15 +291,20 @@ const raceDataMap = {
         quietstep: {
           name_key:      "racial_veyra_quietstep-u",
           rule_text_key: "racial_veyra_quietstep_rules-u",
+		  affected_skill: "stealth",
 		  usage_limit:     "scene"
         },
         sensitive_to_light: {
           name_key:      "racial_veyra_sensitive_to_light-u",
-          rule_text_key: "racial_veyra_sensitive_to_light_rules-u"
+          rule_text_key: "racial_veyra_sensitive_to_light_rules-u",
+		  affected_skill: [ "perception" ],
+		  affected_skill_group: "combat_ranged",
         },
         tech_instinct: {
           name_key:      "racial_veyra_tech_instinct-u",
-          rule_text_key: "racial_veyra_tech_instinct_rules-u"
+          rule_text_key: "racial_veyra_tech_instinct_rules-u",
+		  affected_skill: [ "electronics", "mechanics" ],
+		  affected_stat: "int"
         },
         tinkers_touch: {
           name_key:      "racial_veyra_tinkers_touch-u",

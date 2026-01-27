@@ -1,0 +1,104 @@
+Context: We are migrating to a new source of truth for Career talents. I will upload:
+
+ghost_of_arcadia.html (current sheet)
+
+ghost_of_arcadia.css (current sheet CSS)
+
+translation.json (i18n)
+
+And I will paste the updated text for this section.
+
+For the creation of content use careerDataMap.soul_forger as your template/reference.  All necessary objects are there for reference
+
+Task: Update ONLY the following for, do not look ahead at other tiers, only the current one:
+
+Career key: careerDataMap.bioforged
+
+Section: talents.tier === 4, capstone === true
+
+What to produce (MUST be separate downloadable files):
+
+HTML patch/snippet for this section only (no unrelated HTML), group sections together careerDataMap objects, Career HTML, Tracker HTML, use existing style in files provided
+
+CSS patch/snippet for this section only (no unrelated CSS), use existing style in files provided.
+
+JSON patch/snippet for this section only (no unrelated JSON), use existing style in files provided.
+
+Hard rules:
+
+Use the indentation and formatting in existing files
+
+Provide additions and deletions for the section requested only
+
+Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
+
+In chat output, include exactly one code block titled “Provenance & Checks” that lists validations and counts (see checklist below).
+
+Alphabetize everything you generate that is map-like or list-like (talent keys, i18n keys, etc.).
+
+Validate skill keys against skillDataMap in ghost_of_arcadia.html and explicitly list any missing/unknown skill keys (do not guess replacements).
+
+Follow existing sheet conventions (naming, class prefixes sheet-, hidden lock/enabled fields, tier layout conventions). Do not invent new structure.
+
+i18n: provide full changes including names and description fields
+
+Higher tiers intentionally ignored and may be temporarily broken until migrated
+
+Career data requirements (new source of truth):
+
+Update/create the data object for this section using i18n keys (e.g., nameKey, rulesKey, etc.) rather than hydrated label attrs.
+
+For talents: include tier, cost, usage_limit, strain, prerequisite expression, and any tracker/icon hooks required by the existing UI patterns.
+
+Section includes: careerDataMap entries, Tier X talent UI rows, and any tracker rows/CSS affected by usage_limit changes.
+
+Provenance & Checks (in the single code block):
+
+Files used: list the 3 uploaded filenames.
+
+Career + section targeted.
+
+Counts: talents updated/added, skills added/changed, i18n keys added/changed.
+
+Validations performed:
+
+JSON validity (parseable)
+
+No duplicate i18n keys created
+
+All referenced skill keys exist in skillDataMap (or list missing)
+
+HTML uses correct data-i18n keys present in the JSON snippet
+
+CSS selectors scope is correct for Roll20 (.ui-dialog .tab-content .charsheet ...)
+
+Tracker hooks updated: any talent with usage_limit scene/session appears in the correct tracker list and not the wrong one.
+
+Hard gates:
+
+Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
+
+Output patches MUST be ADD / REMOVE blocks only (no +/- diffs).
+
+Tracker coupling is mandatory: any tracker HTML ADD/REMOVE must have matching CSS attr_show_* selector ADD/REMOVE.
+
+Provenance must include Patch Manifest lines for: careerDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
+If any gate fails, regenerate in the same response.
+
+Corrections:
+
+Pistol is replaced by Handgun
+pistol is replaced by handgun
+Archanotech is replaced by Arcanotech
+archanotech is replaced by arcanotech
+
+Inputs:
+
+Bioforged – Tier 4 Capstones 40 XP — (Choose One)
+Talent Description Prerequisite
+
+Adamant Frame Type: Action • Cost: 1d6 Strain • Usage: 1/Session — You harden skin, bone, and connective tissue into an impossibly dense living shell. Until the end of the Scene, you gain Damage Reduction 2 against all incoming damage (applied after armor). In addition, the first two times each Round you would be forcibly repositioned, knocked prone, or disarmed, the effect fails. Damage still resolves normally. Extreme Adaptation
+Adaptive Apex Type: Reaction • Cost: 1d6 Strain • Usage: 1/Session — Trigger: You would suffer a Major Wound or a physical effect that would Stun, Immobilize, Knock Prone, Disarm, or otherwise remove your control of your body . You negate the triggering effect entirely. Damage still resolves normally. Extreme Adaptation
+Kinetic Singularity Type: Action • Cost: 1d6 Strain • Usage: 1/Session — You compress all kinetic output into a single, perfectly controlled surge. Until the end of your turn, you may make up to two melee or unarmed attacks , and you may move one range band between these attacks without triggering reactions . These attacks resolve normally and do not grant additional Reactions or trigger follow-up effects. Momentum Pressure
+Perfected Fleshcraft Type: Action • Cost: 1d6 + 2 Strain • Usage: 1/Session — Required Stance: Any Stance . You assume a perfected living-weapon form. Until the end of the Scene, your melee and unarmed attacks deal 1d10 damage , have Armor Piercing 1 , and Impale. Your body counts as a single integrated biological weapon. This does not stack with Bone Weaponization or Fleshcraft Blades. Fleshcraft Blades
+Unyielding Physiology Type: Action • Cost: 1d6 Strain • Usage: 1/Session — Until the end of the Scene, your body continues to function regardless of systemic failure. You do not lose Actions, Reactions, or mobility due to being Injured, Exhausted, suffocating, exposed to vacuum, crushing pressure, extreme temperatures, poison, or environmental hazards . You ignore effects that would otherwise Stun, Immobilize, Slow, Impair, or physically disable you . Damage and Strain still apply normally. This effect ends immediately if you are reduced below 0 HP or become Unconscious. Extreme Adaptation

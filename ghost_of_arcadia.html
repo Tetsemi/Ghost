@@ -37903,6 +37903,8 @@ let backgroundTabWatchersReady = false;
 let careerTabWatchersReady = false;
 let careerReadyWatchersReady = false;
 let BG_LIMITER_V2_REGISTERED = false;
+let careerReadyUpdateQueued = false;
+let MIRROR_SKILL_INDEX = null;
 
 /* Initialization Section - Start  */
 
@@ -37924,12 +37926,38 @@ const guarded = (fn) => (...args) => {
   fn(...args);
 };
 
+const hasActiveChar = () => {
+	try {
+		return typeof getActiveCharacterId === "function" && !!getActiveCharacterId();
+	} catch (e) {
+		return false;
+	}
+};
+
+const safeGetAttrs = (keys, cb) => {
+	if (!hasActiveChar()) {
+		if (debug_on_trace) console.log("[safeGetAttrs] Skipped: no active character");
+		return;
+	}
+	getAttrs(keys, cb);
+};
+
+const scheduleCareerReadyUpdate = () => {
+  if (careerReadyUpdateQueued) return;
+  careerReadyUpdateQueued = true;
+
+  setTimeout(() => {
+	if (!hasActiveChar()) return;
+	updateCareerReadyState();
+  }, 0);
+};
+
 const registerCareerReadyWatchers = () => {
   if (careerReadyWatchersReady) return;
   careerReadyWatchersReady = true;
 
   const skillEvents = Object.keys(skillDataMap || {})
-    .flatMap(k => [`change:${k}`, `change:${k}_mdr`]);
+    .map(k => `change:${k}_mdr`);
 
   const capstoneEvents = [];
   Object.keys(ancestryTalentDataMap || {}).forEach(race => {
@@ -37939,8 +37967,6 @@ const registerCareerReadyWatchers = () => {
   });
 
   const events = [
-    "sheet:opened",
-    "clicked:careers",
     "change:primary_career",
     "change:repeating_secondarycareer:secondary_career",
     "remove:repeating_secondarycareer",
@@ -37950,7 +37976,7 @@ const registerCareerReadyWatchers = () => {
   ];
 
   on([...new Set(events)].join(" "), () => {
-    updateCareerReadyState();
+    scheduleCareerReadyUpdate();
   });
 };
 
@@ -37968,10 +37994,11 @@ const registerBackgroundTabWatchers = () => {
 };
 
 const registerCareerTabWatchers = () => {
-  if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
-  if (debug_on_trace) console.log ("[Object.keys(careerDataMap)] Start");
   if (careerTabWatchersReady) return;
   careerTabWatchersReady = true;
+
+  if (debug_on) console.log ("Object.keys(careerDataMap) loaded");
+  if (debug_on_trace) console.log ("[Object.keys(careerDataMap)] Start");
 
   Object.keys(careerDataMap).forEach(career => {
     on(`clicked:${career}`, () => {
@@ -38652,7 +38679,6 @@ const registerAllTalentChangeWatchers = () => {
 		const race = eventInfo.sourceAttribute.split("_")[0];
 		if (ancestryTalentDataMap[race]) {
 			updateTalentEnables(race);
-			buildCareerTalentTypeSummary(careerKey)
 		} else {
 			getAttrs(["showracials"], values => {
 				updateTalentEnables(values.showracials);
@@ -39022,18 +39048,21 @@ const registerPrimaryCareerXPWatcher = () => {
         "change:app", "change:edu", "change:siz", "change:int", "change:mag",
 		"change:char_creation_lock",
 		"change:showracials",
-		"change:repeating_secondarycareer:secondary_career_spell_xp_total",
-		"change:repeating_secondarycareer:secondary_career_xp_total",
 		"change:xpledger_recalc_tick"
 		];
 
     const allEvents = [...talentChangeEvents, ...otherTriggers];
 
-    on(allEvents.join(" "), function () {
+    on(allEvents.join(" "), function (evt) {
        if (debug_on) console.log("=== Primary Career XP Calculation Triggered ===");
 
         getAttrs(["primary_career"], function (values) {
             const selectedCareer = values["primary_career"];
+
+            const src = (evt && evt.sourceAttribute) ? evt.sourceAttribute : "";
+            const changedCareerKey = (typeof getCareerKeyFromSourceAttr === "function") ? getCareerKeyFromSourceAttr(src) : null;
+            if (changedCareerKey && selectedCareer && changedCareerKey !== selectedCareer) return;
+
             const career = careerDataMap[selectedCareer];
             if (!career) return;
 
@@ -39125,14 +39154,13 @@ const registerSecondaryCareerXPWatcher = () => {
         "change:repeating_secondarycareer:secondary_career",
         "change:repeating_secondarycareer:secondary_career_skill_to_xp",
         "change:repeating_secondarycareer:secondary_career_spell_xp_total",
-		"change:primary_career_xp_total",
 		"change:xpledger_recalc_tick"
     ];
 
-    on([...talentChangeEvents, ...baseEvents].join(" "), () => {
+    on([...talentChangeEvents, ...baseEvents].join(" "), (evt) => {
         if (debug_on) console.log("=== [XP Tracker] Secondary Career XP Calculation Triggered ===");
 
-        getSectionIDs("repeating_secondarycareer", function (ids) {
+        const recalcSecondaryCareerXP = (ids) => {
 			if (!ids || ids.length === 0) {
 				if (debug_on_trace) console.log("[SecondaryCareerXP] No rows → zeroing totals");
 				getAttrs(["secondary_career_xp_total", "xp_spent_career_talent"], (v) => {
@@ -39213,6 +39241,26 @@ const registerSecondaryCareerXPWatcher = () => {
                 if (debug_on) console.log(`[Global] Total Secondary XP: ${totalSecondaryXP}`);
                 if (debug_on) console.log(`[Global] Combined Career Talent XP: ${finalUpdates.xp_spent_career_talent}`);
             });
+        
+        };
+
+        getSectionIDs("repeating_secondarycareer", function (ids) {
+            // If this trigger was a talent checkbox, only run when that talent belongs to an active secondary career
+            const src = (evt && evt.sourceAttribute) ? evt.sourceAttribute : "";
+            const changedCareerKey = (typeof getCareerKeyFromSourceAttr === "function") ? getCareerKeyFromSourceAttr(src) : null;
+
+            if (changedCareerKey) {
+                if (!ids || ids.length === 0) return; // no secondary careers active
+                const careerAttrs = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+                getAttrs(careerAttrs, (cv) => {
+                    const activeSecondaries = new Set(careerAttrs.map(k => (cv[k] || "").trim()).filter(Boolean));
+                    if (!activeSecondaries.has(changedCareerKey)) return;
+                    recalcSecondaryCareerXP(ids);
+                });
+                return;
+            }
+
+            recalcSecondaryCareerXP(ids);
         });
     });
 };
@@ -39929,7 +39977,7 @@ const updateCareerReadyState = (callback) => {
   const allCareers = Object.keys(careerDataMap);
   const output = {};
 
-  getAttrs(["primary_career"], values => {
+  safeGetAttrs(["primary_career"], values => {
     const primary = values.primary_career || "";
 
     // default all to "0"
@@ -39958,7 +40006,7 @@ const updateCareerReadyState = (callback) => {
 	if (needsAwakened) need.push("awakened");
     skillKeys.forEach(k => { need.push(k, `${k}_mdr`); });
 
-    getAttrs(need, skillVals => {
+    safeGetAttrs(need, skillVals => {
       getHasCapstoneMap(allCareers, hasCapstone => {
         const racesNeeded = Array.from(ancestryKeys);
 
@@ -40001,50 +40049,121 @@ const updateCareerReadyState = (callback) => {
   });
 };
 
-const mirrorSkillCheckboxes = () => {
-  if (debug_on_trace) console.log ("[mirrorSkillCheckboxes] Start");
-  const skillMap = {};  // skill → [checkbox attr names]
-  const skillAttrs = [];
+const buildMirrorSkillIndex = () => {
+  const skillToSources = {}; // skill → Set([checkbox attr names])
+  const allSourceAttrs = [];
 
-  // Add CS skill checkboxes
-  Object.keys(careerDataMap).forEach(career => {
+  // Career sources: cs_<career>_<skill>_mdr_checkbox
+  Object.keys(careerDataMap || {}).forEach(career => {
     const pri = Object.keys(careerDataMap[career]?.primary_skills || {});
     const sec = Object.keys(careerDataMap[career]?.secondary_skills || {});
     [...pri, ...sec].forEach(skill => {
       const attr = `cs_${career}_${skill}_mdr_checkbox`;
-	if (!skillMap[skill]) skillMap[skill] = new Set();
-	skillMap[skill].add(attr);
-
-      skillAttrs.push(attr);
+      if (!skillToSources[skill]) skillToSources[skill] = new Set();
+      skillToSources[skill].add(attr);
+      allSourceAttrs.push(attr);
     });
   });
 
-  // Add BG skill checkboxes
-  Object.keys(backgroundDataMap).forEach(background => {
+  // Background sources: bg_<skill>_mdr_checkbox
+  Object.keys(backgroundDataMap || {}).forEach(background => {
     const bg = backgroundDataMap[background] || {};
     Object.keys(bg.trained_skills || {}).forEach(skill => {
       const attr = `bg_${skill}_mdr_checkbox`;
-
-      if (!skillMap[skill]) skillMap[skill] = new Set();
-      skillMap[skill].add(attr);
-
-      skillAttrs.push(attr);
+      if (!skillToSources[skill]) skillToSources[skill] = new Set();
+      skillToSources[skill].add(attr);
+      allSourceAttrs.push(attr);
     });
   });
 
-  getAttrs(skillAttrs, values => {
-    const updates = {};
+  const skillKeys = Object.keys(skillToSources);
+  const sourceAttrs = [...new Set(allSourceAttrs)];
 
-	Object.entries(skillMap).forEach(([skill, sourceSet]) => {
-	const sources = Array.from(sourceSet);
-	const active = sources.some(source => values[source] === "1");
-	updates[`${skill}_mdr_checkbox`] = active ? "1" : "0";
+  return { skillToSources, skillKeys, sourceAttrs };
+};
 
-	if (debug_on) console.log(`[Mirror Watcher] ${skill}_mdr_checkbox ← ${active ? "1" : "0"} (sources: ${sources.join(", ")})`);
-	});
+const getMirrorSkillIndex = () => {
+  if (!MIRROR_SKILL_INDEX) MIRROR_SKILL_INDEX = buildMirrorSkillIndex();
+  return MIRROR_SKILL_INDEX;
+};
 
-    if (debug_on) console.log("[Mirror Watcher] Final Updates:", updates);
-    setAttrs(updates, { silent: true }, updateTrainedSkillsSummary);
+// Parse evt.sourceAttribute -> skill key (handles underscore career keys safely)
+const getSkillFromMirrorSourceAttr = (sourceAttr) => {
+  if (!sourceAttr) return null;
+  if (!sourceAttr.endsWith("_mdr_checkbox")) return null;
+
+  // bg_<skill>_mdr_checkbox
+  if (sourceAttr.startsWith("bg_")) {
+    return sourceAttr.slice(3, -13); // remove "bg_" + "_mdr_checkbox"
+  }
+
+  // cs_<career>_<skill>_mdr_checkbox
+  if (sourceAttr.startsWith("cs_")) {
+    const core = sourceAttr.slice(3, -13); // remove "cs_" + "_mdr_checkbox"
+    const careers = Object.keys(careerDataMap || {}).sort((a, b) => b.length - a.length);
+    const career = careers.find(k => core.startsWith(`${k}_`));
+    if (!career) return null;
+    return core.slice(career.length + 1);
+  }
+
+  return null;
+};
+
+const mirrorSkillCheckboxes = (evt) => {
+  if (debug_on_trace) console.log("[mirrorSkillCheckboxes] Start");
+
+  const idx = getMirrorSkillIndex();
+  const src = (evt && evt.sourceAttribute) ? evt.sourceAttribute : "";
+  const changedSkill = getSkillFromMirrorSourceAttr(src);
+
+  // If we don't know what changed (startup/callback), do a full sync.
+  if (!changedSkill) {
+    const masterAttrs = idx.skillKeys.map(skill => `${skill}_mdr_checkbox`);
+
+    getAttrs([...idx.sourceAttrs, ...masterAttrs], values => {
+      const updates = {};
+
+      idx.skillKeys.forEach(skill => {
+        const sources = Array.from(idx.skillToSources[skill] || []);
+        const active = sources.some(a => values[a] === "1");
+        const desired = active ? "1" : "0";
+        const cur = values[`${skill}_mdr_checkbox`] || "0";
+
+        if (cur !== desired) updates[`${skill}_mdr_checkbox`] = desired;
+
+        if (debug_on) {
+          console.log(`[Mirror Watcher] ${skill}_mdr_checkbox ← ${desired} (sources: ${sources.join(", ")})`);
+        }
+      });
+
+      if (debug_on) console.log("[Mirror Watcher] Final Updates:", updates);
+
+      if (Object.keys(updates).length) {
+        setAttrs(updates, { silent: true }, updateTrainedSkillsSummary);
+      } else {
+        updateTrainedSkillsSummary();
+      }
+    });
+
+    return;
+  }
+
+  // Delta path: only recompute the single skill that changed
+  const sources = Array.from(idx.skillToSources[changedSkill] || []);
+
+  getAttrs([...sources, `${changedSkill}_mdr_checkbox`], values => {
+    const active = sources.some(a => values[a] === "1");
+    const desired = active ? "1" : "0";
+    const cur = values[`${changedSkill}_mdr_checkbox`] || "0";
+
+    if (debug_on) console.log(`[Mirror Watcher] ${changedSkill}_mdr_checkbox ← ${desired} (source: ${src})`);
+
+    if (cur !== desired) {
+      setAttrs({ [`${changedSkill}_mdr_checkbox`]: desired }, { silent: true }, updateTrainedSkillsSummary);
+    } else {
+      // Master unchanged, but duplicates summary can still change as sources shift.
+      updateTrainedSkillsSummary();
+    }
   });
 };
 
@@ -40143,25 +40262,15 @@ const registerTrainedSkillsSummaryWatcher = () => {
 };
 
 const registerMirrorSkillWatcher = () => {
-  if (debug_on_trace) console.log ("[registerMirrorSkillWatcher] Start");
-  const csAttrs = Object.keys(careerDataMap)
-    .flatMap(career => {
-      const careerSkills = [
-        ...Object.keys(careerDataMap[career]?.primary_skills || {}),
-        ...Object.keys(careerDataMap[career]?.secondary_skills || {})
-      ];
-      return careerSkills.map(skill => `change:cs_${career}_${skill}_mdr_checkbox`);
-    });
+  if (debug_on_trace) console.log("[registerMirrorSkillWatcher] Start");
 
-	const bgAttrs = Object.keys(backgroundDataMap)
-		.map(key => backgroundDataMap[key] || {})
-		.flatMap(bg => Object.keys(bg.trained_skills || {}))
-		.map(skill => `change:bg_${skill}_mdr_checkbox`);
+  // Build index once; use it to generate event list and to resolve per-skill updates.
+  const idx = getMirrorSkillIndex();
+  const allEvents = idx.sourceAttrs.map(a => `change:${a}`);
 
-  const allEvents = [...new Set([...csAttrs, ...bgAttrs])];
-  if (debug_on) console.log ("allEvents:", allEvents);
+  if (debug_on) console.log("allEvents:", allEvents);
 
-  on(allEvents.join(" "), mirrorSkillCheckboxes);
+  on(allEvents.join(" "), (evt) => mirrorSkillCheckboxes(evt));
 };
 
 const clearCareerTrackers = (career) => {
@@ -40461,6 +40570,7 @@ const bootstrapGlobalWatchersOnce = () => {
   registerXPTrackerWatcher();
   registerStatHandler();
   registerAwakenedModeDisplayWatcher();
+  initCareers();
   registerCareerTabWatchers();
   registerBackgroundTabWatchers();
   registerPerkSummaryWatcher();
@@ -40485,6 +40595,43 @@ const buildSheetMetaUpdates = () => {
     sheet_schema: SHEET_SCHEMA,
     sheet_version_display: display
   };
+};
+
+const initCareers = () => {
+	if (debug_on) console.log("[initCareers] Fired");
+	if (debug_on_trace) console.log("[initCareers] Start");
+	if (careerWatcherInitialized) return;
+	careerWatcherInitialized = true;
+
+	setAttrs({}, () => {
+		registerPrimaryCareerXPWatcher();
+		registerSecondaryCareerXPWatcher();
+		registerPrimaryExclusiveSkillWatchers();
+		registerActiveSecondaryCareerWatchers();
+		registerCareerReadyWatchers();
+		registerCareerTabWatchers();
+		updateCareerReadyState();
+
+		getAttrs(["primary_career"], (values) => {
+			const primary = values.primary_career;
+			if (primary) updateCareerTalentEnables(primary);
+		});
+
+		getSectionIDs("repeating_secondarycareer", (ids) => {
+			const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+			getAttrs(keys, (vals) => {
+				const uniqueCareers = Array.from(new Set(
+					ids
+						.map(id => (vals[`repeating_secondarycareer_${id}_secondary_career`] || "").trim())
+						.filter(Boolean)
+				));
+
+				uniqueCareers.forEach((career) => updateCareerTalentEnables(career));
+			});
+		});
+
+		if (debug_on) console.log("[initCareers] Initialization complete.");
+	});
 };
 
 const applyTranslationsOnOpen = (done) => {
@@ -40648,21 +40795,6 @@ const getCareerKeyFromSourceAttr = (sourceAttr) => {
   return careers.find((careerKey) => sourceAttr.startsWith(`${careerKey}_`)) || null;
 };
 
-const careerTalentEvents = Object.keys(careerDataMap)
-  .flatMap(career => Object.keys(careerDataMap[career].talents || {})
-    .map(talent => `change:${career}_${talent}`))
-  .join(" ");
- 
-/* Initialization Section - End  */
-
-/*  Function Section - Start  */
-
-// Build the "Talents by Type" summary across ACTIVE careers only:
-// - Primary career: attr_primary_career
-// - Secondary careers: repeating_secondarycareer_*_secondary_career
-//
-// Output attrs:
-// - summary_type_<typeKey> for each key in talentTypeMap
 const buildCareerTalentTypeSummary = () => {
   const typeOrder = Object.entries(talentTypeMap)
     .sort((a, b) => (a[1]?.order || 0) - (b[1]?.order || 0))
@@ -40746,6 +40878,15 @@ const buildCareerTalentTypeSummary = () => {
     });
   });
 };
+
+const careerTalentEvents = Object.keys(careerDataMap)
+  .flatMap(career => Object.keys(careerDataMap[career].talents || {})
+    .map(talent => `change:${career}_${talent}`))
+  .join(" ");
+ 
+/* Initialization Section - End  */
+
+/*  Function Section - Start  */
 
 function getAllTalentSkills(race) {
   if (debug_on_trace) console.log("[getAllTalentSkills] Start");
@@ -41992,37 +42133,37 @@ on(careerTalentEvents, (eventInfo) => {
   // buildCareerTalentTypeSummary();
 });
 
-on("clicked:careers", () => {
-	if (debug_on) console.log ("[clicked:careers] Fired");
-	if (debug_on_trace) console.log ("[clicked:careers] Start");
-	if (careerWatcherInitialized) return;
-	careerWatcherInitialized = true;
-
-	setAttrs({}, () => {
-		registerPrimaryCareerXPWatcher();
-		registerSecondaryCareerXPWatcher();
-		registerPrimaryExclusiveSkillWatchers();
-		registerActiveSecondaryCareerWatchers();
-		registerCareerReadyWatchers();
-		updateCareerReadyState();
-
-		getAttrs(["primary_career"], (values) => {
-			const primary = values.primary_career;
-			if (primary) updateCareerTalentEnables(primary);
-		});
-
-		getSectionIDs("repeating_secondarycareer", (ids) => {
-			ids.forEach(id => {
-				getAttrs([`repeating_secondarycareer_${id}_secondary_career`], (rowVals) => {
-					const career = rowVals[`repeating_secondarycareer_${id}_secondary_career`];
-					if (career) updateCareerTalentEnables(career);
-				});
-			});
-		});
-
-		if (debug_on) console.log("[clicked:careers] Initialization complete.");
+// Career selection changes: update enables/locks for the newly selected career(s)
+on("change:primary_career", () => {
+	if (debug_on_trace) console.log("[change:primary_career] Update primary career enables");
+	getAttrs(["primary_career"], (values) => {
+		const primary = (values.primary_career || "").trim();
+		if (primary) updateCareerTalentEnables(primary);
 	});
-  });
+});
+
+// Secondary career selection changes: update enables/locks per unique secondary career + recompute buy-in
+on("change:repeating_secondarycareer:secondary_career remove:repeating_secondarycareer", () => {
+	if (debug_on_trace) console.log("[change/remove:secondary_career] Update secondary career enables + buy-in");
+	getSectionIDs("repeating_secondarycareer", (ids) => {
+		const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
+		getAttrs(keys, (vals) => {
+			const uniqueCareers = Array.from(new Set(
+				ids
+					.map(id => (vals[`repeating_secondarycareer_${id}_secondary_career`] || "").trim())
+					.filter(Boolean)
+			));
+
+			uniqueCareers.forEach((career) => updateCareerTalentEnables(career));
+
+			// Tiered buy-in: 20 for 1st, 30 for 2nd, 40 for 3rd, ...
+			const n = uniqueCareers.length;
+			// total = 10 * (n * (n + 3) / 2)
+			const totalSecondaryBuyIn = 10 * (n * (n + 3) / 2);
+			setAttrs({ xp_spent_career_specialist: String(totalSecondaryBuyIn) });
+		});
+	});
+});
 
 on("change:repeating_secondarycareer remove:repeating_secondarycareer", () => {
   if (debug_on_trace) console.log("[change/remove:repeating_secondarycareer] Recalc global secondary spell XP");

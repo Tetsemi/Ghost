@@ -40639,6 +40639,20 @@ const initializeSheetOnOpen = (eventInfo) => {
   });
 };
 
+const getCareerKeyFromSourceAttr = (sourceAttr) => {
+  if (!sourceAttr) return null;
+
+  // Prefer longest-first so "arcane_gunslinger_*" matches correctly
+  const careers = Object.keys(careerDataMap).sort((a, b) => b.length - a.length);
+
+  return careers.find((careerKey) => sourceAttr.startsWith(`${careerKey}_`)) || null;
+};
+
+const careerTalentEvents = Object.keys(careerDataMap)
+  .flatMap(career => Object.keys(careerDataMap[career].talents || {})
+    .map(talent => `change:${career}_${talent}`))
+  .join(" ");
+ 
 /* Initialization Section - End  */
 
 /*  Function Section - Start  */
@@ -41967,6 +41981,17 @@ on("clicked:clear_session_uses", () => {
   });
 });
 
+on(careerTalentEvents, (eventInfo) => {
+  // Which checkbox actually changed?
+  const source = eventInfo?.sourceAttribute;
+  const careerKey = getCareerKeyFromSourceAttr(source);
+
+  if (careerKey) updateCareerTalentEnables(careerKey);
+
+  // If your type summary spans ALL active careers, still only call ONCE (cheap) here:
+  // buildCareerTalentTypeSummary();
+});
+
 on("clicked:careers", () => {
 	if (debug_on) console.log ("[clicked:careers] Fired");
 	if (debug_on_trace) console.log ("[clicked:careers] Start");
@@ -41998,58 +42023,6 @@ on("clicked:careers", () => {
 		if (debug_on) console.log("[clicked:careers] Initialization complete.");
 	});
   });
-
-on("clicked:careers change:primary_career change:repeating_secondarycareer:secondary_career remove:repeating_secondarycareer " +
-   Object.keys(careerDataMap)
-     .flatMap(career => Object.keys(careerDataMap[career].talents || {})
-       .map(talent => `change:${career}_${talent}`))
-     .join(" "), function () {
-
-  if (debug_on) console.log("[Career Talent Watcher]");
-  if (debug_on_trace) console.log ("[Career Talent Watcher] Start");
-
-  registerCareerTabWatchers();
-
-  getAttrs(["primary_career"], (values) => {
-    const primary = values.primary_career;
-    if (primary) updateCareerTalentEnables(primary);
-  });
-
-  getSectionIDs("repeating_secondarycareer", (ids) => {
-    // enable/locks per secondary
-    ids.forEach(id => {
-      getAttrs([`repeating_secondarycareer_${id}_secondary_career`], (rowVals) => {
-        const career = rowVals[`repeating_secondarycareer_${id}_secondary_career`];
-        if (career) updateCareerTalentEnables(career);
-      });
-    });
-
-
-	// specialist buy-in sum  --> flat secondary-career buy-in
-	const keys = ids.map(id => `repeating_secondarycareer_${id}_secondary_career`);
-	getAttrs(keys, (vals) => {
-		const uniqueCareers = Array.from(new Set(
-			ids
-				.map(id => vals[`repeating_secondarycareer_${id}_secondary_career`] || "")
-				.filter(Boolean)
-		));
-
-		// NEW: tiered buy-in: 20 for 1st, 30 for 2nd, 40 for 3rd, ...
-		const n = uniqueCareers.length;
-		// total = 10 * (n * (n + 3) / 2)
-		const totalSecondaryBuyIn = 10 * (n * (n + 3) / 2);
-
-		// Keeping the same target attr for minimal downstream impact
-		setAttrs({ xp_spent_career_specialist: String(totalSecondaryBuyIn) });
-	});
-  });
-
-/*  updateCareerReadyState(() => {
-    if (debug_on) console.log("[Career Lock] Triggered registerCareerSkillLimiter()");
-    registerCareerSkillLimiter();
-  });*/
-});
-
 
 on("change:repeating_secondarycareer remove:repeating_secondarycareer", () => {
   if (debug_on_trace) console.log("[change/remove:repeating_secondarycareer] Recalc global secondary spell XP");

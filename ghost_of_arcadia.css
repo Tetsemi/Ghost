@@ -6734,6 +6734,23 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	display: block;
 	cursor: pointer;
 }
+/* Make open sections visually distinct */
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-header {
+	background: #444;
+	border-left: 4px solid rgba(80, 140, 210, 0.75);
+}
+
+/* Optional: disclosure caret */
+.ui-dialog .tab-content .charsheet .sheet-summary-header::after {
+	content: "▸";
+	float: right;
+	opacity: 0.7;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-header::after {
+	content: "▾";
+	opacity: 0.9;
+}
 
 .ui-dialog .tab-content .charsheet .sheet-summary-body {
 	display: none;
@@ -6743,10 +6760,100 @@ input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
 	display: block;
 }
 
+/* If the body is wrapped in .sheet-summary-row (e.g. Reaction), show it when the main toggle is open */
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row .sheet-summary-body {
+	display: block;
+}
+
 /* allow "\n" in attr spans */
 .ui-dialog .tab-content .charsheet .sheet-summary-body span[name^="attr_summary_type_"] {
 	white-space: pre-line;
 }
+
+/* 1) Hide the entire row (list + handle + drawer) unless the main section toggle is open */
+.ui-dialog .tab-content .charsheet .sheet-summary-row {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row {
+	display: flex;
+	position: relative;
+	align-items: flex-start;
+	gap: 6px;
+}
+
+/* 2) Keep the handle from stretching / reserve a little right padding so list text doesn't sit under it */
+.ui-dialog .tab-content .charsheet .sheet-summary-body {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding-right: 26px; /* space for the ? handle */
+}
+
+/* 3) Ensure the drawer can never "bleed" when the main section is closed */
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:not(:checked) ~ .sheet-summary-row .sheet-summary-drawer {
+	display: none;
+}
+
+/* Drawer toggle is also a hidden checkbox (same base class), but keep a unique class for clarity */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer-toggle {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+/* Make the ? handle only as wide as its contents (not a full-width bar) */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer-handle {
+	display: none;               /* still hidden until main section is open (your existing rule) */
+	flex: 0 0 auto;
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	margin-top: 2px;
+	line-height: 18px;
+	text-align: center;
+	background: rgba(0,0,0,0.20);
+	z-index: 10;
+}
+
+/* Only show the handle when the main section is open */
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row .sheet-summary-drawer-handle {
+	display: inline-block;
+}
+
+/* Drawer: overlay to the right so it does NOT consume flex width */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer {
+	display: none;
+	position: absolute;
+	right: 24px;
+	top: 0;
+	z-index: 5;
+
+	width: 75%;
+	min-width: 220px;
+	max-width: 600px;
+
+	padding: 6px 8px;
+	border-left: 3px solid rgba(80, 140, 210, 0.75);
+	background: rgba(0,0,0,1);
+	color: white;
+	overflow: auto;
+	max-height: 220px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.45);
+}
+
+/* When open, show the drawer overlay */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer-toggle:checked ~ .sheet-summary-drawer {
+	display: block;
+}
+
+/* Drawer text formatting */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer span[name^="attr_summary_type_"] {
+	white-space: pre-line;
+}
+
+
 /* ------------------------ Summary Type - End ---------------------------------------------------- */
 
 /* ------------------------ Ledger Start ---------------------------------------------------- */

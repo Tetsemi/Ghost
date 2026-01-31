@@ -1,104 +1,95 @@
-Context: We are migrating to a new source of truth for Career talents. I will upload:
+Context: We are migrating to a new source of truth for Career talents. 
 
-ghost_of_arcadia.html (current sheet)
+I will upload and you will only reference:
 
-ghost_of_arcadia.css (current sheet CSS)
+	ghost_of_arcadia.html (current sheet)
+	ghost_of_arcadia.css (current sheet CSS)
+	translation.json (i18n)
 
-translation.json (i18n)
+I will paste the updated text for the section.
 
-And I will paste the updated text for this section.
+Task: Update ONLY the following section, do not look ahead at other sections, only the current one:
 
-For the creation of content use careerDataMap.combat_medic as your template/reference.  All necessary objects are there for reference
+	Career key: careerDataMap.marksman
+	Section: talents.<talent name>.tier === 5, capstone === true
 
-Task: Update ONLY the following for, do not look ahead at other tiers, only the current one:
+Reference: Use combat_medic only as the data-object schema reference. For HTML/CSS structure and classes, copy the existing pattern in ghost_of_arcadia.html/css for the targeted career/tier.
 
-Career key: careerDataMap.combat_engineer
-
-Section: talents.<talent name>.tier === 5, capstone === true
 
 What to produce (MUST be separate downloadable files):
 
-HTML patch/snippet for this section only (no unrelated HTML), group sections together careerDataMap objects, Career HTML, Tracker HTML, use existing style in files provided
-
-CSS patch/snippet for this section only (no unrelated CSS), use existing style in files provided.
-
-JSON patch/snippet for this section only (no unrelated JSON), use existing style in files provided.
+	HTML patch/snippet for this section only (no unrelated HTML), group sections together careerDataMap objects, Career HTML, Tracker HTML, use existing style in files provided, in alphabetical order
+	CSS patch/snippet for this section only (no unrelated CSS), use existing style in files provided, provide as one complete ADD / REMOVE block.
+	JSON patch/snippet for this section only (no unrelated JSON), use existing style in files provided, provide ADD / REMOVE block in alphabetical order
 
 Hard rules:
 
-Use the indentation and formatting in existing files
+	REMOVE blocks must be copied verbatim from the current file text (including comment headers and braces); ADD blocks are the same block with minimal edits.
 
-Provide additions and deletions for the section requested only
+	Alphabetize by talent key (snake_case) for data/i18n/tracker/CSS selectors (not by label text).
+	Talent key is derived from the talent name: lowercase, remove punctuation, spaces → underscores
 
-Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
+	Use the files provided in the prompt, do not proceed if files are not provided. 
+	Use the indentation and formatting in existing files
 
-In chat output, include exactly one code block titled “Provenance & Checks” that lists validations and counts (see checklist below).
+	Provide additions and deletions for the section requested only
+	When a talent is removed from the tier’s HTML/data, REMOVE its tracker hooks, CSS show selectors, and translation keys in the same patch even if other tiers still reference them.
+	Removed means removed from ALL three surfaces: careerDataMap entry, Career HTML row, and Tracker HTML/CSS hooks and translation keys
 
-Alphabetize everything you generate that is map-like or list-like (talent keys, i18n keys, etc.).
+	Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
+	In chat output, include exactly one code block titled “Provenance & Checks” that lists validations and counts (see checklist below).
 
-Validate skill keys against skillDataMap in ghost_of_arcadia.html and explicitly list any missing/unknown skill keys (do not guess replacements).
+	Validate skill keys against skillDataMap in ghost_of_arcadia.html and explicitly list any missing/unknown skill keys (do not guess replacements).
+	Follow existing sheet conventions (naming, class prefixes sheet-, hidden lock/enabled fields, tier layout conventions). Do not invent new structure.
 
-Follow existing sheet conventions (naming, class prefixes sheet-, hidden lock/enabled fields, tier layout conventions). Do not invent new structure.
-
-i18n: provide full changes including names and description fields
-
-Higher tiers intentionally ignored and may be temporarily broken until migrated
+	i18n: provide full changes including names and description fields
+	Career talent i18n keys must use: career_<career>_<talent>-u and career_<career>_<talent>_rules-u
 
 Career data requirements (new source of truth):
 
-Update/create the data object for this section using i18n keys (e.g., name_key, rule_text-Key, etc.) rather than hydrated label attrs.
-
-For talents: include tier, cost, usage_limit, strain, prerequisite expression, type, and any tracker/icon hooks required by the existing UI patterns.
-
-Section includes: careerDataMap entries, Tier X talent UI rows, and any tracker rows/CSS affected by usage_limit changes.
+	Update/create the data object for this section using i18n keys (e.g., name_key, rule_text-Key, etc.) rather than hydrated label attrs.
+	Talents: include tier, cost, usage_limit, strain, prerequisite expression, type, and any tracker/icon hooks required by the existing UI patterns.
+	Section includes: careerDataMap entries, Tier X talent UI rows, and any tracker rows/CSS affected by usage_limit changes.
 
 Provenance & Checks (in the single code block):
 
-Files used: list the 3 uploaded filenames.
-
-Career + section targeted.
-
-Counts: talents updated/added, skills added/changed, i18n keys added/changed.
+	Files used: list the 3 uploaded filenames.
+	Career + section targeted.
+	Counts: talents updated/added, skills added/changed, i18n keys added/changed.
 
 Validations performed:
 
-JSON validity (parseable)
-
-No duplicate i18n keys created
-
-All referenced skill keys exist in skillDataMap (or list missing)
-
-HTML uses correct data-i18n keys present in the JSON snippet
-
-CSS selectors scope is correct for Roll20 (.ui-dialog .tab-content .charsheet ...)
-
-Tracker hooks updated: any talent with usage_limit scene/session appears in the correct tracker list and not the wrong one.
+	JSON validity (parseable)
+	No duplicate i18n keys created
+	All referenced skill keys exist in skillDataMap (or list missing)
+	HTML uses correct data-i18n keys present in the JSON snippet
+	CSS selectors scope is correct for Roll20 (.ui-dialog .tab-content .charsheet ...)
+	Tracker hooks updated: any talent with usage_limit scene/session appears in the correct tracker list and not the wrong one.
 
 Hard gates:
 
-Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
-
-Output patches MUST be ADD / REMOVE blocks only (no +/- diffs).
-
-Tracker coupling is mandatory: any tracker HTML ADD/REMOVE must have matching CSS attr_show_* selector ADD/REMOVE.
-
-Provenance must include Patch Manifest lines for: careerDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
-If any gate fails, regenerate in the same response.
+	Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
+	Output patches MUST be ADD / REMOVE blocks only (no +/- diffs).
+	Tracker coupling is mandatory: any tracker HTML ADD/REMOVE must have matching CSS attr_show_* selector ADD/REMOVE.
+	Provenance must include Patch Manifest lines for: careerDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse.
+	If any gate fails, regenerate in the same response.
+	If there are no changes, produce a no-op, don't just put an add / remove with the same data
 
 Corrections:
 
-Pistol is replaced by Handgun
-pistol is replaced by handgun
-Archanotech is replaced by Arcanotech
-archanotech is replaced by arcanotech
+	Pistol is replaced by Handgun
+	pistol is replaced by handgun
+	Archanotech is replaced by Arcanotech
+	archanotech is replaced by arcanotech
 
 Inputs:
+The pasted Inputs are authoritative; update the sheet to match them even if the current files differ.
 
-Combat Engineer – Tier 5 Capstones (30 XP) — Choose One
+Marksman – Tier 5 Capstones (30 XP) — Choose One
 Talent	Description	Prerequisite
 
-Catastrophe Buffer	Type: Reaction (Mitigation) • Cost: 1d6 Strain • Usage: 1/Session — Trigger: A Mapped structure, vehicle, drone, turret, or piece of equipment within Medium would be destroyed, collapse, or suffer a major malfunction. Effect: You reroute power, brace load, or shed systems at the last possible moment. Reduce all damage, collapse effects, or malfunction severity caused by the triggering event by half (rounded down). Any remaining catastrophic outcome becomes a delayed hazard that triggers at the end of the next round instead of immediately.	Failsafe Architect
-Failsafe Codex	Type: Reaction (Restore) • Cost: 1d4 Strain • Usage: 1/Session — Instantly restore a damaged system you have interacted with to up to one-third of its maximum HP, and it gains advantage on checks to resist malfunctions for the remainder of the scene.	Failsafe Architect
-Field Constructor	Type: Action (Deployable) • Cost: 1d4 Strain • Usage: 1/Session — Rapidly construct one: (1) Turret (2d6 damage, 3 rounds), (2) Barricade (+2 Armor & cover), or (3) Utility drone. Requires Mechanics. Breaks down at scene end.	Auto-Repair Subroutines or Power Splice
-Master of Collapse	Type: Action (Networked Triggers) • Cost: 1d6 Strain • Usage: 1/Session — Trigger all sabotage points you’ve placed in a structure. On success, all collapse zones deal 3d6 damage; targets must Dodge or become trapped.	Collapse Engineer
-System Subjugation	Type: Action (Area Seize) • Cost: 1d6 Strain • Usage: 1/Session — Attempt to seize all devices in a small area: Opposed Electronics vs. System Integrity (SI). On Hard Success, control lasts the scene. This talent can target Hardened systems.	Hijack Protocol
+Dead Line	Type: Special post-shot • Cost: 1d4 Strain • Usage: 1/Session — After an uninterrupted, carefully prepared shot, choose two visible enemies within your front arc who are within one range band of each other and at Medium range or farther. Make one Single Shot rifle attack at –10%; on a hit, both targets take normal weapon damage (roll once, apply to both). This attack cannot impale.	Ricochet Geometry
+Ghost Window	Type: Reaction • Cost: 1d6 Strain • Usage: 1/Session — Trigger: An enemy you can see declares movement or an attack that would break line of sight, change range bands, or reach cover. Effect: Make an immediate Single Shot rifle attack before the triggering action resolves. If the attack hits, damage is resolved normally and the triggering movement or repositioning is halted.	Aim Lock
+Impossible Shot	Type: Attack • Cost: 1d6 Strain • Usage: 1/Session — After an uninterrupted, carefully prepared shot, you may attempt a Single Shot rifle attack at a target up to two range bands beyond your weapon’s listed maximum (never beyond Extreme). Apply normal range modifiers plus one penalty die per band beyond maximum. On a hit, the attack automatically impales. On a fumble, your position is revealed.	One-Shot Doctrine
+Kill Confirmed	Type: Passive (after hit) • Cost: 1d4 Strain • Usage: 1/Session — After you resolve a successful Single Shot rifle hit, you may upgrade the result to a critical (impale). If the hit was already a Hard Success or better, instead grant the attack Armor Piercing 4. This benefit cannot be used if the attack was made as a Reaction.	One-Shot Doctrine
+Overwatch Architect	Type: Action (Set) + Reaction (Interrupts) • Cost: 1d6 Strain • Usage: 1/Session — While stationary, establish Overwatch covering your front arc out to your weapon’s maximum range until the start of your next turn. Any enemy that becomes visible in that arc must immediately test POW for Suppression. While Overwatch is active, you may make up to two interrupt Single Shot rifle attacks as Reactions against Suppressed enemies that move or expose themselves (resolved at 0% and –10%). You cannot take other Reactions while Overwatch is active.	Range Gate

@@ -12695,6 +12695,16 @@
 												<span class="sheet-career-talent-prereq" data-i18n="career_marksman_ricochet_geometry-u"></span>
 											</div>
 
+											<!-- Ghost Window -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_marksman_ghost_window_enabled" value="0" />
+												<input type="hidden" name="attr_marksman_ghost_window_lockflag" value="0" />
+												<input type="checkbox" class="sheet-career-talent-checkbox sheet-capstone-checkbox" name="attr_marksman_ghost_window" value="1" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_marksman_ghost_window-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_marksman_ghost_window_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_marksman_aim_lock-u"></span>
+											</div>
+
 											<!-- Impossible Shot -->
 											<div class="sheet-career-talent-row">
 												<input type="hidden" name="attr_marksman_impossible_shot_enabled" value="0" />
@@ -12723,16 +12733,6 @@
 												<label class="sheet-career-talent-label"><span data-i18n="career_marksman_overwatch_architect-u"></span></label>
 												<span class="sheet-career-talent-description" data-i18n="career_marksman_overwatch_architect_rules-u"></span>
 												<span class="sheet-career-talent-prereq" data-i18n="career_marksman_range_gate-u"></span>
-											</div>
-
-											<!-- +5% Stat Boost -->
-											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_marksman_stat_boost_enabled" value="0" />
-												<input type="hidden" name="attr_marksman_stat_boost_lockflag" value="0" />
-												<input type="checkbox" name="attr_marksman_stat_boost" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_marksman_stat_boost-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_marksman_stat_boost_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_talent_any_one_tier4_talent-u"></span>
 											</div>
 
 										</div>
@@ -19139,13 +19139,6 @@
 								<span class="sheet-tracker-label" data-i18n="career_marksman_one_shot_doctrine-u"></span>
 							</div>
 
-							<!-- Career Talent: Overwatch Architect (scene) -->
-							<input type="hidden" name="attr_show_marksman_overwatch_architect" />
-							<div class="sheet-tracker-item sheet-tracker-scene sheet-marksman-overwatch-architect">
-								<input type="checkbox" name="attr_used_scene_marksman_overwatch_architect" class="sheet-tracker-checkbox" />
-								<span class="sheet-tracker-label" data-i18n="career_marksman_overwatch_architect-u"></span>
-							</div>
-
 							<!-- Career Talent: Quiet Reload (scene) -->
 							<input type="hidden" name="attr_show_marksman_quiet_reload" />
 							<div class="sheet-tracker-item sheet-tracker-scene sheet-marksman-quiet-reload">
@@ -21594,6 +21587,13 @@
 								<span class="sheet-tracker-label" data-i18n="career_marksman_dead_line-u"></span>
 							</div>
 
+							<!-- Career Talent: Ghost Window (session) -->
+							<input type="hidden" name="attr_show_marksman_ghost_window" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-marksman-ghost-win_dow">
+								<input type="checkbox" name="attr_used_session_marksman_ghost_window" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_marksman_ghost_window-u"></span>
+							</div>
+
 							<!-- Career Talent: Impossible Shot (session) -->
 							<input type="hidden" name="attr_show_marksman_impossible_shot" />
 							<div class="sheet-tracker-item sheet-tracker-session sheet-marksman-impossible-shot">
@@ -21606,6 +21606,13 @@
 							<div class="sheet-tracker-item sheet-tracker-session sheet-marksman-kill-confirmed">
 								<input type="checkbox" name="attr_used_session_marksman_kill_confirmed" class="sheet-tracker-checkbox" />
 								<span class="sheet-tracker-label" data-i18n="career_marksman_kill_confirmed-u"></span>
+							</div>
+
+							<!-- Career Talent: Overwatch Architect (session) -->
+							<input type="hidden" name="attr_show_marksman_overwatch_architect" />
+							<div class="sheet-tracker-item sheet-tracker-session sheet-marksman-overwatch-architect">
+								<input type="checkbox" name="attr_used_session_marksman_overwatch_architect" class="sheet-tracker-checkbox" />
+								<span class="sheet-tracker-label" data-i18n="career_marksman_overwatch_architect-u"></span>
 							</div>
 
                             <!-- Career Talent: Deadzone Entry (session) -->
@@ -35845,48 +35852,62 @@ const careerDataMap = {
 			dead_line: {
 				name_key: "career_marksman_dead_line-u",
 				rule_text_key: "career_marksman_dead_line_rules-u",
+				affected_skill: [ "firearms_rifle" ],
 				prerequisite: "ricochet_geometry",
 				tier: 5,
 				cost: 30,
 				capstone: true,
-			    usage_limit: "session"
+				usage_limit: "session",
+				strain: "1d4",
+				type: {	economy: "special", tag: "attack" }
+			},
+			ghost_window: {
+				name_key: "career_marksman_ghost_window-u",
+				rule_text_key: "career_marksman_ghost_window_rules-u",
+				affected_skill: [ "firearms_rifle" ],
+				prerequisite: "aim_lock",
+				tier: 5,
+				cost: 30,
+				capstone: true,
+				usage_limit: "session",
+				strain: "1d6",
+				type: { economy: "reaction", tag: "interrupt" }
 			},
 			impossible_shot: {
 				name_key: "career_marksman_impossible_shot-u",
 				rule_text_key: "career_marksman_impossible_shot_rules-u",
+				affected_skill: [ "firearms_rifle" ],
 				prerequisite: "one_shot_doctrine",
 				tier: 5,
 				cost: 30,
 				capstone: true,
-			    usage_limit: "session"
+				usage_limit: "session",
+				strain: "1d6",
+				type: { economy: "action", tag: "attack" }
 			},
 			kill_confirmed: {
 				name_key: "career_marksman_kill_confirmed-u",
 				rule_text_key: "career_marksman_kill_confirmed_rules-u",
+				affected_skill: [ "firearms_rifle" ],
 				prerequisite: "one_shot_doctrine",
 				tier: 5,
 				cost: 30,
 				capstone: true,
-			    usage_limit: "session"
+				usage_limit: "session",
+				strain: "1d4",
+				type: { economy: "passive",	tag: "exploit" }
 			},
 			overwatch_architect: {
 				name_key: "career_marksman_overwatch_architect-u",
 				rule_text_key: "career_marksman_overwatch_architect_rules-u",
+				affected_skill: [ "firearms_rifle" ],
 				prerequisite: "range_gate",
 				tier: 5,
 				cost: 30,
 				capstone: true,
-			    usage_limit: "scene"
-			},
-			stat_boost: {
-				name_key: "career_marksman_stat_boost-u",
-				rule_text_key: "career_marksman_stat_boost_rules-u",
-				prerequisite: "",
-				prerequisiteAny: { tier: 4, count: 1 },
-				tier: 5,
-				cost: 30,
-				capstone: true,
-			    usage_limit: ""
+				usage_limit: "session",
+				strain: "1d6",
+				type: {	economy: "action", tag: "control" }
 			}
 		}
 	},

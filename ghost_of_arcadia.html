@@ -14269,6 +14269,11 @@
      									<div class="sheet-career-skill-col">
      										<h3 class="sheet-career-skill-header"><span data-i18n="career_secondary_skills-u">Secondary Skills</span></h3>
 
+											<div class="sheet-career-skill-wrapper">
+     											<input type="hidden" name="attr_cs_slicer_arcanotech_mdr_checkbox_lock" value="0" />
+     											<input type="checkbox" name="attr_cs_slicer_arcanotech_mdr_checkbox" value="1" />
+     											<label><span data-i18n="arcanotech-u">Arcanotech</span></label>
+     										</div>
      										<div class="sheet-career-skill-wrapper">
      											<input type="hidden" name="attr_cs_slicer_dodge_mdr_checkbox_lock" value="0" />
      											<input type="checkbox" name="attr_cs_slicer_dodge_mdr_checkbox" value="1" />
@@ -14283,11 +14288,6 @@
      											<input type="hidden" name="attr_cs_slicer_perception_mdr_checkbox_lock" value="0" />
      											<input type="checkbox" name="attr_cs_slicer_perception_mdr_checkbox" value="1" />
      											<label><span data-i18n="perception-u">Perception</span></label>
-     										</div>
-     										<div class="sheet-career-skill-wrapper">
-     											<input type="hidden" name="attr_cs_slicer_persuade_mdr_checkbox_lock" value="0" />
-     											<input type="checkbox" name="attr_cs_slicer_persuade_mdr_checkbox" value="1" />
-     											<label><span data-i18n="persuade-u">Persuade</span></label>
      										</div>
      										<div class="sheet-career-skill-wrapper">
      											<input type="hidden" name="attr_cs_slicer_firearms_handgun_mdr_checkbox_lock" value="0" />
@@ -14323,12 +14323,20 @@
 								<div class="sheet-career-talent-tier" data-tier="1">
      								<h3 class="sheet-career-talent-tier-header" data-i18n="tier1_careers-u">Tier 1 Talents (05 XP)</h3>
 
-     								<!-- Code Pressure -->
+									<!-- Code Pressure -->
      								<div class="sheet-career-talent-row">
      									<input type="hidden" name="attr_slicer_code_pressure_lockflag" value="0" />
      									<input type="checkbox" name="attr_slicer_code_pressure" value="1" class="sheet-career-talent-checkbox" />
      									<label class="sheet-career-talent-label"><span data-i18n="career_slicer_code_pressure-u"></span></label>
      									<span class="sheet-career-talent-description" data-i18n="career_slicer_code_pressure_rules-u"></span>
+     								</div>
+
+     								<!-- False Readout -->
+     								<div class="sheet-career-talent-row">
+     									<input type="hidden" name="attr_slicer_false_readout_lockflag" value="0" />
+     									<input type="checkbox" name="attr_slicer_false_readout" value="1" class="sheet-career-talent-checkbox" />
+     									<label class="sheet-career-talent-label"><span data-i18n="career_slicer_false_readout-u"></span></label>
+     									<span class="sheet-career-talent-description" data-i18n="career_slicer_false_readout_rules-u"></span>
      								</div>
 
      								<!-- Fastjack Ready -->
@@ -14337,22 +14345,6 @@
      									<input type="checkbox" name="attr_slicer_fastjack_ready" value="1" class="sheet-career-talent-checkbox" />
      									<label class="sheet-career-talent-label"><span data-i18n="career_slicer_fastjack_ready-u"></span></label>
      									<span class="sheet-career-talent-description" data-i18n="career_slicer_fastjack_ready_rules-u"></span>
-     								</div>
-
-     								<!-- Packet Surge -->
-     								<div class="sheet-career-talent-row">
-     									<input type="hidden" name="attr_slicer_packet_surge_lockflag" value="0" />
-     									<input type="checkbox" name="attr_slicer_packet_surge" value="1" class="sheet-career-talent-checkbox" />
-     									<label class="sheet-career-talent-label"><span data-i18n="career_slicer_packet_surge-u"></span></label>
-     									<span class="sheet-career-talent-description" data-i18n="career_slicer_packet_surge_rules-u"></span>
-     								</div>
-
-     								<!-- Redundancy Stack -->
-     								<div class="sheet-career-talent-row">
-     									<input type="hidden" name="attr_slicer_redundancy_stack_lockflag" value="0" />
-     									<input type="checkbox" name="attr_slicer_redundancy_stack" value="1" class="sheet-career-talent-checkbox" />
-     									<label class="sheet-career-talent-label"><span data-i18n="career_slicer_redundancy_stack-u"></span></label>
-     									<span class="sheet-career-talent-description" data-i18n="career_slicer_redundancy_stack_rules-u"></span>
      								</div>
 
      								<!-- Signal Ghost -->
@@ -14389,6 +14381,15 @@
 
 										<div class="sheet-career-talents">
 
+											<!-- Aggressive Handshake -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_slicer_aggressive_handshake_enabled" value="0" />
+												<input type="hidden" name="attr_slicer_aggressive_handshake_lockflag" value="0" />
+												<input type="checkbox" name="attr_slicer_aggressive_handshake" value="1" class="sheet-career-talent-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_aggressive_handshake-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_slicer_aggressive_handshake_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_system_sniffer-u"></span>
+											</div>
 											<!-- ICEbreaker Thread -->
 											<div class="sheet-career-talent-row">
 												<input type="hidden" name="attr_slicer_icebreaker_thread_enabled" value="0" />
@@ -14397,16 +14398,6 @@
 												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_icebreaker_thread-u"></span></label>
 												<span class="sheet-career-talent-description" data-i18n="career_slicer_icebreaker_thread_rules-u"></span>
 												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_code_pressure-u"></span>
-											</div>
-
-											<!-- Multi-Layer Spoof -->
-											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_slicer_multi_layer_spoof_enabled" value="0" />
-												<input type="hidden" name="attr_slicer_multi_layer_spoof_lockflag" value="0" />
-												<input type="checkbox" name="attr_slicer_multi_layer_spoof" value="1" class="sheet-career-talent-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_multi_layer_spoof-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_slicer_multi_layer_spoof_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_signal_ghost-u"></span>
 											</div>
 
 											<!-- Null Pulse Routine -->
@@ -14427,26 +14418,6 @@
 												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_omnideck_recompiler-u"></span></label>
 												<span class="sheet-career-talent-description" data-i18n="career_slicer_omnideck_recompiler_rules-u"></span>
 												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_fastjack_ready-u"></span>
-											</div>
-
-											<!-- Rapid Inject -->
-											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_slicer_rapid_inject_enabled" value="0" />
-												<input type="hidden" name="attr_slicer_rapid_inject_lockflag" value="0" />
-												<input type="checkbox" name="attr_slicer_rapid_inject" value="1" class="sheet-career-talent-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_rapid_inject-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_slicer_rapid_inject_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_fastjack_ready-u"></span>
-											</div>
-
-											<!-- Reflex Proxy -->
-											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_slicer_reflex_proxy_enabled" value="0" />
-												<input type="hidden" name="attr_slicer_reflex_proxy_lockflag" value="0" />
-												<input type="checkbox" name="attr_slicer_reflex_proxy" value="1" class="sheet-career-talent-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_reflex_proxy-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_slicer_reflex_proxy_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_redundancy_stack-u"></span>
 											</div>
 
 											<!-- Trace Evasion Protocol -->
@@ -14496,7 +14467,7 @@
 												<input type="checkbox" name="attr_slicer_emergency_partition" value="1" class="sheet-career-talent-checkbox" />
 												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_emergency_partition-u"></span></label>
 												<span class="sheet-career-talent-description" data-i18n="career_slicer_emergency_partition_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_reflex_proxy-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_omnideck_recompiler-u"></span>
 											</div>
 
 											<!-- Tier 3: Kill-Switch Routine -->
@@ -14526,17 +14497,7 @@
 												<input type="checkbox" name="attr_slicer_silent_loop" value="1" class="sheet-career-talent-checkbox" />
 												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_silent_loop-u"></span></label>
 												<span class="sheet-career-talent-description" data-i18n="career_slicer_silent_loop_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_multi_layer_spoof-u"></span>
-											</div>
-
-											<!-- Tier 3: Trace Spoofer -->
-											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_slicer_trace_spoofer_enabled" value="0" />
-												<input type="hidden" name="attr_slicer_trace_spoofer_lockflag" value="0" />
-												<input type="checkbox" name="attr_slicer_trace_spoofer" value="1" class="sheet-career-talent-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_trace_spoofer-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_slicer_trace_spoofer_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_trace_evasion_protocol-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_null_pulse_routine-u"></span>
 											</div>
 
 										</div>
@@ -14566,7 +14527,7 @@
 												<input type="checkbox" name="attr_slicer_black_trace_nullifier" value="1" class="sheet-career-talent-checkbox" />
 												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_black_trace_nullifier-u"></span></label>
 												<span class="sheet-career-talent-description" data-i18n="career_slicer_black_trace_nullifier_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_trace_spoofer-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_emergency_partition-u"></span>
 											</div>
 
 											<!-- Deck Hardening Suite -->
@@ -14609,16 +14570,6 @@
 												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_silent_loop-u"></span>
 											</div>
 
-											<!-- Signal Collapse Routine -->
-											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_slicer_signal_collapse_routine_enabled" value="0" />
-												<input type="hidden" name="attr_slicer_signal_collapse_routine_lockflag" value="0" />
-												<input type="checkbox" name="attr_slicer_signal_collapse_routine" value="1" class="sheet-career-talent-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_signal_collapse_routine-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_slicer_signal_collapse_routine_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_kill_switch_routine-u"></span>
-											</div>
-
 										</div>
 									</div>
 								</div>
@@ -14639,18 +14590,14 @@
 
 										<div class="sheet-career-talents">
 
-											<!-- ArcNet Sovereign -->
+											<!-- Dead Man's Switch -->
 											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_slicer_arcnet_sovereign_enabled" value="0" />
-												<input type="hidden" name="attr_slicer_arcnet_sovereign_lockflag" value="0" />
-												<input type="checkbox" name="attr_slicer_arcnet_sovereign" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_arcnet_sovereign-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_slicer_arcnet_sovereign_rules-u"></span>
-												<span class="sheet-career-talent-prereq">
-													<span data-i18n="career_slicer_iceburn_protocol-u"></span>
-													<span data-i18n="career_talent_or-u">or</span> <!-- or/and/any/all -->
-													<span data-i18n="career_slicer_signal_collapse_routine-u"></span>
-												</span>
+												<input type="hidden" name="attr_slicer_dead_mans_switch_enabled" value="0" />
+												<input type="hidden" name="attr_slicer_dead_mans_switch_lockflag" value="0" />
+												<input type="checkbox" name="attr_slicer_dead_mans_switch" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_dead_mans_switch-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_slicer_dead_mans_switch_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_black_trace_nullifier-u"></span>
 											</div>
 
 											<!-- Digital Ghost State -->
@@ -14660,11 +14607,7 @@
 												<input type="checkbox" name="attr_slicer_digital_ghost_state" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
 												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_digital_ghost_state-u"></span></label>
 												<span class="sheet-career-talent-description" data-i18n="career_slicer_digital_ghost_state_rules-u"></span>
-												<span class="sheet-career-talent-prereq">
-													<span data-i18n="career_slicer_pulse_cloak_shell-u"></span>
-													<span data-i18n="career_talent_or-u">or</span> <!-- or/and/any/all -->
-													<span data-i18n="career_slicer_silent_loop-u"></span>
-												</span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_pulse_cloak_shell-u"></span>
 											</div>
 
 											<!-- Failsafe Override Core -->
@@ -14677,14 +14620,24 @@
 												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_deck_hardening_suite-u"></span>
 											</div>
 
-											<!-- +5% Stat Boost -->
+											<!-- Root Authority Rewrite -->
 											<div class="sheet-career-talent-row">
-												<input type="hidden" name="attr_slicer_stat_boost_enabled" value="0" />
-												<input type="hidden" name="attr_slicer_stat_boost_lockflag" value="0" />
-												<input type="checkbox" name="attr_slicer_stat_boost" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
-												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_stat_boost-u"></span></label>
-												<span class="sheet-career-talent-description" data-i18n="career_slicer_stat_boost_rules-u"></span>
-												<span class="sheet-career-talent-prereq" data-i18n="career_talent_any_one_tier4_talent-u"></span>
+												<input type="hidden" name="attr_slicer_root_authority_rewrite_enabled" value="0" />
+												<input type="hidden" name="attr_slicer_root_authority_rewrite_lockflag" value="0" />
+												<input type="checkbox" name="attr_slicer_root_authority_rewrite" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_root_authority_rewrite-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_slicer_root_authority_rewrite_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_expanded_node_logic-u"></span>
+											</div>
+
+											<!-- Total Signal Collapse -->
+											<div class="sheet-career-talent-row">
+												<input type="hidden" name="attr_slicer_total_signal_collapse_enabled" value="0" />
+												<input type="hidden" name="attr_slicer_total_signal_collapse_lockflag" value="0" />
+												<input type="checkbox" name="attr_slicer_total_signal_collapse" value="1" class="sheet-career-talent-checkbox sheet-capstone-checkbox" />
+												<label class="sheet-career-talent-label"><span data-i18n="career_slicer_total_signal_collapse-u"></span></label>
+												<span class="sheet-career-talent-description" data-i18n="career_slicer_total_signal_collapse_rules-u"></span>
+												<span class="sheet-career-talent-prereq" data-i18n="career_slicer_black_trace_nullifier-u"></span>
 											</div>
 
 										</div>
@@ -19316,6 +19269,13 @@
 						        <span class="sheet-tracker-label" data-i18n="career_shadowblade_vanish_step-u"></span>
 						    </div>
 
+							<!-- Career Talent: Aggressive Handshake (scene) -->
+						    <input type="hidden" name="attr_show_slicer_aggressive_handshake" />
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-slicer-aggressive-handshake">
+						        <input type="checkbox" name="attr_used_scene_slicer_aggressive_handshake" class="sheet-tracker-checkbox" />
+						        <span class="sheet-tracker-label" data-i18n="career_slicer_aggressive_handshake-u"></span>
+						    </div>
+
 							<!-- Career Talent: Code Pressure (scene) -->
 						    <input type="hidden" name="attr_show_slicer_code_pressure" />
 						    <div class="sheet-tracker-item sheet-tracker-scene sheet-slicer-code-pressure">
@@ -19323,25 +19283,18 @@
 						        <span class="sheet-tracker-label" data-i18n="career_slicer_code_pressure-u"></span>
 						    </div>
 
+							<!-- Career Talent: False Readout (scene) -->
+						    <input type="hidden" name="attr_show_slicer_false_readout" />
+						    <div class="sheet-tracker-item sheet-tracker-scene sheet-slicer-false-readout">
+						        <input type="checkbox" name="attr_used_scene_slicer_false_readout" class="sheet-tracker-checkbox" />
+						        <span class="sheet-tracker-label" data-i18n="career_slicer_false_readout-u"></span>
+						    </div>
+
 							<!-- Career Talent: Fastjack Ready (scene) -->
 						    <input type="hidden" name="attr_show_slicer_fastjack_ready" />
 						    <div class="sheet-tracker-item sheet-tracker-scene sheet-slicer-fastjack-ready">
 						        <input type="checkbox" name="attr_used_scene_slicer_fastjack_ready" class="sheet-tracker-checkbox" />
 						        <span class="sheet-tracker-label" data-i18n="career_slicer_fastjack_ready-u"></span>
-						    </div>
-
-							<!-- Career Talent: Redundancy Stack (scene) -->
-						    <input type="hidden" name="attr_show_slicer_redundancy_stack" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-slicer-redundancy-stack">
-						        <input type="checkbox" name="attr_used_scene_slicer_redundancy_stack" class="sheet-tracker-checkbox" />
-						        <span class="sheet-tracker-label" data-i18n="career_slicer_redundancy_stack-u"></span>
-						    </div>
-
-							<!-- Career Talent: Reflex Proxy (scene) -->
-						    <input type="hidden" name="attr_show_slicer_reflex_proxy" />
-						    <div class="sheet-tracker-item sheet-tracker-scene sheet-slicer-reflex-proxy">
-						        <input type="checkbox" name="attr_used_scene_slicer_reflex_proxy" class="sheet-tracker-checkbox" />
-						        <span class="sheet-tracker-label" data-i18n="career_slicer_reflex_proxy-u"></span>
 						    </div>
 
 						    <!-- Career Talent: Combat Rhythm (scene) -->
@@ -21818,14 +21771,7 @@
                             	<span class="sheet-tracker-label" data-i18n="career_shadowblade_unerring_step-u"></span>
                             </div>
 
-                            <!-- Career Talent: ArcNet Sovereign (session) -->
-                            <input type="hidden" name="attr_show_slicer_arcnet_sovereign" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-arcnet-sovereign">
-                                <input type="checkbox" name="attr_used_session_slicer_arcnet_sovereign" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_slicer_arcnet_sovereign-u"></span>
-                            </div>
-
-                            <!-- Career Talent: Black Trace Nullifier (session) -->
+							<!-- Career Talent: Black Trace Nullifier (session) -->
                             <input type="hidden" name="attr_show_slicer_black_trace_nullifier" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-black-trace-nullifier">
                                 <input type="checkbox" name="attr_used_session_slicer_black_trace_nullifier" class="sheet-tracker-checkbox" />
@@ -21839,13 +21785,20 @@
                                 <span class="sheet-tracker-label" data-i18n="career_slicer_command_fork-u"></span>
                             </div>
 
-                            <!-- Career Talent: Deck Hardening Suite (session) -->
+                            <!-- Career Talent: Dead Man's Switch (session) -->
+                            <input type="hidden" name="attr_show_slicer_dead_mans_switch" />
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-dead-mans-switch">
+                                <input type="checkbox" name="attr_used_session_slicer_dead_mans_switch" class="sheet-tracker-checkbox" />
+                                <span class="sheet-tracker-label" data-i18n="career_slicer_dead_mans_switch-u"></span>
+                            </div>
+
+							<!-- Career Talent: Deck Hardening Suite (session) -->
                             <input type="hidden" name="attr_show_slicer_deck_hardening_suite" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-deck-hardening-suite">
                                 <input type="checkbox" name="attr_used_session_slicer_deck_hardening_suite" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_slicer_deck_hardening_suite-u"></span>
                             </div>
-
+							
                             <!-- Career Talent: Digital Ghost State (session) -->
                             <input type="hidden" name="attr_show_slicer_digital_ghost_state" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-digital-ghost-state">
@@ -21895,13 +21848,6 @@
                                 <span class="sheet-tracker-label" data-i18n="career_slicer_kill_switch_routine-u"></span>
                             </div>
 
-                            <!-- Career Talent: Multi-Layer Spoof (session) -->
-                            <input type="hidden" name="attr_show_slicer_multi_layer_spoof" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-multi-layer-spoof">
-                                <input type="checkbox" name="attr_used_session_slicer_multi_layer_spoof" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_slicer_multi_layer_spoof-u"></span>
-                            </div>
-
                             <!-- Career Talent: Null Pulse Routine (session) -->
                             <input type="hidden" name="attr_show_slicer_null_pulse_routine" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-null-pulse-routine">
@@ -21916,13 +21862,6 @@
                                 <span class="sheet-tracker-label" data-i18n="career_slicer_omnideck_recompiler-u"></span>
                             </div>
 
-                            <!-- Career Talent: Packet Surge (session) -->
-                            <input type="hidden" name="attr_show_slicer_packet_surge" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-packet-surge">
-                                <input type="checkbox" name="attr_used_session_slicer_packet_surge" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_slicer_packet_surge-u"></span>
-                            </div>
-
                             <!-- Career Talent: Pulse Cloak Shell (session) -->
                             <input type="hidden" name="attr_show_slicer_pulse_cloak_shell" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-pulse-cloak-shell">
@@ -21930,18 +21869,18 @@
                                 <span class="sheet-tracker-label" data-i18n="career_slicer_pulse_cloak_shell-u"></span>
                             </div>
 
-                            <!-- Career Talent: Rapid Inject (session) -->
+							<!-- Career Talent: Rapid Inject (session) -->
                             <input type="hidden" name="attr_show_slicer_rapid_inject" />
                             <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-rapid-inject">
                                 <input type="checkbox" name="attr_used_session_slicer_rapid_inject" class="sheet-tracker-checkbox" />
                                 <span class="sheet-tracker-label" data-i18n="career_slicer_rapid_inject-u"></span>
                             </div>
 
-                            <!-- Career Talent: Signal Collapse Routine (session) -->
-                            <input type="hidden" name="attr_show_slicer_signal_collapse_routine" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-signal-collapse-routine">
-                                <input type="checkbox" name="attr_used_session_slicer_signal_collapse_routine" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_slicer_signal_collapse_routine-u"></span>
+                            <!-- Career Talent: Root Authority Rewrite (session) -->
+                            <input type="hidden" name="attr_show_slicer_root_authority_rewrite" />
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-root-authority-rewrite">
+                                <input type="checkbox" name="attr_used_session_slicer_root_authority_rewrite" class="sheet-tracker-checkbox" />
+                                <span class="sheet-tracker-label" data-i18n="career_slicer_root_authority_rewrite-u"></span>
                             </div>
 
                             <!-- Career Talent: Signal Ghost (session) -->
@@ -21965,11 +21904,11 @@
                                 <span class="sheet-tracker-label" data-i18n="career_slicer_trace_evasion_protocol-u"></span>
                             </div>
 
-                            <!-- Career Talent: Trace Spoofer (session) -->
-                            <input type="hidden" name="attr_show_slicer_trace_spoofer" />
-                            <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-trace-spoofer">
-                                <input type="checkbox" name="attr_used_session_slicer_trace_spoofer" class="sheet-tracker-checkbox" />
-                                <span class="sheet-tracker-label" data-i18n="career_slicer_trace_spoofer-u"></span>
+                            <!-- Career Talent: Total Signal Collapse (session) -->
+                            <input type="hidden" name="attr_show_slicer_total_signal_collapse" />
+                            <div class="sheet-tracker-item sheet-tracker-session sheet-slicer-total-signal-collapse">
+                                <input type="checkbox" name="attr_used_session_slicer_total_signal_collapse" class="sheet-tracker-checkbox" />
+                                <span class="sheet-tracker-label" data-i18n="career_slicer_total_signal_collapse-u"></span>
                             </div>
 
                             <!-- Career Talent: Breath Before the Cut (session) -->
@@ -36897,24 +36836,38 @@ const careerDataMap = {
 	  spell_xp_primary: 0,
 	  spell_xp_secondary: 0,
 	  primary_skills: {
-	    computer_use: "Computer Use",
-	    electronics:  "Electronics",
-	    security:     "Security Systems",
-	    slicing:      "Slicing"
+	    computer_use: "computer_use-u",
+	    electronics:  "electronics-u",
+	    security:     "security-u",
+	    slicing:      "slicing-u"
 	  },
 	  secondary_skills: {
-	    dodge:           "Dodge",
-	    mechanics:       "Mechanics",
-	    perception:      "Perception",
-	    persuade:        "Persuade",
-	    firearms_handgun:"Handgun",
-	    stealth:         "Stealth"
+	    arcanotech:      "arcanotech-u",
+	    dodge:           "dodge-u",
+	    firearms_handgun: "firearms_handgun-u",
+	    mechanics:       "mechanics-u",
+	    perception:      "perception-u",
+	    stealth:         "stealth-u"
 	  },
 	  talents: {
 		code_pressure: {
 		  name_key: "career_slicer_code_pressure-u",
 		  rule_text_key: "career_slicer_code_pressure_rules-u",
-		  affected_skill: [ "intrusion" ],
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "boost" },
+		  strain: "",
+		  prerequisite: "",
+		  tier: 1,
+		  cost: 5,
+		  capstone: false,
+		  usage_limit: "scene"
+		},
+		false_readout: {
+		  name_key: "career_slicer_false_readout-u",
+		  rule_text_key: "career_slicer_false_readout_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "misdirection" },
+		  strain: "",
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -36924,25 +36877,9 @@ const careerDataMap = {
 		fastjack_ready: {
 		  name_key: "career_slicer_fastjack_ready-u",
 		  rule_text_key: "career_slicer_fastjack_ready_rules-u",
-		  prerequisite: "",
-		  tier: 1,
-		  cost: 5,
-		  capstone: false,
-		  usage_limit: "scene"
-		},
-		packet_surge: {
-		  name_key: "career_slicer_packet_surge-u",
-		  rule_text_key: "career_slicer_packet_surge_rules-u",
-		  affected_skill: [ "intrusion", "masking" ],
-		  prerequisite: "",
-		  tier: 1,
-		  cost: 5,
-		  capstone: false,
-		  usage_limit: "session"
-		},
-		redundancy_stack: {
-		  name_key: "career_slicer_redundancy_stack-u",
-		  rule_text_key: "career_slicer_redundancy_stack_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "utility" },
+		  strain: "1",
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -36952,7 +36889,9 @@ const careerDataMap = {
 		signal_ghost: {
 		  name_key: "career_slicer_signal_ghost-u",
 		  rule_text_key: "career_slicer_signal_ghost_rules-u",
-		  affected_skill: [ "masking" ],
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "reaction", tag: "masking" },
+		  strain: "",
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
@@ -36962,26 +36901,34 @@ const careerDataMap = {
 		system_sniffer: {
 		  name_key: "career_slicer_system_sniffer-u",
 		  rule_text_key: "career_slicer_system_sniffer_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "passive", tag: "scan" },
+		  strain: "",
 		  prerequisite: "",
 		  tier: 1,
 		  cost: 5,
 		  capstone: false,
 		  usage_limit: ""
 		},
-		icebreaker_thread: {
-		  name_key: "career_slicer_icebreaker_thread-u",
-		  rule_text_key: "career_slicer_icebreaker_thread_rules-u",
-		  prerequisite: "code_pressure",
+		aggressive_handshake: {
+		  name_key: "career_slicer_aggressive_handshake-u",
+		  rule_text_key: "career_slicer_aggressive_handshake_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "overreach" },
+		  strain: "1",
+		  prerequisite: "system_sniffer",
 		  tier: 2,
 		  cost: 10,
 		  capstone: false,
-		  usage_limit: "session"
+		  usage_limit: "scene"
 		},
-		multi_layer_spoof: {
-		  name_key: "career_slicer_multi_layer_spoof-u",
-		  rule_text_key: "career_slicer_multi_layer_spoof_rules-u",
-		  affected_skill: [ "masking" ],
-		  prerequisite: "signal_ghost",
+		icebreaker_thread: {
+		  name_key: "career_slicer_icebreaker_thread-u",
+		  rule_text_key: "career_slicer_icebreaker_thread_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "boost" },
+		  strain: "",
+		  prerequisite: "code_pressure",
 		  tier: 2,
 		  cost: 10,
 		  capstone: false,
@@ -36990,6 +36937,9 @@ const careerDataMap = {
 		null_pulse_routine: {
 		  name_key: "career_slicer_null_pulse_routine-u",
 		  rule_text_key: "career_slicer_null_pulse_routine_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "disruption" },
+		  strain: "",
 		  prerequisite: "system_sniffer",
 		  tier: 2,
 		  cost: 10,
@@ -36999,35 +36949,21 @@ const careerDataMap = {
 		omnideck_recompiler: {
 		  name_key: "career_slicer_omnideck_recompiler-u",
 		  rule_text_key: "career_slicer_omnideck_recompiler_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "swap" },
+		  strain: "",
 		  prerequisite: "fastjack_ready",
 		  tier: 2,
 		  cost: 10,
 		  capstone: false,
 		  usage_limit: "session"
-		},
-		rapid_inject: {
-		  name_key: "career_slicer_rapid_inject-u",
-		  rule_text_key: "career_slicer_rapid_inject_rules-u",
-		  prerequisite: "fastjack_ready",
-		  tier: 2,
-		  cost: 10,
-		  capstone: false,
-		  usage_limit: "session"
-		},
-		reflex_proxy: {
-		  name_key: "career_slicer_reflex_proxy-u",
-		  rule_text_key: "career_slicer_reflex_proxy_rules-u",
-		  affected_skill: [ "firewall_rating" ],
-		  prerequisite: "redundancy_stack",
-		  tier: 2,
-		  cost: 10,
-		  capstone: false,
-		  usage_limit: "scene"
 		},
 		trace_evasion_protocol: {
 		  name_key: "career_slicer_trace_evasion_protocol-u",
 		  rule_text_key: "career_slicer_trace_evasion_protocol_rules-u",
 		  affected_skill: [ "masking" ],
+		  type: { economy: "reaction", tag: "cleanse" },
+		  strain: "",
 		  prerequisite: "signal_ghost",
 		  tier: 2,
 		  cost: 10,
@@ -37037,6 +36973,9 @@ const careerDataMap = {
 		command_fork: {
 		  name_key: "career_slicer_command_fork-u",
 		  rule_text_key: "career_slicer_command_fork_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "fork" },
+		  strain: "",
 		  prerequisite: "omnideck_recompiler",
 		  tier: 3,
 		  cost: 15,
@@ -37046,8 +36985,10 @@ const careerDataMap = {
 		emergency_partition: {
 		  name_key: "career_slicer_emergency_partition-u",
 		  rule_text_key: "career_slicer_emergency_partition_rules-u",
-		  affected_skill: [ "deck_integrity" ],
-		  prerequisite: "reflex_proxy",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "reaction", tag: "fail_safe" },
+		  strain: "2",
+		  prerequisite: "omnideck_recompiler",
 		  tier: 3,
 		  cost: 15,
 		  capstone: false,
@@ -37056,6 +36997,9 @@ const careerDataMap = {
 		kill_switch_routine: {
 		  name_key: "career_slicer_kill_switch_routine-u",
 		  rule_text_key: "career_slicer_kill_switch_routine_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "free_action", tag: "execution" },
+		  strain: "",
 		  prerequisite: "icebreaker_thread",
 		  tier: 3,
 		  cost: 15,
@@ -37065,6 +37009,9 @@ const careerDataMap = {
 		predictive_override: {
 		  name_key: "career_slicer_predictive_override-u",
 		  rule_text_key: "career_slicer_predictive_override_rules-u",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "passive", tag: "scan_insight" },
+		  strain: "",
 		  prerequisite: "icebreaker_thread",
 		  tier: 3,
 		  cost: 15,
@@ -37074,16 +37021,10 @@ const careerDataMap = {
 		silent_loop: {
 		  name_key: "career_slicer_silent_loop-u",
 		  rule_text_key: "career_slicer_silent_loop_rules-u",
-		  prerequisite: "multi_layer_spoof",
-		  tier: 3,
-		  cost: 15,
-		  capstone: false,
-		  usage_limit: "session"
-		},
-		trace_spoofer: {
-		  name_key: "career_slicer_trace_spoofer-u",
-		  rule_text_key: "career_slicer_trace_spoofer_rules-u",
-		  prerequisite: "trace_evasion_protocol",
+		  affected_skill: [ "slicing" ],
+		  type: { economy: "action", tag: "masking_loop" },
+		  strain: "",
+		  prerequisite: "null_pulse_routine",
 		  tier: 3,
 		  cost: 15,
 		  capstone: false,
@@ -37093,11 +37034,13 @@ const careerDataMap = {
 		  name_key: "career_slicer_black_trace_nullifier-u",
 		  rule_text_key: "career_slicer_black_trace_nullifier_rules-u",
 		  affected_skill: [ "masking" ],
-		  prerequisite: "trace_spoofer",
+		  prerequisite: "emergency_partition",
 		  tier: 4,
 		  cost: 20,
 		  capstone: false,
-		  usage_limit: "session"
+		  usage_limit: "session",
+		  strain: "2",
+		  type: { economy: "reaction", tag: "clean_exit" }
 		},
 		deck_hardening_suite: {
 		  name_key: "career_slicer_deck_hardening_suite-u",
@@ -37106,7 +37049,8 @@ const careerDataMap = {
 		  tier: 4,
 		  cost: 20,
 		  capstone: false,
-		  usage_limit: "session"
+		  usage_limit: "session",
+		  type: { economy: "passive", tag: "reinforcement" }
 		},
 		expanded_node_logic: {
 		  name_key: "career_slicer_expanded_node_logic-u",
@@ -37115,7 +37059,8 @@ const careerDataMap = {
 		  tier: 4,
 		  cost: 20,
 		  capstone: false,
-		  usage_limit: "session"
+		  usage_limit: "session",
+		  type: { economy: "special", tag: "parallel_execution" }
 		},
 		iceburn_protocol: {
 		  name_key: "career_slicer_iceburn_protocol-u",
@@ -37124,7 +37069,8 @@ const careerDataMap = {
 		  tier: 4,
 		  cost: 20,
 		  capstone: false,
-		  usage_limit: "session"
+		  usage_limit: "session",
+		  type: { economy: "free_action", tag: "burn" }
 		},
 		pulse_cloak_shell: {
 		  name_key: "career_slicer_pulse_cloak_shell-u",
@@ -37133,56 +37079,69 @@ const careerDataMap = {
 		  tier: 4,
 		  cost: 20,
 		  capstone: false,
-		  usage_limit: "session"
+		  usage_limit: "session",
+		  strain: "1",
+		  type: { economy: "reaction", tag: "cloak" }
 		},
-		signal_collapse_routine: {
-		  name_key: "career_slicer_signal_collapse_routine-u",
-		  rule_text_key: "career_slicer_signal_collapse_routine_rules-u",
-		  affected_skill: [ "masking" ],
-		  prerequisite: "kill_switch_routine",
-		  tier: 4,
-		  cost: 20,
-		  capstone: false,
-		  usage_limit: "session"
-		},
-		arcnet_sovereign: {
-		  name_key: "career_slicer_arcnet_sovereign-u",
-		  rule_text_key: "career_slicer_arcnet_sovereign_rules-u",
-		  affected_skill: [ "intrusion" ],
-		  prerequisite: ["iceburn_protocol", "signal_collapse_routine"],
+		dead_mans_switch: {
+		  name_key: "career_slicer_dead_mans_switch-u",
+		  rule_text_key: "career_slicer_dead_mans_switch_rules-u",
+		  affected_skill: ["slicing"],
+		  prerequisite: "black_trace_nullifier",
 		  tier: 5,
 		  cost: 30,
+		  strain: "1d6",
 		  capstone: true,
-		  usage_limit: "session"
+		  usage_limit: "session",
+		  type: { economy: "reaction", tag: "contingency" }
 		},
 		digital_ghost_state: {
 		  name_key: "career_slicer_digital_ghost_state-u",
 		  rule_text_key: "career_slicer_digital_ghost_state_rules-u",
+		  affected_skill: ["slicing"],
 		  prerequisite: ["pulse_cloak_shell", "silent_loop"],
 		  tier: 5,
 		  cost: 30,
+		  strain: "1d4",
 		  capstone: true,
-		  usage_limit: "session"
+		  usage_limit: "session",
+		  type: { economy: "free_action", tag: "ghost_mode" }
 		},
 		failsafe_override_core: {
 		  name_key: "career_slicer_failsafe_override_core-u",
 		  rule_text_key: "career_slicer_failsafe_override_core_rules-u",
-		  affected_skill: [ "deck_integrity" ],
+		  affected_skill: ["slicing"],
 		  prerequisite: "deck_hardening_suite",
 		  tier: 5,
 		  cost: 30,
+		  strain: "1d6",
 		  capstone: true,
-		  usage_limit: "session"
+		  usage_limit: "session",
+		  type: { economy: "reaction", tag: "last_action" }
 		},
-		stat_boost: {
-		  name_key: "career_slicer_stat_boost-u",
-		  rule_text_key: "career_slicer_stat_boost_rules-u",
-		  prerequisite: "",
-		  prerequisiteAny: { tier: 4, count: 1 },
+		root_authority_rewrite: {
+		  name_key: "career_slicer_root_authority_rewrite-u",
+		  rule_text_key: "career_slicer_root_authority_rewrite_rules-u",
+		  affected_skill: ["slicing"],
+		  prerequisite: "expanded_node_logic",
 		  tier: 5,
 		  cost: 30,
+		  strain: "1d8",
 		  capstone: true,
-		  usage_limit: ""
+		  usage_limit: "session",
+		  type: { economy: "action", tag: "control_rewrite" }
+		},
+		total_signal_collapse: {
+		  name_key: "career_slicer_total_signal_collapse-u",
+		  rule_text_key: "career_slicer_total_signal_collapse_rules-u",
+		  affected_skill: ["slicing"],
+		  prerequisite: "black_trace_nullifier",
+		  tier: 5,
+		  cost: 30,
+		  strain: "1d6",
+		  capstone: true,
+		  usage_limit: "session",
+		  type: { economy: "action", tag: "network_shutdown" }
 		}
 	  }
 	},

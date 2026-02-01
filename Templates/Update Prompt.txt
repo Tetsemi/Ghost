@@ -10,23 +10,10 @@ I will paste the updated text for the section.
 
 Task: Update ONLY the following section, do not look ahead at other sections, only the current one:
 
-	Career key: careerDataMap.shadowblade
+	Career key: careerDataMap.slicer
 	Section: talents.<talent name>.tier === 5, capstone === true
 
-Reference: Use combat_medic only as the data-object schema reference. For HTML/CSS structure and classes, copy the existing pattern in ghost_of_arcadia.html/css for the targeted career/tier.
-
-HTML 
-	This is the start of the HTML career block - <div class="sheet-career-tab sheet-tab-<career>">
-	This is the start of the HTML Tracker block - <div class="sheet-tracker-section sheet-tracker-talent">
-	The careerDataMap is in the <script type="text/worker">
-
-CSS
-
-    Will look like .ui-dialog .tab-content .charsheet input[name="attr_show_<career>_<talent>"][value="1"] ~ .sheet-<career>-<talent>,
-
-JSON 
-
-	JSON is alphaebtical by pairs only, call out any line being worked on that has more than one pair or is in any way malformed
+Reference: Use combat_engineer only as the data-object schema reference. For HTML/CSS structure and classes, copy the existing pattern in ghost_of_arcadia.html/css for the targeted career/tier.
 
 What to produce (MUST be separate downloadable files):
 
@@ -36,23 +23,19 @@ What to produce (MUST be separate downloadable files):
 
 Hard rules:
 
-	Line-Structure Lock
-		ADD blocks must have the same number of lines as their corresponding REMOVE block unless the Inputs force an insertion/deletion.
-		When insertions/deletions are required, they must reuse the existing indentation style from adjacent lines.
-
 	REMOVE blocks must be copied verbatim from the current file text (including comment headers and braces); ADD blocks are the same block with minimal edits.
-
+	If the REMOVE block cannot be copied verbatim from the file, stop.
+	
 	Alphabetize by talent key (snake_case) for data/i18n/tracker/CSS selectors (not by label text).
 	Talent key is derived from the talent name: lowercase, remove punctuation, spaces → underscores
 
 	Use the files provided in the prompt, do not proceed if files are not provided. 
 	Use the indentation and formatting in existing files
-
+	No line may change leading whitespace unless that line’s content changes.
+	
 	Provide additions and deletions for the section requested only
 	When a talent is removed from the tier’s HTML/data, REMOVE its tracker hooks, CSS show selectors, and translation keys in the same patch even if other tiers still reference them.
 	Removed means removed from ALL three surfaces: careerDataMap entry, Career HTML row, and Tracker HTML/CSS hooks and translation keys
-
-	Patch Scope Lock: Only include the smallest contiguous block(s) that materially change. Do not include unchanged wrapper containers (tier wrappers, toolbars, controller blocks) if no lines inside them change.
 
 	Do not output any inline code blocks for HTML/CSS/JSON in chat. Only provide them as downloadable files.
 	In chat output, include exactly one code block titled “Provenance & Checks” that lists validations and counts (see checklist below).
@@ -103,11 +86,11 @@ Corrections:
 Inputs:
 The pasted Inputs are authoritative; update the sheet to match them even if the current files differ.
 
-Shadowblade – Tier 5 Capstones (30 XP) — Choose One
+Slicer – Tier 5 Capstones (30 XP) — Choose One
 Talent	Description	Prerequisite
 
-Fade From the Record	Type: Reaction (Total Disengage) • Cost: 1d8 Strain • Usage: 1/Session — Trigger: You would be detected, restrained, or surrounded. Effect: Immediately enter Stealth and reposition yourself anywhere within Short where concealment is plausible. Enemy units lose awareness of your exact location, and the scene ends or transitions at the GM’s discretion.	Phantom Execution
-Final Knife	Type: Special immediate (Impossible Throw) • Cost: 1d6 Strain • Usage: 1/Session — Make one thrown weapon attack as a Free Action against a target within Medium, even if the target is behind Full Cover or out of line of sight. This attack cannot benefit from bonus dice.	Draw and Cut
-Shatterpoint Strike	Type: Special immediate (Execution) • Cost: 1d6 Strain • Usage: 1/Session — Declare before rolling a melee or thrown attack against a target that is unaware or below 50% HP. On a hit, the attack ignores Armor and deals +2 damage. This attack cannot trigger follow-up attacks or chain effects.	Spinal Cut
-Silent Collapse	Type: Action (Fear & Disruption) • Cost: 1d6 Strain • Usage: 1/Session — When you kill a target from Stealth, all enemies within Short immediately lose their Reaction and suffer –10% to all actions until the end of their next turn. This effect does not stack with other fear effects.	Quiet Terror
-Unerring Step	Type: Free Action (Stance) • Cost: 1d4 Strain • Usage: 1/Session — For the next 2 rounds, you ignore penalty dice to movement, Athletics, and Stealth, and you may Disengage once per round as a Free Action. This does not allow additional attacks or reactions.	Blurred Step
+Dead Man’s Switch	Type: Reaction (Contingency) • Cost: 1d6 Strain • Usage: 1/Session — Trigger: You are forcibly disconnected or suffer Catastrophic Resolution during an intrusion. Effect: Immediately trigger one prepared system-level effect affecting the system you were connected to (such as purging selected logs, hard-locking access points, wiping a specific dataset, or disabling a defined subsystem). This effect resolves even though the intrusion ends and represents pre-seeded logic rather than continued access. This does not prevent consequences to you.	Black Trace Nullifier
+Digital Ghost State	Type: Free Action (Ghost Mode) • Cost: 1d4 Strain • Usage: 1/Session — Activate while connected to a network. For the next two rounds, your interactions do not generate active alerts and cannot be upgraded beyond silent alerts. You may not initiate latent intrusions or issue disruptive commands during this state. Escalation and System Overrun proceed normally. When this effect ends, you must immediately abort the intrusion or suffer one automatic Overrun consequence.	Pulse Cloak Shell or Silent Loop
+Failsafe Override Core	Type: Reaction (Last Action) • Cost: 1d6 Strain • Usage: 1/Session — Trigger: You would be forcibly disconnected or suffer Catastrophic Resolution. Effect: You remain connected long enough to take one final Action or Maneuver before the intrusion ends. This action resolves normally but cannot generate new Reactions or prevent the disconnection. Any consequences already triggered still apply.	Deck Hardening Suite
+Root Authority Rewrite	Type: Action (Control Rewrite) • Cost: 1d8 Strain • Usage: 1/Session — While actively connected to a network, you seize temporary root authority over one system domain. For the remainder of the scene or until you disconnect, you may issue one system-level command per round without increasing its time cost (such as sealing access, grounding drones, suppressing alarms, or rewriting logs). This authority does not prevent escalation or System Overrun and ends immediately if Catastrophic Resolution occurs. Hardened systems may resist individual commands at the GM’s discretion.	Expanded Node Logic
+Total Signal Collapse	Type: Action (Network Shutdown) • Cost: 1d6 Strain • Usage: 1/Session — While actively connected to a network, you forcibly collapse its active response state. Until the end of the current round, escalation does not advance, all automated defenses and counter-intrusion logic are suppressed, and no new alerts are generated. Existing alerts and consequences are not undone. At the end of the round, the intrusion ends immediately and the system enters full alert status. This does not prevent narrative fallout.	Black Trace Nullifier

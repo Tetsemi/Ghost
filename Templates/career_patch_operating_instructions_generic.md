@@ -8,8 +8,8 @@
 
 **Target Career + Scope:**
 - `CAREER_KEY`: `careerDataMap.street_ronin`
-- `TARGET_TIER`: `3`  *(integer; e.g., 1, 4, 5)*
-- `TIER_FILTER`: `talents.<talent>.tier === TARGET_TIER` *(and include `capstone === true` only if the request says so)*
+- `TARGET_TIER`: `5`  *(integer; e.g., 1, 4, 5)*
+- `TIER_FILTER`: `talents.<talent>.tier === TARGET_TIER, capstone === true` *(and include `capstone === true` only if the request says so)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(optional; include only if requested)*
   - `secondary_skills` *(optional; include only if requested)*
@@ -156,11 +156,11 @@
 Inputs: 
 The pasted Inputs are authoritative; update the sheet to match them even if the current files differ.
 
-Street Ronin – Tier 4 Talents (20 XP)
+Street Ronin – Tier 5 Capstones (30 XP) — Choose One
 Talent	Description	Prerequisite
 
-Flow Reversal	Type: Reaction (Clash) • Cost: 2 Strain • Usage: 1/Session — When your melee counterattack fails to exceed the attacker’s success, resolve a mutual exchange: both sides take damage once, using the original attack’s damage values; the attacker then suffers 1 penalty die on their next action.	Counterguard Precision
-Ghost Step	Type: Special immediate (Reposition) • Cost: — • Usage: 1/Scene — Immediately move 1 range band as a Free Maneuver, even if you have already moved this round. If no enemy makes an attack roll targeting you before your next turn, your next melee attack gains +1 bonus die. 	Stillness in Motion
-Moment Severed	Type: Special immediate (Stagger) • Cost: 1d6 Strain • Usage: 1/Session — After you land a melee hit, choose the target; until the end of their next turn, they cannot take Actions but may still take Reactions. This effect cannot be combined with other immediate follow-up attacks triggered by the same hit.	Breath Before the Cut
-No Second Strike	Type: Special immediate (Follow-up) • Cost: — • Usage: 1/Session — When you reduce a target to 0 HP with a melee attack, immediately make one melee attack against another target in Engaged range; this additional attack cannot trigger other immediate attacks or talents. This attack cannot itself trigger additional Street Ronin talents unless explicitly stated.	Draw Cut
-Steel Calm	Type: Free Action (Resolve) • Cost: — • Usage: 1/Session — Until the end of the current round, ignore the effects of the Frightened, Panicked, or Impaired conditions and gain +1 bonus die on Dodge rolls during this time.	Hold the Line
+Duelmaster’s Claim	Type: Free Action (Mark Rival) • Cost: 1d4 Strain • Usage: 1/Session — Declare one opponent as your focused rival. Until the end of the scene, gain +1 bonus die on melee attacks, Dodge, and Reaction-based talents against that target. If you reduce the rival to 0 HP, immediately make one melee attack against another target in Engaged range or gain +1 bonus die on all melee attacks for the remainder of the scene.	Hold the Line
+Final Cut Doctrine	Type: Reaction (Counter — Finisher) • Cost: 1d4 Strain • Usage: 1/Session — When making a melee counterattack, you may declare Final Cut before rolling. If your counterattack succeeds, it deals maximum weapon damage instead of rolling damage and you may apply one Tier 1–3 Street Ronin talent effect that normally triggers on a successful hit. If the counterattack fails, it resolves normally. This attack cannot itself trigger additional Street Ronin talents unless explicitly stated.	Flow Reversal
+Ghost Walk	Type: Special immediate (Burst) • Cost: 1d6 Strain • Usage: 1/Session — Move up to Medium range as a Free Action and make one melee attack. If the target is unaware or has not yet acted this scene, deal +1d6 bonus damage and force a POW test; on failure, the target is Stunned until the end of the target’s next turn. 	Ghost Step
+Last Breath	Type: Special immediate (End the Exchange) • Cost: 1d6 Strain • Usage: 1/Session — Declare after an enemy you are Engaged with completes an attack against you. Immediately resolve one melee attack against that enemy; if this attack hits, both you and the target cannot take Actions for the remainder of the current round, and the target suffers 1 penalty die on all rolls until the end of their next turn. This attack cannot itself trigger additional Street Ronin talents unless explicitly stated.	Moment Severed
+Measured Finality	Type: Free Action (Commitment) • Cost: 1d6 Strain • Usage: 1/Session — At the start of your turn, designate one enemy you can see within Short range. Until the end of the scene, you cannot make attacks against other targets, but gain +1 bonus die on all melee attacks, Dodge, and Reaction-based talents against the designated enemy; if either of you is reduced to 0 HP, the effect immediately ends.	Steel Calm

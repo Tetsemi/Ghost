@@ -8,8 +8,8 @@
 
 **Target Ancestry + Scope:**
 - `TALENT_KEY`: `ancestryTalentDataMap.khadra`
-- `TARGET_TIER`: `2`  *(integer; e.g., 1, 4, 5)*
-- `TIER_FILTER`: `talents.<talent>.tier === TARGET_TIER` *(and include `capstone === true` only if the request says so)*
+- `TARGET_TIER`: `4`  *(integer; e.g., 1, 4, 5)*
+- `TIER_FILTER`: `talents.<talent>.tier === TARGET_TIER, capstone === true` *(and include `capstone === true` only if the request says so)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(optional; include only if requested)*
   - `secondary_skills` *(optional; include only if requested)*
@@ -22,11 +22,11 @@
 
 **Talent Inputs (single source of truth for tier content):**
 - `TIER_TALENTS_INPUT`: `
-Consult the Old Spirits Type: Action (Spiritual Consultation) • Cost: 1 Strain • Usage: 1/Scene — When you have a moment of calm, reverence, or preparation, roll Spirit Lore. On a success, choose one and mark it: Forewarning or Blessing . At any later point this scene, when circumstances align with that choice, you may expend the mark to either gain +1 bonus die on a single roll you make, or impose 1 penalty die on a single opposing roll directly related to that moment. This does not reveal hidden information or guarantee correctness. Stone-Set Focus
-Endure to Completion Type: Reaction (Committed Effort) • Cost: 1 Strain • Usage: 1/Scene — When you fail a non-combat skill roll while attempting to complete a task, you may declare your commitment to see it through. If you do, you may immediately push the failed roll to complete the same task, gaining +1 bonus die on the pushed attempt. This pushed roll does not require the normal Strain cost for pushing, but all other push consequences apply normally. Burden Accepted
-Oath Set Before the Storm Type: Free Action (Declared Oath) • Cost: — • Usage: 1/Scene — At the start of a scene, or during a clear pause before pressure or conflict begins, you may declare a specific course of action, duty, or boundary you intend to uphold. The first roll you make this scene that directly tests that oath gains +1 bonus die . If you voluntarily abandon or redefine the oath before that test occurs, the benefit is lost. No other penalty applies. Words Carved in Stone
-Prepared, Not Rushed Type: Free Action (Deliberate Assessment) • Cost: — • Usage: 1/Scene — When you choose to delay action in order to observe, assess, or decide your approach rather than acting immediately, mark Prepared. The next skill roll or talent activation you make this scene that benefits from forethought, positioning, or deliberate choice gains +1 bonus die . This benefit is lost if the delay avoids engagement entirely or if circumstances change such that the preparation is no longer relevant. Stone-Set Focus
-Work Without Turning Aside Type: Passive (Sustained Effort) • Cost: — • Usage: 1/Scene — When you make a second non-combat skill roll in the same scene to advance the same task or objective as a prior roll, without changing approach or abandoning the attempt, that second roll gains +1 bonus die . This benefit does not apply if the second roll uses a different method, addresses a different objective, or follows a deliberate change in plan. Deliberate Force
+The Ancestors Are Watching Type: Action (Ancestral Invocation) • Cost: 1d8 Strain • Usage: 1/Session — You call on the weight of your lineage, allowing an ancestral presence to guide you for the remainder of the scene. Choose one ancestral path when activated; this choice cannot be changed until the scene ends. Stone-Ward Ancestor: Once per round, when you suffer damage, reduce that damage by half (rounded down) after all modifiers. This does not negate conditions or secondary effects. Shield-bearer Ancestor: Once per round, when you make a Dodge or Fight Back Reaction, gain +1 bonus die on that roll. Until the start of your next turn, you suffer 1 penalty die on all Attack rolls. Oath-breaker Ancestor: Once per round, whenyou make an Attack roll, gain +1 bonus die . Until the start of your next turn, you suffer 1 penalty die on all Dodge and Fight Back Reactions. This talent does not grant additional actions or reactions, and its bonus and penalty dice do not stack with themselves. You may not activate this talent while Exhausted. When the scene ends, the ancestral presence withdraws completely. Borrowed Hands 
+Endure the Long Night Type: Reaction (Grim Endurance) • Cost: 1d6 Strain • Usage: 1/Session — When prolonged hardship or accumulated harm would force you out of the scene—such as extreme environmental conditions, deprivation, Veil exposure, accumulated Strain, or gaining a Major Wound or a condition that would remove you from meaningful participation—you remain active until the end of the scene. You may act normally, but this does not negate damage, remove conditions, reduce Major Wound penalties, or prevent further harm. When the scene ends, you immediately drop to 0 Strain, gain the Exhausted condition, and all endured consequences fully assert themselves. The GM may introduce lasting injury, recovery requirements, or narrative fallout appropriate to what you survived. Cost Before Collapse
+The Line Is Here Type: Action (Immovable Declaration) • Cost: 1d6 Strain • Usage: 1/Session — You openly declare a boundary, position, or person you will not yield. Until the end of the scene, the first roll each round you make to hold position, defend a declared space or creature, block passage, resist displacement, or oppose an attempt to bypass your stance gains +1 bonus die . This bonus may apply to Dodge, Fight Back, Athletics, Unarmed, Melee, or another physically appropriate skill , depending on how the line is being tested. You still suffer all damage, conditions, and consequences normally; this talent does not grant immunity or prevent escalation. Once declared, you cannot voluntarily abandon the line without ending this talent early. Carried to the End
+The Sign Fulfilled Type: Action (Recognized Omen) • Cost: 1d6 Strain • Usage: 1/Session — You declare that a specific moment, opening, or pattern you perceive must be acted upon, despite uncertainty. Choose one concrete course of action you will pursue this scene. Until the end of the scene, the first Action each round you take that directly advances that chosen course gains +1 bonus die. Once declared, you may not abandon, delay, or redirect that course of action for the rest of the scene. After resolving each such Action, you suffer 1 penalty die on your next Dodge or Fight Back Reaction before the start of your next turn. This talent does not confirm the correctness of your interpretation, reveal information, or prevent consequences. If the choice is wrong, the outcome is yours to bear. The Long Memory of Stone
+The Weight of My Words Type: Action (Ancestral Witness) • Cost: 1d6 Strain • Usage: 1/Session — You openly commit to a single concrete goal, duty, or line you will not abandon this scene, calling your ancestors to witness the commitment. Until the end of the scene, you gain +1 bonus die on skill rolls and Attack rolls made directly in furtherance of that commitment , but only when the action involves personal risk, hardship, or exposure to consequence. This bonus does not apply to indirect actions, preparation, delegation, manipulation at a distance, or actions taken from safety. While this talent is active, you may not voluntarily abandon the commitment or shift responsibility to another character; if you do, the effect immediately ends. This talent does not guarantee success, negate failure, or prevent consequences; it represents endurance under witnessed obligation, not authority or destiny. Witness to Honor
 `
 
 **Schema + Pattern References:**
@@ -34,6 +34,24 @@ Work Without Turning Aside Type: Passive (Sustained Effort) • Cost: — • Us
 - `HTML_CSS_PATTERN_REFERENCE`: `ghost_of_arcadia.html/.css` pattern for the same ancestry+tier (or nearest matching tier pattern if missing)
 
 ---
+## 0.5) Preventative Controls:
+1. COPY-FIRST, EDIT-SECOND:
+   - REMOVE blocks extracted verbatim from ghost_of_arcadia.html/.css/translation.json
+   - ADD blocks produced by editing extracted text only (no constructed templates)
+
+2. Mandatory pre-output gates (block output on failure):
+   - Local-format parity: type/source inline-vs-expanded matches adjacent ancestry entries
+   - Schema-shape parity: prerequisite string-vs-array matches adjacent ancestry entries
+   - Whitespace lock: unchanged lines are byte-identical; leading whitespace unchanged
+   - Alphabetization by key verified from extracted block order
+
+3. Schema reference limited:
+   - ancestryTalentDataMap.alteri used only to confirm allowed fields, never formatting
+
+4.  Optional 2-step workflow:
+   - Step 1: Return REMOVE excerpts + planned minimal edits (no patch files)
+   - Step 2: Produce patch files only after excerpts are locked
+
 
 ## 1) Allowed inputs and authority
 1. I will **only** use the three uploaded files listed in Patch Parameters.

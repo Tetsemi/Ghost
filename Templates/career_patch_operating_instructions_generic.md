@@ -7,8 +7,8 @@
 - `translation.json`
 
 **Target Career + Scope:**
-- `CAREER_KEY`: `careerDataMap.<career>`
-- `TARGET_TIER`: `1`  *(integer; e.g., 1, 4, 5)*
+- `CAREER_KEY`: `careerDataMap.marksman`
+- `TARGET_TIER`: `2`  *(integer; e.g., 1, 4, 5)*
 - `TIER_FILTER`: `talents.<talent>.tier === TARGET_TIER` *(and include `capstone === true` only if the request says so)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(optional; include only if requested)*
@@ -21,10 +21,16 @@
   - If any entry includes “(choose one)”, it MUST remain “choose one” and be represented as a choice group (see §4).
 
 **Talent Inputs (single source of truth for tier content):**
-- `TIER_TALENTS_INPUT`: `<paste the tier talents table/text here verbatim>`
+- `TIER_TALENTS_INPUT`: `
+Counter-Sniper Drill	Type: Reaction • Cost: — • Usage: 1/Scene — Trigger: You are targeted by a ranged attack from Long or Extreme range. Effect: Make a Perception roll opposed by the attacker’s Stealth. On a success, you pinpoint their position and gain +10% to your next rifle attack against that attacker before the end of your next turn.	Measured Distance
+Kill Chain	Type: Special immediate • Cost: 1 Strain • Usage: 1/Scene — After you hit with a rifle attack that followed Focused Aim, make one additional Single Shot rifle attack at a different target within Short of the original target’s position at –10%. This follow-up does not benefit from Focused Aim, cannot impale regardless of success level, and overrides the Single Shot once-per-turn limit only for this attack.	Cold-Bore
+Quiet Reload	Type: Free Action • Cost: — • Usage: 1/Scene — If you have not moved this round and are not Engaged, you may reload a rifle as a Free Action instead of a Maneuver. This does not allow movement or additional Actions as part of the reload.	Sidearm Bailout
+Relocation Drill	Type: Free Action (after a rifle attack following an Aim action resolves) • Cost: — • Usage: 1/Scene — Immediately take a Move Maneuver to shift one range band. This movement does not grant hiding, does not ignore Disengage, and cannot be used while Engaged.	Braced Position
+Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usage: 1/Scene — Choose one for that attack: remove the penalty die imposed by partial cover, or treat the target as one range band closer for range penalties (cannot exceed the weapon’s maximum band). This effect does not stack with any other ability that treats a target as closer on the same attack.  This effect represents a momentary ballistic read and does not enable shots beyond the weapon’s normal capabilities.	Steady Breath
+`
 
 **Schema + Pattern References:**
-- `SCHEMA_REFERENCE_CAREER`: `careerDataMap.combat_engineer` *(schema only; never copy content)*
+- `SCHEMA_REFERENCE_CAREER`: `careerDataMap.codeweaver` *(schema only; never copy content)*
 - `HTML_CSS_PATTERN_REFERENCE`: `ghost_of_arcadia.html/.css` pattern for the same career+tier (or nearest matching tier pattern if missing)
 
 ---

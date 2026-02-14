@@ -20,8 +20,8 @@ Any branch that would “skip” inserting an INDEX for a tier is a **gate failu
 ## 1) Inputs and Fingerprint Gate
 1. Read **only**: `/mnt/data/ghost_of_arcadia.html` (no other files; no memory/cache).
 2. Compute input fingerprint:
-	- Size: 2667345
-	- SHA256: 113CCB5B369E4F9FFEA116FA3654583F7D985655FC9CDF0CDB1B917440C58FE4
+	- Size: 2678300
+	- SHA256: 9B5E7EFE1E83EFFF810F6F4965A13E72FA5006835FCBD09BCFCB26B7B0B12C87
 3. Compare to user-provided expected values.
 4. If mismatch → **STOP**.
 
@@ -244,6 +244,6 @@ Per tier `N`:
 ---
 
 ## 12) Career Selector Clause (Set Once Per Request)
-49. `CAREER_KEY = street_ronin` (e.g., `marksman`, `icon`, `investigator`)
+49. `CAREER_KEY = codeweaver` (e.g., `marksman`, `icon`, `investigator`)
 
 All other steps are invariant.

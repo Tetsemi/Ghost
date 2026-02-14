@@ -56,8 +56,8 @@ Any branch that would “skip” inserting an INDEX for a required cadence group
 ## 1) Inputs and Fingerprint Gate
 1. Read **only**: `/mnt/data/ghost_of_arcadia.html` (no other files; no memory/cache).
 2. Compute input fingerprint:
-	- Size: 2755368
-	- SHA256: 66EB6C064E7DDB37983E4CC8547F7EAD67E99026457665F6668673BD18CFD9ED
+	- Size: 2772105
+	- SHA256: FC8D3201A10777E7E05B752C6FAA40DC5A321170B81382BED3F8E5CC2E0F346D
 3. Compare to user-provided expected values.
 4. If mismatch → **STOP**.
 
@@ -296,6 +296,6 @@ Per cadence group `C` (scene/session):
 ---
 
 ## 12) Career Selector Clause (Set Once Per Request)
-47. `CAREER_KEY = operator` *(e.g., `marksman`, `icon`, `investigator`)*
+47. `CAREER_KEY = slicer` *(e.g., `marksman`, `icon`, `investigator`)*
 
 All other steps are invariant.

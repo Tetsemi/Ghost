@@ -1,4 +1,4 @@
-### Operating Instructions (Unambiguous) — Career Patch Template (Generic)
+### Operating Instructions (Unambiguous) — Ancestry Patch Template (Generic)
 
 ## 0) Patch Parameters (edit ONLY this block per request)
 **Files (always the same):**
@@ -6,9 +6,9 @@
 - `ghost_of_arcadia.css`
 - `translation.json`
 
-**Target Career + Scope:**
-- `CAREER_KEY`: `careerDataMap.marksman`
-- `TARGET_TIER`: `2`  *(integer; e.g., 1, 4, 5)*
+**Target Ancestry + Scope:**
+- `TALENT_KEY`: `careerTalentDataMap.<career>`
+- `TARGET_TIER`: `1`  *(integer; e.g., 1, 4, 5)*
 - `TIER_FILTER`: `talents.<talent>.tier === TARGET_TIER` *(and include `capstone === true` only if the request says so)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(optional; include only if requested)*
@@ -22,16 +22,12 @@
 
 **Talent Inputs (single source of truth for tier content):**
 - `TIER_TALENTS_INPUT`: `
-Counter-Sniper Drill	Type: Reaction • Cost: — • Usage: 1/Scene — Trigger: You are targeted by a ranged attack from Long or Extreme range. Effect: Make a Perception roll opposed by the attacker’s Stealth. On a success, you pinpoint their position and gain +10% to your next rifle attack against that attacker before the end of your next turn.	Measured Distance
-Kill Chain	Type: Special immediate • Cost: 1 Strain • Usage: 1/Scene — After you hit with a rifle attack that followed Focused Aim, make one additional Single Shot rifle attack at a different target within Short of the original target’s position at –10%. This follow-up does not benefit from Focused Aim, cannot impale regardless of success level, and overrides the Single Shot once-per-turn limit only for this attack.	Cold-Bore
-Quiet Reload	Type: Free Action • Cost: — • Usage: 1/Scene — If you have not moved this round and are not Engaged, you may reload a rifle as a Free Action instead of a Maneuver. This does not allow movement or additional Actions as part of the reload.	Sidearm Bailout
-Relocation Drill	Type: Free Action (after a rifle attack following an Aim action resolves) • Cost: — • Usage: 1/Scene — Immediately take a Move Maneuver to shift one range band. This movement does not grant hiding, does not ignore Disengage, and cannot be used while Engaged.	Braced Position
-Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usage: 1/Scene — Choose one for that attack: remove the penalty die imposed by partial cover, or treat the target as one range band closer for range penalties (cannot exceed the weapon’s maximum band). This effect does not stack with any other ability that treats a target as closer on the same attack.  This effect represents a momentary ballistic read and does not enable shots beyond the weapon’s normal capabilities.	Steady Breath
+
 `
 
 **Schema + Pattern References:**
-- `SCHEMA_REFERENCE_CAREER`: `careerDataMap.codeweaver` *(schema only; never copy content)*
-- `HTML_CSS_PATTERN_REFERENCE`: `ghost_of_arcadia.html/.css` pattern for the same career+tier (or nearest matching tier pattern if missing)
+- `SCHEMA_REFERENCE_TALENT`: `ancestryTalentDataMap.alteri` *(schema only; never copy content)*
+- `HTML_CSS_PATTERN_REFERENCE`: `ghost_of_arcadia.html/.css` pattern for the same ancestry+tier (or nearest matching tier pattern if missing)
 
 ---
 ## 0.5) Preventative Controls:
@@ -56,17 +52,18 @@ Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usa
    - Step 5: Whitespace lock gate (unchanged lines byte-identical)
    - Step 6: Anchor-window gate (don’t remove/re-add unchanged anchors) 
 
+
 ## 1) Allowed inputs and authority
 1. I will **only** use the three uploaded files listed in Patch Parameters.
 2. The pasted Inputs under Patch Parameters are authoritative; update the sheet to match them even if current files differ.
 
 ## 2) Scope and non-scope
-3. Update **only** what is named in `IN_SCOPE_SECTIONS` for `CAREER_KEY` and `TARGET_TIER`.
-4. Do **not** look ahead or modify other careers, other tiers, or unrelated sections.
+3. Update **only** what is named in `IN_SCOPE_SECTIONS` for `TALENT_KEY` and `TARGET_TIER`.
+4. Do **not** look ahead or modify other ancestrys, other tiers, or unrelated sections.
 
 ## 3) Reference/template rules
-5. Use `SCHEMA_REFERENCE_CAREER` **only** for schema shape (field names/types), never as a content template.
-6. For HTML/CSS structure and classes, copy the existing pattern found in the provided files for the targeted career+tier, as declared in `HTML_CSS_PATTERN_REFERENCE`.
+5. Use `SCHEMA_REFERENCE_TALENT` **only** for schema shape (field names/types), never as a content template.
+6. For HTML/CSS structure and classes, copy the existing pattern found in the provided files for the targeted ancestry+tier, as declared in `HTML_CSS_PATTERN_REFERENCE`.
 7. Follow existing sheet conventions strictly (do not invent new structure):
    - Roll20 selector scoping: `.ui-dialog .tab-content .charsheet ...`
    - Class prefixing with `sheet-`
@@ -76,7 +73,7 @@ Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usa
 
 ## 4) Skills representation requirements (when primary_skills / secondary_skills are in scope)
 9. Skill identifiers must use **existing `skillDataMap` keys** from `ghost_of_arcadia.html` (never English labels).
-10. **No plain text skill labels** are allowed in career skill lists.
+10. **No plain text skill labels** are allowed in ancestry skill lists.
 11. Skill display i18n must follow the sheet’s existing skill system; do not create a new skill-i18n scheme.
 12. “(choose one)” is never a specific specialization:
    - If `SECONDARY_SKILLS_INPUT` contains `Survival (choose one)` (or any skill with “choose one”), represent it as a **choice group** containing **all matching specialization keys** in `skillDataMap`.
@@ -100,8 +97,8 @@ Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usa
 ## 6) Required deliverables (files only)
 18. Output **three separate downloadable files**:
    - **HTML patch/snippet** (only the in-scope sections) grouped in this order:
-     1) `careerDataMap` object snippet for `CAREER_KEY` updates within scope
-     2) Career HTML rows for the requested tier/skills (only if the pattern includes those rows here)
+     1) `ancestryDataMap` object snippet for `TALENT_KEY` updates within scope
+     2) Ancestry HTML rows for the requested tier/skills (only if the pattern includes those rows here)
      3) Tracker HTML rows (scene/session as required by usage_limit)
    - **CSS patch/snippet** (only the in-scope selectors) as one complete **ADD / REMOVE** block
    - **JSON patch/snippet** (only the in-scope i18n changes) as **ADD / REMOVE** blocks, alphabetized
@@ -119,8 +116,8 @@ Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usa
 ## 9) Tracker coupling requirements
 24. If a talent has `usage_limit` of **scene** or **session**, it must have:
    - Tracker HTML hooks:
-     - `attr_show_<career>_<talent>`
-     - `attr_used_(scene|session)_<career>_<talent>`
+     - `attr_show_<ancestry>_<talent>`
+     - `attr_used_(scene|session)_<ancestry>_<talent>`
    - Matching Tracker CSS show selector(s) for the `attr_show_*` hook
 25. Tracker coupling is mandatory:
    - Any tracker HTML ADD/REMOVE must have matching CSS selector ADD/REMOVE
@@ -134,15 +131,15 @@ Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usa
    - its i18n keys
 28. “Removed” means removed from ALL required surfaces for this patch.
 
-## 11) i18n rules (career talents)
-29. Career-talent i18n changes must include name + rules/description.
-30. Career talent i18n key format must be exactly:
-   - `career_<career>_<talent>-u`
-   - `career_<career>_<talent>_rules-u`
+## 11) i18n rules (ancestry talents)
+29. Ancestry-talent i18n changes must include name + rules/description.
+30. Ancestry talent i18n key format must be exactly:
+   - `talent_<ancestry>_<talent>-u`
+   - `talent_<ancestry>_<talent>_rules-u`
 31. No duplicate i18n keys may be created.
 32. HTML `data-i18n` must reference keys that exist in the JSON snippet.
 
-## 12) Career data requirements (new source of truth)
+## 12) Ancestry data requirements (new source of truth)
 33. Talent objects must use i18n keys (e.g., `name_key`, `rule_text_key`) rather than hydrated label attrs.
 34. Each talent entry must include (as supported by the established schema/pattern):
    - `tier`
@@ -151,7 +148,7 @@ Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usa
    - `strain`
    - `prerequisite` expression
    - `type`
-   - `source: { doc: "<career>-u", version: "2.260208", date: "2026-02-08", section: "career-u" }`																								  
+   - `source: { doc: "khadra-u", version: "2.260208", date: "2026-02-08", section: "ancestry-u" }`
    - any tracker/icon hooks required by the existing UI
 35. Parse Inputs deterministically:
    - `Type:` → `type`
@@ -174,9 +171,10 @@ Windcall	Type: Passive (declare before a Focused Aim shot) • Cost: — • Usa
 39. Do not output inline HTML/CSS/JSON code blocks in chat.
 40. In chat, include exactly one code block titled “Provenance & Checks” with:
    - Files used (the three filenames)
-   - Career + tier targeted (CAREER_KEY + TARGET_TIER)
+   - Ancestry + tier targeted (TALENT_KEY + TARGET_TIER)
    - Counts: talents updated/added, skills added/changed, i18n keys added/changed
    - Validations performed list
-   - Patch Manifest lines for: careerDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse
+   - Patch Manifest lines for: ancestryDataMap, Tier rows, Tracker rows, CSS show-selectors, i18n keys, skill-key validation, JSON parse
 41. If any gate fails, regenerate within the same response.
 42. If there are no changes, produce a no-op (do not output identical ADD/REMOVE blocks).
+

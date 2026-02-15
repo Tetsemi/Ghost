@@ -22,7 +22,7 @@
   - `<input type="hidden" name="attr_show_<career>_<talentKey>" ... />`
   - followed by `<div class="sheet-tracker-item sheet-tracker-<cadence> sheet-<career>-<talentKey-dashed>"> ... </div>`
 - `trackerCadence` is determined from the `.sheet-tracker-scene` / `.sheet-tracker-session` class.
-- `dataCadence` is `careerDataMap.<career>.talents.<talentKey>.usage_limit`, normalized to `scene|session|campaign|none`.
+- `dataCadence` is `careerDataMap.<career>.talents.<talentKey>.usage_limit`, normalized to `scene|session|campaign|none`, `usage_limit: "" = none`
 
 ## Required report output
 Produce a **pure ordering diagnosis report** (no edits) containing:
@@ -56,8 +56,8 @@ Any branch that would “skip” inserting an INDEX for a required cadence group
 ## 1) Inputs and Fingerprint Gate
 1. Read **only**: `/mnt/data/ghost_of_arcadia.html` (no other files; no memory/cache).
 2. Compute input fingerprint:
-	- Size: 2772105
-	- SHA256: FC8D3201A10777E7E05B752C6FAA40DC5A321170B81382BED3F8E5CC2E0F346D
+	- Size: 2798036
+	- SHA256: 277BFB5EA9C81B10EEE661A1A9F363C81A4526A4AE6D6C87F24CE5792142A014
 3. Compare to user-provided expected values.
 4. If mismatch → **STOP**.
 
@@ -296,6 +296,6 @@ Per cadence group `C` (scene/session):
 ---
 
 ## 12) Career Selector Clause (Set Once Per Request)
-47. `CAREER_KEY = slicer` *(e.g., `marksman`, `icon`, `investigator`)*
+47. `CAREER_KEY = soul_forger` *(e.g., `marksman`, `icon`, `investigator`)*
 
 All other steps are invariant.

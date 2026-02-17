@@ -555,6 +555,7 @@ button.new-roll {
   box-sizing: border-box;
   align-items: center;
 }
+
 .ui-dialog .tab-content .charsheet .sheet-grid-characteristics-lower .sheet-grid-inline {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -590,6 +591,70 @@ button.new-roll {
   margin: 0px 0px 0px 10px;
   height: 40px; /* Or a fixed height like 100% or 40px */
 }
+
+/* --- Top section collapse toggle (Ghost Info + Characteristics) --- */
+
+.ui-dialog .tab-content .charsheet input.sheet-top-collapse {
+	display: none;
+}
+
+/* Make the label act like a “click target” on the right side of the header */
+.ui-dialog .tab-content .charsheet .sheet-section-head {
+	position: relative;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-top-collapse-hit {
+	position: absolute;
+	right: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+	/* optional: give it a subtle visible affordance */
+	border: 1px solid rgba(0,0,0,0.35);
+	border-radius: 3px;
+}
+
+/* Optional: show a simple indicator (collapsed/expanded) */
+.ui-dialog .tab-content .charsheet .sheet-top-collapse-hit::after {
+	content: "–";
+	display: block;
+	text-align: center;
+	line-height: 16px;
+	font-weight: bold;
+}
+
+
+/* ------------------------ Ancestry - Collapsible Trait Groups - Start ------------------------ */
+.ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-racial-traits {
+	position: relative;
+}
+
+/* Collapse: hide bodies only (headers remain visible) */
+.ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-racial-traits input.sheet-top-collapse:checked
+~ .sheet-section-body {
+	display: none;
+}
+
+/* Indicator swap when collapsed */
+.ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-racial-traits input.sheet-top-collapse:checked
+~ h4 .sheet-top-collapse-hit::after {
+	content: "+";
+}
+/* ------------------------ Ancestry - Collapsible Trait Groups - End -------------------------- */
+/* When collapsed (checkbox checked), switch indicator */
+.ui-dialog .tab-content .charsheet .sheet-top-2col input.sheet-top-collapse:checked
+~ .sheet-section .sheet-top-collapse-hit::after {
+	content: "+";
+}
+
+/* The actual collapse: hide section bodies only (headers remain visible) */
+.ui-dialog .tab-content .charsheet .sheet-top-2col input.sheet-top-collapse:checked
+~ .sheet-section .sheet-section-body {
+	display: none;
+}
+
 
 /* ---------------------------- */
 /* Spenders Section Layout      */
@@ -1266,13 +1331,18 @@ select[name="attr_damage_bonus"] {
 /* Tab Button Bar Styling */
 .ui-dialog .tab-content .charsheet .sheet-tab-buttons {
   display: flex;
-  height: 25px;
+  flex-wrap: wrap;          /* allow wrapping */
+  height: auto;             /* let it grow when it wraps */
   width: 100%;
-  justify-content: space-around;
+  justify-content: flex-start; /* or flex-start if you prefer left-aligned rows */
+  box-sizing: border-box;
+  background: #444;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tab-buttons button {
-  flex: 1;
+  flex: 1 1 100px;          /* grow, shrink, min basis 100px */
+  min-width: 100px;         /* explicit min */
+  max-width: 104.75px;
   background-color: #444;
   color: white;
   font-weight: bold;
@@ -1281,9 +1351,8 @@ select[name="attr_damage_bonus"] {
   font-size: 90%;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  box-sizing: border-box;
 }
-
-
 
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="skills"] ~ .sheet-tab-buttons button[name="act_skills"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="perks"] ~ .sheet-tab-buttons button[name="act_perks"],
@@ -1302,6 +1371,26 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="ledger"] ~ .sheet-tab-buttons button[name="act_ledger"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="tracker"] ~ .sheet-tab-buttons button[name="act_tracker"] {
   background-color: #222;
+}
+
+/* Hide the mirror controller itself */
+.ui-dialog .tab-content .charsheet .sheet-char-creation-lock-controller {
+	display: none;
+}
+
+/* If Character Creation is locked, hide Perks + Flaws tab buttons */
+.ui-dialog .tab-content .charsheet
+.sheet-char-creation-lock-controller[name="attr_char_creation_lock"][value="1"]:checked
+~ .sheet-tab-buttons button[name="act_perks"],
+.ui-dialog .tab-content .charsheet
+.sheet-char-creation-lock-controller[name="attr_char_creation_lock"][value="1"]:checked
+~ .sheet-tab-buttons button[name="act_flaws"] {
+	display: none;
+}
+
+/* If not Awakened, hide Spells tab button */
+.ui-dialog .tab-content .charsheet input[name="attr_awakened"][value="0"] ~ .sheet-tab-buttons button[name="act_spells"] {
+	display: none;
 }
 
 /* ---------------------- Skill Section --------------------------------------------- */
@@ -6568,52 +6657,31 @@ button[type="roll"]:hover.new-roll {
 
 /* ------------------------ Summary Text - Start ---------------------------------------------------- */
 
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible {
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible {
 	position: relative;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible label {
-	background: black;
-	margin: 0px;
+/* hide bodies by default (closed) */
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-section-body {
+	display: none;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible h3 {
-	color: #ccc;
-	font-size: 85%;
-	margin-left: 6px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-toggle {
-	position: absolute;
-	opacity: 0;
-	width: 0;
-	height: 0;
-	pointer-events: none;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-header {
-	display: block;
-	cursor: pointer;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-body {
-	display: none; /* collapsed by default */
-}
-
-/* expand */
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-summary-body {
+/* expand when checked (open) */
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-section-body {
 	display: block;
 }
 
-/* optional: chevron */
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-header::after {
-	content: "▸";
-	float: right;
-	opacity: 0.8;
+/* indicator: + when closed, – when open */
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-top-collapse-hit::after {
+	content: "+";
+	display: block;
+	text-align: center;
+	line-height: 16px;
+	font-weight: bold;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-summary-header::after {
-	content: "▾";
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-summary-header .sheet-top-collapse-hit::after {
+	content: "–";
 }
 
 /* ------------------------ Summary Text - End---------------------------------------------------- */
@@ -6635,18 +6703,6 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-header {
 	background: #444;
 	border-left: 4px solid rgba(80, 140, 210, 0.75);
-}
-
-/* Optional: disclosure caret */
-.ui-dialog .tab-content .charsheet .sheet-summary-header::after {
-	content: "▸";
-	float: right;
-	opacity: 0.7;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-header::after {
-	content: "▾";
-	opacity: 0.9;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-body {
@@ -6680,7 +6736,7 @@ button[type="roll"]:hover.new-roll {
 	display: none;
 	flex: 1 1 auto;
 	min-width: 0;
-	padding-right: 26px; /* space for the ? handle */
+	padding-right: 24px; /* space for the ? handle */
 }
 
 /* 3) Ensure the drawer can never "bleed" when the main section is closed */
@@ -6707,8 +6763,9 @@ button[type="roll"]:hover.new-roll {
 	margin-top: 2px;
 	line-height: 18px;
 	text-align: center;
-	background: rgba(0,0,0,0.20);
+	background: rgba(0,0,0,1);
 	z-index: 10;
+	margin-right: 8px;
 }
 
 /* Only show the handle when the main section is open */
@@ -6720,7 +6777,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-summary-drawer {
 	display: none;
 	position: absolute;
-	right: 24px;
+	right: 28px;
 	top: 0;
 	z-index: 5;
 
@@ -6747,6 +6804,32 @@ button[type="roll"]:hover.new-roll {
 	white-space: pre-line;
 }
 
+/* Summary Type: the +/– indicator lives on the hit label */
+.ui-dialog .tab-content .charsheet .sheet-summary-type .sheet-top-collapse-hit::after {
+	content: "+";
+	display: block;
+	text-align: center;
+	line-height: 16px;
+	font-weight: bold;
+}
+
+/* When OPEN (checkbox checked), show – */
+.ui-dialog .tab-content .charsheet .sheet-summary-type
+.sheet-summary-collapsible > .sheet-summary-toggle:checked ~ .sheet-summary-header .sheet-top-collapse-hit::after {
+	content: "–";
+}
+
+/* If you want the row hidden when CLOSED (unchecked), do this (matches your structure) */
+.ui-dialog .tab-content .charsheet .sheet-summary-type
+.sheet-summary-collapsible > .sheet-summary-toggle:not(:checked) ~ .sheet-summary-row {
+	display: none;
+}
+
+/* (Optional) ensure the row is visible when OPEN, in case another rule overrides it */
+.ui-dialog .tab-content .charsheet .sheet-summary-type
+.sheet-summary-collapsible > .sheet-summary-toggle:checked ~ .sheet-summary-row {
+	display: flex;
+}
 
 /* ------------------------ Summary Type - End ---------------------------------------------------- */
 

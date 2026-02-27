@@ -365,7 +365,7 @@
 		<input type="checkbox" class="sheet-char-creation-lock-controller" name="attr_char_creation_lock" value="1"/>
 
 		<!-- Awakened state controller (drives CSS gating for tab buttons) -->
-		<input type="hidden" class="sheet-awakened-controller" name="attr_awakened" value="0"/>
+		<input type="hidden" class="sheet-awakened-controller" name="attr_awakened_css" value="0"/>
 
 
 		<!-- Tab Buttons -->
@@ -46433,6 +46433,12 @@ on("change:repeating_minion:npc_weapon_skill1 change:repeating_minion:npc_weapon
         setAttrs(updates);
       });
 	});
+});
+
+on("change:awakened", function() {
+    getAttrs(["awakened"], function(values) {
+        setAttrs({ awakened_css: values.awakened === "1" ? "1" : "0" });
+    });
 });
 
 /*	Watchers Section - End */

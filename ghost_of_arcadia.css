@@ -957,8 +957,8 @@ select[name="attr_damage_bonus"] {
     box-sizing: border-box;
 }
 
-/* Edit Mode Button */
-.ui-dialog .tab-content .charsheet .sheet-edit-toggle button[name="act_edit_mode"] {
+/* Edit Mode Button - Default / OFF state */
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * button[name="act_edit_mode"] {
   width: 100%;
   background-color: #444;        /* Default OFF = dark gray */
   color: white;
@@ -970,10 +970,17 @@ select[name="attr_damage_bonus"] {
   border: 1px solid black;
 }
 
-/* Active Edit Mode ON = black with yellow text */
-.ui-dialog .tab-content .charsheet .sheet-edit-toggle input[name="attr_edit_mode"][value="on"] ~ button[name="act_edit_mode"] {
+/* Edit Mode Button - ON state */
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * button[name="act_edit_mode"] {
+  width: 100%;
   background-color: black;
   color: yellow;
+  font-weight: bold;
+  padding: 6px 0;
+  font-size: 90%;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid black;
 }
 
 /* ---------------------------- */

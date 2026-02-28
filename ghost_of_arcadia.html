@@ -31115,9 +31115,9 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
-const debug_on_trace = false;
-const debug_on_watcher = false;
+const debug_on = true;
+const debug_on_trace = true;
+const debug_on_watcher = true;
 
 const SHEET_VERSION = "2.26.02.276";
 const SHEET_BUILD   = "2026-02-27"; // optional (date, short SHA, etc.)
@@ -41648,6 +41648,7 @@ let careerTabWatchersReady = false;
 let careerReadyWatchersReady = false;
 let BG_LIMITER_V2_REGISTERED = false;
 let careerReadyUpdateQueued = false;
+let sheetInitComplete = false;
 let MIRROR_SKILL_INDEX = null;
 
 /* Initialization Section - Start  */
@@ -41666,7 +41667,7 @@ const UI_ORDER_ATTR   = `_reporder_repeating_${SECTION}`; // UI drag writes this
 const CODE_ORDER_ATTR =  `reporder_repeating_${SECTION}`;  // setSectionOrder writes this
 
 const guarded = (fn) => (...args) => {
-  if (IS_BOOTSTRAPPING || SILENT_DEPTH > 0) return;
+    if (IS_BOOTSTRAPPING || SILENT_DEPTH > 0 || !sheetInitComplete) return;
   fn(...args);
 };
 
@@ -41687,12 +41688,15 @@ const safeGetAttrs = (keys, cb) => {
 };
 
 const scheduleCareerReadyUpdate = () => {
+  if (!sheetInitComplete) return; // suppress during initialization cascade
   if (careerReadyUpdateQueued) return;
   careerReadyUpdateQueued = true;
+																			   
 
   setTimeout(() => {
-	if (!hasActiveChar()) return;
-	updateCareerReadyState();
+    careerReadyUpdateQueued = false;
+    if (!hasActiveChar()) return;
+    updateCareerReadyState();
   }, 0);
 };
 
@@ -42139,8 +42143,8 @@ const registerBackgroundSkillLimiterV2 = () => {
 	});
 };
 
-const registerRacialTraitsSkillSummaryWatcher = () => {
-  if (debug_on_trace) console.log("[registerRacialTraitsSkillSummaryWatcher] Start");
+const recalcRacialTraitsSkillSummary = () => {
+  if (debug_on_trace) console.log("[recalcRacialTraitsSkillSummary] Start");
 
   const tr = (k) =>
     (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
@@ -42291,7 +42295,7 @@ const registerTalentSkillBonusWatchers = () => {
   });
 };
 
-const calculateAndUpdateSkillValues = (racePrefix, values) => {
+const calculateAndUpdateSkillValues = (racePrefix, values, options = {}) => {
   if (debug_on_trace) console.log ("[calculateAndUpdateSkillValues] Start");
 
   const allSkills = Object.keys(skillDataMap || {});
@@ -42404,8 +42408,7 @@ const calculateAndUpdateSkillValues = (racePrefix, values) => {
   const baseUniversal = parseInt(values.magic_universal_skill_mdr, 10) || 0;
   update.magic_universal_mdr = Math.max(...schoolValues) + baseUniversal;
 
-  setAttrs(update);
-
+  setAttrs(update, options.silent ? { silent: true } : {});
 
 };
 
@@ -43728,11 +43731,22 @@ const updateCareerReadyState = (callback) => {
                   }
                 });
                 if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
-                setAttrs(output, { silent: true }, callback);
+                // Skip write if nothing changed
+                const readyKeys = Object.keys(output);
+                getAttrs(readyKeys, existing => {
+                  const changed = readyKeys.some(k => existing[k] !== output[k]);
+                  if (changed) setAttrs(output, { silent: true }, callback);
+                  else if (typeof callback === "function") callback();
+                });
               });
             } else {
               if (debug_on) console.log("[updateCareerReadyState] Final Output:", output);
-              setAttrs(output, { silent: true }, callback);
+              const readyKeys = Object.keys(output);
+              getAttrs(readyKeys, existing => {
+                const changed = readyKeys.some(k => existing[k] !== output[k]);
+                if (changed) setAttrs(output, { silent: true }, callback);
+                else if (typeof callback === "function") callback();
+              });
             }
           });
         };
@@ -43971,26 +43985,6 @@ const registerMirrorSkillWatcher = () => {
   on(allEvents.join(" "), (evt) => mirrorSkillCheckboxes(evt));
 };
 
-const clearCareerTrackers = (career) => {
-    const updates = {};
-    const talents = (careerDataMap[career] && careerDataMap[career].talents) || {};
-
-    Object.entries(talents).forEach(([talentKey, meta]) => {
-        // Always clear the reveal flag so the tracker hides
-        updates[`show_${career}_${talentKey}`] = "0";
-
-        // Clear the usage checkbox that matches the talent's limit
-        if (meta.usage_limit === "session") {
-            updates[`used_session_${career}_${talentKey}`] = "0";
-        } else if (meta.usage_limit === "scene") {
-            updates[`used_scene_${career}_${talentKey}`] = "0";
-        }
-        // No-restriction talents don't have a per-scene/session tracker; nothing to clear there.
-    });
-
-    setAttrs(updates);
-};
-
 const cleanupInactiveCareers = () => {
   if (debug_on_trace) console.log("[cleanupInactiveCareers] Start");
 
@@ -44023,16 +44017,15 @@ const cleanupInactiveCareers = () => {
         updates[`show_${career}_${talentKey}`] = "0";
 
         // Clear the appropriate usage box if it exists for this talent
-		const lim = meta?.usage_limit ?? "";
+        const lim = meta?.usage_limit ?? "";
 
-		if (hasLimit(lim, "session")) {
-			updates[`used_session_${career}_${talentKey}`] = "0";
-		}
+        if (hasLimit(lim, "session")) {
+          updates[`used_session_${career}_${talentKey}`] = "0";
+        }
 
-		if (hasLimit(lim, "scene")) {
-		updates[`used_scene_${career}_${talentKey}`] = "0";
-		}
-
+        if (hasLimit(lim, "scene")) {
+          updates[`used_scene_${career}_${talentKey}`] = "0";
+        }
 
         // Reset gates so nothing remains visually enabled/locked for an inactive career
         updates[`${career}_${talentKey}_enabled`] = "0";
@@ -44040,19 +44033,19 @@ const cleanupInactiveCareers = () => {
       });
     });
 
-    // Silent batch so we don't trigger watcher storms
-    setAttrs(updates, { silent: true }, mirrorSkillCheckboxes);
-	setAttrs({ xpledger_recalc_tick: String(Date.now()) });
-
     if (debug_on) console.log("[Career Cleanup] Inactive careers cleared:", updates);
+
+    // Silent batch — fire recalc tick only after attrs have landed
+    setAttrs(updates, { silent: true }, () => {
+      mirrorSkillCheckboxes();
+      setAttrs({ xpledger_recalc_tick: String(Date.now()) });
+    });
   });
 };
 
 const runCleanupInactiveCareers = () => {
-    if (debug_on_trace) console.log("[cleanupInactiveCareers] run");
-    beginSilent();
-    cleanupInactiveCareers();
-    endSilent();
+  if (debug_on_trace) console.log("[runCleanupInactiveCareers] Start");
+  cleanupInactiveCareers();
 };
 
 const getUsageLimitedTalentNames = (limitType) => {
@@ -44273,7 +44266,7 @@ const bootstrapGlobalWatchersOnce = () => {
   registerBackgroundTabWatchers();
   registerPerkSummaryWatcher();
   registerFlawSummaryWatcher();
-  registerRacialTraitsSkillSummaryWatcher();
+											
   registerCareerTalentSummaryWatcher();
   registerMirrorSkillWatcher();
   registerTrainedSkillsSummaryWatcher();
@@ -44444,10 +44437,8 @@ const initializeSheetOnOpen = (eventInfo) => {
       // Minimal, on-demand race watchers
       ensureRaceWatchers(race);
 
-      // Seed/reset core values BEFORE recompute
-      if (typeof resetAllMDRToBase === "function") resetAllMDRToBase();
-      if (typeof setDefaultSkillBonuses === "function") setDefaultSkillBonuses(race);
-      if (typeof setDefaultTalentBonuses === "function") setDefaultTalentBonuses(race);
+      // Note: resetAllMDRToBase and setDefaultTalentBonuses are both called
+      // silently as the first steps inside initializeRaceState — no need to pre-fire them here.
       if (typeof setLanguage === "function") setLanguage(race);
 
       // Re-apply race state (pure state apply + internal recompute paths)
@@ -44461,6 +44452,7 @@ const initializeSheetOnOpen = (eventInfo) => {
       applyRaceState();
       applyTranslationsOnOpen(() => {
         if (debug_on_trace) console.log("[initializeSheetOnOpen] Done");
+        sheetInitComplete = true;
       });
     };
 
@@ -44752,7 +44744,7 @@ function initializeRaceState(race) {
         });
 
         getAttrs(Array.from(toRead), (values) => {
-          calculateAndUpdateSkillValues(race, values); // exactly once
+          calculateAndUpdateSkillValues(race, values, { silent: true }); // exactly once, silent to avoid watcher cascade
           setTimeout(endSilent, 0);
 
         });
@@ -45161,7 +45153,7 @@ function ensureRaceWatchers(race) {
   if (registeredRaces.has(race)) return;
 
   if (typeof registerTalentSummaryWatcher === "function") registerTalentSummaryWatcher(race);
-  registerRacialTraitsSkillSummaryWatcher();
+  recalcRacialTraitsSkillSummary();
 
   registeredRaces.add(race);
 }
@@ -45958,7 +45950,7 @@ on("change:showracials change:recompute_nonce", (evt) => {
     }
 
     setLanguage(race);
-    registerRacialTraitsSkillSummaryWatcher();
+    recalcRacialTraitsSkillSummary();
     initializeRaceState(race); // does one recompute at the end
 	ensureRaceWatchers(race);
 
@@ -46077,7 +46069,7 @@ on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
 
 		setAttrs({ [displayAttr]: skillValue,
 			[strainAttr]: strainPenalty
-		});
+		}, { silent: true });
 	});
   });
 });
@@ -46138,7 +46130,7 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xp_spent_career_specialist change:xp_spent_career_talent change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reputation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
+on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xp_spent_career_specialist change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reputation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
     if (debug_on_trace) console.log ("[change:background_xp] Start");
     getAttrs([
         "background_xp",
@@ -46183,7 +46175,7 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
     });
 });
 
-on("clicked:ledger change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {
+on("clicked:ledger change:repeating_ledger:ledger_choice change:repeating_ledger:ledger_choice_value change:repeating_ledger:ledger_choice_value_skill remove:repeating_ledger", function () {
     if (debug_on_trace) console.log("[change:repeating_ledger:ledger_choice] Start");
 
     getSectionIDs("repeating_ledger", function (ids) {

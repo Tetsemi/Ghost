@@ -42754,7 +42754,12 @@ const registerPrimaryCareerXPWatcher = () => {
 
     const allEvents = [...talentChangeEvents, ...otherTriggers];
 
+									  
     on(allEvents.join(" "), function (evt) {
+										   
+												 
+									  
+									 
        if (debug_on) console.log("=== Primary Career XP Calculation Triggered ===");
 
         getAttrs(["primary_career"], function (values) {
@@ -42841,6 +42846,7 @@ const registerPrimaryCareerXPWatcher = () => {
                 setAttrs(updates);
             });
         });
+			
     });
 };
 
@@ -45223,7 +45229,13 @@ function registerStatHandler() {
 
     if (debug_on) console.log("[registerStatHandler Init] Watching:", watched);
 
+							  
+
     on(watched.map(s => `change:${s}`).join(" "), () => {
+								   
+										 
+							  
+								  
         getAttrs(watched, values => {
 		    const iage = parseInt(values.age, 10) || 0;
 			const istr = parseInt(values.str, 10) || 0;
@@ -45391,6 +45403,7 @@ function registerStatHandler() {
 
             setAttrs(update);
         });
+		 
     });
 }
 

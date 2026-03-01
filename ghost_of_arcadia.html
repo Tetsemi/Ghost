@@ -35232,349 +35232,403 @@ const backgroundDataMap = {
 }
 
 const careerDataMap = {
-	/* Arcane Career */
 	codeweaver: {
-        name: "Codeweaver",
-        career_type: "arcane",
-        career_type_name: "Arcane",
+		name: "Codeweaver",
+		career_type: "arcane",
+		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
-        skill_points_secondary: 20,
-        spell_xp_primary: 30,
-        spell_xp_secondary: 0,
-        primary_skills: {
+		skill_points_secondary: 20,
+		spell_xp_primary: 30,
+		spell_xp_secondary: 0,
+		primary_skills: {
 			computer_use: "computer_use-u",
-            electronics: "electronics-u",
-            magic_technomancy: "magic_technomancy-u",
-            slicing: "slicing-u"
-        },
-        secondary_skills: {
-            arcana: "arcana-u",
-            arcanotech: "arcanotech-u",
-            drone_operation: "drone_operation-u",
-            perception: "perception-u",
+			electronics: "electronics-u",
+			magic_technomancy: "magic_technomancy-u",
+			slicing: "slicing-u"
+		},
+		secondary_skills: {
+			arcana: "arcana-u",
+			arcanotech: "arcanotech-u",
+			drone_operation: "drone_operation-u",
+			perception: "perception-u",
 			security: "security-u",
-            spirit_lore: "spirit_lore-u"
-        },
+			spirit_lore: "spirit_lore-u"
+		},
+		exclusive_skill_sets: [],
 		entry_requirements: {
 			all: [
 				{ type: "awakened" }
 			]
 		},
-        talents: {
-            hardlight_override: {
+		talents: {
+			hardlight_override: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_codeweaver_hardlight_override-u",
 				rule_text_key: "career_codeweaver_hardlight_override_rules-u",
+				type: { economy: "maneuver", tag: "override" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy", "slicing" ],
-                prerequisite: "",
-                tier: 1,
-                cost: 5,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "maneuver", tag: "override" }
-            },
-            recursive_pulse: {
+				prerequisite: ""
+			},
+			recursive_pulse: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_codeweaver_recursive_pulse-u",
 				rule_text_key: "career_codeweaver_recursive_pulse_rules-u",
+				type: { economy: "reaction", tag: "retry" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy", "slicing" ],
-                prerequisite: "",
-                tier: 1,
-                cost: 5,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "reaction", tag: "retry" }
-            },
-            signal_sync: {
+				prerequisite: ""
+			},
+			signal_sync: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_codeweaver_signal_sync-u",
 				rule_text_key: "career_codeweaver_signal_sync_rules-u",
+				type: { economy: "free_action", tag: "setup" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy", "slicing" ],
-                prerequisite: "",
-                tier: 1,
-                cost: 5,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "free_action", tag: "setup" }
-            },
-            strain_buffer: {
+				prerequisite: ""
+			},
+			strain_buffer: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_codeweaver_strain_buffer-u",
 				rule_text_key: "career_codeweaver_strain_buffer_rules-u",
-                prerequisite: "",
-                tier: 1,
-                cost: 5,
-                capstone: false,
-                usage_limit: "",
-				type: { economy: "passive" }
-            },
+				type: { economy: "passive" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: [],
+				prerequisite: ""
+			},
 			veil_thread_tap: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_codeweaver_veil_thread_tap-u",
 				rule_text_key: "career_codeweaver_veil_thread_tap_rules-u",
+				type: { economy: "maneuver", tag: "scan" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "perception", "slicing" ],
-                prerequisite: "",
-                tier: 1,
-                cost: 5,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "maneuver", tag: "scan" }
-            },
-            arc_sigil_link: {
+				prerequisite: ""
+			},
+			arc_sigil_link: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_codeweaver_arc_sigil_link-u",
 				rule_text_key: "career_codeweaver_arc_sigil_link_rules-u",
+				type: { economy: "passive", tag: "skill_substitution" },
+				strain: "",
+				usage_limit: "",
 				affected_skill: [ "computer_use", "electronics", "magic_technomancy" ],
-                prerequisite: "veil_thread_tap",
-                tier: 2,
-                cost: 10,
-                capstone: false,
-                usage_limit: "",
-				type: { economy: "passive", tag: "skill_substitution" }
-            },
-            clean_loop_feedback: {
+				prerequisite: "veil_thread_tap"
+			},
+			clean_loop_feedback: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_codeweaver_clean_loop_feedback-u",
 				rule_text_key: "career_codeweaver_clean_loop_feedback_rules-u",
+				type: { economy: "free_action", tag: "stabilize" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy" ],
-                prerequisite: "",
-                prerequisiteAny: { tier: 1, count: 1 },
-                tier: 2,
-                cost: 10,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "free_action", tag: "stabilize" }
-            },
-            code_injection: {
+				prerequisite: "",
+				prerequisiteAny: { tier: 1, count: 1 }
+			},
+			code_injection: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_codeweaver_code_injection-u",
 				rule_text_key: "career_codeweaver_code_injection_rules-u",
+				type: { economy: "free_action", tag: "payload" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy", "slicing" ],
-                prerequisite: "signal_sync",
-                tier: 2,
-                cost: 10,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "free_action", tag: "payload" }
-            },
-            pulse_hijack: {
+				prerequisite: "signal_sync"
+			},
+			pulse_hijack: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_codeweaver_pulse_hijack-u",
 				rule_text_key: "career_codeweaver_pulse_hijack_rules-u",
+				type: { economy: "maneuver", tag: "control" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy", "slicing" ],
-                prerequisite: "hardlight_override",
-                tier: 2,
-                cost: 10,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "maneuver", tag: "control" }
-            },
-            scramble_protocol: {
+				prerequisite: "hardlight_override"
+			},
+			scramble_protocol: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_codeweaver_scramble_protocol-u",
 				rule_text_key: "career_codeweaver_scramble_protocol_rules-u",
-                prerequisite: "recursive_pulse",
-                tier: 2,
-                cost: 10,
-                capstone: false,
-                usage_limit: "",
-				type: { economy: "maneuver", tag: "debuff" }
-            },
-            arc_thread_override: {
+				type: { economy: "maneuver", tag: "debuff" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: [],
+				prerequisite: "recursive_pulse"
+			},
+			arc_thread_override: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_codeweaver_arc_thread_override-u",
 				rule_text_key: "career_codeweaver_arc_thread_override_rules-u",
+				type: { economy: "reaction", tag: "spell" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy" ],
-                prerequisite: "code_injection",
-                tier: 3,
-                cost: 15,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "reaction", tag: "spell" }
-            },
-            cascade_override: {
+				prerequisite: "code_injection"
+			},
+			cascade_override: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_codeweaver_cascade_override-u",
 				rule_text_key: "career_codeweaver_cascade_override_rules-u",
-                prerequisite: "pulse_hijack",
-                tier: 3,
-                cost: 15,
-                capstone: false,
-                usage_limit: "session",
-				type: { economy: "special_immediate", tag: "chain" }
-            },
-            null_interference_field: {
+				type: { economy: "special_immediate", tag: "chain" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "pulse_hijack"
+			},
+			null_interference_field: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_codeweaver_null_interference_field-u",
 				rule_text_key: "career_codeweaver_null_interference_field_rules-u",
-                prerequisite: "scramble_protocol",
-                tier: 3,
-                cost: 15,
-                capstone: false,
-                usage_limit: "",
-				type: { economy: "maneuver", tag: "field" }
-            },
-            subroutine_leash: {
+				type: { economy: "maneuver", tag: "field" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: [],
+				prerequisite: "scramble_protocol"
+			},
+			subroutine_leash: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_codeweaver_subroutine_leash-u",
 				rule_text_key: "career_codeweaver_subroutine_leash_rules-u",
-                prerequisite: "arc_sigil_link",
-                tier: 3,
-                cost: 15,
-                capstone: false,
-                usage_limit: "",
-				type: { economy: "passive", tag: "control" }
-            },
-            synthetic_harmony: {
+				type: { economy: "passive", tag: "control" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: [],
+				prerequisite: "arc_sigil_link"
+			},
+			synthetic_harmony: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_codeweaver_synthetic_harmony-u",
 				rule_text_key: "career_codeweaver_synthetic_harmony_rules-u",
+				type: { economy: "free_action", tag: "tempo" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy" ],
-                prerequisite: "",
-                prerequisiteAny: { tier: 2, count: 1 },
-                tier: 3,
-                cost: 15,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "free_action", tag: "tempo" }
-            },
-            backdoor_ritual: {
+				prerequisite: "",
+				prerequisiteAny: { tier: 2, count: 1 }
+			},
+			backdoor_ritual: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_codeweaver_backdoor_ritual-u",
 				rule_text_key: "career_codeweaver_backdoor_ritual_rules-u",
-                prerequisite: "arc_thread_override",
-                tier: 4,
-                cost: 20,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "maneuver", tag: "anchor" }
-            },
-            command_injection: {
+				type: { economy: "maneuver", tag: "anchor" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "arc_thread_override"
+			},
+			command_injection: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_codeweaver_command_injection-u",
 				rule_text_key: "career_codeweaver_command_injection_rules-u",
+				type: { economy: "free_action", tag: "multicommand" },
+				strain: "",
+				usage_limit: "scene",
 				affected_skill: [ "magic_technomancy" ],
-                prerequisite: "subroutine_leash",
-                tier: 4,
-                cost: 20,
-                capstone: false,
-                usage_limit: "scene",
-				type: { economy: "free_action", tag: "multicommand" }
-            },
-            crash_field: {
+				prerequisite: "subroutine_leash"
+			},
+			crash_field: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_codeweaver_crash_field-u",
 				rule_text_key: "career_codeweaver_crash_field_rules-u",
-                prerequisite: "null_interference_field",
-                tier: 4,
-                cost: 20,
-                capstone: false,
-                usage_limit: "session",
-				type: { economy: "maneuver", tag: "field" }
-            },
-            live_patch_redirect: {
+				type: { economy: "maneuver", tag: "field" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "null_interference_field"
+			},
+			live_patch_redirect: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_codeweaver_live_patch_redirect-u",
 				rule_text_key: "career_codeweaver_live_patch_redirect_rules-u",
-                prerequisite: "arc_thread_override",
-                tier: 4,
-                cost: 20,
-                capstone: false,
-                usage_limit: "session",
-				type: { economy: "reaction", tag: "guard_redirect" }
-            },
-            veil_reactor_stabilizer: {
+				type: { economy: "reaction", tag: "guard_redirect" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "arc_thread_override"
+			},
+			veil_reactor_stabilizer: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_codeweaver_veil_reactor_stabilizer-u",
 				rule_text_key: "career_codeweaver_veil_reactor_stabilizer_rules-u",
-                prerequisite: "",
-				prerequisiteAny: { tier: 3, count: 1 },
-                tier: 4,
-                cost: 20,
-                capstone: false,
-                usage_limit: "session",
-				type: { economy: "reaction", tag: "catastrophe_guard" }
-            },
-            overcode_detonation: {
+				type: { economy: "reaction", tag: "catastrophe_guard" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "",
+				prerequisiteAny: { tier: 3, count: 1 }
+			},
+			overcode_detonation: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_codeweaver_overcode_detonation-u",
 				rule_text_key: "career_codeweaver_overcode_detonation_rules-u",
-                prerequisite: "crash_field",
-                tier: 5,
-                cost: 30,
-                capstone: true,
-                usage_limit: "session",
-				type: { economy: "action", tag: "network_field" }
-            },
-            protocol_ascendance: {
+				type: { economy: "action", tag: "network_field" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "crash_field"
+			},
+			protocol_ascendance: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_codeweaver_protocol_ascendance-u",
 				rule_text_key: "career_codeweaver_protocol_ascendance_rules-u",
-                prerequisite: "backdoor_ritual",
-                tier: 5,
-                cost: 30,
-                capstone: true,
-                usage_limit: "session",
-				type: { economy: "action", tag: "rule_override" }
-            },
-            reality_patch: {
+				type: { economy: "action", tag: "rule_override" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "backdoor_ritual"
+			},
+			reality_patch: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_codeweaver_reality_patch-u",
 				rule_text_key: "career_codeweaver_reality_patch_rules-u",
+				type: { economy: "reaction", tag: "auto_cast" },
+				strain: "",
+				usage_limit: "session",
 				affected_skill: [ "magic_technomancy" ],
-                prerequisite: ["live_patch_redirect", "veil_reactor_stabilizer"],
-                tier: 5,
-                cost: 30,
-                capstone: true,
-                usage_limit: "session",
-				type: { economy: "reaction", tag: "auto_cast" }
-            },
-            signal_possession: {
+				prerequisite: ["live_patch_redirect", "veil_reactor_stabilizer"]
+			},
+			signal_possession: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_codeweaver_signal_possession-u",
 				rule_text_key: "career_codeweaver_signal_possession_rules-u",
-                prerequisite: "command_injection",
-                tier: 5,
-                cost: 30,
-                capstone: true,
-                usage_limit: "session",
-				type: { economy: "action", tag: "technomantic_overwrite" }
-            },
-            system_sovereignty_protocol: {
+				type: { economy: "action", tag: "technomantic_overwrite" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "command_injection"
+			},
+			system_sovereignty_protocol: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_codeweaver_system_sovereignty_protocol-u",
 				rule_text_key: "career_codeweaver_system_sovereignty_protocol_rules-u",
-                prerequisite: ["backdoor_ritual", "command_injection"],
-                tier: 5,
-                cost: 30,
-                capstone: true,
-                usage_limit: "session",
-				type: { economy: "action", tag: "authority_imposition" }
-            }
-        },
-	  source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
-    },
+				type: { economy: "action", tag: "authority_imposition" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: ["backdoor_ritual", "command_injection"]
+			}
+		},
+		source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
+	},
 	dreamshaper: {
 		name: "Dream Shaper",
 		career_type: "arcane",
 		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
+		skill_points_secondary: 20,
+		spell_xp_primary: 30,
+		spell_xp_secondary: 0,
+		primary_skills: {},
+		secondary_skills: {},
 		entry_requirements: {
 			all: [
 				{ type: "awakened" }
 			]
-		}
+		},
+		talents: {},
+		source: { doc: "careers-u", version: "", date: "", section: "careers-u" }
 	},
+
 	gravesinger: {
 		name: "Gravesinger",
 		career_type: "arcane",
 		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
+		skill_points_secondary: 20,
+		spell_xp_primary: 30,
+		spell_xp_secondary: 0,
+		primary_skills: {},
+		secondary_skills: {},
 		entry_requirements: {
 			all: [
 				{ type: "awakened" }
 			]
-		}
+		},
+		talents: {},
+		source: { doc: "careers-u", version: "", date: "", section: "careers-u" }
 	},
+
 	mindbender: {
 		name: "Mindbender",
 		career_type: "arcane",
 		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
@@ -35617,295 +35671,317 @@ const careerDataMap = {
 		},
 		talents: {
 			mental_interference: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_mindbender_mental_interference-u",
 				rule_text_key: "career_mindbender_mental_interference_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
+				type: { economy: "reaction", tag: "disrupt" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "disrupt" }
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: ""
 			},
 			read_the_room: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_mindbender_read_the_room-u",
 				rule_text_key: "career_mindbender_read_the_room_rules-u",
-				affected_skill: [ "insight" ],
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
+				type: { economy: "free_action", tag: "assess" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "free_action", tag: "assess" }
+				affected_skill: [ "insight" ],
+				prerequisite: ""
 			},
 			seed_of_doubt: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_mindbender_seed_of_doubt-u",
 				rule_text_key: "career_mindbender_seed_of_doubt_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
+				type: { economy: "maneuver", tag: "seed" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "maneuver", tag: "seed" }
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: ""
 			},
 			strain_buffer: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_mindbender_strain_buffer-u",
 				rule_text_key: "career_mindbender_strain_buffer_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
-			    usage_limit: "",
-				type: { economy: "passive" }
+				type: { economy: "passive" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: [],
+				prerequisite: ""
 			},
 			subtle_suggestion: {
-				name_key: "career_mindbender_subtle_suggestion-u",
-				rule_text_key: "career_mindbender_subtle_suggestion_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "",
 				tier: 1,
 				cost: 5,
 				capstone: false,
+				name_key: "career_mindbender_subtle_suggestion-u",
+				rule_text_key: "career_mindbender_subtle_suggestion_rules-u",
+				type: { economy: "free_action", tag: "setup" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "free_action", tag: "setup" }
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: ""
 			},
 			hidden_intent: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_mindbender_hidden_intent-u",
 				rule_text_key: "career_mindbender_hidden_intent_rules-u",
-				prerequisite: "mental_interference",
-				tier: 2,
-				cost: 10,
-				capstone: false,
-				usage_limit: "",
+				type: { economy: "passive", tag: "obfuscation" },
 				strain: "1",
-				type: { economy: "passive", tag: "obfuscation" }
+				usage_limit: "",
+				affected_skill: [],
+				prerequisite: "mental_interference"
 			},
 			moments_hesitation: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_mindbender_moments_hesitation-u",
 				rule_text_key: "career_mindbender_moments_hesitation_rules-u",
-				prerequisite: "seed_of_doubt",
-				tier: 2,
-				cost: 10,
-				capstone: false,
-				usage_limit: "scene",
+				type: { economy: "reaction", tag: "disrupt" },
 				strain: "2",
-				type: { economy: "reaction", tag: "disrupt" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "seed_of_doubt"
 			},
 			press_the_advantage: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_mindbender_press_the_advantage-u",
 				rule_text_key: "career_mindbender_press_the_advantage_rules-u",
-				prerequisite: "read_the_room",
-				tier: 2,
-				cost: 10,
-				capstone: false,
-				usage_limit: "scene",
+				type: { economy: "free_action", tag: "momentum" },
 				strain: "1",
-				type: { economy: "free_action", tag: "momentum" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "read_the_room"
 			},
 			shaken_resolve: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_mindbender_shaken_resolve-u",
 				rule_text_key: "career_mindbender_shaken_resolve_rules-u",
-				prerequisite: "seed_of_doubt",
-				tier: 2,
-				cost: 10,
-				capstone: false,
-				usage_limit: "scene",
+				type: { economy: "reaction", tag: "exploit" },
 				strain: "1",
-				type: { economy: "reaction", tag: "exploit" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "seed_of_doubt"
 			},
 			spatial_misjudgment: {
-				name_key: "career_mindbender_spatial_misjudgment-u",
-				rule_text_key: "career_mindbender_spatial_misjudgment_rules-u",
-				prerequisite: "read_the_room",
 				tier: 2,
 				cost: 10,
 				capstone: false,
-				usage_limit: "scene",
+				name_key: "career_mindbender_spatial_misjudgment-u",
+				rule_text_key: "career_mindbender_spatial_misjudgment_rules-u",
+				type: { economy: "action", tag: "disorient" },
 				strain: "2",
-				type: { economy: "action", tag: "disorient" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "read_the_room"
 			},
 			false_choice: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_mindbender_false_choice-u",
 				rule_text_key: "career_mindbender_false_choice_rules-u",
-				prerequisite: "spatial_misjudgment",
-				tier: 3,
-				cost: 15,
+				type: { economy: "action", tag: "compulsion" },
 				strain: "2",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "compulsion" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "spatial_misjudgment"
 			},
 			mental_backlash: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_mindbender_mental_backlash-u",
 				rule_text_key: "career_mindbender_mental_backlash_rules-u",
-				prerequisite: "press_the_advantage",
-				tier: 3,
-				cost: 15,
+				type: { economy: "reaction", tag: "tempo_control" },
 				strain: "1",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "reaction", tag: "tempo_control" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "press_the_advantage"
 			},
 			moment_of_doubt: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_mindbender_moment_of_doubt-u",
 				rule_text_key: "career_mindbender_moment_of_doubt_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "spatial_misjudgment",
-				tier: 3,
-				cost: 15,
+				type: { economy: "reaction", tag: "interfere" },
 				strain: "2",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "reaction", tag: "interfere" }
+				usage_limit: "scene",
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "spatial_misjudgment"
 			},
 			overextension: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_mindbender_overextension-u",
 				rule_text_key: "career_mindbender_overextension_rules-u",
-				prerequisite: "moments_hesitation",
-				tier: 3,
-				cost: 15,
+				type: { economy: "reaction", tag: "exploit" },
 				strain: "1",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "reaction", tag: "exploit" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "moments_hesitation"
 			},
 			split_focus: {
-				name_key: "career_mindbender_split_focus-u",
-				rule_text_key: "career_mindbender_split_focus_rules-u",
-				prerequisite: "spatial_misjudgment",
 				tier: 3,
 				cost: 15,
-				strain: "2",
 				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "cognitive_load" }
+				name_key: "career_mindbender_split_focus-u",
+				rule_text_key: "career_mindbender_split_focus_rules-u",
+				type: { economy: "action", tag: "cognitive_load" },
+				strain: "2",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "spatial_misjudgment"
 			},
 			blind_angle: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_mindbender_blind_angle-u",
 				rule_text_key: "career_mindbender_blind_angle_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "split_focus",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "scene",
+				type: { economy: "action", tag: "exploit" },
 				strain: "2",
-				type: { economy: "action", tag: "exploit" }
+				usage_limit: "scene",
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "split_focus"
 			},
 			catch_22: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_mindbender_catch_22-u",
 				rule_text_key: "career_mindbender_catch_22_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "false_choice",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "scene",
+				type: { economy: "reaction", tag: "lockdown" },
 				strain: "2",
-				type: { economy: "reaction", tag: "lockdown" }
+				usage_limit: "scene",
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "false_choice"
 			},
 			commanding_presence: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_mindbender_commanding_presence-u",
 				rule_text_key: "career_mindbender_commanding_presence_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "mental_backlash",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "scene",
+				type: { economy: "action", tag: "command" },
 				strain: "2",
-				type: { economy: "action", tag: "command" }
+				usage_limit: "scene",
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "mental_backlash"
 			},
 			cracking_resolve: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_mindbender_cracking_resolve-u",
 				rule_text_key: "career_mindbender_cracking_resolve_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "false_choice",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-				usage_limit: "scene",
+				type: { economy: "action", tag: "fracture" },
 				strain: "2",
-				type: { economy: "action", tag: "fracture" }
+				usage_limit: "scene",
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "false_choice"
 			},
 			turn_the_knife: {
-				name_key: "career_mindbender_turn_the_knife-u",
-				rule_text_key: "career_mindbender_turn_the_knife_rules-u",
-				prerequisite: "moments_hesitation",
 				tier: 4,
 				cost: 20,
 				capstone: false,
+				name_key: "career_mindbender_turn_the_knife-u",
+				rule_text_key: "career_mindbender_turn_the_knife_rules-u",
+				type: { economy: "free_action", tag: "exploit" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "free_action", tag: "exploit" }
+				affected_skill: [],
+				prerequisite: "moments_hesitation"
 			},
 			fractured_reality: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_mindbender_fractured_reality-u",
 				rule_text_key: "career_mindbender_fractured_reality_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "turn_the_knife",
-				tier: 5,
-				cost: 30,
-				capstone: true,
+				type: { economy: "action", tag: "mind_break" },
+				strain: "",
 				usage_limit: "session",
-				type: { economy: "action", tag: "mind_break" }
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "turn_the_knife"
 			},
 			inevitable_choice: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_mindbender_inevitable_choice-u",
 				rule_text_key: "career_mindbender_inevitable_choice_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "catch_22",
-				tier: 5,
-				cost: 30,
-				capstone: true,
+				type: { economy: "action", tag: "dominate" },
+				strain: "",
 				usage_limit: "session",
-				type: { economy: "action", tag: "dominate" }
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "catch_22"
 			},
 			overwhelming_urge: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_mindbender_overwhelming_urge-u",
 				rule_text_key: "career_mindbender_overwhelming_urge_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "commanding_presence",
-				tier: 5,
-				cost: 30,
-				capstone: true,
+				type: { economy: "action", tag: "mass_compulsion" },
+				strain: "",
 				usage_limit: "session",
-				type: { economy: "action", tag: "mass_compulsion" }
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "commanding_presence"
 			},
 			planted_certainty: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_mindbender_planted_certainty-u",
 				rule_text_key: "career_mindbender_planted_certainty_rules-u",
-				affected_skill: [ "magic_enchantment" ],
-				prerequisite: "commanding_presence",
-				tier: 5,
-				cost: 30,
-				capstone: true,
+				type: { economy: "action", tag: "imprint_belief" },
+				strain: "",
 				usage_limit: "session",
-				type: { economy: "action", tag: "imprint_belief" }
+				affected_skill: [ "magic_enchantment" ],
+				prerequisite: "commanding_presence"
 			},
 			unassailable_mind: {
-				name_key: "career_mindbender_unassailable_mind-u",
-				rule_text_key: "career_mindbender_unassailable_mind_rules-u",
-				prerequisite: "blind_angle",
 				tier: 5,
 				cost: 30,
 				capstone: true,
+				name_key: "career_mindbender_unassailable_mind-u",
+				rule_text_key: "career_mindbender_unassailable_mind_rules-u",
+				type: { economy: "reaction" },
+				strain: "",
 				usage_limit: "session",
-				type: { economy: "reaction" }
+				affected_skill: [],
+				prerequisite: "blind_angle"
 			}
 		},
-	  source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
+		source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
 	},
 	sigilbound: {
 		name: "Sigilbound",
 		career_type: "arcane",
 		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
@@ -35945,296 +36021,340 @@ const careerDataMap = {
 		},
 		talents: {
 			arcane_lock: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_sigilbound_arcane_lock-u",
 				rule_text_key: "career_sigilbound_arcane_lock_rules-u",
-				tier: 1,
-				cost: 5,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "maneuver", tag: "ward" }
+				type: { economy: "maneuver", tag: "ward" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: []
 			},
 			glyphstep: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_sigilbound_glyphstep-u",
 				rule_text_key: "career_sigilbound_glyphstep_rules-u",
-				tier: 1,
-				cost: 5,
+				type: { economy: "reaction", tag: "shift" },
 				strain: "2",
-				capstone: false,
-			    usage_limit: "session",
-				type: { economy: "reaction", tag: "shift" }
+				usage_limit: "session",
+				affected_skill: []
 			},
 			runesight: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_sigilbound_runesight-u",
 				rule_text_key: "career_sigilbound_runesight_rules-u",
-				affected_skill: [ "magic_warding" ],
-				tier: 1,
-				cost: 5,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "free_action", tag: "setup" }
+				type: { economy: "free_action", tag: "setup" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [ "magic_warding" ]
 			},
 			sigil_hardened: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_sigilbound_sigil_hardened-u",
 				rule_text_key: "career_sigilbound_sigil_hardened_rules-u",
-				affected_stat: "con",
-				tier: 1,
-				cost: 5,
-				capstone: false,
-			    usage_limit: "",
-				type: { economy: "passive", tag: "fortitude" }
+				type: { economy: "passive", tag: "fortitude" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: [],
+				affected_stat: "con"
 			},
 			strain_buffer: {
-				name_key: "career_sigilbound_strain_buffer-u",
-				rule_text_key: "career_sigilbound_strain_buffer_rules-u",
 				tier: 1,
 				cost: 5,
 				capstone: false,
-			    usage_limit: "",
-				type: { economy: "passive" }
+				name_key: "career_sigilbound_strain_buffer-u",
+				rule_text_key: "career_sigilbound_strain_buffer_rules-u",
+				type: { economy: "passive" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: []
 			},
 			barrier_projection: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_sigilbound_barrier_projection-u",
 				rule_text_key: "career_sigilbound_barrier_projection_rules-u",
-				prerequisite: "arcane_lock",
-				tier: 2,
-				cost: 10,
+				type: { economy: "action", tag: "barrier" },
 				strain: "3",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "barrier" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "arcane_lock"
 			},
 			reflective_ward: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_sigilbound_reflective_ward-u",
 				rule_text_key: "career_sigilbound_reflective_ward_rules-u",
-				prerequisite: "runesight",
-				tier: 2,
-				cost: 10,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "reaction", tag: "reflect" }
+				type: { economy: "reaction", tag: "reflect" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "runesight"
 			},
 			sigil_of_anchoring: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_sigilbound_sigil_of_anchoring-u",
 				rule_text_key: "career_sigilbound_sigil_of_anchoring_rules-u",
-				prerequisite: "glyphstep",
-				tier: 2,
-				cost: 10,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "maneuver", tag: "ward" }
+				type: { economy: "maneuver", tag: "ward" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "glyphstep"
 			},
 			stabilization_glyph: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_sigilbound_stabilization_glyph-u",
 				rule_text_key: "career_sigilbound_stabilization_glyph_rules-u",
-				prerequisite: "arcane_lock",
-				tier: 2,
-				cost: 10,
+				type: { economy: "maneuver", tag: "ward" },
 				strain: "2",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "maneuver", tag: "ward" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "arcane_lock"
 			},
 			warded_advance: {
-				name_key: "career_sigilbound_warded_advance-u",
-				rule_text_key: "career_sigilbound_warded_advance_rules-u",
-				prerequisite: ["barrier_projection", "glyphstep"],
 				tier: 2,
 				cost: 10,
-				strain: "1",
 				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "free_action", tag: "shield" }
+				name_key: "career_sigilbound_warded_advance-u",
+				rule_text_key: "career_sigilbound_warded_advance_rules-u",
+				type: { economy: "free_action", tag: "shield" },
+				strain: "1",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: ["barrier_projection", "glyphstep"]
 			},
 			arcane_reversal: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_sigilbound_arcane_reversal-u",
 				rule_text_key: "career_sigilbound_arcane_reversal_rules-u",
+				type: { economy: "free_action", tag: "restore" },
+				strain: "",
+				usage_limit: "session",
 				affected_skill: [ "magic_warding" ],
-				prerequisite: "sigil_of_anchoring",
-				tier: 3,
-				cost: 15,
-				capstone: false,
-			    usage_limit: "session",
-				type: { economy: "free_action", tag: "restore" }
+				prerequisite: "sigil_of_anchoring"
 			},
 			counterglyph: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_sigilbound_counterglyph-u",
 				rule_text_key: "career_sigilbound_counterglyph_rules-u",
-				prerequisite: "reflective_ward",
-				tier: 3,
-				cost: 15,
-				capstone: false,
-			    usage_limit: "session",
-				type: { economy: "reaction", tag: "disrupt" }
+				type: { economy: "reaction", tag: "disrupt" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "reflective_ward"
 			},
 			null_field: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_sigilbound_null_field-u",
 				rule_text_key: "career_sigilbound_null_field_rules-u",
-				prerequisite: ["reflective_ward", "barrier_projection"],
-				tier: 3,
-				cost: 15,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "suppress" }
+				type: { economy: "action", tag: "suppress" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: ["reflective_ward", "barrier_projection"]
 			},
 			sanctum_sigil: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_sigilbound_sanctum_sigil-u",
 				rule_text_key: "career_sigilbound_sanctum_sigil_rules-u",
+				type: { economy: "action", tag: "zone" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
 				affected_stat: [ "con", "pow" ],
 				prerequisite: "",
-				prerequisiteAny: { tier: 2, count: 1 },
-				tier: 3,
-				cost: 15,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "zone" }
+				prerequisiteAny: { tier: 2, count: 1 }
 			},
 			sigil_pulse: {
-				name_key: "career_sigilbound_sigil_pulse-u",
-				rule_text_key: "career_sigilbound_sigil_pulse_rules-u",
-				prerequisite: ["counterglyph", "arcane_reversal", "sanctum_sigil", "null_field"],
 				tier: 3,
 				cost: 15,
 				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "special_immediate", tag: "detonate" }
-
+				name_key: "career_sigilbound_sigil_pulse-u",
+				rule_text_key: "career_sigilbound_sigil_pulse_rules-u",
+				type: { economy: "special_immediate", tag: "detonate" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: ["counterglyph", "arcane_reversal", "sanctum_sigil", "null_field"]
 			},
 			glyph_warder: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_sigilbound_glyph_warder-u",
 				rule_text_key: "career_sigilbound_glyph_warder_rules-u",
-				prerequisite: ["null_field", "warding_matrix"],
-				tier: 4,
-				cost: 20,
-				capstone: false,
-			    usage_limit: "",
-				type: { economy: "passive", tag: "maintain" }
+				type: { economy: "passive", tag: "maintain" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: [],
+				prerequisite: ["null_field", "warding_matrix"]
 			},
 			mirror_sigil: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_sigilbound_mirror_sigil-u",
 				rule_text_key: "career_sigilbound_mirror_sigil_rules-u",
-				prerequisite: ["counterglyph", "arcane_reversal"],
-				tier: 4,
-				cost: 20,
-				capstone: false,
-			    usage_limit: "session",
-				type: { economy: "reaction", tag: "redirect" }
+				type: { economy: "reaction", tag: "redirect" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: ["counterglyph", "arcane_reversal"]
 			},
 			sigil_reservoir: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_sigilbound_sigil_reservoir-u",
 				rule_text_key: "career_sigilbound_sigil_reservoir_rules-u",
-				prerequisite: "glyph_warder",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "free_action", tag: "prepared_ward" }
+				type: { economy: "free_action", tag: "prepared_ward" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "glyph_warder"
 			},
 			veil_seal: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_sigilbound_veil_seal-u",
 				rule_text_key: "career_sigilbound_veil_seal_rules-u",
-				prerequisite: ["sanctum_sigil", "arcane_reversal"],
-				tier: 4,
-				cost: 20,
+				type: { economy: "action", tag: "cleanse_suppress" },
 				strain: "3",
-				capstone: false,
-			    usage_limit: "session",
-				type: { economy: "action", tag: "cleanse_suppress" }
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: ["sanctum_sigil", "arcane_reversal"]
 			},
 			warding_matrix: {
-				name_key: "career_sigilbound_warding_matrix-u",
-				rule_text_key: "career_sigilbound_warding_matrix_rules-u",
-				affected_stat: "ac",
-				prerequisite: "sanctum_sigil",
 				tier: 4,
 				cost: 20,
-				strain: "3",
 				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "shield" }
+				name_key: "career_sigilbound_warding_matrix-u",
+				rule_text_key: "career_sigilbound_warding_matrix_rules-u",
+				type: { economy: "action", tag: "shield" },
+				strain: "3",
+				usage_limit: "scene",
+				affected_skill: [],
+				affected_stat: "ac",
+				prerequisite: "sanctum_sigil"
 			},
 			aegis_absolute: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_sigilbound_aegis_absolute-u",
 				rule_text_key: "career_sigilbound_aegis_absolute_rules-u",
-				prerequisite: "mirror_sigil",
-				tier: 5,
-				cost: 30,
+				type: { economy: "reaction", tag: "total_intercept" },
 				strain: "1d6",
-				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "reaction", tag: "total_intercept" }
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "mirror_sigil"
 			},
 			line_unbroken: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_sigilbound_line_unbroken-u",
 				rule_text_key: "career_sigilbound_line_unbroken_rules-u",
-				prerequisite: "sanctum_sigil",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "anchor_zone" },
 				strain: "1d6",
-				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "action", tag: "anchor_zone" }
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: "sanctum_sigil"
 			},
 			runesovereign: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_sigilbound_runesovereign-u",
 				rule_text_key: "career_sigilbound_runesovereign_rules-u",
-				prerequisite: ["glyph_warder", "mirror_sigil"],
-				tier: 5,
-				cost: 30,
+				type: { economy: "special_immediate", tag: "double_cast" },
 				strain: "1d8",
-				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "special_immediate", tag: "double_cast" }
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: ["glyph_warder", "mirror_sigil"]
 			},
 			sigilburst_protocol: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_sigilbound_sigilburst_protocol-u",
 				rule_text_key: "career_sigilbound_sigilburst_protocol_rules-u",
-				prerequisite: ["glyph_warder", "sigil_pulse"],
-				tier: 5,
-				cost: 30,
+				type: { economy: "special_immediate", tag: "detonate_ward" },
 				strain: "1d6",
-				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "special_immediate", tag: "detonate_ward" }
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: ["glyph_warder", "sigil_pulse"]
 			},
 			wardmasters_command: {
-				name_key: "career_sigilbound_wardmasters_command-u",
-				rule_text_key: "career_sigilbound_wardmasters_command_rules-u",
-				prerequisite: ["warding_matrix", "sanctum_sigil"],
 				tier: 5,
 				cost: 30,
-				strain: "1d6",
 				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "action", tag: "empower_allies" }
+				name_key: "career_sigilbound_wardmasters_command-u",
+				rule_text_key: "career_sigilbound_wardmasters_command_rules-u",
+				type: { economy: "action", tag: "empower_allies" },
+				strain: "1d6",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: ["warding_matrix", "sanctum_sigil"]
 			}
 		},
-	  source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
+		source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
 	},
 	soulmender: {
 		name: "Soul Mender",
 		career_type: "arcane",
 		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
+		skill_points_secondary: 20,
+		spell_xp_primary: 30,
+		spell_xp_secondary: 0,
+		primary_skills: {},
+		secondary_skills: {},
 		entry_requirements: {
 			all: [
 				{ type: "awakened" }
 			]
-		}
+		},
+		talents: {},
+		source: { doc: "careers-u", version: "", date: "", section: "careers-u" }
 	},
+
 	spirit_warden: {
 		name: "Spirit Warden",
 		career_type: "arcane",
 		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
@@ -36265,298 +36385,319 @@ const careerDataMap = {
 		},
 		talents: {
 			basic_ritual_circle: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_spirit_warden_basic_ritual_circle-u",
 				rule_text_key: "career_spirit_warden_basic_ritual_circle_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
+				type: { economy: "maneuver", tag: "ritual" },
 				strain: "1",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "maneuver", tag: "ritual" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			lesser_companion_bond: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_spirit_warden_lesser_companion_bond-u",
 				rule_text_key: "career_spirit_warden_lesser_companion_bond_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
+				type: { economy: "action" },
 				strain: "1",
-				capstone: false,
 				usage_limit: "session",
-				type: { economy: "action" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			rite_efficiency: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_spirit_warden_rite_efficiency-u",
 				rule_text_key: "career_spirit_warden_rite_efficiency_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
+				type: { economy: "passive" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "passive" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			spirit_sense_attunement: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_spirit_warden_spirit_sense_attunement-u",
 				rule_text_key: "career_spirit_warden_spirit_sense_attunement_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
+				type: { economy: "passive" },
+				strain: "",
 				usage_limit: "",
-				type: { economy: "passive" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			wardbreaker_gesture: {
-				name_key: "career_spirit_warden_wardbreaker_gesture-u",
-				rule_text_key: "career_spirit_warden_wardbreaker_gesture_rules-u",
-				prerequisite: "",
 				tier: 1,
 				cost: 5,
 				capstone: false,
+				name_key: "career_spirit_warden_wardbreaker_gesture-u",
+				rule_text_key: "career_spirit_warden_wardbreaker_gesture_rules-u",
+				type: { economy: "action", tag: "setup" },
+				strain: "",
 				usage_limit: "session",
-				type: { economy: "action", tag: "setup" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			circle_flow_discipline: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_spirit_warden_circle_flow_discipline-u",
 				rule_text_key: "career_spirit_warden_circle_flow_discipline_rules-u",
-				affected_skill: [],
-				prerequisite: "basic_ritual_circle",
+				type: { economy: "free_action", tag: "escort" },
 				strain: "1",
-				tier: 2,
-				cost: 10,
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "free_action", tag: "escort" }
+				affected_skill: [],
+				prerequisite: "basic_ritual_circle"
 			},
 			circle_marked_recall: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_spirit_warden_circle_marked_recall-u",
 				rule_text_key: "career_spirit_warden_circle_marked_recall_rules-u",
-				affected_skill: [],
-				prerequisite: "rite_efficiency",
+				type: { economy: "reaction", tag: "recall" },
 				strain: "1",
-				tier: 2,
-				cost: 10,
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "recall" }
+				affected_skill: [],
+				prerequisite: "rite_efficiency"
 			},
 			confront_the_echo: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_spirit_warden_confront_the_echo-u",
 				rule_text_key: "career_spirit_warden_confront_the_echo_rules-u",
-				affected_skill: [],
-				prerequisite: "wardbreaker_gesture",
-				tier: 2,
-				cost: 10,
-				capstone: false,
+				type: { economy: "passive" },
+				strain: "",
 				usage_limit: "",
-				type: { economy: "passive" }
+				affected_skill: [],
+				prerequisite: "wardbreaker_gesture"
 			},
 			lesser_spirit_conjuration: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_spirit_warden_lesser_spirit_conjuration-u",
 				rule_text_key: "career_spirit_warden_lesser_spirit_conjuration_rules-u",
+				type: { economy: "action", tag: "summon" },
+				strain: "1d4",
+				usage_limit: "",
 				affected_skill: [],
 				prerequisite: "",
-				prerequisiteAny: { tier: 1, count: 1 },
-				strain: "1d4",
-				tier: 2,
-				cost: 10,
-				capstone: false,
-				usage_limit: "",
-				type: { economy: "action", tag: "summon" }
+				prerequisiteAny: { tier: 1, count: 1 }
 			},
 			wardens_binding_circle: {
-				name_key: "career_spirit_warden_wardens_binding_circle-u",
-				rule_text_key: "career_spirit_warden_wardens_binding_circle_rules-u",
-				affected_skill: [],
-				prerequisite: "basic_ritual_circle",
-				strain: "1",
 				tier: 2,
 				cost: 10,
 				capstone: false,
+				name_key: "career_spirit_warden_wardens_binding_circle-u",
+				rule_text_key: "career_spirit_warden_wardens_binding_circle_rules-u",
+				type: { economy: "maneuver", tag: "ritual" },
+				strain: "1",
 				usage_limit: "scene",
-				type: { economy: "maneuver", tag: "ritual" }
+				affected_skill: [],
+				prerequisite: "basic_ritual_circle"
 			},
 			domain_resonance_circle: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_spirit_warden_domain_resonance_circle-u",
 				rule_text_key: "career_spirit_warden_domain_resonance_circle_rules-u",
-				prerequisite: "wardens_binding_circle",
-				tier: 3,
-				cost: 15,
+				type: { economy: "maneuver", tag: "ritual" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "session",
-				type: { economy: "maneuver", tag: "ritual" }
+				affected_skill: [],
+				prerequisite: "wardens_binding_circle"
 			},
 			purifications_edge: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_spirit_warden_purifications_edge-u",
 				rule_text_key: "career_spirit_warden_purifications_edge_rules-u",
-				prerequisite: "confront_the_echo",
-				tier: 3,
-				cost: 15,
+				type: { economy: "action", tag: "focus" },
 				strain: "1",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "action", tag: "focus" }
+				affected_skill: [],
+				prerequisite: "confront_the_echo"
 			},
 			silencing_hand: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_spirit_warden_silencing_hand-u",
 				rule_text_key: "career_spirit_warden_silencing_hand_rules-u",
-				prerequisite: "confront_the_echo",
-				tier: 3,
-				cost: 15,
-				capstone: false,
+				type: { economy: "action", tag: "disrupt" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "action", tag: "disrupt" }
+				affected_skill: [],
+				prerequisite: "confront_the_echo"
 			},
 			spirit_economy: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_spirit_warden_spirit_economy-u",
 				rule_text_key: "career_spirit_warden_spirit_economy_rules-u",
-				prerequisite: "wardens_binding_circle",
-				tier: 3,
-				cost: 15,
+				type: { economy: "free_action", tag: "conversion" },
 				strain: "1d4",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "free_action", tag: "conversion" }
+				affected_skill: [],
+				prerequisite: "wardens_binding_circle"
 			},
 			wardens_wards: {
-				name_key: "career_spirit_warden_wardens_wards-u",
-				rule_text_key: "career_spirit_warden_wardens_wards_rules-u",
-				prerequisite: "circle_marked_recall",
 				tier: 3,
 				cost: 15,
-				strain: "1",
 				capstone: false,
+				name_key: "career_spirit_warden_wardens_wards-u",
+				rule_text_key: "career_spirit_warden_wardens_wards_rules-u",
+				type: { economy: "reaction", tag: "interdict" },
+				strain: "1",
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "interdict" }
+				affected_skill: [],
+				prerequisite: "circle_marked_recall"
 			},
 			bound_spirit_partner: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_spirit_warden_bound_spirit_partner-u",
 				rule_text_key: "career_spirit_warden_bound_spirit_partner_rules-u",
-				prerequisite: "",
-				prerequisiteAny: { tier: 3, count: 1 },
-				tier: 4,
-				cost: 20,
+				type: { economy: "action", tag: "summon" },
 				strain: "1d6",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "action", tag: "summon" }
+				affected_skill: [],
+				prerequisite: "",
+				prerequisiteAny: { tier: 3, count: 1 }
 			},
 			custodians_stand: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_spirit_warden_custodians_stand-u",
 				rule_text_key: "career_spirit_warden_custodians_stand_rules-u",
-				prerequisite: "domain_resonance_circle",
-				tier: 4,
-				cost: 20,
+				type: { economy: "reaction", tag: "anchor" },
 				strain: "1",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "anchor" }
+				affected_skill: [],
+				prerequisite: "domain_resonance_circle"
 			},
 			rite_of_echo_severance: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_spirit_warden_rite_of_echo_severance-u",
 				rule_text_key: "career_spirit_warden_rite_of_echo_severance_rules-u",
-				prerequisite: "purifications_edge",
-				tier: 4,
-				cost: 20,
+				type: { economy: "action", tag: "sever" },
 				strain: "1d4",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "action", tag: "sever" }
+				affected_skill: [],
+				prerequisite: "purifications_edge"
 			},
 			sovereign_pattern: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_spirit_warden_sovereign_pattern-u",
 				rule_text_key: "career_spirit_warden_sovereign_pattern_rules-u",
-				prerequisite: ["domain_resonance_circle", "silencing_hand"],
-				tier: 4,
-				cost: 20,
-				capstone: false,
+				type: { economy: "passive" },
+				strain: "",
 				usage_limit: "",
-				type: { economy: "passive" }
+				affected_skill: [],
+				prerequisite: ["domain_resonance_circle", "silencing_hand"]
 			},
 			wardens_barrier_sigil: {
-				name_key: "career_spirit_warden_wardens_barrier_sigil-u",
-				rule_text_key: "career_spirit_warden_wardens_barrier_sigil_rules-u",
-				prerequisite: "wardens_wards",
 				tier: 4,
 				cost: 20,
-				strain: "1d4",
 				capstone: false,
+				name_key: "career_spirit_warden_wardens_barrier_sigil-u",
+				rule_text_key: "career_spirit_warden_wardens_barrier_sigil_rules-u",
+				type: { economy: "reaction", tag: "interdict" },
+				strain: "1d4",
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "interdict" }
+				affected_skill: [],
+				prerequisite: "wardens_wards"
 			},
 			avatars_mandate: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_spirit_warden_avatars_mandate-u",
 				rule_text_key: "career_spirit_warden_avatars_mandate_rules-u",
-				affected_skill: [ "magic_summoning" ],
-				prerequisite: "sovereign_pattern",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "petition" },
 				strain: "1d4 + 1d6",
-				capstone: true,
 				usage_limit: "session",
-				type: { economy: "action", tag: "petition" }
+				affected_skill: [ "magic_summoning" ],
+				prerequisite: "sovereign_pattern"
 			},
 			eidolon_apotheosis: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_spirit_warden_eidolon_apotheosis-u",
 				rule_text_key: "career_spirit_warden_eidolon_apotheosis_rules-u",
-				affected_skill: [],
-				prerequisite: "bound_spirit_partner",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "ascension" },
 				strain: "2d6",
-				capstone: true,
 				usage_limit: "session",
-				type: { economy: "action", tag: "ascension" }
+				affected_skill: [],
+				prerequisite: "bound_spirit_partner"
 			},
 			grand_exorcism_rite: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_spirit_warden_grand_exorcism_rite-u",
 				rule_text_key: "career_spirit_warden_grand_exorcism_rite_rules-u",
-				affected_skill: [ "magic_summoning" ],
-				prerequisite: "rite_of_echo_severance",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "final_banishment" },
 				strain: "2d4",
-				capstone: true,
 				usage_limit: "session",
-				type: { economy: "action", tag: "final_banishment" }
+				affected_skill: [ "magic_summoning" ],
+				prerequisite: "rite_of_echo_severance"
 			},
 			line_held_against_the_veil: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_spirit_warden_line_held_against_the_veil-u",
 				rule_text_key: "career_spirit_warden_line_held_against_the_veil_rules-u",
-				affected_skill: [],
-				prerequisite: "custodians_stand",
-				tier: 5,
-				cost: 30,
+				type: { economy: "reaction", tag: "absolute_stand" },
 				strain: "1d6",
-				capstone: true,
 				usage_limit: "session",
-				type: { economy: "reaction", tag: "absolute_stand" }
+				affected_skill: [],
+				prerequisite: "custodians_stand"
 			},
 			sanctify_the_ground: {
-				name_key: "career_spirit_warden_sanctify_the_ground-u",
-				rule_text_key: "career_spirit_warden_sanctify_the_ground_rules-u",
-				affected_skill: [],
-				prerequisite: "custodians_stand",
 				tier: 5,
 				cost: 30,
-				strain: "1d6",
 				capstone: true,
+				name_key: "career_spirit_warden_sanctify_the_ground-u",
+				rule_text_key: "career_spirit_warden_sanctify_the_ground_rules-u",
+				type: { economy: "action", tag: "site_consecration" },
+				strain: "1d6",
 				usage_limit: "session",
-				type: { economy: "action", tag: "site_consecration" }
+				affected_skill: [],
+				prerequisite: "custodians_stand"
 			}
 		},
-	  source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
+		source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
 	},
 	stormweaver: {
 		name: "Stormweaver",
 		career_type: "arcane",
 		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
@@ -36587,301 +36728,321 @@ const careerDataMap = {
 		},
 		talents: {
 			flashstep: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_stormweaver_flashstep-u",
 				rule_text_key: "career_stormweaver_flashstep_rules-u",
-				prerequisite: "",
+				type: { economy: "free_action", tag: "mobility" },
 				strain: "2",
-				tier: 1,
-				cost: 5,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "free_action", tag: "mobility" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: ""
 			},
 			hold_the_current: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_stormweaver_hold_the_current-u",
 				rule_text_key: "career_stormweaver_hold_the_current_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "",
+				type: { economy: "free_action", tag: "cast_mod" },
 				strain: "1",
-				tier: 1,
-				cost: 5,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "free_action", tag: "cast_mod" }
+				usage_limit: "scene",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: ""
 			},
 			strain_buffer: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_stormweaver_strain_buffer-u",
 				rule_text_key: "career_stormweaver_strain_buffer_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
-			    usage_limit: "",
-				type: { economy: "passive" }
+				type: { economy: "passive" },
+				strain: "",
+				usage_limit: "",
+				affected_skill: [],
+				prerequisite: ""
 			},
 			tinder_spark: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_stormweaver_tinder_spark-u",
 				rule_text_key: "career_stormweaver_tinder_spark_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
-			    usage_limit: "session",
-				type: { economy: "action", tag: "utility_fire" }
+				type: { economy: "action", tag: "utility_fire" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisite: ""
 			},
 			veil_backlash: {
-				name_key: "career_stormweaver_veil_backlash-u",
-				rule_text_key: "career_stormweaver_veil_backlash_rules-u",
-				prerequisite: "",
 				tier: 1,
 				cost: 5,
 				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "reaction", tag: "disrupt" }
+				name_key: "career_stormweaver_veil_backlash-u",
+				rule_text_key: "career_stormweaver_veil_backlash_rules-u",
+				type: { economy: "reaction", tag: "disrupt" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: ""
 			},
 			arc_feedback: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_stormweaver_arc_feedback-u",
 				rule_text_key: "career_stormweaver_arc_feedback_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "veil_backlash",
-				tier: 2,
-				cost: 10,
+				type: { economy: "reaction", tag: "disrupt" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "disrupt" }
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "veil_backlash"
 			},
 			dig_in_the_storm: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_stormweaver_dig_in_the_storm-u",
 				rule_text_key: "career_stormweaver_dig_in_the_storm_rules-u",
+				type: { economy: "reaction", tag: "stance" },
+				strain: "2",
+				usage_limit: "scene",
+				affected_skill: [],
 				affected_stat: "con",
 				prerequisite: "",
-				prerequisiteAny: { tier: 1, count: 1 },
-				tier: 2,
-				cost: 10,
-				strain: "2",
-				capstone: false,
-				usage_limit: "scene",
-				type: { economy: "reaction", tag: "stance" }
+				prerequisiteAny: { tier: 1, count: 1 }
 			},
 			scorchmark: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_stormweaver_scorchmark-u",
 				rule_text_key: "career_stormweaver_scorchmark_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "tinder_spark",
-				tier: 2,
-				cost: 10,
+				type: { economy: "maneuver", tag: "brand" },
 				strain: "3",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "maneuver", tag: "brand" }
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "tinder_spark"
 			},
 			stormpulse_drive: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_stormweaver_stormpulse_drive-u",
 				rule_text_key: "career_stormweaver_stormpulse_drive_rules-u",
-				prerequisite: "hold_the_current",
-				tier: 2,
-				cost: 10,
-				capstone: false,
+				type: { economy: "free_action", tag: "post_cast" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "free_action", tag: "post_cast" }
+				affected_skill: [],
+				prerequisite: "hold_the_current"
 			},
 			voltaic_reflex: {
-				name_key: "career_stormweaver_voltaic_reflex-u",
-				rule_text_key: "career_stormweaver_voltaic_reflex_rules-u",
-				affected_skill: [ "dodge" ],
-				prerequisite: "flashstep",
 				tier: 2,
 				cost: 10,
 				capstone: false,
+				name_key: "career_stormweaver_voltaic_reflex-u",
+				rule_text_key: "career_stormweaver_voltaic_reflex_rules-u",
+				type: { economy: "reaction", tag: "jink" },
+				strain: "",
 				usage_limit: "session",
-				type: { economy: "reaction", tag: "jink" }
+				affected_skill: [ "dodge" ],
+				prerequisite: "flashstep"
 			},
 			burnline_pressure: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_stormweaver_burnline_pressure-u",
 				rule_text_key: "career_stormweaver_burnline_pressure_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "dig_in_the_storm",
-				tier: 3,
-				cost: 15,
-				capstone: false,
+				type: { economy: "reaction", tag: "zone_pressure" },
 				strain: "2",
-			   	usage_limit: "scene",
-				type: { economy: "reaction", tag: "zone_pressure" }
+				usage_limit: "scene",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "dig_in_the_storm"
 			},
 			killzone_instinct: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_stormweaver_killzone_instinct-u",
 				rule_text_key: "career_stormweaver_killzone_instinct_rules-u",
+				type: { economy: "passive", tag: "threat_sense" },
+				strain: "",
+				usage_limit: "",
 				affected_skill: [ "dodge" ],
 				prerequisite: "",
-				prerequisiteAny: { tier: 2, count: 1 },
-				tier: 3,
-				cost: 15,
-				capstone: false,
-			   	usage_limit: "",
-				type: { economy: "passive", tag: "threat_sense" }
+				prerequisiteAny: { tier: 2, count: 1 }
 			},
 			shockstep_conduit: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_stormweaver_shockstep_conduit-u",
 				rule_text_key: "career_stormweaver_shockstep_conduit_rules-u",
+				type: { economy: "action", tag: "teleport" },
+				strain: "",
+				usage_limit: "session",
 				affected_skill: [ "magic_elemental" ],
-				prerequisite: ["arc_feedback", "voltaic_reflex"],
-				tier: 3,
-				cost: 15,
-				capstone: false,
-			   	usage_limit: "session",
-				type: { economy: "action", tag: "teleport" }
+				prerequisite: ["arc_feedback", "voltaic_reflex"]
 			},
 			stormcallers_edge: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_stormweaver_stormcallers_edge-u",
 				rule_text_key: "career_stormweaver_stormcallers_edge_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "scorchmark",
-				tier: 3,
-				cost: 15,
-				capstone: false,
+				type: { economy: "free_action", tag: "overchannel" },
 				strain: "4",
-			   	usage_limit: "scene",
-				type: { economy: "free_action", tag: "overchannel" }
+				usage_limit: "scene",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "scorchmark"
 			},
 			volcanic_path: {
-				name_key: "career_stormweaver_volcanic_path-u",
-				rule_text_key: "career_stormweaver_volcanic_path_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "stormpulse_drive",
 				tier: 3,
 				cost: 15,
 				capstone: false,
-			   	usage_limit: "session",
-				type: { economy: "action", tag: "hazard_terrain" }
+				name_key: "career_stormweaver_volcanic_path-u",
+				rule_text_key: "career_stormweaver_volcanic_path_rules-u",
+				type: { economy: "action", tag: "hazard_terrain" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "stormpulse_drive"
 			},
 			arc_flare: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_stormweaver_arc_flare-u",
 				rule_text_key: "career_stormweaver_arc_flare_rules-u",
-				prerequisite: "stormcallers_edge",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "reaction", tag: "dazzle" }
+				type: { economy: "reaction", tag: "dazzle" },
+				strain: "",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "stormcallers_edge"
 			},
 			burn_current: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_stormweaver_burn_current-u",
 				rule_text_key: "career_stormweaver_burn_current_rules-u",
-				prerequisite: "shockstep_conduit",
+				type: { economy: "action", tag: "elemental_shock" },
 				strain: "3",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "elemental_shock" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "shockstep_conduit"
 			},
 			flashfire_assault: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_stormweaver_flashfire_assault-u",
 				rule_text_key: "career_stormweaver_flashfire_assault_rules-u",
+				type: { economy: "special_immediate", tag: "follow_up" },
+				strain: "2",
+				usage_limit: "session",
 				affected_skill: [ "throw" ],
 				affected_skill_group: "combat_melee",
-				prerequisite: "stormcallers_edge",
-				strain: "2",
-				tier: 4,
-				cost: 20,
-				capstone: false,
-			    usage_limit: "session",
-				type: { economy: "special_immediate", tag: "follow_up" }
+				prerequisite: "stormcallers_edge"
 			},
 			surge_engine: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_stormweaver_surge_engine-u",
 				rule_text_key: "career_stormweaver_surge_engine_rules-u",
-				prerequisiteAny: { tier: 3, count: 1 },
-				tier: 4,
-				cost: 20,
-				capstone: false,
-			    usage_limit: "session",
-				type: { economy: "free_action", tag: "cost_waiver" }
+				type: { economy: "free_action", tag: "cost_waiver" },
+				strain: "",
+				usage_limit: "session",
+				affected_skill: [],
+				prerequisiteAny: { tier: 3, count: 1 }
 			},
 			veilstorm_mantle: {
-				name_key: "career_stormweaver_veilstorm_mantle-u",
-				rule_text_key: "career_stormweaver_veilstorm_mantle_rules-u",
-				prerequisite: "stormcallers_edge",
-				strain: "3",
 				tier: 4,
 				cost: 20,
 				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "free_action", tag: "storm_cloak" }
+				name_key: "career_stormweaver_veilstorm_mantle-u",
+				rule_text_key: "career_stormweaver_veilstorm_mantle_rules-u",
+				type: { economy: "free_action", tag: "storm_cloak" },
+				strain: "3",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "stormcallers_edge"
 			},
 			eye_of_the_storm: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_stormweaver_eye_of_the_storm-u",
 				rule_text_key: "career_stormweaver_eye_of_the_storm_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: ["veilstorm_mantle", "arc_flare"],
-				tier: 5,
-				cost: 30,
+				type: { economy: "free_action", tag: "veil_trance" },
 				strain: "1",
-				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "free_action", tag: "veil_trance" }
+				usage_limit: "session",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: ["veilstorm_mantle", "arc_flare"]
 			},
 			singularity_discharge: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_stormweaver_singularity_discharge-u",
 				rule_text_key: "career_stormweaver_singularity_discharge_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "surge_engine",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "terminal_overload" },
 				strain: "1",
-				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "action", tag: "terminal_overload" }
+				usage_limit: "session",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "surge_engine"
 			},
 			stormbreak: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_stormweaver_stormbreak-u",
 				rule_text_key: "career_stormweaver_stormbreak_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "burn_current",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "structural_rupture" },
 				strain: "1",
-				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "action", tag: "structural_rupture" }
+				usage_limit: "session",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "burn_current"
 			},
 			total_elemental_collapse: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_stormweaver_total_elemental_collapse-u",
 				rule_text_key: "career_stormweaver_total_elemental_collapse_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "burn_current",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "overload_release" },
 				strain: "2",
-				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "action", tag: "overload_release" }
+				usage_limit: "session",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "burn_current"
 			},
 			veilcore_meltdown: {
-				name_key: "career_stormweaver_veilcore_meltdown-u",
-				rule_text_key: "career_stormweaver_veilcore_meltdown_rules-u",
-				affected_skill: [ "magic_elemental" ],
-				prerequisite: "surge_engine",
 				tier: 5,
 				cost: 30,
-				strain: "1",
 				capstone: true,
-			    usage_limit: "session",
-				type: { economy: "action", tag: "overchannel_catastrophe" }
+				name_key: "career_stormweaver_veilcore_meltdown-u",
+				rule_text_key: "career_stormweaver_veilcore_meltdown_rules-u",
+				type: { economy: "action", tag: "overchannel_catastrophe" },
+				strain: "1",
+				usage_limit: "session",
+				affected_skill: [ "magic_elemental" ],
+				prerequisite: "surge_engine"
 			}
 		},
-	  source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
+		source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
 	},
 	veil_dancer: {
 		name: "Veil Dancer",
 		career_type: "arcane",
 		career_type_name: "Arcane",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
 		skill_points_primary_display: "base_skill_points + EDU x 2",
 		skill_points_secondary: 20,
 		spell_xp_primary: 30,
@@ -36900,6 +37061,7 @@ const careerDataMap = {
 			throw: "throw-u",
 			unarmed: "unarmed-u"
 		},
+		exclusive_skill_sets: [],
 		entry_requirements: {
 			all: [
 				{ type: "awakened" }
@@ -36907,290 +37069,328 @@ const careerDataMap = {
 		},
 		talents: {
 			grounded_form: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_veil_dancer_grounded_form-u",
 				rule_text_key: "career_veil_dancer_grounded_form_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
+				type: { economy: "maneuver", tag: "stance" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "maneuver", tag: "stance" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			reading_the_weight: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_veil_dancer_reading_the_weight-u",
 				rule_text_key: "career_veil_dancer_reading_the_weight_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
+				type: { economy: "passive", tag: "awareness" },
+				strain: "",
 				usage_limit: "",
-				type: { economy: "passive", tag: "awareness" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			slip_inside_the_strike: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_veil_dancer_slip_inside_the_strike-u",
 				rule_text_key: "career_veil_dancer_slip_inside_the_strike_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
+				type: { economy: "reaction", tag: "engagement_shift" },
 				strain: "1",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "engagement_shift" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			strain_buffer: {
+				tier: 1,
+				cost: 5,
+				capstone: false,
 				name_key: "career_veil_dancer_strain_buffer-u",
 				rule_text_key: "career_veil_dancer_strain_buffer_rules-u",
-				prerequisite: "",
-				tier: 1,
-				cost: 5,
-				capstone: false,
+				type: { economy: "passive" },
+				strain: "",
 				usage_limit: "",
-				type: { economy: "passive" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			veilstep: {
-				name_key: "career_veil_dancer_veilstep-u",
-				rule_text_key: "career_veil_dancer_veilstep_rules-u",
-				prerequisite: "",
 				tier: 1,
 				cost: 5,
-				strain: "1",
 				capstone: false,
+				name_key: "career_veil_dancer_veilstep-u",
+				rule_text_key: "career_veil_dancer_veilstep_rules-u",
+				type: { economy: "free_action", tag: "reposition" },
+				strain: "1",
 				usage_limit: "scene",
-				type: { economy: "free_action", tag: "reposition" }
+				affected_skill: [],
+				prerequisite: ""
 			},
 			borrowed_step: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_veil_dancer_borrowed_step-u",
 				rule_text_key: "career_veil_dancer_borrowed_step_rules-u",
-				prerequisite: "veilstep",
-				tier: 2,
-				cost: 10,
+				type: { economy: "maneuver", tag: "vector_shift" },
 				strain: "1",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "maneuver", tag: "vector_shift" }
+				affected_skill: [],
+				prerequisite: "veilstep"
 			},
 			gravity_hold: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_veil_dancer_gravity_hold-u",
 				rule_text_key: "career_veil_dancer_gravity_hold_rules-u",
-				prerequisite: "grounded_form",
-				tier: 2,
-				cost: 10,
+				type: { economy: "maneuver", tag: "localized_constraint" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "maneuver", tag: "localized_constraint" }
+				affected_skill: [],
+				prerequisite: "grounded_form"
 			},
 			latch_the_moment: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_veil_dancer_latch_the_moment-u",
 				rule_text_key: "career_veil_dancer_latch_the_moment_rules-u",
-				prerequisite: "reading_the_weight",
-				tier: 2,
-				cost: 10,
+				type: { economy: "action", tag: "commitment" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "action", tag: "commitment" }
+				affected_skill: [],
+				prerequisite: "reading_the_weight"
 			},
 			shear_and_slip: {
+				tier: 2,
+				cost: 10,
+				capstone: false,
 				name_key: "career_veil_dancer_shear_and_slip-u",
 				rule_text_key: "career_veil_dancer_shear_and_slip_rules-u",
-				prerequisite: "slip_inside_the_strike",
-				tier: 2,
-				cost: 10,
+				type: { economy: "reaction", tag: "force_redirection" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "force_redirection" }
+				affected_skill: [],
+				prerequisite: "slip_inside_the_strike"
 			},
 			veil_economy: {
-				name_key: "career_veil_dancer_veil_economy-u",
-				rule_text_key: "career_veil_dancer_veil_economy_rules-u",
-				prerequisite: "strain_buffer",
 				tier: 2,
 				cost: 10,
 				capstone: false,
+				name_key: "career_veil_dancer_veil_economy-u",
+				rule_text_key: "career_veil_dancer_veil_economy_rules-u",
+				type: { economy: "free_action", tag: "economy_adjustment" },
+				strain: "",
 				usage_limit: "scene",
-				type: { economy: "free_action", tag: "economy_adjustment" }
+				affected_skill: [],
+				prerequisite: "strain_buffer"
 			},
 			break_the_rhythm: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_veil_dancer_break_the_rhythm-u",
 				rule_text_key: "career_veil_dancer_break_the_rhythm_rules-u",
-				prerequisite: "shear_and_slip",
-				tier: 3,
-				cost: 15,
+				type: { economy: "reaction", tag: "rhythm_break" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "rhythm_break" }
+				affected_skill: [],
+				prerequisite: "shear_and_slip"
 			},
 			claim_the_space: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_veil_dancer_claim_the_space-u",
 				rule_text_key: "career_veil_dancer_claim_the_space_rules-u",
-				prerequisite: "latch_the_moment",
-				tier: 3,
-				cost: 15,
+				type: { economy: "action", tag: "engagement_authority" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "action", tag: "engagement_authority" }
+				affected_skill: [],
+				prerequisite: "latch_the_moment"
 			},
 			stonefall_stance: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_veil_dancer_stonefall_stance-u",
 				rule_text_key: "career_veil_dancer_stonefall_stance_rules-u",
-				prerequisite: "gravity_hold",
-				tier: 3,
-				cost: 15,
+				type: { economy: "maneuver", tag: "physics_imposition" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "maneuver", tag: "physics_imposition" }
+				affected_skill: [],
+				prerequisite: "gravity_hold"
 			},
 			turn_the_rush: {
+				tier: 3,
+				cost: 15,
+				capstone: false,
 				name_key: "career_veil_dancer_turn_the_rush-u",
 				rule_text_key: "career_veil_dancer_turn_the_rush_rules-u",
-				prerequisite: "borrowed_step",
-				tier: 3,
-				cost: 15,
+				type: { economy: "reaction", tag: "momentum_theft" },
 				strain: "2",
-				capstone: false,
 				usage_limit: "scene",
-				type: { economy: "reaction", tag: "momentum_theft" }
+				affected_skill: [],
+				prerequisite: "borrowed_step"
 			},
 			you_dont_leave_me: {
-				name_key: "career_veil_dancer_you_dont_leave_me-u",
-				rule_text_key: "career_veil_dancer_you_dont_leave_me_rules-u",
-				prerequisite: "veil_economy",
 				tier: 3,
 				cost: 15,
 				capstone: false,
+				name_key: "career_veil_dancer_you_dont_leave_me-u",
+				rule_text_key: "career_veil_dancer_you_dont_leave_me_rules-u",
+				type: { economy: "passive", tag: "positional_influence" },
+				strain: "",
 				usage_limit: "",
-				type: { economy: "passive", tag: "positional_influence" }
+				affected_skill: [],
+				prerequisite: "veil_economy"
 			},
 			borrowed_horizon: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_veil_dancer_borrowed_horizon-u",
 				rule_text_key: "career_veil_dancer_borrowed_horizon_rules-u",
-				prerequisite: "you_dont_leave_me",
-				tier: 4,
-				cost: 20,
+				type: { economy: "free_action", tag: "spatial_rewrite" },
 				strain: "2",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "free_action", tag: "spatial_rewrite" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "you_dont_leave_me"
 			},
 			impossible_footing: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_veil_dancer_impossible_footing-u",
 				rule_text_key: "career_veil_dancer_impossible_footing_rules-u",
-				prerequisite: "turn_the_rush",
-				tier: 4,
-				cost: 20,
+				type: { economy: "action", tag: "mythic_movement" },
 				strain: "2",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "mythic_movement" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "turn_the_rush"
 			},
 			the_world_says_no: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_veil_dancer_the_world_says_no-u",
 				rule_text_key: "career_veil_dancer_the_world_says_no_rules-u",
-				prerequisite: "stonefall_stance",
-				tier: 4,
-				cost: 20,
+				type: { economy: "reaction", tag: "absolute_rebuttal" },
 				strain: "2",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "reaction", tag: "absolute_rebuttal" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "stonefall_stance"
 			},
 			unbound_dance: {
+				tier: 4,
+				cost: 20,
+				capstone: false,
 				name_key: "career_veil_dancer_unbound_dance-u",
 				rule_text_key: "career_veil_dancer_unbound_dance_rules-u",
-				prerequisite: "claim_the_space",
-				tier: 4,
-				cost: 20,
+				type: { economy: "action", tag: "ascendant_stance" },
 				strain: "3",
-				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "ascendant_stance" }
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "claim_the_space"
 			},
 			veilbreaker_palm: {
-				name_key: "career_veil_dancer_veilbreaker_palm-u",
-				rule_text_key: "career_veil_dancer_veilbreaker_palm_rules-u",
-				prerequisite: "stonefall_stance",
 				tier: 4,
 				cost: 20,
-				strain: "3",
 				capstone: false,
-			    usage_limit: "scene",
-				type: { economy: "action", tag: "altered_strike" }
+				name_key: "career_veil_dancer_veilbreaker_palm-u",
+				rule_text_key: "career_veil_dancer_veilbreaker_palm_rules-u",
+				type: { economy: "action", tag: "altered_strike" },
+				strain: "3",
+				usage_limit: "scene",
+				affected_skill: [],
+				prerequisite: "stonefall_stance"
 			},
 			falling_star_impact: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_veil_dancer_falling_star_impact-u",
 				rule_text_key: "career_veil_dancer_falling_star_impact_rules-u",
-				prerequisite: "borrowed_horizon",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "impact_descent" },
 				strain: "1d6",
-				capstone: true,
 				usage_limit: "session",
-				type: { economy: "action", tag: "impact_descent" }
+				affected_skill: [],
+				prerequisite: "borrowed_horizon"
 			},
 			heaven_shattering_sequence: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_veil_dancer_heaven_shattering_sequence-u",
 				rule_text_key: "career_veil_dancer_heaven_shattering_sequence_rules-u",
-				prerequisite: "veilbreaker_palm",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "perfect_assault" },
 				strain: "2d6",
-				capstone: true,
 				usage_limit: "session",
-				type: { economy: "action", tag: "perfect_assault" }
+				affected_skill: [],
+				prerequisite: "veilbreaker_palm"
 			},
 			stillness_between_heartbeats: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_veil_dancer_stillness_between_heartbeats-u",
 				rule_text_key: "career_veil_dancer_stillness_between_heartbeats_rules-u",
-				prerequisite: "the_world_says_no",
-				tier: 5,
-				cost: 30,
+				type: { economy: "reaction", tag: "temporal_interdiction" },
 				strain: "1d8",
-				capstone: true,
 				usage_limit: "session",
-				type: { economy: "reaction", tag: "temporal_interdiction" }
+				affected_skill: [],
+				prerequisite: "the_world_says_no"
 			},
 			the_veil_will_not_let_you_fall: {
+				tier: 5,
+				cost: 30,
+				capstone: true,
 				name_key: "career_veil_dancer_the_veil_will_not_let_you_fall-u",
 				rule_text_key: "career_veil_dancer_the_veil_will_not_let_you_fall_rules-u",
-				prerequisite: "unbound_dance",
-				tier: 5,
-				cost: 30,
+				type: { economy: "action", tag: "existential_assertion" },
 				strain: "1d8",
-				capstone: true,
 				usage_limit: "session",
-				type: { economy: "action", tag: "existential_assertion" }
+				affected_skill: [],
+				prerequisite: "unbound_dance"
 			},
 			zero_point_mastery: {
-				name_key: "career_veil_dancer_zero_point_mastery-u",
-				rule_text_key: "career_veil_dancer_zero_point_mastery_rules-u",
-				prerequisite: "impossible_footing",
 				tier: 5,
 				cost: 30,
-				strain: "1d6",
 				capstone: true,
+				name_key: "career_veil_dancer_zero_point_mastery-u",
+				rule_text_key: "career_veil_dancer_zero_point_mastery_rules-u",
+				type: { economy: "action", tag: "mythic_state" },
+				strain: "1d6",
 				usage_limit: "session",
-				type: { economy: "action", tag: "mythic_state" }
+				affected_skill: [],
+				prerequisite: "impossible_footing"
 			}
 		},
-	  source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
+		source: { doc: "careers-u", version: "2.260119", date: "2026-01-19", section: "careers-u" }
 	},
-	/* Core Career */
 	brawler: {
 		name: "Brawler",
 		career_type: "core",
 		career_type_name: "Core",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
-		skill_points_primary_display: "base_skill_points + EDU x 2"
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
+		skill_points_primary_display: "base_skill_points + EDU x 2",
+		skill_points_secondary: 20,
+		spell_xp_primary: 0,
+		spell_xp_secondary: 0,
+		primary_skills: {},
+		secondary_skills: {},
+		entry_requirements: {},
+		talents: {},
+		source: { doc: "careers-u", version: "", date: "", section: "careers-u" }
 	},
+
 	breacher: {
 		name: "Breacher",
 		career_type: "core",
@@ -39398,12 +39598,21 @@ const careerDataMap = {
 		career_type: "core",
 		career_type_name: "Core",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
-		skill_points_primary_display: "base_skill_points + EDU x 2"
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
+		skill_points_primary_display: "base_skill_points + EDU x 2",
+		skill_points_secondary: 20,
+		spell_xp_primary: 0,
+		spell_xp_secondary: 0,
+		primary_skills: {},
+		secondary_skills: {},
+		entry_requirements: {},
+		talents: {},
+		source: { doc: "careers-u", version: "", date: "", section: "careers-u" }
 	},
+
 	pilot: {
 	  name: "Pilot",
 	  career_type: "core",
@@ -40701,12 +40910,21 @@ const careerDataMap = {
 		career_type: "core",
 		career_type_name: "Core",
 		base_skill_points: 180,
-        skill_points_primary_formula: {
-            attributes: ["EDU"],
-            multipliers: [2]
-        },
-		skill_points_primary_display: "base_skill_points + EDU x 2"
+		skill_points_primary_formula: {
+			attributes: ["EDU"],
+			multipliers: [2]
+		},
+		skill_points_primary_display: "base_skill_points + EDU x 2",
+		skill_points_secondary: 20,
+		spell_xp_primary: 0,
+		spell_xp_secondary: 0,
+		primary_skills: {},
+		secondary_skills: {},
+		entry_requirements: {},
+		talents: {},
+		source: { doc: "careers-u", version: "", date: "", section: "careers-u" }
 	},
+
 	/* Specialist Career */
 	arcane_gunslinger: {
 	  name: "Arcane Gunslinger",

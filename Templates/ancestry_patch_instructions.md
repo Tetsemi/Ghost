@@ -54,8 +54,6 @@ Extract verbatim from the three files:
 
 > **Gate:** If any block cannot be extracted verbatim, stop and report. Do not produce patches.
 
-> **Key format note:** Race keys in `ancestryTalentDataMap` use `race: {` (no space before colon) for all races except `human`, which uses `human : {` (space before colon). Always match the existing spacing exactly in REMOVE blocks.
-
 ---
 
 ### Phase 2 — Parse Inputs
@@ -107,7 +105,7 @@ Extract verbatim from the three files:
 - Tiers are processed in order (1 → 2 → 3 → 4). By the time tier N is patched, tiers 1 through N−1 are already correct in the file and can be trusted.
 
 **`source` field on each talent:**
-- Ancestry talents carry a `source` object on each individual talent (unlike career talents, which carry one source at the career object level).
+- Ancestry talents carry a `source` object on **each individual talent** (unlike career talents, which carry one source at the career object level).
 - Format: `source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "ancestry-u" }`
 - `version` and `date` come from SOURCE_VERSION / SOURCE_DATE — the document's publication date, not today's date.
 - Bump `version` and `date` on every talent that is added or has content changed in this patch.
@@ -125,7 +123,7 @@ For each surface, compare extract against input-derived target. If a surface alr
 
 | Surface | What to check |
 |---|---|
-| `ancestryTalentDataMap` talent objects | All fields: name_key, rule_text_key, affected_skill, prerequisite, tier, cost, strain, capstone, usage_limit, type, source |
+| `ancestryTalentDataMap` talent objects | All fields in canonical order — see §2 |
 | Field consistency | Any in-scope talent missing `strain: ""` gets it added; any missing `affected_skill: []` gets it added |
 | Tier HTML | Comment header index, talent row markup, prereq spans, alphabetical order by key |
 | Tracker HTML | show input + scene/session div for each usage_limit: scene/session talent |
@@ -170,8 +168,7 @@ Rules:
 - Talent added → add all three if missing
 - Talent removed → remove all three in same patch
 - A tracker HTML ADD must always have a matching CSS ADD (and vice versa)
-- `usage_limit: ""` or at-will → no tracker rows unless the existing pattern explicitly has them
-- Tracker rows for a race are gated in the HTML by the ancestry tracker section — verify the race's tracker block exists before adding rows
+- `usage_limit: ""` → no tracker rows unless the existing pattern explicitly has them
 
 ---
 
@@ -180,7 +177,7 @@ Rules:
 Three downloadable files, each containing only REMOVE/ADD blocks:
 
 **HTML patch** — in this order:
-1. `ancestryTalentDataMap` object changes (talent objects with bumped source fields)
+1. `ancestryTalentDataMap` talent object changes
 2. Tier HTML row changes
 3. Tracker HTML row changes
 
@@ -191,7 +188,6 @@ Three downloadable files, each containing only REMOVE/ADD blocks:
 **REMOVE block rules:**
 - Must be copied byte-identical from the current file
 - Includes comment headers, braces, exact indentation, trailing commas
-- Match the existing indentation style for the race exactly (some races use spaces, some use tabs — never normalize)
 - If byte-identical copy cannot be guaranteed: stop, do not produce patches
 
 **ADD block rules:**
@@ -199,7 +195,7 @@ Three downloadable files, each containing only REMOVE/ADD blocks:
 - Unchanged lines within an ADD block are byte-identical to the REMOVE block
 - Only changed contiguous blocks are included (minimality)
 
-**No-op rule:** if a surface has no changes, produce a clearly labelled no-op comment rather than identical REMOVE/ADD blocks.
+**No-op rule:** if a surface has no changes, produce a clearly labelled no-op comment rather than identical REMOVE/ADD pairs.
 
 ---
 
@@ -228,6 +224,7 @@ Validations:
   [PASS|FAIL] Indentation style preserved (no normalization)
   [PASS|FAIL] Alphabetization (talent keys in datamap, i18n keys in JSON, tracker rows by key)
   [PASS|FAIL] Normalization substitutions applied
+  [PASS|FAIL] Canonical talent field order applied
 
 Patch manifest:
   ancestryTalentDataMap: [CHANGED lines N–N | NO-OP]
@@ -245,21 +242,45 @@ Flags:
 
 ## 2) Field Reference
 
+### Canonical talent field order
+
+All ancestry talent objects must use this field order. The cleanup pass standardized `feran`, `khadra`, `human`, `alteri`, `draevi`, `lyranni` to this order — new and edited talents must match it:
+
+```javascript
+talent_key: {
+    tier: N,
+    cost: N,
+    capstone: false,
+    name_key: "talent_<race>_<talent_key>-u",
+    rule_text_key: "talent_<race>_<talent_key>_rules-u",
+    type: { economy: "<string>", tag: "<string>" },
+    strain: "",
+    usage_limit: "",
+    affected_skill: [],
+    affected_skill_group: "...",   // omit if not used
+    affected_stat: "...",          // omit if not used
+    prerequisite: "",
+    source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "ancestry-u" }
+}
+```
+
+**Optional fields** (`affected_skill_group`, `affected_stat`) are omitted entirely when not applicable.
+
 ### Required fields on every talent object
 
 | Field | Type | Notes |
 |---|---|---|
-| `name_key` | string | `"talent_<race>_<talent_key>-u"` |
-| `rule_text_key` | string | `"talent_<race>_<talent_key>_rules-u"` |
-| `affected_skill` | array of strings | Skill keys; `[]` if none. Always present. |
-| `prerequisite` | string or array | Key at tier N−1, `""` for none/any, or `["key_a", "key_b"]` for multi-prereq |
 | `tier` | integer | Must equal TARGET_TIER. Tier 1 = 10 XP, Tier 2 = 20 XP, Tier 3 = 30 XP, Tier 4 = 40 XP |
 | `cost` | integer | Always `tier × 10` |
-| `strain` | string | Always a string: `""`, `"1"`, `"1d4"`, etc. Always present. |
 | `capstone` | boolean | `true` only for tier 4 capstones |
-| `usage_limit` | string | `"scene"`, `"session"`, or `""` |
+| `name_key` | string | `"talent_<race>_<talent_key>-u"` |
+| `rule_text_key` | string | `"talent_<race>_<talent_key>_rules-u"` |
 | `type` | object | `{ economy: "<string>", tag: "<string>" }`. Always present. |
-| `source` | object | See source field format below. Always present. Per-talent (unlike career talents). |
+| `strain` | string | Always a string: `""`, `"1"`, `"1d4"`, etc. Always present. |
+| `usage_limit` | string | `"scene"`, `"session"`, or `""` |
+| `affected_skill` | array of strings | Skill keys; `[]` if none. Always present. |
+| `prerequisite` | string or array | Key at tier N−1, `""` for none/any, or `["key_a", "key_b"]` for multi-prereq |
+| `source` | object | Per-talent (unlike career talents). See format below. Always present. |
 
 ### `source` field format (per-talent)
 
@@ -269,7 +290,7 @@ source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "an
 - `doc`: race name key (e.g. `"draevi-u"`)
 - `version` / `date`: from SOURCE_VERSION / SOURCE_DATE — the document's publication date
 - `section`: always `"ancestry-u"`
-- Lives inside each talent object, not at the race level
+- Lives **inside each talent object** — not at the race level
 
 ### i18n key format
 
@@ -343,8 +364,9 @@ source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "an
 9. **`strain` is always a string**, even for plain integers. Always present.
 10. **`affected_skill` is always an array**, even when empty (`[]`). Always present.
 11. **`source` is per-talent**, not per-race. Bump only on talents that change. Do not touch source on unchanged talents.
-12. **Preserve indentation style per race.** Some races use spaces, others use mixed tabs/spaces. Never normalize to a uniform style in a patch — match what is already there.
-13. **No inline code blocks in chat.** All file content goes in the downloadable patch files. Chat output is limited to the `Provenance & Checks` block.
+12. **Canonical field order is mandatory** on all new and edited talent objects. See §2.
+13. **Preserve indentation style per race.** Some races use spaces, others use mixed tabs/spaces. Never normalize to a uniform style in a patch — match what is already there.
+14. **No inline code blocks in chat.** All file content goes in the downloadable patch files. Chat output is limited to the `Provenance & Checks` block.
 
 ---
 
@@ -356,8 +378,125 @@ The following inconsistencies exist in the file due to races being authored at d
 |---|---|
 | `kitsu` | Missing `strain`, `type`, and `source` on most talents. Uses `skills:` instead of `affected_skill:` on some entries. Do not replicate. |
 | `veyra` | Missing `strain`, `type`, and `source` on all talents. Do not replicate. |
-| `alteri`, `draevi` | `strain` absent on most talents (predates the field being required). |
-| `human` | Missing `affected_skill` on all talents. `human : {` has a space before the colon — preserve exactly in REMOVE blocks. |
-| All races | `affected_skill` absent on some talents where it should be `[]`. Add it when touching those talents in a patch. |
 
-When patching a race with these issues, add the missing fields to any talent you are already editing in scope. Do not do a wholesale backfill unless that is explicitly the stated purpose of the patch.
+
+
+The following races were fully cleaned up in the 2026-03 schema pass and are fully canonical:
+- `alteri`, `draevi`, `feran`, `human`, `khadra`, `lyranni`
+
+When patching a race with remaining inconsistencies, add the missing fields to any talent you are already editing in scope. Do not do a wholesale backfill unless that is explicitly the stated purpose of the patch.
+
+---
+
+## 5) HTML Structure Reference
+
+### Tier container
+
+```html
+<div class="sheet-talent-tier sheet-ancestry-tier-collapsible" data-tier="N">
+    <input type="checkbox" class="sheet-top-collapse" id="ancestry_<race>_tierN_collapse" name="attr_ancestry_<race>_tierN_collapse" value="1"/>
+    <h4 class="sheet-section-head sheet-talent-tier-header">
+        <span data-i18n="tierN_talents-u">Tier N Talents (N×10 XP)</span>
+        <label class="sheet-top-collapse-hit" for="ancestry_<race>_tierN_collapse" title="Toggle section"></label>
+    </h4>
+
+    <div class="sheet-section-body">
+        <!-- index block -->
+
+        <!-- Tier 1: talent rows directly here, no prereq toggle -->
+
+        <!-- Tiers 2–4: prereq toggle + sheet-ancestry wrapper -->
+        <!-- Toggle -->
+        <!-- controller (stays before .sheet-ancestry) -->
+        <input type="checkbox" id="show_<race>_talent_prereqs_tN" class="sheet-prereq-toggle" name="attr_show_<race>_talent_prereqs_tN" value="1"/>
+
+        <!-- visual control -->
+        <div class="sheet-talent-toolbar">
+            <label class="sheet-prereq-toggle-label" for="show_<race>_talent_prereqs_tN">
+                <span data-i18n="show_prereqs-u">Show prerequisites</span>
+            </label>
+        </div>
+
+        <div class="sheet-ancestry">
+            <!-- talent rows -->
+        </div>
+    </div>
+</div>
+```
+
+**Tier 4 header** uses a slightly different i18n string that includes "Capstone": `tier4_talents-u` = "Tier 4 Talents (40 XP - Capstone)"
+
+### Index block format
+
+```html
+<!-- ================== <RACE_UPPER> TALENTS: INDEX (Tier N) (key | cost | cadence) ================== -->
+<!-- - talent_<race>_<key_a> (N XP, <scene|session|none>) -->
+<!-- - talent_<race>_<key_b> (N XP, none) -->
+<!-- ============================================================================================================== -->
+```
+
+- Race name is uppercased: `FERAN`, `DRAEVI`, `COMBAT_ENGINEER` etc.
+- No `ANCESTRY` prefix — just `<RACE_UPPER> TALENTS:` (distinct from career's `CAREER <CAREER_UPPER> TALENTS:`)
+- Entries alphabetized by talent key
+- Cadence is `scene`, `session`, or `none`
+
+### Talent comment header format
+
+```html
+<!-- Ancestry Talent: <Display Name> | key: <talent_key> | cost: N XP | cadence: <scene|session|none> | attrs: attr_<race>_<talent_key>, attr_<race>_<talent_key>_lockflag | i18n: talent_<race>_<talent_key>-u | — | talent_<race>_<talent_key>_rules-u -->
+```
+
+Note: the `key:` field uses just the bare talent key (e.g. `anglecraft`), not the prefixed form — unlike the index block which uses the full `talent_<race>_<talent_key>` form.
+
+### Talent row — Tier 1
+
+No `_enabled` field, no prereq span, no `sheet-ancestry` wrapper:
+
+```html
+<!-- Ancestry Talent: <Display Name> | key: <talent_key> | ... -->
+<div class="sheet-talent-row">
+    <input type="hidden" name="attr_<race>_<talent_key>_lockflag" value="0"/>
+    <input type="checkbox" name="attr_<race>_<talent_key>" value="1" class="sheet-talent-checkbox"/>
+    <label class="sheet-talent-label"><span data-i18n="talent_<race>_<talent_key>-u"></span></label>
+    <span class="sheet-talent-description" data-i18n="talent_<race>_<talent_key>_rules-u"></span>
+</div>
+```
+
+### Talent row — Tiers 2–3
+
+Adds `_enabled`, prereq span, and lives inside the `<div class="sheet-ancestry">` wrapper:
+
+```html
+<!-- Ancestry Talent: <Display Name> | key: <talent_key> | ... -->
+<div class="sheet-talent-row">
+    <input type="hidden" name="attr_<race>_<talent_key>_enabled" value="0"/>
+    <input type="hidden" name="attr_<race>_<talent_key>_lockflag" value="0"/>
+    <input type="checkbox" name="attr_<race>_<talent_key>" value="1" class="sheet-talent-checkbox"/>
+    <label class="sheet-talent-label"><span data-i18n="talent_<race>_<talent_key>-u"></span></label>
+    <span class="sheet-talent-description" data-i18n="talent_<race>_<talent_key>_rules-u"></span>
+    <span class="sheet-talent-prereq" data-i18n="talent_<race>_<prerequisite_key>-u"></span>
+</div>
+```
+
+### Talent row — Tier 4 (capstone)
+
+Same as tiers 2–3 but adds `sheet-tier4-checkbox` to the checkbox class:
+
+```html
+<input type="checkbox" name="attr_<race>_<talent_key>" value="1" class="sheet-talent-checkbox sheet-tier4-checkbox"/>
+```
+
+Note: ancestry capstones use `sheet-tier4-checkbox`, not `sheet-capstone-checkbox` (which is the career pattern).
+
+### Attribute naming in HTML
+
+Note that the `key:` in the comment header is the bare talent key without the race prefix. The full prefixed form only appears in the index block and i18n attributes:
+
+| Context | Format |
+|---|---|
+| Comment header `key:` | `<talent_key>` (e.g. `anglecraft`) |
+| Index block entry | `talent_<race>_<talent_key>` |
+| HTML `attr_` name | `attr_<race>_<talent_key>` |
+| i18n key | `talent_<race>_<talent_key>-u` |
+| `ancestryTalentDataMap` talent key | `<talent_key>` (bare, inside race object) |
+

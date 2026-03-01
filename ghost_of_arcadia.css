@@ -248,6 +248,7 @@ button.new-roll {
   cursor: auto;
 }
 
+
 /* ------------------------------- */
 /* Top, Middle, Bottom Sections */
 /* ------------------------------- */
@@ -1447,6 +1448,91 @@ select[name="attr_damage_bonus"] {
 }
 
 /* ---------------------- Skill Section --------------------------------------------- */
+
+
+/* ══════════════════════════════════════════════
+   TOOLTIP IMPLEMENTATION
+   ══════════════════════════════════════════════
+
+   Wrap .skill-label in a .sheet-skill-tooltip div.
+   Sheet worker adds "has-notes" class when attr_archery_notes
+   is non-empty — drives both the underline and hover activation.
+   Pure CSS :hover, no runtime JS needed.
+*/
+
+.ui-dialog .tab-content .charsheet .sheet-skill-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Tooltip bubble — hidden by default */
+.ui-dialog .tab-content .charsheet .sheet-skill-tooltip .sheet-tooltip-bubble {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+
+  position: absolute;
+  left: 0;
+  top: calc(100% + 5px);
+  z-index: 999;
+
+  background: #112749;
+  border: 1px solid #555;
+  border-radius: 3px;
+  padding: 6px 8px;
+  min-width: 180px;
+  max-width: 240px;
+
+  font-size: 11px;
+  line-height: 1.5;
+  color: #eee;
+  white-space: normal;
+
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  transition: opacity 0.12s ease;
+}
+
+/* Arrow */
+.ui-dialog .tab-content .charsheet .sheet-skill-tooltip .sheet-tooltip-bubble::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 10px;
+  border: 5px solid transparent;
+  border-top: none;
+  border-bottom-color: #555;
+}
+.ui-dialog .tab-content .charsheet .sheet-skill-tooltip .sheet-tooltip-bubble::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 11px;
+  border: 4px solid transparent;
+  border-top: none;
+  border-bottom-color: #112749;
+}
+
+/* Show on hover ONLY when has-notes is present */
+.ui-dialog .tab-content .charsheet .sheet-skill-tooltip.has-notes:hover .sheet-tooltip-bubble {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Visual cue: dashed underline when notes exist */
+.ui-dialog .tab-content .charsheet .sheet-skill-tooltip.has-notes .skill-label {
+  border-bottom: 1px dashed #112749;
+  cursor: help;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tooltip-bubble .tooltip-label {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #aac4e0;
+  margin-bottom: 3px;
+}
 
 .ui-dialog .tab-content .charsheet .sheet-skill-columns {
 	display: flex;

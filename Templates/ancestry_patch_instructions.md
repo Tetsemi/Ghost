@@ -12,7 +12,7 @@
 
 **Target Ancestry + Scope:**
 - `RACE_KEY`: `veyra`*(e.g. `draevi`)* — must match the key in `ancestryTalentDataMap`
-- `TARGET_TIER`: `1`*(integer: 1, 2, 3, or 4)*
+- `TARGET_TIER`: `4`*(integer: 1, 2, 3, or 4)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `talents` *(required when tier work is requested)*
   - `traits` *(required when ancestryDataMap trait work is requested)*
@@ -26,11 +26,11 @@
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-Compression Instinct	Type: Passive (Structural Familiarity) • Cost: — • Usage: At-will — Tight spaces — collapsed corridors, maintenance shafts, low-clearance ducts — count as normal terrain for you. You do not suffer movement penalties or additional Maneuver costs when traversing them.
-Dark Geometry	Type: Passive (Acoustic Navigation) • Cost: — • Usage: At-will — You do not suffer penalty dice on Stealth, Athletics, or Coordination rolls from darkness or obscured visibility. If you are Deafened or in an environment that actively distorts sound, this feature is suppressed until resolved.
-Pressure Map	Type: Free Action (Spatial Read) • Cost: — • Usage: 1/Scene — When you enter a physical space, or after its layout changes — collapse, an opening, movement of obstacles — roll Perception. On a success, you gain +1 bonus die on your next roll this scene to navigate, reposition, find cover, or detect hidden movement within that space. This functions in total darkness and does not require line of sight.
-Read the Fault	Type: Free Action (Mechanical Assessment) • Cost: — • Usage: 1/Scene — When you first interact with or closely observe a damaged, malfunctioning, or improvised device, you immediately learn whether it is functional, partially functional, or beyond field repair, and which component is responsible for its current state. No roll is required.
-Still as the Shaft	Type: Passive (Movement Stealth) • Cost: — • Usage: At-will — Moving at standard pace does not impose penalty dice on Stealth checks. This does not apply to sprinting or combat movement.
+Ghost in the Infrastructure	Type: Special (Scene Ownership) • Cost: 1d6 Strain • Usage: 1/Session — When you have moved through or observed a location's infrastructure before the scene begins, declare this talent. Once per round as a Free Action, you may trigger or suppress one environmental feature within Medium range without a roll. Each use must be distinct. This ends if you leave the location or its infrastructure is destroyed.	Structural Exploit
+Gone Before the Echo	Type: Reaction (Acoustic Disappearance) • Cost: 1d6 Strain • Usage: 1/Session — When you are targeted by a scan, search, or detection attempt, you may declare this talent. For the remainder of the scene, all detection attempts relying on sound, movement, or proximity automatically fail against you unless you take a loud or disruptive action. Visual detection and direct magical tracking still function normally.	Dead Air
+Everywhere at Once	Type: Passive (Extended Acoustic Presence) • Cost: — • Usage: At-will — Your Ultrasonic Awareness permanently expands to Medium range. In environments with connected physical infrastructure, it extends to Long range. You cannot be Surprised by anything within your acoustic field unless the source suppresses sound. Once per scene, you may warn one ally within Medium range before they are Surprised, allowing them to act normally in the first round.	The System Knows Me
+The Invisible Repair	Type: Action (Systemic Rewrite) • Cost: 1d6 Strain • Usage: 1/Session — When you modify, sabotage, or repair a device, that change is permanent. Detecting the modification requires a Hard Success or greater on a Mechanics or Electronics roll and a physical inspection of the system. Choose one: the modification activates on a trigger condition you define at installation, or it activates at a time you specify later this session.	Perfect Fit
+The Last Working Part	Type: Action (Impossible Salvage) • Cost: 1d6 Strain • Usage: 1/Session — When a device or system has failed completely, you restore it to minimum viable function for the remainder of the scene without tools or parts. Roll Mechanics. On a success, it works — imperfectly, but enough. On a failure, you extract one final function from it as per Repurposed. Requires something physical to work with.	Repurposed
 ```
 
 **Trait Inputs (tab-delimited: Name | Rules Text):**

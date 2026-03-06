@@ -11,26 +11,36 @@
 - `translation.json`
 
 **Target Ancestry + Scope:**
-- `RACE_KEY`: *(e.g. `draevi`)* — must match the key in `ancestryTalentDataMap`
-- `TARGET_TIER`: *(integer: 1, 2, 3, or 4)*
+- `RACE_KEY`: `kitsu`*(e.g. `draevi`)* — must match the key in `ancestryTalentDataMap`
+- `TARGET_TIER`: `4`*(integer: 1, 2, 3, or 4)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `talents` *(required when tier work is requested)*
 
 **Source Version:**
-- `SOURCE_VERSION`: *(e.g. `2.260208`)*
-- `SOURCE_DATE`: *(e.g. `2026-02-08`)*
-- `SOURCE_DOC`: *(e.g. `draevi-u` — ancestry name key)*
-- `SOURCE_SECTION`: `ancestry-u`
+- `SOURCE_VERSION`: `2.260305`*(e.g. `2.260208`)*
+- `SOURCE_DATE`: `2026-03-05`*(e.g. `2026-02-08`)*
+- `SOURCE_DOC`: `ancestrry-u`*(e.g. `draevi-u` — ancestry name key)*
+- `SOURCE_SECTION`: `kitsu-u`
 
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-<paste talent table here>
+Polyphonic Command	Type: Action (Resonant Assertion) • Cost: 1d6 Strain • Usage: 1/Session — Make a Charm or Persuade roll. Choose one creature that can hear and understand you — until the end of the next round or until they successfully contradict you, they must achieve a greater degree of success on a POW check than your result to attack you, refuse your stated demand, or leave the scene. This does not override compulsion or commands from a higher authority. Creatures that succeed are unaffected and cannot be targeted by this talent again this session.	Resonant Dissonance
+Signal Null	Type: Action (Full Spectrum Suppression) • Cost: 1d6 Strain • Usage: 1/Session — For the remainder of the scene, you cannot be detected by passive electronic surveillance, arcane tracking, or automated sensory systems unless you take an overtly aggressive or disruptive action. Active, directed searches still function normally. When the scene ends or the effect breaks, suppressed systems resume immediately.	Ghost Frequency
+The Pivot Point	Type: Special Immediate (Scene Inversion) • Cost: 1d6 Strain • Usage: 1/Session — When a social scene has turned against you or your allies, choose one advantage an NPC currently holds — authority, information, or leverage established earlier in the scene — and declare it nullified. That NPC loses any bonus dice tied to that advantage for the remainder of the scene, and your next roll against them gains +1 bonus die.	The False Floor
+The Shape of the Hunt	Type: Passive (Strategic Patience) • Cost: — • Usage: 1/Session — At the start of any scene, silently designate one creature, system, or objective as your mark. Until the mark is resolved or the session ends, you gain +1 bonus die on Insight, Deception, and Stealth rolls made directly in pursuit of it. Once per scene, if you succeed on a roll against the mark, you may ask the GM one observable question about it and receive a truthful answer.	The Patient Hand
+Vanishing Act	Type: Reaction (Total Withdrawal) • Cost: 1d6 Strain • Usage: 1/Session — When you would be captured, cornered, or removed from the scene, you immediately break contact and withdraw to the nearest plausible position of concealment within Medium range. All rolls to locate, track, or identify you this round suffer one penalty die. Cannot be used while Restrained or Entangled, or if no plausible withdrawal position exists within Medium range. Does not negate damage already dealt or conditions already applied.	Strike on the Beat
 ```
 
 **Schema Reference:**
-- `SCHEMA_REFERENCE_RACE`: *(another race key with complete schema — for field names/types only, never content. Prefer `khadra` or `feran` as they have the most complete field coverage.)*
+- `SCHEMA_REFERENCE_RACE`: `draevi`*(another race key with complete schema — for field names/types only, never content. Prefer `khadra` or `feran` as they have the most complete field coverage.)*
 
+- `OPERATION`: `replace_tier`
+  - `replace_tier`: TIER_TALENTS_INPUT is the complete and final talent list for TARGET_TIER.
+    Talents in the file at TARGET_TIER not present in the input must be REMOVED (datamap object,
+    tier HTML row, tracker HTML, CSS, and JSON keys).
+  - `add`: TIER_TALENTS_INPUT contains new talents only. Existing talents at TARGET_TIER are untouched.
+  - `update`: TIER_TALENTS_INPUT contains modified versions of existing talents. Keys must match.
 ---
 
 ## 1) Operational Workflow
@@ -115,7 +125,7 @@ Extract verbatim from the three files:
 - `Pistol` → `Handgun`, `pistol` → `handgun`
 - `Archanotech` → `Arcanotech`, `archanotech` → `arcanotech`
 
----
+---a
 
 ### Phase 3 — Diff: Identify Actual Changes
 
@@ -129,6 +139,8 @@ For each surface, compare extract against input-derived target. If a surface alr
 | Tracker HTML | show input + scene/session div for each usage_limit: scene/session talent |
 | CSS | Show selectors for each scene/session talent |
 | JSON | Name string and rules string for each in-scope talent |
+
+When `OPERATION`: `replace_tier`, the diff target for the tier is exclusively the input list — any existing talent key absent from the input is treated as deleted and all three of its surfaces (datamap, HTML, tracker+CSS, JSON) get REMOVE blocks with no paired ADD.
 
 ---
 
@@ -260,7 +272,7 @@ talent_key: {
     affected_skill_group: "...",   // omit if not used
     affected_stat: "...",          // omit if not used
     prerequisite: "",
-    source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "ancestry-u" }
+    source: { doc: "<SOURCE_DOC>-u", version: "<SOURCE_VERSION>", date: "<SOURCE_DATE>", section: "<SOURCE_SECTION>-u" }
 }
 ```
 
@@ -279,7 +291,7 @@ talent_key: {
 | `strain` | string | Always a string: `""`, `"1"`, `"1d4"`, etc. Always present. |
 | `usage_limit` | string | `"scene"`, `"session"`, or `""` |
 | `affected_skill` | array of strings | Skill keys; `[]` if none. Always present. |
-| `prerequisite` | string or array | Key at tier N−1, `""` for none/any, or `["key_a", "key_b"]` for multi-prereq |
+| `prerequisite` | string or array | Key at tier N−1, `""` for none/any, or `["key_a", "key_b"]` for multi-prereq | Single-key prerequisites must still be written as a single-element array ["key"], not a bare string. |
 | `source` | object | Per-talent (unlike career talents). See format below. Always present. |
 
 ### `source` field format (per-talent)

@@ -11,26 +11,21 @@
 - `translation.json`
 
 **Target Ancestry + Scope:**
-- `RACE_KEY`: `veyra`*(e.g. `draevi`)* — must match the key in `ancestryTalentDataMap`
-- `TARGET_TIER`: `4`*(integer: 1, 2, 3, or 4)*
+- `RACE_KEY`: ``*(e.g. `draevi`)* — must match the key in `ancestryTalentDataMap`
+- `TARGET_TIER`: ``*(integer: 1, 2, 3, or 4)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `talents` *(required when tier work is requested)*
   - `traits` *(required when ancestryDataMap trait work is requested)*
 
 **Source Version:**
-- `SOURCE_VERSION`: `2.260305`*(e.g. `2.260208`)*
-- `SOURCE_DATE`: `2026-03-05`*(e.g. `2026-02-08`)*
-- `SOURCE_DOC`: `ancestrry-u`*(e.g. `draevi-u` — ancestry name key)*
+- `SOURCE_VERSION`: ``*(e.g. `2.260208`)*
+- `SOURCE_DATE`: `2`*(e.g. `2026-02-08`)*
+- `SOURCE_DOC`: `-u`*(e.g. `draevi-u` — ancestry name key)*
 - `SOURCE_SECTION`: `<RACE_KEY>-u`
 
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-Ghost in the Infrastructure	Type: Special (Scene Ownership) • Cost: 1d6 Strain • Usage: 1/Session — When you have moved through or observed a location's infrastructure before the scene begins, declare this talent. Once per round as a Free Action, you may trigger or suppress one environmental feature within Medium range without a roll. Each use must be distinct. This ends if you leave the location or its infrastructure is destroyed.	Structural Exploit
-Gone Before the Echo	Type: Reaction (Acoustic Disappearance) • Cost: 1d6 Strain • Usage: 1/Session — When you are targeted by a scan, search, or detection attempt, you may declare this talent. For the remainder of the scene, all detection attempts relying on sound, movement, or proximity automatically fail against you unless you take a loud or disruptive action. Visual detection and direct magical tracking still function normally.	Dead Air
-Everywhere at Once	Type: Passive (Extended Acoustic Presence) • Cost: — • Usage: At-will — Your Ultrasonic Awareness permanently expands to Medium range. In environments with connected physical infrastructure, it extends to Long range. You cannot be Surprised by anything within your acoustic field unless the source suppresses sound. Once per scene, you may warn one ally within Medium range before they are Surprised, allowing them to act normally in the first round.	The System Knows Me
-The Invisible Repair	Type: Action (Systemic Rewrite) • Cost: 1d6 Strain • Usage: 1/Session — When you modify, sabotage, or repair a device, that change is permanent. Detecting the modification requires a Hard Success or greater on a Mechanics or Electronics roll and a physical inspection of the system. Choose one: the modification activates on a trigger condition you define at installation, or it activates at a time you specify later this session.	Perfect Fit
-The Last Working Part	Type: Action (Impossible Salvage) • Cost: 1d6 Strain • Usage: 1/Session — When a device or system has failed completely, you restore it to minimum viable function for the remainder of the scene without tools or parts. Roll Mechanics. On a success, it works — imperfectly, but enough. On a failure, you extract one final function from it as per Repurposed. Requires something physical to work with.	Repurposed
 ```
 
 **Trait Inputs (tab-delimited: Name | Rules Text):**

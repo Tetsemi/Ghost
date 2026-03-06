@@ -193,12 +193,13 @@ Three downloadable files, each containing only REMOVE/ADD blocks:
 
 **REMOVE block rules:**
 - Must be copied byte-identical from the current file
-- Includes comment headers, braces, exact indentation (tabs — see §2), trailing commas
+- Includes comment headers, braces, exact indentation, trailing commas
 - If byte-identical copy cannot be guaranteed: stop, do not produce patches
 
 **ADD block rules:**
 - Produced by editing the REMOVE excerpt only — never constructed from a template
 - Unchanged lines within an ADD block are byte-identical to the REMOVE block
+- Includes comment headers, braces, exact indentation, trailing commas
 - Only changed contiguous blocks are included (minimality)
 
 **No-op rule:** if a surface has no changes, produce a clearly labelled no-op comment rather than identical REMOVE/ADD blocks.

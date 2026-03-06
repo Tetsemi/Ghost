@@ -11,25 +11,31 @@
 - `translation.json`
 
 **Target Ancestry + Scope:**
-- `RACE_KEY`: `kitsu`*(e.g. `draevi`)* — must match the key in `ancestryTalentDataMap`
-- `TARGET_TIER`: `4`*(integer: 1, 2, 3, or 4)*
+- `RACE_KEY`: `veyra`*(e.g. `draevi`)* — must match the key in `ancestryTalentDataMap`
+- `TARGET_TIER`: `1`*(integer: 1, 2, 3, or 4)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `talents` *(required when tier work is requested)*
+  - `traits` *(required when ancestryDataMap trait work is requested)*
 
 **Source Version:**
 - `SOURCE_VERSION`: `2.260305`*(e.g. `2.260208`)*
 - `SOURCE_DATE`: `2026-03-05`*(e.g. `2026-02-08`)*
 - `SOURCE_DOC`: `ancestrry-u`*(e.g. `draevi-u` — ancestry name key)*
-- `SOURCE_SECTION`: `kitsu-u`
+- `SOURCE_SECTION`: `<RACE_KEY>-u`
 
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-Polyphonic Command	Type: Action (Resonant Assertion) • Cost: 1d6 Strain • Usage: 1/Session — Make a Charm or Persuade roll. Choose one creature that can hear and understand you — until the end of the next round or until they successfully contradict you, they must achieve a greater degree of success on a POW check than your result to attack you, refuse your stated demand, or leave the scene. This does not override compulsion or commands from a higher authority. Creatures that succeed are unaffected and cannot be targeted by this talent again this session.	Resonant Dissonance
-Signal Null	Type: Action (Full Spectrum Suppression) • Cost: 1d6 Strain • Usage: 1/Session — For the remainder of the scene, you cannot be detected by passive electronic surveillance, arcane tracking, or automated sensory systems unless you take an overtly aggressive or disruptive action. Active, directed searches still function normally. When the scene ends or the effect breaks, suppressed systems resume immediately.	Ghost Frequency
-The Pivot Point	Type: Special Immediate (Scene Inversion) • Cost: 1d6 Strain • Usage: 1/Session — When a social scene has turned against you or your allies, choose one advantage an NPC currently holds — authority, information, or leverage established earlier in the scene — and declare it nullified. That NPC loses any bonus dice tied to that advantage for the remainder of the scene, and your next roll against them gains +1 bonus die.	The False Floor
-The Shape of the Hunt	Type: Passive (Strategic Patience) • Cost: — • Usage: 1/Session — At the start of any scene, silently designate one creature, system, or objective as your mark. Until the mark is resolved or the session ends, you gain +1 bonus die on Insight, Deception, and Stealth rolls made directly in pursuit of it. Once per scene, if you succeed on a roll against the mark, you may ask the GM one observable question about it and receive a truthful answer.	The Patient Hand
-Vanishing Act	Type: Reaction (Total Withdrawal) • Cost: 1d6 Strain • Usage: 1/Session — When you would be captured, cornered, or removed from the scene, you immediately break contact and withdraw to the nearest plausible position of concealment within Medium range. All rolls to locate, track, or identify you this round suffer one penalty die. Cannot be used while Restrained or Entangled, or if no plausible withdrawal position exists within Medium range. Does not negate damage already dealt or conditions already applied.	Strike on the Beat
+Compression Instinct	Type: Passive (Structural Familiarity) • Cost: — • Usage: At-will — Tight spaces — collapsed corridors, maintenance shafts, low-clearance ducts — count as normal terrain for you. You do not suffer movement penalties or additional Maneuver costs when traversing them.
+Dark Geometry	Type: Passive (Acoustic Navigation) • Cost: — • Usage: At-will — You do not suffer penalty dice on Stealth, Athletics, or Coordination rolls from darkness or obscured visibility. If you are Deafened or in an environment that actively distorts sound, this feature is suppressed until resolved.
+Pressure Map	Type: Free Action (Spatial Read) • Cost: — • Usage: 1/Scene — When you enter a physical space, or after its layout changes — collapse, an opening, movement of obstacles — roll Perception. On a success, you gain +1 bonus die on your next roll this scene to navigate, reposition, find cover, or detect hidden movement within that space. This functions in total darkness and does not require line of sight.
+Read the Fault	Type: Free Action (Mechanical Assessment) • Cost: — • Usage: 1/Scene — When you first interact with or closely observe a damaged, malfunctioning, or improvised device, you immediately learn whether it is functional, partially functional, or beyond field repair, and which component is responsible for its current state. No roll is required.
+Still as the Shaft	Type: Passive (Movement Stealth) • Cost: — • Usage: At-will — Moving at standard pace does not impose penalty dice on Stealth checks. This does not apply to sprinting or combat movement.
+```
+
+**Trait Inputs (tab-delimited: Name | Rules Text):**
+- `TRAIT_INPUTS`:
+```
 ```
 
 **Schema Reference:**
@@ -54,13 +60,15 @@ Extract verbatim from the three files:
 - Tier HTML block: `<div class="sheet-talent-tier" data-tier="N">` for the race
 - Tracker HTML rows for all talents at TARGET_TIER with `usage_limit: "scene"` or `"session"`
 - `skillDataMap` — for skill key validation
-- `ancestryDataMap.<RACE_KEY>` — to confirm the race exists and its key spelling
+- `ancestryDataMap.<RACE_KEY>` — to confirm the race exists, its key spelling, and (when `traits` is in scope) the full `traits.items` object and race-level `source` field
+- Trait HTML block: `<div class="sheet-racial-traits">` for the race *(when `traits` is in scope)*
 
 **From `ghost_of_arcadia.css`:**
 - CSS show selectors for each in-scope talent at TARGET_TIER
 
 **From `translation.json`:**
 - All `talent_<race>_<talent_key>-u` and `talent_<race>_<talent_key>_rules-u` keys for in-scope talents
+- All `racial_<race>_<trait_key>-u` and `racial_<race>_<trait_key>_rules-u` keys for in-scope traits *(when `traits` is in scope)*
 
 > **Gate:** If any block cannot be extracted verbatim, stop and report. Do not produce patches.
 
@@ -114,12 +122,12 @@ Extract verbatim from the three files:
 - If a prerequisite key is missing from tier N−1 in the file, flag it and halt that talent's output. Do not write a broken reference.
 - Tiers are processed in order (1 → 2 → 3 → 4). By the time tier N is patched, tiers 1 through N−1 are already correct in the file and can be trusted.
 
-**`source` field on each talent:**
-- Ancestry talents carry a `source` object on **each individual talent** (unlike career talents, which carry one source at the career object level).
-- Format: `source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "ancestry-u" }`
+**`source` field — talent blocks:**
+- Ancestry talent blocks carry a single `source` line at the **end of the race object** in `ancestryTalentDataMap`, after all talent entries. It is not on individual talent objects.
+- Format: `source: { doc: "ancestry-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "<race>-u" }`
 - `version` and `date` come from SOURCE_VERSION / SOURCE_DATE — the document's publication date, not today's date.
-- Bump `version` and `date` on every talent that is added or has content changed in this patch.
-- Talents not touched in this patch retain their existing `source` values verbatim.
+- Bump `version` and `date` on the race-level source line whenever any talent in the race is added or has content changed in this patch.
+- If the existing file has per-talent source fields (legacy pattern), leave them in place on untouched talents; remove them only from talents being rewritten, and ensure the race-level source line is present and bumped.
 
 **Normalization — apply everywhere in changed content:**
 - `Pistol` → `Handgun`, `pistol` → `handgun`
@@ -189,11 +197,16 @@ Rules:
 Three downloadable files, each containing only REMOVE/ADD blocks:
 
 **HTML patch** — in this order:
-1. `ancestryTalentDataMap` talent object changes
-2. Tier HTML row changes
-3. Tracker HTML row changes
+1. `ancestryTalentDataMap` talent object changes *(when `talents` is in scope)*
+2. Tier HTML row changes *(when `talents` is in scope)*
+3. Tracker HTML row changes *(when `talents` is in scope)*
+4. `ancestryDataMap` trait object changes *(when `traits` is in scope)*
+5. Trait HTML row changes *(when `traits` is in scope)*
+6. Trait tracker HTML row changes *(when `traits` is in scope and any trait has `usage_limit: "scene"` or `"session"`)*
 
-**CSS patch** — show selector changes only
+**CSS patch** — in this order:
+1. Talent show selectors *(when `talents` is in scope)*
+2. Trait tracker selectors (`attr_showracials` pattern) *(when `traits` is in scope and any trait has `usage_limit: "scene"` or `"session"`)*
 
 **JSON patch** — i18n key changes only, alphabetized by key string
 
@@ -205,6 +218,7 @@ Three downloadable files, each containing only REMOVE/ADD blocks:
 **ADD block rules:**
 - Produced by editing the REMOVE excerpt only — never constructed from a template
 - Unchanged lines within an ADD block are byte-identical to the REMOVE block
+- Includes comment headers, braces, exact indentation, trailing commas
 - Only changed contiguous blocks are included (minimality)
 
 **No-op rule:** if a surface has no changes, produce a clearly labelled no-op comment rather than identical REMOVE/ADD pairs.
@@ -217,32 +231,40 @@ Output exactly one code block in chat titled `Provenance & Checks`:
 
 ```
 Files used: ghost_of_arcadia.html, ghost_of_arcadia.css, translation.json
-Ancestry + tier: <RACE_KEY> | Tier <TARGET_TIER>
-Counts: <N> talents updated/added, <N> i18n keys changed
+Ancestry + tier: <RACE_KEY> | Tier <TARGET_TIER> | Scope: <talents|traits|talents+traits>
+Counts: <N> talents updated/added, <N> traits updated/added, <N> i18n keys changed
 
 Validations:
   [PASS|FAIL] REMOVE blocks extracted verbatim
   [PASS|FAIL] Talent key derivation
-  [PASS|FAIL] Type/strain/usage_limit parsing
+  [PASS|FAIL] Trait key derivation
+  [PASS|FAIL] Type/strain/usage_limit parsing (talents)
+  [PASS|FAIL] usage_limit parsing (traits)
   [PASS|FAIL] Prerequisite keys exist at Tier N-1 in file
   [PASS|FAIL] Prerequisite tier = TARGET_TIER - 1
   [PASS|FAIL] affected_skill keys all in skillDataMap
   [PASS|FAIL] affected_skill field present on all edited talents ([] if none)
   [PASS|FAIL] strain field present as string on all edited talents
   [PASS|FAIL] type field present on all edited talents
-  [PASS|FAIL] source field bumped on all edited talents
+  [PASS|FAIL] source bumped at race level (talents block)
+  [PASS|FAIL] source bumped at race level (traits block)
   [PASS|FAIL] Tracker coupling (HTML + CSS paired)
   [PASS|FAIL] Tracker in correct list (scene vs session)
   [PASS|FAIL] Indentation style preserved (no normalization)
-  [PASS|FAIL] Alphabetization (talent keys in datamap, i18n keys in JSON, tracker rows by key)
+  [PASS|FAIL] Alphabetization (talent/trait keys in datamap, i18n keys in JSON, tracker rows by key)
   [PASS|FAIL] Normalization substitutions applied
   [PASS|FAIL] Canonical talent field order applied
+  [PASS|FAIL] Canonical trait field order applied
 
 Patch manifest:
   ancestryTalentDataMap: [CHANGED lines N–N | NO-OP]
   Tier HTML:             [CHANGED | NO-OP]
-  Tracker HTML:          [CHANGED | NO-OP]
-  CSS selectors:         [CHANGED | NO-OP]
+  Tracker HTML (talents):[CHANGED | NO-OP]
+  CSS selectors (talents):[CHANGED | NO-OP]
+  ancestryDataMap:       [CHANGED lines N–N | NO-OP]
+  Trait HTML:            [CHANGED | NO-OP]
+  Tracker HTML (traits): [CHANGED | NO-OP]
+  CSS selectors (traits):[CHANGED | NO-OP]
   JSON keys:             [CHANGED | NO-OP]
 
 Flags:
@@ -272,11 +294,12 @@ talent_key: {
     affected_skill_group: "...",   // omit if not used
     affected_stat: "...",          // omit if not used
     prerequisite: "",
-    source: { doc: "<SOURCE_DOC>-u", version: "<SOURCE_VERSION>", date: "<SOURCE_DATE>", section: "<SOURCE_SECTION>-u" }
-}
+},
+// ... more talents ...
+source: { doc: "<SOURCE_DOC>-u", version: "<SOURCE_VERSION>", date: "<SOURCE_DATE>", section: "ancestry-u" }
 ```
 
-**Optional fields** (`affected_skill_group`, `affected_stat`) are omitted entirely when not applicable.
+The `source` line appears **once, at the end of the race object**, after all talent entries — not inside individual talent objects. **Optional fields** (`affected_skill_group`, `affected_stat`) are omitted entirely when not applicable.
 
 ### Required fields on every talent object
 
@@ -292,17 +315,18 @@ talent_key: {
 | `usage_limit` | string | `"scene"`, `"session"`, or `""` |
 | `affected_skill` | array of strings | Skill keys; `[]` if none. Always present. |
 | `prerequisite` | string or array | Key at tier N−1, `""` for none/any, or `["key_a", "key_b"]` for multi-prereq | Single-key prerequisites must still be written as a single-element array ["key"], not a bare string. |
-| `source` | object | Per-talent (unlike career talents). See format below. Always present. |
 
-### `source` field format (per-talent)
+The race object also carries a single `source` line after all talent entries — see `source` field format below.
+
+### `source` field format (race-level, talents block)
 
 ```javascript
 source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "ancestry-u" }
 ```
 - `doc`: race name key (e.g. `"draevi-u"`)
 - `version` / `date`: from SOURCE_VERSION / SOURCE_DATE — the document's publication date
-- `section`: always `"ancestry-u"`
-- Lives **inside each talent object** — not at the race level
+- `section`: always `"ancestry-u"` for the talent block
+- Lives **at the end of the race object** in `ancestryTalentDataMap`, after all talent entries — not inside individual talent objects
 
 ### i18n key format
 
@@ -375,7 +399,7 @@ source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "an
 8. **Tracker coupling is mandatory** for all scene/session talents. HTML and CSS additions/removals are always paired.
 9. **`strain` is always a string**, even for plain integers. Always present.
 10. **`affected_skill` is always an array**, even when empty (`[]`). Always present.
-11. **`source` is per-talent**, not per-race. Bump only on talents that change. Do not touch source on unchanged talents.
+11. **`source` is race-level, not per-entry.** One `source` line lives at the end of the race object in `ancestryTalentDataMap` (after all talent entries) and one at the race level in `ancestryDataMap` (after the `traits` block). Bump it when any entry in that race changes. Do not add per-talent or per-trait source fields.
 12. **Canonical field order is mandatory** on all new and edited talent objects. See §2.
 13. **Preserve indentation style per race.** Some races use spaces, others use mixed tabs/spaces. Never normalize to a uniform style in a patch — match what is already there.
 14. **No inline code blocks in chat.** All file content goes in the downloadable patch files. Chat output is limited to the `Provenance & Checks` block.
@@ -512,3 +536,206 @@ Note that the `key:` in the comment header is the bare talent key without the ra
 | i18n key | `talent_<race>_<talent_key>-u` |
 | `ancestryTalentDataMap` talent key | `<talent_key>` (bare, inside race object) |
 
+
+---
+
+## 6) Ancestry Traits — `ancestryDataMap` Patch Reference
+
+Traits are distinct from talents. They live in `ancestryDataMap.<RACE_KEY>.traits.items`, have their own HTML block, their own JSON key prefix, and simpler schema. This section covers everything needed to add, remove, or update traits.
+
+### When traits are in scope
+
+Set `traits` in `IN_SCOPE_SECTIONS`. Traits do not use `TARGET_TIER` (they are not tiered). All other §0 parameters (`RACE_KEY`, `SOURCE_VERSION`, `SOURCE_DATE`, `SOURCE_DOC`, `SOURCE_SECTION`, `OPERATION`) apply normally.
+
+`OPERATION` semantics for traits:
+- `replace_all`: TRAIT_INPUTS is the complete and final trait list. Traits in the file not present in the input are removed (datamap entry, HTML row, JSON keys).
+- `add`: TRAIT_INPUTS contains new traits only. Existing traits are untouched.
+- `update`: TRAIT_INPUTS contains modified versions of existing traits. Keys must match.
+
+**Trait input format (tab-delimited: Name | Rules Text):**
+- `TRAIT_INPUTS`:
+```
+<insert here>
+```
+No prerequisite column — traits have no prerequisites.
+
+---
+
+### Trait schema — `ancestryDataMap.traits.items`
+
+Each trait entry under `traits.items`:
+
+```javascript
+trait_key: {
+    name_key: "racial_<race>_<trait_key>-u",
+    rule_text_key: "racial_<race>_<trait_key>_rules-u",
+    affected_skill: [ "skill_key" ],    // omit if not applicable
+    affected_skill_group: [ "group" ],  // omit if not applicable
+    affected_stat: "stat_key",          // omit if not applicable
+    usage_limit: ""                     // "", "scene", or "session"
+},
+```
+
+The race object in `ancestryDataMap` carries a single `source` line after the `traits` block:
+```javascript
+source: { doc: "<race>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "traits-u" }
+```
+- `section` is `"traits-u"` for the traits source (not `"ancestry-u"`)
+- Bump `version` and `date` whenever any trait in the race is added or changed
+
+**Canonical trait field order:**
+1. `name_key`
+2. `rule_text_key`
+3. `affected_skill` *(omit if absent)*
+4. `affected_skill_group` *(omit if absent)*
+5. `affected_stat` *(omit if absent)*
+6. `usage_limit`
+
+**Trait key derivation** (from display name): same rule as talent keys — lowercase, remove all punctuation, spaces → underscores.
+
+**`affected_skill` on traits:** include skill keys that appear mechanically in the rules text. Omit the field entirely if no skills apply (unlike talent objects, where `affected_skill: []` is always present). If the existing trait has the field, preserve or correct it in scope.
+
+**`usage_limit` on traits:** `""` (passive/always-on), `"scene"`, or `"session"`. Parsed from rules text the same way as talents.
+
+---
+
+### Trait HTML — `<div class="sheet-racial-traits">`
+
+Traits with `usage_limit: "scene"` or `"session"` **do** require tracker rows and CSS selectors — but the pattern differs significantly from talent trackers.
+
+#### Container structure (for reference — do not patch outside trait rows)
+
+```html
+<div class="sheet-racial-traits">
+    <input type="checkbox" class="sheet-top-collapse" id="sheet-ancestry-<race>-traits" name="attr_ancestry_<race>_traits_open" value="1"/>
+    <h4 class="sheet-section-head">
+        <span data-i18n="senses_and_ancestral_traits-u">Senses &amp; Ancestral Traits</span>
+        <label class="sheet-top-collapse-hit" for="sheet-ancestry-<race>-traits" title="Toggle section"></label>
+    </h4>
+    <div class="sheet-section-body">
+        <div class="sheet-racial-trait-list">
+            <!-- index block -->
+            <!-- trait rows, alphabetical by key -->
+        </div>
+    </div>
+</div>
+```
+
+#### Trait index block format
+
+```html
+<!-- ================== <RACE_UPPER> ANCESTRY TRAITS: INDEX (key | cost | cadence) ================== -->
+<!-- - racial_<race>_<key_a> (0 XP, none) -->
+<!-- - racial_<race>_<key_b> (0 XP, none) -->
+<!-- ======================================================================= -->`
+```
+
+- Cost is always `0 XP`
+- Cadence is always `none` in the index, regardless of `usage_limit` in the datamap
+- Race name uppercased: `ALTERI`, `KITSU` etc.
+- Entries alphabetized by trait key
+
+#### Trait comment header format
+
+```html
+<!-- Ancestry Trait: <Display Name> | key: racial_<race>_<trait_key> | cost: 0 XP | cadence: none | attrs: —, — | i18n: racial_<race>_<trait_key>-u | — | racial_<race>_<trait_key>_rules-u -->
+```
+
+Note: the `key:` field uses the **full prefixed key** (`racial_<race>_<trait_key>`) — unlike the talent comment header which uses the bare key. This matches the index block format.
+
+#### Trait row format
+
+```html
+<!-- Ancestry Trait: <Display Name> | key: racial_<race>_<trait_key> | cost: 0 XP | cadence: none | attrs: —, — | i18n: racial_<race>_<trait_key>-u | — | racial_<race>_<trait_key>_rules-u -->
+<div class="sheet-racial-trait-row sheet-<race>-<trait-key-hyphenated>">
+    <div class="sheet-racial-trait-name" data-i18n="racial_<race>_<trait_key>-u"><Display Name></div>
+    <div class="sheet-racial-trait-text" data-i18n="racial_<race>_<trait_key>_rules-u">rule text</div>
+</div>
+```
+
+- Inner elements are `<div>` not `<span>`
+- The static text content (`<Display Name>` and `rule text`) is a fallback placeholder — always use the display name as shown and the literal string `rule text` for the rules div
+- No `_enabled`, `_lockflag`, `attr_show_`, or checkbox inputs — traits have none of these
+- Class on the row div: `sheet-racial-trait-row sheet-<race>-<trait-key-hyphenated>` (hyphenated = underscores → hyphens)
+
+---
+
+### Trait JSON keys
+
+| Key | Format |
+|---|---|
+| Name | `racial_<race>_<trait_key>-u` |
+| Rules | `racial_<race>_<trait_key>_rules-u` |
+
+Use `racial_` prefix — never `talent_`. Alphabetized by key string within the race's key block in `translation.json`.
+
+---
+
+### Trait tracker coupling
+
+Every trait with `usage_limit: "scene"` or `"session"` requires both a tracker HTML row and a CSS selector. The pattern differs from talent trackers in three key ways:
+
+1. **No `attr_show_` hidden input** — trait tracker rows have no show hook input preceding them
+2. **CSS selector is race-keyed, not show-input-keyed** — visibility is driven by the active ancestry selection (`attr_showracials`), not a per-trait hidden input
+3. **Index key prefix is `ancestry_`** — not `racial_` or `talent_`
+
+#### Trait tracker HTML row
+
+```html
+<!-- Tracker Ancestry Trait: <Display Name> | key: <trait_key> | cost: 0 XP | cadence: <scene|session> | attrs: —, attr_used_<scene|session>_<race>_<trait_key> | i18n: racial_<race>_<trait_key>-u -->
+<div class="sheet-tracker-item sheet-tracker-<scene|session> sheet-<race>-<trait-key-hyphenated>">
+    <input type="checkbox" name="attr_used_<scene|session>_<race>_<trait_key>" class="sheet-tracker-checkbox"/>
+    <span class="sheet-tracker-label" data-i18n="racial_<race>_<trait_key>-u"><Display Name></span>
+</div>
+```
+
+- No `<input type="hidden" name="attr_show_..."/>` before the div — traits have no show hook
+- The `attrs:` field in the comment header shows `—` for the first slot (no show attr)
+- The `<span>` includes a static fallback display name (not `rule text`)
+- Rows for a race are grouped under their own index block, alphabetical by trait key
+- Placed in the scene or session tracker block according to `usage_limit`
+
+#### Trait tracker index block format
+
+```html
+<!-- ================== TRACKER <RACE_UPPER> TRAITS: INDEX (<scene|session>) (key | cost) ================== -->
+<!-- - ancestry_<race>_<key_a> (0 XP, <scene|session>) -->
+<!-- - ancestry_<race>_<key_b> (0 XP, <scene|session>) -->
+<!-- ============================================================================================================== -->
+```
+
+Note: index entries use `ancestry_` prefix, not `racial_`.
+
+#### Trait CSS selector
+
+Each race's scene traits share one rule block; session traits share another. The selector pattern is:
+
+```css
+/* Racial Trait Tracker - <Scene|Session> */
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-tracker input[name="attr_showracials"][value="<race>"] ~ .sheet-tracker-section .sheet-<race>-<trait-key-hyphenated> {
+	display: flex;
+}
+```
+
+When a race has multiple traits in the same cadence, they share a single rule block with comma-separated selectors (one per line), matching the pattern used by other races in the file:
+
+```css
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-tracker input[name="attr_showracials"][value="<race>"] ~ .sheet-tracker-section .sheet-<race>-<trait-a-hyphenated>,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-tracker input[name="attr_showracials"][value="<race>"] ~ .sheet-tracker-section .sheet-<race>-<trait-b-hyphenated> {
+	display: flex;
+}
+```
+
+---
+
+### Trait-specific hard rules
+
+- **Tracker coupling is required** for `usage_limit: "scene"` or `"session"` traits — HTML tracker rows and CSS selectors must be added/removed together.
+- **No `attr_show_` hidden input** for traits — unlike talent trackers, there is no show hook input before the tracker div.
+- **CSS selector uses `attr_showracials` pattern** — not the `attr_show_<race>_<key>` pattern used by talent trackers.
+- **Index key prefix is `ancestry_`** in trait tracker index blocks.
+- **`affected_skill` is omitted** when empty (not written as `[]`) — unlike talents where `[]` is always required.
+- **`source.section` is `"traits-u"`** for `ancestryDataMap` source lines, not `"ancestry-u"`.
+- **Trait HTML comment header uses the full prefixed key** (`racial_<race>_<trait_key>`), not the bare key.
+- **Trait HTML index cadence is always `none`** regardless of actual `usage_limit` — cadence only appears correctly in the tracker index blocks.
+- **Indentation discipline applies identically** to traits: ADD blocks produced by editing the REMOVE excerpt only, never constructed from a template.

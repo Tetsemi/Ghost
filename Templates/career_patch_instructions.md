@@ -14,7 +14,7 @@
 - `CAREER_KEY`: 
 	- `dreamshaper` *(e.g. `marksman`)* — must match the key in `careerDataMap`
 - `TARGET_TIER`:
-	- `3` *(integer: 1, 2, 3, 4, or 5)*
+	- `5` *(integer: 1, 2, 3, 4, or 5)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(include only if requested)*
   - `secondary_skills` *(include only if requested)*
@@ -40,11 +40,11 @@
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-False Terrain	Type: Action (Area Denial) • Cost: 2 Strain • Usage: 1/Scene — Project an illusory environmental hazard — fire, collapsing flooring, toxic gas, electrical discharge — covering a Short-radius area at a point within Medium range. The illusion persists until the start of your next turn. Each creature entering or starting its turn in the area must roll Perception opposed by your Magic (Illusion). On a failure, the creature treats the hazard as real: it must spend one additional Maneuver to cross the area or choose to avoid it entirely. On a success, the creature recognizes the illusion and moves normally. The illusion deals no actual damage and does not create real obstacles.	Phantom Threat
-Mirror Shroud	Type: Action (Group Concealment) • Cost: 2 Strain • Usage: 1/Scene — Choose up to three willing creatures within Short range, which may include yourself. Until the start of your next turn, each target gains +1 bonus die on Stealth rolls. Creatures attempting to detect or target the shrouded group from beyond Short range must succeed on Perception opposed by your Magic (Illusion) or treat the group as undetected — they cannot target any member of the group with attacks, spells, or targeted abilities while this result stands. This effect ends for any individual who makes an attack or casts an offensive spell. Only one Mirror Shroud may be active at a time.	Veil Cloak
-Persistent Construct	Type: Passive (Construct Enhancement) • Cost: — • Usage: At-will — When you create an illusory construct using a Dreamshaper talent (such as Phantom Threat or False Terrain), the construct persists for one additional round beyond its stated duration. Additionally, creatures that succeed on their Perception roll to see through the illusion cannot clearly communicate that certainty to others until the start of their next turn. They may shout a warning, but it grants no mechanical benefit before then.	Layered Deception
-Redirect Perception	Type: Reaction (Misdirect) • Cost: 2 Strain • Usage: 1/Scene — Trigger: You or an ally within Short range is targeted by a ranged attack or targeted spell. Effect: Roll Magic (Illusion) opposed by the attacker's Perception. On a success, the attack suffers 1 penalty die as the attacker's targeting is momentarily disrupted by a flash of false spatial data. This does not redirect the attack to another target and cannot be used against area-of-effect abilities.	Mirage Displacement
-Sensory Overload	Type: Action (Disrupt) • Cost: 2 Strain • Usage: 1/Session — Target one creature within Short range. Roll Magic (Illusion) opposed by the target's Perception. On a success, until the start of your next turn, the target suffers 1 penalty die on all Actions and cannot benefit from enhanced senses, targeting augmentations, or sensory cyberware. On a Hard Success or better, the target also cannot take Reactions until the start of your next turn. This effect represents a cascade of false stimuli overwhelming the target's ability to process genuine information.	Exploit Misjudgment
+Constructed Nightmare	Type: Action (Weaponized Illusion) • Cost: 1d8 Strain • Usage: 1/Session — Target one creature within Short range. Roll Magic (Illusion) opposed by the target's Perception. On a success, the target is trapped in a personal hallucination so complete that its body responds to perceived trauma. The target takes 2d6 Veil damage and is Stunned until the end of its next turn as its nervous system reacts to threats the mind insists are real. On a failure, the target takes 1d6 Veil damage and is Shaken until the end of its next turn. This effect represents psychosomatic harm — the body cannot distinguish what the senses report from what is actually happening.	Shattered Confidence
+Ghost Protocol	Type: Action (Team Erasure) • Cost: 1d6 + 1d4 Strain • Usage: 1/Session — Choose up to four willing creatures within Short range, which may include yourself. Until the end of the Scene, each target is woven into a persistent, layered illusion that masks their presence from external observation. While affected, each target gains +1 bonus die on all Stealth rolls, and any creature attempting to detect or target them must succeed on a Perception roll opposed by your Magic (Illusion). On a failure, the observer cannot target that creature with attacks, spells, or targeted abilities this round and does not register their presence as a threat. This check must be made each time the observer attempts to target an affected creature. This effect ends for any individual who makes an attack or casts an offensive spell, and cannot be reapplied to that individual for the remainder of the Scene. While Ghost Protocol is active, you cannot cast Illusion spells or activate Dreamshaper talents that create constructs or impose perception-altering effects on enemies.	Veil Static Field
+The Scene Is Mine	Type: Action (Environmental Overwrite) • Cost: 2d6 Strain • Usage: 1/Session — Overwrite the perceived environment within a Medium-radius area centered on you for the remainder of the Scene. You determine what all creatures within the area perceive: terrain, lighting, obstacles, ambient sound, and environmental conditions. Each hostile creature entering or starting its turn in the area must roll Perception opposed by your Magic (Illusion). On a failure, the creature treats the illusory environment as real for all movement and targeting decisions until the start of its next turn, when it must roll again. On a success, the creature is unaffected for that round. The overwrite deals no actual damage and does not create real barriers or hazards. You must maintain concentration — if you are incapacitated or Stunned, the overwrite collapses immediately. While this effect is active, you cannot create other illusory constructs using Dreamshaper talents.	Phantom Formation
+Total Perceptual Collapse	Type: Action (Mass Hallucination) • Cost: 2d6 Strain • Usage: 1/Session — Choose up to four hostile creatures within Medium range that can perceive you. Roll Magic (Illusion) opposed by each target's Perception. On a failure, for the next 2 rounds, the target suffers 1 penalty die on all Actions and Reactions, cannot benefit from enhanced senses or targeting augmentations, and the first time each round it attempts to take an Action, it must succeed on a Perception roll or lose that Action as it reacts to stimuli that do not exist. On a success, the target is instead Disoriented until the end of its next turn. When you activate this talent, you immediately suffer 1 penalty die on all Magic (Illusion) rolls for the next 2 rounds.	Perceptual Isolation
+Unreality Cloak	Type: Free Action (Personal Erasure) • Cost: 1d6 Strain • Usage: 1/Session — Until the end of the Scene, you become extraordinarily difficult to perceive, target, or track. Any creature attempting to target you with an attack, spell, or ability must first succeed on a Perception roll opposed by your Magic (Illusion). On a failure, the creature cannot target you with that action — the action is wasted but any resources spent are still consumed. On a success, the action resolves normally. This effect ends immediately if you deal damage to another creature or apply an offensive condition. While this effect is active, allies cannot benefit from Dreamshaper talents that require you to designate or protect them (such as Veil Cloak, Mirror Shroud, or Redirect Perception).	Perfect Mask
 ```
 
 **Schema Reference:**
@@ -156,7 +156,7 @@ For each surface, compare extract against input-derived target. If a surface alr
 | CSS | Show selectors for each scene/session talent |
 | JSON | Name string and rules string for each in-scope talent |
 
-> **New career population:** If the tier has no existing talent entries (stub career), skip the diff — treat all input talents as ADD-only. There are no REMOVE blocks for talent objects, tier HTML rows, tracker rows, CSS selectors, or JSON keys.
+> **New career population:** If the tier has no existing talent entries (stub career), skip the diff — treat all input talents as ADD-only. There are no REMOVE blocks for talent objects, tier HTML rows, tracker rows, CSS selectors, or JSON keys. For the skill block, the stub REMOVE is the empty header-only block; the ADD replaces it with fully populated wrapper rows.
 
 ---
 
@@ -187,6 +187,8 @@ Rules:
 - `usage_limit: ""` or `at_will` or `permanent` → no tracker rows unless the existing pattern explicitly has them
 - The tracker index comment block is a required REMOVE/ADD surface whenever any scene or session talent is added or removed — same treatment as the tier HTML index block.
 - The tracker section always replaces the entire career block as one REMOVE/ADD to maintain global alphabetical order. 
+
+**Prerequisite text color CSS** is a separate, one-time surface also required for new career population — see §6 Prereq text color CSS subsection.																																					 
 
 ---
 
@@ -266,6 +268,7 @@ Patch manifest:
   Tier HTML:      [CHANGED | NO-OP]
   Tracker HTML:   [CHANGED | NO-OP]
   CSS selectors:  [CHANGED | NO-OP]
+  Prereq CSS:     [CHANGED — added <career> to <arcane|core|specialist> block | NO-OP — already present | NO-OP — not first population]																																			 
   JSON keys:      [CHANGED | NO-OP]
 
 Flags:
@@ -632,3 +635,41 @@ The skill block lives inside `sheet-career-interactive-block`, above the Trained
     </div>
 </div>
 ```   
+
+---
+
+### Prereq text color CSS
+
+The prerequisite text visibility is controlled by a **shared multi-career selector block** in `ghost_of_arcadia.css`. When the "Show prerequisites" toggle is checked for any tier, `.sheet-career-talent-prereq` spans in that tier become visible.
+
+**Selector pattern per career (t2–t5):**
+```css
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-<career> input[name="attr_show_career_<career>_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-<career> input[name="attr_show_career_<career>_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-<career> input[name="attr_show_career_<career>_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-<career> input[name="attr_show_career_<career>_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
+  display: block;
+  color: white;
+  width: 120px;
+}
+```
+
+**Three shared blocks exist** — one per career type. New careers append to the correct block:
+
+| Block | Career types | Tiers covered | Declaration |
+|---|---|---|---|
+| Block 1 | arcane | t2–t5 | `display: block; color: white; width: 120px;` |
+| Block 2 | core | t2–t5 | `display: block; color: white; width: 120px;` |
+| Block 3 | specialist | t2–t4 only (no t5) | `display: block; color: white; width: 120px;` |
+
+**Important:** This is a shared declaration block — all careers within a block share one `{ ... }`. A new career's four selectors are inserted into the existing block (before the closing `{`), not written as a standalone block.
+
+**Scope rule:** Prereq CSS is in scope only when `talents` is in scope **and** the career is being populated for the first time (i.e., it was a known stub with no prior tier HTML). It is a **one-time addition per career** — once a career's selectors are present in the block, no further changes are needed for higher tiers.
+
+**Procedure:**
+1. Check whether the career already appears in the correct block. If present: **no-op**.
+2. If absent: REMOVE the entire block (all selectors + declaration), ADD it back with the new career's four selectors inserted in alphabetical order by career key.
+3. Maintain alphabetical order within the block by career key string.
+4. Note: some stubs were pre-populated into the block when the file was first authored. Always verify before writing.
+
+> **CSS sweep note:** These three blocks are candidates for consolidation into a single shared rule during the planned CSS sweep. Until then, treat them as three separate surfaces and append only to the correct one.

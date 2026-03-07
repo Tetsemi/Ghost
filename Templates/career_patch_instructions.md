@@ -11,33 +11,52 @@
 - `translation.json`
 
 **Target Career + Scope:**
-- `CAREER_KEY`: *(e.g. `marksman`)* — must match the key in `careerDataMap`
-- `TARGET_TIER`: *(integer: 1, 2, 3, 4, or 5)*
+- `CAREER_KEY`: 
+	- `mindbender` *(e.g. `marksman`)* — must match the key in `careerDataMap`
+- `TARGET_TIER`:
+	- `4` *(integer: 1, 2, 3, 4, or 5)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(include only if requested)*
   - `secondary_skills` *(include only if requested)*
   - `talents` *(required when tier work is requested)*
 
 **Source Version (for career object — comes from the document, not today's date):**
-- `SOURCE_VERSION`: *(e.g. `2.260208`)*
-- `SOURCE_DATE`: *(e.g. `2026-02-08`)*
-- `SOURCE_DOC`: *(e.g. `careers-u`)*
-- `SOURCE_SECTION`: `careers-u`
+- `SOURCE_VERSION`: 
+	- `2.260306`*(e.g. `2.260208`)*
+- `SOURCE_DATE`:
+	- `2026-03-06` *(e.g. `2026-02-08`)*
+- `SOURCE_DOC`:
+	- `careers-u` *(e.g. `careers-u`)*
+- `SOURCE_SECTION`:
+	- `<RACE_KEY>-u`
 
 **Skills Inputs (leave blank if not in scope):**
-- `PRIMARY_SKILLS_INPUT`: *(paste the primary skills line here)*
-- `SECONDARY_SKILLS_INPUT`: *(paste the secondary skills line here)*
+- `PRIMARY_SKILLS_INPUT`:
+	-`` *(paste the primary skills line here)*
+- `SECONDARY_SKILLS_INPUT`:
+	-`` *(paste the secondary skills line here)*
   - Any `(choose one)` entry must be represented via `exclusive_skill_sets` — see §5.
 
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-<paste talent table here>
+Cascade Failure	Type: Action (Lockdown) • Cost: 1d6 Strain • Usage: 1/Session — Choose up to two creatures within Short range that can see or hear you. Roll Magic (Enchantment) opposed by each target's POW. On a success, until the start of your next turn, the target cannot take Reactions and must choose either its Action or its movement on its turn — not both. This does not prevent the use of Maneuvers.	Puppet String
+Ego Death	Type: Action (Shatter) • Cost: 3 Strain • Usage: 1/Session — Target one creature within Short range. Roll Magic (Enchantment) opposed by the target's POW. On a success, deal 1d8 Veil damage and the target loses its Reaction until the end of the Scene. On a failure, the target is unaffected.	Memory Fog
+Emotional Contagion	Type: Free Action (Spread) • Cost: 1 Strain • Usage: 1/Scene — Trigger: A creature within Short range becomes Shaken, Frightened, or Disoriented as a result of one of your Mindbender talents or Enchantment spells. Effect: Choose one additional hostile creature within Short range of the affected target. That creature must roll POW opposed by your Magic (Enchantment) or suffer the same condition until the end of its next turn. This spread can only occur once per triggering effect.	Psychic Scream
+Psychic Aegis	Type: Reaction (Counter) • Cost: 2 Strain • Usage: 1/Session — Trigger: You or an ally within Short range is targeted by an Enchantment spell, mind-affecting ability, or fear effect. Effect: The triggering effect automatically fails. The source of the effect must roll POW opposed by your Magic (Enchantment) or become Shaken until the end of its next turn as the psychic energy rebounds.	Mind Bastion
+Turn the Knife	Type: Free Action (Exploit) • Cost: — • Usage: 1/Scene — When a creature within Short range suffers a condition or limitation caused by one of your Mindbender talents, choose one allied creature within Short range of you. That ally may immediately take one Maneuver that does not provoke Reactions.	False Allegiance
 ```
 
 **Schema Reference:**
-- `SCHEMA_REFERENCE_CAREER`: *(another career key with complete schema — for field names/types only, never content. Prefer `faceman`, `investigator`, or `combat_engineer` as they have full field coverage.)*
+- `SCHEMA_REFERENCE_CAREER`:
+ - `codeweaver` *(another career key with complete schema — for field names/types only, never content. Prefer `faceman`, `investigator`, or `combat_engineer` as they have full field coverage.)*
 
+- `OPERATION`: `replace_tier`
+  - `replace_tier`: TIER_TALENTS_INPUT is the complete and final talent list for TARGET_TIER.
+    Talents in the file at TARGET_TIER not present in the input must be REMOVED (datamap object,
+    tier HTML row, tracker HTML, CSS, and JSON keys).
+  - `add`: TIER_TALENTS_INPUT contains new talents only. Existing talents at TARGET_TIER are untouched.
+  - `update`: TIER_TALENTS_INPUT contains modified versions of existing talents. Keys must match.
 ---
 
 ## 1) Operational Workflow
@@ -164,6 +183,7 @@ Rules:
 - Talent removed → remove all three in same patch
 - A tracker HTML ADD must always have a matching CSS ADD (and vice versa)
 - `usage_limit: ""` or `at_will` or `permanent` → no tracker rows unless the existing pattern explicitly has them
+- The tracker index comment block is a required REMOVE/ADD surface whenever any scene or session talent is added or removed — same treatment as the tier HTML index block.
 
 ---
 

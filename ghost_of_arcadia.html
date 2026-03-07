@@ -314,6 +314,7 @@
 					<h4 class="sheet-section-head" data-i18n="dicemodifiers-u">Dice Modifiers</h4>
 
 					<input type="hidden" name="attr_dice_modifier_checkbox" value="0"/>
+					<input type="hidden" name="attr_dice_modifier_manual" value="0"/>
 
 					<!-- Dice Modifiers -->
 					<button type="action" name="act_20" data-i18n="dice-mod-plus20-target-u">+20 target number</button>
@@ -47539,23 +47540,46 @@ on("clicked:edit_mode", () => {
   });
 });
 
+// ── Dice Modifier: shared recalc helper ──────────────────────────────────────
+// dice_modifier_manual : the value the player manually toggled (0, ±10, ±20)
+// dice_modifier_checkbox : the final value used by all roll buttons
+//   = manual + wound penalty (-10 major wound) + bloodied penalty (-10 at/below 50% HP)
+//   Capped so both conditions together give -20 total penalty on top of manual.
+const recalcDiceModifier = () => {
+  getAttrs(["dice_modifier_manual", "major_wounds_checkbox", "vitality", "vitality_max"], (values) => {
+    const manual      = parseInt(values.dice_modifier_manual, 10)   || 0;
+    const majorWound  = values.major_wounds_checkbox === "1";
+    const hp          = parseInt(values.vitality, 10);
+    const hpMax       = parseInt(values.vitality_max, 10);
+    const bloodied    = !isNaN(hp) && !isNaN(hpMax) && hpMax > 0 && hp <= hpMax / 2;
+
+    const penalty = (majorWound ? -10 : 0) + (bloodied ? -10 : 0);
+    const final   = manual + penalty;
+
+    setAttrs({ dice_modifier_checkbox: String(final) });
+  });
+};
+
 on("clicked:-20 clicked:-10 clicked:10 clicked:20", (event) => {
   const clicked = event.triggerName.replace("clicked:", "");
-  getAttrs(["dice_modifier_checkbox"], (values) => {
-    const current = values.dice_modifier_checkbox || "0";
+  getAttrs(["dice_modifier_manual"], (values) => {
+    const current = values.dice_modifier_manual || "0";
     const next = current === clicked ? "0" : clicked;
-    setAttrs({ dice_modifier_checkbox: next });
+    setAttrs({ dice_modifier_manual: next }, recalcDiceModifier);
   });
 });
 
 on("clicked:major_wounds", (event) => {
-  const clicked = 1;
+					
   getAttrs(["major_wounds_checkbox"], (values) => {
     const current = values.major_wounds_checkbox || "0";
-    const next = current === clicked ? "0" : clicked;
-    setAttrs({ major_wounds_checkbox: next });
+    const next = current === "1" ? "0" : "1";
+    setAttrs({ major_wounds_checkbox: next }, recalcDiceModifier);
   });
 });
+
+// Re-evaluate whenever HP changes (bloodied threshold)
+on("change:vitality change:vitality_max", recalcDiceModifier);
 
 on("clicked:unconcious", (event) => {
   const clicked = 1;
@@ -47580,7 +47604,7 @@ on("clicked:strain_full_rest", () => {
     const maxStrain = parseInt(values.strain_max, 10) || 0;
 
     // Use maxStrain in the roll template
-    const rollStr = `&{template:coc-dice-roll} {{name=Full Rest - @{name}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{diceroll=[[${maxStrain}]]}}`;
+    const rollStr = `&{template:coc-dice-roll} {{name=Full Rest - @{name}}} {{modifier=[[0]]}} {{diceroll=[[${maxStrain}]]}}`;
 
     startRoll(rollStr, (rollData) => {
       setAttrs({ strain: maxStrain });
@@ -47590,7 +47614,7 @@ on("clicked:strain_full_rest", () => {
 });
 
 on("clicked:strain_short_rest", () => {
-  startRoll("&{template:coc-dice-roll} {{name=Short Rest - @{name}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{diceroll=[[1d6]]}}", (rollData) => {
+  startRoll("&{template:coc-dice-roll} {{name=Short Rest - @{name}}} {{modifier=[[0]]}} {{diceroll=[[1d6]]}}", (rollData) => {
     const recovered = rollData.results.diceroll.result;
 
     getAttrs(["strain", "strain_max"], (values) => {

@@ -12,9 +12,9 @@
 
 **Target Career + Scope:**
 - `CAREER_KEY`: 
-	- `mindbender` *(e.g. `marksman`)* — must match the key in `careerDataMap`
+	- `dreamshaper` *(e.g. `marksman`)* — must match the key in `careerDataMap`
 - `TARGET_TIER`:
-	- `4` *(integer: 1, 2, 3, 4, or 5)*
+	- `3` *(integer: 1, 2, 3, 4, or 5)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(include only if requested)*
   - `secondary_skills` *(include only if requested)*
@@ -28,7 +28,7 @@
 - `SOURCE_DOC`:
 	- `careers-u` *(e.g. `careers-u`)*
 - `SOURCE_SECTION`:
-	- `<RACE_KEY>-u`
+	- `<CAREER_KEY>-u`
 
 **Skills Inputs (leave blank if not in scope):**
 - `PRIMARY_SKILLS_INPUT`:
@@ -40,18 +40,18 @@
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-Cascade Failure	Type: Action (Lockdown) • Cost: 1d6 Strain • Usage: 1/Session — Choose up to two creatures within Short range that can see or hear you. Roll Magic (Enchantment) opposed by each target's POW. On a success, until the start of your next turn, the target cannot take Reactions and must choose either its Action or its movement on its turn — not both. This does not prevent the use of Maneuvers.	Puppet String
-Ego Death	Type: Action (Shatter) • Cost: 3 Strain • Usage: 1/Session — Target one creature within Short range. Roll Magic (Enchantment) opposed by the target's POW. On a success, deal 1d8 Veil damage and the target loses its Reaction until the end of the Scene. On a failure, the target is unaffected.	Memory Fog
-Emotional Contagion	Type: Free Action (Spread) • Cost: 1 Strain • Usage: 1/Scene — Trigger: A creature within Short range becomes Shaken, Frightened, or Disoriented as a result of one of your Mindbender talents or Enchantment spells. Effect: Choose one additional hostile creature within Short range of the affected target. That creature must roll POW opposed by your Magic (Enchantment) or suffer the same condition until the end of its next turn. This spread can only occur once per triggering effect.	Psychic Scream
-Psychic Aegis	Type: Reaction (Counter) • Cost: 2 Strain • Usage: 1/Session — Trigger: You or an ally within Short range is targeted by an Enchantment spell, mind-affecting ability, or fear effect. Effect: The triggering effect automatically fails. The source of the effect must roll POW opposed by your Magic (Enchantment) or become Shaken until the end of its next turn as the psychic energy rebounds.	Mind Bastion
-Turn the Knife	Type: Free Action (Exploit) • Cost: — • Usage: 1/Scene — When a creature within Short range suffers a condition or limitation caused by one of your Mindbender talents, choose one allied creature within Short range of you. That ally may immediately take one Maneuver that does not provoke Reactions.	False Allegiance
+False Terrain	Type: Action (Area Denial) • Cost: 2 Strain • Usage: 1/Scene — Project an illusory environmental hazard — fire, collapsing flooring, toxic gas, electrical discharge — covering a Short-radius area at a point within Medium range. The illusion persists until the start of your next turn. Each creature entering or starting its turn in the area must roll Perception opposed by your Magic (Illusion). On a failure, the creature treats the hazard as real: it must spend one additional Maneuver to cross the area or choose to avoid it entirely. On a success, the creature recognizes the illusion and moves normally. The illusion deals no actual damage and does not create real obstacles.	Phantom Threat
+Mirror Shroud	Type: Action (Group Concealment) • Cost: 2 Strain • Usage: 1/Scene — Choose up to three willing creatures within Short range, which may include yourself. Until the start of your next turn, each target gains +1 bonus die on Stealth rolls. Creatures attempting to detect or target the shrouded group from beyond Short range must succeed on Perception opposed by your Magic (Illusion) or treat the group as undetected — they cannot target any member of the group with attacks, spells, or targeted abilities while this result stands. This effect ends for any individual who makes an attack or casts an offensive spell. Only one Mirror Shroud may be active at a time.	Veil Cloak
+Persistent Construct	Type: Passive (Construct Enhancement) • Cost: — • Usage: At-will — When you create an illusory construct using a Dreamshaper talent (such as Phantom Threat or False Terrain), the construct persists for one additional round beyond its stated duration. Additionally, creatures that succeed on their Perception roll to see through the illusion cannot clearly communicate that certainty to others until the start of their next turn. They may shout a warning, but it grants no mechanical benefit before then.	Layered Deception
+Redirect Perception	Type: Reaction (Misdirect) • Cost: 2 Strain • Usage: 1/Scene — Trigger: You or an ally within Short range is targeted by a ranged attack or targeted spell. Effect: Roll Magic (Illusion) opposed by the attacker's Perception. On a success, the attack suffers 1 penalty die as the attacker's targeting is momentarily disrupted by a flash of false spatial data. This does not redirect the attack to another target and cannot be used against area-of-effect abilities.	Mirage Displacement
+Sensory Overload	Type: Action (Disrupt) • Cost: 2 Strain • Usage: 1/Session — Target one creature within Short range. Roll Magic (Illusion) opposed by the target's Perception. On a success, until the start of your next turn, the target suffers 1 penalty die on all Actions and cannot benefit from enhanced senses, targeting augmentations, or sensory cyberware. On a Hard Success or better, the target also cannot take Reactions until the start of your next turn. This effect represents a cascade of false stimuli overwhelming the target's ability to process genuine information.	Exploit Misjudgment
 ```
 
 **Schema Reference:**
 - `SCHEMA_REFERENCE_CAREER`:
  - `codeweaver` *(another career key with complete schema — for field names/types only, never content. Prefer `faceman`, `investigator`, or `combat_engineer` as they have full field coverage.)*
 
-- `OPERATION`: `replace_tier`
+- `OPERATION`: `add`
   - `replace_tier`: TIER_TALENTS_INPUT is the complete and final talent list for TARGET_TIER.
     Talents in the file at TARGET_TIER not present in the input must be REMOVED (datamap object,
     tier HTML row, tracker HTML, CSS, and JSON keys).
@@ -68,6 +68,7 @@ Extract verbatim from the three files:
 **From `ghost_of_arcadia.html`:**
 - `careerDataMap.<CAREER_KEY>` — full object; note talents at TARGET_TIER and the bottom-level `source` field
 - Tier HTML block: `<div data-tier="N">` for the career
+- Skill block HTML: `<div class="sheet-career-skill-block">` for the career (when `primary_skills` or `secondary_skills` is in scope)																																	 
 - Tracker HTML rows for all career talents at TARGET_TIER with `usage_limit: "scene"` or `"session"`
 - `skillDataMap` — for skill key validation
 
@@ -149,6 +150,7 @@ For each surface, compare extract against input-derived target. If a surface alr
 | `careerDataMap` talent objects | All fields in canonical order — see §2 |
 | `careerDataMap` talent fields — consistency | Any in-scope talent missing `strain: ""` gets it added; any missing `affected_skill: []` gets it added |
 | Career `source` field | Bump version and date if anything in scope changed |
+| Skill block HTML | One `sheet-career-skill-wrapper` per skill key in each column, alphabetical by key (when `primary_skills` or `secondary_skills` in scope) — see §6 |																																											
 | Tier HTML | Comment header index, talent row markup, prereq spans, alphabetical order by key |
 | Tracker HTML | show input + scene/session div for each usage_limit: scene/session talent |
 | CSS | Show selectors for each scene/session talent |
@@ -184,6 +186,7 @@ Rules:
 - A tracker HTML ADD must always have a matching CSS ADD (and vice versa)
 - `usage_limit: ""` or `at_will` or `permanent` → no tracker rows unless the existing pattern explicitly has them
 - The tracker index comment block is a required REMOVE/ADD surface whenever any scene or session talent is added or removed — same treatment as the tier HTML index block.
+- The tracker section always replaces the entire career block as one REMOVE/ADD to maintain global alphabetical order. 
 
 ---
 
@@ -259,6 +262,7 @@ Validations:
 Patch manifest:
   careerDataMap:  [CHANGED lines N–N | NO-OP]
   source field:   [bumped to <version> | NO-OP — no content changed]
+  Skill HTML:     [CHANGED | NO-OP — skills not in scope]														   
   Tier HTML:      [CHANGED | NO-OP]
   Tracker HTML:   [CHANGED | NO-OP]
   CSS selectors:  [CHANGED | NO-OP]
@@ -325,10 +329,10 @@ All `careerDataMap` content uses **tabs** throughout. Canonical indent levels:
 Located at the **bottom of the career object, outside `talents`**. One source per career, not per talent (unlike ancestry):
 
 ```javascript
-source: { doc: "careers-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "careers-u" }
+source: { doc: "<SOURCE_DOC>-u", version: "2.YYMMDD", date: "YYYY-MM-DD", section: "<SOURCE_SECTION>-u" }
 ```
-- `doc`: always `"careers-u"`
-- `section`: always `"careers-u"`
+- `doc`: always `"<SOURCE_DOC>-u"`
+- `section`: always `"<SOURCE_SECTION>-u"`
 - `version` / `date`: from SOURCE_VERSION / SOURCE_DATE — the document's publication date, not today's date
 - Bump whenever any content in the career object changes
 
@@ -565,3 +569,66 @@ Note that HTML attribute names use `attr_<career>_<talent_key>` — **without** 
 | i18n key | `career_combat_engineer_breachfinders_eye-u` |
 | `careerDataMap` talent key | `breachfinders_eye` (inside `combat_engineer.talents`) |
 
+---
+
+### Skill block
+
+The skill block lives inside `sheet-career-interactive-block`, above the Trained Skills Summary Strip and all tier containers. It has a left column (primary) and a right column (secondary). Each skill in both columns is rendered as a `sheet-career-skill-wrapper` row.
+
+**Attribute naming:**
+
+| Element | Format |
+|---|---|
+| Lock hidden input | `attr_cs_<career>_<skill_key>_mdr_checkbox_lock` |
+| Checkbox | `attr_cs_<career>_<skill_key>_mdr_checkbox` |
+
+**Single skill row:**
+```html
+<div class="sheet-career-skill-wrapper">
+    <input type="hidden" name="attr_cs_<career>_<skill_key>_mdr_checkbox_lock" value="0"/>
+    <input type="checkbox" name="attr_cs_<career>_<skill_key>_mdr_checkbox" value="1"/>
+    <label><span data-i18n="<skill_key>-u"></span></label>
+</div>
+```
+
+**Full block structure:**
+```html
+<div class="sheet-career-skill-block">
+    <div class="sheet-career-skill-columns">
+        <!-- Left Column: Primary -->
+        <div class="sheet-career-skill-col">
+            <h3 class="sheet-career-skill-header"><span data-i18n="career_primary_skills-u">Primary Skills</span></h3>
+            <!-- one sheet-career-skill-wrapper per primary skill, alphabetical by key -->
+        </div>
+
+        <!-- Right Column: Secondary -->
+        <div class="sheet-career-skill-col">
+            <h3 class="sheet-career-skill-header"><span data-i18n="career_secondary_skills-u">Secondary Skills</span></h3>
+            <!-- one sheet-career-skill-wrapper per secondary skill, alphabetical by key -->
+        </div>
+    </div>
+</div>
+```
+
+**Rules:**
+- Skill wrapper rows are alphabetized by key string within each column — same order as in `careerDataMap`
+- All skills in `exclusive_skill_sets` groups render as normal individual rows — no special HTML markup; the sheet worker handles locking at runtime
+- Skill HTML is in scope whenever `primary_skills` or `secondary_skills` is in `IN_SCOPE_SECTIONS`
+- The skill block is a required Phase 3 diff surface whenever skills are in scope
+- For stub population, the REMOVE block is the empty stub (header elements only, no wrapper rows); the ADD replaces it with the fully populated block
+
+**Stub REMOVE pattern** (when populating a stub career for the first time):
+```html
+<div class="sheet-career-skill-block">
+    <div class="sheet-career-skill-columns">
+        <!-- Left Column: Primary -->
+        <div class="sheet-career-skill-col">
+            <h3 class="sheet-career-skill-header"><span data-i18n="career_primary_skills-u">Primary Skills</span></h3>
+        </div>
+        <!-- Right Column: Secondary -->
+        <div class="sheet-career-skill-col">
+            <h3 class="sheet-career-skill-header"><span data-i18n="career_secondary_skills-u">Secondary Skills</span></h3>
+        </div>
+    </div>
+</div>
+```   

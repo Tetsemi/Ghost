@@ -60,6 +60,8 @@ Extract verbatim from the three files:
 
 > **Gate:** If any block cannot be extracted verbatim, stop and report. Do not produce patches.
 
+> **Exception — new career population:** If `CAREER_KEY` is a known stub (see §5), an empty or absent tier block and empty `talents: {}` are expected. Proceed with construction rather than extraction for those surfaces. The gate applies only to the career-level object itself (schema, `entry_requirements`, `source`) which must still be extracted verbatim.
+
 > **Career type note:** The three career types are `"core"`, `"arcane"`, and `"specialist"`. Specialist careers use `career_cost` instead of `base_skill_points`/`skill_points_primary_formula`, and `skill_points_primary_display: "—"`. See §4 for full specialist schema differences.
 
 ---
@@ -132,6 +134,8 @@ For each surface, compare extract against input-derived target. If a surface alr
 | Tracker HTML | show input + scene/session div for each usage_limit: scene/session talent |
 | CSS | Show selectors for each scene/session talent |
 | JSON | Name string and rules string for each in-scope talent |
+
+> **New career population:** If the tier has no existing talent entries (stub career), skip the diff — treat all input talents as ADD-only. There are no REMOVE blocks for talent objects, tier HTML rows, tracker rows, CSS selectors, or JSON keys.
 
 ---
 
@@ -430,6 +434,8 @@ The following careers exist in `careerDataMap` with empty `talents: {}` and plac
 
 These stubs have `entry_requirements: {}` (core) or `entry_requirements: { all: [{ type: "awakened" }] }` (arcane) already set correctly.
 
+**Populating a stub:** When a stub career is being fully populated for the first time, `IN_SCOPE_SECTIONS` will typically include `primary_skills`, `secondary_skills`, and `talents`. All five tiers are processed in order (1 → 5) across one or more sessions. Remove the career from this table once Tier 1 content has been committed to the file.
+
 ---
 
 ## 6) HTML Structure Reference
@@ -467,6 +473,8 @@ These stubs have `entry_requirements: {}` (core) or `entry_requirements: { all: 
 ```
 
 **Tier header i18n keys:** `tier1_careers-u` through `tier5_careers-u`
+
+**First-time tier insertion:** When adding a tier block to a career that has no tier HTML yet, insert it inside the career's enclosing `<div class="sheet-career-block sheet-career-<career>">` container, ordered tier 1–5 top to bottom. If that container itself doesn't exist, flag it for manual placement — do not construct an enclosing career container from scratch without explicit instruction.
 
 ### Index block format
 

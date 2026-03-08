@@ -1129,6 +1129,35 @@ select[name="attr_damage_bonus"] {
   color: #ffffff;
 }
 
+/* Minion Bloodied: HP current input turns light red at or below 50% */
+.ui-dialog .tab-content .charsheet input[name="attr_minion_bloodied_css"][value="1"] ~ .sheet-minionhp-input {
+  background-color: #cc4444;
+  color: #ffffff;
+}
+
+/* Minion wounds wrapper: override the generic grid layout */
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-wounds-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  height: auto;
+  grid-template-columns: unset;
+}
+
+/* Minion Major Wounds: active state (red) */
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_minion_major_wounds_checkbox"][value="1"] + button[name="act_minionwounds"] {
+  background-color: #aa3333;
+  color: white;
+}
+
+/* Minion Major Wounds: default state */
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_minion_major_wounds_checkbox"][value="0"] + button[name="act_minionwounds"] {
+  background-color: #d0cabe;
+  color: black;
+}
+
 /* -------------------- Status ----------------------------- */
 
 /* Inner grid for status checkboxes */
@@ -6662,9 +6691,9 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex {
   display: flex;
   flex-direction: row;
-  gap: 8px;
-  flex-wrap: nowrap;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0px;
+  align-items: center;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-narrow-input {
@@ -6678,15 +6707,16 @@ button[type="roll"]:hover.new-roll {
   color: black;
 }
 
-
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-row {
-  flex: 1 1 auto;
+  flex: 0 0 50%;
   display: flex;
-  flex-direction: row; /* <— was column, this is the key fix */
+  flex-direction: row;
   align-items: center;
   gap: 0px;
   min-width: 0;
   white-space: nowrap;
+  height: 24px;
+  box-sizing: border-box;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-label {
@@ -6694,12 +6724,29 @@ button[type="roll"]:hover.new-roll {
   font-weight: bold;
   color: black;
   font-size: 85%;
+  text-align: right;
+  margin-right: 4px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-val {
   flex: 1;
   display: flex;
+  align-items: center;
   gap: 4px;
+}
+
+/* Major Wounds button in the mini-flex wounds row */
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-wounds-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-wounds-wrapper button[name="act_minionwounds"] {
+  height: 20px;
+  font-size: 85%;
+  padding: 0 6px;
+  white-space: nowrap;
 }
 
 
@@ -6823,6 +6870,13 @@ button[type="roll"]:hover.new-roll {
   margin: 0;
 }
 
+/* Init and Move labels are longer words — give them enough room */
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-attribute-cell span.sheet-npc-attr-label {
+  width: auto;
+  min-width: 28px;
+  white-space: nowrap;
+}
+
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-attr-input {
   width: 24px;
   height: 20px;
@@ -6860,8 +6914,8 @@ button[type="roll"]:hover.new-roll {
   background-color: transparent; /* remove dark background */
   border: none;
   padding: 0;
-  margin: 0px;
-
+  margin: 0;
+  padding-top: 20px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-companion-weapon-header {

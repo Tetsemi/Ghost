@@ -5,7 +5,6 @@ on('chat:message', function(msg) {
 
   const playerName = msg.who.replace(" (GM)", "").trim();
 
-  // Try to find the character associated with this button roll
   const character = findObjs({
     _type: "character",
     name: playerName
@@ -17,7 +16,7 @@ on('chat:message', function(msg) {
   }
 
   const dexAttr = findObjs({
-    type: 'attribute',
+    _type: 'attribute',
     characterid: character.id,
     name: 'dex'
   })[0];
@@ -27,37 +26,57 @@ on('chat:message', function(msg) {
     return;
   }
 
-  const dex = parseInt(dexAttr.get("current"), 10) || 0;
+  const modAttr = findObjs({
+    _type: 'attribute',
+    characterid: character.id,
+    name: 'dice_modifier_checkbox'
+  })[0];
+
+  const dex      = parseInt(dexAttr.get("current"), 10) || 0;
+  const modifier = modAttr ? (parseInt(modAttr.get("current"), 10) || 0) : 0;
+
+  // Effective DEX after modifier, minimum 1
+  const effectiveDex = Math.max(1, dex + modifier);
+
   const roll = randomInteger(100);
   let tier = 'Fail';
-  let init = dex;
+  let init = 0;
 
   if (roll === 1) {
     tier = 'Critical';
-    init = 4000 + dex;
-  } else if (roll <= Math.floor(dex / 5)) {
+    init = 4000 + effectiveDex;
+  } else if (roll <= Math.floor(effectiveDex / 5)) {
     tier = 'Extreme';
-    init = 3000 + dex;
-  } else if (roll <= Math.floor(dex / 2)) {
+    init = 3000 + effectiveDex;
+  } else if (roll <= Math.floor(effectiveDex / 2)) {
     tier = 'Hard';
-    init = 2000 + dex;
-  } else if (roll <= dex) {
+    init = 2000 + effectiveDex;
+  } else if (roll <= effectiveDex) {
     tier = 'Normal';
-    init = 1000 + dex;
-  } else if (roll >= 96) {
+    init = 1000 + effectiveDex;
+  } else if (roll >= (effectiveDex > 50 ? 96 : 96)) {
     tier = 'Fumble';
     init = 0;
   }
 
-  const name = character.get("name");
+  const name       = character.get("name");
+  const success    = effectiveDex;
+  const hard       = Math.max(1, Math.floor(effectiveDex / 2));
+  const extreme    = Math.max(1, Math.floor(effectiveDex / 5));
 
-  const output = `&{template:default} `
+  // coc-1 template drives tier display from inline roll comparisons,
+  // so we pass roll, success, hard, extreme as inline rolls with fixed values.
+  const output = `&{template:coc-1} `
     + `{{name=Initiative (Combat) - ${name}}} `
-    + `{{Roll=${roll}}} `
-    + `{{Tier=${tier}}} `
-    + `{{Result=${init}}}`;
+    + `{{modifier=[[${modifier}]]}} `
+    + `{{success=[[${success}]]}} `
+    + `{{hard=[[${hard}]]}} `
+    + `{{extreme=[[${extreme}]]}} `
+    + `{{roll1=[[${roll}]]}}`;
+
   sendChat(name, output);
 
+  // Turn order uses init value calculated server-side
   let turnorderRaw = Campaign().get('turnorder') || '[]';
   let turnorder = [];
 

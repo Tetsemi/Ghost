@@ -479,10 +479,12 @@ These stubs have `entry_requirements: {}` (core) or `entry_requirements: { all: 
     </h4>
 
     <div class="sheet-section-body">
-        <!-- index block -->
-
-        <!-- Tier 2–5 only: prereq toggle toolbar -->
         <div class="sheet-career-block sheet-career-<career>">
+            <!-- index block -->
+
+            <!-- Tier 1: talent rows directly here — no prereq toggle toolbar -->
+
+            <!-- Tier 2–5 only: prereq toggle toolbar above talent rows -->
             <input type="checkbox" id="show_career_<career>_prereqs_tN" class="sheet-career-prereq-toggle" name="attr_show_career_<career>_prereqs_tN" value="1"/>
             <div class="sheet-career-talent-toolbar">
                 <label class="sheet-career-prereq-toggle-label" for="show_career_<career>_prereqs_tN">
@@ -490,18 +492,16 @@ These stubs have `entry_requirements: {}` (core) or `entry_requirements: { all: 
                 </label>
             </div>
             <div class="sheet-career-talents">
-                <!-- talent rows -->
+                <!-- talent rows (Tiers 2–5) -->
             </div>
         </div>
-
-        <!-- Tier 1 only: no prereq toggle, talent rows directly in sheet-section-body -->
     </div>
 </div>
 ```
 
 **Tier header i18n keys:** `tier1_careers-u` through `tier5_careers-u`
 
-**First-time tier insertion:** When adding a tier block to a career that has no tier HTML yet, insert it inside the career's enclosing `<div class="sheet-career-block sheet-career-<career>">` container, ordered tier 1–5 top to bottom. If that container itself doesn't exist, flag it for manual placement — do not construct an enclosing career container from scratch without explicit instruction.
+**First-time tier insertion:** When adding a tier block to a career that has no tier HTML yet, insert it as a new `<div class="sheet-career-talent-tier ...">` container, ordered tier 1–5 top to bottom within the career's section.
 
 ### Index block format
 
@@ -524,7 +524,7 @@ These stubs have `entry_requirements: {}` (core) or `entry_requirements: { all: 
 
 ### Talent row — Tier 1
 
-Tier 1 rows have **no** `_enabled` hidden input and **no** `sheet-career-prereq-toggle` toolbar:
+Tier 1 rows have **no** `_enabled` hidden input, **no** `sheet-career-prereq-toggle` toolbar, **no** `sheet-career-talents` sub-div, and **no** prerequisite span. Talent rows sit directly inside the `sheet-career-block`:
 
 ```html
 <!-- Career Talent: <Display Name> | key: career_<career>_<talent_key> | cost: 5 XP | cadence: <scene|session|none> | attrs: attr_<career>_<talent_key>, attr_<career>_<talent_key>_lockflag | i18n: career_<career>_<talent_key>-u | — | career_<career>_<talent_key>_rules-u -->
@@ -535,8 +535,6 @@ Tier 1 rows have **no** `_enabled` hidden input and **no** `sheet-career-prereq-
     <span class="sheet-career-talent-description" data-i18n="career_<career>_<talent_key>_rules-u"></span>
 </div>
 ```
-
-Note: tier 1 talents have no prerequisite span (no specific prerequisite to display).
 
 ### Talent row — Tiers 2–4 (non-capstone)
 

@@ -1,14 +1,31 @@
 <div class="sheet-sheetmeta">
-	<!-- Sheet Version Information -->
-	<input type="hidden" name="attr_sheet_version" value="" />
-	<input type="hidden" name="attr_sheet_build" value="" />
-	<input type="hidden" name="attr_sheet_version_display" value="" />
-	<input type="hidden" name="attr_sheet_schema" value="0" />
+    <!-- Sheet Version Information -->
+    <input type="hidden" name="attr_sheet_version" value="" />
+    <input type="hidden" name="attr_sheet_build" value="" />
+    <input type="hidden" name="attr_sheet_version_display" value="" />
+    <input type="hidden" name="attr_sheet_schema" value="0" />
 
-	<div class="sheet-sheetmeta-row">
-		<span class="sheet-sheetmeta-label" data-i18n="sheet_version-u">Sheet</span>
-		<span class="sheet-sheetmeta-value"><span name="attr_sheet_version_display"></span></span>
-	</div>
+    <!-- Theme Picker + Version Row -->
+    <div class="sheet-sheetmeta-row">
+        <span class="sheet-theme-label">Theme:</span>
+        <div class="sheet-theme-options">
+            <label class="sheet-theme-option">
+                <input type="radio" name="attr_theme_mode" value="dark" checked /> Dark
+            </label>
+            <label class="sheet-theme-option">
+                <input type="radio" name="attr_theme_mode" value="light" /> Light
+            </label>
+            <label class="sheet-theme-option">
+                <input type="radio" name="attr_theme_mode" value="cyberpunk" /> Cyberpunk
+            </label>
+            <label class="sheet-theme-option sheet-theme-option-ancestry">
+                <input type="radio" name="attr_theme_mode" value="ancestry" />
+                <span class="sheet-theme-ancestry-static">Ancestry</span>
+                <span class="sheet-theme-ancestry-name" name="attr_theme"></span>
+            </label>
+        </div>
+        <span class="sheet-sheetmeta-value"><span name="attr_sheet_version_display"></span></span>
+    </div>
 </div>
 
 <div class="sheet-layout">
@@ -17,7 +34,7 @@
 	<!-- Hidden Edit Mode Toggle Controller -->
 
 	<!-- Hidden Theme Controller -->
-	<input type="hidden" class="sheet-theme-controller" name="attr_theme_mode" value="dark"/>
+	<input type="hidden" class="sheet-theme-controller" name="attr_theme" value="dark"/>
 	<!-- Hidden Theme Controller -->
 
 	<!-- Top Section -->
@@ -48426,6 +48443,19 @@ on("change:repeating_minion:npc_weapon_skill1 change:repeating_minion:npc_weapon
 on("change:awakened", function() {
     getAttrs(["awakened"], function(values) {
         setAttrs({ awakened_css: values.awakened === "1" ? "1" : "0" });
+    });
+});
+
+on("change:theme_mode change:showracials", () => {
+    getAttrs(["theme_mode", "showracials"], (values) => {
+        let theme_current = values.theme_mode || "dark";
+
+        if (theme_current === "ancestry") {
+            // Fall back to dark if no ancestry is selected yet
+            theme_current = values.showracials || "dark";
+        }
+
+        setAttrs({ theme: theme_current });
     });
 });
 

@@ -6,13 +6,13 @@
 */
 
 :root {
-	/* Character Sheet Theme */
-		/* Background Color */
-		--cs_bg_color: #888888;
-		
-		/* Section - Background Color */
-		--cs_section_bg_color: #d0cabe;
-		--cs_section_head_bg_color: #112749;
+	/* Character Sheet Theme - Active Aliases (default: dark) */
+		--cs_bg_color:              var(--cs_sys_dark_bg);
+		--cs_section_bg_color:      var(--cs_sys_dark_comp);
+		--cs_section_head_bg_color: var(--cs_sys_dark_bg);
+		--cs_txt_color_dark:        var(--cs_sys_dark_txt_color_dark);
+		--cs_txt_color_light:       var(--cs_sys_dark_txt_color_light);
+		--cs_dc_color:              var(--cs_sys_dark_contrast);
 		
 	/* --- Theme - Light --- */
 		--cs_sys_light_bg_color: #f8f8f8;			/* Background */				/* Off-white canvas & clean parchment */
@@ -29,11 +29,11 @@
 		--cs_sys_dark_txt_color_light: #e0e0e0;		/* Text - Light */				/* Cool mercury & digital readout */	
 	
 	/* --- Theme - Cyberpunk --- */
-		--cs_sys_bg_color: #0a0b0d;					/* Background */				/* Deep Arcade: The blackest dark of the Dust Levels */
-		--cs_sys_ac_color: #1a1f24;					/* Accent - Complimentary */	/* Ferrocrete Slick: Polished corporate facades & slate */
-		--cs_sys_dc_color: #fcee0a;					/* Accent - Contrast */			/* Volatile Gold: The neon glow of alerts & ad-feeds */
-		--cs_sys_txt_color_dark: #465362;			/* Text - Dark */				/* Static Shadow: The ghost of breath & old wire data */
-		--cs_sys_txt_color_light: #00f2ff; 			/* Text - Light */				/* Ice-Breaker Blue: Arc-tech casing & holographic light */
+		--cs_sys_cyberpunk_bg_color: #0a0b0d;		/* Background */				/* Deep Arcade: The blackest dark of the Dust Levels */
+		--cs_sys_cyberpunk_ac_color: #1a1f24;		/* Accent - Complimentary */	/* Ferrocrete Slick: Polished corporate facades & slate */
+		--cs_sys_cyberpunk_dc_color: #fcee0a;		/* Accent - Contrast */			/* Volatile Gold: The neon glow of alerts & ad-feeds */
+		--cs_sys_cyberpunk_txt_color_dark: #465362;	/* Text - Dark */				/* Static Shadow: The ghost of breath & old wire data */
+		--cs_sys_cyberpunk_txt_color_light: #00f2ff;	/* Text - Light */				/* Ice-Breaker Blue: Arc-tech casing & holographic light */
 
 	/* --- Theme - Alteri - The Stillness ---*/
 		--as_alteri_bg_color: #b4c5d4;				/* Background */ 				/* Ashen gray & muted silver-blue */
@@ -133,6 +133,133 @@
 	/* Tab - NPC's */
 	/* Tab - Vehicles */
 	
+	/* Legacy Debt */
+	
+		/* Background Color */
+		--cs_bg_color: #888888;
+		
+		/* Section - Background Color */
+		--cs_section_bg_color: #d0cabe;
+		--cs_section_head_bg_color: #112749;	
+	
+}
+
+/* ------------------------------- */
+/* Theme Switcher                  */
+/* ------------------------------- */
+
+/* Light */
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="light"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="light"] ~ * {
+  --cs_bg_color:              var(--cs_sys_light_bg_color);
+  --cs_section_bg_color:      var(--cs_sys_light_ac_color);
+  --cs_section_head_bg_color: var(--cs_sys_light_dc_color);
+  --cs_txt_color_dark:        var(--cs_sys_light_txt_color_dark);
+  --cs_txt_color_light:       var(--cs_sys_light_txt_color_light);
+  --cs_dc_color:              var(--cs_sys_light_dc_color);
+}
+
+/* Dark */
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="dark"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="dark"] ~ * {
+  --cs_bg_color:              var(--cs_sys_dark_bg);
+  --cs_section_bg_color:      var(--cs_sys_dark_comp);
+  --cs_section_head_bg_color: var(--cs_sys_dark_bg);
+  --cs_txt_color_dark:        var(--cs_sys_dark_txt_color_dark);
+  --cs_txt_color_light:       var(--cs_sys_dark_txt_color_light);
+  --cs_dc_color:              var(--cs_sys_dark_contrast);
+}
+
+/* Cyberpunk */
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="cyberpunk"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="cyberpunk"] ~ * {
+  --cs_bg_color:              var(--cs_sys_cyberpunk_bg_color);
+  --cs_section_bg_color:      var(--cs_sys_cyberpunk_ac_color);
+  --cs_section_head_bg_color: var(--cs_sys_cyberpunk_bg_color);
+  --cs_txt_color_dark:        var(--cs_sys_cyberpunk_txt_color_dark);
+  --cs_txt_color_light:       var(--cs_sys_cyberpunk_txt_color_light);
+  --cs_dc_color:              var(--cs_sys_cyberpunk_dc_color);
+}
+
+/* Ancestry - resolved value written to attr_theme by sheet worker */
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="alteri"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="alteri"] ~ * {
+  --cs_bg_color:              var(--as_alteri_bg_color);
+  --cs_section_bg_color:      var(--as_alteri_ac_color);
+  --cs_section_head_bg_color: var(--as_alteri_bg_color);
+  --cs_txt_color_dark:        var(--as_alteri_txt_color_dark);
+  --cs_txt_color_light:       var(--as_alteri_txt_color_light);
+  --cs_dc_color:              var(--as_alteri_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="draevi"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="draevi"] ~ * {
+  --cs_bg_color:              var(--as_draevi_bg_color);
+  --cs_section_bg_color:      var(--as_draevi_ac_color);
+  --cs_section_head_bg_color: var(--as_draevi_bg_color);
+  --cs_txt_color_dark:        var(--as_draevi_txt_color_dark);
+  --cs_txt_color_light:       var(--as_draevi_txt_color_light);
+  --cs_dc_color:              var(--as_draevi_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="feran"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="feran"] ~ * {
+  --cs_bg_color:              var(--as_feran_bg_color);
+  --cs_section_bg_color:      var(--as_feran_ac_color);
+  --cs_section_head_bg_color: var(--as_feran_bg_color);
+  --cs_txt_color_dark:        var(--as_feran_txt_color_dark);
+  --cs_txt_color_light:       var(--as_feran_txt_color_light);
+  --cs_dc_color:              var(--as_feran_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="human"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="human"] ~ * {
+  --cs_bg_color:              var(--as_human_bg_color);
+  --cs_section_bg_color:      var(--as_human_ac_color);
+  --cs_section_head_bg_color: var(--as_human_bg_color);
+  --cs_txt_color_dark:        var(--as_human_txt_color_dark);
+  --cs_txt_color_light:       var(--as_human_txt_color_light);
+  --cs_dc_color:              var(--as_human_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="khadra"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="khadra"] ~ * {
+  --cs_bg_color:              var(--as_khadra_bg_color);
+  --cs_section_bg_color:      var(--as_khadra_ac_color);
+  --cs_section_head_bg_color: var(--as_khadra_bg_color);
+  --cs_txt_color_dark:        var(--as_khadra_txt_color_dark);
+  --cs_txt_color_light:       var(--as_khadra_txt_color_light);
+  --cs_dc_color:              var(--as_khadra_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="kitsu"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="kitsu"] ~ * {
+  --cs_bg_color:              var(--as_kitsu_bg_color);
+  --cs_section_bg_color:      var(--as_kitsu_ac_color);
+  --cs_section_head_bg_color: var(--as_kitsu_bg_color);
+  --cs_txt_color_dark:        var(--as_kitsu_txt_color_dark);
+  --cs_txt_color_light:       var(--as_kitsu_txt_color_light);
+  --cs_dc_color:              var(--as_kitsu_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="lyranni"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="lyranni"] ~ * {
+  --cs_bg_color:              var(--as_lyranni_bg_color);
+  --cs_section_bg_color:      var(--as_lyranni_ac_color);
+  --cs_section_head_bg_color: var(--as_lyranni_bg_color);
+  --cs_txt_color_dark:        var(--as_lyranni_txt_color_dark);
+  --cs_txt_color_light:       var(--as_lyranni_txt_color_light);
+  --cs_dc_color:              var(--as_lyranni_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="veyra"] ~ .sheet-layout,
+.ui-dialog .tab-content .charsheet .sheet-theme-controller[value="veyra"] ~ * {
+  --cs_bg_color:              var(--as_veyra_bg_color);
+  --cs_section_bg_color:      var(--as_veyra_ac_color);
+  --cs_section_head_bg_color: var(--as_veyra_bg_color);
+  --cs_txt_color_dark:        var(--as_veyra_txt_color_dark);
+  --cs_txt_color_light:       var(--as_veyra_txt_color_light);
+  --cs_dc_color:              var(--as_veyra_dc_color);
 }
 
 /* ------------------------------- */
@@ -141,10 +268,9 @@
 .ui-dialog .tab-content .charsheet {
 	background-color: var(--cs_bg_color);
 	border: 1px solid black;
-	color: black;
+	color: var(--cs_txt_color_light);
 	width: 100%;
 	padding: 2px 10px 10px 10px;
-	
 }
 
 /* ------------------------------- */
@@ -155,7 +281,7 @@
 	width: 840px;
 	margin: auto;
 	border: 1px solid black;
-	color: black;
+	color: var(--cs_txt_color_dark);
 	font-family: "Arial", sans-serif;
 }
 
@@ -167,20 +293,19 @@
 
 .ui-dialog .tab-content .charsheet .sheet-section {
   background-color: var(--cs_section_bg_color);
-  border: 1px solid #999;
+  border: 1px solid var(--cs_dc_color);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-section-head {
-  background-image: linear-gradient(black, #112749);
+  background-image: linear-gradient(var(--cs_txt_color_dark), var(--cs_section_head_bg_color));
   background-color: var(--cs_section_head_bg_color);
-  color: white;
+  color: var(--cs_txt_color_light);
   text-align: center;
   font-weight: bold;
   font-size: 1.2em;
   margin: 0;
   position: relative;
 }
-
 
 /* ----------------------------------------------------- */
 /* Universal Input Styles for All Sheet Sections         */
@@ -301,26 +426,76 @@
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-.ui-dialog .tab-content .charsheet .sheet-sheetmeta-row{
+.ui-dialog .tab-content .charsheet .sheet-sheetmeta-row {
   display: flex;
+  height: 16px;
+  flex-direction: row;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   font-size: 10px;
   line-height: 12px;
+  color: black;
   opacity: 0.85;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-sheetmeta-label{
+.ui-dialog .tab-content .charsheet .sheet-sheetmeta-value {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+/* --- Theme Picker --- */
+.ui-dialog .tab-content .charsheet .sheet-theme-section {
+  display: contents;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-label {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-sheetmeta-value{
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+.ui-dialog .tab-content .charsheet .sheet-theme-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin-top: 8px;
 }
+
+.ui-dialog .tab-content .charsheet .sheet-theme-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: black;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-theme-option input[type="radio"] {
+  cursor: pointer;
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* Ancestry option - swap static label for resolved name when selected */
+.ui-dialog .tab-content .charsheet .sheet-theme-option-ancestry .sheet-theme-ancestry-name {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-theme-option-ancestry .sheet-theme-ancestry-static {
+  display: inline;
+}
+.ui-dialog .tab-content .charsheet .sheet-theme-option-ancestry input[type="radio"]:checked ~ .sheet-theme-ancestry-static {
+  display: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-theme-option-ancestry input[type="radio"]:checked ~ .sheet-theme-ancestry-name {
+  display: inline;
+}
+/* --- Theme Picker --- */
 
 /* ------------------------ Roll buttons ---------------------- */
 

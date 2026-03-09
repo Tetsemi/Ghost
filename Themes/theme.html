@@ -24,15 +24,16 @@
 
 <script type="text/worker">
 
-let theme = "dark";
+on("change:theme_mode change:showracials", () => {
+    getAttrs(["theme_mode", "showracials"], (values) => {
+        let theme_current = values.theme_mode || "dark";
 
-on("change:theme_mode", () => {
-	getAttrs(["theme_mode"], (values) => {
-		let theme_current = values.theme_mode || "dark";
-		if ( theme_current === "ancestry" ) {
-			theme_current = "feran";
-		}
-		setAttrs({ theme: theme_current });
-	});
+        if (theme_current === "ancestry") {
+            // Fall back to dark if no ancestry is selected yet
+            theme_current = values.showracials || "dark";
+        }
+
+        setAttrs({ theme: theme_current });
+    });
 });
 </script>

@@ -3978,8 +3978,8 @@
 						<!-- ================== KHADRA TALENTS: INDEX (Tier 1) (key | cost | cadence) ================== -->
 						<!-- - talent_khadra_burden_accepted (10 XP, scene) -->
 						<!-- - talent_khadra_deliberate_force (10 XP, scene) -->
+						<!-- - talent_khadra_still_standing (10 XP, session) -->
 						<!-- - talent_khadra_stone_set_focus (10 XP, scene) -->
-						<!-- - talent_khadra_unyielding_frame (10 XP, session) -->
 						<!-- - talent_khadra_words_carved_in_stone (10 XP, none) -->
 						<!-- ============================================================================================================== -->
 
@@ -3999,20 +3999,20 @@
 							<span class="sheet-talent-description" data-i18n="talent_khadra_deliberate_force_rules-u"></span>
 						</div>
 
+						<!-- Ancestry Talent: Still Standing | key: still_standing | cost: 10 XP | cadence: session | attrs: attr_khadra_still_standing, attr_khadra_still_standing_lockflag | i18n: talent_khadra_still_standing-u | — | talent_khadra_still_standing_rules-u -->
+						<div class="sheet-talent-row">
+							<input type="hidden" name="attr_khadra_still_standing_lockflag" value="0"/>
+							<input type="checkbox" name="attr_khadra_still_standing" value="1" class="sheet-talent-checkbox"/>
+							<label class="sheet-talent-label"><span data-i18n="talent_khadra_still_standing-u"></span></label>
+							<span class="sheet-talent-description" data-i18n="talent_khadra_still_standing_rules-u"></span>
+						</div>
+
 						<!-- Ancestry Talent: Stone-Set Focus | key: stone_set_focus | cost: 10 XP | cadence: scene | attrs: attr_khadra_stone_set_focus, attr_khadra_stone_set_focus_lockflag | i18n: talent_khadra_stone_set_focus-u | — | talent_khadra_stone_set_focus_rules-u -->
 						<div class="sheet-talent-row">
 							<input type="hidden" name="attr_khadra_stone_set_focus_lockflag" value="0"/>
 							<input type="checkbox" name="attr_khadra_stone_set_focus" value="1" class="sheet-talent-checkbox"/>
 							<label class="sheet-talent-label"><span data-i18n="talent_khadra_stone_set_focus-u"></span></label>
 							<span class="sheet-talent-description" data-i18n="talent_khadra_stone_set_focus_rules-u"></span>
-						</div>
-
-						<!-- Ancestry Talent: Unyielding Frame | key: unyielding_frame | cost: 10 XP | cadence: session | attrs: attr_khadra_unyielding_frame, attr_khadra_unyielding_frame_lockflag | i18n: talent_khadra_unyielding_frame-u | — | talent_khadra_unyielding_frame_rules-u -->
-						<div class="sheet-talent-row">
-							<input type="hidden" name="attr_khadra_unyielding_frame_lockflag" value="0"/>
-							<input type="checkbox" name="attr_khadra_unyielding_frame" value="1" class="sheet-talent-checkbox"/>
-							<label class="sheet-talent-label"><span data-i18n="talent_khadra_unyielding_frame-u"></span></label>
-							<span class="sheet-talent-description" data-i18n="talent_khadra_unyielding_frame_rules-u"></span>
 						</div>
 
 						<!-- Ancestry Talent: Words Carved in Stone | key: words_carved_in_stone | cost: 10 XP | cadence: none | attrs: attr_khadra_words_carved_in_stone, attr_khadra_words_carved_in_stone_lockflag | i18n: talent_khadra_words_carved_in_stone-u | — | talent_khadra_words_carved_in_stone_rules-u -->
@@ -23182,12 +23182,13 @@
 							<!-- - talent_khadra_borrowed_hands (30 XP) -->
 							<!-- - talent_khadra_cost_before_collapse (30 XP) -->
 							<!-- - talent_khadra_endure_the_long_night (40 XP) -->
+							<!-- - talent_khadra_still_standing (10 XP) -->
 							<!-- - talent_khadra_the_ancestors_are_watching (40 XP) -->
 							<!-- - talent_khadra_the_line_is_here (40 XP) -->
 							<!-- - talent_khadra_the_sign_fulfilled (40 XP) -->
 							<!-- - talent_khadra_the_weight_of_my_words (40 XP) -->
 							<!-- - talent_khadra_the_long_memory_of_stone (30 XP) -->
-							<!-- - talent_khadra_unyielding_frame (10 XP) -->
+
 							<!-- ============================================================================================================== -->
 
 							<!-- Tracker Ancestry Talent: Borrowed Hands | key: borrowed_hands | cost: 30 XP | cadence: session | attrs: attr_show_khadra_borrowed_hands, attr_used_session_khadra_borrowed_hands | i18n: talent_khadra_borrowed_hands-u -->
@@ -23209,6 +23210,13 @@
 							<div class="sheet-tracker-item sheet-tracker-session sheet-khadra-endure-the-long-night">
 								<input type="checkbox" name="attr_used_session_khadra_endure_the_long_night" class="sheet-tracker-checkbox"/>
 								<span class="sheet-tracker-label" data-i18n="talent_khadra_endure_the_long_night-u"></span>
+							</div>
+
+							<!-- Tracker Ancestry Talent: Still Standing | key: still_standing | cost: 10 XP | cadence: session | attrs: attr_show_khadra_still_standing, attr_used_session_khadra_still_standing | i18n: talent_khadra_still_standing-u -->
+							<input type="hidden" name="attr_show_khadra_still_standing"/>
+							<div class="sheet-tracker-item sheet-tracker-session sheet-khadra-still-standing">
+								<input type="checkbox" name="attr_used_session_khadra_still_standing" class="sheet-tracker-checkbox"/>
+								<span class="sheet-tracker-label" data-i18n="talent_khadra_still_standing-u"></span>
 							</div>
 
 							<!-- Tracker Ancestry Talent: The Ancestors Are Watching | key: the_ancestors_are_watching | cost: 40 XP | cadence: session | attrs: attr_show_khadra_the_ancestors_are_watching, attr_used_session_khadra_the_ancestors_are_watching | i18n: talent_khadra_the_ancestors_are_watching-u -->
@@ -23244,13 +23252,6 @@
 							<div class="sheet-tracker-item sheet-tracker-session sheet-khadra-the-long-memory-of-stone">
 								<input type="checkbox" name="attr_used_session_khadra_the_long_memory_of_stone" class="sheet-tracker-checkbox"/>
 								<span class="sheet-tracker-label" data-i18n="talent_khadra_the_long_memory_of_stone-u"></span>
-							</div>
-
-							<!-- Tracker Ancestry Talent: Unyielding Frame | key: unyielding_frame | cost: 10 XP | cadence: session | attrs: attr_show_khadra_unyielding_frame, attr_used_session_khadra_unyielding_frame | i18n: talent_khadra_unyielding_frame-u -->
-							<input type="hidden" name="attr_show_khadra_unyielding_frame"/>
-							<div class="sheet-tracker-item sheet-tracker-session sheet-khadra-unyielding-frame">
-								<input type="checkbox" name="attr_used_session_khadra_unyielding_frame" class="sheet-tracker-checkbox"/>
-								<span class="sheet-tracker-label" data-i18n="talent_khadra_unyielding_frame-u"></span>
 							</div>
 
 							<!-- ================== TRACKER KITSU TALENTS: INDEX (session) (key | cost) ================== -->
@@ -34724,6 +34725,18 @@ const ancestryTalentDataMap = {
 			affected_skill: [],
 			prerequisite: ""
 		},
+		still_standing: {
+			tier: 1,
+			cost: 10,
+			capstone: false,
+			name_key: "talent_khadra_still_standing-u",
+			rule_text_key: "talent_khadra_still_standing_rules-u",
+			type: { economy: "reaction", tag: "Refusal" },
+			strain: "",
+			usage_limit: "session",
+			affected_skill: [],
+			prerequisite: ""
+		},
 		stone_set_focus: {
 			tier: 1,
 			cost: 10,
@@ -34733,18 +34746,6 @@ const ancestryTalentDataMap = {
 			type: { economy: "reaction", tag: "Unbroken Attention" },
 			strain: "",
 			usage_limit: "scene",
-			affected_skill: [],
-			prerequisite: ""
-		},
-		unyielding_frame: {
-			tier: 1,
-			cost: 10,
-			capstone: false,
-			name_key: "talent_khadra_unyielding_frame-u",
-			rule_text_key: "talent_khadra_unyielding_frame_rules-u",
-			type: { economy: "reaction", tag: "Refusal" },
-			strain: "",
-			usage_limit: "session",
 			affected_skill: [],
 			prerequisite: ""
 		},

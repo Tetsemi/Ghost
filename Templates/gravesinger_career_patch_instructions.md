@@ -12,9 +12,9 @@
 
 **Target Career + Scope:**
 - `CAREER_KEY`: 
-	- `` *(e.g. `marksman`)* — must match the key in `careerDataMap`
+	- `gravesinger` *(e.g. `marksman`)* — must match the key in `careerDataMap`
 - `TARGET_TIER`:
-	- `` *(integer: 1, 2, 3, 4, or 5)*
+	- `5` *(integer: 1, 2, 3, 4, or 5)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(include only if requested)*
   - `secondary_skills` *(include only if requested)*
@@ -40,7 +40,11 @@
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-<insert here>
+Army of Dusk	Type: Action (Mass Raising) • Cost: 1d8 Strain • Usage: 1/Session — Raise up to three corpses within Medium range simultaneously. Up to two may be non-sentient corpses raised as per Raise the Dead. One may be a sentient corpse raised as per Pale Servant — applying all of that talent's rules, including the condition system and permanent collapse at Scene end. Roll Magic (Necromancy) once — the result applies to all three. All raised corpses act on your Initiative and persist for the remainder of the Scene. While Army of Dusk is active, the normal Pale Sovereignty limit of one active thrall is suspended — all three may remain active simultaneously. If a raised corpse is destroyed, it cannot be re-raised this Session.	Pale Servant
+Death Knell	Type: Action (Execute) • Cost: 2d4 Strain • Usage: 1/Session — Target one living creature within Short range. Spirits, drones, constructs, and non-living entities cannot be targeted. Roll Magic (Necromancy) opposed by the target's CON. On a success, deal 2d10 Veil damage. On a failure of the initial opposed roll, deal 1d10 Veil damage only. When you activate this talent, you immediately take 1d6 Veil damage as the lethal resonance passes through you on its way out.	Soul Rend
+Pale Dominion	Type: Action (Field) • Cost: 2d6 Strain • Usage: 1/Session — Establish a Medium-radius field of necrotic dominance centered on you for the remainder of the Scene. Maintaining this field is a concentration effect — if you initiate any other ability that requires concentration, the field immediately collapses. While inside the field, all hostile living creatures suffer 1 penalty die on CON rolls and cannot benefit from passive HP recovery of any kind. Spirits, drones, constructs, and non-living entities are unaffected by the field. At the start of each hostile living creature's turn while inside the field, that creature must roll CON opposed by your Magic (Necromancy). On a failure, it takes 1d4 Veil damage. You and up to four designated allies are unaffected. If you are incapacitated or Stunned, the field collapses immediately. While Pale Dominion is active, you cannot use Entropy Aura or Death Curse — the field subsumes those effects.	Deathmark
+Soul Harvest	Type: Free Action (Escalating) • Cost: 2d4 Strain • Usage: 1/Session activation — Declare at the start of your first turn in a hostile scene. Until the end of the Scene, whenever any creature is reduced to 0 HP within Medium range — ally, enemy, or raised thrall — you immediately restore 1d6 HP and gain +10% to your next Magic (Necromancy) roll this Scene. This bonus stacks to a maximum of +20%. HP restored by this talent counts toward Healing Saturation and daily healing limits — the Gravesinger may choose to decline the HP restoration to avoid triggering saturation. Additionally, the first time this effect triggers each Scene, you may immediately use Raise the Dead on the fallen creature as a Free Action without spending Strain, provided it qualifies as a non-sentient corpse.	Grave Pact
+The Last Word	Type: Action (Terminal Curse) • Cost: 1d6 Strain • Usage: 1/Session — Target one living creature within Short range. Spirits, drones, constructs, and non-living entities cannot be targeted. Roll Magic (Necromancy) opposed by the target's POW. On a success, the target is cursed for the remainder of the Scene. Maintaining this curse is a concentration effect — if you initiate any other ability that requires concentration, the curse immediately ends. At the start of each of the target's turns while cursed, the target rolls CON opposed by your Magic (Necromancy). On a failure, the target takes Veil damage that bypasses all Veil Soak — armor and resistances provide no protection against it — starting at 1d4, escalating one die step on each subsequent failure: 1d4 → 1d6 → 1d8, to a maximum of 1d8. On a success, the target takes no damage that round but the curse persists. On a failure of the initial activation roll, the target instead takes 1d4 Veil damage once and is Shaken until the end of its next turn. This effect ends immediately if you are incapacitated.	Deathmark
 ```
 
 **Schema Reference:**

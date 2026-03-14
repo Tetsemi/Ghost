@@ -14,7 +14,7 @@
 - `CAREER_KEY`: 
 	- `pathfinder` *(e.g. `marksman`)* — must match the key in `careerDataMap`
 - `TARGET_TIER`:
-	- `1` *(integer: 1, 2, 3, 4, or 5)*
+	- `5` *(integer: 1, 2, 3, 4, or 5)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(include only if requested)*
   - `secondary_skills` *(include only if requested)*
@@ -32,19 +32,19 @@
 
 **Skills Inputs (leave blank if not in scope):**
 - `PRIMARY_SKILLS_INPUT`:
-	-`Track, Navigate, Survival (choose one specialization), Perception` *(paste the primary skills line here)*
+	-`` *(paste the primary skills line here)*
 - `SECONDARY_SKILLS_INPUT`:
-	-`Natural World, Stealth, Athletics, Listen, First Aid, Veil Lore` *(paste the secondary skills line here)*
+	-`` *(paste the secondary skills line here)*
   - Any `(choose one)` entry must be represented via `exclusive_skill_sets` — see §5.
 
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-Blood and Dust	Type: Passive (Tracking Enhancement) • Cost: — • Usage: At-will — When you succeed on a Track roll, you automatically extract additional detail based on your success tier. Regular Success: number of targets, direction of travel, and approximate time since passage. Hard Success: physical condition of the quarry (wounded, burdened, exhausted) and pace of movement. Extreme or Critical Success: behavioral state of the quarry (fleeing, hunting, disoriented) and whether they are aware they are being followed. This information is provided in addition to any other successful Track results and does not require an additional roll.
-Dead Ground	Type: Passive (Terrain Movement) • Cost: — • Usage: At-will — Moving through natural difficult terrain — undergrowth, unstable rubble, steep slopes, deep water, ley-burned ground — costs you one fewer Maneuver than normal, to a minimum of one. This talent does not apply to terrain made difficult by spells, constructed barriers, or technology.
-Hollow Watch	Type: Free Action (Observation) • Cost: — • Usage: 1/Scene — Declare before making a Perception or Listen roll. You have not voluntarily moved this round. Gain +1 bonus die on that roll.
-Read the Wind	Type: Reaction (Field Awareness) • Cost: — • Usage: At-will — When you would be Surprised by a creature or person, you may immediately make a Perception roll before the Surprised condition is applied. On any success, the Surprised condition is negated. This talent applies in natural terrain, ruins, collapsed districts, fringe zones, and other environments where concealment is shaped primarily by terrain rather than active urban surveillance or formal interior security. This talent does not apply to supernatural sources of surprise — spirits, Veil entities, and arcane concealment effects may still Surprise you normally.
-Strain Buffer	Type: Passive • Cost: — • Usage: Permanent — Increase your maximum Strain by +1. (This talent may appear in multiple Career Trees.)
+Apex Predator	Type: Action (Perfect Strike) • Cost: 1d6 Strain • Usage: 1/Session — Choose one visible creature you have personally observed or identified this Scene through Track, Veil Lore, or Veil-Sign. Make one attack against that creature. This attack ignores all Armor. On a hit, deal maximum damage for your weapon and the target is Stunned until the end of their next turn. Creatures immune to the Stunned condition instead become Impaired until the end of their next turn. This talent cannot be used against a creature you have not personally observed or identified this Scene.	Breaking Point
+Ghost Country	Type: Action (Vanish the Trail) • Cost: 1d4 Strain • Usage: 1/Session — Choose up to five allies within Short range. Until you declare this effect ended or the Scene concludes, your entire group moves through all terrain — including arcane hazard zones and Veil-warped ground — as normal terrain with no additional Maneuver cost. This removes terrain-based movement penalties only and does not protect against Veil radiation, environmental damage, or hazard exposure in those zones. Your group leaves no trackable evidence of passage: no physical traces, thermal signatures, mundane sensor readings, or arcane residue unless deliberately created. Any creature attempting to Track your group this Scene must do so at Extreme difficulty. Allies must remain within Short range of you to maintain these benefits.	Iron Trail
+No Safe Ground	Type: Action (Kill Zone) • Cost: 1d6 Strain • Usage: 1/Session — Establish a Short-radius kill zone centered on a point within Medium range that you can see. Until the end of the Scene, all hostile creatures within that zone suffer 1 penalty die on all actions, cannot benefit from Cover within it, and must spend one additional Maneuver to exit the zone voluntarily. At the start of each hostile creature's turn while inside the zone, they must succeed on a POW roll or become Suppressed. You and allies you designate at the time of activation are unaffected. If you move beyond Medium range from the zone's center point, the effect ends immediately.	Pinned Ground
+Shadow of the Fringe	Type: Free Action (Total Concealment) • Cost: 1d6 Strain • Usage: 1/Session — Immediately enter a state of complete environmental concealment. Until you attack or the Scene ends, you cannot be targeted by ranged attacks, spells, or abilities that require confirmed line of sight. Creatures that have previously pinpointed your position may still target the space you occupy, but must first succeed on a Perception roll opposed by your Stealth with 2 penalty dice. While this state is active, you may take one Move Maneuver each round as a Free Action. This state ends immediately if you attack, take a loud action, or choose to reveal yourself. You must be in natural terrain, significant cover, ruins, or low-light conditions to activate this talent.	Terrain Ghost
+The Hunt Ends Here	Type: Action (Apex Pursuit) • Cost: 1d6 Strain • Usage: 1/Session — Declare one visible creature within Medium range as your Prey. Your Quarry designation is immediately applied to this target without requiring a Track roll. Until the end of the Scene, once per round you may take one Move Maneuver toward your Prey as a Free Action that does not trigger Reactions. Each time your Prey attempts to move away from you, leave the Scene, or increase their distance from you by more than one range band in a single round, they must succeed on an Athletics roll opposed by your Track or become Hobbled until the start of their next turn. When your Prey is reduced to 0 HP or captured, you immediately recover 2 Strain.	Cut Off
 ```
 
 **Schema Reference:**

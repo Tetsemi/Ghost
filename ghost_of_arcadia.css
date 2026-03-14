@@ -810,8 +810,9 @@ button.new-roll {
   height: 100%;
   padding: 6px 8px;
   margin: 0;
-  border-bottom: 1px solid black;
-  background-color: transparent;
+  border-bottom: 1px solid var(--cs_input_border);
+  background-color: var(--cs_input_bg);
+  color: var(--cs_input_text);
   font-size: 1em;
   box-sizing: border-box;
   appearance: auto;
@@ -889,9 +890,9 @@ button.new-roll {
   text-align: left;
   padding: 2px 4px;
   margin: 0;
-  background-color: #d0cabe; /* correct */
+  background-color: var(--cs_ui_element_bg);
   align-self: center;
-  color: black;
+  color: var(--cs_txt_primary);
   white-space: nowrap;
 }
 
@@ -1836,23 +1837,23 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_major_wounds_checkbox"][value="1"] + button[name="act_major_wounds"],
 .ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_unconcious_checkbox"][value="1"] + button[name="act_unconcious"],
 .ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_dying_checkbox"][value="1"] + button[name="act_dying"] {
-  background-color: #aa3333;
-  color: white;
+  background-color: var(--cs_btn_danger_bg);
+  color: var(--cs_btn_danger_text);
 }
 
 /* Default state */
 .ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_major_wounds_checkbox"][value="0"] + button[name="act_major_wounds"],
 .ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_unconcious_checkbox"][value="0"] + button[name="act_unconcious"],
 .ui-dialog .tab-content .charsheet .sheet-wounds-wrapper input[name="attr_dying_checkbox"][value="0"] + button[name="act_dying"] {
-  background-color: #d0cabe;
-  color: black;
+  background-color: var(--cs_ui_element_bg);
+  color: var(--cs_txt_primary);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-wounds-wrapper {
   display: grid;
   grid-template-columns: 0.5fr 1.5fr;
-  background-color: #d0cabe;
-  border: 1px solid #d9d9d9;
+  background-color: var(--cs_ui_element_bg);
+  border: 1px solid var(--cs_separator_bg);
   align-items: center;
   padding: 2px 0 0 0;
   height: 100%;
@@ -1861,7 +1862,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-wounds label {
   font-size: 100%;
-  color: black;
+  color: var(--cs_txt_primary);
   padding: 2px 0 0 4px;
   text-align: start;
   height: 24px;
@@ -3991,6 +3992,10 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-operator input[name="attr_show_career_operator_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-operator input[name="attr_show_career_operator_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-operator input[name="attr_show_career_operator_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pathfinder input[name="attr_show_career_pathfinder_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pathfinder input[name="attr_show_career_pathfinder_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pathfinder input[name="attr_show_career_pathfinder_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pathfinder input[name="attr_show_career_pathfinder_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pilot input[name="attr_show_career_pilot_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pilot input[name="attr_show_career_pilot_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-pilot input[name="attr_show_career_pilot_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
@@ -4006,7 +4011,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t2"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
-.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq  {
+.ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-street_ronin input[name="attr_show_career_street_ronin_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
   display: block;
   color: white;
   width: 120px;
@@ -6759,6 +6764,11 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet input[name="attr_show_operator_quickdraw"][value="1"] ~ .sheet-operator-quickdraw,
 .ui-dialog .tab-content .charsheet input[name="attr_show_operator_rapid_clearance"][value="1"] ~ .sheet-operator-rapid-clearance {
 	display: flex;
+}
+
+/* Career Talent Tracker - Pathfinder - Scene */
+.ui-dialog .tab-content .charsheet input[name="attr_show_pathfinder_hollow_watch"][value="1"] ~ .sheet-pathfinder-hollow-watch {
+    display: flex;
 }
 
 /* Career Talent Tracker - Pilot - Scene (alphabetized) */

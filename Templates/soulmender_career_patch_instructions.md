@@ -12,9 +12,9 @@
 
 **Target Career + Scope:**
 - `CAREER_KEY`: 
-	- `gravesinger` *(e.g. `marksman`)* — must match the key in `careerDataMap`
+	- `soulmender` *(e.g. `marksman`)* — must match the key in `careerDataMap`
 - `TARGET_TIER`:
-	- `4` *(integer: 1, 2, 3, 4, or 5)*
+	- `1` *(integer: 1, 2, 3, 4, or 5)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(include only if requested)*
   - `secondary_skills` *(include only if requested)*
@@ -32,19 +32,19 @@
 
 **Skills Inputs (leave blank if not in scope):**
 - `PRIMARY_SKILLS_INPUT`:
-	-`` *(paste the primary skills line here)*
+	-`: Magic (Restoration), First Aid, Medicine, Perception` *(paste the primary skills line here)*
 - `SECONDARY_SKILLS_INPUT`:
-	-`` *(paste the secondary skills line here)*
+	-`Spirit Lore, Arcana, Insight, Veil Lore, Occult Lore, Science (Biology)` *(paste the secondary skills line here)*
   - Any `(choose one)` entry must be represented via `exclusive_skill_sets` — see §5.
 
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-Deathmark	Type: Maneuver (Mark) • Cost: 2 Strain • Usage: 1/Scene — Target one creature within Medium range. Roll Magic (Necromancy) opposed by the target's POW. On a success, the target is marked for death. Until the marked target is reduced to 0 HP or the Scene ends, the first attack made against the marked target each round gains +1 bonus die, regardless of who makes it. On a failure of the opposed roll, the effect does not apply and the Strain is still spent. Only one Deathmark may be active at a time.	Death Curse
-Grave Pact	Type: Reaction (Survival) • Cost: 1d4 Strain • Usage: 1/Session — Trigger: You would be reduced to 0 HP. Effect: Immediately drain life from all hostile living creatures within Engaged range. Spirits, drones, constructs, and non-living entities are not affected. Each valid target must roll CON opposed by your Magic (Necromancy). On a failure, the target takes 1d6 Veil damage and you restore 2 HP. If no creature fails, you are reduced to 0 HP normally and the Strain is still spent.	Life Siphon
-Hold the Body	Type: Passive (Thrall Enhancement) • Cost: — • Usage: At-will — A raised corpse under your command that would be destroyed by damage may instead make a CON roll at Hard difficulty — on a success, it remains active at 1 HP rather than collapsing. This may only occur once per raised corpse.	Raise the Dead
-Pale Servant	Type: Action (Sentient Thrall) • Cost: 1d6 Strain • Usage: 1/Session — Target the corpse of a sentient being within Short range. Roll Magic (Necromancy). On a success, the corpse rises under your command for the remainder of the Scene. Apply the corpse's condition (Fresh or Decayed) to determine its physical capabilities — see Corpse Condition. The Pale Servant thinks, remembers, and reasons using its original mind and knowledge. It obeys your commands without resistance — it will fight, move, perform tasks, and act as directed. However, obedience does not extend to compelled disclosure. A Pale Servant is not forced to reveal information, answer questions, or share what it knows. A servant that was hostile to you or your allies in life retains that hostility in death — it will follow orders, but will not volunteer information and may refuse to answer entirely. A servant may choose to speak freely, but that choice belongs to it. Persuasion, leverage, or the right approach may still open that door. A Fresh corpse recalls details with full precision. If the corpse is Decayed, its memory may be incomplete or imprecise — exact phrasing, recent sensory detail, and rapidly changing information such as codes or current operational data may be degraded or missing. Stable knowledge — names, locations, relationships, procedures — remains intact. It acts on your Initiative and retains all skills and abilities permitted by its condition. When the Scene ends, the servant collapses permanently and cannot be raised again. Only one raised corpse may be active at a time — see Pale Sovereignty.	Raise the Dead
-Soul Rend	Type: Action (Execute) • Cost: 1d6 Strain • Usage: 1/Session — Target one living creature within Short range. Spirits, drones, constructs, and non-living entities cannot be targeted. Roll Magic (Necromancy) opposed by the target's CON. On a success, deal 2d8 Veil damage. On a failure, deal 1d6 Veil damage only and the Strain is still spent.	Life Siphon
+Corruption Sense	Type: Passive (Detection) • Cost: — • Usage: At-will — You are automatically aware of the presence of Veil Corruption in any target you touch or successfully treat with a Restoration spell, even if the Corruption has not yet manifested visibly. The GM confirms presence and general severity; specific details require further assessment.
+Mending Attunement	Type: Free Action (Setup) • Cost: — • Usage: 1/Scene — Before casting a Restoration spell that restores HP, gain +1 bonus die on the spellcasting roll. This bonus applies to the next qualifying spell cast this Scene and expires if unused by Scene end.
+Read the Wound	Type: Free Action (Assess) • Cost: — • Usage: 1/Scene — Observe a target within Short range and make a Perception roll. On a success, identify any hidden or subtle afflictions the target is carrying that have not yet manifested visibly — such as early-stage Veil Corruption, latent toxins, internal trauma, or psychological fracture beginning to surface. Also confirm whether the target is currently carrying a Major Wound and their approximate HP relative to maximum. This talent reveals what observation and arcane sensitivity can detect; it does not diagnose causes or predict outcomes.
+Stabilizing Touch	Type: Action (Stabilize) • Cost: 1 Strain • Usage: 1/Scene — Attempt First Aid or Magic (Restoration) on a Dying ally within Engaged range. On a success, the target is stabilized and death checks cease. This does not restore HP or remove conditions.
+Strain Buffer	Type: Passive • Cost: — • Usage: Permanent — Increase your maximum Strain by +1. (This talent may appear in multiple Career Trees.)
 ```
 
 **Schema Reference:**

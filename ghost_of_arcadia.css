@@ -464,7 +464,7 @@
 /* ------------------------------- */
 .ui-dialog .tab-content .charsheet {
 	background-color: var(--cs_bg_color);
-	border: var(--cs_input_border);
+	border: solid 1px var(--cs_input_border);
 	color: var(--cs_txt_primary);
 	width: 100%;
 	padding: 2px 10px 10px 10px;
@@ -477,7 +477,7 @@
 	background-color: var(--cs_bg_color);
 	width: 840px;
 	margin: auto;
-	border: var(--cs_input_border);
+	border: solid 1px var(--cs_input_border);
 	color: var(--cs_txt_primary);
 	font-family: "Arial", sans-serif;
 }
@@ -587,20 +587,6 @@
   color: var(--cs_input_text);
   text-align: center;
 }
-/* Smaller input (e.g., points spent, AC, move) */
-.ui-dialog .tab-content .charsheet .sheet-attr-input-medium {
-  width: 97px;
-  height: 15px;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 2px;
-  margin: 0;
-  font-size: 150%;
-  background-color: var(--cs_input_bg);
-  border: 1px solid var(--cs_input_border);
-  color: var(--cs_input_text);
-  text-align: center;
-}
 
 /* Smaller input (e.g., points spent, AC, move) */
 .ui-dialog .tab-content .charsheet .sheet-attr-input-small {
@@ -631,7 +617,6 @@
 /* Readonly variant — visually distinct */
 .ui-dialog .tab-content .charsheet .sheet-attr-input[readonly],
 .ui-dialog .tab-content .charsheet .sheet-attr-input-small[readonly],
-.ui-dialog .tab-content .charsheet .sheet-attr-input-medium[readonly],
 .ui-dialog .tab-content .charsheet .sheet-attr-input-long[readonly] {
   background-color: var(--cs_disabled_bg);
   color: var(--cs_disabled_text);
@@ -649,17 +634,6 @@
 
 /* Checkbox and label appearance */
 
-/* Checkbox label appearance */
-.ui-dialog .tab-content .charsheet .sheet-checkbox-label {
-	font-size: 0.9em;
-	color: black;
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-checkbox {
-	margin: 0;
-}
-
 /* Label cells */
 .ui-dialog .tab-content .charsheet .sheet-attr-label {
     font-weight: bold;
@@ -669,12 +643,6 @@
     color: var(--cs_txt_primary);
     background-color: transparent;
     align-self: center;
-}
-
-/* Spacer cells */
-.ui-dialog .tab-content .charsheet .sheet-attr-spacer {
-    width: 100%;
-    height: 100%;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-readonly {
@@ -710,9 +678,6 @@
 }
 
 /* --- Theme Picker --- */
-.ui-dialog .tab-content .charsheet .sheet-theme-section {
-  display: contents;
-}
 
 .ui-dialog .tab-content .charsheet .sheet-theme-label {
   letter-spacing: 0.06em;
@@ -762,14 +727,6 @@
 /* --- Theme Picker --- */
 
 /* ------------------------ Roll buttons ---------------------- */
-
-/* Roll button container */
-.ui-dialog .tab-content .charsheet .sheet-attr-roll {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 
 button.new-roll {
    color: var(--cs_btn_roll_text);
@@ -884,12 +841,6 @@ button.new-roll {
   font-size: 1em;
   box-sizing: border-box;
   appearance: auto;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-top-5col {
-  display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
 }
 
 /* ------------------------------- */
@@ -1009,7 +960,7 @@ button.new-roll {
 	justify-content: center;
 	white-space: nowrap;
 	gap: 2px;
-	border: var(--cs_input_border);
+	border: solid 1px var(--cs_input_border);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-awakened-checkbox {
@@ -1173,13 +1124,6 @@ button.new-roll {
 	gap: 0px;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-grid-characteristics-lower .sheet-grid-inline .sheet-checkbox-label {
-	color: var(--cs_txt_primary);
-	font-size: 1em;
-	white-space: nowrap;
-	text-align: left;
-}
-
 .ui-dialog .tab-content .charsheet .sheet-grid-characteristics-lower .sheet-grid-inline .sheet-attr-input {
 	height: 40px;
 	width: 45px;
@@ -1327,31 +1271,6 @@ button.new-roll {
 }
 
 /* ------------------------------Sheet Racials-------------------------------------------- */
-.ui-dialog .tab-content .charsheet input.sheet-showracials::after {
-    float: left;
-    font-family: pictos;
-    content: "E";
-    opacity: 1.5;
-}
-
-.ui-dialog .tab-content .charsheet input.sheet-showracials {
-    float: left;
-    font-family: pictos;
-    content: "E";
-    opacity: 0.5;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-section,
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-racials1,
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-racials2,
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-racials3,
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-racials4,
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-racials5,
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-racials6,
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-racials7,
-.ui-dialog .tab-content .charsheet .sheet-showracials:checked ~ div.sheet-racials8 {
-    display: none;
-}
 
 /* ---------------------------- */
 /* Race and Damage Bonus Section Layout & Select */
@@ -1361,7 +1280,7 @@ button.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-race,
 .ui-dialog .tab-content .charsheet .sheet-damage_bonus {
     background-color: #d0cabe; /* Match combat/investigatorinfo/characteristics */
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     box-sizing: border-box;
 }
 
@@ -1408,7 +1327,6 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-edu-wrapper,
 .ui-dialog .tab-content .charsheet .sheet-siz-wrapper,
 .ui-dialog .tab-content .charsheet .sheet-int-wrapper,
-.ui-dialog .tab-content .charsheet .sheet-mag-wrapper,
 .ui-dialog .tab-content .charsheet .sheet-move-wrapper,
 .ui-dialog .tab-content .charsheet .sheet-init-wrapper {
   position: relative;
@@ -1425,7 +1343,6 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-edu-roll,
 .ui-dialog .tab-content .charsheet .sheet-siz-roll,
 .ui-dialog .tab-content .charsheet .sheet-int-roll,
-.ui-dialog .tab-content .charsheet .sheet-mag-roll,
 .ui-dialog .tab-content .charsheet .sheet-move-roll,
 .ui-dialog .tab-content .charsheet .sheet-init-roll-button {
   position: absolute;
@@ -1559,7 +1476,7 @@ select[name="attr_damage_bonus"] {
   font-size: 90%;
   cursor: pointer;
   text-align: center;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
 }
 
 /* Edit Mode Button - ON state */
@@ -1572,23 +1489,12 @@ select[name="attr_damage_bonus"] {
   font-size: 90%;
   cursor: pointer;
   text-align: center;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
 }
 
 /* ---------------------------- */
 /* HP, Strain, Vitality Grid & Layout             */
 /* ---------------------------- */
-/* Specific section widths */
-.ui-dialog .tab-content .charsheet .sheet-top-5col > .sheet-section:nth-child(1) { flex: 0 0 25%; }    /* Vitality */
-.ui-dialog .tab-content .charsheet .sheet-top-5col > .sheet-section:nth-child(2) { flex: 0 0 25%; }    /* Strain */
-.ui-dialog .tab-content .charsheet .sheet-top-5col > .sheet-section:nth-child(3) { flex: 0 0 25%; }    /* Hit Points */
-.ui-dialog .tab-content .charsheet .sheet-top-5col > .sheet-section:nth-child(4) { flex: 0 0 12%; }    /* Status */
-.ui-dialog .tab-content .charsheet .sheet-top-5col > .sheet-section:nth-child(5) { flex: 0 0 13%; }    /* Luck */
-
-.ui-dialog .tab-content .charsheet .sheet-top-5col > .sheet-section {
-	border: var(--cs_input_border);
-	box-sizing: border-box;
-}
 
 /* Strain grid layout */
 .ui-dialog .tab-content .charsheet .sheet-grid-hp ,
@@ -1605,8 +1511,7 @@ select[name="attr_damage_bonus"] {
 /* Slash styling */
 .ui-dialog .tab-content .charsheet .sheet-hp-slash,
 .ui-dialog .tab-content .charsheet .sheet-strain-slash,
-.ui-dialog .tab-content .charsheet .sheet-vitality-slash,
-.ui-dialog .tab-content .charsheet .sheet-luck-slash {
+.ui-dialog .tab-content .charsheet .sheet-vitality-slash {
 	text-align: center;
 	font-size: 150%;
 	font-weight: bold;
@@ -1647,24 +1552,6 @@ select[name="attr_damage_bonus"] {
   color: var(--cs_txt_primary);
 }
 
-/* -------------------- Status ----------------------------- */
-
-/* Inner grid for status checkboxes */
-.ui-dialog .tab-content .charsheet .sheet-status-grid {
-  display: grid;
-  grid-template-columns: 14px auto;
-  grid-template-rows: auto auto;
-  align-items: center;
-  justify-content: center;
-  text-align: right;
-  background-color: var(--cs_ui_element_bg);
-  padding: 0px;
-  font-size: 0.75em;
-  gap: 1px 2px;
-  height: 100%;
-}
-
-
 /* ------------------- Luck --------------------------------- */
 .ui-dialog .tab-content .charsheet .sheet-grid-luck,
 .ui-dialog .tab-content .charsheet .sheet-grid-initiative {
@@ -1677,11 +1564,6 @@ select[name="attr_damage_bonus"] {
 }
 
 /* ----------------------- Dice, Wounds, and Statuses ---------------------- */
-.ui-dialog .tab-content .charsheet .sheet-dicerollsection {
-  background-color: var(--cs_separator_bg);
-  display: block;
-}
-
 /* Dice Rolls (40%) */
 .ui-dialog .tab-content .charsheet .sheet-dice {
   flex: 0 0 34%;
@@ -1983,7 +1865,7 @@ select[name="attr_damage_bonus"] {
   background-color: #444;
   color: white;
   font-weight: bold;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   padding: 2px 0;
   font-size: 90%;
   cursor: pointer;
@@ -2263,7 +2145,7 @@ select[name="attr_damage_bonus"] {
   text-align: center;
   background-color: transparent;
   color: #339;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   appearance: none;
   -moz-appearance: none;
@@ -2383,10 +2265,6 @@ select[name="attr_damage_bonus"] {
   pointer-events: none;
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_checkbox_lock"][value="1"] + input[type="checkbox"][name$="_checkbox"] ~ .sheet-bg-choice-text {
-  opacity: 0.6;
 }
 
 /* ===================================================================== */
@@ -2682,18 +2560,6 @@ select[name="attr_damage_bonus"] {
 
 /* ------------------------------- Background and Talent ------------------------------------------- */
 
-.ui-dialog .tab-content .charsheet .sheet-background-section-head {
-  text-align: center;
-  margin: 0.5em 0;
-  font-size: 1.1em;
-  font-weight: bold;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bgblock-flex {
-  display: flex;
-  gap: 1rem; /* optional spacing between columns */
-  flex-wrap: wrap; /* just in case of narrow widths */
-}
 .ui-dialog .tab-content .charsheet .sheet-bg-skill-row {
   margin: 4px 0 0 0.25rem;
   display: flex;
@@ -2704,70 +2570,21 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-trained-skills {
   order: 1;
   flex: 1;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
 }
 
-/* Talents second */
-.ui-dialog .tab-content .charsheet .sheet-starting-talents {
-  order: 2;
-  flex: 1;
-  border: var(--cs_input_border);
-}
-
-/* Item third */
-.ui-dialog .tab-content .charsheet .sheet-starting-item {
-  order: 3;
-  flex: 1;
-  border: var(--cs_input_border);
-}
-
-.ui-dialog .tab-content .charsheet input[name$="_lock"][value="1"] ~ input[type="checkbox"].sheet-bg-skill-checkbox {
-  pointer-events: none;
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.ui-dialog .tab-content .charsheet input[name$="_lock"][value="1"] ~ input[type="checkbox"].sheet-bg-skill-checkbox ~ label.sheet-bg-skill-label {
-  opacity: 0.5;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-trained-skills h4,
-.ui-dialog .tab-content .charsheet .sheet-starting-talents h4,
-.ui-dialog .tab-content .charsheet .sheet-starting-item h4 {
+.ui-dialog .tab-content .charsheet .sheet-trained-skills h4 {
 	margin-bottom: 10px;
-	border: var(--cs_input_border);
+	border: solid 1px var(--cs_input_border);
 	background-color: black;
 	color: white;
 	text-align: center;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-starting-item span {
-	display: block;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-trained-skills label,
-.ui-dialog .tab-content .charsheet .sheet-starting-talents label,
-.ui-dialog .tab-content .charsheet .sheet-starting-item span {
+.ui-dialog .tab-content .charsheet .sheet-trained-skills label {
 	color: black;
 	font-size: 100%;
 	padding: 0 0 0 4px;
-}
-
-.ui-dialog .tab-content .charsheet .bg-description .sheet-quote {
-    display: block;
-    font-weight: bold;
-    font-style: italic;
-    margin-bottom: 0.2em; /* slight spacing if needed */
-}
-
-/* Table styling for racial talents and backgrounds */
-
-.ui-dialog .tab-content .charsheet .sheet-talent-grid {
-  display: block;
-  width: 100%;
-  border: var(--cs_input_border);
-  margin-top: 5px;
-  box-sizing: border-box;
 }
 
 /* Data rows */
@@ -2903,37 +2720,6 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-racials7,
 .ui-dialog .tab-content .charsheet .sheet-racials8 {
   display: none;
-}
-
-
-.ui-dialog .tab-content .charsheet .sheet-bgblock-flex {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-content-left {
-  flex: 1 1 48%;
-  min-width: 280px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-content-right {
-  flex: 1 1 48%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100px;
-  border: 1px dashed #666;
-  background-color: #1a1a1a;
-  padding: 5px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-content-right img {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-racial-benefits {
@@ -3265,19 +3051,6 @@ select[name="attr_damage_bonus"] {
   border: 1px solid var(--as_veyra_dc_color);
 }
 
-.ui-dialog .tab-content .charsheet .sheet-ancestry-flex {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ancestry-label {
-  font-weight: bold;
-  font-size: 90%;
-  color: black;
-  margin-top: 4px;
-}
-
 /* --------------------- Tabs - Background styling - End ----------------------------------------------------- */
 
 /* --------------------- Tabs - Talent styling - Start ----------------------------------------------------- */
@@ -3320,61 +3093,19 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8,
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="veyra"] ~ * .sheet-racials8 { display: block; }
 
-
-/* Talent tab layout styling */
-.ui-dialog .tab-content .charsheet .sheet-talent-tab {
-  display: none;
-}
-
 /* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
 
 /* --------------------- Tabs - New Talent styling - Start ----------------------------------------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-xp-tracker {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.5rem;
-  padding: 0.5rem;
-  background-color: #1f1f1f;
-  border: var(--cs_input_border);
-  border-radius: 6px;
-}
 
 .ui-dialog .tab-content .charsheet .sheet-xp-row {
   display: flex;
   flex-direction: column;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-xp-field {
-  padding: 4px;
-  font-size: 100%;
-  background-color: #111;
-  color: #eee;
-  border: 1px solid #444;
-  border-radius: 4px;
-  width: 60px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-xp-field[readonly] {
-  pointer-events: none;
-  background-color: #222;
-  color: #ccc;
-  font-size: 100%;
-  width: 40px;
-}
 .ui-dialog .tab-content .charsheet .sheet-talent-summary {
   padding: 0.75rem;
   background-color: #1a1a1a;
   border: 1px solid #333;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary-header {
-  font-size: 100%;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #ccc;
-  border-bottom: 1px solid #444;
-  padding-bottom: 0.25rem;
 }
 
 .ui-dialog .tab-content .charsheet span[name="attr_perk_summary"] {
@@ -3402,54 +3133,6 @@ select[name="attr_damage_bonus"] {
   font-size: 100%;
   line-height: 1.4;
   margin-top: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary-wrapper {
-  background-color: #1a1a1a;
-  border: 1px solid #444;
-  border-radius: 6px;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary-title {
-  font-weight: bold;
-  font-size: 100%;
-  color: #ccc;
-  border-bottom: 1px solid #444;
-  margin-bottom: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary-row {
-  display: grid;
-  grid-template-columns: 2.5rem 200px 1fr; /* Tier / Name / Description */
-  align-items: start;
-  column-gap: 0.75rem;
-  padding: 0.25rem 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary-tier {
-  color: #aaa;
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary-name {
-  font-weight: bold;
-  color: #eee;
-  white-space: nowrap;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary-desc {
-  color: #aaa;
-  font-size: 100%;
-  white-space: normal;
 }
 
 /* Header for Talent Tier */
@@ -3549,50 +3232,6 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-description {
   opacity: 0.5;
-}
-
-/* === Talents: merged summary + XP row (overrides) === */
-.ui-dialog .tab-content .charsheet .sheet-talent-row-one {
-  display: grid;
-  grid-template-columns: minmax(120px, 10%) minmax(0, 1fr); /* summary | XP */
-  gap: 0.5rem;
-  align-items: start;
-}
-
-/* Neutralize the panel look when used inside the merged row */
-.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-talent-summary {
-  margin: 0;                 /* override 1rem top margin */               /* remove inner padding */
-  border: 0;
-}
-
-/* Make the XP tracker compact and right-aligned in its 10% column */
-.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-xp-tracker {
-  display: flex;             /* override grid from base card */
-  align-items: center;
-  justify-content: flex-end;
-  border: 0;
-}
-
-/* Tighter XP row inside the compact column */
-.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-xp-row {
-  display: flex;             /* override column stack if desired */
-  flex-direction: column;    /* keep label above input; change to 'row' if you prefer side-by-side */
-  align-items: center;
-  gap: 2px;
-  margin: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-xp-row label {
-  font-weight: bold;
-  color: #ccc;
-  margin: 0;
-  text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-row-one .sheet-xp-field {
-  width: 100%;
-  max-width: 80px;           /* keeps it tidy in the right column */
-  text-align: center;
 }
 
 /* ===== Talents → Racial Traits (Name | Rules Text) ===== */
@@ -3753,7 +3392,7 @@ select[name="attr_damage_bonus"] {
     background-color: #000;
     color: white;
     font-weight: bold;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     padding: 4px 0;
     font-size: 85%;
     cursor: pointer;
@@ -3772,7 +3411,7 @@ select[name="attr_damage_bonus"] {
   background-color: red;
   color: white;
   font-weight: bold;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   padding: 2px 0px;
   font-size: 85%;
   cursor: pointer;
@@ -3807,7 +3446,7 @@ select[name="attr_damage_bonus"] {
     background-color: var(--ct_arcane_ac_color);
     color: var(--ct_arcane_txt_color_light);
     font-weight: bold;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     padding: 4px 0;
     font-size: 80%;
     cursor: pointer;
@@ -3821,7 +3460,7 @@ select[name="attr_damage_bonus"] {
 	background-color: var(--ct_core_ac_color);
 	color: var(--ct_core_txt_color_light);
 	font-weight: bold;
-	border: var(--cs_input_border);
+	border: solid 1px var(--cs_input_border);
 	padding: 4px 0;
 	font-size: 80%;
 	cursor: pointer;
@@ -3834,7 +3473,7 @@ select[name="attr_damage_bonus"] {
     background-color: var(--ct_specialist_ac_color);
     color: var(--ct_specialist_txt_color_light);
     font-weight: bold;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     padding: 4px 0;
     font-size: 80%;
     cursor: pointer;
@@ -3873,25 +3512,6 @@ select[name="attr_damage_bonus"] {
     background-color: #333;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary {
-  margin: 1rem 0;
-  padding: 0.75rem;
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 6px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-header,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-header {
-  font-size: 100%;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #ccc;
-  border-bottom: 1px solid #444;
-  padding-bottom: 0.25rem;
-}
-
 .ui-dialog .tab-content .charsheet span[name="attr_primary_career_talent_summary"],
 .ui-dialog .tab-content .charsheet span[name="attr_secondary_career_talent_summary"] {
   display: block;
@@ -3900,61 +3520,6 @@ select[name="attr_damage_bonus"] {
   font-size: 100%;
   line-height: 1.4;
   margin-top: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-wrapper,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-wrapper {
-  background-color: #1a1a1a;
-  border: 1px solid #444;
-  border-radius: 6px;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-title,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-title {
-  font-weight: bold;
-  font-size: 100%;
-  color: #ccc;
-  border-bottom: 1px solid #444;
-  margin-bottom: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-body,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-row,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-row {
-  display: grid;
-  grid-template-columns: 2.5rem 200px 1fr; /* Tier / Name / Description */
-  align-items: start;
-  column-gap: 0.75rem;
-  padding: 0.25rem 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-tier,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-tier {
-  color: #aaa;
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-name,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-name {
-  font-weight: bold;
-  color: #eee;
-  white-space: nowrap;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-primary-career-summary-desc,
-.ui-dialog .tab-content .charsheet .sheet-secondary-career-summary-desc {
-  color: #aaa;
-  font-size: 100%;
-  white-space: normal;
 }
 
 /* Disable checkbox interaction if _enabled=0 or _lockflag=1 */
@@ -3987,16 +3552,6 @@ select[name="attr_damage_bonus"] {
   background-color: #151515;
   border: 1px solid #333;
   border-radius: 6px;
-}
-
-/* Header for Talent Tier */
-.ui-dialog .tab-content .charsheet .sheet-career-talent-tier-header {
-  display: grid;
-  font-size: 100%;
-  margin-bottom: 0.5rem;
-  color: #ccc;
-  border-bottom: 1px solid #333;
-  padding-bottom: 0.25rem;
 }
 
 /* --- Careers - Collapsible Talent Tiers (Tier 1–5) --- */
@@ -4219,7 +3774,7 @@ select[name="attr_damage_bonus"] {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-skill-header {
@@ -4818,7 +4373,7 @@ select[name="attr_damage_bonus"] {
   margin-top: 10px;
   background-color: #d0cabe; /* Light tan/gray inside sections */
   padding: 10px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
 }
 
 /* ------------------------------- */
@@ -4892,19 +4447,11 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .repitem .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-weapon-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-armor-header .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-spell-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-omnideck-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-program-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-weapon-default .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-armor-default .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-spell-default .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-omnideck-default .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-program-default .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-weapon-block .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-armor-block .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-spell-block .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-omnideck-block .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-program-block .flex-row,
 .repeating_spellsmdr .flex-row,
 .repeating_weaponsmdr .flex-row {
   display: flex;
@@ -4928,7 +4475,7 @@ select[name="attr_damage_bonus"] {
 .flex-cell {
   padding: 0; /* No padding inside cells */
   margin: 0;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -4939,7 +4486,7 @@ select[name="attr_damage_bonus"] {
 .flex-cell-wrapper {
   padding: 0; /* No padding inside cells */
   margin: 0;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   display: flex;
   flex: 1 1 6%;
@@ -4967,9 +4514,8 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-weaponblock-grid-row {
   display: flex;
   flex-wrap: wrap;
-  width: 816px;
-  min-width: 816px;
-  max-width: 100%;
+  flex: 1;
+  min-width: 0;
   gap: 0px;
   padding: 0px;
   margin-bottom: 0px;
@@ -4985,13 +4531,13 @@ select[name="attr_damage_bonus"] {
 /* Match spells’ advanced block behavior/box model */
 .ui-dialog .tab-content .charsheet .sheet-weaponblock-advanced {
   display: none;
-  width: 816px;           /* mirrors spells: wrapper 820, advanced 800 */
-  max-width: 100%;
+  flex: 1;
+  min-width: 0;
   flex-wrap: wrap;
   gap: 0px;
   margin-bottom: 0px;
   background-color: rgba(255,255,255,0.04);
-  box-sizing: border-box; /* switch from content-box to border-box */
+  box-sizing: border-box;
 }
 
 /* Flex Widths */
@@ -5027,7 +4573,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-armor-totals .flex-cell {
     padding: 0;
     margin: 0;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -5105,7 +4651,6 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-weapon-header,
 .ui-dialog .tab-content .charsheet .sheet-armor-header,
 .ui-dialog .tab-content .charsheet .sheet-spell-header ,
-.ui-dialog .tab-content .charsheet .sheet-omnideck-header,
 .ui-dialog .tab-content .charsheet .sheet-program-header {
   background-color: black;
   color: white;
@@ -5115,8 +4660,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-weapon-header .flex-cell,
 .ui-dialog .tab-content .charsheet .sheet-armor-header .flex-cell,
 .ui-dialog .tab-content .charsheet .sheet-spell-header .flex-cell,
-.ui-dialog .tab-content .charsheet .sheet-omnideck-header .flex-cell,
-.ui-dialog .tab-content .charsheet .sheet-program-header .flex-cell {
+.ui-dialog .tab-content .charsheet .sheet-omnideck-header .flex-cell {
   background-color: black;
   color: white;
   text-align: center;
@@ -5290,7 +4834,7 @@ button[type="roll"]:hover.new-roll {
   align-items: flex-end; /* This aligns child items (input blocks) to bottom */
   flex-wrap: wrap;
   margin-bottom: 4px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   padding: 4px;
 }
 
@@ -5353,12 +4897,6 @@ button[type="roll"]:hover.new-roll {
   margin-bottom: 5px;
 }
 
-/* Default input style */
-.ui-dialog .tab-content .charsheet .sheet-prep-cost-input {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-}
-
 /* Base style for the overflow-sensitive input */
 .ui-dialog .tab-content .charsheet .sheet-overflow-sensitive {
   background-color: rgba(255, 255, 255, 0.5);
@@ -5385,7 +4923,7 @@ button[type="roll"]:hover.new-roll {
   background-color: #444;
   color: white;
   font-weight: bold;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   padding: 6px 10px;
   font-size: 90%;
   text-align: center;
@@ -5433,56 +4971,6 @@ button[type="roll"]:hover.new-roll {
   width: 100px;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-spell-row-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
-  padding-bottom: 0px;
-  border-bottom: 1px solid #ccc;
-  width: 100%;
-}
-
-/* Shift left column down to align with top of textarea */
-.ui-dialog .tab-content .charsheet .sheet-spell-info-left {
-  width: 35%;
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  margin-top: 30px; /* <-- shift down */
-}
-
-.ui-dialog .tab-content .charsheet .sheet-spell-info-right {
-  width: 65%;
-  display: flex;
-  flex-direction: column;
-  padding: 0px 4px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-spell-meta-row {
-  display: flex;
-  align-items: center;
-  gap: 0px;
-}
-
-/* Label block with fixed width */
-.ui-dialog .tab-content .charsheet .sheet-spell-label {
-  font-weight: bold;
-  font-size: 100%;
-  white-space: nowrap;
-  color: black;
-  display: inline-block;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 4px;
-}
-
-/* Special case for section heading (like "Description") */
-.ui-dialog .tab-content .charsheet .sheet-spell-info-right > .sheet-spell-label {
-  width: auto;
-  margin-bottom: 4px;
-}
-
 .ui-dialog .tab-content .charsheet .sheet-wide-input {
   font-size: 100%;
   height: 23px;
@@ -5493,6 +4981,7 @@ button[type="roll"]:hover.new-roll {
   padding: 2px;
   box-sizing: border-box;
 }
+
 .ui-dialog .tab-content .charsheet .sheet-spell-textarea {
   width: 100%;
   height: 70px;
@@ -5500,32 +4989,8 @@ button[type="roll"]:hover.new-roll {
   background-color: rgba(255, 255, 255, 0.5);
   resize: vertical;
   color: black;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
-}
-
-/* ---------- Prepared Toggle Styling via Mirror ---------- */
-/* Match select width to input */
-.ui-dialog .tab-content .charsheet .sheet-prepared-toggle {
-  width: 150px;
-  font-size: 100%;
-  text-align: center;
-  padding: 2px;
-  border: var(--cs_input_border);
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-  box-sizing: border-box;
-}
-
-
-/* Mirror value selector styles */
-.ui-dialog .tab-content .charsheet input.sheet-prepared-mirror[value="0"] ~ select.sheet-prepared-toggle {
-  background-color: #d3d3d3;
-  color: #000000;
-}
-.ui-dialog .tab-content .charsheet input.sheet-prepared-mirror[value="1"] ~ select.sheet-prepared-toggle {
-  background-color: black;
-  color: #00ff00;
 }
 
 /* --------------- Spell Input Section (Repeating) ------------------ */
@@ -5539,7 +5004,7 @@ button[type="roll"]:hover.new-roll {
   gap: 2px;
   padding: 4px;
   margin-bottom: 4px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   background-color: rgba(255, 255, 255, 0.04);
   box-sizing: border-box;
 }
@@ -5850,7 +5315,7 @@ button[type="roll"]:hover.new-roll {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header .flex-row,
@@ -5901,7 +5366,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .flex-cell {
   padding: 0;
   margin: 0;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   height: 24px;
   background-color: inherit;
@@ -5975,7 +5440,7 @@ button[type="roll"]:hover.new-roll {
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
-	border: var(--cs_input_border);
+	border: solid 1px var(--cs_input_border);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-gear-flex {
@@ -6026,7 +5491,7 @@ button[type="roll"]:hover.new-roll {
   background-color: rgba(255, 255, 255, 0.5);
   resize: vertical;
   color: black;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   padding: 6px;
   box-sizing: border-box;
 }
@@ -6077,7 +5542,7 @@ button[type="roll"]:hover.new-roll {
 /* ------------------- Backstory ----------------------------- */
 
 .ui-dialog .tab-content .charsheet .sheet-section-full {
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   background-color: #d0cabe;
   margin: 0;
   gap: 0;
@@ -6137,7 +5602,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-contact-type {
   width: 3%;
   height: 25px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   text-align: center;
   appearance: none;
@@ -6146,7 +5611,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-contact-name {
   width: 22%;
   height: 25px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   text-align: start;
   background-color: rgba(255, 255, 255, 0.5);
@@ -6155,7 +5620,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-contact-cost {
   width: 3%;
   height: 25px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   text-align: center;
 }
@@ -6163,7 +5628,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-contact-level {
   width: 12%;
   height: 25px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   text-align: start;
   appearance: none;
@@ -6172,7 +5637,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-contact-progress {
   width: 3%;
   height: 25px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   text-align: center;
 }
@@ -6183,7 +5648,7 @@ button[type="roll"]:hover.new-roll {
   resize: vertical;
   background-color: rgba(255, 255, 255, 0.5);
   color: black;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   text-align: start;
   align-items: center;
@@ -6278,75 +5743,6 @@ button[type="roll"]:hover.new-roll {
   line-height: 1.22;
 }
 
-/* Row layout matches talents’ merged summary row */
-.ui-dialog .tab-content .charsheet .sheet-perk-row-one {
-  display: grid;
-  grid-template-columns: minmax(120px, 10%) minmax(0, 1fr); /* XP | Summary */
-  gap: 0.5rem;
-  align-items: start;
-  margin: 0;
-}
-
-/* XP badge (left) */
-.ui-dialog .tab-content .charsheet .sheet-perk-xp {
-  display: flex; justify-content: flex-end;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-row {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 2px; margin: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-row label {
-  background-color: #7fbe93;           /* green header chip */
-  border: var(--cs_input_border);
-  color: #0f2d1f;
-  font-weight: 700;
-  font-size: 1.1em;
-  padding: 4px 8px;
-  border-radius: 6px 6px 0 0;
-}
-
-/* keep small, centered numeric field (reuses your .sheet-xp-field sizing) */
-.ui-dialog .tab-content .charsheet .sheet-perk-xp .sheet-xp-field {
-  max-width: 72px; text-align: center;
-  border: var(--cs_input_border); border-top: 0;
-  border-radius: 0 0 6px 6px;
-  background-color: black;
-  color: white;
-}
-
-/* Summary panel (right) */
-.ui-dialog .tab-content .charsheet .sheet-perk-summary {
-  background-color: black;
-  border: var(--cs_input_border);
-  border-radius: 6px;
-  font-size: 110%;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perk-summary-header {
-  margin: 0;
-  font-weight: 700;
-  font-size: 1.1em;
-  color: #0f2d1f;
-  background-color: #7fbe93;
-  border-bottom: 1px solid black;
-}
-
-/* Perks — lock remaining unchecked within a filled group */
-/* Leaving code, removing CSS to actually lock
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-perk-group > input[name="attr_perk10_slots_full"][value="1"] ~ .sheet-talent-row .sheet-talent-checkbox:not(:checked) {
-    pointer-events: none;
-	opacity:.5;
-	filter: grayscale(30%);
-}
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-perk-group  > input[name="attr_perk15_slots_full"][value="1"] ~ .sheet-talent-row .sheet-talent-checkbox:not(:checked) {
-    pointer-events: none;
-	opacity:.5;
-	filter: grayscale(30%);
-}
-*/
-
 /* ===========================
    Flaws (aligned to Perks styles)
    =========================== */
@@ -6436,73 +5832,6 @@ button[type="roll"]:hover.new-roll {
   line-height: 1.22;
 }
 
-/* Same grid as perks/talents */
-.ui-dialog .tab-content .charsheet .sheet-flaw-row-one {
-  display: grid;
-  grid-template-columns: minmax(120px, 10%) minmax(0, 1fr); /* XP | Summary */
-  gap: 0.5rem;
-  align-items: start;
-}
-
-/* XP badge (left) */
-.ui-dialog .tab-content .charsheet .sheet-flaw-xp {
-  display: flex; justify-content: flex-end;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-row {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 2px; margin: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-row label {
-  background-color: #e58f8f;           /* red header chip */
-  border: 1px solid #cc6b6b;
-  color: #3d1414;
-  font-weight: 700;
-  font-size: 1.1em;
-  padding: 4px 8px;
-  border-radius: 6px 6px 0 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaw-xp .sheet-xp-field {
-  max-width: 72px; text-align: center;
-  border: 1px solid #cc6b6b; border-top: 0;
-  border-radius: 0 0 6px 6px;
-  background-color: black;
-  color: white;
-}
-
-/* Summary panel (right) */
-.ui-dialog .tab-content .charsheet .sheet-flaw-summary {
-  border: var(--cs_input_border);
-  border-radius: 6px;
-  background-color: black;
-  padding: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaw-summary-header {
-  margin: 0 0 0.35rem 0;
-  font-weight: 700;
-  font-size: 1.1em;
-  color: #4a1818;
-  background-color: #e58f8f;
-  border-bottom: 1px solid black;
-  padding-bottom: 0.25rem;
-}
-
-/* Flaws — lock remaining unchecked within a filled group */
-/* Leaving code, removing CSS to actually lock
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group > input[name="attr_flaw5_slots_full"][value="1"] ~ .sheet-talent-row .sheet-talent-checkbox:not(:checked) {
-    pointer-events: none;
-	opacity:.5;
-	filter: grayscale(30%);
-}
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group > input[name="attr_flaw10_slots_full"][value="1"] ~ .sheet-talent-row .sheet-talent-checkbox:not(:checked) {
-    pointer-events: none;
-	opacity:.5;
-	filter: grayscale(30%);
-}
-*/
 /* ------------------------------------------- BACKSTORY ---------------------------------- */
 
 .ui-dialog .tab-content .charsheet .sheet-backstory-grid {
@@ -6534,7 +5863,7 @@ button[type="roll"]:hover.new-roll {
   background-color: var(--cs_input_bg);
   color: var(--cs_input_text);
   padding: 4px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
 }
 
@@ -6542,9 +5871,6 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-tracker-section {
   display: flex;
   gap: 1em;
-}
-.ui-dialog .tab-content .charsheet .sheet-tracker-section-spacer {
-	height: 20px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-column {
@@ -6566,16 +5892,6 @@ button[type="roll"]:hover.new-roll {
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-talent {
 	background-color: #7DF9FF;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-racial-talents {
-	color: #0000FF;
-}
-.ui-dialog .tab-content .charsheet .sheet-tracker-other {
-	color: #000000;
-}
-.ui-dialog .tab-content .charsheet .sheet-tracker-career-talents {
-	color: #808000;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tracker h4 {
@@ -6800,13 +6116,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet input[name="attr_show_khadra_borrowed_hands"][value="1"] ~ .sheet-khadra-borrowed-hands,
 .ui-dialog .tab-content .charsheet input[name="attr_show_khadra_cost_before_collapse"][value="1"] ~ .sheet-khadra-cost-before-collapse,
 .ui-dialog .tab-content .charsheet input[name="attr_show_khadra_endure_the_long_night"][value="1"] ~ .sheet-khadra-endure-the-long-night,
-.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_hold_the_line"][value="1"] ~ .sheet-khadra-hold-the-line,
-.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_oath_echo_discipline"][value="1"] ~ .sheet-khadra-oath-echo-discipline,
-.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_path_of_the_immovable"][value="1"] ~ .sheet-khadra-path-of-the-immovable,
-.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_rooted_in_purpose"][value="1"] ~ .sheet-khadra-rooted-in-purpose,
 .ui-dialog .tab-content .charsheet input[name="attr_show_khadra_still_standing"][value="1"] ~ .sheet-khadra-still-standing,
-.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_stonecut_precision"][value="1"] ~ .sheet-khadra-stonecut-precision,
-.ui-dialog .tab-content .charsheet input[name="attr_show_khadra_stonewalk_rhythm"][value="1"] ~ .sheet-khadra-stonewalk-rhythm,
 .ui-dialog .tab-content .charsheet input[name="attr_show_khadra_the_ancestors_are_watching"][value="1"] ~ .sheet-khadra-the-ancestors-are-watching,
 .ui-dialog .tab-content .charsheet input[name="attr_show_khadra_the_line_is_here"][value="1"] ~ .sheet-khadra-the-line-is-here,
 .ui-dialog .tab-content .charsheet input[name="attr_show_khadra_the_long_memory_of_stone"][value="1"] ~ .sheet-khadra-the-long-memory-of-stone,
@@ -7505,7 +6815,6 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet input[name="attr_show_slicer_null_pulse_routine"][value="1"] ~ .sheet-slicer-null-pulse-routine,
 .ui-dialog .tab-content .charsheet input[name="attr_show_slicer_omnideck_recompiler"][value="1"] ~ .sheet-slicer-omnideck-recompiler,
 .ui-dialog .tab-content .charsheet input[name="attr_show_slicer_pulse_cloak_shell"][value="1"] ~ .sheet-slicer-pulse-cloak-shell,
-.ui-dialog .tab-content .charsheet input[name="attr_show_slicer_rapid_inject"][value="1"] ~ .sheet-slicer-rapid-inject,
 .ui-dialog .tab-content .charsheet input[name="attr_show_slicer_root_authority_rewrite"][value="1"] ~ .sheet-slicer-root-authority-rewrite,
 .ui-dialog .tab-content .charsheet input[name="attr_show_slicer_signal_ghost"][value="1"] ~ .sheet-slicer-signal-ghost,
 .ui-dialog .tab-content .charsheet input[name="attr_show_slicer_silent_loop"][value="1"] ~ .sheet-slicer-silent-loop,
@@ -7593,7 +6902,7 @@ button[type="roll"]:hover.new-roll {
   background-color: #444;
   color: white;
   font-weight: bold;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   padding: 6px 0;
   font-size: 90%;
   cursor: pointer;
@@ -7613,8 +6922,7 @@ button[type="roll"]:hover.new-roll {
  { display: flex; }
 
 /* Pip group + individual pip */
-.ui-dialog .tab-content .charsheet .sheet-health-pips,
-.ui-dialog .tab-content .charsheet .sheet-strain-pips {
+.ui-dialog .tab-content .charsheet .sheet-health-pips {
     display: flex;
     gap: 10px;
 }
@@ -7749,7 +7057,7 @@ button[type="roll"]:hover.new-roll {
   align-items: flex-start;
   gap: 0px;
   margin-bottom: 10px;
-  border: var(--cs_input_border);
+  border: 1px solid black;
   border-radius: 6px;
 }
 
@@ -7789,9 +7097,8 @@ button[type="roll"]:hover.new-roll {
   font-size: 85%;
   text-align: center;
   border: 1px solid #aaa;
-  background-color: var(--cs_input_bg);
-  color: var(--cs_input_text);
-  border-color: var(--cs_input_border);
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-row {
@@ -7809,7 +7116,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-label {
   flex: 0 0 60px;
   font-weight: bold;
-  color: var(--cs_txt_accent);
+  color: black;
   font-size: 85%;
   text-align: right;
   margin-right: 4px;
@@ -7854,7 +7161,7 @@ button[type="roll"]:hover.new-roll {
   width: 60px;
   font-weight: bold;
   font-size: 100%;
-  color: var(--cs_txt_accent);
+  color: black;
   text-align: right;
   margin-right: 4px;
 }
@@ -7918,7 +7225,7 @@ button[type="roll"]:hover.new-roll {
   font-size: 90%;
   background-color: rgba(255, 255, 255, 0.5);
   color: black;
-  border: var(--cs_input_border);
+  border: 1px solid #666;
   resize: vertical;
   padding: 4px;
   box-sizing: border-box;
@@ -7953,7 +7260,7 @@ button[type="roll"]:hover.new-roll {
   width: 20px;
   text-align: right;
   font-weight: bold;
-  color: var(--cs_txt_accent);
+  color: black;
   margin: 0;
 }
 
@@ -7989,7 +7296,7 @@ button[type="roll"]:hover.new-roll {
   font-weight: bold;
   margin-top: 0px;
   padding-left: 2px;
-  color: var(--cs_txt_accent);
+  color: black;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-companion-info-header {
@@ -8009,7 +7316,7 @@ button[type="roll"]:hover.new-roll {
   font-weight: bold;
   font-size: 120%;
   padding-left: 4px;
-    color: var(--cs_txt_accent);
+  color: black;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-npc-val input,
@@ -8033,7 +7340,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-malf,
 .ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-strain {
 	height: 24px;
-	color: var(--cs_txt_accent);
+	color: black;
 	font-size: 100%;
 	text-align: center;
 	margin: 0px;
@@ -8072,7 +7379,7 @@ button[type="roll"]:hover.new-roll {
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-improll {
   width: 45px;
   height: 24px;
-  color: var(--cs_txt_accent);
+  color: black;
   font-size: 75%;
   margin: 0px 10px 8px 10px;
 }
@@ -8124,13 +7431,6 @@ button[type="roll"]:hover.new-roll {
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-content-right .sheet-wide-input {
   max-width: 48%;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-initdexnpc-wrapper {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    justify-content: flex-start;
 }
 
 /* --------------------------- Vehicles -------------------------------------------------------------*/
@@ -8421,8 +7721,7 @@ button[type="roll"]:hover.new-roll {
 /* ------------------------ Ledger Start ---------------------------------------------------- */
 
 .ui-dialog .tab-content .charsheet .sheet-ledger-skill-points,
-.ui-dialog .tab-content .charsheet .sheet-ledger-xp,
-.ui-dialog .tab-content .charsheet .sheet-ledger-repeating {
+.ui-dialog .tab-content .charsheet .sheet-ledger-xp {
 	display: flex;
 	flex-direction: row;
 	justify-content: start;
@@ -8547,7 +7846,7 @@ button[type="roll"]:hover.new-roll {
 /* Body hit Location */
 .sheet-rolltemplate-coc-body-hit-loc table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
     text-align: center;
@@ -8558,7 +7857,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-body-hit-loc td {
@@ -8577,11 +7876,11 @@ button[type="roll"]:hover.new-roll {
   display: inline-block;
   min-width: 1.5em;
   text-align: center;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
     background-color: #702c91;
 }
 .sheet-rolltemplate-coc-body-hit-loc .inlinerollresult.importantroll {
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
     background-color: #702c91;
     text-align: center;
 }
@@ -8593,7 +7892,7 @@ button[type="roll"]:hover.new-roll {
 /* BD/PD defence rolltemplate */
 .sheet-rolltemplate-coc-defence table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -8603,7 +7902,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-defence td {
@@ -8641,7 +7940,7 @@ button[type="roll"]:hover.new-roll {
 /* simple defence rolltemplate */
 .sheet-rolltemplate-coc-defence-1 table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -8651,7 +7950,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-defence-1 td {
@@ -8688,7 +7987,7 @@ button[type="roll"]:hover.new-roll {
 /* Vehicular Attack rolltemplate */
 .sheet-rolltemplate-coc-vehicleattack table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -8698,7 +7997,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-vehicleattack td {
@@ -8737,7 +8036,7 @@ button[type="roll"]:hover.new-roll {
 .sheet-rolltemplate-coc-penalty table,
 .sheet-rolltemplate-coc-bonus table {
   width: 100%;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   color: black;
   background-color: #ffffff;
 }
@@ -8750,7 +8049,7 @@ button[type="roll"]:hover.new-roll {
   color: white;
   font-weight: bold;
   padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 
@@ -8886,7 +8185,7 @@ button[type="roll"]:hover.new-roll {
 /*  PD/BD Attack rolltemplate */
 .sheet-rolltemplate-coc-attack table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -8896,7 +8195,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-attack td {
@@ -8935,7 +8234,7 @@ button[type="roll"]:hover.new-roll {
 /* simple (no PD/BD) rolltemplate */
 .sheet-rolltemplate-coc-1 table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #FFFFFF;
 }
@@ -9013,7 +8312,7 @@ button[type="roll"]:hover.new-roll {
 .sheet-rolltemplate-coc-attack-1-impale table,
 .sheet-rolltemplate-coc-attack-1-noimpale table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #FFFFFF;
 }
@@ -9026,7 +8325,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     line-height: 1.6em;
 }
 
@@ -9157,7 +8456,7 @@ button[type="roll"]:hover.new-roll {
 .sheet-rolltemplate-coc-bp-dice-roll table,
 .sheet-rolltemplate-coc-dice-roll table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -9169,7 +8468,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-	border: var(--cs_input_border);
+	border: solid 1px var(--cs_input_border);
 	line-height: 1.6em
 }
 
@@ -9179,7 +8478,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 
@@ -9253,7 +8552,7 @@ button[type="roll"]:hover.new-roll {
 /* Dark Ages Bout of Madness- Real Time */
 .sheet-rolltemplate-coc-bomadness-da-rt table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -9263,7 +8562,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-bomadness-da-rt td {
@@ -9296,7 +8595,7 @@ button[type="roll"]:hover.new-roll {
 /* Bout of Madness- Real Time */
 .sheet-rolltemplate-coc-bomadness-rt table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -9306,7 +8605,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-bomadness-rt td {
@@ -9339,7 +8638,7 @@ button[type="roll"]:hover.new-roll {
 /* Pulp Bout of Madness- Real Time */
 .sheet-rolltemplate-coc-pulp-bomadness-rt table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -9349,7 +8648,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-pulp-bomadness-rt td {
@@ -9379,7 +8678,7 @@ button[type="roll"]:hover.new-roll {
 /* Dark Ages Bout of Madness- Summary */
 .sheet-rolltemplate-coc-bomadness-da-summ table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -9389,7 +8688,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-bomadness-da-summ td {
@@ -9422,7 +8721,7 @@ button[type="roll"]:hover.new-roll {
 /* Bout of Madness- Summary */
 .sheet-rolltemplate-coc-bomadness-summ table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -9432,7 +8731,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-bomadness-summ td {
@@ -9465,7 +8764,7 @@ button[type="roll"]:hover.new-roll {
 /* Pulp Bout of Madness- Summary */
 .sheet-rolltemplate-coc-pulp-bomadness-summ table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -9475,7 +8774,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-pulp-bomadness-summ td {
@@ -9506,7 +8805,7 @@ button[type="roll"]:hover.new-roll {
 /* simple defence rolltemplate */
 .sheet-rolltemplate-coc-defence-2 table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #E3DEDB;
 }
@@ -9516,7 +8815,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-defence-2 td {
@@ -9546,7 +8845,7 @@ button[type="roll"]:hover.new-roll {
 
 .sheet-rolltemplate-coc-minionattack table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #ffffff;
 }
@@ -9556,7 +8855,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-minionattack td {
@@ -9594,7 +8893,7 @@ button[type="roll"]:hover.new-roll {
 /* minion defence rolltemplate */
 .sheet-rolltemplate-coc-miniondef table {
     width: 100%;
-    border: var(--cs_input_border);
+    border: solid 1px var(--cs_input_border);
     color: black;
     background-color: #E3DEDB;
 }
@@ -9604,7 +8903,7 @@ button[type="roll"]:hover.new-roll {
     color: white;
     font-weight: bold;
     padding: 2px;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-miniondef td {
@@ -9640,7 +8939,7 @@ button[type="roll"]:hover.new-roll {
   font-size: 0.9em;
   height: 1.5em;
   width: 1.5em;
-  border: var(--cs_input_border);
+  border: solid 1px var(--cs_input_border);
   border-radius: 4px;
   text-align: center;
   padding: 0;

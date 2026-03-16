@@ -1126,7 +1126,6 @@ button.new-roll {
 
 .ui-dialog .tab-content .charsheet .sheet-grid-characteristics-lower .sheet-grid-inline .sheet-attr-input {
 	height: 40px;
-	width: 45px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-grid-characteristics-lower .sheet-vertical-divider {
@@ -1270,6 +1269,12 @@ button.new-roll {
   color: var(--cs_input_text);
 }
 
+/* Spenders section container — mirrors sheet-race / sheet-damage_bonus */
+.ui-dialog .tab-content .charsheet .sheet-spenders {
+  background-color: var(--cs_ui_element_bg);
+  box-sizing: border-box;
+}
+
 /* ------------------------------Sheet Racials-------------------------------------------- */
 
 /* ---------------------------- */
@@ -1299,22 +1304,8 @@ select[name="attr_damage_bonus"] {
 /* Edit Mode Toggle Input Behavior */
 /* ------------------------------ */
 
-/* Grid layout for stat/luck sections */
-.ui-dialog .tab-content .charsheet .sheet-grid-str,
-.ui-dialog .tab-content .charsheet .sheet-grid-dex,
-.ui-dialog .tab-content .charsheet .sheet-grid-pow,
-.ui-dialog .tab-content .charsheet .sheet-grid-con,
-.ui-dialog .tab-content .charsheet .sheet-grid-app,
-.ui-dialog .tab-content .charsheet .sheet-grid-edu,
-.ui-dialog .tab-content .charsheet .sheet-grid-siz,
-.ui-dialog .tab-content .charsheet .sheet-grid-int,
-.ui-dialog .tab-content .charsheet .sheet-grid-mag,
-.ui-dialog .tab-content .charsheet .sheet-grid-initiative {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  background-color: var(--cs_ui_element_bg);
-  padding-top: 4px;
+.ui-dialog .tab-content .charsheet .sheet-input-roll-wrapper {
+  /* intentionally minimal — individual *-wrapper rules own position/width */
 }
 
 /* Wrapper around each stat input + overlay roll */
@@ -1496,18 +1487,6 @@ select[name="attr_damage_bonus"] {
 /* HP, Strain, Vitality Grid & Layout             */
 /* ---------------------------- */
 
-/* Strain grid layout */
-.ui-dialog .tab-content .charsheet .sheet-grid-hp ,
-.ui-dialog .tab-content .charsheet .sheet-grid-strain,
-.ui-dialog .tab-content .charsheet .sheet-grid-vitality {
-	display: grid;
-	grid-template-columns: 0.5fr 1em 0.5fr;
-	align-items: center;
-	width: 100%;
-	padding-top: 0px;
-	background-color: #d0cabe; /* match section background */
-}
-
 /* Slash styling */
 .ui-dialog .tab-content .charsheet .sheet-hp-slash,
 .ui-dialog .tab-content .charsheet .sheet-strain-slash,
@@ -1561,6 +1540,16 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	padding-top: 0px;
 	background-color: var(--cs_ui_element_bg); /* match section background */
+}
+
+/* Move Rate input + roll button grid — mirrors sheet-grid-luck */
+.ui-dialog .tab-content .charsheet .sheet-grid-move {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 0px;
+  background-color: var(--cs_ui_element_bg);
 }
 
 /* ----------------------- Dice, Wounds, and Statuses ---------------------- */

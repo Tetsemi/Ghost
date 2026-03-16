@@ -54,9 +54,12 @@ on('chat:message', function(msg) {
   } else if (roll <= effectiveDex) {
     tier = 'Normal';
     init = 1000 + effectiveDex;
-  } else if (roll >= (effectiveDex > 50 ? 96 : 96)) {
+  } else if ((effectiveDex < 50 && roll >= 96) || (effectiveDex >= 50 && roll === 100)) {
     tier = 'Fumble';
     init = 0;
+  } else {
+	tier = 'Fail';
+	init = effectiveDex;
   }
 
   const name       = character.get("name");

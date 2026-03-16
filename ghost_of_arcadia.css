@@ -1606,11 +1606,6 @@ select[name="attr_damage_bonus"] {
   padding-left: 4px;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-dice-roll-wrapper button {
-  flex-shrink: 0;
-  margin-left: 6px;
-}
-
 /* Custom roll row */
 .ui-dialog .tab-content .charsheet .sheet-dice-custom {
   grid-column: span 2;
@@ -1645,7 +1640,7 @@ select[name="attr_damage_bonus"] {
   background-color: orange;
   color: white;
 }
-.ui-dialog .tab-content .charsheet .sheet-dice-custom input {
+.ui-dialog .tab-content .charsheet .sheet-dice-roll-input {
   flex: 1;
   width: 100%;
   text-align: right;
@@ -1653,6 +1648,7 @@ select[name="attr_damage_bonus"] {
   border: none;
   padding: 2px 4px;
   font-size: 0.9em;
+  color: var(--cs_input_text);
 }
 
 /* ----------------------- Dice Modifiers ---------------------- */
@@ -1767,17 +1763,6 @@ select[name="attr_damage_bonus"] {
   height: 100%;
 }
 
-
-.ui-dialog .tab-content .charsheet .sheet-wounds label {
-  font-size: 100%;
-  color: var(--cs_txt_primary);
-  padding: 2px 0 0 4px;
-  text-align: start;
-  height: 24px;
-  margin: 0;
-  gap: 0;
-}
-
 /* ---------------------------- Wounds End ---------------------------------------- */
 
 /* ---------------------------- Statuses Start ---------------------------------------- */
@@ -1801,6 +1786,17 @@ select[name="attr_damage_bonus"] {
 	margin-top: 1px;
 	text-align: center;
 	font-weight: bold;
+}
+
+/* Explicit class rule — mirrors ancestor selector above */
+.ui-dialog .tab-content .charsheet .sheet-statuses-input {
+	height: 100%;
+	background-color: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	margin-top: 1px;
+	text-align: center;
+	font-weight: bold;
+	color: var(--cs_input_text);
 }
 
 
@@ -7169,6 +7165,41 @@ button[type="roll"]:hover.new-roll {
   gap: 0px;
   height: 30px;
   margin-top: 10px;
+}
+
+/* NPC Status + Talent side-by-side row */
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-status-talent-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  margin-top: 2px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-status-panel,
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-talent-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-status-panel  { flex: 1 1 33%; }
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-talent-panel  { flex: 1 1 67%; }
+
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-status-input,
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-talent-input {
+  width: 100%;
+  height: 20px;
+  box-sizing: border-box;
+  padding: 2px 4px;
+  background-color: var(--cs_input_bg);
+  border: 1px solid var(--cs_input_border);
+  color: var(--cs_input_text);
+  font-size: 85%;
+  text-align: center;
+  font-weight: bold;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions input[name="attr_minionmove"] {

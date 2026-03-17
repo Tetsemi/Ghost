@@ -33,6 +33,8 @@
 		--cs_btn_danger_text:       #ffffff;
 		--cs_btn_info_bg:           #3366aa;
 		--cs_btn_info_text:         #ffffff;
+		--cs_btn_move_hover_bg:		#90ee90;   /* light green — drag/move hover */
+		--cs_btn_move_hover_text:	#1a3a1a;   /* dark green text for contrast */
 		--cs_btn_inactive_bg:       #444;
 		--cs_btn_inactive_text:     #ffffff;
 		--cs_btn_active_bg:         #222;
@@ -719,7 +721,7 @@
 }
 
 .ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_del {
-  background: lightred; /* Slightly muted red for delete */
+  background: var(--cs_btn_danger_bg); /* Slightly muted red for delete */
   cursor: pointer;
 }
 
@@ -730,16 +732,17 @@
 /* Hover Effects (Optional, subtle) */
 .ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_add:hover,
 .ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_edit:hover {
-  background: lightyellow;
+  background: var(--cs_btn_info_hover_bg);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_del:hover {
-  background: red;
-  color: white;
+  background: ar(--cs_btn_danger_bg);
+  color: var(--cs_btn_danger_text);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_move:hover {
-  background: lightgreen;
+  background: var(--cs_btn_move_hover_bg);
+  color: var(--cs_btn_move_hover_text);
 }
 
 /* ------------------------------- */
@@ -791,11 +794,12 @@
 .ui-dialog .tab-content .charsheet .sheet-theme-option-ancestry input[type="radio"]:checked ~ .sheet-theme-ancestry-name {
   display: inline;
 }
+
 /* --- Theme Picker --- */
 
 /* ------------------------ Roll buttons ---------------------- */
 
-button.new-roll {
+.ui-dialog .tab-content .charsheet button.new-roll {
    color: var(--cs_btn_roll_text);
    background: var(--cs_btn_roll_bg);
    font-weight: bold;
@@ -4492,8 +4496,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-weapon-default .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-armor-default .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-weapon-block .flex-row,
-.repeating_spellsmdr .flex-row,
-.repeating_weaponsmdr .flex-row {
+.ui-dialog .tab-content .charsheet .repeating_weaponsmdr .flex-row {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -4512,7 +4515,7 @@ select[name="attr_damage_bonus"] {
 }
 
 /* General Flex Cell */
-.flex-cell {
+..ui-dialog .tab-content .charsheet  flex-cell {
   padding: 0; /* No padding inside cells */
   margin: 0;
   border: solid 1px var(--cs_input_border);
@@ -4523,7 +4526,7 @@ select[name="attr_damage_bonus"] {
   height: 24px;
 }
 
-.flex-cell-wrapper {
+.ui-dialog .tab-content .charsheet  .flex-cell-wrapper {
   padding: 0; /* No padding inside cells */
   margin: 0;
   border: solid 1px var(--cs_input_border);
@@ -4536,16 +4539,16 @@ select[name="attr_damage_bonus"] {
 }
 
 /* Flex Widths */
-.weapon-name { flex: 2 1 24%; }
+.ui-dialog .tab-content .charsheet .weapon-name { flex: 2 1 24%; }
 .ui-dialog .tab-content .charsheet .repitem .weapon-name { flex: 2 1 24%; }
 .weapon-impale { flex: 0 0 24px; }
 .ui-dialog .tab-content .charsheet .repitem .weapon-impale { flex: 0 0 24px; }
-.weapon-skill { flex: 1.5 1 14%; }
-.weapon-skill-display { flex: 1 1 6%; }
-.weapon-damage { flex: 1 1 6%; }
-.weapon-damage-bonus { flex: 1 1 6%; }
-.weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 6%; }
-.weapon-malf, .weapon-contested, .weapon-strain { flex: 0.8 1 6%; }
+.ui-dialog .tab-content .charsheet .weapon-skill { flex: 1.5 1 14%; }
+.ui-dialog .tab-content .charsheet .weapon-skill-display { flex: 1 1 6%; }
+.ui-dialog .tab-content .charsheet .weapon-damage { flex: 1 1 6%; }
+.ui-dialog .tab-content .charsheet .weapon-damage-bonus { flex: 1 1 6%; }
+.ui-dialog .tab-content .charsheet .weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 6%; }
+.ui-dialog .tab-content .charsheet .weapon-malf, .weapon-contested, .weapon-strain { flex: 0.8 1 6%; }
 .ui-dialog .tab-content .charsheet .repitem .sheet-toggle-wrapper { width: 24px; height: 24px; }
 
 .weapon-trait { width: 100%; }
@@ -4580,13 +4583,13 @@ select[name="attr_damage_bonus"] {
 }
 
 /* Flex Widths */
-.armor-name { flex: 2 1 28%; }
-.armor-equipped { flex: 0 0 24px; }
-.armor-physical { flex: 0.8 1 6%; }
-.armor-arcane { flex: 0.8 1 6%; }
-.armor-layer { flex: 1.5 1 18%; }
-.armor-category { flex: 1.5 1 18%; }
-.armor-traits { flex: 1.5 1 24%; }
+.ui-dialog .tab-content .charsheet .armor-name { flex: 2 1 28%; }
+.ui-dialog .tab-content .charsheet .armor-equipped { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .armor-physical { flex: 0.8 1 6%; }
+.ui-dialog .tab-content .charsheet .armor-arcane { flex: 0.8 1 6%; }
+.ui-dialog .tab-content .charsheet .armor-layer { flex: 1.5 1 18%; }
+.ui-dialog .tab-content .charsheet .armor-category { flex: 1.5 1 18%; }
+.ui-dialog .tab-content .charsheet .armor-traits { flex: 1.5 1 24%; }
 
 /* ========= Combat → Armor: Totals Row ========= */
 /* Sits above the header; aligns with Phys/Arc. columns */
@@ -4634,11 +4637,11 @@ select[name="attr_damage_bonus"] {
     box-sizing: border-box;
     font-size: 1.1em;
     text-align: center;
-    background-color: var(--cs_disabled_bg);      /* matches other value inputs */
+    background-color: var(--cs_input_bg);      /* matches other value inputs */
     font-weight: bold;
     pointer-events: none;      /* read-only feel */
     cursor: default;
-    color: var(--cs_disabled_text);
+    color: var(--cs_input_text);
 }
 
 /* Spacer cells in the totals row (no special styling needed beyond the grid) */
@@ -4650,20 +4653,20 @@ select[name="attr_damage_bonus"] {
 }
 
 /* Flex Widths */
-.omnideck-name { flex: 2 1 28%; }
-.omnideck-equipped { flex: 0 0 24px; }
-.omnideck-skill { flex: 1.5 1 15%; }
-.omnideck-skill-display { flex: 1 1 6%; }
-.omnideck-ir, .omnideck-mr, .omnideck-fr, .omnideck-roll-wrapper { flex: 1 1 8%; }
-.omnideck-roll { flex: 0 0 24px; }
-.omnideck-dic, .omnideck-dit, .omnideck-ar, .omnideck-prog_slots, .omnideck-mod_slots { flex: 1 1 6%; }
+.ui-dialog .tab-content .charsheet .omnideck-name { flex: 2 1 28%; }
+.ui-dialog .tab-content .charsheet .omnideck-equipped { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .omnideck-skill { flex: 1.5 1 15%; }
+.ui-dialog .tab-content .charsheet .omnideck-skill-display { flex: 1 1 6%; }
+.ui-dialog .tab-content .charsheet .omnideck-ir, .omnideck-mr, .omnideck-fr, .omnideck-roll-wrapper { flex: 1 1 8%; }
+.ui-dialog .tab-content .charsheet .omnideck-roll { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .omnideck-dic, .omnideck-dit, .omnideck-ar, .omnideck-prog_slots, .omnideck-mod_slots { flex: 1 1 6%; }
 
 /* Flex Widths */
-.program-name { flex: 2 1 28%; }
-.program-active { flex: 0 0 24px; }
-.program-roll { flex: 0 0 24px; }
-.program-damage { flex: 1 1 7%; }
-.program-effect { flex: 1 1 65%; }
+.ui-dialog .tab-content .charsheet .program-name { flex: 2 1 28%; }
+.ui-dialog .tab-content .charsheet .program-active { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .program-roll { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .program-damage { flex: 1 1 7%; }
+.ui-dialog .tab-content .charsheet .program-effect { flex: 1 1 65%; }
 
 /*  Header Row */
 .ui-dialog .tab-content .charsheet .sheet-weapon-header,
@@ -4689,8 +4692,8 @@ select[name="attr_damage_bonus"] {
 }
 
 /* Inputs and Selects */
-.flex-cell input[type="text"],
-.flex-cell select {
+.ui-dialog .tab-content .charsheet .flex-cell input[type="text"],
+.ui-dialog .tab-content .charsheet .flex-cell select {
   width: 100%;
   height: 100%;
   padding: 0px;
@@ -4701,7 +4704,7 @@ select[name="attr_damage_bonus"] {
   color: var(--cs_input_text);
 }
 
-.flex-cell select {
+.ui-dialog .tab-content .charsheet .flex-cell select {
   margin: 0;
   padding: 2px 4px;
   box-sizing: border-box;
@@ -4727,8 +4730,6 @@ select[name="attr_damage_bonus"] {
   background-color: var(--cs_ui_element_bg);
   box-sizing: content-box;
 }
-
-.sheet-weaponblock-grid-row
 
 /* Show if value = 1 */
 .ui-dialog .tab-content .charsheet input[name="attr_show_weapon_advanced_default"][value="1"] ~ .sheet-weaponblock-advanced-default,
@@ -4787,7 +4788,7 @@ select[name="attr_damage_bonus"] {
   display: none;
 }
 
-.omnideck-roll-wrapper {
+.ui-dialog .tab-content .charsheet .omnideck-roll-wrapper {
   display: flex;
   flex-direction: row;         /* Force row layout */
   align-items: center;         /* Vertically center items */
@@ -4797,7 +4798,7 @@ select[name="attr_damage_bonus"] {
   box-sizing: border-box;
 }
 
-.omnideck-roll-wrapper .flex-cell {
+.ui-dialog .tab-content .charsheet .omnideck-roll-wrapper .flex-cell {
   flex: 1 1 auto;
   height: 100%;
   padding: 0;
@@ -4823,7 +4824,6 @@ select[name="attr_damage_bonus"] {
   background-color: transparent;
   color: transparent;
 }
-
 
 /* ------------------------------- Spells ----------------------- */
 /* Container for all repeating entries */
@@ -4852,25 +4852,14 @@ select[name="attr_damage_bonus"] {
   gap: 0;
 }
 
-/* Flex Widths */
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-name { flex: 2 1 30%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-prepared { flex: 0 0 24px; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-skill { flex: 1.5 1 20%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-skill-display { flex: 1 1 10%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-roll { flex: 0 0 24px; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-type { flex: 1 1 10%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-reflexive { flex: 0 0 24px; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-contested { flex: 1 1 10%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-damage { flex: 1 1 10%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-strain { flex: 1 1 10%; }
+/* Stub — spell cost input, inherits from sheet-attr-input-small, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-spell-cost { }
 
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-xp-cost { flex: 1 1 7%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-rarity { flex: 1 1 7%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-ac-cost { flex: 1 1 7%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-range { flex: 1 1 7%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-cast-time { flex: 1 1 7%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-duration { flex: 1 1 7%; }
-.ui-dialog .tab-content .charsheet .sheet-spells .spell-element { flex: 1 1 7%; }
+/* Stub — outer wrapper for the spell tracker grid, add layout/spacing overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-spell-tracker-wrapper { }
+
+/* Stub — wrapper for repeating spell entries, add layout/spacing overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-spells-section { }
 
 /* Each repeated entry */
 .ui-dialog .tab-content .charsheet .sheet-spells .repitem {
@@ -4933,29 +4922,6 @@ select[name="attr_damage_bonus"] {
   align-self: stretch; /* ensures it fills the height of the parent */
 }
 
-
-
-/* === Rest Buttons Row === */
-.ui-dialog .tab-content .charsheet .sheet-strain-buttons-row {
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 5px;
-  padding: 0px;
-}
-
-
-/* === Optional Styling for Buttons === */
-.ui-dialog .tab-content .charsheet .sheet-rest-button-wrapper,
-.ui-dialog .tab-content .charsheet .sheet-roll-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
 /* Base style for the overflow-sensitive input */
 .ui-dialog .tab-content .charsheet .sheet-overflow-sensitive {
   background-color: rgba(255, 255, 255, 0.5);
@@ -4968,45 +4934,10 @@ select[name="attr_damage_bonus"] {
   color: yellow;
 }
 
-
 /* ---------- Layout ---------- */
 
-.ui-dialog .tab-content .charsheet .sheet-roll-wrapper,
-.ui-dialog .tab-content .charsheet .sheet-rest-button-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-roll-label {
-  display: inline-block;
-  background-color: #444;
-  color: white;
-  font-weight: bold;
-  border: solid 1px var(--cs_input_border);
-  padding: 6px 10px;
-  font-size: 90%;
-  text-align: center;
-  border-radius: 4px;
-  cursor: pointer;
-  user-select: none;
-}
-
-/* Invisible roll button overlays the label */
-.ui-dialog .tab-content .charsheet .sheet-roll-hidden {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 2;
-  margin: 0;
-  padding: 0;
-}
-
-.spell-cost-input,
-.spell-capacity-input {
+.ui-dialog .tab-content .charsheet ..ui-dialog .tab-content .charsheet .spell-cost-input,
+.ui-dialog .tab-content .charsheet .spell-capacity-input {
   width: 67px;
   height: 23px;
   font-size: 90%;
@@ -5014,30 +4945,6 @@ select[name="attr_damage_bonus"] {
   background-color: rgba(255, 255, 255, 0.7);
   color: black;
   border: 1px solid #888;
-  box-sizing: border-box;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-strain-buttons .sheet-tab-button {
-  padding: 4px 6px;
-  font-size: 90%;
-  font-weight: bold;
-  color: white;
-  background-color: linear-gradient(to bottom, #3b3b3b, #1e1e1e);
-  border: 1px solid #444;
-  border-radius: 4px;
-  text-align: center;
-  cursor: pointer;
-  width: 100px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-wide-input {
-  font-size: 100%;
-  height: 23px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-  border: 1px solid #aaa;
-  padding: 2px;
   box-sizing: border-box;
 }
 
@@ -5262,6 +5169,7 @@ select[name="attr_damage_bonus"] {
   pointer-events: auto;
 }
 
+/* ----- Spells - End ----- */
 
 /* ----------------- Gear and Inventory ---------------------- */
 
@@ -5445,6 +5353,11 @@ select[name="attr_damage_bonus"] {
   box-sizing: border-box;
 }
 
+.ui-dialog .tab-content .charsheet .flex-cell input[type="checkbox"] {
+  display: block;
+  margin: auto;
+  margin-top: 4px;
+}
 
 .ui-dialog .tab-content .charsheet .item-name, .ui-dialog .tab-content .charsheet .item-appl-name { flex: 2 1 20%; font-weight:bold; }
 
@@ -5927,6 +5840,61 @@ select[name="attr_damage_bonus"] {
 }
 
 /* ------------------ Tracker ------------------ */
+
+/* === Optional Styling for Buttons === */
+.ui-dialog .tab-content .charsheet .sheet-rest-button-wrapper,
+.ui-dialog .tab-content .charsheet .sheet-roll-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+/* === Rest Buttons Row === */
+.ui-dialog .tab-content .charsheet .sheet-strain-buttons-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 5px;
+  padding: 0px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-roll-label {
+  display: inline-block;
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  border: solid 1px var(--cs_input_border);
+  padding: 6px 10px;
+  font-size: 90%;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Invisible roll button overlays the label */
+.ui-dialog .tab-content .charsheet .sheet-roll-hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-roll-wrapper,
+.ui-dialog .tab-content .charsheet .sheet-rest-button-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .ui-dialog .tab-content .charsheet .sheet-tracker-section {
   display: flex;
   gap: 1em;
@@ -7406,6 +7374,19 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-npc-val button {
   margin: 0;
 }
+
+
+.ui-dialog .tab-content .charsheet .sheet-wide-input {
+  font-size: 100%;
+  height: 23px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  border: 1px solid #aaa;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
 
 /* Header spans — explicit widths matching their inputs/buttons */
 .ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-name,

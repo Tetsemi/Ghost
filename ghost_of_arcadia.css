@@ -13,6 +13,7 @@
 		--cs_txt_primary:           var(--cs_sys_dark_txt_color_light);
 		--cs_txt_accent:            var(--cs_sys_dark_txt_color_dark);
 		--cs_dc_color:              var(--cs_sys_dark_contrast);
+		--cs_overlay_bg: 			color-mix(in srgb, var(--cs_bg_color) 60%, transparent);
 
 	/* UI Element Aliases (default: dark) */
 		--cs_input_bg:              #2a2a2a;
@@ -964,6 +965,10 @@ button.new-roll {
 	background-color: transparent;
 }
 
+.ui-dialog .tab-content .charsheet .sheet-awakened-controller {
+  display: none;
+}
+
 /* Toggle cell layout */
 .ui-dialog .tab-content .charsheet .sheet-awakened-toggle {
 	display: flex;
@@ -1154,6 +1159,7 @@ button.new-roll {
 
 .ui-dialog .tab-content .charsheet .sheet-top-collapse-hit {
 	position: absolute;
+	padding-left: 3px;
 	right: 6px;
 	top: 50%;
 	transform: translateY(-50%);
@@ -1505,6 +1511,7 @@ select[name="attr_damage_bonus"] {
 	text-align: center;
 	font-size: 150%;
 	font-weight: bold;
+	color: var(--cs_txt_primary);
 }
 
 /* Bloodied: HP input turns light red with white text at or below 50% */
@@ -1538,7 +1545,7 @@ select[name="attr_damage_bonus"] {
 
 /* Minion Major Wounds: default state */
 .ui-dialog .tab-content .charsheet .repitem input[name="attr_minion_major_wounds_checkbox"][value="0"] + button[name="act_minionwounds"] {
-  background-color: var(--cs_ui_element_bg);
+  background-color: var(--cs_input_bg);
   color: var(--cs_txt_primary);
 }
 
@@ -1851,7 +1858,7 @@ select[name="attr_damage_bonus"] {
   width: 100%;
   justify-content: flex-start; /* or flex-start if you prefer left-aligned rows */
   box-sizing: border-box;
-  background-color: #444;
+  background-color: var(--cs_btn_inactive_bg);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tab-buttons button {
@@ -1922,6 +1929,22 @@ select[name="attr_damage_bonus"] {
    Pure CSS :hover, no runtime JS needed.
 */
 
+/* Skills tab outer layout wrapper */
+.ui-dialog .tab-content .charsheet .sheet-3colrow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Skill grid header cell */
+.ui-dialog .tab-content .charsheet .sheet-skill-col {
+  text-align: center;
+  font-size: 85%;
+  padding: 0 2px;
+  box-sizing: border-box;
+}
+
 .ui-dialog .tab-content .charsheet .sheet-skill-tooltip {
   position: relative;
   display: inline-flex;
@@ -1933,24 +1956,20 @@ select[name="attr_damage_bonus"] {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-
   position: absolute;
   left: 0;
   top: calc(100% + 5px);
   z-index: 999;
-
-  background-color: #112749;
-  border: 1px solid #555;
+  background-color: var(--cs_txt_accent);
+  border: 1px solid var(--cs_tooltip_border);
   border-radius: 3px;
   padding: 6px 8px;
   min-width: 180px;
   max-width: 240px;
-
   font-size: 11px;
   line-height: 1.5;
-  color: #eee;
+  color: var(--cs_tooltip_label_text);
   white-space: normal;
-
   box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
   transition: opacity 0.12s ease;
 }
@@ -1963,7 +1982,7 @@ select[name="attr_damage_bonus"] {
   left: 10px;
   border: 5px solid transparent;
   border-top: none;
-  border-bottom-color: #555;
+  border-bottom-color: var(--cs_tooltip_border);
 }
 .ui-dialog .tab-content .charsheet .sheet-skill-tooltip .sheet-tooltip-bubble::after {
   content: "";
@@ -1972,7 +1991,7 @@ select[name="attr_damage_bonus"] {
   left: 11px;
   border: 4px solid transparent;
   border-top: none;
-  border-bottom-color: #112749;
+  border-bottom-color: var(--cs_tooltip_bg);
 }
 
 /* Show on hover ONLY when has-notes is present */
@@ -1992,7 +2011,7 @@ select[name="attr_damage_bonus"] {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #aac4e0;
+  color: var(--cs_tooltip_label_text);
   margin-bottom: 3px;
 }
 
@@ -2013,10 +2032,10 @@ select[name="attr_damage_bonus"] {
 	display: grid;
 	grid-template-columns: 20px 1fr 30px 30px;
 	align-items: center;
-	background-color: #333;
-	color: white;
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text);
 	font-weight: bold;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid var(--cs_input_border);
 	padding: 2px 0;
 	text-align: center;
 }
@@ -2073,6 +2092,31 @@ select[name="attr_damage_bonus"] {
   pointer-events: auto;
 }
 
+/* Readonly calculated skill value display */
+.ui-dialog .tab-content .charsheet .sheet-skill-input {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-color: var(--cs_disabled_bg);
+  color: var(--cs_disabled_text);
+  text-align: center;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* Editable skill point input */
+.ui-dialog .tab-content .charsheet .skill-input {
+  height: 20px;
+  width: 30px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: var(--cs_input_bg);
+  border: 1px solid var(--cs_input_border);
+  color: var(--cs_input_text);
+}
+
 .ui-dialog .tab-content .charsheet .repcontainer .repitem .itemcontrol .repcontrol_del {
   z-index: 10;
   position: relative;
@@ -2088,17 +2132,6 @@ select[name="attr_damage_bonus"] {
   position: relative;
 }
 
-
-.ui-dialog .tab-content .charsheet .sheet-skill-grid input[type="text"],
-.ui-dialog .tab-content .charsheet .sheet-skill-grid input[type="number"] {
-  height: 20px;
-  width: 30px;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .ui-dialog .tab-content .charsheet input[type="text"].sheet-skill-name-input {
     height:20px;
 	width: 162px;
@@ -2106,9 +2139,9 @@ select[name="attr_damage_bonus"] {
     margin-bottom: 1px;
 }
 
-.ui-dialog .tab-content .charsheetinput[type="text"].sheet-narrow-input {
-    background-color: rgba(255,255,255,0.5);
-    color: black;
+.ui-dialog .tab-content .charsheet input[type="text"].sheet-narrow-input {
+    background-color: var(--cs_input_bg);
+    color: var(--cs_input_text);
     height: 16px;
     text-align: center;
     font-size: 85%;
@@ -2141,7 +2174,7 @@ select[name="attr_damage_bonus"] {
   line-height: 10px;
   text-align: center;
   background-color: transparent;
-  color: #339;
+  color: var(--cs_txt_primary);
   border: solid 1px var(--cs_input_border);
   box-sizing: border-box;
   appearance: none;
@@ -2253,7 +2286,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="streetborn"] ~ .sheet-tab-buttons button[name="act_streetborn"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="survivor"] ~ .sheet-tab-buttons button[name="act_survivor"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="underworld"] ~ .sheet-tab-buttons button[name="act_underworld"] {
-  background-color: #222;
+  background-color: var(--cs_btn_active_bg);
 }
 
 /* Locking for Backgrounds (v2) non-skill choice checkboxes */
@@ -2475,8 +2508,8 @@ select[name="attr_damage_bonus"] {
 	top: 0px;
 	left: 0;
 	right: 0;
-	background-color: rgba(0, 0, 0, 0.6);
-	color: white;
+	background-color: var(--cs_overlay_bg);
+	color: var(--cs_txt_primary);
 	font-weight: bold;
 	padding: 10px;
 	text-align: center;
@@ -2570,20 +2603,6 @@ select[name="attr_damage_bonus"] {
   border: solid 1px var(--cs_input_border);
 }
 
-.ui-dialog .tab-content .charsheet .sheet-trained-skills h4 {
-	margin-bottom: 10px;
-	border: solid 1px var(--cs_input_border);
-	background-color: black;
-	color: white;
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-trained-skills label {
-	color: black;
-	font-size: 100%;
-	padding: 0 0 0 4px;
-}
-
 /* Data rows */
 /* Base row: checkbox | label | description | 40px */
 .ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-talent-row {
@@ -2641,13 +2660,11 @@ select[name="attr_damage_bonus"] {
  
 .ui-dialog .tab-content .charsheet .sheet-prereq-toggle + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
   content: "▢";
-  color: white;
   font-size: 16px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
   content: "☑";
-  color: blue;
   font-size: 16px;
 }
 
@@ -3092,50 +3109,10 @@ select[name="attr_damage_bonus"] {
 
 /* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
 
-/* --------------------- Tabs - New Talent styling - Start ----------------------------------------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-xp-row {
-  display: flex;
-  flex-direction: column;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary {
-  padding: 0.75rem;
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-}
-
-.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"] {
-  display: block;
-  white-space: pre-wrap;
-  color: #ddd;
-  font-size: 100%;
-  line-height: 1.4;
-  margin-top: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"] {
-  display: block;
-  white-space: pre-wrap;
-  color: #ddd;
-  font-size: 100%;
-  line-height: 1.4;
-  margin-top: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet span[name="attr_talent_summary"] {
-  display: block;
-  white-space: pre-wrap;
-  color: #ddd;
-  font-size: 100%;
-  line-height: 1.4;
-  margin-top: 0.5rem;
-}
-
 /* Header for Talent Tier */
 .ui-dialog .tab-content .charsheet .sheet-talent-tier-header {
   font-size: 100%;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--cs_disabled_border);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-talent-row {
@@ -3145,7 +3122,7 @@ select[name="attr_damage_bonus"] {
   align-items: start;
   margin-bottom: 0.75rem;
   padding: 0.5rem;
-  border: 1px solid #333;
+  border: 1px solid var(--cs_btn_inactive_bg);
   border-radius: 4px;
 }
 
@@ -3240,7 +3217,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-traits .sheet-talent-tier-header {
     margin: 0 0 0.5rem 0;
-	color: black;
+	color: var(--cs_txt_primary);
 	text-align: center;
 }
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-tier .sheet-section-body,
@@ -3274,8 +3251,7 @@ select[name="attr_damage_bonus"] {
 	white-space: pre-line;
 }
 
-
-/* --------------------- Tabs - New Talent styling - End ----------------------------------------------------- */
+/* ---------------------  === Ancestry Tab — End ----------------------------------------------------- === */
 
 /* --------------------- Tabs - Careers - Start ----------------------------------------------------- */
 
@@ -3386,8 +3362,6 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-career-tabs button {
     flex: 1;
-    background-color: #000;
-    color: white;
     font-weight: bold;
     border: solid 1px var(--cs_input_border);
     padding: 4px 0;
@@ -3395,6 +3369,23 @@ select[name="attr_damage_bonus"] {
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
+
+/* Default: collapsed */
+.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] 
+~ .sheet-toggle-career-skills button {
+  background-color: var(--cs_btn_inactive_bg);
+  color: var(--cs_btn_inactive_text);
+  border: solid 1px var(--cs_disabled_border);
+}
+
+/* Active: expanded */
+.ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="0"] 
+~ .sheet-toggle-career-skills button {
+  background-color: var(--cs_btn_active_bg);
+  color: var(--cs_btn_active_text);
+  border: solid 1px var(--cs_input_border);
+}
+
 .ui-dialog .tab-content .charsheet .sheet-careers .sheet-tab-buttons {
 	flex: 1;
 	margin-top: 2px;
@@ -3509,16 +3500,6 @@ select[name="attr_damage_bonus"] {
     background-color: #333;
 }
 
-.ui-dialog .tab-content .charsheet span[name="attr_primary_career_talent_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_secondary_career_talent_summary"] {
-  display: block;
-  white-space: pre-wrap;
-  color: #ddd;
-  font-size: 100%;
-  line-height: 1.4;
-  margin-top: 0.5rem;
-}
-
 /* Disable checkbox interaction if _enabled=0 or _lockflag=1 */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox,
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox {
@@ -3590,8 +3571,8 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-talent-checkbox      { grid-column: 1; }
-.ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; font-weight: bold; font-size: 100%; color: #eee; white-space: wrap; }
-.ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; font-size: 110%; color: #aaa; white-space: normal; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; font-weight: bold; font-size: 100%; white-space: wrap; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; font-size: 110%; white-space: normal; }
 .ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
 
 /* Toggle: when the checkbox BEFORE .sheet-career-talents is checked, expand grid + show prereqs */
@@ -3803,11 +3784,11 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="1"] ~ .sheet-career-section .sheet-career-tabs button[name="act_toggle_career_skills"] {
-    background-color: #444;
+    background-color: var(--cs_btn_inactive_bg:);
 }
 
 .ui-dialog .tab-content .charsheet input[name="attr_show_career_skills"][value="0"] ~ .sheet-career-section .sheet-career-tabs button[name="act_toggle_career_skills"] {
-    background-color: #222;
+    background-color: var(--cs_btn_active_bg);
 }
 
 /* Locking career skill checkboxes using *_lock hidden inputs */
@@ -7094,7 +7075,7 @@ button[type="roll"]:hover.new-roll {
   font-size: 85%;
   text-align: center;
   border: 1px solid #aaa;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--cs_input_bg);
   color: black;
 }
 
@@ -7219,7 +7200,7 @@ button[type="roll"]:hover.new-roll {
   height: 20px;
   padding: 1px 0px;
   text-align: center;
-  background-color: rgba(255,255,255,0.5);
+  background-color: var(--cs_input_bg);
   border: 1px solid #aaa;
   box-sizing: border-box;
   color: black;
@@ -7233,7 +7214,7 @@ button[type="roll"]:hover.new-roll {
   width: 80px;
   text-align: center;
   font-size: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--cs_input_bg);
   color: black;
   border: 1px solid #aaa;
   box-sizing: border-box;
@@ -7244,7 +7225,7 @@ button[type="roll"]:hover.new-roll {
   height: 23px;
   text-align: center;
   font-size: 90%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--cs_input_bg);
   color: black;
   border: 1px solid #aaa;
   box-sizing: border-box;
@@ -7255,7 +7236,7 @@ button[type="roll"]:hover.new-roll {
   width: 100%;
   height: 30px;
   font-size: 90%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--cs_input_bg);
   color: black;
   border: 1px solid #666;
   resize: vertical;
@@ -7308,7 +7289,7 @@ button[type="roll"]:hover.new-roll {
   height: 20px;
   padding: 1px 0px;
   text-align: center;
-  background-color: rgba(255,255,255,0.5);
+  background-color: var(--cs_input_bg);
   border: 1px solid #aaa;
   box-sizing: border-box;
   color: black;
@@ -7601,6 +7582,25 @@ button[type="roll"]:hover.new-roll {
 	content: "–";
 }
 
+.ui-dialog .tab-content .charsheet .sheet-talent-summary {
+  background-color: var(--cs_bg_color);
+  border: 1px solid var(--cs_separator_bg);
+  color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_talent_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_primary_career_talent_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_secondary_career_talent_summary"] {
+  display: block;
+  white-space: pre-wrap;
+  color: var(--cs_txt_primary);
+  font-size: 100%;
+  line-height: 1.4;
+  padding: 4px;
+}
+
 /* ------------------------ Summary Text - End---------------------------------------------------- */
 /* ------------------------ Summary Type - Start ---------------------------------------------------- */
 
@@ -7653,7 +7653,7 @@ button[type="roll"]:hover.new-roll {
 	display: none;
 	flex: 1 1 auto;
 	min-width: 0;
-	padding-right: 24px; /* space for the ? handle */
+	padding: 6px; /* space for the ? handle */
 }
 
 /* 3) Ensure the drawer can never "bleed" when the main section is closed */

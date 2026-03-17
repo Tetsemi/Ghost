@@ -689,6 +689,61 @@
   margin-left: auto;
 }
 
+/* -------------------------------------------- Buttons Start ---------------------------------- */
+
+/* Repeating Section Buttons - Unified Style */
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_add,
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_edit,
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_del,
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_move {
+  background: var(--cs_btn_info_bg);
+  color: var(--cs_btn_info_text);
+  font-weight: bold;
+  font-size: 0.9em;
+  height: 1.5em;
+  width: 1.5em;
+  border: solid 1px var(--cs_input_border);
+  border-radius: 4px;
+  text-align: center;
+  padding: 0;
+  margin: 2px; /* slight spacing for neatness */
+  box-shadow: none;
+}
+
+/* Specific Tweaks */
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_add,
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_edit {
+  width: auto; /* Add & Edit need flexible width for text */
+  padding: 0 6px;
+  cursor: pointer;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_del {
+  background: lightred; /* Slightly muted red for delete */
+  cursor: pointer;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_move {
+  cursor: grab;
+}
+
+/* Hover Effects (Optional, subtle) */
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_add:hover,
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_edit:hover {
+  background: lightyellow;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_del:hover {
+  background: red;
+  color: white;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_move:hover {
+  background: lightgreen;
+}
+
+/* ------------------------------- */
+
 /* --- Theme Picker --- */
 
 .ui-dialog .tab-content .charsheet .sheet-theme-label {
@@ -4396,28 +4451,6 @@ select[name="attr_damage_bonus"] {
   background-color: #d0cabe; /* Also needs to match section background */
 }
 
-/* ------------------------------- */
-/* Combat Section Header (h4 Section-Head) */
-/* ------------------------------- */
-.section-head {
-  font-size: 1.1em;
-  font-weight: bold;
-  text-align: center;
-  background-image: linear-gradient(var(--cs_txt_accent), var(--cs_section_bg_color));
-  background-color: var(--cs_section_bg_color);
-  color: var(--cs_txt_primary);
-  padding: 4px;
-  border: 1px solid var(--cs_input_border);
-  margin-bottom: 10px;
-}
-
- .sheet-section-head-collapsible {
-  background-image: linear-gradient(var(--cs_txt_accent), var(--cs_section_bg_color));
-  background-color: var(--cs_section_bg_color);
-  color: var(--cs_txt_primary);
-  border: 1px solid var(--cs_input_border);
-}
-
 /* --------------------------------------- Combat ---------------------------------- */
 
 /* ---------------- Combat Section Flex Layout ---------------- */
@@ -4425,7 +4458,6 @@ select[name="attr_damage_bonus"] {
 /* Fieldset */
 .ui-dialog .tab-content .charsheet fieldset.repeating_weaponsmdr,
 .ui-dialog .tab-content .charsheet fieldset.repeating_armorsmdr,
-.ui-dialog .tab-content .charsheet fieldset.repeating_spellsmdr,
 .ui-dialog .tab-content .charsheet fieldset.repeating_omnidecksmdr,
 .ui-dialog .tab-content .charsheet fieldset.repeating_programsmdr {
   margin: 0;
@@ -4527,7 +4559,7 @@ select[name="attr_damage_bonus"] {
   gap: 0px;
   padding: 0px;
   margin-bottom: 0px;
-  background-color: rgba(255,255,255,0.04);
+  background-color: var(--cs_ui_element_bg);
   box-sizing: border-box;
 }
 
@@ -4540,11 +4572,10 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-weaponblock-advanced {
   display: none;
   flex: 1;
-  min-width: 0;
   flex-wrap: wrap;
   gap: 0px;
   margin-bottom: 0px;
-  background-color: rgba(255,255,255,0.04);
+  background-color: var(--cs_ui_element_bg);
   box-sizing: border-box;
 }
 
@@ -4562,6 +4593,9 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-armor-totals {
     margin: 0;
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
+	border: solid 1px var(--cs_input_border);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-armor-totals .flex-row {
@@ -4576,19 +4610,17 @@ select[name="attr_damage_bonus"] {
     gap: 0;
 }
 
-
-
 .ui-dialog .tab-content .charsheet .sheet-armor-totals .flex-cell {
     padding: 0;
     margin: 0;
-    border: solid 1px var(--cs_input_border);
+    border: 1px solid var(--cs_disabled_border);
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 24px;
-    /* Let section background show through so it blends with the grid */
-    background-color: transparent;
+    background-color: var(--cs_disabled_bg);
+    color: var(--cs_disabled_text);
 }
 
 /* Totals inputs: look like the normal value boxes, but read-only and bold */
@@ -4602,42 +4634,20 @@ select[name="attr_damage_bonus"] {
     box-sizing: border-box;
     font-size: 1.1em;
     text-align: center;
-    background-color: #d9d9d9;      /* matches other value inputs */
+    background-color: var(--cs_disabled_bg);      /* matches other value inputs */
     font-weight: bold;
     pointer-events: none;      /* read-only feel */
     cursor: default;
-    color: #333;
+    color: var(--cs_disabled_text);
 }
-
 
 /* Spacer cells in the totals row (no special styling needed beyond the grid) */
 .ui-dialog .tab-content .charsheet .sheet-armor-totals .armor-equipped,
 .ui-dialog .tab-content .charsheet .sheet-armor-totals .armor-layer,
 .ui-dialog .tab-content .charsheet .sheet-armor-totals .armor-category,
 .ui-dialog .tab-content .charsheet .sheet-armor-totals .armor-traits {
-    background-color: transparent;
+    background-color: var(--cs_dc_color);
 }
-
-
-/* Flex Widths */
-.spell-name { flex: 2 1 30%; }
-.spell-prepared { flex: 0 0 24px; }
-.spell-skill { flex: 1.5 1 20%; }
-.spell-skill-display { flex: 1 1 10%; }
-.spell-roll { flex: 0 0 24px; }
-.spell-type { flex: 1 1 10%; }
-.spell-reflexive { flex: 0 0 24px; }
-.spell-contested { flex: 1 1 10%; }
-.spell-damage { flex: 1 1 10%; }
-.spell-strain { flex: 1 1 10%; }
-
-.spell-xp-cost { flex: 1 1 7%; }
-.spell-rarity { flex: 1 1 7%; }
-.spell-ac-cost { flex: 1 1 7%; }
-.spell-range { flex: 1 1 7%; }
-.spell-cast-time { flex: 1 1 7%; }
-.spell-duration { flex: 1 1 7%; }
-.spell-element { flex: 1 1 7%; }
 
 /* Flex Widths */
 .omnideck-name { flex: 2 1 28%; }
@@ -4658,19 +4668,19 @@ select[name="attr_damage_bonus"] {
 /*  Header Row */
 .ui-dialog .tab-content .charsheet .sheet-weapon-header,
 .ui-dialog .tab-content .charsheet .sheet-armor-header,
-.ui-dialog .tab-content .charsheet .sheet-spell-header ,
+.ui-dialog .tab-content .charsheet .sheet-omnideck-header ,
 .ui-dialog .tab-content .charsheet .sheet-program-header {
-  background-color: black;
-  color: white;
+  background-color: var(--cs_section_head_bg_color);
+  color: var(--cs_txt_primary);
   font-weight: bold;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-weapon-header .flex-cell,
 .ui-dialog .tab-content .charsheet .sheet-armor-header .flex-cell,
-.ui-dialog .tab-content .charsheet .sheet-spell-header .flex-cell,
-.ui-dialog .tab-content .charsheet .sheet-omnideck-header .flex-cell {
-  background-color: black;
-  color: white;
+.ui-dialog .tab-content .charsheet .sheet-omnideck-header .flex-cell,
+.ui-dialog .tab-content .charsheet .sheet-program-header .flex-cell {
+  background-color: var(--cs_section_head_bg_color);
+  color: var(--cs_txt_primary);
   text-align: center;
 }
 
@@ -4702,8 +4712,8 @@ select[name="attr_damage_bonus"] {
 /* Disabled (Unarmed row) */
 .ui-dialog .tab-content .charsheet .sheet-weapon-default input[disabled],
 .ui-dialog .tab-content .charsheet .sheet-weapon-default select[disabled] {
-  background-color: #d9d9d9;
-  color: #666;
+  background-color: var(--cs_disabled_bg);
+  color: var(--cs_disabled_text);
   border: none;
 }
 
@@ -4714,26 +4724,29 @@ select[name="attr_damage_bonus"] {
   flex-wrap: wrap;
   gap: 2px;
   margin-bottom: 4px;
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: var(--cs_ui_element_bg);
   box-sizing: content-box;
 }
 
+.sheet-weaponblock-grid-row
+
 /* Show if value = 1 */
-.ui-dialog .tab-content .charsheet input[name="attr_show_weapon_advanced"][value="1"] ~ .sheet-weaponblock-advanced,
 .ui-dialog .tab-content .charsheet input[name="attr_show_weapon_advanced_default"][value="1"] ~ .sheet-weaponblock-advanced-default,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_weapon_advanced"][value="1"] ~ .sheet-weaponblock-advanced {
+.ui-dialog .tab-content .charsheet input[name="attr_show_weapon_advanced"][value="1"] ~ .sheet-weaponblock-advanced,
+.ui-dialog .tab-content .charsheet .sheet-weaponblock-grid-row input[name="attr_show_weapon_advanced"][value="1"] ~ .sheet-weaponblock-advanced {
   display: flex; /* or block, depending on layout */
 }
 
 /* Roll Button Style */
-button[type="roll"].new-roll {
-  color: #18650D;
-  background-color: #248c15;
+.ui-dialog .tab-content .charsheet button[type="roll"].new-roll {
+  color: var(--cs_btn_roll_text);
+  background: var(--cs_btn_roll_bg);
   font-weight: bold;
   text-align: center;
   width: 24px;
   height: 24px;
   padding: 0;
+  border: 1px solid var(--cs_input_border);
   line-height: 1;          /* ← fix icon overflow */
   display: flex;
   align-items: center;
@@ -4742,14 +4755,14 @@ button[type="roll"].new-roll {
 }
 
 /* On hover */
-button[type="roll"]:hover.new-roll {
-  background-color: orange;
-  color: white;
+.ui-dialog .tab-content .charsheet button[type="roll"]:hover.new-roll {
+  background: var(--cs_btn_roll_hover_bg);
+  color: var(--cs_btn_roll_hover_text);
 }
 
 /* Disabled roll button */
 .ui-dialog .tab-content .charsheet .sheet-weapon-default .weapon-roll button[disabled] {
-  background-color: #702c91;
+  background-color: var(--cs_btn_disabled_bg);
 }
 
 /* Hide both by default */
@@ -4820,6 +4833,44 @@ button[type="roll"]:hover.new-roll {
   width: 100%;
   gap: 0;
 }
+
+.ui-dialog .tab-content .charsheet fieldset.repeating_spellsmdr {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.ui-dialog .tab-content .charsheet .repeating_spellsmdr .flex-row {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+}
+
+/* Flex Widths */
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-name { flex: 2 1 30%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-prepared { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-skill { flex: 1.5 1 20%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-skill-display { flex: 1 1 10%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-roll { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-type { flex: 1 1 10%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-reflexive { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-contested { flex: 1 1 10%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-damage { flex: 1 1 10%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-strain { flex: 1 1 10%; }
+
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-xp-cost { flex: 1 1 7%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-rarity { flex: 1 1 7%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-ac-cost { flex: 1 1 7%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-range { flex: 1 1 7%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-cast-time { flex: 1 1 7%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-duration { flex: 1 1 7%; }
+.ui-dialog .tab-content .charsheet .sheet-spells .spell-element { flex: 1 1 7%; }
 
 /* Each repeated entry */
 .ui-dialog .tab-content .charsheet .sheet-spells .repitem {
@@ -8977,57 +9028,3 @@ button[type="roll"]:hover.new-roll {
   border: 2px solid black;
     background-color: #c3c9bd;
 }
-
-/* -------------------------------------------- Buttons Start ---------------------------------- */
-
-/* Repeating Section Buttons - Unified Style */
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_add,
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_edit,
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_del,
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_move {
-  background: lightblue;
-  font-weight: bold;
-  font-size: 0.9em;
-  height: 1.5em;
-  width: 1.5em;
-  border: solid 1px var(--cs_input_border);
-  border-radius: 4px;
-  text-align: center;
-  padding: 0;
-  margin: 2px; /* slight spacing for neatness */
-  box-shadow: none;
-}
-
-/* Specific Tweaks */
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_add,
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_edit {
-  width: auto; /* Add & Edit need flexible width for text */
-  padding: 0 6px;
-  cursor: pointer;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_del {
-  background: lightred; /* Slightly muted red for delete */
-  cursor: pointer;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_move {
-  cursor: grab;
-}
-
-/* Hover Effects (Optional, subtle) */
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_add:hover,
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_edit:hover {
-  background: lightyellow;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_del:hover {
-  background: red;
-  color: white;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-layout .repcontrol_move:hover {
-  background: lightgreen;
-}
-
-/* ------------------------------- */

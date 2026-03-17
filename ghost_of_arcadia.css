@@ -1179,6 +1179,7 @@ button.new-roll {
 }
 
 
+
 /* ------------------------ Ancestry - Collapsible Trait Groups - Start ------------------------ */
 .ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-racial-traits {
 	position: relative;
@@ -2442,6 +2443,12 @@ select[name="attr_damage_bonus"] {
 /* Stub — select element for background/career choice, add overrides here as needed */
 .ui-dialog .tab-content .charsheet .sheet-career-select { }
 
+/* Stub — inherits from sheet-top-collapse, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-tier-toggle { }
+
+/* Stub — career tracker wrapper, add layout/spacing overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-tracker { }
+
 .ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ input[type="checkbox"][name^="attr_bg_"][name$="_mdr_checkbox"] {
 	pointer-events: none;
 	opacity: 0.5;
@@ -2517,7 +2524,7 @@ select[name="attr_damage_bonus"] {
 	left: 0;
 	right: 0;
 	background-color: var(--cs_overlay_bg);
-	color: var(--cs_txt_primary);
+	color: var(--cs_txt_accent);
 	font-weight: bold;
 	padding: 10px;
 	text-align: center;
@@ -3401,19 +3408,6 @@ select[name="attr_damage_bonus"] {
 	height: 24px;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-careers button.sheet-tab-buttons {
-  flex: 1;
-  height: 24px;
-  background-color: red;
-  color: white;
-  font-weight: bold;
-  border: solid 1px var(--cs_input_border);
-  padding: 2px 0px;
-  font-size: 85%;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
 /* Arcane career tabs: allow wrapping */
 .ui-dialog .tab-content .charsheet .sheet-career-tab-buttons-arcane {
 	flex-wrap: wrap;          /* key: allows multiple rows */
@@ -3477,6 +3471,7 @@ select[name="attr_damage_bonus"] {
 }
 
 /* Highlight selected sub-tab */
+/* Arcane careers — active selected */
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="codeweaver"] ~ .sheet-career-section .sheet-career-tabs button[name="act_codeweaver"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="dreamshaper"] ~ .sheet-career-section .sheet-career-tabs button[name="act_dreamshaper"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="gravesinger"] ~ .sheet-career-section .sheet-career-tabs button[name="act_gravesinger"],
@@ -3485,7 +3480,12 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="soulmender"] ~ .sheet-career-section .sheet-career-tabs button[name="act_soulmender"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="spirit_warden"] ~ .sheet-career-section .sheet-career-tabs button[name="act_spirit_warden"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="stormweaver"] ~ .sheet-career-section .sheet-career-tabs button[name="act_stormweaver"],
-.ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="veil_dancer"] ~ .sheet-career-section .sheet-career-tabs button[name="act_veil_dancer"],
+.ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="veil_dancer"] ~ .sheet-career-section .sheet-career-tabs button[name="act_veil_dancer"] {
+    background-color: var(--ct_arcane_bg_color);
+    color: var(--ct_arcane_txt_color_light);
+}
+
+/* Core careers — active selected */
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="brawler"] ~ .sheet-career-section .sheet-career-tabs button[name="act_brawler"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="combat_engineer"] ~ .sheet-career-section .sheet-career-tabs button[name="act_combat_engineer"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="combat_medic"] ~ .sheet-career-section .sheet-career-tabs button[name="act_combat_medic"],
@@ -3500,12 +3500,18 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="slicer"] ~ .sheet-career-section .sheet-career-tabs button[name="act_slicer"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="street_ronin"] ~ .sheet-career-section .sheet-career-tabs button[name="act_street_ronin"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="tactician"] ~ .sheet-career-section .sheet-career-tabs button[name="act_tactician"],
-.ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="vanguard"] ~ .sheet-career-section .sheet-career-tabs button[name="act_vanguard"],
+.ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="vanguard"] ~ .sheet-career-section .sheet-career-tabs button[name="act_vanguard"] {
+    background-color: var(--ct_core_bg_color);
+    color: var(--ct_core_txt_color_light);
+}
+
+/* Specialist careers — active selected */
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="arcane_gunslinger"] ~ .sheet-career-section .sheet-career-tabs button[name="act_arcane_gunslinger"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="bioforged"] ~ .sheet-career-section .sheet-career-tabs button[name="act_bioforged"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="hexbreaker"] ~ .sheet-career-section .sheet-career-tabs button[name="act_hexbreaker"],
 .ui-dialog .tab-content .charsheet input[name="attr_selected_career"][value="soul_forger"] ~ .sheet-career-section .sheet-career-tabs button[name="act_soul_forger"] {
-    background-color: #333;
+    background-color: var(--ct_specialist_bg_color);
+    color: var(--ct_specialist_txt_color_light);
 }
 
 /* Disable checkbox interaction if _enabled=0 or _lockflag=1 */
@@ -3533,11 +3539,18 @@ select[name="attr_damage_bonus"] {
 /* Talent Tier Container */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-tier {
   display: grid;
+  width: 100%;
+  box-sizing: border-box;
   margin-top: 1rem;
-  padding: 0.5rem;
-  background-color: #151515;
-  border: 1px solid #333;
+  background-color: var(--ct_core_bg_color);
+  border: 1px solid var(--cs_btn_active_bg);
   border-radius: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-careers .sheet-career-talent-tier .sheet-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 /* --- Careers - Collapsible Talent Tiers (Tier 1–5) --- */
@@ -3568,7 +3581,7 @@ select[name="attr_damage_bonus"] {
 /* Data rows */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-row {
   display: grid;
-  grid-template-columns: 30px 175px 570px;
+  grid-template-columns: 30px 175px 1fr;  /* ← 570px becomes 1fr */
   align-items: start;
   border: 1px solid #333;
   gap: 0.5rem;
@@ -3576,12 +3589,23 @@ select[name="attr_damage_bonus"] {
   margin-bottom: 0.75rem;
   font-size: 100%;
   box-sizing: border-box;
+  width: 100%;
 }
+
+
+/* Stub — inherits from sheet-career-talent-row, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-capstone-row { }
 
 .ui-dialog .tab-content .charsheet .sheet-career-talent-checkbox      { grid-column: 1; }
 .ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; font-weight: bold; font-size: 100%; white-space: wrap; }
 .ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; font-size: 110%; white-space: normal; }
 .ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
+
+/* Stub — inherits from sheet-career-talent-checkbox, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-capstone-checkbox { }
+
+/* Stub — "Choose one" instruction label above capstone rows */
+.ui-dialog .tab-content .charsheet .sheet-career-capstone-hint { }
 
 /* Toggle: when the checkbox BEFORE .sheet-career-talents is checked, expand grid + show prereqs */
 .ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-row {
@@ -3591,7 +3615,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
   display: block;
-  color: blue;
+  color: var(--cs_txt_primary);
   width: 120px;
 }
 
@@ -3632,7 +3656,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-veil_dancer input[name="attr_show_career_veil_dancer_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-veil_dancer input[name="attr_show_career_veil_dancer_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
   display: block;
-  color: white;
+  color: var(--ct_arcane_txt_color_light);
   width: 120px;
 }
 
@@ -3689,7 +3713,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-vanguard input[name="attr_show_career_vanguard_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-vanguard input[name="attr_show_career_vanguard_prereqs_t5"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
   display: block;
-  color: white;
+  color: var(--ct_core_txt_color_light);
   width: 120px;
 }
 
@@ -3706,7 +3730,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-soul_forger input[name="attr_show_career_soul_forger_prereqs_t3"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-soul_forger input[name="attr_show_career_soul_forger_prereqs_t4"]:checked ~ .sheet-career-talents .sheet-career-talent-prereq {
   display: block;
-  color: white;
+  color: var(--ct_specialist_txt_color_light);
   width: 120px;
 }
 
@@ -3736,13 +3760,11 @@ select[name="attr_damage_bonus"] {
 }
 .ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle + .sheet-career-talent-toolbar .sheet-career-prereq-toggle-label::before {
   content: "▢";
-  color: white;
   font-size: 16px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-prereq-toggle:checked + .sheet-career-talent-toolbar .sheet-career-prereq-toggle-label::before {
   content: "☑";
-  color: blue;
   font-size: 16px;
 }
 
@@ -3833,8 +3855,8 @@ select[name="attr_damage_bonus"] {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  background-color: inherit;
+  color: inherit;
   font-weight: bold;
   padding: 10px;
   text-align: center;
@@ -6882,17 +6904,6 @@ button[type="roll"]:hover.new-roll {
   width: 100%;
   justify-content: space-around;
   margin-bottom: 5px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker button.sheet-tab-buttons {
-  background-color: #444;
-  color: white;
-  font-weight: bold;
-  border: solid 1px var(--cs_input_border);
-  padding: 6px 0;
-  font-size: 90%;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 /* Hide by default; reveal when show-flag is 1 */

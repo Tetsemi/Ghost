@@ -148,27 +148,24 @@
 	    --ct_specialist_txt_color_dark: #111416;    /* Text - Dark */               /* Matte black & mission-brief ink */
 	    --ct_specialist_txt_color_light: #dde3e8;   /* Text - Light */              /* Cold field-white & brief-paper gray */
 
-	/* Section - Sheet Top */
-	/* Section - Sheet Middle */
-	/* Section - Sheet Bottom */
-	
-	/* Tab - Skills */
-	/* Tab - Ancestry */
-	/* Tab - Background */
-	/* Tab - Careers */
-	/* Tab - Combat */
-	/* Tab - Spells */
-	/* Tab - Tracker */
-	/* Tab - Ledger */
-	/* Tab - Summary Text */
-	/* Tab - Summary Type */
-	/* Tab - Inventory */
-	/* Tab - Backstory */
-	/* Tab - Perks */
-	/* Tab - Flaws */
-	/* Tab - NPC's */
-	/* Tab - Vehicles */
-	
+	    /* Perks palette — intentional green identity, not theme-dependent */
+	    --cs_perk_bg:           #f2faf4;
+	    --cs_perk_border:       #bfe2c9;
+	    --cs_perk_accent:       #7fbe93;
+	    --cs_perk_header_bg:    #4a9c5e;   /* replaces bare "green" — more controlled */
+	    --cs_perk_row_bg:       #aaf0c9;
+	    --cs_perk_txt_dark:     #0f2d1f;
+		--cs_perk_border_accent: #198450;   /* darker green border accent on talent rows */
+
+	    /* Flaws palette — intentional red identity, not theme-dependent */
+	    --cs_flaw_bg:           #fef4f4;
+	    --cs_flaw_border:       #f1c9c9;
+	    --cs_flaw_accent:       #e58f8f;
+	    --cs_flaw_header_bg:    #f2bcbc;
+	    --cs_flaw_row_bg:       #ffd6d6;
+	    --cs_flaw_txt_dark:     #2d0f0f;
+		--cs_flaw_border_accent:	#b24545;   /* darker red border accent, parallel to cs_perk_accent */		
+
 }
 
 /* ------------------------------- */
@@ -7054,6 +7051,7 @@ select[name="attr_damage_bonus"] {
 /* ------------------- Gear and Inventory - End ----------------------------- */
 
 /* ------------------- Backstory - Start ----------------------------- */
+
 /* Base theme for the backstory tab container */
 .ui-dialog .tab-content .charsheet .sheet-backstory {
   background-color: var(--cs_bg_color);
@@ -7082,6 +7080,7 @@ select[name="attr_damage_bonus"] {
 	color: var(--cs_txt_primary);
 	text-align: center;
 }
+/* Contacts */
 
 .ui-dialog .tab-content .charsheet .sheet-contact-head-type {
 	width: 3%;
@@ -7175,6 +7174,7 @@ select[name="attr_damage_bonus"] {
 	align-items: center;
 }
 
+/* Backstory Textareas */
 .ui-dialog .tab-content .charsheet .sheet-backstory-grid {
 	display: flex;
 	gap: 10px;
@@ -7219,18 +7219,14 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-perks {
 	  margin-top: 0px;
-	background-color: #f2faf4;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perks .section-head {
-	  margin: 0 0 8px 0;
+	background-color: var(--cs_perk_bg);
 }
 
 /* === Readability tweaks for Perks (light background friendly) === */
 .ui-dialog .tab-content .charsheet .sheet-perks .sheet-perk-group {
-	background-color: #f2faf4;              /* lighter green panel */
-	border: 1px solid #bfe2c9;
-	border-left-color: #7fbe93;       /* accent */
+	background-color: var(--cs_perk_bg);              /* lighter green panel */
+	border: 1px solid var(--cs_perk_border);
+	border-left-color: var(--cs_perk_accent);       /* accent */
 }
 
 .ui-dialog .tab-content .charsheet .sheet-perks .section-subhead {
@@ -7238,8 +7234,8 @@ select[name="attr_damage_bonus"] {
 	padding: 0 0 0 10px;
 	font-size: 110%;
 	  font-weight: 600;
-	background-color: green;
-	color: black;
+	background-color: var(--cs_perk_header_bg);
+	color: var(--cs_perk_txt_dark);
 }
 
 /* ===== Perks: two-column row like Talents (left: name, right: text) ===== */
@@ -7249,8 +7245,8 @@ select[name="attr_damage_bonus"] {
 	grid-template-rows: min-content min-content;  /* row 1 = flavor, row 2 = description */
 	align-items: start;                            /* no baseline stretching */
 	height: 100%;
-	background-color: #aaf0c9;
-	border: 1px solid #198450;
+	background-color: var(--cs_perk_row_bg);
+	border: 1px solid var(--cs_perk_border_accent);   /* darker green border accent on talent rows */
 	border-radius: 6px;
 	border-bottom: none;                     /* replace earlier dotted divider */
 	column-gap: 10px;   /* keep horizontal spacing */
@@ -7266,7 +7262,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-label {
 	grid-column: 2;
-	color: #0f2d1f;
+	color: var(--cs_perk_txt_dark);
 	font-weight: 700;
 	font-size: 13px;
 	margin: 0;
@@ -7281,7 +7277,7 @@ select[name="attr_damage_bonus"] {
 	height: 100%;
 	font-style: italic;
 	font-size: 0.95em;
-	color: #24332a;
+	color: var(--cs_perk_txt_dark);
 	margin: 0;
 	padding: 0;
 	line-height: 1.12;
@@ -7292,7 +7288,7 @@ select[name="attr_damage_bonus"] {
 	display: flex;
 	height: 100%;
 	font-size: 1em;                        /* smaller for readability */
-	color: #111;
+	color: var(--cs_perk_txt_dark);
 	margin: 0;            /* remove any top margin */
 	padding: 0;
 	line-height: 1.22;
@@ -7306,15 +7302,11 @@ select[name="attr_damage_bonus"] {
 	margin-top: 0px;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-flaws .section-head {
-	margin: 0 0 8px 0;
-}
-
 /* Group wrapper */
 .ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group {
-	background-color: #fef4f4;        /* very light red panel */
-	border: 1px solid #f1c9c9;
-	border-left-color: #e58f8f; /* accent */
+	background-color: var(--cs_flaw_bg);        /* very light red panel */
+	border: 1px solid var(--cs_flaw_border);
+	border-left-color: var(--cs_flaw_accent); /* accent */
 }
 
 /* Subhead (match your Perks subhead, but red) */
@@ -7323,8 +7315,8 @@ select[name="attr_damage_bonus"] {
 	padding: 0 0 0 10px;
 	font-size: 110%;
 	font-weight: 600;
-	background-color: #f2bcbc;        /* light red strip */
-	color: black;
+	background-color: var(--cs_flaw_header_bg);        /* light red strip */
+	color: var(--cs_flaw_txt_dark);
 }
 
 /* Two-column row (checkbox + name | flavor/description) */
@@ -7334,8 +7326,8 @@ select[name="attr_damage_bonus"] {
 	grid-template-rows: min-content min-content; /* row1: flavor, row2: description */
 	align-items: start;
 	height: 100%;
-	background-color: #ffd6d6;        /* light red card (parallel to #aaf0c9) */
-	border: 1px solid #b24545;  /* darker red border (parallel to #198450) */
+	background-color: var(--cs_flaw_row_bg);        /* light red card (parallel to #aaf0c9) */
+	border: 1px solid var(--cs_flaw_border_accent);  /* darker red border (parallel to #198450) */
 	border-radius: 6px;
 	border-bottom: none;
 	column-gap: 10px;
@@ -7355,7 +7347,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-label {
 	grid-column: 2;
-	color: #2b1818;     /* deep red-brown for contrast */
+	color: var(--cs_flaw_txt_dark);     /* deep red-brown for contrast */
 	font-weight: 700;
 	font-size: 13px;
 	margin: 0;
@@ -7370,7 +7362,7 @@ select[name="attr_damage_bonus"] {
 	height: 100%;
 	font-style: italic;
 	font-size: 0.9em;
-	color: black;
+	color: var(--cs_flaw_txt_dark);
 	margin: 0;
 	padding: 0;
 	line-height: 1.12;
@@ -7381,7 +7373,7 @@ select[name="attr_damage_bonus"] {
 	display: flex;
 	height: 100%;
 	font-size: 1em;
-	color: black;
+	color: var(--cs_flaw_txt_dark);
 	margin: 0;
 	padding: 0;
 	line-height: 1.22;
@@ -7390,6 +7382,34 @@ select[name="attr_damage_bonus"] {
 /* ----------------------- Perks and Flaws - End ------------------------------- */
 
 /* ------------------------------------ NPC - Start ------------------------------------ */
+/* Base theme for the NPCs tab container */
+.ui-dialog .tab-content .charsheet .sheet-npcs {
+  background-color: var(--cs_bg_color);
+  color: var(--cs_txt_primary);
+}
+
+/* Stub — outer info section wrapper inside left column, contains info-header + npc-grid */
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-info-section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stub — grid layout container for NPC rows (info and weapons) */
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Stub — attribute section wrapper, contains attr-header + attribute-grid */
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-attribute-section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stub — hidden input controller for minion major wounds state, no visual styling needed */
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-minion-wounds-state { }
+
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-content-left {
 	display: flex;
 	flex-direction: row;

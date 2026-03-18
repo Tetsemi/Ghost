@@ -47,6 +47,8 @@
 		--cs_budget_ok_bg:          rgba(144, 238, 144, 0.60);   /* light green — within budget */
 		--cs_budget_over_bg:        rgba(255, 182, 193, 0.70);   /* light red — over budget */
 		--cs_budget_text:			#1a1a1a;   /* near-black — readable on all three light pastel backgrounds */
+		--cs_health_danger_color:	#cc2200;   /* red — health meter label */
+		--cs_strain_color:			#1a6abf;   /* blue — strain meter label */
 
 	/* --- Theme - Light --- */
 		--cs_sys_light_bg_color: #f8f8f8;			/* Background */				/* Off-white canvas & clean parchment */
@@ -2359,500 +2361,189 @@ select[name="attr_damage_bonus"] {
 
 /* -------------------------------------------- Skills - End -------------------------------------------- */
 
-/* =============================== */
-/* Backgrounds (v2) - CSS Wizardry */
-/* Controller: attr_background_choice */
-/* Generated from backgroundDataMap keys */
-/* =============================== */
+/* --------------------- Ancestry - Start ----------------------------------------------------- */
 
-/* Hide all v2 background blocks by default */
+/* Talents tab: hide all race blocks by default */
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials1,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials2,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials3,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials4,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials5,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials6,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials7,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials8 {
+	display: none; }
 
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="academic"] ~ .sheet-bg-academic,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="corporate"] ~ .sheet-bg-corporate,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="devotee"] ~ .sheet-bg-devotee,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="enforcer"] ~ .sheet-bg-enforcer,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="fringer"] ~ .sheet-bg-fringer,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="laborer"] ~ .sheet-bg-laborer,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="media"] ~ .sheet-bg-media,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="nomad"] ~ .sheet-bg-nomad,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="offworlder"] ~ .sheet-bg-offworlder,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="privileged"] ~ .sheet-bg-privileged,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="streetborn"] ~ .sheet-bg-streetborn,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="survivor"] ~ .sheet-bg-survivor,
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="underworld"] ~ .sheet-bg-underworld {
-	display: block;
-}
+/* === Show selected race inside the Talents tab === */
+/* Each rule shows both direct siblings and descendants that appear AFTER the controller */
 
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="academic"] ~ .sheet-tab-buttons button[name="act_academic"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="corporate"] ~ .sheet-tab-buttons button[name="act_corporate"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="devotee"] ~ .sheet-tab-buttons button[name="act_devotee"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="enforcer"] ~ .sheet-tab-buttons button[name="act_enforcer"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="fringer"] ~ .sheet-tab-buttons button[name="act_fringer"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="laborer"] ~ .sheet-tab-buttons button[name="act_laborer"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="media"] ~ .sheet-tab-buttons button[name="act_media"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="nomad"] ~ .sheet-tab-buttons button[name="act_nomad"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="offworlder"] ~ .sheet-tab-buttons button[name="act_offworlder"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="privileged"] ~ .sheet-tab-buttons button[name="act_privileged"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="streetborn"] ~ .sheet-tab-buttons button[name="act_streetborn"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="survivor"] ~ .sheet-tab-buttons button[name="act_survivor"],
-.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="underworld"] ~ .sheet-tab-buttons button[name="act_underworld"] {
-	background-color: var(--cs_btn_active_bg);
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="alteri"] ~ .sheet-racials1,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="alteri"] ~ * .sheet-racials1 { display: block; }
 
-/* Locking for Backgrounds (v2) non-skill choice checkboxes */
-/* Pattern: hidden attr_*_checkbox_lock (value 1) immediately followed by checkbox attr_*_checkbox */
-.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_checkbox_lock"][value="1"] + input[type="checkbox"][name$="_checkbox"] {
-	pointer-events: none;
-	opacity: 0.5;
-	cursor: not-allowed;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="draevi"] ~ .sheet-racials2,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="draevi"] ~ * .sheet-racials2 { display: block; }
 
-/* ===================================================================== */
-/* Backgrounds (v2) — Universal 13-Tab Layout                              */
-/* Adds: feature row + 3-column grid (trained skills / starting kit / contacts) */
-/* ===================================================================== */
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="feran"] ~ .sheet-racials3,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="feran"] ~ * .sheet-racials3 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-bgblock-v2 {
-	display: none;
-	flex-direction: column;
-	gap: 8px;
-	width: 100%;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="human"] ~ .sheet-racials4,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="human"] ~ * .sheet-racials4 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-tab-buttons {
-	display: flex;
-	flex-wrap: wrap;
-	height: auto;              /* override fixed 25px so it can wrap */
-	justify-content: flex-start; /* space-around looks odd when wrapped */
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="khadra"] ~ .sheet-racials5,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="khadra"] ~ * .sheet-racials5 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-tab-buttons button {
-	flex: 1 1 100px;  /* grow + shrink, base size 100px */
-	min-width: 100px; /* hard minimum */
-	max-width: 102px;
-	width: 100%;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="kitsu"] ~ .sheet-racials6,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="kitsu"] ~ * .sheet-racials6 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature {
-	display: grid;
-	grid-template-columns: 1fr auto;
-	grid-auto-rows: auto;
-	gap: 4px 8px;
-	padding: 6px 8px;
-	background-color: var(--cs_bg_color);
-	color: var(--cs_txt_primary);							  
-	border: 1px solid var(--cs_input_border);
-	border-radius: 6px;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="lyranni"] ~ .sheet-racials7,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="lyranni"] ~ * .sheet-racials7 { display: block; }
 
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-name {
-	font-weight: 700;
-}
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="veyra"] ~ * .sheet-racials8 { display: block; }
 
-/* Stub — usage frequency label (e.g. 1/Scene, 1/Session) within a bg-v2 feature block */
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-usage { }
+/* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
 
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-desc {
-	grid-column: 1 / -1;
-	font-size: 12px;
-	line-height: 1.35;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-columns {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	gap: 8px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-col {
-	background-color: var(--cs_bg_color);
-	color: var(--cs_txt_primary);							  
-	border: 1px solid var(--cs_input_border);
-	border-radius: 6px;
-	padding: 6px 8px;
-	min-width: 0;
-	display: flex;
-	flex-direction: column;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-col-header {
-	font-weight: 700;
-	margin-bottom: 6px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-col-body {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	background-color: var(--cs_separator_bg);
-	flex: 1;
-}
-
-/* Stub — inherits from sheet-bg-v2-col, add overrides here as needed */
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-kit { }
-
-/* Stub — inherits from sheet-bg-v2-col, add overrides here as needed */
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-contacts { }
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-item-name {
-	font-weight: 700;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-item-desc {
-	font-size: 12px;
-	line-height: 1.3;
-	opacity: 0.95;
-}
-
-@media (max-width: 700px) {
-		.ui-dialog .tab-content .charsheet .sheet-bg-v2-columns {
-		grid-template-columns: 1fr;
-	}
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice {
-	display: flex;
-	gap: 6px;
-	align-items: flex-start;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice > input[type="checkbox"] {
-	margin: 2px 0 0 0;
-	flex: 0 0 auto;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice .sheet-bg-v2-item {
-	flex: 1 1 auto;
-}
-
-.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice {
-	color: inherit;
-	opacity: 1;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-trained .sheet-bg-skill-row {
-	column-gap: 6px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-v2-trained .sheet-bg-skill-row input[type="checkbox"] {
-	margin-right: 6px;
-}
-
-.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-name,
-.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-desc{
-	color: inherit;
-	font-size:85%;
-	font-weight: bold;
-}
-
-.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-desc {
-	font-weight: normal;
-}
-
-/* Stub — select element for background/career choice, add overrides here as needed */
-.ui-dialog .tab-content .charsheet .sheet-career-select { }
-
-/* Stub — inherits from sheet-top-collapse, add overrides here as needed */
-.ui-dialog .tab-content .charsheet .sheet-career-tier-toggle { }
-
-/* Stub — career tracker wrapper, add layout/spacing overrides here as needed */
-.ui-dialog .tab-content .charsheet .sheet-career-tracker { }
-
-.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ input[type="checkbox"][name^="attr_bg_"][name$="_mdr_checkbox"] {
-	pointer-events: none;
-	opacity: 0.5;
-}
-
-/* Grey out the label text when locked */
-.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ .sheet-bg-skill-label {
-	opacity: 0.5;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ * {
-	cursor: not-allowed;
-}
-
-/* PATCH: Background Feature Tracker visibility (show only for active background tab) */
-.ui-dialog .tab-content .charsheet .sheet-tracker-item.sheet-bg-feature {
-	display: none;
-}
-
-/* Hide all background feature tracker items by default */
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-item.sheet-bg-feature {
-	display: none;
-}
-
-/* Dropdown row (mirrors career select visual weight, but scoped) */
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-background-grid {
-	display: grid;
-	grid-template-columns: 90px 1fr;
-	gap: 6px;
-	align-items: center;
-	margin-top: 6px;
-	margin-bottom: 4px;
-	background-color: var(--cs_bg_color);
-	color: var(--cs_txt_primary);							  
-	padding: 6px 8px;
-	border-radius: 6px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-background-grid select[name="attr_background_locked_choice"] {
-	max-width: 150px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 select[name="attr_background_locked_choice"] {
-	text-align: center;
-	text-align-last: center; /* helps in Firefox/Chromium for selected option */
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 select[name="attr_background_locked_choice"] option {
-	text-align: center;
-	text-align-last: center; /* helps in Firefox/Chromium for selected option */
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-background-grid-label {
-	font-weight: 700;
-	margin-bottom: 8px;
-	color: var(--cs_txt_primary);
-}
-
-/* Background block overlay mechanics */
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 {
-	position: relative;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bg-locked-overlay {
-	display: none;
-	position: absolute;
-	top: 0px;
-	left: 0;
-	right: 0;
-	background-color: var(--cs_overlay_bg);
-	color: var(--cs_txt_accent);
-	font-weight: bold;
-	padding: 10px;
-	text-align: center;
-	z-index: 10;
-}
-
-/* When this background is not active (ready=0), show overlay and disable interactions */
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="0"] ~ .sheet-bg-locked-overlay {
-	display: block;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="0"] ~ .sheet-bg-v2-feature,
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="0"] ~ .sheet-bg-v2-columns {
-	pointer-events: none;
-	opacity: 0.4;
-	filter: grayscale(80%);
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="1"] ~ .sheet-bg-v2-feature,
-.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="1"] ~ .sheet-bg-v2-columns {
-	pointer-events: auto;
-	opacity: 1;
-	filter: none;
-}
-
-/* Show only the locked background’s items */
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="academic"] ~ .sheet-tracker-group-body .sheet-bg-academic {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="corporate"] ~ .sheet-tracker-group-body .sheet-bg-corporate {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="devotee"] ~ .sheet-tracker-group-body .sheet-bg-devotee {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="enforcer"] ~ .sheet-tracker-group-body .sheet-bg-enforcer {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="fringer"] ~ .sheet-tracker-group-body .sheet-bg-fringer {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="laborer"] ~ .sheet-tracker-group-body .sheet-bg-laborer {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="media"] ~ .sheet-tracker-group-body .sheet-bg-media {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="nomad"] ~ .sheet-tracker-group-body .sheet-bg-nomad {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="offworlder"] ~ .sheet-tracker-group-body .sheet-bg-offworlder {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="privileged"] ~ .sheet-tracker-group-body .sheet-bg-privileged {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="streetborn"] ~ .sheet-tracker-group-body .sheet-bg-streetborn {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="survivor"] ~ .sheet-tracker-group-body .sheet-bg-survivor {
-	display: flex;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="underworld"] ~ .sheet-tracker-group-body .sheet-bg-underworld {
-	display: flex;
-}
-
-/* ------------------------------- Background and Talent ------------------------------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-bg-skill-row {
-	margin: 4px 0 0 0.25rem;
-	display: flex;
-	align-items: center;
-}
-
-/* Data rows */
-/* Base row: checkbox | label | description | 40px */
-.ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-talent-row {
-	display: grid;
-	grid-template-columns: 30px 175px 570px;
-	align-items: start;
-	margin-bottom: 0.75rem;  
+/* Header for Talent Tier */
+.ui-dialog .tab-content .charsheet .sheet-talent-tier-header {
 	font-size: 100%;
-	box-sizing: border-box;
+	border-bottom: 1px solid var(--cs_disabled_border);
 }
 
-.ui-dialog .tab-content .charsheet .sheet-talent-checkbox      { grid-column: 1; }
-.ui-dialog .tab-content .charsheet .sheet-talent-label         { grid-column: 2; font-size: 13px}
-.ui-dialog .tab-content .charsheet .sheet-talent-description   { grid-column: 3; font-size: 13px; white-space: normal; }
-.ui-dialog .tab-content .charsheet .sheet-talent-prereq        { grid-column: 4; display: none; font-size: 13px; padding-left: .5rem; }
-
-/* Toggle: when the checkbox BEFORE .sheet-ancestry is checked, expand grid + show prereqs */
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-ancestry .sheet-talent-row {
-	grid-template-columns: 30px 175px 450px 120px; /* + prereq column */
+.ui-dialog .tab-content .charsheet .sheet-talent-row {
+	display: grid;
+	grid-template-columns: 28px 200px 1fr;
+	gap: 0.5rem;
+	align-items: start;
+	margin-bottom: 0.75rem;
+	padding: 0.5rem;
+	border: 1px solid var(--cs_btn_inactive_bg);
+	border-radius: 4px;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-ancestry .sheet-talent-prereq {
-	display: block;
-	grid-column: 4;
-	width: 120px;
+.ui-dialog .tab-content .charsheet .sheet-talent-checkbox {
+	margin: 0.35rem 0 0 0.25rem;
+	align-self: start;
 }
 
-/* Toolbar visuals */
-.ui-dialog .tab-content .charsheet .sheet-talent-toolbar {
-	display: flex;
-	justify-content: flex-end;
-}
-
-/* Visually hide the controller but keep it clickable via the label */
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	clip: rect(0 0 0 0);
+.ui-dialog .tab-content .charsheet .sheet-talent-label {
+	font-weight: bold;
+	font-size: 13px;
 	white-space: nowrap;
 }
 
-/* Draw a faux checkbox in the label */
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle-label {
-	display: inline-flex;
-	gap: .4rem;
-	padding: 0 0 0 14px;
+.ui-dialog .tab-content .charsheet .sheet-skill-choice-placeholder {
+	display: none;
+	grid-column: 1 / -1; /* make sub-options span full width */
+	margin-top: 0.5rem;
+}
+
+/* Disable interaction via _enabled or _lockflag */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox {
+	pointer-events: none;
+	opacity: 0.3;
+	cursor: not-allowed;
+}
+
+/* Grey out labels and description when disabled */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
+	opacity: 0.7;
+}
+
+/* Disable interaction and style on talent sub-option section if locked */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"] ~ .sheet-skill-choice-placeholder {
+	pointer-events: none;
+	opacity: 0.3;
+}
+
+/* Draevi Talents w/skills */
+.ui-dialog .tab-content .charsheet input[name="attr_show_marks_of_the_road_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+/* Feran Talents w/skills */
+.ui-dialog .tab-content .charsheet input[name="attr_show_scavengers_instinct_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+/* Human Talents w/skills */
+/* Khadra Talents w/skills */
+.ui-dialog .tab-content .charsheet input[name="attr_show_legacy_of_iron_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+/* Kitsu Talents w/skills */
+.ui-dialog .tab-content .charsheet input[name="attr_show_aether_flick_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
+.ui-dialog .tab-content .charsheet input[name="attr_show_streetwise_instincts_bonus"][value="1"] ~ .sheet-skill-choice-placeholder {
+	display: block;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-choice-options {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	margin-top: 0.5rem;
+	margin-left: 2rem;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-option {
+	display: flex;
 	align-items: center;
-	cursor: pointer;
-	font-size: 13px;
-	margin: 0px;
- }
- 
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
-	content: "▢";
-	font-size: 16px;
+	background-color: var(--cs_section_bg_color);
+	border: 1px solid var(--cs_separator_bg);
+	padding: 0.25rem 0.5rem;
+	border-radius: 4px;
+	font-size: 100%;
+	color: var(--cs_txt_accent);
 }
 
-.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
-	content: "☑";
-	font-size: 16px;
+.ui-dialog .tab-content .charsheet .sheet-skill-option input[type="checkbox"] {
+	margin-right: 0.5rem;
 }
 
-/* Cell formatting for consistent alignment */
-.ui-dialog .tab-content .charsheet .sheet-talent-row .col-a,
-.ui-dialog .tab-content .charsheet .sheet-talent-row .col-val {
+/* Fade label/description for locked Tier 4 */
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-description {
+	opacity: 0.7;
+}
+
+/* ===== Talents → Racial Traits (Name | Rules Text) ===== */
+/* Single-row cards, 20% / 80% split */
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-traits {
+	  margin-top: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-traits .sheet-talent-tier-header {
+	  margin: 0 0 0.5rem 0;
+	color: var(--cs_txt_primary);
 	text-align: center;
 }
-.col-val {
-	width: 40px;
-	height: 100%;
-	padding: 0;
-	margin: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-sizing: border-box;
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-tier .sheet-section-body,
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-tier .sheet-ancestry {
+	  display: flex;
+	  flex-direction: column;
+	  gap: 0.6rem; /* spacing between rows */	
 }
 
-/* Constrain input size in Val column */
-.col-val input {
-	width: 30px;            /* slightly less to account for padding/borders */
-	min-width: 0;
-	max-width: 100%;
-	padding: 0 2px;
-	margin: 0;
-	height: 20px;
-	box-sizing: border-box;
-	text-align: center;
-	font-size: 0.85em;
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-list {
+	  display: flex;
+	  flex-direction: column;
+	  gap: 0.6rem; /* spacing between rows */
 }
 
-.col-desc {
-	width: 200px;
-	height: 100%;
-	padding: 0;
-	margin: 0;
-	display: flex;
-	box-sizing: border-box;
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-row {
+	  display: grid;
+	  grid-template-columns: minmax(110px, 10%) minmax(0, 1fr);
+	  box-sizing: border-box;
+	padding: 0.5rem;
 }
 
-.col-benefit {
-	width: 125px;
-	height: 100%;
-	padding: 0;
-	margin: 0;
-	display: flex;
-	box-sizing: border-box;
-	flex-wrap: nowrap;
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-name {
+	  font-weight: 600;
+	  align-self: start;
+	  line-height: 1.25;
 }
 
-/* -------------------- end of Background and Talent ------------------------*/
-
-/* ------------------- Tabs - Background styling - Start ------------------------------------------------------- */
-
-/* Default hidden */
-.ui-dialog .tab-content .charsheet .sheet-bgblock {
-	display: none;
+.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-text {
+	  line-height: 1.35;
+	white-space: pre-line;
 }
-
-.ui-dialog .tab-content .charsheet .sheet-racials1,
-.ui-dialog .tab-content .charsheet .sheet-racials2,
-.ui-dialog .tab-content .charsheet .sheet-racials3,
-.ui-dialog .tab-content .charsheet .sheet-racials4,
-.ui-dialog .tab-content .charsheet .sheet-racials5,
-.ui-dialog .tab-content .charsheet .sheet-racials6,
-.ui-dialog .tab-content .charsheet .sheet-racials7,
-.ui-dialog .tab-content .charsheet .sheet-racials8 {
-	display: none;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-racial-benefits {
-	margin: 0px;
-	border: 0px;
-}
-
-/* === Ancestry Tab — Override global theme elements with ancestry-specific colors === */
+* === Ancestry Tab — Override global theme elements with ancestry-specific colors === */
 
 /* Alteri */
 .ui-dialog .tab-content .charsheet input[name="attr_showracials"][value="alteri"] ~ .sheet-section-head,
@@ -3175,194 +2866,441 @@ select[name="attr_damage_bonus"] {
 	border: 1px solid var(--as_veyra_dc_color);
 }
 
-/* --------------------- Tabs - Background styling - End ----------------------------------------------------- */
-
-/* --------------------- Tabs - Talent styling - Start ----------------------------------------------------- */
-
-/* Talents tab: hide all race blocks by default */
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials1,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials2,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials3,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials4,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials5,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials6,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials7,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-racials8 {
-	display: none; }
-
-/* === Show selected race inside the Talents tab === */
-/* Each rule shows both direct siblings and descendants that appear AFTER the controller */
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="alteri"] ~ .sheet-racials1,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="alteri"] ~ * .sheet-racials1 { display: block; }
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="draevi"] ~ .sheet-racials2,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="draevi"] ~ * .sheet-racials2 { display: block; }
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="feran"] ~ .sheet-racials3,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="feran"] ~ * .sheet-racials3 { display: block; }
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="human"] ~ .sheet-racials4,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="human"] ~ * .sheet-racials4 { display: block; }
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="khadra"] ~ .sheet-racials5,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="khadra"] ~ * .sheet-racials5 { display: block; }
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="kitsu"] ~ .sheet-racials6,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="kitsu"] ~ * .sheet-racials6 { display: block; }
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="lyranni"] ~ .sheet-racials7,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="lyranni"] ~ * .sheet-racials7 { display: block; }
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="veyra"] ~ .sheet-racials8,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry input[name="attr_showracials"][value="veyra"] ~ * .sheet-racials8 { display: block; }
-
-/* --------------------- Tabs - Talent styling - End ----------------------------------------------------- */
-
-/* Header for Talent Tier */
-.ui-dialog .tab-content .charsheet .sheet-talent-tier-header {
-	font-size: 100%;
-	border-bottom: 1px solid var(--cs_disabled_border);
+.ui-dialog .tab-content .charsheet .sheet-racials1,
+.ui-dialog .tab-content .charsheet .sheet-racials2,
+.ui-dialog .tab-content .charsheet .sheet-racials3,
+.ui-dialog .tab-content .charsheet .sheet-racials4,
+.ui-dialog .tab-content .charsheet .sheet-racials5,
+.ui-dialog .tab-content .charsheet .sheet-racials6,
+.ui-dialog .tab-content .charsheet .sheet-racials7,
+.ui-dialog .tab-content .charsheet .sheet-racials8 {
+	display: none;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-talent-row {
+.ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-racial-benefits {
+	margin: 0px;
+	border: 0px;
+}
+
+
+/* Data rows */
+/* Base row: checkbox | label | description | 40px */
+.ui-dialog .tab-content .charsheet .sheet-ancestry .sheet-talent-row {
 	display: grid;
-	grid-template-columns: 28px 200px 1fr;
-	gap: 0.5rem;
+	grid-template-columns: 30px 175px 570px;
 	align-items: start;
-	margin-bottom: 0.75rem;
-	padding: 0.5rem;
-	border: 1px solid var(--cs_btn_inactive_bg);
-	border-radius: 4px;
+	margin-bottom: 0.75rem;  
+	font-size: 100%;
+	box-sizing: border-box;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-talent-checkbox {
-	margin: 0.35rem 0 0 0.25rem;
-	align-self: start;
+.ui-dialog .tab-content .charsheet .sheet-talent-checkbox      { grid-column: 1; }
+.ui-dialog .tab-content .charsheet .sheet-talent-label         { grid-column: 2; font-size: 13px}
+.ui-dialog .tab-content .charsheet .sheet-talent-description   { grid-column: 3; font-size: 13px; white-space: normal; }
+.ui-dialog .tab-content .charsheet .sheet-talent-prereq        { grid-column: 4; display: none; font-size: 13px; padding-left: .5rem; }
+
+/* Toggle: when the checkbox BEFORE .sheet-ancestry is checked, expand grid + show prereqs */
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-ancestry .sheet-talent-row {
+	grid-template-columns: 30px 175px 450px 120px; /* + prereq column */
 }
 
-.ui-dialog .tab-content .charsheet .sheet-talent-label {
-	font-weight: bold;
-	font-size: 13px;
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-ancestry .sheet-talent-prereq {
+	display: block;
+	grid-column: 4;
+	width: 120px;
+}
+
+/* Toolbar visuals */
+.ui-dialog .tab-content .charsheet .sheet-talent-toolbar {
+	display: flex;
+	justify-content: flex-end;
+}
+
+/* Visually hide the controller but keep it clickable via the label */
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
 	white-space: nowrap;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-skill-choice-placeholder {
-	display: none;
-	grid-column: 1 / -1; /* make sub-options span full width */
-	margin-top: 0.5rem;
+/* Draw a faux checkbox in the label */
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle-label {
+	display: inline-flex;
+	gap: .4rem;
+	padding: 0 0 0 14px;
+	align-items: center;
+	cursor: pointer;
+	font-size: 13px;
+	margin: 0px;
+ }
+ 
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
+	content: "▢";
+	font-size: 16px;
 }
 
-/* Disable interaction via _enabled or _lockflag */
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox {
-	pointer-events: none;
-	opacity: 0.3;
-	cursor: not-allowed;
+.ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked + .sheet-talent-toolbar .sheet-prereq-toggle-label::before {
+	content: "☑";
+	font-size: 16px;
 }
 
-/* Grey out labels and description when disabled */
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
-	opacity: 0.7;
-}
+/* ---------------------  Ancestry — End ----------------------------------------------------- */
 
-/* Disable interaction and style on talent sub-option section if locked */
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"] ~ .sheet-skill-choice-placeholder {
-	pointer-events: none;
-	opacity: 0.3;
-}
+/* -------------------------------------------- Backgrounds - Start -------------------------------------------- */
 
-/* Draevi Talents w/skills */
-.ui-dialog .tab-content .charsheet input[name="attr_show_marks_of_the_road_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
-/* Feran Talents w/skills */
-.ui-dialog .tab-content .charsheet input[name="attr_show_scavengers_instinct_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
-/* Human Talents w/skills */
-/* Khadra Talents w/skills */
-.ui-dialog .tab-content .charsheet input[name="attr_show_legacy_of_iron_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
-/* Kitsu Talents w/skills */
-.ui-dialog .tab-content .charsheet input[name="attr_show_aether_flick_bonus"][value="1"] ~ .sheet-skill-choice-placeholder,
-.ui-dialog .tab-content .charsheet input[name="attr_show_streetwise_instincts_bonus"][value="1"] ~ .sheet-skill-choice-placeholder {
+/* Hide all v2 background blocks by default */
+
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="academic"] ~ .sheet-bg-academic,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="corporate"] ~ .sheet-bg-corporate,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="devotee"] ~ .sheet-bg-devotee,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="enforcer"] ~ .sheet-bg-enforcer,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="fringer"] ~ .sheet-bg-fringer,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="laborer"] ~ .sheet-bg-laborer,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="media"] ~ .sheet-bg-media,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="nomad"] ~ .sheet-bg-nomad,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="offworlder"] ~ .sheet-bg-offworlder,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="privileged"] ~ .sheet-bg-privileged,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="streetborn"] ~ .sheet-bg-streetborn,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="survivor"] ~ .sheet-bg-survivor,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="underworld"] ~ .sheet-bg-underworld {
 	display: block;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-skill-choice-options {
-	display: flex;
-	flex-direction: row;
-	gap: 1rem;
-	margin-top: 0.5rem;
-	margin-left: 2rem;
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="academic"] ~ .sheet-tab-buttons button[name="act_academic"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="corporate"] ~ .sheet-tab-buttons button[name="act_corporate"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="devotee"] ~ .sheet-tab-buttons button[name="act_devotee"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="enforcer"] ~ .sheet-tab-buttons button[name="act_enforcer"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="fringer"] ~ .sheet-tab-buttons button[name="act_fringer"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="laborer"] ~ .sheet-tab-buttons button[name="act_laborer"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="media"] ~ .sheet-tab-buttons button[name="act_media"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="nomad"] ~ .sheet-tab-buttons button[name="act_nomad"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="offworlder"] ~ .sheet-tab-buttons button[name="act_offworlder"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="privileged"] ~ .sheet-tab-buttons button[name="act_privileged"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="streetborn"] ~ .sheet-tab-buttons button[name="act_streetborn"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="survivor"] ~ .sheet-tab-buttons button[name="act_survivor"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[name="attr_background_choice"][value="underworld"] ~ .sheet-tab-buttons button[name="act_underworld"] {
+	background-color: var(--cs_btn_active_bg);
 }
 
-.ui-dialog .tab-content .charsheet .sheet-skill-option {
+/* Locking for Backgrounds (v2) non-skill choice checkboxes */
+/* Pattern: hidden attr_*_checkbox_lock (value 1) immediately followed by checkbox attr_*_checkbox */
+.ui-dialog .tab-content .charsheet input[type="hidden"][name$="_checkbox_lock"][value="1"] + input[type="checkbox"][name$="_checkbox"] {
+	pointer-events: none;
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bgblock-v2 {
+	display: none;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-tab-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	height: auto;              /* override fixed 25px so it can wrap */
+	justify-content: flex-start; /* space-around looks odd when wrapped */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-tab-buttons button {
+	flex: 1 1 100px;  /* grow + shrink, base size 100px */
+	min-width: 100px; /* hard minimum */
+	max-width: 102px;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	grid-auto-rows: auto;
+	gap: 4px 8px;
+	padding: 6px 8px;
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);							  
+	border: 1px solid var(--cs_input_border);
+	border-radius: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-name {
+	font-weight: 700;
+}
+
+/* Stub — usage frequency label (e.g. 1/Scene, 1/Session) within a bg-v2 feature block */
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-usage { }
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-desc {
+	grid-column: 1 / -1;
+	font-size: 12px;
+	line-height: 1.35;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-columns {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 8px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-col {
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);							  
+	border: 1px solid var(--cs_input_border);
+	border-radius: 6px;
+	padding: 6px 8px;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-col-header {
+	font-weight: 700;
+	margin-bottom: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-col-body {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	background-color: var(--cs_separator_bg);
+	flex: 1;
+}
+
+/* Stub — inherits from sheet-bg-v2-col, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-kit { }
+
+/* Stub — inherits from sheet-bg-v2-col, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-contacts { }
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-item-name {
+	font-weight: 700;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-item-desc {
+	font-size: 12px;
+	line-height: 1.3;
+	opacity: 0.95;
+}
+
+@media (max-width: 700px) {
+		.ui-dialog .tab-content .charsheet .sheet-bg-v2-columns {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice {
+	display: flex;
+	gap: 6px;
+	align-items: flex-start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice > input[type="checkbox"] {
+	margin: 2px 0 0 0;
+	flex: 0 0 auto;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-choice .sheet-bg-v2-item {
+	flex: 1 1 auto;
+}
+
+.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice {
+	color: inherit;
+	opacity: 1;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-trained .sheet-bg-skill-row {
+	column-gap: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-v2-trained .sheet-bg-skill-row input[type="checkbox"] {
+	margin-right: 6px;
+}
+
+.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-name,
+.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-desc{
+	color: inherit;
+	font-size:85%;
+	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet label.sheet-bg-v2-choice .sheet-bg-v2-item-desc {
+	font-weight: normal;
+}
+
+/* Stub — select element for background/career choice, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-select { }
+
+/* Stub — inherits from sheet-top-collapse, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-tier-toggle { }
+
+/* Stub — career tracker wrapper, add layout/spacing overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-tracker { }
+
+.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ input[type="checkbox"][name^="attr_bg_"][name$="_mdr_checkbox"] {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+/* Grey out the label text when locked */
+.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ .sheet-bg-skill-label {
+	opacity: 0.5;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ * {
+	cursor: not-allowed;
+}
+
+/* PATCH: Background Feature Tracker visibility (show only for active background tab) */
+.ui-dialog .tab-content .charsheet .sheet-tracker-item.sheet-bg-feature {
+	display: none;
+}
+
+/* Hide all background feature tracker items by default */
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-item.sheet-bg-feature {
+	display: none;
+}
+
+/* Dropdown row (mirrors career select visual weight, but scoped) */
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-background-grid {
+	display: grid;
+	grid-template-columns: 90px 1fr;
+	gap: 6px;
+	align-items: center;
+	margin-top: 6px;
+	margin-bottom: 4px;
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);							  
+	padding: 6px 8px;
+	border-radius: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-background-grid select[name="attr_background_locked_choice"] {
+	max-width: 150px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 select[name="attr_background_locked_choice"] {
+	text-align: center;
+	text-align-last: center; /* helps in Firefox/Chromium for selected option */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 select[name="attr_background_locked_choice"] option {
+	text-align: center;
+	text-align-last: center; /* helps in Firefox/Chromium for selected option */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-background-grid-label {
+	font-weight: 700;
+	margin-bottom: 8px;
+	color: var(--cs_txt_primary);
+}
+
+/* Background block overlay mechanics */
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 {
+	position: relative;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bg-locked-overlay {
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0;
+	right: 0;
+	background-color: var(--cs_overlay_bg);
+	color: var(--cs_txt_accent);
+	font-weight: bold;
+	padding: 10px;
+	text-align: center;
+	z-index: 10;
+}
+
+/* When this background is not active (ready=0), show overlay and disable interactions */
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="0"] ~ .sheet-bg-locked-overlay {
+	display: block;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="0"] ~ .sheet-bg-v2-feature,
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="0"] ~ .sheet-bg-v2-columns {
+	pointer-events: none;
+	opacity: 0.4;
+	filter: grayscale(80%);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="1"] ~ .sheet-bg-v2-feature,
+.ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="1"] ~ .sheet-bg-v2-columns {
+	pointer-events: auto;
+	opacity: 1;
+	filter: none;
+}
+
+/* Show only the locked background’s items */
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="academic"] ~ .sheet-tracker-group-body .sheet-bg-academic {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="corporate"] ~ .sheet-tracker-group-body .sheet-bg-corporate {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="devotee"] ~ .sheet-tracker-group-body .sheet-bg-devotee {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="enforcer"] ~ .sheet-tracker-group-body .sheet-bg-enforcer {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="fringer"] ~ .sheet-tracker-group-body .sheet-bg-fringer {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="laborer"] ~ .sheet-tracker-group-body .sheet-bg-laborer {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="media"] ~ .sheet-tracker-group-body .sheet-bg-media {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="nomad"] ~ .sheet-tracker-group-body .sheet-bg-nomad {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="offworlder"] ~ .sheet-tracker-group-body .sheet-bg-offworlder {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="privileged"] ~ .sheet-tracker-group-body .sheet-bg-privileged {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="streetborn"] ~ .sheet-tracker-group-body .sheet-bg-streetborn {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="survivor"] ~ .sheet-tracker-group-body .sheet-bg-survivor {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-section.sheet-tracker-talent .sheet-tracker-group-row input[name="attr_background_locked_choice"][value="underworld"] ~ .sheet-tracker-group-body .sheet-bg-underworld {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-bg-skill-row {
+	margin: 4px 0 0 0.25rem;
 	display: flex;
 	align-items: center;
-	background-color: var(--cs_section_bg_color);
-	border: 1px solid var(--cs_separator_bg);
-	padding: 0.25rem 0.5rem;
-	border-radius: 4px;
-	font-size: 100%;
-	color: var(--cs_txt_accent);
 }
 
-.ui-dialog .tab-content .charsheet .sheet-skill-option input[type="checkbox"] {
-	margin-right: 0.5rem;
+/* Default hidden */
+.ui-dialog .tab-content .charsheet .sheet-bgblock {
+	display: none;
 }
+/* --------------------- Background - End ----------------------------------------------------- */
 
-/* Fade label/description for locked Tier 4 */
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-description {
-	opacity: 0.7;
-}
-
-/* ===== Talents → Racial Traits (Name | Rules Text) ===== */
-/* Single-row cards, 20% / 80% split */
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-traits {
-	  margin-top: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-traits .sheet-talent-tier-header {
-	  margin: 0 0 0.5rem 0;
-	color: var(--cs_txt_primary);
-	text-align: center;
-}
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-tier .sheet-section-body,
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-tier .sheet-ancestry {
-	  display: flex;
-	  flex-direction: column;
-	  gap: 0.6rem; /* spacing between rows */	
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-list {
-	  display: flex;
-	  flex-direction: column;
-	  gap: 0.6rem; /* spacing between rows */
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-row {
-	  display: grid;
-	  grid-template-columns: minmax(110px, 10%) minmax(0, 1fr);
-	  box-sizing: border-box;
-	padding: 0.5rem;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-name {
-	  font-weight: 600;
-	  align-self: start;
-	  line-height: 1.25;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-text {
-	  line-height: 1.35;
-	white-space: pre-line;
-}
-
-/* ---------------------  === Ancestry Tab — End ----------------------------------------------------- === */
-
-/* --------------------- Tabs - Careers - Start ----------------------------------------------------- */
+/* --------------------- Careers - Start ----------------------------------------------------- */
 
 .ui-dialog .tab-content .charsheet .sheet-career-grid {
 	display: grid;
@@ -4026,8 +3964,6 @@ select[name="attr_damage_bonus"] {
 	display: none;
 }
 
-/* --------------------- Career Type Themes - Start ----------------------------------------------------- */
-
 /* === Career Section Theming (based on selected career) === */
 /* Controller is first child of sheet-careers, themes heading and both sections */
 
@@ -4463,9 +4399,9 @@ select[name="attr_damage_bonus"] {
 	color: inherit;
 }
 
-/* --------------------- Career Type Themes - End ------------------------------------------------------- */
+/* --------------------------------------- Careers - End ----------------------------------------------------- */
 
-/* --------------------- Tabs - Careers - End ----------------------------------------------------- */
+/* --------------------------------------- Combat - Start ---------------------------------- */
 
 /* ------------------------------- */
 /* Main tab content block for Combat */
@@ -4488,8 +4424,6 @@ select[name="attr_damage_bonus"] {
 	margin: 0;
 	background-color: #d0cabe; /* Also needs to match section background */
 }
-
-/* --------------------------------------- Combat ---------------------------------- */
 
 /* ---------------- Combat Section Flex Layout ---------------- */
 
@@ -4859,8 +4793,9 @@ select[name="attr_damage_bonus"] {
 	background-color: transparent;
 	color: transparent;
 }
+/* ------------------------------------ Comabt - End ------------------------------------ */
 
-/* ------------------------------- Spells ----------------------- */
+/* ------------------------------------ Spells - Start ------------------------------------ */
 
 /* Container for all repeating entries */
 .ui-dialog .tab-content .charsheet .sheet-spells .repcontainer {
@@ -5188,675 +5123,9 @@ select[name="attr_damage_bonus"] {
 	pointer-events: auto;
 }
 
-/* ----- Spells - End ----- */
+/* ------------------------------------ Spells - End ------------------------------------ */
 
-/* ----------------- Gear and Inventory ---------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-tech {
-	background-color: #d0cabe; /* Also needs to match section background */
-}
-
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
-.ui-dialog .tab-content .charsheet .sheet-inventory-item {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	background-color: #d0cabe; /* Also needs to match section background */
-}
-
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header,
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-header,
-.ui-dialog .tab-content .charsheet .ct-header-row {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: 24px;
-	padding: 0;
-	margin: 0;
-	gap: 0;
-	background-color: black;
-	color: white;
-	font-weight: bold;
-}
-
-.ui-dialog .tab-content .charsheet .ct-mod-header-row {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: 24px;
-	padding: 0;
-	margin: 0;
-	gap: 0;
-	background-color: #808080;
-	color: black;
-	font-weight: bold;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
-.ui-dialog .tab-content .charsheet .sheet-inventory-item,
-.ui-dialog .tab-content .charsheet .ct-row,
-.ui-dialog .tab-content .charsheet .ct-effect-row,
-.ui-dialog .tab-content .charsheet .ct-mod,
-.ui-dialog .tab-content .charsheet .ct-mod-row,
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox-row {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: 24px;
-	padding: 0;
-	margin: 0;
-	gap: 0;
-	background-color: #d0cabe;
-}
-
-.ui-dialog .tab-content .charsheet .repeating_inventory-item-appl,
-.ui-dialog .tab-content .charsheet .repeating_inventory-item,
-.ui-dialog .tab-content .charsheet .repeating_ct {
-	margin-bottom: 0px;
-	padding: 0px;
-	border: none;
-	background-color: #d0cabe;
-}
-
-/* Container for all repeating entries */
-.ui-dialog .tab-content .charsheet .repcontainer {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	gap: 0;
-	margin-bottom: 10px;
-}
-
-/* Each repeated entry */
-.ui-dialog .tab-content .charsheet .repitem {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	padding: 0;
-	margin: 0;
-}
-
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-}
-
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem .flex-row {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	width: 100%;
-	gap: 0;
-}
-
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	border: solid 1px var(--cs_input_border);
-}
-
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-header .flex-row,
-.ui-dialog .tab-content .charsheet .ct-header-row .flex-row,
-.ui-dialog .tab-content .charsheet .ct-row .flex-row {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: 24px;
-	padding: 0;
-	margin: 0;
-	gap: 0;
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .ct-effect-row,
-.ui-dialog .tab-content .charsheet .ct-mod-row {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: auto; /* Let content flow */
-	padding: 4px 0;
-}
-
-.ui-dialog .tab-content .charsheet .ct-effect-row textarea,
-.ui-dialog .tab-content .charsheet .ct-mod-row textarea {
-	height: 30px;
-	resize: vertical;
-	box-sizing: border-box;
-	width: 100%;
-	font-size: 90%;
-	color: black;
-	font-style: bold;
-}
-
-.ui-dialog .tab-content .charsheet .ct-effect-row textarea {
-	background-color: #e3e3f7;
-}
-
-.ui-dialog .tab-content .charsheet .ct-mod-row textarea {
-	background-color: #d3d3d3;
-}
-
-.ui-dialog .tab-content .charsheet .flex-cell {
-	padding: 0;
-	margin: 0;
-	border: solid 1px var(--cs_input_border);
-	box-sizing: border-box;
-	height: 24px;
-	background-color: var(--cs_disabled_bg);
-	color: var(--cs_disabled_text);
-}
-
-.ui-dialog .tab-content .charsheet .flex-cell input[type="text"],
-.ui-dialog .tab-content .charsheet .flex-cell input[type="number"] {
-	width: 100%;
-	height: 100%;
-	padding: 0 4px;
-	margin: 0;
-	border: none;
-	line-height: 24px;
-	background-color: var(--cs_input_bg);
-	color: var(--cs_input_text);
-	font-size: 90%;
-	box-sizing: border-box;
-}
-
-.ui-dialog .tab-content .charsheet .flex-cell input[type="checkbox"] {
-	display: block;
-	margin: auto;
-	margin-top: 4px;
-}
-
-.ui-dialog .tab-content .charsheet .item-name, .ui-dialog .tab-content .charsheet .item-appl-name { flex: 2 1 20%; font-weight:bold; }
-
-.ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-appl-uses,
-.ui-dialog .tab-content .charsheet .item-appl-used, .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene,
-.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { flex: 1 1 6%; font-size:90%; text-align: center;}
-
-.ui-dialog .tab-content .charsheet .item-description, .ui-dialog .tab-content .charsheet .item-appl-description { flex: 2 1 38%; }
-
-.ui-dialog .tab-content .charsheet .item-properties { flex: 2 1 36%; }
-
-.ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-qty { font-weight: bold; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .item-appl-uses, .ui-dialog .tab-content .charsheet .item-appl-used { background-color: #444; color: #fff; }
-
-.ui-dialog .tab-content .charsheet .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene { background-color: #808080; color: #fff; }
-
-.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { background-color: #d3d3d3; color: #000; }
-
-.ui-dialog .tab-content .charsheet .ct-name,
-.ui-dialog .tab-content .charsheet .ct-mod-name { flex: 2 1 20%; font-weight:bold; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .ct-vitality,
-.ui-dialog .tab-content .charsheet .ct-level,
-.ui-dialog .tab-content .charsheet .ct-capacity,
-.ui-dialog .tab-content .charsheet .ct-mod-capreq { flex: 0 1 8%; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .ct-description { flex: 2 1 56%; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .ct-mod-requirements { flex: 2 1 72%; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox { flex: 0 0 24px; }
-
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: #000; border: none; font-size: 100%; }
-
-.ui-dialog .tab-content .charsheet input.ct-mod-checkbox,
-.ui-dialog .tab-content .charsheet input.ct-mod-label {
-	height: 14px;
-	width: 14px;
-}
-
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper1,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper2,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper3,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper4,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper5,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper6,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper7,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper8 {
-	display: none;
-	flex-direction: column;
-	width: 100%;
-	height: 100%;
-	border: solid 1px var(--cs_input_border);
-}
-
-.ui-dialog .tab-content .charsheet .sheet-gear-flex {
-	display: flex;
-	flex-direction: row;
-	gap: 6px;
-}
-
-/* Grid layout for Cash and Assets inputs */
-.ui-dialog .tab-content .charsheet .sheet-cash-grid {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	padding: 8px;
-	background-color: #d0cabe;
-	border: 1px solid #aaa;
-	box-sizing: border-box;
-}
-
-/* Each label/input or label/textarea pair */
-.ui-dialog .tab-content .charsheet .sheet-cash-row {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
-/* Label column style */
-.ui-dialog .tab-content .charsheet .sheet-cash-label {
-	width: 110px;
-	font-weight: bold;
-	font-size: 100%;
-	white-space: nowrap;
-	color: black;
-	padding: 4px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-cash-grid input,
-.ui-dialog .tab-content .charsheet .sheet-cash-grid textarea {
-	margin: 0; /* remove any unwanted margin */
-	padding: 4px; /* ensure inner spacing */
-	box-sizing: border-box;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-gear-textarea {
-	width: 100%;
-	height: 200px; /* or whatever you need */
-	font-size: 90%;
-	background-color: rgba(255, 255, 255, 0.5);
-	resize: vertical;
-	color: black;
-	border: solid 1px var(--cs_input_border);
-	padding: 6px;
-	box-sizing: border-box;
-}
-
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod1_proxy"][value="1"] ~ .ct-mod-wrapper1,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod2_proxy"][value="1"] ~ .ct-mod-wrapper2,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod3_proxy"][value="1"] ~ .ct-mod-wrapper3,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod4_proxy"][value="1"] ~ .ct-mod-wrapper4,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod5_proxy"][value="1"] ~ .ct-mod-wrapper5,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod6_proxy"][value="1"] ~ .ct-mod-wrapper6,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod7_proxy"][value="1"] ~ .ct-mod-wrapper7,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod8_proxy"][value="1"] ~ .ct-mod-wrapper8 {
-	display: block;
-}
-
-/* ------------------------ Money Ledger (reuses core ledger row styles) ------------------------ */
-.ui-dialog .tab-content .charsheet .money-choice         { flex: 1 1 18%; }
-.ui-dialog .tab-content .charsheet .money-credit,
-.ui-dialog .tab-content .charsheet .money-credit-header   { flex: 1 1 10%; }
-.ui-dialog .tab-content .charsheet .money-debit,
-.ui-dialog .tab-content .charsheet .money-debit-header    { flex: 1 1 10%; }
-.ui-dialog .tab-content .charsheet .money-description     { flex: 2 1 52%; }
-.ui-dialog .tab-content .charsheet .money-total,
-.ui-dialog .tab-content .charsheet .money-total-header    { flex: 1 1 10%; }
-
-/* Numeric alignment for amount fields */
-.ui-dialog .tab-content .charsheet .money-credit input,
-.ui-dialog .tab-content .charsheet .money-debit input,
-.ui-dialog .tab-content .charsheet .money-total input {
-	  text-align: right;
-}
-
-/* Scope to the repeating group and target the actual INPUTS */
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-credit {
-	background-color: #d9f4d4;
-}
-
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-debit {
-	background-color: #ff5b61;
-	color: white;
-}
-
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-total {
-	background-color: #d4ecf9; /* beats .sheet-readonly */
-	color: black;
-}
-
-/* ------------------- Backstory ----------------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-section-full {
-	border: solid 1px var(--cs_input_border);
-	background-color: #d0cabe;
-	margin: 0;
-	gap: 0;
-	padding: 0;
-}
-
-.ui-dialog .tab-content .charsheet .section-head-row {
-	display: flex;
-	margin: 0;
-	padding: 0;
-	gap: 0;
-	margin-bottom: -8px;
-	margin-top: -8px;
-}
-
-.ui-dialog .tab-content .charsheet .section-head-row label {
-	font-size: 100%;
-	color: var(--cs_txt_primary);
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-head-type {
-	width: 3%;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-head-name {
-	width: 22%;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-head-cost {
-	width: 3%;
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-head-level {
-	width: 12%;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-head-progress {
-	width: 3%;
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-head-description {
-	width: 57%;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-section-full .repcontainer .repitem {
-	margin: 0;
-	padding: 0;
-	gap: 0;
-	display: flex; /* horizontal layout */
-	align-items: start;
-	margin-bottom: -8px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-type {
-	width: 3%;
-	height: 25px;
-	border: solid 1px var(--cs_input_border);
-	box-sizing: border-box;
-	text-align: center;
-	appearance: none;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-name {
-	width: 22%;
-	height: 25px;
-	border: solid 1px var(--cs_input_border);
-	box-sizing: border-box;
-	text-align: start;
-	background-color: rgba(255, 255, 255, 0.5);
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-cost {
-	width: 3%;
-	height: 25px;
-	border: solid 1px var(--cs_input_border);
-	box-sizing: border-box;
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-level {
-	width: 12%;
-	height: 25px;
-	border: solid 1px var(--cs_input_border);
-	box-sizing: border-box;
-	text-align: start;
-	appearance: none;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-progress {
-	width: 3%;
-	height: 25px;
-	border: solid 1px var(--cs_input_border);
-	box-sizing: border-box;
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-contact-description {
-	width: 57%;
-	height: 25px;
-	resize: vertical;
-	background-color: rgba(255, 255, 255, 0.5);
-	color: black;
-	border: solid 1px var(--cs_input_border);
-	box-sizing: border-box;
-	text-align: start;
-	align-items: center;
-}
-
-/* ===========================
-	 Backstory • Perks & Flaws
-	 - Scoped to sheet only
-	 - Light green (Perks), light red (Flaws)
-	 - Racial-talent style rows with Label / Flavor / Description
-	 =========================== */
-
-.ui-dialog .tab-content .charsheet .sheet-perks {
-	  margin-top: 0px;
-	background-color: #f2faf4;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perks .section-head {
-	  margin: 0 0 8px 0;
-}
-
-/* === Readability tweaks for Perks (light background friendly) === */
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-perk-group {
-	background-color: #f2faf4;              /* lighter green panel */
-	border: 1px solid #bfe2c9;
-	border-left-color: #7fbe93;       /* accent */
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perks .section-subhead {
-	  margin: 0;
-	padding: 0 0 0 10px;
-	font-size: 110%;
-	  font-weight: 600;
-	background-color: green;
-	color: black;
-}
-
-/* ===== Perks: two-column row like Talents (left: name, right: text) ===== */
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-row {
-	display: grid;
-	grid-template-columns: 22px minmax(100px, 150px) 1fr;
-	grid-template-rows: min-content min-content;  /* row 1 = flavor, row 2 = description */
-	align-items: start;                            /* no baseline stretching */
-	height: 100%;
-	background-color: #aaf0c9;
-	border: 1px solid #198450;
-	border-radius: 6px;
-	border-bottom: none;                     /* replace earlier dotted divider */
-	column-gap: 10px;   /* keep horizontal spacing */
-	row-gap: 0;  /* belt & suspenders */
-	margin: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-row:last-child {
-	  border-bottom: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-checkbox { grid-column: 1; margin-top: 2px; }
-
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-label {
-	grid-column: 2;
-	color: #0f2d1f;
-	font-weight: 700;
-	font-size: 13px;
-	margin: 0;
-	padding: 0;
-	line-height: 1.1;     /* tighter; prevents extra leading */
-	align-self: start;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-flavor {
-	grid-column: 3;                          /* right column */
-	display: flex;
-	height: 100%;
-	font-style: italic;
-	font-size: 0.95em;
-	color: #24332a;
-	margin: 0;
-	padding: 0;
-	line-height: 1.12;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-description {
-	grid-column: 3;                          /* right column, below flavor */
-	display: flex;
-	height: 100%;
-	font-size: 1em;                        /* smaller for readability */
-	color: #111;
-	margin: 0;            /* remove any top margin */
-	padding: 0;
-	line-height: 1.22;
-}
-
-/* ===========================
-	 Flaws (aligned to Perks styles)
-	 =========================== */
-
-.ui-dialog .tab-content .charsheet .sheet-flaws {
-	margin-top: 0px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaws .section-head {
-	margin: 0 0 8px 0;
-}
-
-/* Group wrapper */
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group {
-	background-color: #fef4f4;        /* very light red panel */
-	border: 1px solid #f1c9c9;
-	border-left-color: #e58f8f; /* accent */
-}
-
-/* Subhead (match your Perks subhead, but red) */
-.ui-dialog .tab-content .charsheet .sheet-flaws .section-subhead {
-	margin: 0;
-	padding: 0 0 0 10px;
-	font-size: 110%;
-	font-weight: 600;
-	background-color: #f2bcbc;        /* light red strip */
-	color: black;
-}
-
-/* Two-column row (checkbox + name | flavor/description) */
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-row {
-	display: grid;
-	grid-template-columns: 22px minmax(100px, 150px) 1fr;
-	grid-template-rows: min-content min-content; /* row1: flavor, row2: description */
-	align-items: start;
-	height: 100%;
-	background-color: #ffd6d6;        /* light red card (parallel to #aaf0c9) */
-	border: 1px solid #b24545;  /* darker red border (parallel to #198450) */
-	border-radius: 6px;
-	border-bottom: none;
-	column-gap: 10px;
-	row-gap: 0;
-	margin: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-row:last-child {
-	border-bottom: 0;
-}
-
-/* Columns */
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-checkbox {
-	grid-column: 1;
-	margin-top: 2px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-label {
-	grid-column: 2;
-	color: #2b1818;     /* deep red-brown for contrast */
-	font-weight: 700;
-	font-size: 13px;
-	margin: 0;
-	padding: 0;
-	line-height: 1.1;
-	align-self: start;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-flavor {
-	grid-column: 3;     /* right column */
-	display: flex;
-	height: 100%;
-	font-style: italic;
-	font-size: 0.9em;
-	color: black;
-	margin: 0;
-	padding: 0;
-	line-height: 1.12;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-description {
-	grid-column: 3;     /* right column, below flavor */
-	display: flex;
-	height: 100%;
-	font-size: 1em;
-	color: black;
-	margin: 0;
-	padding: 0;
-	line-height: 1.22;
-}
-
-/* ------------------------------------------- BACKSTORY ---------------------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-backstory-grid {
-	display: flex;
-	gap: 20px;
-	flex-wrap: wrap;
-	margin-top: 10px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backstory-col {
-	flex: 1 1 48%;
-	min-width: 280px;
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backstory-label {
-	font-weight: bold;
-	font-size: 100%;
-	color: var(--cs_txt_accent);
-	padding: 2px 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-backstory-textarea {
-	width: 100%;
-	height: 75px;
-	resize: vertical;
-	background-color: var(--cs_input_bg);
-	color: var(--cs_input_text);
-	padding: 4px;
-	border: solid 1px var(--cs_input_border);
-	box-sizing: border-box;
-}
-
-/* ------------------------------------ Tracker ------------------------------------ */
+/* ------------------------------------ Tracker - Start ------------------------------------ */
 
 /* === Optional Styling for Buttons === */
 .ui-dialog .tab-content .charsheet .sheet-rest-button-wrapper,
@@ -5890,6 +5159,11 @@ select[name="attr_damage_bonus"] {
 	border-radius: 4px;
 	cursor: pointer;
 	user-select: none;
+}
+.ui-dialog .tab-content .charsheet .sheet-tracker-stim-header,
+.ui-dialog .tab-content .charsheet .sheet-tracker-talent-header {
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text); 
 }
 
 /* Invisible roll button overlays the label */
@@ -5956,9 +5230,9 @@ select[name="attr_damage_bonus"] {
 
 /* sheet-tracker-row — layout wrapper inside scene/session tracker rows */
 .ui-dialog .tab-content .charsheet .sheet-tracker-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
 }
 
 /* sheet-tracker-scene — scene-duration modifier on sheet-tracker-item */
@@ -7055,7 +6329,1015 @@ select[name="attr_damage_bonus"] {
 
 /* ------------------------------------ Tracker - End ------------------------------------ */
 
-/* ------------------------------------ NPC Section Scoped Styles ------------------------------------ */
+/* ------------------------ Ledger - Start ---------------------------------------------------- */
+/* Ledger section colour override — neutral, distinct from ancestry-themed sections */
+.ui-dialog .tab-content .charsheet .sheet-ledger-section {
+	background-color: var(--cs_ui_element_bg);
+	border-color: var(--cs_input_border);
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-ledger-skill-points,
+.ui-dialog .tab-content .charsheet .sheet-ledger-xp {
+	display: flex;
+	flex-direction: row;
+	justify-content: start;
+	align-items: flex-end;
+	gap: 8px;
+	padding: 4px 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-ledger-row {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	width: 80px;               /* Compact fixed width */
+	flex-shrink: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-character-lock {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	width: fit-content;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-ledger-label,
+.ui-dialog .tab-content .charsheet .sheet-ledger-row label,
+.ui-dialog .tab-content .charsheet .sheet-character-lock label {
+	font-size: 10px;
+	margin-bottom: 3px;
+	line-height: 1.1;
+	word-wrap: break-word;
+	white-space: normal;
+	text-align: center;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-ledger-label {
+	font-weight: 700;
+	font-size: 11px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-character-lock label {
+	font-size: 100%;
+}
+
+/* Label span beside the character creation lock checkbox */
+.ui-dialog .tab-content .charsheet .sheet-ledger-lock-label {
+	font-size: 100%;
+	line-height: 1.1;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-ledger-row input[type="text"] {
+	width: 100%;
+	max-width: 100%;
+	text-align: center;
+	font-size: 100%;
+	padding: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-ledger-header {
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text);
+	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-ledger-header .flex-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: 24px;
+	padding: 0;
+	margin: 0;
+	gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-ledger-header .flex-cell {
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text);
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet fieldset.repeating_ledger {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+/* General Row Styling (Header + Repeating) */
+.ui-dialog .tab-content .charsheet .sheet-repeating-ledger-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	gap: 0;
+}
+
+/* Flex Widths */
+.ui-dialog .tab-content .charsheet .ledger-choice { flex: 1 1 18%; }
+.ui-dialog .tab-content .charsheet .ledger-value, .ui-dialog .tab-content .charsheet .ledger-value-header { flex: 1 1 8% }
+.ui-dialog .tab-content .charsheet .ledger-description { flex: 2 1 74%; }
+
+.ui-dialog .tab-content .charsheet .sheet-xp-cost,
+.ui-dialog .tab-content .charsheet .sheet-skill-cost {
+	background-color: var(--cs_budget_over_bg); /* Light red (muted) */
+	color: var(--cs_budget_text);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-xp-gain,
+.ui-dialog .tab-content .charsheet .sheet-skill-gain {
+	background-color: var(--cs_budget_ok_bg); /* Light green */
+	color: var(--cs_budget_text);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-xp-remain,
+.ui-dialog .tab-content .charsheet .sheet-skill-remain {
+	background-color: var(--cs_budget_neutral_bg); /* Light blue */
+	color: var(--cs_budget_text);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-skill-base,
+.ui-dialog .tab-content .charsheet .sheet-xp-base {
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+}
+/* ------------------------------ Ledger - End -------------------------------------------- */
+
+/* ------------------------ Summary Text - Start ---------------------------------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible {
+	position: relative;
+}
+
+/* hide bodies by default (closed) */
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-section-body {
+	display: none;
+}
+
+/* expand when checked (open) */
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-section-body {
+	display: block;
+}
+
+/* indicator: + when closed, – when open */
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-top-collapse-hit::after {
+	content: "+";
+	display: block;
+	text-align: center;
+	line-height: 16px;
+	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-summary-header .sheet-top-collapse-hit::after {
+	content: "–";
+}
+
+.ui-dialog .tab-content .charsheet .sheet-talent-summary {
+	background-color: var(--cs_bg_color);
+	border: 1px solid var(--cs_separator_bg);
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_talent_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_primary_career_talent_summary"],
+.ui-dialog .tab-content .charsheet span[name="attr_secondary_career_talent_summary"] {
+	display: block;
+	white-space: pre-wrap;
+	color: var(--cs_txt_primary);
+	font-size: 100%;
+	line-height: 1.4;
+	padding: 4px;
+}
+
+/* ------------------------ Summary Text - End---------------------------------------------------- */
+
+/* ------------------------ Summary Type - Start ---------------------------------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-header {
+	display: block;
+	cursor: pointer;
+}
+	
+/* Make open sections visually distinct */
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-header {
+	background-color: #444;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-body {
+	display: block;
+}
+
+/* If the body is wrapped in .sheet-summary-row (e.g. Reaction), show it when the main toggle is open */
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row .sheet-summary-body {
+	display: block;
+}
+
+/* allow "\n" in attr spans */
+.ui-dialog .tab-content .charsheet .sheet-summary-body span[name^="attr_summary_type_"] {
+	white-space: pre-line;
+}
+
+/* 1) Hide the entire row (list + handle + drawer) unless the main section toggle is open */
+.ui-dialog .tab-content .charsheet .sheet-summary-row {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row {
+	display: flex;
+	position: relative;
+	align-items: flex-start;
+	gap: 6px;
+}
+
+/* 2) Keep the handle from stretching / reserve a little right padding so list text doesn't sit under it */
+.ui-dialog .tab-content .charsheet .sheet-summary-body {
+	display: none;
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 6px; /* space for the ? handle */
+}
+
+/* 3) Ensure the drawer can never "bleed" when the main section is closed */
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:not(:checked) ~ .sheet-summary-row .sheet-summary-drawer {
+	display: none;
+}
+
+/* Drawer toggle is also a hidden checkbox (same base class), but keep a unique class for clarity */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer-toggle {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+/* Make the ? handle only as wide as its contents (not a full-width bar) */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer-handle {
+	display: none;               /* still hidden until main section is open (your existing rule) */
+	flex: 0 0 auto;
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	margin-top: 2px;
+	line-height: 18px;
+	text-align: center;
+	background-color: rgba(0,0,0,1);
+	z-index: 10;
+	margin-right: 8px;
+}
+
+/* Only show the handle when the main section is open */
+.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row .sheet-summary-drawer-handle {
+	display: inline-block;
+}
+
+/* Drawer: overlay to the right so it does NOT consume flex width */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer {
+	display: none;
+	position: absolute;
+	right: 28px;
+	top: 0;
+	z-index: 5;
+
+	width: 75%;
+	min-width: 220px;
+	max-width: 600px;
+
+	padding: 6px 8px;
+	border-left: 3px solid rgba(80, 140, 210, 0.75);
+	background-color: rgba(0,0,0,1);
+	color: white;
+	overflow: auto;
+	max-height: 220px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.45);
+}
+
+/* When open, show the drawer overlay */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer-toggle:checked ~ .sheet-summary-drawer {
+	display: block;
+}
+
+/* Drawer text formatting */
+.ui-dialog .tab-content .charsheet .sheet-summary-drawer span[name^="attr_summary_type_"] {
+	white-space: pre-line;
+}
+
+/* Summary Type: the +/– indicator lives on the hit label */
+.ui-dialog .tab-content .charsheet .sheet-summary-type .sheet-top-collapse-hit::after {
+	content: "+";
+	display: block;
+	text-align: center;
+	line-height: 16px;
+	font-weight: bold;
+}
+
+/* When OPEN (checkbox checked), show – */
+.ui-dialog .tab-content .charsheet .sheet-summary-type
+.sheet-summary-collapsible > .sheet-summary-toggle:checked ~ .sheet-summary-header .sheet-top-collapse-hit::after {
+	content: "–";
+}
+
+/* If you want the row hidden when CLOSED (unchecked), do this (matches your structure) */
+.ui-dialog .tab-content .charsheet .sheet-summary-type
+.sheet-summary-collapsible > .sheet-summary-toggle:not(:checked) ~ .sheet-summary-row {
+	display: none;
+}
+
+/* (Optional) ensure the row is visible when OPEN, in case another rule overrides it */
+.ui-dialog .tab-content .charsheet .sheet-summary-type
+.sheet-summary-collapsible > .sheet-summary-toggle:checked ~ .sheet-summary-row {
+	display: flex;
+}
+
+/* ------------------------ Summary Type - End ---------------------------------------------------- */
+
+/* ----------------- Gear and Inventory - Start ---------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-tech {
+	background-color: #d0cabe; /* Also needs to match section background */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
+.ui-dialog .tab-content .charsheet .sheet-inventory-item {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	background-color: #d0cabe; /* Also needs to match section background */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header,
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-header,
+.ui-dialog .tab-content .charsheet .ct-header-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: 24px;
+	padding: 0;
+	margin: 0;
+	gap: 0;
+	background-color: black;
+	color: white;
+	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .ct-mod-header-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: 24px;
+	padding: 0;
+	margin: 0;
+	gap: 0;
+	background-color: #808080;
+	color: black;
+	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
+.ui-dialog .tab-content .charsheet .sheet-inventory-item,
+.ui-dialog .tab-content .charsheet .ct-row,
+.ui-dialog .tab-content .charsheet .ct-effect-row,
+.ui-dialog .tab-content .charsheet .ct-mod,
+.ui-dialog .tab-content .charsheet .ct-mod-row,
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: 24px;
+	padding: 0;
+	margin: 0;
+	gap: 0;
+	background-color: #d0cabe;
+}
+
+.ui-dialog .tab-content .charsheet .repeating_inventory-item-appl,
+.ui-dialog .tab-content .charsheet .repeating_inventory-item,
+.ui-dialog .tab-content .charsheet .repeating_ct {
+	margin-bottom: 0px;
+	padding: 0px;
+	border: none;
+	background-color: #d0cabe;
+}
+
+/* Container for all repeating entries */
+.ui-dialog .tab-content .charsheet .repcontainer {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 0;
+	margin-bottom: 10px;
+}
+
+/* Each repeated entry */
+.ui-dialog .tab-content .charsheet .repitem {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem .flex-row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	width: 100%;
+	gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	border: solid 1px var(--cs_input_border);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-header .flex-row,
+.ui-dialog .tab-content .charsheet .ct-header-row .flex-row,
+.ui-dialog .tab-content .charsheet .ct-row .flex-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: 24px;
+	padding: 0;
+	margin: 0;
+	gap: 0;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .ct-effect-row,
+.ui-dialog .tab-content .charsheet .ct-mod-row {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: auto; /* Let content flow */
+	padding: 4px 0;
+}
+
+.ui-dialog .tab-content .charsheet .ct-effect-row textarea,
+.ui-dialog .tab-content .charsheet .ct-mod-row textarea {
+	height: 30px;
+	resize: vertical;
+	box-sizing: border-box;
+	width: 100%;
+	font-size: 90%;
+	color: black;
+	font-style: bold;
+}
+
+.ui-dialog .tab-content .charsheet .ct-effect-row textarea {
+	background-color: #e3e3f7;
+}
+
+.ui-dialog .tab-content .charsheet .ct-mod-row textarea {
+	background-color: #d3d3d3;
+}
+
+.ui-dialog .tab-content .charsheet .flex-cell {
+	padding: 0;
+	margin: 0;
+	border: solid 1px var(--cs_input_border);
+	box-sizing: border-box;
+	height: 24px;
+	background-color: var(--cs_disabled_bg);
+	color: var(--cs_disabled_text);
+}
+
+.ui-dialog .tab-content .charsheet .flex-cell input[type="text"],
+.ui-dialog .tab-content .charsheet .flex-cell input[type="number"] {
+	width: 100%;
+	height: 100%;
+	padding: 0 4px;
+	margin: 0;
+	border: none;
+	line-height: 24px;
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+	font-size: 90%;
+	box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .flex-cell input[type="checkbox"] {
+	display: block;
+	margin: auto;
+	margin-top: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .item-name, .ui-dialog .tab-content .charsheet .item-appl-name { flex: 2 1 20%; font-weight:bold; }
+
+.ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-appl-uses,
+.ui-dialog .tab-content .charsheet .item-appl-used, .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene,
+.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { flex: 1 1 6%; font-size:90%; text-align: center;}
+
+.ui-dialog .tab-content .charsheet .item-description, .ui-dialog .tab-content .charsheet .item-appl-description { flex: 2 1 38%; }
+
+.ui-dialog .tab-content .charsheet .item-properties { flex: 2 1 36%; }
+
+.ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-qty { font-weight: bold; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .item-appl-uses, .ui-dialog .tab-content .charsheet .item-appl-used { background-color: #444; color: #fff; }
+
+.ui-dialog .tab-content .charsheet .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene { background-color: #808080; color: #fff; }
+
+.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { background-color: #d3d3d3; color: #000; }
+
+.ui-dialog .tab-content .charsheet .ct-name,
+.ui-dialog .tab-content .charsheet .ct-mod-name { flex: 2 1 20%; font-weight:bold; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .ct-vitality,
+.ui-dialog .tab-content .charsheet .ct-level,
+.ui-dialog .tab-content .charsheet .ct-capacity,
+.ui-dialog .tab-content .charsheet .ct-mod-capreq { flex: 0 1 8%; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .ct-description { flex: 2 1 56%; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .ct-mod-requirements { flex: 2 1 72%; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox { flex: 0 0 24px; }
+
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: #000; border: none; font-size: 100%; }
+
+.ui-dialog .tab-content .charsheet input.ct-mod-checkbox,
+.ui-dialog .tab-content .charsheet input.ct-mod-label {
+	height: 14px;
+	width: 14px;
+}
+
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper1,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper2,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper3,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper4,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper5,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper6,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper7,
+.ui-dialog .tab-content .charsheet .ct-mod-wrapper8 {
+	display: none;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	border: solid 1px var(--cs_input_border);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-gear-flex {
+	display: flex;
+	flex-direction: row;
+	gap: 6px;
+}
+
+/* Grid layout for Cash and Assets inputs */
+.ui-dialog .tab-content .charsheet .sheet-cash-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 8px;
+	background-color: #d0cabe;
+	border: 1px solid #aaa;
+	box-sizing: border-box;
+}
+
+/* Each label/input or label/textarea pair */
+.ui-dialog .tab-content .charsheet .sheet-cash-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* Label column style */
+.ui-dialog .tab-content .charsheet .sheet-cash-label {
+	width: 110px;
+	font-weight: bold;
+	font-size: 100%;
+	white-space: nowrap;
+	color: black;
+	padding: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cash-grid input,
+.ui-dialog .tab-content .charsheet .sheet-cash-grid textarea {
+	margin: 0; /* remove any unwanted margin */
+	padding: 4px; /* ensure inner spacing */
+	box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-gear-textarea {
+	width: 100%;
+	height: 200px; /* or whatever you need */
+	font-size: 90%;
+	background-color: rgba(255, 255, 255, 0.5);
+	resize: vertical;
+	color: black;
+	border: solid 1px var(--cs_input_border);
+	padding: 6px;
+	box-sizing: border-box;
+}
+
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod1_proxy"][value="1"] ~ .ct-mod-wrapper1,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod2_proxy"][value="1"] ~ .ct-mod-wrapper2,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod3_proxy"][value="1"] ~ .ct-mod-wrapper3,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod4_proxy"][value="1"] ~ .ct-mod-wrapper4,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod5_proxy"][value="1"] ~ .ct-mod-wrapper5,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod6_proxy"][value="1"] ~ .ct-mod-wrapper6,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod7_proxy"][value="1"] ~ .ct-mod-wrapper7,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod8_proxy"][value="1"] ~ .ct-mod-wrapper8 {
+	display: block;
+}
+
+/* ------------------------ Money Ledger (reuses core ledger row styles) ------------------------ */
+.ui-dialog .tab-content .charsheet .money-choice         { flex: 1 1 18%; }
+.ui-dialog .tab-content .charsheet .money-credit,
+.ui-dialog .tab-content .charsheet .money-credit-header   { flex: 1 1 10%; }
+.ui-dialog .tab-content .charsheet .money-debit,
+.ui-dialog .tab-content .charsheet .money-debit-header    { flex: 1 1 10%; }
+.ui-dialog .tab-content .charsheet .money-description     { flex: 2 1 52%; }
+.ui-dialog .tab-content .charsheet .money-total,
+.ui-dialog .tab-content .charsheet .money-total-header    { flex: 1 1 10%; }
+
+/* Numeric alignment for amount fields */
+.ui-dialog .tab-content .charsheet .money-credit input,
+.ui-dialog .tab-content .charsheet .money-debit input,
+.ui-dialog .tab-content .charsheet .money-total input {
+	  text-align: right;
+}
+
+/* Scope to the repeating group and target the actual INPUTS */
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-credit {
+	background-color: #d9f4d4;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-debit {
+	background-color: #ff5b61;
+	color: white;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-total {
+	background-color: #d4ecf9; /* beats .sheet-readonly */
+	color: black;
+}
+/* ------------------- Gear and Inventory - End ----------------------------- */
+
+/* ------------------- Backstory - Start ----------------------------- */
+
+.ui-dialog .tab-content .charsheet .sheet-section-full {
+	border: solid 1px var(--cs_input_border);
+	background-color: #d0cabe;
+	margin: 0;
+	gap: 0;
+	padding: 0;
+}
+
+.ui-dialog .tab-content .charsheet .section-head-row {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	gap: 0;
+	margin-bottom: -8px;
+	margin-top: -8px;
+}
+
+.ui-dialog .tab-content .charsheet .section-head-row label {
+	font-size: 100%;
+	color: var(--cs_txt_primary);
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-head-type {
+	width: 3%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-head-name {
+	width: 22%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-head-cost {
+	width: 3%;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-head-level {
+	width: 12%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-head-progress {
+	width: 3%;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-head-description {
+	width: 57%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-section-full .repcontainer .repitem {
+	margin: 0;
+	padding: 0;
+	gap: 0;
+	display: flex; /* horizontal layout */
+	align-items: start;
+	margin-bottom: -8px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-type {
+	width: 3%;
+	height: 25px;
+	border: solid 1px var(--cs_input_border);
+	box-sizing: border-box;
+	text-align: center;
+	appearance: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-name {
+	width: 22%;
+	height: 25px;
+	border: solid 1px var(--cs_input_border);
+	box-sizing: border-box;
+	text-align: start;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-cost {
+	width: 3%;
+	height: 25px;
+	border: solid 1px var(--cs_input_border);
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-level {
+	width: 12%;
+	height: 25px;
+	border: solid 1px var(--cs_input_border);
+	box-sizing: border-box;
+	text-align: start;
+	appearance: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-progress {
+	width: 3%;
+	height: 25px;
+	border: solid 1px var(--cs_input_border);
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-contact-description {
+	width: 57%;
+	height: 25px;
+	resize: vertical;
+	background-color: rgba(255, 255, 255, 0.5);
+	color: black;
+	border: solid 1px var(--cs_input_border);
+	box-sizing: border-box;
+	text-align: start;
+	align-items: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backstory-grid {
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+	margin-top: 10px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backstory-col {
+	flex: 1 1 48%;
+	min-width: 280px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backstory-label {
+	font-weight: bold;
+	font-size: 100%;
+	color: var(--cs_txt_accent);
+	padding: 2px 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-backstory-textarea {
+	width: 100%;
+	height: 75px;
+	resize: vertical;
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+	padding: 4px;
+	border: solid 1px var(--cs_input_border);
+	box-sizing: border-box;
+}
+/* ------------------------------------ Backstory - End ---------------------------- */
+
+/* ----------------------- Perks and Flaws - Start ------------------------------- */
+
+/* ===========================
+	 Backstory • Perks & Flaws
+	 - Scoped to sheet only
+	 - Light green (Perks), light red (Flaws)
+	 - Racial-talent style rows with Label / Flavor / Description
+	 =========================== */
+
+.ui-dialog .tab-content .charsheet .sheet-perks {
+	  margin-top: 0px;
+	background-color: #f2faf4;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .section-head {
+	  margin: 0 0 8px 0;
+}
+
+/* === Readability tweaks for Perks (light background friendly) === */
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-perk-group {
+	background-color: #f2faf4;              /* lighter green panel */
+	border: 1px solid #bfe2c9;
+	border-left-color: #7fbe93;       /* accent */
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .section-subhead {
+	  margin: 0;
+	padding: 0 0 0 10px;
+	font-size: 110%;
+	  font-weight: 600;
+	background-color: green;
+	color: black;
+}
+
+/* ===== Perks: two-column row like Talents (left: name, right: text) ===== */
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-row {
+	display: grid;
+	grid-template-columns: 22px minmax(100px, 150px) 1fr;
+	grid-template-rows: min-content min-content;  /* row 1 = flavor, row 2 = description */
+	align-items: start;                            /* no baseline stretching */
+	height: 100%;
+	background-color: #aaf0c9;
+	border: 1px solid #198450;
+	border-radius: 6px;
+	border-bottom: none;                     /* replace earlier dotted divider */
+	column-gap: 10px;   /* keep horizontal spacing */
+	row-gap: 0;  /* belt & suspenders */
+	margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-row:last-child {
+	  border-bottom: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-checkbox { grid-column: 1; margin-top: 2px; }
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-label {
+	grid-column: 2;
+	color: #0f2d1f;
+	font-weight: 700;
+	font-size: 13px;
+	margin: 0;
+	padding: 0;
+	line-height: 1.1;     /* tighter; prevents extra leading */
+	align-self: start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-flavor {
+	grid-column: 3;                          /* right column */
+	display: flex;
+	height: 100%;
+	font-style: italic;
+	font-size: 0.95em;
+	color: #24332a;
+	margin: 0;
+	padding: 0;
+	line-height: 1.12;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-perks .sheet-talent-description {
+	grid-column: 3;                          /* right column, below flavor */
+	display: flex;
+	height: 100%;
+	font-size: 1em;                        /* smaller for readability */
+	color: #111;
+	margin: 0;            /* remove any top margin */
+	padding: 0;
+	line-height: 1.22;
+}
+
+/* ===========================
+	 Flaws (aligned to Perks styles)
+	 =========================== */
+
+.ui-dialog .tab-content .charsheet .sheet-flaws {
+	margin-top: 0px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .section-head {
+	margin: 0 0 8px 0;
+}
+
+/* Group wrapper */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-flaw-group {
+	background-color: #fef4f4;        /* very light red panel */
+	border: 1px solid #f1c9c9;
+	border-left-color: #e58f8f; /* accent */
+}
+
+/* Subhead (match your Perks subhead, but red) */
+.ui-dialog .tab-content .charsheet .sheet-flaws .section-subhead {
+	margin: 0;
+	padding: 0 0 0 10px;
+	font-size: 110%;
+	font-weight: 600;
+	background-color: #f2bcbc;        /* light red strip */
+	color: black;
+}
+
+/* Two-column row (checkbox + name | flavor/description) */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-row {
+	display: grid;
+	grid-template-columns: 22px minmax(100px, 150px) 1fr;
+	grid-template-rows: min-content min-content; /* row1: flavor, row2: description */
+	align-items: start;
+	height: 100%;
+	background-color: #ffd6d6;        /* light red card (parallel to #aaf0c9) */
+	border: 1px solid #b24545;  /* darker red border (parallel to #198450) */
+	border-radius: 6px;
+	border-bottom: none;
+	column-gap: 10px;
+	row-gap: 0;
+	margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-row:last-child {
+	border-bottom: 0;
+}
+
+/* Columns */
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-checkbox {
+	grid-column: 1;
+	margin-top: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-label {
+	grid-column: 2;
+	color: #2b1818;     /* deep red-brown for contrast */
+	font-weight: 700;
+	font-size: 13px;
+	margin: 0;
+	padding: 0;
+	line-height: 1.1;
+	align-self: start;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-flavor {
+	grid-column: 3;     /* right column */
+	display: flex;
+	height: 100%;
+	font-style: italic;
+	font-size: 0.9em;
+	color: black;
+	margin: 0;
+	padding: 0;
+	line-height: 1.12;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-flaws .sheet-talent-description {
+	grid-column: 3;     /* right column, below flavor */
+	display: flex;
+	height: 100%;
+	font-size: 1em;
+	color: black;
+	margin: 0;
+	padding: 0;
+	line-height: 1.22;
+}
+
+/* ----------------------- Perks and Flaws - End ------------------------------- */
+
+/* ------------------------------------ NPC - Start ------------------------------------ */
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-content-left {
 	display: flex;
 	flex-direction: row;
@@ -7491,8 +7773,9 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-content-right .sheet-wide-input {
 	max-width: 48%;
 }
+/* --------------------------- NPC - End ------------------------------------------------------------*/
 
-/* --------------------------- Vehicles -------------------------------------------------------------*/
+/* --------------------------- Vehicles - Start -------------------------------------------------------------*/
 .ui-dialog .tab-content .charsheet .sheet-vehicle-grid {
 	display: flex;
 	flex-direction: column;
@@ -7598,331 +7881,9 @@ select[name="attr_damage_bonus"] {
 	grid-template-columns: auto 1fr;
 	align-items: left;
 }
+/* ------------------------ Vehicle - End ---------------------------------------------------- */
 
-/* ------------------------ Summary Text - Start ---------------------------------------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible {
-	position: relative;
-}
-
-/* hide bodies by default (closed) */
-.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-section-body {
-	display: none;
-}
-
-/* expand when checked (open) */
-.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-section-body {
-	display: block;
-}
-
-/* indicator: + when closed, – when open */
-.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-top-collapse-hit::after {
-	content: "+";
-	display: block;
-	text-align: center;
-	line-height: 16px;
-	font-weight: bold;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible .sheet-summary-toggle:checked ~ .sheet-summary-header .sheet-top-collapse-hit::after {
-	content: "–";
-}
-
-.ui-dialog .tab-content .charsheet .sheet-talent-summary {
-	background-color: var(--cs_bg_color);
-	border: 1px solid var(--cs_separator_bg);
-	color: var(--cs_txt_primary);
-}
-
-.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_talent_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_primary_career_talent_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_secondary_career_talent_summary"] {
-	display: block;
-	white-space: pre-wrap;
-	color: var(--cs_txt_primary);
-	font-size: 100%;
-	line-height: 1.4;
-	padding: 4px;
-}
-
-/* ------------------------ Summary Text - End---------------------------------------------------- */
-/* ------------------------ Summary Type - Start ---------------------------------------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-summary-toggle {
-	position: absolute;
-	opacity: 0;
-	width: 0;
-	height: 0;
-	pointer-events: none;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-summary-header {
-	display: block;
-	cursor: pointer;
-}
-	
-/* Make open sections visually distinct */
-.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-header {
-	background-color: #444;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-body {
-	display: block;
-}
-
-/* If the body is wrapped in .sheet-summary-row (e.g. Reaction), show it when the main toggle is open */
-.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row .sheet-summary-body {
-	display: block;
-}
-
-/* allow "\n" in attr spans */
-.ui-dialog .tab-content .charsheet .sheet-summary-body span[name^="attr_summary_type_"] {
-	white-space: pre-line;
-}
-
-/* 1) Hide the entire row (list + handle + drawer) unless the main section toggle is open */
-.ui-dialog .tab-content .charsheet .sheet-summary-row {
-	display: none;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row {
-	display: flex;
-	position: relative;
-	align-items: flex-start;
-	gap: 6px;
-}
-
-/* 2) Keep the handle from stretching / reserve a little right padding so list text doesn't sit under it */
-.ui-dialog .tab-content .charsheet .sheet-summary-body {
-	display: none;
-	flex: 1 1 auto;
-	min-width: 0;
-	padding: 6px; /* space for the ? handle */
-}
-
-/* 3) Ensure the drawer can never "bleed" when the main section is closed */
-.ui-dialog .tab-content .charsheet .sheet-summary-toggle:not(:checked) ~ .sheet-summary-row .sheet-summary-drawer {
-	display: none;
-}
-
-/* Drawer toggle is also a hidden checkbox (same base class), but keep a unique class for clarity */
-.ui-dialog .tab-content .charsheet .sheet-summary-drawer-toggle {
-	position: absolute;
-	opacity: 0;
-	width: 0;
-	height: 0;
-	pointer-events: none;
-}
-
-/* Make the ? handle only as wide as its contents (not a full-width bar) */
-.ui-dialog .tab-content .charsheet .sheet-summary-drawer-handle {
-	display: none;               /* still hidden until main section is open (your existing rule) */
-	flex: 0 0 auto;
-	width: 18px;
-	height: 18px;
-	padding: 0;
-	margin-top: 2px;
-	line-height: 18px;
-	text-align: center;
-	background-color: rgba(0,0,0,1);
-	z-index: 10;
-	margin-right: 8px;
-}
-
-/* Only show the handle when the main section is open */
-.ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row .sheet-summary-drawer-handle {
-	display: inline-block;
-}
-
-/* Drawer: overlay to the right so it does NOT consume flex width */
-.ui-dialog .tab-content .charsheet .sheet-summary-drawer {
-	display: none;
-	position: absolute;
-	right: 28px;
-	top: 0;
-	z-index: 5;
-
-	width: 75%;
-	min-width: 220px;
-	max-width: 600px;
-
-	padding: 6px 8px;
-	border-left: 3px solid rgba(80, 140, 210, 0.75);
-	background-color: rgba(0,0,0,1);
-	color: white;
-	overflow: auto;
-	max-height: 220px;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.45);
-}
-
-/* When open, show the drawer overlay */
-.ui-dialog .tab-content .charsheet .sheet-summary-drawer-toggle:checked ~ .sheet-summary-drawer {
-	display: block;
-}
-
-/* Drawer text formatting */
-.ui-dialog .tab-content .charsheet .sheet-summary-drawer span[name^="attr_summary_type_"] {
-	white-space: pre-line;
-}
-
-/* Summary Type: the +/– indicator lives on the hit label */
-.ui-dialog .tab-content .charsheet .sheet-summary-type .sheet-top-collapse-hit::after {
-	content: "+";
-	display: block;
-	text-align: center;
-	line-height: 16px;
-	font-weight: bold;
-}
-
-/* When OPEN (checkbox checked), show – */
-.ui-dialog .tab-content .charsheet .sheet-summary-type
-.sheet-summary-collapsible > .sheet-summary-toggle:checked ~ .sheet-summary-header .sheet-top-collapse-hit::after {
-	content: "–";
-}
-
-/* If you want the row hidden when CLOSED (unchecked), do this (matches your structure) */
-.ui-dialog .tab-content .charsheet .sheet-summary-type
-.sheet-summary-collapsible > .sheet-summary-toggle:not(:checked) ~ .sheet-summary-row {
-	display: none;
-}
-
-/* (Optional) ensure the row is visible when OPEN, in case another rule overrides it */
-.ui-dialog .tab-content .charsheet .sheet-summary-type
-.sheet-summary-collapsible > .sheet-summary-toggle:checked ~ .sheet-summary-row {
-	display: flex;
-}
-
-/* ------------------------ Summary Type - End ---------------------------------------------------- */
-
-/* ------------------------ Ledger Start ---------------------------------------------------- */
-
-.ui-dialog .tab-content .charsheet .sheet-ledger-skill-points,
-.ui-dialog .tab-content .charsheet .sheet-ledger-xp {
-	display: flex;
-	flex-direction: row;
-	justify-content: start;
-	align-items: flex-end;
-	gap: 8px;
-	padding: 4px 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ledger-row {
-	display: flex;
-	flex-direction: column;
-	align-items: start;
-	width: 80px;               /* Compact fixed width */
-	flex-shrink: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-character-lock {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	width: fit-content;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ledger-label,
-.ui-dialog .tab-content .charsheet .sheet-ledger-row label,
-.ui-dialog .tab-content .charsheet .sheet-character-lock label {
-	font-size: 10px;
-	color: var(--cs_txt_accent);
-	margin-bottom: 3px;
-	line-height: 1.1;
-	word-wrap: break-word;
-	white-space: normal;
-	text-align: center;
-	width: 100%;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ledger-label {
-	font-weight: 700;
-	font-size: 11px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-character-lock label {
-	font-size: 100%;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ledger-row input[type="text"] {
-	width: 100%;
-	max-width: 100%;
-	text-align: center;
-	font-size: 100%;
-	padding: 2px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ledger-header {
-	background-color: black;
-	color: white;
-	font-weight: bold;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ledger-header .flex-row {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: 24px;
-	padding: 0;
-	margin: 0;
-	gap: 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-ledger-header .flex-cell {
-	background-color: black;
-	color: white;
-	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet fieldset.repeating_ledger {
-	margin: 0;
-	padding: 0;
-	border: none;
-}
-
-/* General Row Styling (Header + Repeating) */
-.ui-dialog .tab-content .charsheet .sheet-repeating-ledger-row {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	padding: 0;
-	margin: 0;
-	gap: 0;
-}
-
-/* Flex Widths */
-.ui-dialog .tab-content .charsheet .ledger-choice { flex: 1 1 18%; }
-.ui-dialog .tab-content .charsheet .ledger-value, .ui-dialog .tab-content .charsheet .ledger-value-header { flex: 1 1 8% }
-.ui-dialog .tab-content .charsheet .ledger-description { flex: 2 1 74%; }
-
-.ui-dialog .tab-content .charsheet .sheet-xp-cost,
-.ui-dialog .tab-content .charsheet .sheet-skill-cost {
-	background-color: #ff5b61; /* Light red (muted) */
-	color: white;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-xp-gain,
-.ui-dialog .tab-content .charsheet .sheet-skill-gain {
-	  background-color: #d9f4d4; /* Light green */
-	  color: black;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-xp-remain,
-.ui-dialog .tab-content .charsheet .sheet-skill-remain {
-	  background-color: #d4ecf9; /* Light blue */
-	  color: black;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-skill-base,
-.ui-dialog .tab-content .charsheet .sheet-xp-base {
-	background-color: #FFF;
-	color: black;
-}
+/* ------------------------------------------  Roll Templates --------------------------------------- */
 
 /* Body hit Location */
 .sheet-rolltemplate-coc-body-hit-loc table {
@@ -7965,10 +7926,6 @@ select[name="attr_damage_bonus"] {
 	  background-color: #702c91;
 	  text-align: center;
 }
-
-/* -------------------------------------------------------------------------- */
-
-/* ------------------------------------------  Roll Templates --------------------------------------- */
 
 /* BD/PD defence rolltemplate */
 .sheet-rolltemplate-coc-defence table {

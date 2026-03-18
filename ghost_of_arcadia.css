@@ -3130,15 +3130,6 @@ select[name="attr_damage_bonus"] {
 	font-weight: normal;
 }
 
-/* Stub — select element for background/career choice, add overrides here as needed */
-.ui-dialog .tab-content .charsheet .sheet-career-select { }
-
-/* Stub — inherits from sheet-top-collapse, add overrides here as needed */
-.ui-dialog .tab-content .charsheet .sheet-career-tier-toggle { }
-
-/* Stub — career tracker wrapper, add layout/spacing overrides here as needed */
-.ui-dialog .tab-content .charsheet .sheet-career-tracker { }
-
 .ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ input[type="checkbox"][name^="attr_bg_"][name$="_mdr_checkbox"] {
 	pointer-events: none;
 	opacity: 0.5;
@@ -3152,6 +3143,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-bg-skill-row input[type="hidden"][name^="attr_bg_"][name$="_lock"][value="1"] ~ * {
 	cursor: not-allowed;
 }
+/* Background Feature — Tracker Tab Visibility (controls which bg features show in the Tracker tab) */ 
 
 /* PATCH: Background Feature Tracker visibility (show only for active background tab) */
 .ui-dialog .tab-content .charsheet .sheet-tracker-item.sheet-bg-feature {
@@ -3349,6 +3341,16 @@ select[name="attr_damage_bonus"] {
 	color: inherit;
 	border-color: inherit;
 }
+
+/* Stub — select element for background/career choice, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-select { }
+
+/* Stub — inherits from sheet-top-collapse, add overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-tier-toggle { }
+
+/* Stub — career tracker wrapper, add layout/spacing overrides here as needed */
+.ui-dialog .tab-content .charsheet .sheet-career-tracker { }
+
 
 /* --------------------- Career Tabs (Inside Careers Tab) -------------------------- */
 
@@ -6471,6 +6473,11 @@ select[name="attr_damage_bonus"] {
 
 /* ------------------------ Summary Text - Start ---------------------------------------------------- */
 
+.ui-dialog .tab-content .charsheet .sheet-summary-text {
+  background-color: var(--cs_bg_color);
+  color: var(--cs_txt_primary);
+}
+
 .ui-dialog .tab-content .charsheet .sheet-summary-text .sheet-summary-collapsible {
 	position: relative;
 }
@@ -6504,11 +6511,11 @@ select[name="attr_damage_bonus"] {
 	color: var(--cs_txt_primary);
 }
 
-.ui-dialog .tab-content .charsheet span[name="attr_perk_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_flaw_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_talent_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_primary_career_talent_summary"],
-.ui-dialog .tab-content .charsheet span[name="attr_secondary_career_talent_summary"] {
+.ui-dialog .tab-content .charsheet .sheet-summary-text span[name="attr_perk_summary"],
+.ui-dialog .tab-content .charsheet .sheet-summary-text span[name="attr_flaw_summary"],
+.ui-dialog .tab-content .charsheet .sheet-summary-text span[name="attr_talent_summary"],
+.ui-dialog .tab-content .charsheet .sheet-summary-text span[name="attr_primary_career_talent_summary"],
+.ui-dialog .tab-content .charsheet .sheet-summary-text span[name="attr_secondary_career_talent_summary"] {
 	display: block;
 	white-space: pre-wrap;
 	color: var(--cs_txt_primary);
@@ -6533,19 +6540,29 @@ select[name="attr_damage_bonus"] {
 	display: block;
 	cursor: pointer;
 }
+
+.ui-dialog .tab-content .charsheet .sheet-summary-type {
+  background-color: var(--cs_bg_color);
+  color: var(--cs_txt_primary);
+}
 	
 /* Make open sections visually distinct */
 .ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-header {
-	background-color: #444;
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-body {
 	display: block;
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
 }
 
 /* If the body is wrapped in .sheet-summary-row (e.g. Reaction), show it when the main toggle is open */
 .ui-dialog .tab-content .charsheet .sheet-summary-toggle:checked ~ .sheet-summary-row .sheet-summary-body {
 	display: block;
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
 }
 
 /* allow "\n" in attr spans */
@@ -6597,7 +6614,8 @@ select[name="attr_damage_bonus"] {
 	margin-top: 2px;
 	line-height: 18px;
 	text-align: center;
-	background-color: rgba(0,0,0,1);
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text);
 	z-index: 10;
 	margin-right: 8px;
 }
@@ -6621,11 +6639,11 @@ select[name="attr_damage_bonus"] {
 
 	padding: 6px 8px;
 	border-left: 3px solid rgba(80, 140, 210, 0.75);
-	background-color: rgba(0,0,0,1);
-	color: white;
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
 	overflow: auto;
 	max-height: 220px;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.45);
+	box-shadow: 0 2px 10px var(--cs_btn_inactive_bg);
 }
 
 /* When open, show the drawer overlay */
@@ -6670,7 +6688,7 @@ select[name="attr_damage_bonus"] {
 /* ----------------- Gear and Inventory - Start ---------------------- */
 
 .ui-dialog .tab-content .charsheet .sheet-tech {
-	background-color: #d0cabe; /* Also needs to match section background */
+	background-color: var(--cs_ui_element_bg); /* Also needs to match section background */
 }
 
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
@@ -6678,7 +6696,7 @@ select[name="attr_damage_bonus"] {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	background-color: #d0cabe; /* Also needs to match section background */
+	background-color: var(--cs_ui_element_bg); /* Also needs to match section background */
 }
 
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header,
@@ -6693,8 +6711,8 @@ select[name="attr_damage_bonus"] {
 	padding: 0;
 	margin: 0;
 	gap: 0;
-	background-color: black;
-	color: white;
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text);
 	font-weight: bold;
 }
 
@@ -6708,8 +6726,8 @@ select[name="attr_damage_bonus"] {
 	padding: 0;
 	margin: 0;
 	gap: 0;
-	background-color: #808080;
-	color: black;
+	background-color: var(--cs_btn_active_bg);
+	color: var(--cs_btn_active_text);
 	font-weight: bold;
 }
 
@@ -6729,8 +6747,35 @@ select[name="attr_damage_bonus"] {
 	padding: 0;
 	margin: 0;
 	gap: 0;
-	background-color: #d0cabe;
+	background-color: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
 }
+
+/* Two-column layout wrapper for the inventory tab */
+.ui-dialog .tab-content .charsheet .sheet-2colrow {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* Stub — section (bare) is a typo for sheet-section in HTML at lines 27748, 27790, 27822 — fix in HTML */
+
+/* Stub — ct-effect textarea inside .ct-effect-row, inherits from flex-cell + textarea base */
+.ui-dialog .tab-content .charsheet .ct-effect { }
+
+/* Stub — ct-mod-effect textarea inside .ct-mod-row, inherits from flex-cell + ct-mod-row textarea rule */
+.ui-dialog .tab-content .charsheet .ct-mod-effect { }
+
+/* Stubs — numbered modifier slot containers, inherit layout from .ct-mod */
+.ui-dialog .tab-content .charsheet .ct-mod-2 { }
+.ui-dialog .tab-content .charsheet .ct-mod-3 { }
+.ui-dialog .tab-content .charsheet .ct-mod-4 { }
+.ui-dialog .tab-content .charsheet .ct-mod-5 { }
+.ui-dialog .tab-content .charsheet .ct-mod-6 { }
+.ui-dialog .tab-content .charsheet .ct-mod-7 { }
+.ui-dialog .tab-content .charsheet .ct-mod-8 { }
 
 .ui-dialog .tab-content .charsheet .repeating_inventory-item-appl,
 .ui-dialog .tab-content .charsheet .repeating_inventory-item,
@@ -6738,7 +6783,8 @@ select[name="attr_damage_bonus"] {
 	margin-bottom: 0px;
 	padding: 0px;
 	border: none;
-	background-color: #d0cabe;
+	background-color: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
 }
 
 /* Container for all repeating entries */
@@ -6813,16 +6859,17 @@ select[name="attr_damage_bonus"] {
 	box-sizing: border-box;
 	width: 100%;
 	font-size: 90%;
-	color: black;
 	font-style: bold;
 }
 
 .ui-dialog .tab-content .charsheet .ct-effect-row textarea {
-	background-color: #e3e3f7;
+	background-color: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
 }
 
 .ui-dialog .tab-content .charsheet .ct-mod-row textarea {
-	background-color: #d3d3d3;
+	background-color: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
 }
 
 .ui-dialog .tab-content .charsheet .flex-cell {
@@ -6831,8 +6878,8 @@ select[name="attr_damage_bonus"] {
 	border: solid 1px var(--cs_input_border);
 	box-sizing: border-box;
 	height: 24px;
-	background-color: var(--cs_disabled_bg);
-	color: var(--cs_disabled_text);
+	background-color: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
 }
 
 .ui-dialog .tab-content .charsheet .flex-cell input[type="text"],
@@ -6867,11 +6914,11 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .item-appl-qty, .ui-dialog .tab-content .charsheet .item-qty { font-weight: bold; text-align: center; }
 
-.ui-dialog .tab-content .charsheet .item-appl-uses, .ui-dialog .tab-content .charsheet .item-appl-used { background-color: #444; color: #fff; }
+.ui-dialog .tab-content .charsheet .item-appl-uses, .ui-dialog .tab-content .charsheet .item-appl-used { background-color: var(--cs_btn_inactive_bg) ; color: var(--cs_btn_inactive_text); }
 
-.ui-dialog .tab-content .charsheet .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene { background-color: #808080; color: #fff; }
+.ui-dialog .tab-content .charsheet .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene { background-color: var(--cs_btn_active_bg); color: var(--cs_btn_active_text); }
 
-.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { background-color: #d3d3d3; color: #000; }
+.ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { background-color: var(--cs_btn_session_bg); color: var(--cs_btn_session_text); }
 
 .ui-dialog .tab-content .charsheet .ct-name,
 .ui-dialog .tab-content .charsheet .ct-mod-name { flex: 2 1 20%; font-weight:bold; text-align: center; }
@@ -6887,10 +6934,9 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .ct-mod-checkbox { flex: 0 0 24px; }
 
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: #000; border: none; font-size: 100%; }
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: var(--cs_btn_session_text); border: none; font-size: 100%; }
 
-.ui-dialog .tab-content .charsheet input.ct-mod-checkbox,
-.ui-dialog .tab-content .charsheet input.ct-mod-label {
+.ui-dialog .tab-content .charsheet input.ct-mod-checkbox {
 	height: 14px;
 	width: 14px;
 }
@@ -6922,8 +6968,8 @@ select[name="attr_damage_bonus"] {
 	flex-direction: column;
 	gap: 8px;
 	padding: 8px;
-	background-color: #d0cabe;
-	border: 1px solid #aaa;
+	background-color: var(--cs_ui_element_bg);
+	border: 1px solid var(--cs_txt_secondary) ;
 	box-sizing: border-box;
 }
 
@@ -6940,7 +6986,7 @@ select[name="attr_damage_bonus"] {
 	font-weight: bold;
 	font-size: 100%;
 	white-space: nowrap;
-	color: black;
+	color: var(--cs_txt_primary);
 	padding: 4px;
 }
 
@@ -6955,10 +7001,10 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	height: 200px; /* or whatever you need */
 	font-size: 90%;
-	background-color: rgba(255, 255, 255, 0.5);
+	background-color: var(--cs_input_bg);
 	resize: vertical;
-	color: black;
-	border: solid 1px var(--cs_input_border);
+	color: var(--cs_input_text);
+	border: solid 1px var(--cs_dc_color);
 	padding: 6px;
 	box-sizing: border-box;
 }
@@ -6993,25 +7039,30 @@ select[name="attr_damage_bonus"] {
 
 /* Scope to the repeating group and target the actual INPUTS */
 .ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-credit {
-	background-color: #d9f4d4;
+	background-color: var(--cs_budget_ok_bg);
 }
 
 .ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-debit {
-	background-color: #ff5b61;
-	color: white;
+	background-color: var(--cs_budget_over_bg);
+	color: var(--cs_budget_text);
 }
 
 .ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_moneyledger"] .flex-cell input.sheet-money-total {
-	background-color: #d4ecf9; /* beats .sheet-readonly */
-	color: black;
+  background-color: var(--cs_budget_neutral_bg);
+  color: var(--cs_budget_text);
 }
 /* ------------------- Gear and Inventory - End ----------------------------- */
 
 /* ------------------- Backstory - Start ----------------------------- */
+/* Base theme for the backstory tab container */
+.ui-dialog .tab-content .charsheet .sheet-backstory {
+  background-color: var(--cs_bg_color);
+  color: var(--cs_txt_primary);
+}
 
 .ui-dialog .tab-content .charsheet .sheet-section-full {
 	border: solid 1px var(--cs_input_border);
-	background-color: #d0cabe;
+	background-color: var(--cs_ui_element_bg);
 	margin: 0;
 	gap: 0;
 	padding: 0;
@@ -7082,7 +7133,9 @@ select[name="attr_damage_bonus"] {
 	border: solid 1px var(--cs_input_border);
 	box-sizing: border-box;
 	text-align: start;
-	background-color: rgba(255, 255, 255, 0.5);
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+	border: solid 1px var(--cs_input_border);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-contact-cost {
@@ -7114,8 +7167,8 @@ select[name="attr_damage_bonus"] {
 	width: 57%;
 	height: 25px;
 	resize: vertical;
-	background-color: rgba(255, 255, 255, 0.5);
-	color: black;
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
 	border: solid 1px var(--cs_input_border);
 	box-sizing: border-box;
 	text-align: start;
@@ -7124,7 +7177,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-backstory-grid {
 	display: flex;
-	gap: 20px;
+	gap: 10px;
 	flex-wrap: wrap;
 	margin-top: 10px;
 }
@@ -7134,13 +7187,12 @@ select[name="attr_damage_bonus"] {
 	min-width: 280px;
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-backstory-label {
 	font-weight: bold;
 	font-size: 100%;
-	color: var(--cs_txt_accent);
+	color: var(--cs_txt_primary);
 	padding: 2px 0;
 }
 
@@ -7393,7 +7445,7 @@ select[name="attr_damage_bonus"] {
 	padding: 1px 2px;
 	font-size: 85%;
 	text-align: center;
-	border: 1px solid #aaa;
+	border: 1px solid var(--cs_dc_color);
 	background-color: var(--cs_input_bg);
 	color: black;
 }
@@ -7519,7 +7571,7 @@ select[name="attr_damage_bonus"] {
 	padding: 1px 0px;
 	text-align: center;
 	background-color: var(--cs_input_bg);
-	border: 1px solid #aaa;
+	border: 1px solid var(--cs_dc_color);
 	box-sizing: border-box;
 	color: black;
 	flex: 0 0 auto;       /* don't grow/shrink */
@@ -7534,7 +7586,7 @@ select[name="attr_damage_bonus"] {
 	font-size: 100%;
 	background-color: var(--cs_input_bg);
 	color: black;
-	border: 1px solid #aaa;
+	border: 1px solid var(--cs_dc_color);
 	box-sizing: border-box;
 }
 
@@ -7545,7 +7597,7 @@ select[name="attr_damage_bonus"] {
 	font-size: 90%;
 	background-color: var(--cs_input_bg);
 	color: black;
-	border: 1px solid #aaa;
+	border: 1px solid var(--cs_dc_color);
 	box-sizing: border-box;
 }
 
@@ -7608,7 +7660,7 @@ select[name="attr_damage_bonus"] {
 	padding: 1px 0px;
 	text-align: center;
 	background-color: var(--cs_input_bg);
-	border: 1px solid #aaa;
+	border: 1px solid var(--cs_dc_color);
 	box-sizing: border-box;
 	color: black;
 }
@@ -7658,9 +7710,9 @@ select[name="attr_damage_bonus"] {
 	font-size: 100%;
 	height: 23px;
 	text-align: center;
-	background-color: rgba(255, 255, 255, 0.5);
-	color: black;
-	border: 1px solid #aaa;
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+	border: 1px solid var(--cs_dc_color);
 	padding: 2px;
 	box-sizing: border-box;
 }

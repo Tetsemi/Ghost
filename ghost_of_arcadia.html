@@ -51542,7 +51542,6 @@ on("clicked:ledger change:repeating_ledger:ledger_choice change:repeating_ledger
                 xp_skill_roll_skill: 0,
                 xp_spells: 0,
                 xp_credits: 0,
-                xp_allies: 0,
                 xp_reputation: 0,
                 xp_faction: 0,
 //              xp_flaws: 0,
@@ -51577,7 +51576,6 @@ on("clicked:ledger change:repeating_ledger:ledger_choice change:repeating_ledger
                 xpledger_skill_point_roll_gain_skill: aggregates.xp_skill_roll_skill,
                 xpledger_spells_cost: aggregates.xp_spells,
                 xpledger_credits_cost: aggregates.xp_credits,
-                xpledger_allies_cost: aggregates.xp_allies,
                 xpledger_reputation_cost: aggregates.xp_reputation,
                 xpledger_faction_cost: aggregates.xp_faction,
             };
@@ -51782,6 +51780,27 @@ on("change:background_contact_choice change:background_choice", function() {
 		}
 
 		setAttrs(updates);
+	});
+});
+
+on("change:repeating_contacts:contact_type change:repeating_contacts:contact_cost add:repeating_contacts remove:repeating_contacts", function() {
+	if (debug_on_trace) console.log("[repeating_contacts:contact_cost] Ally XP calc Start");
+
+	getSectionIDs("repeating_contacts", function(ids) {
+		const attrs = ids.flatMap(id => [
+			`repeating_contacts_${id}_contact_type`,
+			`repeating_contacts_${id}_contact_cost`
+		]);
+
+		getAttrs(attrs, function(values) {
+			const total = ids.reduce((sum, id) => {
+				const type = values[`repeating_contacts_${id}_contact_type`] || "ally"; // default is ally (first option)
+				const cost = parseInt(values[`repeating_contacts_${id}_contact_cost`], 10) || 0;
+				return sum + (type === "ally" ? cost : 0);
+			}, 0);
+
+			setAttrs({ xpledger_allies_cost: total });
+		});
 	});
 });
 

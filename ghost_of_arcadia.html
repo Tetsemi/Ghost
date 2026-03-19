@@ -28101,7 +28101,7 @@
 										<option value="0" data-i18n="money_choose_type-u" selected> -- Choose Type -- </option>
 										<option value="income" data-i18n="money_income-u">Income</option>
 										<option value="expense" data-i18n="money_expense-u">Expense</option>
-										<option value="debt" data-i18n="money_debt-u">Debt</option>
+										<option value="debt" data-i18n="money_debt-u">Debt</option>							 
 										<option value="transfer_in" data-i18n="money_transfer_in-u">Transfer In</option>
 										<option value="transfer_out" data-i18n="money_transfer_out-u">Transfer Out</option>
 										<option value="purchase" data-i18n="money_purchase-u">Purchase</option>
@@ -28293,11 +28293,16 @@
 
 				<!-- Perk: Institutional Weight | key: institutional_weight | cost: 10 XP | cadence: session | attrs: attr_perk_institutional_weight, attr_perk_institutional_weight_lockflag | i18n: perk_institutional_weight-u | perk_institutional_weight_flavor-u | perk_institutional_weight_description-u -->
 				<div class="sheet-talent-row">
+					<input type="hidden" name="attr_show_perk_institutional_weight_institution" value="0"/>
 					<input type="hidden" name="attr_perk_institutional_weight_lockflag" value="0"/>
 					<input type="checkbox" name="attr_perk_institutional_weight" value="1" class="sheet-talent-checkbox"/>
 					<label class="sheet-talent-label" data-i18n="perk_institutional_weight-u"></label>
 					<span class="sheet-talent-flavor" data-i18n="perk_institutional_weight_flavor-u"></span>
 					<span class="sheet-talent-description" data-i18n="perk_institutional_weight_description-u"></span>
+					<div class="sheet-skill-choice-placeholder sheet-institution-input-wrapper">
+						<label class="sheet-institution-label" data-i18n="institution_name-u">Institution</label>
+						<input type="text" name="attr_perk_institutional_weight_institution" class="sheet-attr-input-long sheet-institution-input" data-i18n-placeholder="institution_name-u" placeholder="Institution name"/>
+					</div>
 				</div>
 
 				<!-- Perk: Linguist | key: linguist | cost: ? XP | cadence: none | attrs: attr_perk_linguist, attr_perk_linguist_lockflag | i18n: perk_linguist-u | perk_linguist_flavor-u | perk_linguist_description-u -->
@@ -46941,11 +46946,13 @@ const registerPerkSummaryWatcher = () => {
   // Perk wiring
   const perkKeys   = Object.keys(perkDataMap || {});
   const perkAttrs  = perkKeys.map((k) => `perk_${k}`);
-  const perkEvents = ["clicked:perks", ...perkAttrs.map((a) => `change:${a}`)].join(" ");
+  const extraPerkAttrs = ["perk_institutional_weight_institution"];
+  const perkEvents = ["clicked:perks", ...perkAttrs.map((a) => `change:${a}`), ...extraPerkAttrs.map((a) => `change:${a}`)].join(" ");
 
   on(perkEvents, () => {
-    getAttrs(perkAttrs, (v) => {
+    getAttrs([...perkAttrs, ...extraPerkAttrs], (v) => {
       const u = {};
+      u["show_perk_institutional_weight_institution"] = "0";
       let xpSpent    = 0;
       let lines      = [];
       let picked10   = 0;
@@ -46973,7 +46980,13 @@ const registerPerkSummaryWatcher = () => {
         const nameTxt  = tr(nameKey);
         const rulesTxt = tr(descKey);
 
-        lines.push(`${nameTxt} — ${rulesTxt}`);
+        let summaryLine = `${nameTxt} — ${rulesTxt}`;
+        if (k === "institutional_weight") {
+          const inst = (v["perk_institutional_weight_institution"] || "").trim();
+          if (inst) summaryLine += ` (${inst})`;
+          u["show_perk_institutional_weight_institution"] = "1";
+        }
+        lines.push(summaryLine);
 
         // 1) Explicit skills (machine keys)
         const affected = normalizeAffectedSkills(def.affected_skill);

@@ -27347,10 +27347,6 @@
 						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_allies_cost"/>
 					</div>
 					<div class="sheet-ledger-row">
-						<div class="sheet-ledger-label" data-i18n="xp_to_contacts_total-u">XP -> Contacts Total</div>
-						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_contacts_cost"/>
-					</div>
-					<div class="sheet-ledger-row">
 						<div class="sheet-ledger-label" data-i18n="xp_to_rep_total-u">XP -> Rep. Total</div>
 						<input class="sheet-attr-input-small sheet-xp-cost sheet-readonly" type="text" name="attr_xpledger_reputation_cost"/>
 					</div>
@@ -27396,7 +27392,6 @@
 								<option value="xp_spells" data-i18n="ledger_xp_to_spells-u">XP -> Spells</option>
 								<option value="xp_credits" data-i18n="ledger_xp_to_credits-u">XP -> Credits</option>
 								<option value="xp_allies" data-i18n="ledger_xp_to_allies-u">XP -> Allies</option>
-								<option value="xp_contacts" data-i18n="ledger_xp_to_contacts-u">XP -> Contacts</option>
 								<option value="xp_reputation" data-i18n="ledger_xp_to_reputation-u">XP -> Reputation</option>
 								<option value="xp_faction" data-i18n="ledger_xp_to_faction-u">XP -> Faction</option>
 							</select>
@@ -28149,6 +28144,36 @@
 					<label class="sheet-contact-head-progress" data-i18n="pr-u">Pr</label>
 					<label class="sheet-contact-head-description" data-i18n="description-u">Description</label>
 				</div>
+				<!-- Starting Contact: Background -->
+				<input type="hidden" name="attr_starting_contact_background_name_default" value=""/>
+				<input type="hidden" name="attr_starting_contact_background_desc_default" value=""/>
+				<div class="sheet-starting-contact-row">
+					<select class="sheet-contact-type sheet-starting-contact-locked" disabled>
+						<option value="contact">C</option>
+					</select>
+					<span class="sheet-contact-name sheet-starting-contact-name" name="attr_starting_contact_background_name"></span>
+					<input type="text" class="sheet-contact-cost" value="0" readonly/>
+					<select class="sheet-contact-level sheet-starting-contact-locked" disabled>
+						<option value="contact" data-i18n="contact_level_contact-u">Contact</option>
+					</select>
+					<input type="text" name="attr_starting_contact_background_progress" class="sheet-contact-progress"/>
+					<textarea name="attr_starting_contact_background_desc" class="sheet-contact-description" data-i18n-placeholder="starting_contact_background_desc_placeholder-u" placeholder="Background contact description"></textarea>
+				</div>
+
+				<!-- Starting Contact: Career -->
+				<div class="sheet-starting-contact-row">
+					<select class="sheet-contact-type sheet-starting-contact-locked" disabled>
+						<option value="contact">C</option>
+					</select>
+					<input type="text" name="attr_starting_contact_career_name" class="sheet-contact-name" data-i18n-placeholder="starting_contact_career_name_placeholder-u" placeholder="Career contact name"/>
+					<input type="text" class="sheet-contact-cost" value="0" readonly/>
+					<select class="sheet-contact-level sheet-starting-contact-locked" disabled>
+						<option value="contact" data-i18n="contact_level_contact-u">Contact</option>
+					</select>
+					<input type="text" name="attr_starting_contact_career_progress" class="sheet-contact-progress"/>
+					<textarea name="attr_starting_contact_career_desc" class="sheet-contact-description" data-i18n-placeholder="starting_contact_career_desc_placeholder-u" placeholder="Career contact description"></textarea>
+				</div>
+
 				<fieldset class="repeating_contacts">
 					<select class="sheet-selection-full sheet-contact-type" name="attr_contact_type">
 						<option value="ally">A</option>
@@ -51455,7 +51480,7 @@ on("change:repeating_ct:show_ct_mod1 change:repeating_ct:show_ct_mod2 change:rep
   });
 });
 
-on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xp_spent_career_specialist change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_contacts_cost change:xpledger_reputation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
+on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change:xp_spent_career_talent change:xp_spent_career_specialist change:xpledger_spells_cost change:xpledger_skill_point_gain change:xpledger_skill_point_roll_gain change:xpledger_credits_cost change:xpledger_allies_cost change:xpledger_reputation_cost change:xpledger_faction_cost change:xpledger_flaws_gain change:xpledger_perks_cost change:perk_linguist", function () {
     if (debug_on_trace) console.log ("[change:background_xp] Start");
     getAttrs([
         "background_xp",
@@ -51468,7 +51493,6 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
 		"xpledger_skill_point_roll_gain",
         "xpledger_credits_cost",
         "xpledger_allies_cost",
-        "xpledger_contacts_cost",
         "xpledger_reputation_cost",
         "xpledger_faction_cost",
         "xpledger_flaws_gain",
@@ -51486,13 +51510,12 @@ on("change:background_xp change:xpledger_gained_xp change:xp_spent_talent change
 		const skillPointGainRoll = toInt(values["xpledger_skill_point_roll_gain"]);
         const creditsCost = toInt(values["xpledger_credits_cost"]);
         const alliesCost = toInt(values["xpledger_allies_cost"]);
-        const contactsCost = toInt(values["xpledger_contacts_cost"]);
         const reputationCost = toInt(values["xpledger_reputation_cost"]);
         const factionCost = toInt(values["xpledger_faction_cost"]);
         const flawsGain = toInt(values["xpledger_flaws_gain"]);
         const perksCost = toInt(values["xpledger_perks_cost"]);
 
-        const xpRemaining = backgroundXP + ledgerGainedXP - xpSpentTalent - xpSpentCareerTalent - xpSpentCareerSpecialist - spellsCost - skillPointGain - skillPointGainRoll - creditsCost - alliesCost - contactsCost - reputationCost - factionCost + flawsGain - perksCost;
+        const xpRemaining = backgroundXP + ledgerGainedXP - xpSpentTalent - xpSpentCareerTalent - xpSpentCareerSpecialist - spellsCost - skillPointGain - skillPointGainRoll - creditsCost - alliesCost - reputationCost - factionCost + flawsGain - perksCost;
 
         setAttrs({
             xp_remaining: xpRemaining
@@ -51520,7 +51543,6 @@ on("clicked:ledger change:repeating_ledger:ledger_choice change:repeating_ledger
                 xp_spells: 0,
                 xp_credits: 0,
                 xp_allies: 0,
-                xp_contacts: -10,
                 xp_reputation: 0,
                 xp_faction: 0,
 //              xp_flaws: 0,
@@ -51556,7 +51578,6 @@ on("clicked:ledger change:repeating_ledger:ledger_choice change:repeating_ledger
                 xpledger_spells_cost: aggregates.xp_spells,
                 xpledger_credits_cost: aggregates.xp_credits,
                 xpledger_allies_cost: aggregates.xp_allies,
-                xpledger_contacts_cost: aggregates.xp_contacts,
                 xpledger_reputation_cost: aggregates.xp_reputation,
                 xpledger_faction_cost: aggregates.xp_faction,
             };
@@ -51720,6 +51741,48 @@ on("change:theme_mode change:showracials", () => {
 
         setAttrs({ theme: theme_current });
     });
+});
+
+
+on("change:background_contact_choice change:background_choice", function() {
+	if (debug_on_trace) console.log("[background_contact_choice] Start");
+
+	getAttrs(["background_choice", "background_contact_choice", "starting_contact_background_name", "starting_contact_background_name_default", "starting_contact_background_desc", "starting_contact_background_desc_default"], function(values) {
+		const bgKey    = values["background_choice"] || "";
+		const choice   = values["background_contact_choice"] || "";
+		const bgData   = backgroundDataMap[bgKey] || {};
+		const contacts = bgData.contacts || {};
+		const entry    = contacts[choice];
+
+		if (!entry) return;
+
+		const tr = (k) => (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+
+		const nameText    = tr(entry.name);
+		const descText    = tr(entry.description);
+
+		const currentName = values["starting_contact_background_name"] || "";
+		const defaultName = values["starting_contact_background_name_default"] || "";
+		const currentDesc = values["starting_contact_background_desc"] || "";
+		const defaultDesc = values["starting_contact_background_desc_default"] || "";
+
+		const updates = {
+			starting_contact_background_name_default: nameText,
+			starting_contact_background_desc_default: descText
+		};
+
+		// Only overwrite name if player hasn't customized it
+		if (currentName === "" || currentName === defaultName) {
+			updates.starting_contact_background_name = nameText;
+		}
+
+		// Only overwrite desc if player hasn't customized it
+		if (currentDesc === "" || currentDesc === defaultDesc) {
+			updates.starting_contact_background_desc = descText;
+		}
+
+		setAttrs(updates);
+	});
 });
 
 /*	Watchers Section - End */

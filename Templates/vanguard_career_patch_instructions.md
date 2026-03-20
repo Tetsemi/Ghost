@@ -12,9 +12,9 @@
 
 **Target Career + Scope:**
 - `CAREER_KEY`: 
-	- `` *(e.g. `marksman`)* — must match the key in `careerDataMap`
+	- `vanguard` *(e.g. `marksman`)* — must match the key in `careerDataMap`
 - `TARGET_TIER`:
-	- `` *(integer: 1, 2, 3, 4, or 5)*
+	- `5` *(integer: 1, 2, 3, 4, or 5)*
 - `IN_SCOPE_SECTIONS` *(only these; nothing else)*:
   - `primary_skills` *(include only if requested)*
   - `secondary_skills` *(include only if requested)*
@@ -40,7 +40,11 @@
 **Talent Inputs (tab-delimited: Name | Rules Text | Prerequisite Name):**
 - `TIER_TALENTS_INPUT`:
 ```
-<insert here>
+Dead Ground	Type: Maneuver (Establish) • Cost: 1d6 Strain • Usage: 1/Session — Designate a zone within Medium range. For the rest of the scene, any enemy who enters or begins their turn in that zone is automatically Suppressed — no POW roll permitted. The zone persists until the end of the scene or until you are incapacitated. Enemies aware of the zone may choose not to enter it.	Weapon Platform
+Old Dog	Type: Passive (Mastery) • Cost: — • Usage: Permanent — You always roll Initiative with +1 bonus die. This bonus cannot be negated by conditions, wound penalties, or environmental effects unless you are Surprised, in which case standard Surprise rules apply.	Grind Them Down
+Tactical Anchor	Type: Action (Command) • Cost: 1d6 Strain • Usage: 1/Session — Designate up to three allies within Medium. Until the end of the round, each designated ally may reroll one failed POW or CON roll and gains +1 bonus die on their next attack or action. Enemies who target a designated ally while you have LOS to the attacker must test POW; on a failure, they redirect their attack to you instead.	Unit Anchor
+Unstoppable Barrage	Type: Action (Sustained Heavy Fire) • Cost: 1d6 Strain • Usage: 1/Session — While braced or in Weapon Platform stance, unleash a full-capacity Full Auto heavy weapon barrage against a target zone within your weapon's maximum range. Each enemy in that zone is targeted; roll Heavy Weapons against each target separately. Enemies who have not yet used their Reaction this round may Dodge using standard Dodge resolution; a successful Dodge avoids the attack entirely. Enemies who have already used their Reaction cannot make a new Dodge roll — the attack resolves against their existing Dodge result if one was made, or against their base defense if none was. Enemies who are hit take weapon damage as normal. For each target hit, generate Suppression. Enemies already Suppressed at the start of this action take +1d6 additional damage.	Weapon Platform
+Unbroken	Type: Special Immediate (Stand) • Cost: 1d6 Strain • Usage: 1/Session — Declare at the start of your turn. Until the start of your next turn, you cannot be Suppressed, Staggered, or forced from your position by any effect, and the Bloodied and Grievous conditions impose no penalties. During this window, Last Round may be activated without spending Strain. If you reduce an enemy to 0 HP during this window, one ally within Medium may use their Reaction to take a Move Maneuver.	Last Round
 ```
 
 **Schema Reference:**

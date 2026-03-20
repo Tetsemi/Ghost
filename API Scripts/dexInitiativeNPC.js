@@ -46,9 +46,10 @@ on('chat:message', function(msg) {
   else if (roll <= extreme) { tier = 'Extreme';  init = 3000 + effectiveDex; }
   else if (roll <= hard)    { tier = 'Hard';     init = 2000 + effectiveDex; }
   else if (roll <= success) { tier = 'Normal';   init = 1000 + effectiveDex; }
-  else if (roll >= 96)      { tier = 'Fumble';   init = 0; }
-
-  if (init <= 0) init = 0.1;
+  else if ((effectiveDex < 50 && roll >= 96) || (effectiveDex >= 50 && roll === 100)) { tier = 'Fumble';   init = 0; }
+  else						{ tier = 'Fail'; 	 init = effectiveDex; }
+  
+  if (init <= 0) init = 0;
 
   const output = `&{template:coc-1} `
     + `{{name=Initiative (Combat) - ${name}}} `

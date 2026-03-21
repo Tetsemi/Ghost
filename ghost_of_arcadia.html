@@ -51874,30 +51874,53 @@ on(trackerChangeEvent, (eventInfo) => {
   handleTrackerStrainDeduction(source);
 });
 
-// Watch strain for Exhausted removal when strain rises above 0
+// Watch strain for Exhausted/Tired application and removal
 on("change:strain", () => {
   getAttrs(["strain", "strain_max", "name", "status1", "status2", "status3", "status4"], (vals) => {
-    const curStrain = parseInt(vals.strain, 10) || 0;
-    const maxStrain = parseInt(vals.strain_max, 10) || 0;
-    const charName  = vals.name || "Character";
-    const strained  = maxStrain > 0 && curStrain <= maxStrain / 2;
+    const curStrain      = parseInt(vals.strain, 10) || 0;
+    const maxStrain      = parseInt(vals.strain_max, 10) || 0;
+    const charName       = vals.name || "Character";
+    const isExhausted    = maxStrain > 0 && curStrain === 0;
+    const isTired        = maxStrain > 0 && curStrain <= maxStrain / 2;
+    const exhaustedLabel = getConditionLabel("exhausted");
+    const tiredLabel     = getConditionLabel("tired");
+    const statusKeys     = ["status1", "status2", "status3", "status4"];
+    const updates        = {};
 
-    // ── Exhausted: remove when strain recovers above 0 ──
-    if (curStrain > 0) {
-      removeExhaustedStatus(vals);
+    const hasExhausted = statusKeys.some(k => (vals[k] || "").trim() === exhaustedLabel);
+    const hasTired     = statusKeys.some(k => (vals[k] || "").trim() === tiredLabel);
+
+    // Build current slot state as a mutable array so both conditions share it
+    const slots = statusKeys.map(k => (vals[k] || "").trim());
+
+    // ── Exhausted ──
+    if (isExhausted && !hasExhausted) {
+      const idx = slots.indexOf("");
+      if (idx !== -1) {
+        updates[statusKeys[idx]] = exhaustedLabel;
+        slots[idx] = exhaustedLabel; // mark as taken for Tired pass below
+      } else {
+        const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${exhaustedLabel} — no status slot available. Add manually.}}`;
+        startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+      }
+    } else if (!isExhausted && hasExhausted) {
+      statusKeys.forEach((k, i) => { if (slots[i] === exhaustedLabel) { updates[k] = ""; slots[i] = ""; } });
     }
 
-    // ── Tired: apply at/below 50%, remove when above 50% ──
-    if (strained) {
-      applyTiredStatus((placed) => {
-        if (!placed) {
-          const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("tired")} — no status slot available. Add manually.}}`;
-          startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
-        }
-      });
-    } else {
-      removeTiredStatus(vals);
+    // ── Tired ──
+    if (isTired && !hasTired) {
+      const idx = slots.indexOf("");
+      if (idx !== -1) {
+        updates[statusKeys[idx]] = tiredLabel;
+      } else {
+        const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${tiredLabel} — no status slot available. Add manually.}}`;
+        startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+      }
+    } else if (!isTired && hasTired) {
+      statusKeys.forEach((k, i) => { if (slots[i] === tiredLabel) { updates[k] = ""; } });
     }
+
+    if (Object.keys(updates).length > 0) setAttrs(updates);
   });
 });
 

@@ -21139,6 +21139,25 @@
 				</div>
 			</div>
 
+			<!-- Long Rest Tracker -->
+			<div class="sheet-tracker-group-row">
+				<div class="sheet-tracker-group-title" data-i18n="long_rest_limited-u">Long Rest</div>
+				<div class="sheet-tracker-group-body">
+
+					<!-- ================== TRACKER DRAEVI TALENTS: INDEX (long_rest) (key | cost) ================== -->
+					<!-- - ancestry_draevi_keeper_of_the_last_fire (40 XP, long_rest) -->
+					<!-- ===================================================================================================== -->
+
+					<!-- Tracker Ancestry Talent: Keeper of the Last Fire | key: keeper_of_the_last_fire | cost: 40 XP | cadence: long_rest | attrs: attr_show_draevi_keeper_of_the_last_fire, attr_used_long_rest_draevi_keeper_of_the_last_fire | i18n: talent_draevi_keeper_of_the_last_fire-u -->
+					<input type="hidden" name="attr_show_draevi_keeper_of_the_last_fire"/>
+					<div class="sheet-tracker-item sheet-tracker-long-rest sheet-draevi-keeper-of-the-last-fire">
+						<input type="checkbox" name="attr_used_long_rest_draevi_keeper_of_the_last_fire" class="sheet-tracker-checkbox"/>
+						<span class="sheet-tracker-label" data-i18n="talent_draevi_keeper_of_the_last_fire-u"></span>
+					</div>
+
+				</div>
+			</div>
+
 			<input type="hidden" name="attr_showracials" class="sheet-tab-controller"/>
 
 			<h4 class="sheet-tracker-stim-header" data-i18n="stim_tracker-u">Stim Tracker</h4>
@@ -36351,7 +36370,7 @@ const ancestryTalentDataMap = {
 			rule_text_key: "talent_draevi_keeper_of_the_last_fire_rules-u",
 			type: { economy: "free_action", tag: "Sanctuary" },
 			strain: "",
-			usage_limit: "",
+			usage_limit: "long_rest",
 			affected_skill: [],
 			prerequisite: ["those_who_walked_before"]
 		},
@@ -51319,6 +51338,15 @@ on("clicked:strain_full_rest", () => {
       setAttrs({ strain: maxStrain });
       finishRoll(rollData.rollId);
     });
+
+    // Clear all long rest tracker checkboxes
+    setAttrs({ clearing_tracker: "1" }, {}, () => {
+      const longRestUses = getUsageLimitedTalentNames("long_rest");
+      const updates = Object.fromEntries(longRestUses.map(name => [name, "0"]));
+      setAttrs(updates, {}, () => {
+        setAttrs({ clearing_tracker: "0" });
+      });
+    });
   });
 });
 
@@ -51549,8 +51577,8 @@ function getConditionLabel(conditionKey) {
 // attr format: used_<scene|session>_<namespace>_<talent_key>
 // namespace = career key, race key, or "perk"/"flaw"
 function lookupTalentData(attrName) {
-  // Strip leading "used_scene_" or "used_session_"
-  const withoutCadence = attrName.replace(/^used_(?:scene|session)_/, "");
+  // Strip leading "used_scene_", "used_session_", or "used_long_rest_"
+  const withoutCadence = attrName.replace(/^used_(?:scene|session|long_rest)_/, "");
 
   // Try career map first — career keys can be multi-word (e.g. combat_engineer)
   for (const careerKey in careerDataMap) {
@@ -51584,7 +51612,7 @@ function lookupTalentData(attrName) {
 
 // Resolve display name from translation map or fallback to key formatting
 function getTalentDisplayName(attrName) {
-  const withoutCadence = attrName.replace(/^used_(?:scene|session)_/, "");
+  const withoutCadence = attrName.replace(/^used_(?:scene|session|long_rest)_/, "");
 
   // Try career i18n key: career_<career>_<talent>-u
   for (const careerKey in careerDataMap) {
@@ -51822,6 +51850,7 @@ function handleTrackerStrainDeduction(attrName) {
 
 // Watch all scene/session tracker checkboxes
 const allTrackerAttrs = [
+  ...getUsageLimitedTalentNames("long_rest"),
   ...getUsageLimitedTalentNames("scene"),
   ...getUsageLimitedTalentNames("session")
 ];

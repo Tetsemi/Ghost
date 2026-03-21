@@ -28651,7 +28651,10 @@
 													<span data-i18n="slash-z">/</span>
 													<input type="text" name="attr_minionhp_max" class="sheet-narrow-input" placeholder="Max" data-i18n-placeholder="max-u"/>
 													<span data-i18n="pipe-z">|</span>
-													<input type="text" name="attr_minionmp" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u"/>
+													<input type="hidden" name="attr_minion_strained_css" value="0"/>
+													<input type="text" name="attr_minionmp" class="sheet-narrow-input sheet-minionmp-input" placeholder="Current" data-i18n-placeholder="current"/>
+													<span data-i18n="slash-z">/</span>
+													<input type="text" name="attr_minionmp_max" class="sheet-narrow-input" placeholder="Strain Max" data-i18n-placeholder="strain_max-u"/>
 												</div>
 											</div>
 											<div class="sheet-npc-row">
@@ -51170,7 +51173,9 @@ const recalcMinionDiceModifier = (rowId) => {
     "dice_modifier_manual",
     `repeating_minion_${rowId}_minionhp`,
     `repeating_minion_${rowId}_minionhp_max`,
-    `repeating_minion_${rowId}_minion_major_wounds_checkbox`
+    `repeating_minion_${rowId}_minion_major_wounds_checkbox`,
+    `repeating_minion_${rowId}_minionmp`,
+    `repeating_minion_${rowId}_minionmp_max`
   ];
   getAttrs(attrs, (values) => {
     const manual     = parseInt(values.dice_modifier_manual, 10) || 0;
@@ -51178,16 +51183,21 @@ const recalcMinionDiceModifier = (rowId) => {
     const hp         = parseInt(values[`repeating_minion_${rowId}_minionhp`], 10);
     const hpMax      = parseInt(values[`repeating_minion_${rowId}_minionhp_max`], 10);
     const bloodied   = !isNaN(hp) && !isNaN(hpMax) && hpMax > 0 && hp <= hpMax / 2;
+    const mp         = parseInt(values[`repeating_minion_${rowId}_minionmp`], 10);
+    const mpMax      = parseInt(values[`repeating_minion_${rowId}_minionmp_max`], 10);
+    const strained   = !isNaN(mp) && !isNaN(mpMax) && mpMax > 0 && mp <= mpMax / 2;
 
-    const penalty  = (majorWound ? -10 : 0) + (bloodied ? -10 : 0);
-    const final    = manual + penalty;
-    const bloodCss = bloodied ? "1" : "0";
+    const penalty    = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (strained ? -10 : 0);
+    const final      = manual + penalty;
+    const bloodCss   = bloodied ? "1" : "0";
+    const strainCss  = strained ? "1" : "0";
 
-    if (debug_on) console.log("[recalcMinionDiceModifier] manual:", manual, "majorWound:", majorWound, "hp:", hp, "hpMax:", hpMax, "bloodied:", bloodied, "final:", final);
+    if (debug_on) console.log("[recalcMinionDiceModifier] manual:", manual, "majorWound:", majorWound, "hp:", hp, "hpMax:", hpMax, "bloodied:", bloodied, "mp:", mp, "mpMax:", mpMax, "strained:", strained, "final:", final);
 
     setAttrs({
       [`repeating_minion_${rowId}_minion_dice_modifier_checkbox`]: String(final),
-      [`repeating_minion_${rowId}_minion_bloodied_css`]: bloodCss
+      [`repeating_minion_${rowId}_minion_bloodied_css`]:           bloodCss,
+      [`repeating_minion_${rowId}_minion_strained_css`]:           strainCss
     });
   });
 };
@@ -51217,12 +51227,59 @@ on("clicked:repeating_minion:minionwounds", (eventInfo) => {
   });
 });
 
-on("change:repeating_minion:minionhp change:repeating_minion:minionhp_max change:repeating_minion:minion_major_wounds_checkbox", (eventInfo) => {
-  if (debug_on_watcher) console.log("[change:repeating_minion:hp/wounds]", eventInfo.sourceAttribute);
+on("change:repeating_minion:minionhp change:repeating_minion:minionhp_max change:repeating_minion:minion_major_wounds_checkbox change:repeating_minion:minionmp change:repeating_minion:minionmp_max", (eventInfo) => {
+  if (debug_on_watcher) console.log("[change:repeating_minion:hp/wounds/strain]", eventInfo.sourceAttribute);
   const src   = eventInfo.sourceAttribute || "";
   const match = src.match(/repeating_minion_([^_]+)_/);
   if (!match) return;
   recalcMinionDiceModifier(match[1]);
+});
+
+// Apply / remove Tired and Exhausted on NPC minion status slots when strain changes
+on("change:repeating_minion:minionmp change:repeating_minion:minionmp_max", (eventInfo) => {
+  const src   = eventInfo.sourceAttribute || "";
+  const match = src.match(/repeating_minion_([^_]+)_/);
+  if (!match) return;
+  const rowId = match[1];
+
+  const mpAttr    = `repeating_minion_${rowId}_minionmp`;
+  const mpMaxAttr = `repeating_minion_${rowId}_minionmp_max`;
+  const s1 = `repeating_minion_${rowId}_minion_status1`;
+  const s2 = `repeating_minion_${rowId}_minion_status2`;
+  const s3 = `repeating_minion_${rowId}_minion_status3`;
+  const s4 = `repeating_minion_${rowId}_minion_status4`;
+
+  getAttrs([mpAttr, mpMaxAttr, s1, s2, s3, s4], (vals) => {
+    const mp         = parseInt(vals[mpAttr], 10) || 0;
+    const mpMax      = parseInt(vals[mpMaxAttr], 10) || 0;
+    const statusKeys = [s1, s2, s3, s4];
+    const updates    = {};
+
+    const tiredLabel     = getConditionLabel("tired");
+    const exhaustedLabel = getConditionLabel("exhausted");
+
+    // Exhausted: strain at 0
+    const isExhausted  = mpMax > 0 && mp === 0;
+    const hasExhausted = statusKeys.some(k => (vals[k] || "").trim() === exhaustedLabel);
+    if (isExhausted && !hasExhausted) {
+      const slot = statusKeys.find(k => !vals[k] || vals[k].trim() === "");
+      if (slot) updates[slot] = exhaustedLabel;
+    } else if (!isExhausted && hasExhausted) {
+      statusKeys.forEach(k => { if ((vals[k] || "").trim() === exhaustedLabel) updates[k] = ""; });
+    }
+
+    // Tired: strain at or below 50% but above 0
+    const isStrained = mpMax > 0 && mp > 0 && mp <= mpMax / 2;
+    const hasTired   = statusKeys.some(k => (vals[k] || "").trim() === tiredLabel);
+    if (isStrained && !hasTired) {
+      const slot = statusKeys.find(k => !vals[k] || vals[k].trim() === "");
+      if (slot) updates[slot] = tiredLabel;
+    } else if (!isStrained && hasTired) {
+      statusKeys.forEach(k => { if ((vals[k] || "").trim() === tiredLabel) updates[k] = ""; });
+    }
+
+    if (Object.keys(updates).length > 0) setAttrs(updates);
+  });
 });
 
 // When PC modifier button changes, recalc all minion rows

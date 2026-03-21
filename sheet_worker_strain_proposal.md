@@ -19,6 +19,12 @@ Clearing the scene or session tracker does not refund any Strain previously spen
   Maneuver, or Reaction), and cannot spend Strain or activate abilities that require it.
 - A talent **cannot be activated** if the character is already at 0 Strain and the talent has
   a non-zero cost.
+- When Strain hits 0, the worker automatically writes **Exhausted** to the first empty status
+  field (`attr_status1` through `attr_status4`). If all four status fields are occupied,
+  the chat message flags it instead:
+  > *"[Character Name] is Exhausted — no status slot available. Add manually."*
+- When Strain rises above 0 (via manual adjustment or recovery), the worker removes
+  **Exhausted** from whichever status field holds it, if present.
 
 ---
 

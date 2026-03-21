@@ -35132,6 +35132,128 @@ const skillDataMap = {
 	}
 };
 
+const conditionsDataMap = {
+	blind: {
+		name_key:      "condition_blind-u",
+		rule_text_key: "condition_blind_rules-u",
+		category:      "combat",
+		duration:      "source_defined",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	burning: {
+		name_key:      "condition_burning-u",
+		rule_text_key: "condition_burning_rules-u",
+		category:      "combat",
+		duration:      "ongoing",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	chilled: {
+		name_key:      "condition_chilled-u",
+		rule_text_key: "condition_chilled_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	deafened: {
+		name_key:      "condition_deafened-u",
+		rule_text_key: "condition_deafened_rules-u",
+		category:      "combat",
+		duration:      "source_defined",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	disoriented: {
+		name_key:      "condition_disoriented-u",
+		rule_text_key: "condition_disoriented_rules-u",
+		category:      "combat",
+		duration:      "source_defined",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	entangled: {
+		name_key:      "condition_entangled-u",
+		rule_text_key: "condition_entangled_rules-u",
+		category:      "combat",
+		duration:      "until_escaped",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	exhausted: {
+		name_key:      "condition_exhausted-u",
+		rule_text_key: "condition_exhausted_rules-u",
+		category:      "strain",
+		duration:      "until_strain_recovery",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	hobbled: {
+		name_key:      "condition_hobbled-u",
+		rule_text_key: "condition_hobbled_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	impaired: {
+		name_key:      "condition_impaired-u",
+		rule_text_key: "condition_impaired_rules-u",
+		category:      "combat",
+		duration:      "1_round",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	jammed: {
+		name_key:      "condition_jammed-u",
+		rule_text_key: "condition_jammed_rules-u",
+		category:      "weapon",
+		duration:      "until_cleared",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	panicked: {
+		name_key:      "condition_panicked-u",
+		rule_text_key: "condition_panicked_rules-u",
+		category:      "combat",
+		duration:      "1d3_rounds",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	poisoned: {
+		name_key:      "condition_poisoned-u",
+		rule_text_key: "condition_poisoned_rules-u",
+		category:      "combat",
+		duration:      "until_treated",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	shaken: {
+		name_key:      "condition_shaken-u",
+		rule_text_key: "condition_shaken_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	slowed: {
+		name_key:      "condition_slowed-u",
+		rule_text_key: "condition_slowed_rules-u",
+		category:      "combat",
+		duration:      "until_removed",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	stunned: {
+		name_key:      "condition_stunned-u",
+		rule_text_key: "condition_stunned_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	suppressed: {
+		name_key:      "condition_suppressed-u",
+		rule_text_key: "condition_suppressed_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	weakened: {
+		name_key:      "condition_weakened-u",
+		rule_text_key: "condition_weakened_rules-u",
+		category:      "combat",
+		duration:      "until_treated",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	}
+};
+
 const talentTypeMap = {
 	reaction:           { label_key: "type_reaction-u",           order: 10, source: { doc: "type-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
 	special_immediate:  { label_key: "type_special_immediate-u",  order: 20, source: { doc: "type-u", version: "2.260129", date: "2026-01-29", section: "tags-u" } },
@@ -51231,52 +51353,369 @@ on("clicked:toggle_career_skills", () => {
 });
 
 on("clicked:clear_scene_uses", () => {
-    // Clear static scene checkboxes first
-    const sceneUses = getUsageLimitedTalentNames("scene");
-    const updates = Object.fromEntries(sceneUses.map(name => [name, "0"]));
+    // Set guard flag so strain worker ignores these unchecks
+    setAttrs({ clearing_tracker: "1" }, {}, () => {
+        // Clear static scene checkboxes first
+        const sceneUses = getUsageLimitedTalentNames("scene");
+        const updates = Object.fromEntries(sceneUses.map(name => [name, "0"]));
 
-    // Get all repeating_scene row IDs
-    getSectionIDs("repeating_scene", ids => {
-        ids.forEach(id => {
-            // Build attribute name for checkbox in each row
-            const attrName = `repeating_scene_${id}_used_scene_item_name_mdr`;
-            updates[attrName] = "0";
+        // Get all repeating_scene row IDs
+        getSectionIDs("repeating_scene", ids => {
+            ids.forEach(id => {
+                // Build attribute name for checkbox in each row
+                const attrName = `repeating_scene_${id}_used_scene_item_name_mdr`;
+                updates[attrName] = "0";
+            });
+
+            // Apply all updates then reset guard flag
+            setAttrs(updates, {}, () => {
+                setAttrs({ clearing_tracker: "0" });
+            });
         });
-
-        // Apply all updates
-        setAttrs(updates);
     });
 });
 
 on("clicked:clear_session_uses", () => {
-  // Clear static session checkboxes first
-  const sessionUses = getUsageLimitedTalentNames("session");
-  const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
+  // Set guard flag so strain worker ignores these unchecks
+  setAttrs({ clearing_tracker: "1" }, {}, () => {
+    // Clear static session checkboxes first
+    const sessionUses = getUsageLimitedTalentNames("session");
+    const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
 
-  // Get all repeating_session row IDs
-  getSectionIDs("repeating_session", ids => {
-    ids.forEach(id => {
-      const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
-      updates[attrName] = "0";
-    });
+    // Get all repeating_session row IDs
+    getSectionIDs("repeating_session", ids => {
+      ids.forEach(id => {
+        const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
+        updates[attrName] = "0";
+      });
 
-    // If Blood-Born Survivor was applied this session, remove the +2 now
-    getAttrs(["bbs_session_applied", "vitality"], vals => {
-      const applied = vals.bbs_session_applied === "1";
-      const curVit  = parseInt(vals.vitality, 10) || 0;
+      // If Blood-Born Survivor was applied this session, remove the +2 now
+      getAttrs(["bbs_session_applied", "vitality"], vals => {
+        const applied = vals.bbs_session_applied === "1";
+        const curVit  = parseInt(vals.vitality, 10) || 0;
 
-      if (applied) {
-        updates.vitality = Math.max(curVit - 2, 0); // clamp at 0 just in case
-      }
+        if (applied) {
+          updates.vitality = Math.max(curVit - 2, 0); // clamp at 0 just in case
+        }
 
-      // Allow next session’s +2 to be granted again
-      updates.bbs_session_applied = "0";
+        // Allow next session's +2 to be granted again
+        updates.bbs_session_applied = "0";
 
-      // Apply all updates
-      setAttrs(updates);
+        // Apply all updates then reset guard flag
+        setAttrs(updates, {}, () => {
+          setAttrs({ clearing_tracker: "0" });
+        });
+      });
     });
   });
 });
+
+/* ============================================================
+   TRACKER STRAIN DEDUCTION WORKER
+   Fires when any scene/session tracker checkbox is checked.
+   Deducts strain, updates status, sends public chat message.
+   Does NOT fire on uncheck (no refund) or during clear ops.
+   ============================================================ */
+
+// Economy and tag display — resolved via talentTypeMap, talentTagMap, and translation keys
+// prettyTag() is defined in buildTalentTypeSummary scope; replicate here for worker scope
+function workerPrettyTag(tag) {
+  if (!tag) return "";
+  // Try translation key first via talentTagMap
+  const labelKey = talentTagMap?.[tag]?.label_key;
+  if (labelKey && typeof getTranslationByKey === "function") {
+    const translated = getTranslationByKey(labelKey);
+    if (translated && translated !== labelKey) return translated;
+  }
+  // Fallback: snake_case → Title Case
+  return tag.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function workerEconomyLabel(economy) {
+  if (!economy) return "";
+  // Try translation key via talentTypeMap
+  const labelKey = talentTypeMap?.[economy]?.label_key;
+  if (labelKey && typeof getTranslationByKey === "function") {
+    const translated = getTranslationByKey(labelKey);
+    if (translated && translated !== labelKey) return translated;
+  }
+  // Fallback: snake_case → Title Case
+  return economy.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// Resolve a condition display name from conditionsDataMap via translation, fallback to Title Case
+function getConditionLabel(conditionKey) {
+  const nameKey = conditionsDataMap?.[conditionKey]?.name_key;
+  if (nameKey && typeof getTranslationByKey === "function") {
+    const translated = getTranslationByKey(nameKey);
+    if (translated && translated !== nameKey) return translated;
+  }
+  // Fallback: snake_case → Title Case
+  return conditionKey.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// Look up a talent entry from any data map by attr name
+// attr format: used_<scene|session>_<namespace>_<talent_key>
+// namespace = career key, race key, or "perk"/"flaw"
+function lookupTalentData(attrName) {
+  // Strip leading "used_scene_" or "used_session_"
+  const withoutCadence = attrName.replace(/^used_(?:scene|session)_/, "");
+
+  // Try career map first — career keys can be multi-word (e.g. combat_engineer)
+  for (const careerKey in careerDataMap) {
+    if (withoutCadence.startsWith(careerKey + "_")) {
+      const talentKey = withoutCadence.slice(careerKey.length + 1);
+      const talent = careerDataMap[careerKey]?.talents?.[talentKey];
+      if (talent) return { talent, displaySource: careerKey };
+    }
+  }
+
+  // Try ancestry talent map
+  for (const raceKey in ancestryTalentDataMap) {
+    if (withoutCadence.startsWith(raceKey + "_")) {
+      const talentKey = withoutCadence.slice(raceKey.length + 1);
+      const talent = ancestryTalentDataMap[raceKey]?.[talentKey];
+      if (talent) return { talent, displaySource: raceKey };
+    }
+  }
+
+  // Try ancestry trait map
+  for (const raceKey in ancestryDataMap) {
+    if (withoutCadence.startsWith(raceKey + "_")) {
+      const traitKey = withoutCadence.slice(raceKey.length + 1);
+      const trait = ancestryDataMap[raceKey]?.traits?.items?.[traitKey];
+      if (trait) return { talent: trait, displaySource: raceKey };
+    }
+  }
+
+  return null;
+}
+
+// Resolve display name from translation map or fallback to key formatting
+function getTalentDisplayName(attrName) {
+  const withoutCadence = attrName.replace(/^used_(?:scene|session)_/, "");
+
+  // Try career i18n key: career_<career>_<talent>-u
+  for (const careerKey in careerDataMap) {
+    if (withoutCadence.startsWith(careerKey + "_")) {
+      const talentKey = withoutCadence.slice(careerKey.length + 1);
+      const i18nKey = `career_${careerKey}_${talentKey}-u`;
+      if (typeof translation !== "undefined" && translation[i18nKey]) {
+        return translation[i18nKey];
+      }
+      // Fallback: format the key
+      return talentKey.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    }
+  }
+
+  // Try ancestry talent i18n key: talent_<race>_<talent>-u
+  for (const raceKey in ancestryTalentDataMap) {
+    if (withoutCadence.startsWith(raceKey + "_")) {
+      const talentKey = withoutCadence.slice(raceKey.length + 1);
+      const i18nKey = `talent_${raceKey}_${talentKey}-u`;
+      if (typeof translation !== "undefined" && translation[i18nKey]) {
+        return translation[i18nKey];
+      }
+      return talentKey.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    }
+  }
+
+  // Try ancestry trait i18n key: racial_<race>_<trait>-u
+  for (const raceKey in ancestryDataMap) {
+    if (withoutCadence.startsWith(raceKey + "_")) {
+      const traitKey = withoutCadence.slice(raceKey.length + 1);
+      const i18nKey = `racial_${raceKey}_${traitKey}-u`;
+      if (typeof translation !== "undefined" && translation[i18nKey]) {
+        return translation[i18nKey];
+      }
+      return traitKey.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    }
+  }
+
+  return withoutCadence;
+}
+
+// Parse a strain expression: returns { isFixed, fixedVal, diceExpr }
+function parseStrainExpr(strainStr) {
+  if (!strainStr || strainStr === "" || strainStr === "0") {
+    return { isFixed: true, fixedVal: 0, diceExpr: null };
+  }
+  // Pure integer
+  if (/^\d+$/.test(strainStr)) {
+    return { isFixed: true, fixedVal: parseInt(strainStr, 10), diceExpr: null };
+  }
+  // Dice expression
+  return { isFixed: false, fixedVal: null, diceExpr: strainStr };
+}
+
+// Write Exhausted to first empty status slot; return true if placed, false if all full
+function applyExhaustedStatus(statusValues, charName, cb) {
+  const updates = {};
+  let placed = false;
+  for (let i = 1; i <= 4; i++) {
+    const key = `status${i}`;
+    if (!statusValues[key] || statusValues[key].trim() === "") {
+      updates[key] = getConditionLabel("exhausted");
+      placed = true;
+      break;
+    }
+  }
+  if (placed) {
+    setAttrs(updates, {}, cb);
+  } else {
+    cb(false); // signal: no slot available
+  }
+}
+
+// Remove Exhausted from whichever status slot holds it
+function removeExhaustedStatus(statusValues) {
+  const updates = {};
+  for (let i = 1; i <= 4; i++) {
+    const key = `status${i}`;
+    if (statusValues[key] && statusValues[key].trim() === getConditionLabel("exhausted")) {
+      updates[key] = "";
+    }
+  }
+  if (Object.keys(updates).length > 0) setAttrs(updates);
+}
+
+// Main tracker strain handler
+function handleTrackerStrainDeduction(attrName) {
+  if (debug_on) console.log("[handleTrackerStrainDeduction] Start:", attrName);
+  // Guard: skip if clear is in progress
+  getAttrs(["clearing_tracker"], (flagVals) => {
+    if (debug_on) console.log("[handleTrackerStrainDeduction] clearing_tracker:", flagVals.clearing_tracker);
+    if (flagVals.clearing_tracker === "1") return;
+
+    const talentData = lookupTalentData(attrName);
+    const displayName = getTalentDisplayName(attrName);
+
+    const strainStr   = talentData?.talent?.strain ?? "";
+    const economy     = talentData?.talent?.type?.economy ?? "";
+    const tag         = talentData?.talent?.type?.tag ?? "";
+    const economyDisp = workerEconomyLabel(economy);
+    const tagDisp     = workerPrettyTag(tag);
+    const typeLabel   = tagDisp ? `${economyDisp} — ${tagDisp}` : economyDisp;
+
+    const parsed = parseStrainExpr(strainStr);
+
+    getAttrs(["name", "strain", "strain_max", "status1", "status2", "status3", "status4"], (vals) => {
+      const charName   = vals.name || "Character";
+      const curStrain  = parseInt(vals.strain, 10) || 0;
+      const maxStrain  = parseInt(vals.strain_max, 10) || 0;
+
+      // Zero-cost or passive: just send message, no deduction
+      if (parsed.isFixed && parsed.fixedVal === 0) {
+		const msg = `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (0)}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{Remaining Strain=${curStrain} / ${maxStrain}}}`;
+        startRoll(msg, (r) => { finishRoll(r.rollId); });
+        return;
+      }
+
+      // Non-zero cost: check if already exhausted
+      if (curStrain <= 0) {
+        const blockedMsg = `&{template:coc-dice-roll} {{name=⚠ Cannot Activate\n${charName} is ${getConditionLabel("exhausted")}\nStrain: (${strainStr || 0})}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${displayName} not activated.}}`;
+        startRoll(blockedMsg, (r) => { finishRoll(r.rollId); });
+        // Uncheck the box
+        setAttrs({ [attrName]: "0" });
+        return;
+      }
+
+      if (parsed.isFixed) {
+        // Fixed cost — no roll needed
+        const cost      = parsed.fixedVal;
+        const rawNew    = curStrain - cost;
+        const newStrain = Math.max(rawNew, 0);
+        const floored   = rawNew < 0;
+        const unspent   = floored ? Math.abs(rawNew) : 0;
+
+        const msg = `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${cost})}} {{modifier=[[0]]}} {{diceroll=[[${cost}]]}} {{Remaining Strain=${newStrain} / ${maxStrain}${floored ? ` — floored at 0 (${unspent} unspent)` : ""}}}`;
+
+        setAttrs({ strain: newStrain });
+        startRoll(msg, (r) => { finishRoll(r.rollId); });
+
+        if (newStrain === 0) {
+          applyExhaustedStatus(vals, charName, (placed) => {
+            if (!placed) {
+              const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("exhausted")} — no status slot available. Add manually.}}`;
+              startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+            }
+          });
+        }
+
+      } else {
+        // Dice expression — roll it
+        const rollExpr = parsed.diceExpr;
+        const rollStr  = `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${rollExpr})}} {{modifier=[[0]]}} {{diceroll=[[${rollExpr}]]}}`;
+
+        startRoll(rollStr, (rollData) => {
+          const rolled    = rollData.results.diceroll.result;
+          const rawNew    = curStrain - rolled;
+          const newStrain = Math.max(rawNew, 0);
+          const floored   = rawNew < 0;
+          const unspent   = floored ? Math.abs(rawNew) : 0;
+
+          setAttrs({ strain: newStrain });
+          finishRoll(rollData.rollId, {
+            diceroll: rolled,
+            "Remaining Strain": `${newStrain} / ${maxStrain}${floored ? ` — floored at 0 (${unspent} unspent)` : ""}`
+          });
+
+          if (newStrain === 0) {
+            applyExhaustedStatus(vals, charName, (placed) => {
+              if (!placed) {
+                const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("exhausted")} — no status slot available. Add manually.}}`;
+                startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+}
+
+// Watch all scene/session tracker checkboxes
+const allTrackerAttrs = [
+  ...getUsageLimitedTalentNames("scene"),
+  ...getUsageLimitedTalentNames("session")
+];
+
+const trackerChangeEvent = allTrackerAttrs
+  .map(a => `change:${a}`)
+  .join(" ");
+
+on(trackerChangeEvent, (eventInfo) => {
+  const source = eventInfo?.sourceAttribute;
+  if (debug_on) console.log("[trackerStrainWorker] Event fired:", source, "newValue:", eventInfo?.newValue);
+  if (!source) return;
+
+  // Only fire on check (0→1), not uncheck — use newValue directly, no getAttrs needed
+  const newVal = eventInfo?.newValue ?? eventInfo?.newValue;
+  if (newVal !== "1" && newVal !== 1 && newVal !== "on") {
+    if (debug_on) console.log("[trackerStrainWorker] Skipping — uncheck or non-active value:", newVal);
+    return;
+  }
+
+  handleTrackerStrainDeduction(source);
+});
+
+// Watch strain for Exhausted removal when strain rises above 0
+on("change:strain", () => {
+  getAttrs(["strain", "status1", "status2", "status3", "status4"], (vals) => {
+    const curStrain = parseInt(vals.strain, 10) || 0;
+    if (curStrain > 0) {
+      removeExhaustedStatus(vals);
+    }
+  });
+});
+
+/* ============================================================
+   CLEAR SCENE / SESSION GUARD — inject clearing_tracker flag
+   into existing clear handlers (see clicked:clear_scene_uses
+   and clicked:clear_session_uses above — those handlers set
+   attr_clearing_tracker = "1" before setAttrs and reset to
+   "0" in the callback).
+   ============================================================ */
 
 on(careerTalentEvents, (eventInfo) => {
   // Which checkbox actually changed?

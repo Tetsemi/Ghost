@@ -51676,16 +51676,13 @@ function handleTrackerStrainDeduction(attrName) {
         }
 
       } else {
-        // Dice expression — resolve using randomInteger, then send one clean message
+        // Dice expression — resolve with Math.random(), single clean message
         const rollExpr = parsed.diceExpr;
-
-        // Parse the dice expression into components (e.g. "1d6", "1d4+1", "2d6", "1d6+1d4")
-        const rolled = resolveDiceExpr(rollExpr);
+        const rolled    = resolveDiceExpr(rollExpr);
         const rawNew    = curStrain - rolled;
         const newStrain = Math.max(rawNew, 0);
 
         setAttrs({ strain: newStrain });
-
         startRoll(
           `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${rollExpr})}} {{modifier=[[0]]}} {{diceroll=[[${rolled}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
           (r) => { finishRoll(r.rollId); }

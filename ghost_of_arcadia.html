@@ -28991,6 +28991,17 @@
 			<td class="template_label" data-i18n="rolled">Rolled:</td>
 			<td class="template_value">{{diceroll}}</td>
 		</tr>
+		{{#remaining_strain}}
+		<tr>
+			<td class="template_label">Remaining Strain:</td>
+			<td class="template_value">{{remaining_strain}} / {{remaining_strain_max}}</td>
+		</tr>
+		{{/remaining_strain}}
+		{{#result}}
+		<tr>
+			<td class="template_label" colspan="2">{{result}}</td>
+		</tr>
+		{{/result}}
     </table>
 </rolltemplate>
 
@@ -51549,22 +51560,24 @@ function parseStrainExpr(strainStr) {
 }
 
 // Write Exhausted to first empty status slot; return true if placed, false if all full
-function applyExhaustedStatus(statusValues, charName, cb) {
-  const updates = {};
-  let placed = false;
-  for (let i = 1; i <= 4; i++) {
-    const key = `status${i}`;
-    if (!statusValues[key] || statusValues[key].trim() === "") {
-      updates[key] = getConditionLabel("exhausted");
-      placed = true;
-      break;
+function applyExhaustedStatus(charName, cb) {
+  getAttrs(["status1", "status2", "status3", "status4"], (statusVals) => {
+    const updates = {};
+    let placed = false;
+    for (let i = 1; i <= 4; i++) {
+      const key = `status${i}`;
+      if (!statusVals[key] || statusVals[key].trim() === "") {
+        updates[key] = getConditionLabel("exhausted");
+        placed = true;
+        break;
+      }
     }
-  }
-  if (placed) {
-    setAttrs(updates, {}, cb);
-  } else {
-    cb(false); // signal: no slot available
-  }
+    if (placed) {
+      setAttrs(updates, {}, () => { cb(true); });
+    } else {
+      cb(false);
+    }
+  });
 }
 
 // Remove Exhausted from whichever status slot holds it
@@ -51577,6 +51590,26 @@ function removeExhaustedStatus(statusValues) {
     }
   }
   if (Object.keys(updates).length > 0) setAttrs(updates);
+}
+
+// Resolve a dice expression string to a numeric result using Math.random()
+// Handles: "1d6", "2d6", "1d4+1", "1d6+1d4", "1d4+1d6", "1d6+2" etc.
+function resolveDiceExpr(expr) {
+  let total = 0;
+  const termRe = /(\d+)d(\d+)|(\d+)/g;
+  let match;
+  while ((match = termRe.exec(expr)) !== null) {
+    if (match[1] && match[2]) {
+      const count = parseInt(match[1], 10);
+      const sides = parseInt(match[2], 10);
+      for (let i = 0; i < count; i++) {
+        total += Math.floor(Math.random() * sides) + 1;
+      }
+    } else if (match[3]) {
+      total += parseInt(match[3], 10);
+    }
+  }
+  return total;
 }
 
 // Main tracker strain handler
@@ -51599,15 +51632,17 @@ function handleTrackerStrainDeduction(attrName) {
 
     const parsed = parseStrainExpr(strainStr);
 
-    getAttrs(["name", "strain", "strain_max", "status1", "status2", "status3", "status4"], (vals) => {
+    getAttrs(["name", "strain", "strain_max"], (vals) => {
       const charName   = vals.name || "Character";
       const curStrain  = parseInt(vals.strain, 10) || 0;
       const maxStrain  = parseInt(vals.strain_max, 10) || 0;
 
       // Zero-cost or passive: just send message, no deduction
       if (parsed.isFixed && parsed.fixedVal === 0) {
-		const msg = `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (0)}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{Remaining Strain=${curStrain} / ${maxStrain}}}`;
-        startRoll(msg, (r) => { finishRoll(r.rollId); });
+        startRoll(
+          `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (0)}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{remaining_strain=[[${curStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
+          (r) => { finishRoll(r.rollId); }
+        );
         return;
       }
 
@@ -51615,7 +51650,6 @@ function handleTrackerStrainDeduction(attrName) {
       if (curStrain <= 0) {
         const blockedMsg = `&{template:coc-dice-roll} {{name=⚠ Cannot Activate\n${charName} is ${getConditionLabel("exhausted")}\nStrain: (${strainStr || 0})}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${displayName} not activated.}}`;
         startRoll(blockedMsg, (r) => { finishRoll(r.rollId); });
-        // Uncheck the box
         setAttrs({ [attrName]: "0" });
         return;
       }
@@ -51625,16 +51659,15 @@ function handleTrackerStrainDeduction(attrName) {
         const cost      = parsed.fixedVal;
         const rawNew    = curStrain - cost;
         const newStrain = Math.max(rawNew, 0);
-        const floored   = rawNew < 0;
-        const unspent   = floored ? Math.abs(rawNew) : 0;
-
-        const msg = `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${cost})}} {{modifier=[[0]]}} {{diceroll=[[${cost}]]}} {{Remaining Strain=${newStrain} / ${maxStrain}${floored ? ` — floored at 0 (${unspent} unspent)` : ""}}}`;
 
         setAttrs({ strain: newStrain });
-        startRoll(msg, (r) => { finishRoll(r.rollId); });
+        startRoll(
+          `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${cost})}} {{modifier=[[0]]}} {{diceroll=[[${cost}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
+          (r) => { finishRoll(r.rollId); }
+        );
 
         if (newStrain === 0) {
-          applyExhaustedStatus(vals, charName, (placed) => {
+          applyExhaustedStatus(charName, (placed) => {
             if (!placed) {
               const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("exhausted")} — no status slot available. Add manually.}}`;
               startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
@@ -51643,32 +51676,29 @@ function handleTrackerStrainDeduction(attrName) {
         }
 
       } else {
-        // Dice expression — roll it
+        // Dice expression — resolve using randomInteger, then send one clean message
         const rollExpr = parsed.diceExpr;
-        const rollStr  = `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${rollExpr})}} {{modifier=[[0]]}} {{diceroll=[[${rollExpr}]]}}`;
 
-        startRoll(rollStr, (rollData) => {
-          const rolled    = rollData.results.diceroll.result;
-          const rawNew    = curStrain - rolled;
-          const newStrain = Math.max(rawNew, 0);
-          const floored   = rawNew < 0;
-          const unspent   = floored ? Math.abs(rawNew) : 0;
+        // Parse the dice expression into components (e.g. "1d6", "1d4+1", "2d6", "1d6+1d4")
+        const rolled = resolveDiceExpr(rollExpr);
+        const rawNew    = curStrain - rolled;
+        const newStrain = Math.max(rawNew, 0);
 
-          setAttrs({ strain: newStrain });
-          finishRoll(rollData.rollId, {
-            diceroll: rolled,
-            "Remaining Strain": `${newStrain} / ${maxStrain}${floored ? ` — floored at 0 (${unspent} unspent)` : ""}`
+        setAttrs({ strain: newStrain });
+
+        startRoll(
+          `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${rollExpr})}} {{modifier=[[0]]}} {{diceroll=[[${rolled}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
+          (r) => { finishRoll(r.rollId); }
+        );
+
+        if (newStrain === 0) {
+          applyExhaustedStatus(charName, (placed) => {
+            if (!placed) {
+              const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("exhausted")} — no status slot available. Add manually.}}`;
+              startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+            }
           });
-
-          if (newStrain === 0) {
-            applyExhaustedStatus(vals, charName, (placed) => {
-              if (!placed) {
-                const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("exhausted")} — no status slot available. Add manually.}}`;
-                startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
-              }
-            });
-          }
-        });
+        }
       }
     });
   });

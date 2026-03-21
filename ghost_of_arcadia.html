@@ -162,7 +162,8 @@
 
 						<!-- STRAIN -->
 						<div class="sheet-attr-label" data-i18n="strain-u">Strain</div>
-						<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current"/>
+						<input type="hidden" name="attr_strained_css" value="0"/>
+						<input class="sheet-attr-input sheet-edit-toggle-field sheet-strain-input" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current"/>
 						<div class="sheet-strain-slash">/</div>
 						<input class="sheet-attr-input" type="text" data-i18n-placeholder="max-u" name="attr_strain_max" placeholder="max" readonly/>
 
@@ -35256,6 +35257,13 @@ const conditionsDataMap = {
 		duration:      "next_turn",
 		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
 	},
+	tired: {
+		name_key:      "condition_tired-u",
+		rule_text_key: "condition_tired_rules-u",
+		category:      "strain",
+		duration:      "until_strain_recovery",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
 	weakened: {
 		name_key:      "condition_weakened-u",
 		rule_text_key: "condition_weakened_rules-u",
@@ -49414,6 +49422,14 @@ const getUsageLimitedTalentNames = (limitType) => {
     }
   }
 
+  // Background features (e.g. used_session_bg_nomad, used_session_bg_academic)
+  for (const bgKey in (backgroundDataMap || {})) {
+    const lim = backgroundDataMap[bgKey]?.feature?.usage_limit ?? "";
+    if (hasLimit(lim, limitType)) {
+      names.push(`used_${limitType}_bg_${bgKey}`);
+    }
+  }
+
   return names;
 };
 
@@ -51101,19 +51117,26 @@ on("clicked:edit_mode", () => {
 // dice_modifier_manual : the value the player manually toggled (0, ±10, ±20)
 // dice_modifier_checkbox : the final value used by all roll buttons
 //   = manual + wound penalty (-10 major wound) + bloodied penalty (-10 at/below 50% HP)
-//   Capped so both conditions together give -20 total penalty on top of manual.
+//               + strained penalty (-10 at/below 50% Strain)
 const recalcDiceModifier = () => {
-  getAttrs(["dice_modifier_manual", "major_wounds_checkbox", "hp", "pulphp_max"], (values) => {
+  getAttrs(["dice_modifier_manual", "major_wounds_checkbox", "hp", "pulphp_max", "strain", "strain_max"], (values) => {
     const manual      = parseInt(values.dice_modifier_manual, 10) || 0;
     const majorWound  = values.major_wounds_checkbox === "1";
     const hp          = parseInt(values.hp, 10);
     const hpMax       = parseInt(values.pulphp_max, 10);
     const bloodied    = !isNaN(hp) && !isNaN(hpMax) && hpMax > 0 && hp <= hpMax / 2;
+    const strain      = parseInt(values.strain, 10);
+    const strainMax   = parseInt(values.strain_max, 10);
+    const strained    = !isNaN(strain) && !isNaN(strainMax) && strainMax > 0 && strain <= strainMax / 2;
 
-    const penalty = (majorWound ? -10 : 0) + (bloodied ? -10 : 0);
+    const penalty = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (strained ? -10 : 0);
     const final   = manual + penalty;
 
-    setAttrs({ dice_modifier_checkbox: String(final), bloodied_css: bloodied ? "1" : "0" });
+    setAttrs({
+      dice_modifier_checkbox: String(final),
+      bloodied_css:           bloodied  ? "1" : "0",
+      strained_css:           strained  ? "1" : "0"
+    });
   });
 };
 
@@ -51135,8 +51158,8 @@ on("clicked:major_wounds", (event) => {
   });
 });
 
-// Re-evaluate whenever HP changes (bloodied threshold)
-on("change:hp change:pulphp_max", recalcDiceModifier);
+// Re-evaluate whenever HP or Strain changes (bloodied / strained thresholds)
+on("change:hp change:pulphp_max change:strain change:strain_max", recalcDiceModifier);
 
 // ── Minion Dice Modifier: condition penalty ───────────────────────────────────
 // Uses dice_modifier_manual (the PC button) as the base, then applies
@@ -51592,6 +51615,45 @@ function removeExhaustedStatus(statusValues) {
   if (Object.keys(updates).length > 0) setAttrs(updates);
 }
 
+// Write Tired to first empty status slot; cb(true) if placed, cb(false) if all full
+function applyTiredStatus(cb) {
+  getAttrs(["status1", "status2", "status3", "status4"], (statusVals) => {
+    // Don't double-apply
+    const label = getConditionLabel("tired");
+    for (let i = 1; i <= 4; i++) {
+      if ((statusVals[`status${i}`] || "").trim() === label) { cb(true); return; }
+    }
+    const updates = {};
+    let placed = false;
+    for (let i = 1; i <= 4; i++) {
+      const key = `status${i}`;
+      if (!statusVals[key] || statusVals[key].trim() === "") {
+        updates[key] = label;
+        placed = true;
+        break;
+      }
+    }
+    if (placed) {
+      setAttrs(updates, {}, () => { cb(true); });
+    } else {
+      cb(false);
+    }
+  });
+}
+
+// Remove Tired from whichever status slot holds it (uses pre-fetched statusValues)
+function removeTiredStatus(statusValues) {
+  const label = getConditionLabel("tired");
+  const updates = {};
+  for (let i = 1; i <= 4; i++) {
+    const key = `status${i}`;
+    if ((statusValues[key] || "").trim() === label) {
+      updates[key] = "";
+    }
+  }
+  if (Object.keys(updates).length > 0) setAttrs(updates);
+}
+
 // Resolve a dice expression string to a numeric result using Math.random()
 // Handles: "1d6", "2d6", "1d4+1", "1d6+1d4", "1d4+1d6", "1d6+2" etc.
 function resolveDiceExpr(expr) {
@@ -51728,10 +51790,27 @@ on(trackerChangeEvent, (eventInfo) => {
 
 // Watch strain for Exhausted removal when strain rises above 0
 on("change:strain", () => {
-  getAttrs(["strain", "status1", "status2", "status3", "status4"], (vals) => {
+  getAttrs(["strain", "strain_max", "name", "status1", "status2", "status3", "status4"], (vals) => {
     const curStrain = parseInt(vals.strain, 10) || 0;
+    const maxStrain = parseInt(vals.strain_max, 10) || 0;
+    const charName  = vals.name || "Character";
+    const strained  = maxStrain > 0 && curStrain <= maxStrain / 2;
+
+    // ── Exhausted: remove when strain recovers above 0 ──
     if (curStrain > 0) {
       removeExhaustedStatus(vals);
+    }
+
+    // ── Tired: apply at/below 50%, remove when above 50% ──
+    if (strained) {
+      applyTiredStatus((placed) => {
+        if (!placed) {
+          const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("tired")} — no status slot available. Add manually.}}`;
+          startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+        }
+      });
+    } else {
+      removeTiredStatus(vals);
     }
   });
 });

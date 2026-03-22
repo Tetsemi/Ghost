@@ -21130,8 +21130,16 @@
 			<h4 class="sheet-section-head" data-i18n="rest-u">Rest</h4>
 			<div class="sheet-strain-buttons-row">
 				<div class="sheet-roll-wrapper">
+					<span class="sheet-roll-label" data-i18n="brief_catch-u">Brief Catch</span>
+					<button type="action" name="act_strain_brief_catch" class="sheet-roll-hidden"></button>
+				</div>
+				<div class="sheet-roll-wrapper">
 					<span class="sheet-roll-label" data-i18n="short_rest-u">Short Rest</span>
 					<button type="action" name="act_strain_short_rest" class="sheet-roll-hidden"></button>
+				</div>
+				<div class="sheet-roll-wrapper">
+					<span class="sheet-roll-label" data-i18n="extended_rest-u">Extended Rest</span>
+					<button type="action" name="act_strain_extended_rest" class="sheet-roll-hidden"></button>
 				</div>
 				<div class="sheet-rest-button-wrapper">
 					<span class="sheet-roll-label" data-i18n="full_rest-u">Full Rest</span>
@@ -51386,17 +51394,39 @@ on("clicked:strain_full_rest", () => {
   });
 });
 
-on("clicked:strain_short_rest", () => {
-  startRoll("&{template:coc-dice-roll} {{name=Short Rest - @{name}}} {{modifier=[[0]]}} {{diceroll=[[1d6]]}}", (rollData) => {
+on("clicked:strain_brief_catch", () => {
+  startRoll("&{template:coc-dice-roll} {{name=Brief Catch - @{name}}} {{modifier=[[0]]}} {{diceroll=[[1d6]]}}", (rollData) => {
     const recovered = rollData.results.diceroll.result;
-
     getAttrs(["strain", "strain_max"], (values) => {
       const current = parseInt(values.strain, 10) || 0;
       const max = parseInt(values.strain_max, 10) || 0;
-      const newStrain = Math.min(current + recovered, max);
-      setAttrs({ strain: newStrain });
+      setAttrs({ strain: Math.min(current + recovered, max) });
     });
+    finishRoll(rollData.rollId);
+  });
+});
 
+on("clicked:strain_short_rest", () => {
+  startRoll("&{template:coc-dice-roll} {{name=Short Rest - @{name}}} {{modifier=[[0]]}} {{diceroll=[[1d6+3]]}}", (rollData) => {
+    const recovered = rollData.results.diceroll.result;
+    getAttrs(["strain", "strain_max"], (values) => {
+      const current = parseInt(values.strain, 10) || 0;
+      const max = parseInt(values.strain_max, 10) || 0;
+      setAttrs({ strain: Math.min(current + recovered, max) });
+									  
+    });
+    finishRoll(rollData.rollId);
+  });
+});
+
+on("clicked:strain_extended_rest", () => {
+  startRoll("&{template:coc-dice-roll} {{name=Extended Rest - @{name}}} {{modifier=[[0]]}} {{diceroll=[[2d6+4]]}}", (rollData) => {
+    const recovered = rollData.results.diceroll.result;
+    getAttrs(["strain", "strain_max"], (values) => {
+      const current = parseInt(values.strain, 10) || 0;
+      const max = parseInt(values.strain_max, 10) || 0;
+      setAttrs({ strain: Math.min(current + recovered, max) });
+    });
     finishRoll(rollData.rollId);
   });
 });

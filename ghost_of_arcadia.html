@@ -47756,9 +47756,11 @@ const calculateAndUpdateSkillValues = (racePrefix, values, options = {}) => {
     }
 
     if (skill === "athletics") {
-      const athletics = parseInt(values.athletics_skill_mdr, 10) || 0;
-      const idex = parseInt(values.dex, 10) || 0;
-      update.mov = Math.min(14, Math.floor((idex + athletics) / 10));
+      const athletics  = parseInt(values.athletics_skill_mdr, 10) || 0;
+      const idex       = parseInt(values.dex, 10) || 0;
+      const penalty    = parseInt(values.dice_modifier_checkbox, 10) || 0;
+      const effDex     = Math.max(0, idex + penalty);
+      update.mov = Math.min(14, Math.floor((effDex + athletics) / 10));
     }
 
     update[`${skill}_mdr`] = total;
@@ -50511,6 +50513,7 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
 
   const globalAttrs = [
     "dex",
+    "dice_modifier_checkbox",
     "edu",
     "language_caltheran_skill_mdr",
     ...magicSchools,
@@ -51191,6 +51194,18 @@ on("clicked:edit_mode", () => {
 // dice_modifier_checkbox : the final value used by all roll buttons
 //   = manual + wound penalty (-10 major wound) + bloodied penalty (-10 at/below 50% HP)
 //               + strained penalty (-10 at/below 50% Strain)
+// Recalculate mov using current DEX, Athletics, and the active dice penalty.
+// Called after recalcDiceModifier so mov always reflects the penalized effective DEX.
+const recalcMov = () => {
+  getAttrs(["dex", "athletics_skill_mdr", "dice_modifier_checkbox"], (values) => {
+    const dex     = parseInt(values.dex, 10) || 0;
+    const ath     = parseInt(values.athletics_skill_mdr, 10) || 0;
+    const penalty = parseInt(values.dice_modifier_checkbox, 10) || 0;
+    const effDex  = Math.max(0, dex + penalty);
+    setAttrs({ mov: Math.min(14, Math.floor((effDex + ath) / 10)) });
+  });
+};
+
 const recalcDiceModifier = () => {
   getAttrs(["dice_modifier_manual", "major_wounds_checkbox", "hp", "pulphp_max", "strain", "strain_max"], (values) => {
     const manual      = parseInt(values.dice_modifier_manual, 10) || 0;
@@ -51209,7 +51224,7 @@ const recalcDiceModifier = () => {
       dice_modifier_checkbox: String(final),
       bloodied_css:           bloodied  ? "1" : "0",
       strained_css:           strained  ? "1" : "0"
-    });
+    }, {}, recalcMov);
   });
 };
 

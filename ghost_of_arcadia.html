@@ -35182,6 +35182,13 @@ const conditionsDataMap = {
 		duration:      "source_defined",
 		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
 	},
+	bloodied: {
+		name_key:      "condition_bloodied-u",
+		rule_text_key: "condition_bloodied_rules-u",
+		category:      "hp",
+		duration:      "until_hp_recovery",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
 	burning: {
 		name_key:      "condition_burning-u",
 		rule_text_key: "condition_burning_rules-u",
@@ -51226,6 +51233,35 @@ on("clicked:major_wounds", (event) => {
 
 // Re-evaluate whenever HP or Strain changes (bloodied / strained thresholds)
 on("change:hp change:pulphp_max change:strain change:strain_max", recalcDiceModifier);
+
+// Watch HP for Bloodied application and removal
+on("change:hp change:pulphp_max", () => {
+  getAttrs(["hp", "pulphp_max", "name", "status1", "status2", "status3", "status4"], (vals) => {
+    const hp            = parseInt(vals.hp, 10);
+    const hpMax         = parseInt(vals.pulphp_max, 10);
+    const charName      = vals.name || "Character";
+    const isBloodied    = !isNaN(hp) && !isNaN(hpMax) && hpMax > 0 && hp <= hpMax / 2;
+    const bloodiedLabel = getConditionLabel("bloodied");
+    const statusKeys    = ["status1", "status2", "status3", "status4"];
+    const updates       = {};
+    const slots         = statusKeys.map(k => (vals[k] || "").trim());
+    const hasBloodied   = slots.some(s => s === bloodiedLabel);
+
+    if (isBloodied && !hasBloodied) {
+      const idx = slots.indexOf("");
+      if (idx !== -1) {
+        updates[statusKeys[idx]] = bloodiedLabel;
+      } else {
+        const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${bloodiedLabel} — no status slot available. Add manually.}}`;
+        startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+      }
+    } else if (!isBloodied && hasBloodied) {
+      statusKeys.forEach((k, i) => { if (slots[i] === bloodiedLabel) updates[k] = ""; });
+    }
+
+    if (Object.keys(updates).length > 0) setAttrs(updates);
+  });
+});
 
 // ── Minion Dice Modifier: condition penalty ───────────────────────────────────
 // Uses dice_modifier_manual (the PC button) as the base, then applies

@@ -2511,12 +2511,24 @@ select[name="attr_damage_bonus"] {
 	cursor: not-allowed;
 }
 
-/* Grey out labels and description when disabled */
+/* Fade label/description on all tiers when prereq not met (_enabled = 0) */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
-	opacity: 0.7;
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
+	opacity: 0.4;
+}
+
+/* Fade Tier 4 label/description when locked out by a sibling choice (_lockflag = 1, not checked) */
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox ~ .sheet-talent-description {
+	opacity: 0.4;
+}
+
+/* Restore full opacity when talent is checked (purchased) regardless of enable/lock state */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox:checked ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox:checked ~ .sheet-talent-description {
+	opacity: 1;
 }
 
 /* Disable interaction and style on talent sub-option section if locked */
@@ -2616,11 +2628,7 @@ select[name="attr_damage_bonus"] {
 	box-sizing: border-box;
 }
 
-/* Fade label/description for locked Tier 4 */
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-tier4-checkbox ~ .sheet-talent-description {
-	opacity: 0.7;
-}
+
 
 /* ===== Talents → Racial Traits (Name | Rules Text) ===== */
 /* Single-row cards, 20% / 80% split */
@@ -3677,18 +3685,24 @@ select[name="attr_damage_bonus"] {
 	cursor: not-allowed;
 }
 
-/* Grey out label and description if locked or disabled */
+/* Fade label/description on all tiers when prereq not met (_enabled = 0) */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description {
-	opacity: 0.5;
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description {
+	opacity: 0.4;
 }
 
-/* Capstone visual fade (optional match for career Capstone) */
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-capstone-checkbox ~ .sheet-career-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input.sheet-capstone-checkbox ~ .sheet-career-talent-description  {
-	opacity: 0.5;
+/* Fade Tier 5 label/description when locked out by a sibling capstone choice (_lockflag = 1, not checked) */
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox ~ .sheet-career-talent-description {
+	opacity: 0.4;
+}
+
+/* Restore full opacity when talent is checked (purchased) regardless of enable/lock state */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox:checked ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox:checked ~ .sheet-career-talent-description {
+	opacity: 1;
 }
 
 /* Talent Tier Container */

@@ -162,7 +162,8 @@
 
 						<!-- STRAIN -->
 						<div class="sheet-attr-label" data-i18n="strain-u">Strain</div>
-						<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current"/>
+						<input type="hidden" name="attr_strained_css" value="0"/>
+						<input class="sheet-attr-input sheet-edit-toggle-field sheet-strain-input" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current"/>
 						<div class="sheet-strain-slash">/</div>
 						<input class="sheet-attr-input" type="text" data-i18n-placeholder="max-u" name="attr_strain_max" placeholder="max" readonly/>
 
@@ -21138,6 +21139,25 @@
 				</div>
 			</div>
 
+			<!-- Long Rest Tracker -->
+			<div class="sheet-tracker-group-row">
+				<div class="sheet-tracker-group-title" data-i18n="long_rest_limited-u">Long Rest</div>
+				<div class="sheet-tracker-group-body">
+
+					<!-- ================== TRACKER DRAEVI TALENTS: INDEX (long_rest) (key | cost) ================== -->
+					<!-- - ancestry_draevi_keeper_of_the_last_fire (40 XP, long_rest) -->
+					<!-- ===================================================================================================== -->
+
+					<!-- Tracker Ancestry Talent: Keeper of the Last Fire | key: keeper_of_the_last_fire | cost: 40 XP | cadence: long_rest | attrs: attr_show_draevi_keeper_of_the_last_fire, attr_used_long_rest_draevi_keeper_of_the_last_fire | i18n: talent_draevi_keeper_of_the_last_fire-u -->
+					<input type="hidden" name="attr_show_draevi_keeper_of_the_last_fire"/>
+					<div class="sheet-tracker-item sheet-tracker-long-rest sheet-draevi-keeper-of-the-last-fire">
+						<input type="checkbox" name="attr_used_long_rest_draevi_keeper_of_the_last_fire" class="sheet-tracker-checkbox"/>
+						<span class="sheet-tracker-label" data-i18n="talent_draevi_keeper_of_the_last_fire-u"></span>
+					</div>
+
+				</div>
+			</div>
+
 			<input type="hidden" name="attr_showracials" class="sheet-tab-controller"/>
 
 			<h4 class="sheet-tracker-stim-header" data-i18n="stim_tracker-u">Stim Tracker</h4>
@@ -28650,7 +28670,10 @@
 													<span data-i18n="slash-z">/</span>
 													<input type="text" name="attr_minionhp_max" class="sheet-narrow-input" placeholder="Max" data-i18n-placeholder="max-u"/>
 													<span data-i18n="pipe-z">|</span>
-													<input type="text" name="attr_minionmp" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u"/>
+													<input type="hidden" name="attr_minion_strained_css" value="0"/>
+													<input type="text" name="attr_minionmp" class="sheet-narrow-input sheet-minionmp-input" placeholder="Current" data-i18n-placeholder="current"/>
+													<span data-i18n="slash-z">/</span>
+													<input type="text" name="attr_minionmp_max" class="sheet-narrow-input" placeholder="Strain Max" data-i18n-placeholder="strain_max-u"/>
 												</div>
 											</div>
 											<div class="sheet-npc-row">
@@ -28991,6 +29014,17 @@
 			<td class="template_label" data-i18n="rolled">Rolled:</td>
 			<td class="template_value">{{diceroll}}</td>
 		</tr>
+		{{#remaining_strain}}
+		<tr>
+			<td class="template_label">Remaining Strain:</td>
+			<td class="template_value">{{remaining_strain}} / {{remaining_strain_max}}</td>
+		</tr>
+		{{/remaining_strain}}
+		{{#result}}
+		<tr>
+			<td class="template_label" colspan="2">{{result}}</td>
+		</tr>
+		{{/result}}
     </table>
 </rolltemplate>
 
@@ -35132,6 +35166,135 @@ const skillDataMap = {
 	}
 };
 
+const conditionsDataMap = {
+	blind: {
+		name_key:      "condition_blind-u",
+		rule_text_key: "condition_blind_rules-u",
+		category:      "combat",
+		duration:      "source_defined",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	burning: {
+		name_key:      "condition_burning-u",
+		rule_text_key: "condition_burning_rules-u",
+		category:      "combat",
+		duration:      "ongoing",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	chilled: {
+		name_key:      "condition_chilled-u",
+		rule_text_key: "condition_chilled_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	deafened: {
+		name_key:      "condition_deafened-u",
+		rule_text_key: "condition_deafened_rules-u",
+		category:      "combat",
+		duration:      "source_defined",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	disoriented: {
+		name_key:      "condition_disoriented-u",
+		rule_text_key: "condition_disoriented_rules-u",
+		category:      "combat",
+		duration:      "source_defined",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	entangled: {
+		name_key:      "condition_entangled-u",
+		rule_text_key: "condition_entangled_rules-u",
+		category:      "combat",
+		duration:      "until_escaped",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	exhausted: {
+		name_key:      "condition_exhausted-u",
+		rule_text_key: "condition_exhausted_rules-u",
+		category:      "strain",
+		duration:      "until_strain_recovery",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	hobbled: {
+		name_key:      "condition_hobbled-u",
+		rule_text_key: "condition_hobbled_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	impaired: {
+		name_key:      "condition_impaired-u",
+		rule_text_key: "condition_impaired_rules-u",
+		category:      "combat",
+		duration:      "1_round",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	jammed: {
+		name_key:      "condition_jammed-u",
+		rule_text_key: "condition_jammed_rules-u",
+		category:      "weapon",
+		duration:      "until_cleared",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	panicked: {
+		name_key:      "condition_panicked-u",
+		rule_text_key: "condition_panicked_rules-u",
+		category:      "combat",
+		duration:      "1d3_rounds",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	poisoned: {
+		name_key:      "condition_poisoned-u",
+		rule_text_key: "condition_poisoned_rules-u",
+		category:      "combat",
+		duration:      "until_treated",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	shaken: {
+		name_key:      "condition_shaken-u",
+		rule_text_key: "condition_shaken_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	slowed: {
+		name_key:      "condition_slowed-u",
+		rule_text_key: "condition_slowed_rules-u",
+		category:      "combat",
+		duration:      "until_removed",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	stunned: {
+		name_key:      "condition_stunned-u",
+		rule_text_key: "condition_stunned_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	suppressed: {
+		name_key:      "condition_suppressed-u",
+		rule_text_key: "condition_suppressed_rules-u",
+		category:      "combat",
+		duration:      "next_turn",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	tired: {
+		name_key:      "condition_tired-u",
+		rule_text_key: "condition_tired_rules-u",
+		category:      "strain",
+		duration:      "until_strain_recovery",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	},
+	weakened: {
+		name_key:      "condition_weakened-u",
+		rule_text_key: "condition_weakened_rules-u",
+		category:      "combat",
+		duration:      "until_treated",
+		source: { doc: "combat_conditions-u", version: "2.260315", date: "2026-03-15", section: "conditions-u" }
+	}
+};
+
 const talentTypeMap = {
 	reaction:           { label_key: "type_reaction-u",           order: 10, source: { doc: "type-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
 	special_immediate:  { label_key: "type_special_immediate-u",  order: 20, source: { doc: "type-u", version: "2.260129", date: "2026-01-29", section: "tags-u" } },
@@ -36207,7 +36370,7 @@ const ancestryTalentDataMap = {
 			rule_text_key: "talent_draevi_keeper_of_the_last_fire_rules-u",
 			type: { economy: "free_action", tag: "Sanctuary" },
 			strain: "",
-			usage_limit: "",
+			usage_limit: "long_rest",
 			affected_skill: [],
 			prerequisite: ["those_who_walked_before"]
 		},
@@ -36790,7 +36953,7 @@ const ancestryTalentDataMap = {
 			capstone: false,
 			name_key: "talent_khadra_consult_the_old_spirits-u",
 			rule_text_key: "talent_khadra_consult_the_old_spirits_rules-u",
-			type: { economy: "action", tag: "" },
+			type: { economy: "action", tag: "Spiritual Consultation" },
 			strain: "1",
 			usage_limit: "scene",
 			affected_skill: [],
@@ -36802,7 +36965,7 @@ const ancestryTalentDataMap = {
 			capstone: false,
 			name_key: "talent_khadra_endure_to_completion-u",
 			rule_text_key: "talent_khadra_endure_to_completion_rules-u",
-			type: { economy: "reaction", tag: "" },
+			type: { economy: "reaction", tag: "Committed Effort" },
 			strain: "1",
 			usage_limit: "scene",
 			affected_skill: [],
@@ -36814,7 +36977,7 @@ const ancestryTalentDataMap = {
 			capstone: false,
 			name_key: "talent_khadra_oath_set_before_the_storm-u",
 			rule_text_key: "talent_khadra_oath_set_before_the_storm_rules-u",
-			type: { economy: "free_action", tag: "" },
+			type: { economy: "free_action", tag: "Declared Oath" },
 			strain: "",
 			usage_limit: "scene",
 			affected_skill: [],
@@ -36826,7 +36989,7 @@ const ancestryTalentDataMap = {
 			capstone: false,
 			name_key: "talent_khadra_prepared_not_rushed-u",
 			rule_text_key: "talent_khadra_prepared_not_rushed_rules-u",
-			type: { economy: "free_action", tag: "" },
+			type: { economy: "free_action", tag: "Deliberate Assessment" },
 			strain: "",
 			usage_limit: "scene",
 			affected_skill: [],
@@ -36838,7 +37001,7 @@ const ancestryTalentDataMap = {
 			capstone: false,
 			name_key: "talent_khadra_work_without_turning_aside-u",
 			rule_text_key: "talent_khadra_work_without_turning_aside_rules-u",
-			type: { economy: "passive", tag: "" },
+			type: { economy: "passive", tag: "Sustained Effort" },
 			strain: "",
 			usage_limit: "scene",
 			affected_skill: [],
@@ -37466,7 +37629,7 @@ const ancestryTalentDataMap = {
 			capstone: false,
 			name_key: "talent_veyra_compression_instinct-u",
 			rule_text_key: "talent_veyra_compression_instinct_rules-u",
-			type: { economy: "passive", tag: "Traversal" },
+			type: { economy: "passive", tag: "Structural Familiarity" },
 			strain: "",
 			usage_limit: "",
 			affected_skill: [],
@@ -49281,6 +49444,14 @@ const getUsageLimitedTalentNames = (limitType) => {
     }
   }
 
+  // Background features (e.g. used_session_bg_nomad, used_session_bg_academic)
+  for (const bgKey in (backgroundDataMap || {})) {
+    const lim = backgroundDataMap[bgKey]?.feature?.usage_limit ?? "";
+    if (hasLimit(lim, limitType)) {
+      names.push(`used_${limitType}_bg_${bgKey}`);
+    }
+  }
+
   return names;
 };
 
@@ -50968,19 +51139,26 @@ on("clicked:edit_mode", () => {
 // dice_modifier_manual : the value the player manually toggled (0, ±10, ±20)
 // dice_modifier_checkbox : the final value used by all roll buttons
 //   = manual + wound penalty (-10 major wound) + bloodied penalty (-10 at/below 50% HP)
-//   Capped so both conditions together give -20 total penalty on top of manual.
+//               + strained penalty (-10 at/below 50% Strain)
 const recalcDiceModifier = () => {
-  getAttrs(["dice_modifier_manual", "major_wounds_checkbox", "hp", "pulphp_max"], (values) => {
+  getAttrs(["dice_modifier_manual", "major_wounds_checkbox", "hp", "pulphp_max", "strain", "strain_max"], (values) => {
     const manual      = parseInt(values.dice_modifier_manual, 10) || 0;
     const majorWound  = values.major_wounds_checkbox === "1";
     const hp          = parseInt(values.hp, 10);
     const hpMax       = parseInt(values.pulphp_max, 10);
     const bloodied    = !isNaN(hp) && !isNaN(hpMax) && hpMax > 0 && hp <= hpMax / 2;
+    const strain      = parseInt(values.strain, 10);
+    const strainMax   = parseInt(values.strain_max, 10);
+    const strained    = !isNaN(strain) && !isNaN(strainMax) && strainMax > 0 && strain <= strainMax / 2;
 
-    const penalty = (majorWound ? -10 : 0) + (bloodied ? -10 : 0);
+    const penalty = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (strained ? -10 : 0);
     const final   = manual + penalty;
 
-    setAttrs({ dice_modifier_checkbox: String(final), bloodied_css: bloodied ? "1" : "0" });
+    setAttrs({
+      dice_modifier_checkbox: String(final),
+      bloodied_css:           bloodied  ? "1" : "0",
+      strained_css:           strained  ? "1" : "0"
+    });
   });
 };
 
@@ -51002,8 +51180,8 @@ on("clicked:major_wounds", (event) => {
   });
 });
 
-// Re-evaluate whenever HP changes (bloodied threshold)
-on("change:hp change:pulphp_max", recalcDiceModifier);
+// Re-evaluate whenever HP or Strain changes (bloodied / strained thresholds)
+on("change:hp change:pulphp_max change:strain change:strain_max", recalcDiceModifier);
 
 // ── Minion Dice Modifier: condition penalty ───────────────────────────────────
 // Uses dice_modifier_manual (the PC button) as the base, then applies
@@ -51014,7 +51192,9 @@ const recalcMinionDiceModifier = (rowId) => {
     "dice_modifier_manual",
     `repeating_minion_${rowId}_minionhp`,
     `repeating_minion_${rowId}_minionhp_max`,
-    `repeating_minion_${rowId}_minion_major_wounds_checkbox`
+    `repeating_minion_${rowId}_minion_major_wounds_checkbox`,
+    `repeating_minion_${rowId}_minionmp`,
+    `repeating_minion_${rowId}_minionmp_max`
   ];
   getAttrs(attrs, (values) => {
     const manual     = parseInt(values.dice_modifier_manual, 10) || 0;
@@ -51022,16 +51202,21 @@ const recalcMinionDiceModifier = (rowId) => {
     const hp         = parseInt(values[`repeating_minion_${rowId}_minionhp`], 10);
     const hpMax      = parseInt(values[`repeating_minion_${rowId}_minionhp_max`], 10);
     const bloodied   = !isNaN(hp) && !isNaN(hpMax) && hpMax > 0 && hp <= hpMax / 2;
+    const mp         = parseInt(values[`repeating_minion_${rowId}_minionmp`], 10);
+    const mpMax      = parseInt(values[`repeating_minion_${rowId}_minionmp_max`], 10);
+    const strained   = !isNaN(mp) && !isNaN(mpMax) && mpMax > 0 && mp <= mpMax / 2;
 
-    const penalty  = (majorWound ? -10 : 0) + (bloodied ? -10 : 0);
-    const final    = manual + penalty;
-    const bloodCss = bloodied ? "1" : "0";
+    const penalty    = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (strained ? -10 : 0);
+    const final      = manual + penalty;
+    const bloodCss   = bloodied ? "1" : "0";
+    const strainCss  = strained ? "1" : "0";
 
-    if (debug_on) console.log("[recalcMinionDiceModifier] manual:", manual, "majorWound:", majorWound, "hp:", hp, "hpMax:", hpMax, "bloodied:", bloodied, "final:", final);
+    if (debug_on) console.log("[recalcMinionDiceModifier] manual:", manual, "majorWound:", majorWound, "hp:", hp, "hpMax:", hpMax, "bloodied:", bloodied, "mp:", mp, "mpMax:", mpMax, "strained:", strained, "final:", final);
 
     setAttrs({
       [`repeating_minion_${rowId}_minion_dice_modifier_checkbox`]: String(final),
-      [`repeating_minion_${rowId}_minion_bloodied_css`]: bloodCss
+      [`repeating_minion_${rowId}_minion_bloodied_css`]:           bloodCss,
+      [`repeating_minion_${rowId}_minion_strained_css`]:           strainCss
     });
   });
 };
@@ -51061,12 +51246,59 @@ on("clicked:repeating_minion:minionwounds", (eventInfo) => {
   });
 });
 
-on("change:repeating_minion:minionhp change:repeating_minion:minionhp_max change:repeating_minion:minion_major_wounds_checkbox", (eventInfo) => {
-  if (debug_on_watcher) console.log("[change:repeating_minion:hp/wounds]", eventInfo.sourceAttribute);
+on("change:repeating_minion:minionhp change:repeating_minion:minionhp_max change:repeating_minion:minion_major_wounds_checkbox change:repeating_minion:minionmp change:repeating_minion:minionmp_max", (eventInfo) => {
+  if (debug_on_watcher) console.log("[change:repeating_minion:hp/wounds/strain]", eventInfo.sourceAttribute);
   const src   = eventInfo.sourceAttribute || "";
   const match = src.match(/repeating_minion_([^_]+)_/);
   if (!match) return;
   recalcMinionDiceModifier(match[1]);
+});
+
+// Apply / remove Tired and Exhausted on NPC minion status slots when strain changes
+on("change:repeating_minion:minionmp change:repeating_minion:minionmp_max", (eventInfo) => {
+  const src   = eventInfo.sourceAttribute || "";
+  const match = src.match(/repeating_minion_([^_]+)_/);
+  if (!match) return;
+  const rowId = match[1];
+
+  const mpAttr    = `repeating_minion_${rowId}_minionmp`;
+  const mpMaxAttr = `repeating_minion_${rowId}_minionmp_max`;
+  const s1 = `repeating_minion_${rowId}_minion_status1`;
+  const s2 = `repeating_minion_${rowId}_minion_status2`;
+  const s3 = `repeating_minion_${rowId}_minion_status3`;
+  const s4 = `repeating_minion_${rowId}_minion_status4`;
+
+  getAttrs([mpAttr, mpMaxAttr, s1, s2, s3, s4], (vals) => {
+    const mp         = parseInt(vals[mpAttr], 10) || 0;
+    const mpMax      = parseInt(vals[mpMaxAttr], 10) || 0;
+    const statusKeys = [s1, s2, s3, s4];
+    const updates    = {};
+
+    const tiredLabel     = getConditionLabel("tired");
+    const exhaustedLabel = getConditionLabel("exhausted");
+
+    // Exhausted: strain at 0
+    const isExhausted  = mpMax > 0 && mp === 0;
+    const hasExhausted = statusKeys.some(k => (vals[k] || "").trim() === exhaustedLabel);
+    if (isExhausted && !hasExhausted) {
+      const slot = statusKeys.find(k => !vals[k] || vals[k].trim() === "");
+      if (slot) updates[slot] = exhaustedLabel;
+    } else if (!isExhausted && hasExhausted) {
+      statusKeys.forEach(k => { if ((vals[k] || "").trim() === exhaustedLabel) updates[k] = ""; });
+    }
+
+    // Tired: strain at or below 50% but above 0
+    const isStrained = mpMax > 0 && mp > 0 && mp <= mpMax / 2;
+    const hasTired   = statusKeys.some(k => (vals[k] || "").trim() === tiredLabel);
+    if (isStrained && !hasTired) {
+      const slot = statusKeys.find(k => !vals[k] || vals[k].trim() === "");
+      if (slot) updates[slot] = tiredLabel;
+    } else if (!isStrained && hasTired) {
+      statusKeys.forEach(k => { if ((vals[k] || "").trim() === tiredLabel) updates[k] = ""; });
+    }
+
+    if (Object.keys(updates).length > 0) setAttrs(updates);
+  });
 });
 
 // When PC modifier button changes, recalc all minion rows
@@ -51105,6 +51337,15 @@ on("clicked:strain_full_rest", () => {
     startRoll(rollStr, (rollData) => {
       setAttrs({ strain: maxStrain });
       finishRoll(rollData.rollId);
+    });
+
+    // Clear all long rest tracker checkboxes
+    setAttrs({ clearing_tracker: "1" }, {}, () => {
+      const longRestUses = getUsageLimitedTalentNames("long_rest");
+      const updates = Object.fromEntries(longRestUses.map(name => [name, "0"]));
+      setAttrs(updates, {}, () => {
+        setAttrs({ clearing_tracker: "0" });
+      });
     });
   });
 });
@@ -51231,52 +51472,465 @@ on("clicked:toggle_career_skills", () => {
 });
 
 on("clicked:clear_scene_uses", () => {
-    // Clear static scene checkboxes first
-    const sceneUses = getUsageLimitedTalentNames("scene");
-    const updates = Object.fromEntries(sceneUses.map(name => [name, "0"]));
+    // Set guard flag so strain worker ignores these unchecks
+    setAttrs({ clearing_tracker: "1" }, {}, () => {
+        // Clear static scene checkboxes first
+        const sceneUses = getUsageLimitedTalentNames("scene");
+        const updates = Object.fromEntries(sceneUses.map(name => [name, "0"]));
 
-    // Get all repeating_scene row IDs
-    getSectionIDs("repeating_scene", ids => {
-        ids.forEach(id => {
-            // Build attribute name for checkbox in each row
-            const attrName = `repeating_scene_${id}_used_scene_item_name_mdr`;
-            updates[attrName] = "0";
+        // Get all repeating_scene row IDs
+        getSectionIDs("repeating_scene", ids => {
+            ids.forEach(id => {
+                // Build attribute name for checkbox in each row
+                const attrName = `repeating_scene_${id}_used_scene_item_name_mdr`;
+                updates[attrName] = "0";
+            });
+
+            // Apply all updates then reset guard flag
+            setAttrs(updates, {}, () => {
+                setAttrs({ clearing_tracker: "0" });
+            });
         });
-
-        // Apply all updates
-        setAttrs(updates);
     });
 });
 
 on("clicked:clear_session_uses", () => {
-  // Clear static session checkboxes first
-  const sessionUses = getUsageLimitedTalentNames("session");
-  const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
+  // Set guard flag so strain worker ignores these unchecks
+  setAttrs({ clearing_tracker: "1" }, {}, () => {
+    // Clear static session checkboxes first
+    const sessionUses = getUsageLimitedTalentNames("session");
+    const updates = Object.fromEntries(sessionUses.map(name => [name, "0"]));
 
-  // Get all repeating_session row IDs
-  getSectionIDs("repeating_session", ids => {
-    ids.forEach(id => {
-      const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
-      updates[attrName] = "0";
-    });
+    // Get all repeating_session row IDs
+    getSectionIDs("repeating_session", ids => {
+      ids.forEach(id => {
+        const attrName = `repeating_session_${id}_used_session_item_name_mdr`;
+        updates[attrName] = "0";
+      });
 
-    // If Blood-Born Survivor was applied this session, remove the +2 now
-    getAttrs(["bbs_session_applied", "vitality"], vals => {
-      const applied = vals.bbs_session_applied === "1";
-      const curVit  = parseInt(vals.vitality, 10) || 0;
+      // If Blood-Born Survivor was applied this session, remove the +2 now
+      getAttrs(["bbs_session_applied", "vitality"], vals => {
+        const applied = vals.bbs_session_applied === "1";
+        const curVit  = parseInt(vals.vitality, 10) || 0;
 
-      if (applied) {
-        updates.vitality = Math.max(curVit - 2, 0); // clamp at 0 just in case
-      }
+        if (applied) {
+          updates.vitality = Math.max(curVit - 2, 0); // clamp at 0 just in case
+        }
 
-      // Allow next session’s +2 to be granted again
-      updates.bbs_session_applied = "0";
+        // Allow next session's +2 to be granted again
+        updates.bbs_session_applied = "0";
 
-      // Apply all updates
-      setAttrs(updates);
+        // Apply all updates then reset guard flag
+        setAttrs(updates, {}, () => {
+          setAttrs({ clearing_tracker: "0" });
+        });
+      });
     });
   });
 });
+
+/* ============================================================
+   TRACKER STRAIN DEDUCTION WORKER
+   Fires when any scene/session tracker checkbox is checked.
+   Deducts strain, updates status, sends public chat message.
+   Does NOT fire on uncheck (no refund) or during clear ops.
+   ============================================================ */
+
+// Economy and tag display — resolved via talentTypeMap, talentTagMap, and translation keys
+// prettyTag() is defined in buildTalentTypeSummary scope; replicate here for worker scope
+function workerPrettyTag(tag) {
+  if (!tag) return "";
+  // Try translation key first via talentTagMap
+  const labelKey = talentTagMap?.[tag]?.label_key;
+  if (labelKey && typeof getTranslationByKey === "function") {
+    const translated = getTranslationByKey(labelKey);
+    if (translated && translated !== labelKey) return translated;
+  }
+  // Fallback: snake_case → Title Case
+  return tag.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function workerEconomyLabel(economy) {
+  if (!economy) return "";
+  // Try translation key via talentTypeMap
+  const labelKey = talentTypeMap?.[economy]?.label_key;
+  if (labelKey && typeof getTranslationByKey === "function") {
+    const translated = getTranslationByKey(labelKey);
+    if (translated && translated !== labelKey) return translated;
+  }
+  // Fallback: snake_case → Title Case
+  return economy.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// Resolve a condition display name from conditionsDataMap via translation, fallback to Title Case
+function getConditionLabel(conditionKey) {
+  const nameKey = conditionsDataMap?.[conditionKey]?.name_key;
+  if (nameKey && typeof getTranslationByKey === "function") {
+    const translated = getTranslationByKey(nameKey);
+    if (translated && translated !== nameKey) return translated;
+  }
+  // Fallback: snake_case → Title Case
+  return conditionKey.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// Look up a talent entry from any data map by attr name
+// attr format: used_<scene|session>_<namespace>_<talent_key>
+// namespace = career key, race key, or "perk"/"flaw"
+function lookupTalentData(attrName) {
+  // Strip leading "used_scene_", "used_session_", or "used_long_rest_"
+  const withoutCadence = attrName.replace(/^used_(?:scene|session|long_rest)_/, "");
+
+  // Try career map first — career keys can be multi-word (e.g. combat_engineer)
+  for (const careerKey in careerDataMap) {
+    if (withoutCadence.startsWith(careerKey + "_")) {
+      const talentKey = withoutCadence.slice(careerKey.length + 1);
+      const talent = careerDataMap[careerKey]?.talents?.[talentKey];
+      if (talent) return { talent, displaySource: careerKey };
+    }
+  }
+
+  // Try ancestry talent map
+  for (const raceKey in ancestryTalentDataMap) {
+    if (withoutCadence.startsWith(raceKey + "_")) {
+      const talentKey = withoutCadence.slice(raceKey.length + 1);
+      const talent = ancestryTalentDataMap[raceKey]?.[talentKey];
+      if (talent) return { talent, displaySource: raceKey };
+    }
+  }
+
+  // Try ancestry trait map
+  for (const raceKey in ancestryDataMap) {
+    if (withoutCadence.startsWith(raceKey + "_")) {
+      const traitKey = withoutCadence.slice(raceKey.length + 1);
+      const trait = ancestryDataMap[raceKey]?.traits?.items?.[traitKey];
+      if (trait) return { talent: trait, displaySource: raceKey };
+    }
+  }
+
+  return null;
+}
+
+// Resolve display name from translation map or fallback to key formatting
+function getTalentDisplayName(attrName) {
+  const withoutCadence = attrName.replace(/^used_(?:scene|session|long_rest)_/, "");
+
+  // Try career i18n key: career_<career>_<talent>-u
+  for (const careerKey in careerDataMap) {
+    if (withoutCadence.startsWith(careerKey + "_")) {
+      const talentKey = withoutCadence.slice(careerKey.length + 1);
+      const i18nKey = `career_${careerKey}_${talentKey}-u`;
+      if (typeof translation !== "undefined" && translation[i18nKey]) {
+        return translation[i18nKey];
+      }
+      // Fallback: format the key
+      return talentKey.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    }
+  }
+
+  // Try ancestry talent i18n key: talent_<race>_<talent>-u
+  for (const raceKey in ancestryTalentDataMap) {
+    if (withoutCadence.startsWith(raceKey + "_")) {
+      const talentKey = withoutCadence.slice(raceKey.length + 1);
+      const i18nKey = `talent_${raceKey}_${talentKey}-u`;
+      if (typeof translation !== "undefined" && translation[i18nKey]) {
+        return translation[i18nKey];
+      }
+      return talentKey.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    }
+  }
+
+  // Try ancestry trait i18n key: racial_<race>_<trait>-u
+  for (const raceKey in ancestryDataMap) {
+    if (withoutCadence.startsWith(raceKey + "_")) {
+      const traitKey = withoutCadence.slice(raceKey.length + 1);
+      const i18nKey = `racial_${raceKey}_${traitKey}-u`;
+      if (typeof translation !== "undefined" && translation[i18nKey]) {
+        return translation[i18nKey];
+      }
+      return traitKey.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    }
+  }
+
+  return withoutCadence;
+}
+
+// Parse a strain expression: returns { isFixed, fixedVal, diceExpr }
+function parseStrainExpr(strainStr) {
+  if (!strainStr || strainStr === "" || strainStr === "0") {
+    return { isFixed: true, fixedVal: 0, diceExpr: null };
+  }
+  // Pure integer
+  if (/^\d+$/.test(strainStr)) {
+    return { isFixed: true, fixedVal: parseInt(strainStr, 10), diceExpr: null };
+  }
+  // Dice expression
+  return { isFixed: false, fixedVal: null, diceExpr: strainStr };
+}
+
+// Write Exhausted to first empty status slot; return true if placed, false if all full
+function applyExhaustedStatus(charName, cb) {
+  getAttrs(["status1", "status2", "status3", "status4"], (statusVals) => {
+    const updates = {};
+    let placed = false;
+    for (let i = 1; i <= 4; i++) {
+      const key = `status${i}`;
+      if (!statusVals[key] || statusVals[key].trim() === "") {
+        updates[key] = getConditionLabel("exhausted");
+        placed = true;
+        break;
+      }
+    }
+    if (placed) {
+      setAttrs(updates, {}, () => { cb(true); });
+    } else {
+      cb(false);
+    }
+  });
+}
+
+// Remove Exhausted from whichever status slot holds it
+function removeExhaustedStatus(statusValues) {
+  const updates = {};
+  for (let i = 1; i <= 4; i++) {
+    const key = `status${i}`;
+    if (statusValues[key] && statusValues[key].trim() === getConditionLabel("exhausted")) {
+      updates[key] = "";
+    }
+  }
+  if (Object.keys(updates).length > 0) setAttrs(updates);
+}
+
+// Write Tired to first empty status slot; cb(true) if placed, cb(false) if all full
+function applyTiredStatus(cb) {
+  getAttrs(["status1", "status2", "status3", "status4"], (statusVals) => {
+    // Don't double-apply
+    const label = getConditionLabel("tired");
+    for (let i = 1; i <= 4; i++) {
+      if ((statusVals[`status${i}`] || "").trim() === label) { cb(true); return; }
+    }
+    const updates = {};
+    let placed = false;
+    for (let i = 1; i <= 4; i++) {
+      const key = `status${i}`;
+      if (!statusVals[key] || statusVals[key].trim() === "") {
+        updates[key] = label;
+        placed = true;
+        break;
+      }
+    }
+    if (placed) {
+      setAttrs(updates, {}, () => { cb(true); });
+    } else {
+      cb(false);
+    }
+  });
+}
+
+// Remove Tired from whichever status slot holds it (uses pre-fetched statusValues)
+function removeTiredStatus(statusValues) {
+  const label = getConditionLabel("tired");
+  const updates = {};
+  for (let i = 1; i <= 4; i++) {
+    const key = `status${i}`;
+    if ((statusValues[key] || "").trim() === label) {
+      updates[key] = "";
+    }
+  }
+  if (Object.keys(updates).length > 0) setAttrs(updates);
+}
+
+// Resolve a dice expression string to a numeric result using Math.random()
+// Handles: "1d6", "2d6", "1d4+1", "1d6+1d4", "1d4+1d6", "1d6+2" etc.
+function resolveDiceExpr(expr) {
+  let total = 0;
+  const termRe = /(\d+)d(\d+)|(\d+)/g;
+  let match;
+  while ((match = termRe.exec(expr)) !== null) {
+    if (match[1] && match[2]) {
+      const count = parseInt(match[1], 10);
+      const sides = parseInt(match[2], 10);
+      for (let i = 0; i < count; i++) {
+        total += Math.floor(Math.random() * sides) + 1;
+      }
+    } else if (match[3]) {
+      total += parseInt(match[3], 10);
+    }
+  }
+  return total;
+}
+
+// Main tracker strain handler
+function handleTrackerStrainDeduction(attrName) {
+  if (debug_on) console.log("[handleTrackerStrainDeduction] Start:", attrName);
+  // Guard: skip if clear is in progress
+  getAttrs(["clearing_tracker"], (flagVals) => {
+    if (debug_on) console.log("[handleTrackerStrainDeduction] clearing_tracker:", flagVals.clearing_tracker);
+    if (flagVals.clearing_tracker === "1") return;
+
+    const talentData = lookupTalentData(attrName);
+    const displayName = getTalentDisplayName(attrName);
+
+    const strainStr   = talentData?.talent?.strain ?? "";
+    const economy     = talentData?.talent?.type?.economy ?? "";
+    const tag         = talentData?.talent?.type?.tag ?? "";
+    const economyDisp = workerEconomyLabel(economy);
+    const tagDisp     = workerPrettyTag(tag);
+    const typeLabel   = tagDisp ? `${economyDisp} — ${tagDisp}` : economyDisp;
+
+    const parsed = parseStrainExpr(strainStr);
+
+    getAttrs(["name", "strain", "strain_max"], (vals) => {
+      const charName   = vals.name || "Character";
+      const curStrain  = parseInt(vals.strain, 10) || 0;
+      const maxStrain  = parseInt(vals.strain_max, 10) || 0;
+
+      // Zero-cost or passive: just send message, no deduction
+      if (parsed.isFixed && parsed.fixedVal === 0) {
+        startRoll(
+          `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (0)}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{remaining_strain=[[${curStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
+          (r) => { finishRoll(r.rollId); }
+        );
+        return;
+      }
+
+      // Non-zero cost: check if already exhausted
+      if (curStrain <= 0) {
+        const blockedMsg = `&{template:coc-dice-roll} {{name=⚠ Cannot Activate\n${charName} is ${getConditionLabel("exhausted")}\nStrain: (${strainStr || 0})}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${displayName} not activated.}}`;
+        startRoll(blockedMsg, (r) => { finishRoll(r.rollId); });
+        setAttrs({ [attrName]: "0" });
+        return;
+      }
+
+      if (parsed.isFixed) {
+        // Fixed cost — no roll needed
+        const cost      = parsed.fixedVal;
+        const rawNew    = curStrain - cost;
+        const newStrain = Math.max(rawNew, 0);
+
+        setAttrs({ strain: newStrain });
+        startRoll(
+          `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${cost})}} {{modifier=[[0]]}} {{diceroll=[[${cost}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
+          (r) => { finishRoll(r.rollId); }
+        );
+
+        if (newStrain === 0) {
+          applyExhaustedStatus(charName, (placed) => {
+            if (!placed) {
+              const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("exhausted")} — no status slot available. Add manually.}}`;
+              startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+            }
+          });
+        }
+
+      } else {
+        // Dice expression — resolve with Math.random(), single clean message
+        const rollExpr = parsed.diceExpr;
+        const rolled    = resolveDiceExpr(rollExpr);
+        const rawNew    = curStrain - rolled;
+        const newStrain = Math.max(rawNew, 0);
+
+        setAttrs({ strain: newStrain });
+        startRoll(
+          `&{template:coc-dice-roll} {{name=${charName} uses ${displayName}\n(${typeLabel})\nStrain: (${rollExpr})}} {{modifier=[[0]]}} {{diceroll=[[${rolled}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
+          (r) => { finishRoll(r.rollId); }
+        );
+
+        if (newStrain === 0) {
+          applyExhaustedStatus(charName, (placed) => {
+            if (!placed) {
+              const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${getConditionLabel("exhausted")} — no status slot available. Add manually.}}`;
+              startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+            }
+          });
+        }
+      }
+    });
+  });
+}
+
+// Watch all scene/session tracker checkboxes
+const allTrackerAttrs = [
+  ...getUsageLimitedTalentNames("long_rest"),
+  ...getUsageLimitedTalentNames("scene"),
+  ...getUsageLimitedTalentNames("session")
+];
+
+const trackerChangeEvent = allTrackerAttrs
+  .map(a => `change:${a}`)
+  .join(" ");
+
+on(trackerChangeEvent, (eventInfo) => {
+  const source = eventInfo?.sourceAttribute;
+  if (debug_on) console.log("[trackerStrainWorker] Event fired:", source, "newValue:", eventInfo?.newValue);
+  if (!source) return;
+
+  // Only fire on check (0→1), not uncheck — use newValue directly, no getAttrs needed
+  const newVal = eventInfo?.newValue ?? eventInfo?.newValue;
+  if (newVal !== "1" && newVal !== 1 && newVal !== "on") {
+    if (debug_on) console.log("[trackerStrainWorker] Skipping — uncheck or non-active value:", newVal);
+    return;
+  }
+
+  handleTrackerStrainDeduction(source);
+});
+
+// Watch strain for Exhausted/Tired application and removal
+on("change:strain", () => {
+  getAttrs(["strain", "strain_max", "name", "status1", "status2", "status3", "status4"], (vals) => {
+    const curStrain      = parseInt(vals.strain, 10) || 0;
+    const maxStrain      = parseInt(vals.strain_max, 10) || 0;
+    const charName       = vals.name || "Character";
+    const isExhausted    = maxStrain > 0 && curStrain === 0;
+    const isTired        = maxStrain > 0 && curStrain <= maxStrain / 2;
+    const exhaustedLabel = getConditionLabel("exhausted");
+    const tiredLabel     = getConditionLabel("tired");
+    const statusKeys     = ["status1", "status2", "status3", "status4"];
+    const updates        = {};
+
+    const hasExhausted = statusKeys.some(k => (vals[k] || "").trim() === exhaustedLabel);
+    const hasTired     = statusKeys.some(k => (vals[k] || "").trim() === tiredLabel);
+
+    // Build current slot state as a mutable array so both conditions share it
+    const slots = statusKeys.map(k => (vals[k] || "").trim());
+
+    // ── Exhausted ──
+    if (isExhausted && !hasExhausted) {
+      const idx = slots.indexOf("");
+      if (idx !== -1) {
+        updates[statusKeys[idx]] = exhaustedLabel;
+        slots[idx] = exhaustedLabel; // mark as taken for Tired pass below
+      } else {
+        const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${exhaustedLabel} — no status slot available. Add manually.}}`;
+        startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+      }
+    } else if (!isExhausted && hasExhausted) {
+      statusKeys.forEach((k, i) => { if (slots[i] === exhaustedLabel) { updates[k] = ""; slots[i] = ""; } });
+    }
+
+    // ── Tired ──
+    if (isTired && !hasTired) {
+      const idx = slots.indexOf("");
+      if (idx !== -1) {
+        updates[statusKeys[idx]] = tiredLabel;
+      } else {
+        const warnMsg = `&{template:coc-dice-roll} {{name=⚠ Status Full}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${charName} is ${tiredLabel} — no status slot available. Add manually.}}`;
+        startRoll(warnMsg, (r) => { finishRoll(r.rollId); });
+      }
+    } else if (!isTired && hasTired) {
+      statusKeys.forEach((k, i) => { if (slots[i] === tiredLabel) { updates[k] = ""; } });
+    }
+
+    if (Object.keys(updates).length > 0) setAttrs(updates);
+  });
+});
+
+/* ============================================================
+   CLEAR SCENE / SESSION GUARD — inject clearing_tracker flag
+   into existing clear handlers (see clicked:clear_scene_uses
+   and clicked:clear_session_uses above — those handlers set
+   attr_clearing_tracker = "1" before setAttrs and reset to
+   "0" in the callback).
+   ============================================================ */
 
 on(careerTalentEvents, (eventInfo) => {
   // Which checkbox actually changed?

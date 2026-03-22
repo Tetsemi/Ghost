@@ -43,6 +43,8 @@
 		--cs_btn_alert_text:        #ffff00;
 		--cs_state_bloodied_bg:     #cc4444;
 		--cs_state_bloodied_text:   #ffffff;
+		--cs_state_strained_bg:     #2255aa;
+		--cs_state_strained_text:   #ffffff;
 		--cs_budget_neutral_bg:     rgba(173, 216, 230, 0.70);   /* light blue — unspent */
 		--cs_budget_ok_bg:          rgba(144, 238, 144, 0.60);   /* light green — within budget */
 		--cs_budget_over_bg:        rgba(255, 182, 193, 0.70);   /* light red — over budget */
@@ -198,6 +200,8 @@
 	--cs_btn_info_text:         #ffffff;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #ffffff;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #ffffff;
 }
 
 /* Dark */
@@ -226,6 +230,8 @@
 	--cs_btn_info_text:         #ffffff;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #ffffff;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #ffffff;
 }
 
 /* Cyberpunk */
@@ -254,6 +260,8 @@
 	--cs_btn_info_text:         #00f2ff;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #fcee0a;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #fcee0a;
 }
 
 /* Ancestry - resolved value written to attr_theme by sheet worker */
@@ -282,6 +290,8 @@
 	--cs_btn_info_text:         #e2eaf0;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #e2eaf0;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #e2eaf0;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-theme-controller[value="draevi"] ~ .sheet-layout,
@@ -309,6 +319,8 @@
 	--cs_btn_info_text:         #fdfcf0;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #fdfcf0;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #fdfcf0;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-theme-controller[value="feran"] ~ .sheet-layout,
@@ -336,6 +348,8 @@
 	--cs_btn_info_text:         #f4ede0;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #f4ede0;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #f4ede0;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-theme-controller[value="human"] ~ .sheet-layout,
@@ -363,6 +377,8 @@
 	--cs_btn_info_text:         #f2f4f5;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #f2f4f5;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #f2f4f5;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-theme-controller[value="khadra"] ~ .sheet-layout,
@@ -390,6 +406,8 @@
 	--cs_btn_info_text:         #f7ece6;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #f7ece6;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #f7ece6;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-theme-controller[value="kitsu"] ~ .sheet-layout,
@@ -417,6 +435,8 @@
 	--cs_btn_info_text:         #f8efeb;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #f8efeb;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #f8efeb;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-theme-controller[value="lyranni"] ~ .sheet-layout,
@@ -444,6 +464,8 @@
 	--cs_btn_info_text:         #f8f9fa;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #f8f9fa;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #f8f9fa;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-theme-controller[value="veyra"] ~ .sheet-layout,
@@ -471,6 +493,8 @@
 	--cs_btn_info_text:         #e1e8ed;
 	--cs_state_bloodied_bg:     #cc4444;
 	--cs_state_bloodied_text:   #e1e8ed;
+	--cs_state_strained_bg:     #2255aa;
+	--cs_state_strained_text:   #e1e8ed;
 }
 
 /* ------------------------------- */
@@ -1606,10 +1630,22 @@ select[name="attr_damage_bonus"] {
 	color: var(--cs_state_bloodied_text);
 }
 
+/* Strained: Strain input turns blue with white text at or below 50% */
+.ui-dialog .tab-content .charsheet .sheet-grid-characteristics input[name="attr_strained_css"][value="1"] ~ .sheet-strain-input {
+	background-color: var(--cs_state_strained_bg);
+	color: var(--cs_state_strained_text);
+}
+
 /* Minion Bloodied: HP current input turns light red at or below 50% */
 .ui-dialog .tab-content .charsheet input[name="attr_minion_bloodied_css"][value="1"] ~ .sheet-minionhp-input {
 	background-color: var(--cs_state_bloodied_bg);
 	color: var(--cs_state_bloodied_text);
+}
+
+/* Minion Strained: Strain current input turns blue at or below 50% */
+.ui-dialog .tab-content .charsheet input[name="attr_minion_strained_css"][value="1"] ~ .sheet-minionmp-input {
+	background-color: var(--cs_state_strained_bg);
+	color: var(--cs_state_strained_text);
 }
 
 /* Minion wounds wrapper: override the generic grid layout */
@@ -5503,6 +5539,11 @@ select[name="attr_damage_bonus"] {
 	display: flex;
 }
 
+/* Racial Talent Tracker - Draevi - Long Rest */
+.ui-dialog .tab-content .charsheet input[name="attr_show_draevi_keeper_of_the_last_fire"][value="1"] ~ .sheet-draevi-keeper-of-the-last-fire {
+	display: flex;
+}
+
 /* Racial Talent Tracker - Feran - Session */
 .ui-dialog .tab-content .charsheet input[name="attr_show_feran_chaos_has_a_line"][value="1"] ~ .sheet-feran-chaos-has-a-line,
 .ui-dialog .tab-content .charsheet input[name="attr_show_feran_finish_it"][value="1"] ~ .sheet-feran-finish-it,
@@ -7583,7 +7624,6 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-row {
-	flex: 0 0 50%;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -7594,6 +7634,9 @@ select[name="attr_damage_bonus"] {
 	box-sizing: border-box;
 }
 
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-row:nth-child(odd)  { flex: 1 1 60%; }
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-row:nth-child(even) { flex: 1 1 40%; }
+
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-label {
 	flex: 0 0 60px;
 	font-weight: bold;
@@ -7603,7 +7646,7 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-npc-val {
-	flex: 1;
+	flex: 1 1;
 	display: flex;
 	align-items: center;
 	gap: 4px;
@@ -7646,9 +7689,8 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-val {
-	flex: 1;
+	flex: 1 1;
 	display: flex;
-	flex-wrap: wrap;
 	gap: 5px;
 }
 
@@ -7670,8 +7712,8 @@ select[name="attr_damage_bonus"] {
 	min-width: 0;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-status-panel  { flex: 1 1 33%; }
-.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-talent-panel  { flex: 1 1 67%; }
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-status-panel  { flex: 1 1 30%; }
+.ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-talent-panel  { flex: 1 1 70%; }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-status-input,
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-talent-input {

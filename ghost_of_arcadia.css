@@ -2503,31 +2503,59 @@ select[name="attr_damage_bonus"] {
 	margin-top: 0.5rem;
 }
 
-/* Disable interaction via _enabled or _lockflag */
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox,
+/* ── Ancestry Talent States ───────────────────────────────────────────────────
+   Available (enabled, unchecked, not locked) → checkbox 100%, text dim
+   Chosen    (enabled, checked,   not locked) → checkbox 100%, text 100%
+   Prereq-locked-in (checked, lockflag=1)     → checkbox locked/dim, text 100%
+   Not enabled (_enabled=0)                   → checkbox locked/dim, text dim
+   Tier 4 locked out (lockflag=1, unchecked)  → checkbox locked/dim, text dim
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Available: enabled, not locked, not chosen — dim text, full checkbox */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
+	opacity: 0.6;
+}
+
+/* Chosen: checked, not locked — full text (overrides dim above) */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-prereq {
+	opacity: 1;
+}
+
+/* Prereq-locked-in (checked + lockflag=1): lock checkbox, keep text full */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox {
+	pointer-events: none;
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-prereq {
+	opacity: 1;
+}
+
+/* Not enabled: lock checkbox, dim text */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox {
 	pointer-events: none;
 	opacity: 0.3;
 	cursor: not-allowed;
 }
-
-/* Fade label/description on all tiers when prereq not met (_enabled = 0) */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
 	opacity: 0.4;
 }
 
-/* Fade Tier 4 label/description when locked out by a sibling choice (_lockflag = 1, not checked) */
+/* Tier 4 locked out (lockflag=1, unchecked): dim text */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox ~ .sheet-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox ~ .sheet-talent-description {
 	opacity: 0.4;
 }
-
-/* Restore full opacity when talent is checked (purchased) regardless of enable/lock state */
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-description,
+/* Tier 4 chosen (lockflag may be 0, checked): full text */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox:checked ~ .sheet-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox:checked ~ .sheet-talent-description {
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox:checked ~ .sheet-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox:checked ~ .sheet-talent-prereq {
 	opacity: 1;
 }
 
@@ -3024,9 +3052,16 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-talent-checkbox      { grid-column: 1; }
-.ui-dialog .tab-content .charsheet .sheet-talent-label         { grid-column: 2; font-size: 13px}
-.ui-dialog .tab-content .charsheet .sheet-talent-description   { grid-column: 3; font-size: 13px; white-space: normal; }
-.ui-dialog .tab-content .charsheet .sheet-talent-prereq        { grid-column: 4; display: none; font-size: 13px; padding-left: .5rem; }
+.ui-dialog .tab-content .charsheet .sheet-talent-label         { grid-column: 2; font-size: 13px; opacity: 0.6; }
+.ui-dialog .tab-content .charsheet .sheet-talent-description   { grid-column: 3; font-size: 13px; white-space: normal; opacity: 0.6; }
+.ui-dialog .tab-content .charsheet .sheet-talent-prereq        { grid-column: 4; display: none; font-size: 13px; padding-left: .5rem; opacity: 0.6; }
+
+/* Any checked talent — restore full opacity unconditionally */
+.ui-dialog .tab-content .charsheet input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-label,
+.ui-dialog .tab-content .charsheet input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-description,
+.ui-dialog .tab-content .charsheet input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-prereq {
+	opacity: 1;
+}
 
 /* Toggle: when the checkbox BEFORE .sheet-ancestry is checked, expand grid + show prereqs */
 .ui-dialog .tab-content .charsheet .sheet-prereq-toggle:checked ~ .sheet-ancestry .sheet-talent-row {
@@ -3677,31 +3712,59 @@ select[name="attr_damage_bonus"] {
 	color: var(--ct_specialist_txt_color_light);
 }
 
-/* Disable checkbox interaction if _enabled=0 or _lockflag=1 */
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox,
+/* ── Career Talent States ─────────────────────────────────────────────────────
+   Available (enabled, unchecked, not locked) → checkbox 100%, text dim
+   Chosen    (enabled, checked,   not locked) → checkbox 100%, text 100%
+   Prereq-locked-in (checked, lockflag=1)     → checkbox locked/dim, text 100%
+   Not enabled (_enabled=0)                   → checkbox locked/dim, text dim
+   Tier 5 locked out (lockflag=1, unchecked)  → checkbox locked/dim, text dim
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Available: enabled, not locked, not chosen — dim text, full checkbox */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description {
+	opacity: 0.6;
+}
+
+/* Chosen: checked, not locked — full text (overrides dim above) */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-prereq {
+	opacity: 1;
+}
+
+/* Prereq-locked-in (checked + lockflag=1): lock checkbox, keep text full */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox {
+	pointer-events: none;
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-prereq {
+	opacity: 1;
+}
+
+/* Not enabled: lock checkbox, dim text */
+.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox {
 	pointer-events: none;
 	opacity: 0.3;
 	cursor: not-allowed;
 }
-
-/* Fade label/description on all tiers when prereq not met (_enabled = 0) */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description {
 	opacity: 0.4;
 }
 
-/* Fade Tier 5 label/description when locked out by a sibling capstone choice (_lockflag = 1, not checked) */
+/* Tier 5 locked out (lockflag=1, unchecked): dim text */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox ~ .sheet-career-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox ~ .sheet-career-talent-description {
 	opacity: 0.4;
 }
-
-/* Restore full opacity when talent is checked (purchased) regardless of enable/lock state */
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-description,
+/* Tier 5 chosen: full text */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox:checked ~ .sheet-career-talent-label,
-.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox:checked ~ .sheet-career-talent-description {
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox:checked ~ .sheet-career-talent-description,
+.ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox:checked ~ .sheet-career-talent-prereq {
 	opacity: 1;
 }
 
@@ -3765,9 +3828,16 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-capstone-row { }
 
 .ui-dialog .tab-content .charsheet .sheet-career-talent-checkbox      { grid-column: 1; }
-.ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; font-weight: bold; font-size: 100%; white-space: wrap; }
-.ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; font-size: 110%; white-space: normal; }
-.ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; font-weight: bold; font-size: 100%; white-space: wrap; opacity: 0.6; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; font-size: 110%; white-space: normal; opacity: 0.6; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; opacity: .85; padding-left: .5rem; opacity: 0.6; }
+
+/* Any checked career talent — restore full opacity unconditionally */
+.ui-dialog .tab-content .charsheet input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-label,
+.ui-dialog .tab-content .charsheet input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-description,
+.ui-dialog .tab-content .charsheet input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-prereq {
+	opacity: 1;
+}
 
 /* Stub — inherits from sheet-career-talent-checkbox, add overrides here as needed */
 .ui-dialog .tab-content .charsheet .sheet-career-capstone-checkbox { }

@@ -4728,7 +4728,7 @@
 						<!-- ================== LYRANNI TALENTS: INDEX (Tier 3) (key | cost | cadence) ================== -->
 						<!-- - talent_lyranni_arcane_composure (30 XP, none) -->
 						<!-- - talent_lyranni_spirit_marked (30 XP, none) -->
-						<!-- - talent_lyranni_true_veilsight (30 XP, none) -->
+						<!-- - talent_lyranni_true_veilsight (30 XP, scene) -->
 						<!-- - talent_lyranni_unspoken_leverage (30 XP, none) -->
 						<!-- - talent_lyranni_veil_hardened_mind (30 XP, none) -->
 						<!-- ============================================================================================================== -->
@@ -4766,7 +4766,7 @@
 								<span class="sheet-talent-prereq" data-i18n="talent_lyranni_between_the_currents-u"></span>
 							</div>
 
-							<!-- Ancestry Talent: True Veilsight | key: true_veilsight | cost: 30 XP | cadence: none | attrs: attr_lyranni_true_veilsight, attr_lyranni_true_veilsight_lockflag | i18n: talent_lyranni_true_veilsight-u| — | talent_lyranni_true_veilsight_rules-u -->
+							<!-- Ancestry Talent: True Veilsight | key: true_veilsight | cost: 30 XP | cadence: scene | attrs: attr_lyranni_true_veilsight, attr_lyranni_true_veilsight_lockflag | i18n: talent_lyranni_true_veilsight-u| — | talent_lyranni_true_veilsight_rules-u -->
 							<div class="sheet-talent-row">
 								<input type="hidden" name="attr_lyranni_true_veilsight_enabled" value="0"/>
 								<input type="hidden" name="attr_lyranni_true_veilsight_lockflag" value="0"/>
@@ -21648,6 +21648,7 @@
 							<!-- - talent_lyranni_between_the_currents (20 XP) -->
 							<!-- - talent_lyranni_caste_memory (20 XP) -->
 							<!-- - talent_lyranni_quiet_read (20 XP) -->
+							<!-- - talent_lyranni_true_veilsight (30 XP) -->
 							<!-- - talent_lyranni_veil_literate (10 XP) -->
 							<!-- - talent_lyranni_veil_touch (10 XP) -->
 							<!-- ============================================================================================================== -->
@@ -21699,6 +21700,13 @@
 							<div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-veil-touch">
 								<input type="checkbox" name="attr_used_scene_lyranni_veil_touch" class="sheet-tracker-checkbox"/>
 								<span class="sheet-tracker-label" data-i18n="talent_lyranni_veil_touch-u"></span>
+							</div>
+
+							<!-- Tracker Ancestry Talent: True Veilsight (Scene) | key: true_veilsight | cost: 30 XP | cadence: scene | attrs: attr_show_lyranni_true_veilsight, attr_used_scene_lyranni_true_veilsight | i18n: talent_lyranni_true_veilsight_scene-u -->
+							<input type="hidden" name="attr_show_lyranni_true_veilsight"/>
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-true-veilsight">
+								<input type="checkbox" name="attr_used_scene_lyranni_true_veilsight" class="sheet-tracker-checkbox"/>
+								<span class="sheet-tracker-label" data-i18n="talent_lyranni_true_veilsight_scene-u"></span>
 							</div>
 
 							<!-- ================== TRACKER VEYRA TALENTS: INDEX (scene) (key | cost) ================== -->
@@ -37552,8 +37560,8 @@ const ancestryTalentDataMap = {
 			name_key: "talent_lyranni_true_veilsight-u",
 			rule_text_key: "talent_lyranni_true_veilsight_rules-u",
 			type: { economy: "action", tag: "perception" },
-			strain: "2,1d6",
-			usage_limit: "",
+			strain: "1d6",
+			usage_limit: "scene",
 			affected_skill: [ "arcana", "spirit_lore", "veil_lore" ],
 			affected_skill_group: "magic",
 			prerequisite: [ "between_the_currents" ]

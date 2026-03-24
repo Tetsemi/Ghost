@@ -43,6 +43,7 @@
 		--cs_btn_active_text:       #ffffff;
 		--cs_btn_alert_bg:          #000000;
 		--cs_btn_alert_text:        #ffff00;
+		--cs_btn_disabled_bg:       var(--cs_disabled_bg);   /* disabled roll button — maps to standard disabled bg */
 		--cs_btn_session_bg:        #2255aa;   /* blue — session cadence, mirrors state_strained identity */
 		--cs_btn_session_text:      #ffffff;
 		--cs_state_bloodied_bg:     #cc4444;
@@ -55,6 +56,25 @@
 		--cs_budget_text:			#1a1a1a;   /* near-black — readable on all three light pastel backgrounds */
 		--cs_health_danger_color:	#cc2200;   /* red — health meter label */
 		--cs_strain_color:			#1a6abf;   /* blue — strain meter label */
+		--cs_tooltip_bg:            var(--cs_txt_accent);    /* tooltip bubble interior fill */
+		--cs_tooltip_border:        var(--cs_dc_color);      /* tooltip border and arrow outer edge */
+		--cs_tooltip_label_text:    var(--cs_bg_color);      /* tooltip label text — light on accent bg */
+
+	/* Layout & Sizing Constants */
+		--cs_border_radius_sm:      4px;       /* talent rows, skill option pills, tab buttons */
+		--cs_border_radius_md:      6px;       /* tier containers, perk/flaw groups, backstory sections */
+		--cs_font_family:           "Arial", sans-serif;
+		--cs_opacity_dim:           0.6;       /* available/unchosen talent state */
+		--cs_opacity_disabled:      0.3;       /* not-enabled talent state */
+		--cs_opacity_locked:        0.4;       /* prereq-locked talent state */
+		--cs_row_height:            24px;      /* standard flex row height */
+		--cs_row_height_sm:         20px;      /* small row height — skill inputs */
+		--cs_row_height_xs:         23px;      /* extra-small row height — contact/vehicle fields */
+		--cs_sheet_width:           840px;
+		--cs_talent_list_gap:       0.6rem;    /* spacing between rows within a talent list container */
+		--cs_talent_padding:        0.5rem;    /* internal padding on talent row cards */
+		--cs_talent_row_gap:        0.5rem;    /* spacing between talent row cards */
+		--cs_transition_btn:        background-color 0.2s ease;
 
 	/* --- Theme - Light --- */
 		--cs_sys_light_bg_color: #f8f8f8;			/* Background */				/* Off-white canvas & clean parchment */
@@ -523,11 +543,11 @@
 /* ------------------------------- */
 .ui-dialog .tab-content .charsheet .sheet-layout {
 	background-color: var(--cs_bg_color);
-	width: 840px;
-	margin: auto;
 	border: solid 1px var(--cs_input_border);
 	color: var(--cs_txt_primary);
-	font-family: "Arial", sans-serif;
+	font-family: var(--cs_font_family);
+	margin: auto;
+	width: var(--cs_sheet_width);
 }
 
 *,
@@ -639,7 +659,7 @@
 /* Smaller input (e.g., points spent, AC, move) */
 .ui-dialog .tab-content .charsheet .sheet-attr-input-small {
 	width: 40px;
-	height: 24px;
+	height: var(--cs_row_height);
 	min-width: 0;
 	box-sizing: border-box;
 	padding: 2px;
@@ -739,7 +759,7 @@
 	height: 1.5em;
 	width: 1.5em;
 	border: solid 1px var(--cs_input_border);
-	border-radius: 4px;
+	border-radius: var(--cs_border_radius_sm);
 	text-align: center;
 	padding: 0;
 	margin: 2px; /* slight spacing for neatness */
@@ -840,7 +860,7 @@
 	 font-weight: bold;
 	 text-align: center;
 	 width: 20px;
-	 height: 20px;
+	 height: var(--cs_row_height_sm);
 	 margin: auto;
 	 padding: 0;
 	 border: 1px solid var(--cs_input_border);
@@ -1259,7 +1279,7 @@
 	height: 18px;
 	cursor: pointer;
 	border: 1px solid var(--cs_divider_color);
-	border-radius: 3px;
+	border-radius: var(--cs_border_radius_sm);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-top-collapse-hit::after {
@@ -1775,7 +1795,7 @@ select[name="attr_damage_bonus"] {
 	font-weight: bold;
 	text-align: center;
 	width: 24px;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	border: 1px solid var(--cs_input_border);
 	line-height: 1;          /* ← fix icon overflow */
@@ -1830,7 +1850,7 @@ select[name="attr_damage_bonus"] {
 	border: 1px solid var(--cs_ui_element_bg);
 	text-align: center;
 	cursor: pointer;
-	height: 24px;
+	height: var(--cs_row_height);
 	box-sizing: border-box;
 	margin: 0;
 }
@@ -1927,7 +1947,7 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-statuses-wrapper {
-	height: 24px;
+	height: var(--cs_row_height);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-statuses-wrapper input {
@@ -2002,7 +2022,7 @@ select[name="attr_damage_bonus"] {
 	padding: 2px 0;
 	font-size: 90%;
 	cursor: pointer;
-	transition: background-color 0.2s ease;
+	transition: var(--cs_transition_btn);
 	box-sizing: border-box;
 }
 
@@ -2091,7 +2111,7 @@ select[name="attr_damage_bonus"] {
 	z-index: 999;
 	background-color: var(--cs_txt_accent);
 	border: 1px solid var(--cs_tooltip_border);
-	border-radius: 3px;
+	border-radius: var(--cs_border_radius_sm);
 	padding: 6px 8px;
 	min-width: 180px;
 	max-width: 240px;
@@ -2149,7 +2169,7 @@ select[name="attr_damage_bonus"] {
 	flex-wrap: nowrap;
 	justify-content: space-between;
 	column-gap: 8px;
-	max-width: 840px;
+	max-width: var(--cs_sheet_width);
 	width: 100%;
 }
 
@@ -2235,7 +2255,7 @@ select[name="attr_damage_bonus"] {
 
 /* Editable skill point input */
 .ui-dialog .tab-content .charsheet .skill-input {
-	height: 20px;
+	height: var(--cs_row_height_sm);
 	width: 30px;
 	text-align: center;
 	margin: 0;
@@ -2422,7 +2442,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-trained-skills-strip span[name="attr_trained_skills_summary"]:empty::before,
 .ui-dialog .tab-content .charsheet .sheet-trained-skills-strip span[name="attr_trained_skills_duplicates_summary"]:empty::before {
 	content: "—";
-	opacity: 0.6;
+	opacity: var(--cs_opacity_dim);
 }
 
 
@@ -2490,12 +2510,12 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-talent-row {
 	display: grid;
 	grid-template-columns: 28px 200px 1fr;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 	align-items: start;
 	margin-bottom: 0.75rem;
-	padding: 0.5rem;
+	padding: var(--cs_talent_padding);
 	border: 1px solid var(--cs_btn_inactive_bg);
-	border-radius: 4px;
+	border-radius: var(--cs_border_radius_sm);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-talent-checkbox {
@@ -2526,7 +2546,7 @@ select[name="attr_damage_bonus"] {
 /* Available: enabled, not locked, not chosen — dim text, full checkbox */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
-	opacity: 0.6;
+	opacity: var(--cs_opacity_dim);
 }
 
 /* Chosen: checked, not locked — full text (overrides dim above) */
@@ -2539,7 +2559,7 @@ select[name="attr_damage_bonus"] {
 /* Prereq-locked-in (checked + lockflag=1): lock checkbox, keep text full */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox {
 	pointer-events: none;
-	opacity: 0.4;
+	opacity: var(--cs_opacity_locked);
 	cursor: not-allowed;
 }
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-label,
@@ -2551,18 +2571,18 @@ select[name="attr_damage_bonus"] {
 /* Not enabled: lock checkbox, dim text */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox {
 	pointer-events: none;
-	opacity: 0.3;
+	opacity: var(--cs_opacity_disabled);
 	cursor: not-allowed;
 }
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-talent-checkbox ~ .sheet-talent-description {
-	opacity: 0.4;
+	opacity: var(--cs_opacity_locked);
 }
 
 /* Tier 4 locked out (lockflag=1, unchecked): dim text */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox ~ .sheet-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox ~ .sheet-talent-description {
-	opacity: 0.4;
+	opacity: var(--cs_opacity_locked);
 }
 /* Tier 4 chosen (lockflag may be 0, checked): full text */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-tier4-checkbox:checked ~ .sheet-talent-label,
@@ -2574,7 +2594,7 @@ select[name="attr_damage_bonus"] {
 /* Disable interaction and style on talent sub-option section if locked */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"] ~ .sheet-skill-choice-placeholder {
 	pointer-events: none;
-	opacity: 0.3;
+	opacity: var(--cs_opacity_disabled);
 }
 
 /* Ancestry w/extra fields */
@@ -2596,7 +2616,7 @@ select[name="attr_damage_bonus"] {
 	background-color: var(--cs_section_bg_color);
 	border: 1px solid var(--cs_divider_color);
 	padding: 0.25rem 0.5rem;
-	border-radius: 4px;
+	border-radius: var(--cs_border_radius_sm);
 	font-size: 100%;
 	color: var(--cs_txt_accent);
 }
@@ -2686,20 +2706,20 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-tier .sheet-ancestry {
 	display: flex;
 	flex-direction: column;
-	gap: 0.6rem; /* spacing between rows */	
+	gap: var(--cs_talent_list_gap); /* spacing between rows */	
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-list {
 	display: flex;
 	flex-direction: column;
-	gap: 0.6rem; /* spacing between rows */
+	gap: var(--cs_talent_list_gap); /* spacing between rows */
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-row {
 	display: grid;
 	grid-template-columns: minmax(215px, 10%) minmax(0, 1fr);
 	box-sizing: border-box;
-	padding: 0.5rem;
+	padding: var(--cs_talent_padding);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-ancestry .sheet-talent-racials .sheet-racial-trait-name {
@@ -3064,9 +3084,9 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-talent-checkbox      { grid-column: 1; }
-.ui-dialog .tab-content .charsheet .sheet-talent-label         { grid-column: 2; font-size: 13px; opacity: 0.6; }
-.ui-dialog .tab-content .charsheet .sheet-talent-description   { grid-column: 3; font-size: 13px; white-space: normal; opacity: 0.6; }
-.ui-dialog .tab-content .charsheet .sheet-talent-prereq        { grid-column: 4; display: none; font-size: 13px; padding-left: .5rem; opacity: 0.6; }
+.ui-dialog .tab-content .charsheet .sheet-talent-label         { grid-column: 2; font-size: 13px; opacity: var(--cs_opacity_dim); }
+.ui-dialog .tab-content .charsheet .sheet-talent-description   { grid-column: 3; font-size: 13px; white-space: normal; opacity: var(--cs_opacity_dim); }
+.ui-dialog .tab-content .charsheet .sheet-talent-prereq        { grid-column: 4; display: none; font-size: 13px; padding-left: .5rem; opacity: var(--cs_opacity_dim); }
 
 /* Any checked talent — restore full opacity unconditionally */
 .ui-dialog .tab-content .charsheet input[type="checkbox"].sheet-talent-checkbox:checked ~ .sheet-talent-label,
@@ -3199,7 +3219,7 @@ select[name="attr_damage_bonus"] {
 	background-color: var(--cs_bg_color);
 	color: var(--cs_txt_primary);							
 	border: 1px solid var(--cs_input_border);
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-bg-v2-feature-name {
@@ -3225,7 +3245,7 @@ select[name="attr_damage_bonus"] {
 	background-color: var(--cs_bg_color);
 	color: var(--cs_txt_primary);							
 	border: 1px solid var(--cs_input_border);
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 	padding: 6px 8px;
 	min-width: 0;
 	display: flex;
@@ -3342,7 +3362,7 @@ select[name="attr_damage_bonus"] {
 	background-color: var(--cs_bg_color);
 	color: var(--cs_txt_primary);							
 	padding: 6px 8px;
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-background-grid select[name="attr_background_locked_choice"] {
@@ -3392,7 +3412,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="0"] ~ .sheet-bg-v2-feature,
 .ui-dialog .tab-content .charsheet .sheet-backgrounds-v2 .sheet-bgblock-v2 input.sheet-bg-ready-controller[value="0"] ~ .sheet-bg-v2-columns {
 	pointer-events: none;
-	opacity: 0.4;
+	opacity: var(--cs_opacity_locked);
 	filter: grayscale(80%);
 }
 
@@ -3582,7 +3602,7 @@ select[name="attr_damage_bonus"] {
 	padding: 4px 0;
 	font-size: 85%;
 	cursor: pointer;
-	transition: background-color 0.2s ease;
+	transition: var(--cs_transition_btn);
 }
 
 /* Default: collapsed */
@@ -3605,7 +3625,7 @@ select[name="attr_damage_bonus"] {
 	flex: 1;
 	margin-top: 2px;
 	margin-right: 2px;
-	height: 24px;
+	height: var(--cs_row_height);
 }
 
 /* Arcane career tabs: allow wrapping */
@@ -3640,7 +3660,7 @@ select[name="attr_damage_bonus"] {
 	padding: 4px 0;
 	font-size: 80%;
 	cursor: pointer;
-	transition: background-color 0.2s ease;
+	transition: var(--cs_transition_btn);
 }
 
 /* Core buttons: flexible, but don't shrink below a usable width */
@@ -3654,7 +3674,7 @@ select[name="attr_damage_bonus"] {
 	padding: 4px 0;
 	font-size: 80%;
 	cursor: pointer;
-	transition: background-color 0.2s ease;
+	transition: var(--cs_transition_btn);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-tab-buttons-specialist button {
@@ -3667,7 +3687,7 @@ select[name="attr_damage_bonus"] {
 	padding: 4px 0;
 	font-size: 80%;
 	cursor: pointer;
-	transition: background-color 0.2s ease;
+	transition: var(--cs_transition_btn);
 }
 
 /* Highlight selected sub-tab */
@@ -3725,7 +3745,7 @@ select[name="attr_damage_bonus"] {
 /* Available: enabled, not locked, not chosen — dim text, full checkbox */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description {
-	opacity: 0.6;
+	opacity: var(--cs_opacity_dim);
 }
 
 /* Chosen: checked, not locked — full text (overrides dim above) */
@@ -3738,7 +3758,7 @@ select[name="attr_damage_bonus"] {
 /* Prereq-locked-in (checked + lockflag=1): lock checkbox, keep text full */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox {
 	pointer-events: none;
-	opacity: 0.4;
+	opacity: var(--cs_opacity_locked);
 	cursor: not-allowed;
 }
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-label,
@@ -3750,18 +3770,18 @@ select[name="attr_damage_bonus"] {
 /* Not enabled: lock checkbox, dim text */
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox {
 	pointer-events: none;
-	opacity: 0.3;
+	opacity: var(--cs_opacity_disabled);
 	cursor: not-allowed;
 }
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_enabled"][value="0"] ~ input[type="checkbox"].sheet-career-talent-checkbox ~ .sheet-career-talent-description {
-	opacity: 0.4;
+	opacity: var(--cs_opacity_locked);
 }
 
 /* Tier 5 locked out (lockflag=1, unchecked): dim text */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox ~ .sheet-career-talent-label,
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox ~ .sheet-career-talent-description {
-	opacity: 0.4;
+	opacity: var(--cs_opacity_locked);
 }
 /* Tier 5 chosen: full text */
 .ui-dialog .tab-content .charsheet input[name$="_lockflag"][value="1"] ~ input[type="checkbox"].sheet-capstone-checkbox:checked ~ .sheet-career-talent-label,
@@ -3774,7 +3794,7 @@ select[name="attr_damage_bonus"] {
 /* Career Talent Tier Container — themed by active career type */
 .ui-dialog .tab-content .charsheet .sheet-career-talent-tier {
 	border: 1px solid var(--cs_input_border);
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 	box-sizing: border-box;
 	display: grid;
 	margin-top: 1rem;
@@ -3903,7 +3923,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-content.sheet-careers .sheet-career-talent-tier .sheet-section-body {
 	display: flex;
 	flex-direction: column;
-	gap: 0.6rem;
+	gap: var(--cs_talent_list_gap);
 }
 
 /* --- Careers - Collapsible Talent Tiers (Tier 1–5) --- */
@@ -3930,10 +3950,10 @@ select[name="attr_damage_bonus"] {
 	box-sizing: border-box;
 	display: grid;
 	font-size: 100%;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 	grid-template-columns: 30px 175px 1fr;
 	margin-bottom: 0.75rem;
-	padding: 0.5rem;
+	padding: var(--cs_talent_padding);
 	width: 100%;
 }
 
@@ -3941,9 +3961,9 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-capstone-row { }
 
 .ui-dialog .tab-content .charsheet .sheet-career-talent-checkbox      { grid-column: 1; margin: 0.35rem 0 0 0.25rem; align-self: start; }
-.ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; font-weight: bold; font-size: 100%; white-space: wrap; opacity: 0.6; }
-.ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; font-size: 110%; white-space: normal; opacity: 0.6; }
-.ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; padding-left: .5rem; opacity: 0.6; }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-label         { grid-column: 2; font-weight: bold; font-size: 100%; white-space: wrap; opacity: var(--cs_opacity_dim); }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-description   { grid-column: 3; font-size: 110%; white-space: normal; opacity: var(--cs_opacity_dim); }
+.ui-dialog .tab-content .charsheet .sheet-career-talent-prereq        { grid-column: 4; display: none; font-size: 90%; padding-left: .5rem; opacity: var(--cs_opacity_dim); }
 
 /* Any checked career talent — restore full opacity unconditionally */
 .ui-dialog .tab-content .charsheet input[type="checkbox"].sheet-career-talent-checkbox:checked ~ .sheet-career-talent-label,
@@ -4144,7 +4164,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-skill-wrapper {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-career-skill-wrapper input[type="checkbox"] {
@@ -4241,7 +4261,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-career-tab input.sheet-career-ready-controller[value="0"] ~ .sheet-career-interactive-block {
 	pointer-events: none;
-	opacity: 0.4;
+	opacity: var(--cs_opacity_locked);
 	filter: grayscale(80%);
 }
 
@@ -4562,9 +4582,9 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-veil_dancer,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-veil_dancer .sheet-career-talent-row {
 	border: 1px solid var(--ct_arcane_dc_color);
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 	margin: 2px;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 }
 
 /* --- Core Career Theme --- */
@@ -4668,9 +4688,9 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-vanguard,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-vanguard .sheet-career-talent-row {
 	border: 1px solid var(--ct_core_dc_color);
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 	margin: 2px;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 }
 
 /* --- Specialist Career Theme --- */
@@ -4708,9 +4728,9 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-soul_forger,
 .ui-dialog .tab-content .charsheet .sheet-career-block.sheet-career-soul_forger .sheet-career-talent-row {
 	border: 1px solid var(--ct_specialist_dc_color);
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 	margin: 2px;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-careers .sheet-trained-skills-strip {
@@ -4790,7 +4810,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	margin: 0;
 	gap: 0;
@@ -4799,7 +4819,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-weapon-default .sheet-toggle-wrapper,
 .ui-dialog .tab-content .charsheet .sheet-weapon-block .sheet-toggle-wrapper { 
 	width: 24px; 
-	height: 24px; 
+	height: var(--cs_row_height); 
 }
 
 /* General Flex Cell */
@@ -4810,7 +4830,7 @@ select[name="attr_damage_bonus"] {
 	box-sizing: border-box;
 	color: var(--cs_txt_primary);
 	display: flex;
-	height: 24px;
+	height: var(--cs_row_height);
 	justify-content: center;
 	margin: 0;
 	padding: 0;
@@ -4825,7 +4845,7 @@ select[name="attr_damage_bonus"] {
 	flex: 1 1 6%;
 	align-items: center;
 	justify-content: center;
-	height: 24px;
+	height: var(--cs_row_height);
 }
 
 /* Flex Widths */
@@ -4839,7 +4859,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .weapon-damage-bonus { flex: 1 1 6%; }
 .ui-dialog .tab-content .charsheet .weapon-range, .weapon-attacks, .weapon-ammo { flex: 1 1 6%; }
 .ui-dialog .tab-content .charsheet .weapon-malf, .weapon-contested, .weapon-strain { flex: 0.8 1 6%; }
-.ui-dialog .tab-content .charsheet .repitem .sheet-toggle-wrapper { width: 24px; height: 24px; }
+.ui-dialog .tab-content .charsheet .repitem .sheet-toggle-wrapper { width: 24px;height: var(--cs_row_height); }
 
 .weapon-trait { width: 100%; }
 
@@ -4897,7 +4917,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	margin: 0;
 	gap: 0;
@@ -4911,7 +4931,7 @@ select[name="attr_damage_bonus"] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 24px;
+	height: var(--cs_row_height);
 	background-color: var(--cs_disabled_bg);
 	color: var(--cs_disabled_text);
 }
@@ -5036,7 +5056,7 @@ select[name="attr_damage_bonus"] {
 	font-weight: bold;
 	text-align: center;
 	width: 24px;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	border: 1px solid var(--cs_input_border);
 	line-height: 1;          /* ← fix icon overflow */
@@ -5085,7 +5105,7 @@ select[name="attr_damage_bonus"] {
 	align-items: center;         /* Vertically center items */
 	gap: 0;                      /* No spacing between button/input unless desired */
 	width: 100%;                 /* Fill container */
-	height: 24px;                /* Match your standard row height */
+	height: var(--cs_row_height);                /* Match your standard row height */
 	box-sizing: border-box;
 }
 
@@ -5139,7 +5159,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	margin: 0;
 	gap: 0;
@@ -5209,7 +5229,7 @@ select[name="attr_damage_bonus"] {
 /* Overflow warning */
 .ui-dialog .tab-content .charsheet input.sheet-overflow-mirror[value="1"] ~ input.sheet-overflow-sensitive {
 	background-color: var(--cs_budget_over_bg);
-	color: var(--cs_budget_over_text);
+	color: var(--cs_budget_text);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-spell-row label {
@@ -5317,7 +5337,7 @@ select[name="attr_damage_bonus"] {
 /* === Input & select shared style === */
 .ui-dialog .tab-content .charsheet .sheet-spellblock-row input[type="text"],
 .ui-dialog .tab-content .charsheet .sheet-spellblock-row select {
-	height: 24px;
+	height: var(--cs_row_height);
 	font-size: 90%;
 	text-align: center;
 	background-color: var(--cs_input_bg);
@@ -5400,7 +5420,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .repitem .sheet-toggle-button,
 .ui-dialog .tab-content .charsheet .sheet-toggle-button{
 	font-size: 14px;
-	height: 24px;
+	height: var(--cs_row_height);
 	width: 24px;
 	padding: 0;
 	background-color: var(--cs_btn_inactive_bg);
@@ -5464,7 +5484,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	gap: 4px;
 	align-items: center;
-	justify-content: flex-start;
+	justify-content: center;
 	margin-top: 5px;
 	padding: 0px;
 }
@@ -5478,7 +5498,7 @@ select[name="attr_damage_bonus"] {
 	padding: 6px 10px;
 	font-size: 90%;
 	text-align: center;
-	border-radius: 4px;
+	border-radius: var(--cs_border_radius_sm);
 	cursor: pointer;
 	user-select: none;
 }
@@ -5508,7 +5528,7 @@ select[name="attr_damage_bonus"] {
 	display: inline-block;
 	border: 1px solid var(--cs_dc_color);
 	background-color: var(--cs_btn_active_bg);
-	color: var(--cs_btn_active_txt);
+	color: var(--cs_btn_active_text);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-section {
@@ -5520,6 +5540,15 @@ select[name="attr_damage_bonus"] {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+	border: 1px solid var(--cs_dc_color); 
+}
+
+/* Stim tracker columns — same layout as talent columns but scoped separately for future overrides */
+.ui-dialog .tab-content .charsheet .sheet-tracker-stim-column { 	
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--cs_dc_color);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-item {
@@ -5529,13 +5558,9 @@ select[name="attr_damage_bonus"] {
 	padding: 4px 0;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-tracker-stim {
-	background-color: var(--cs_tracker_stim_bg);
-}
+.ui-dialog .tab-content .charsheet .sheet-tracker-stim { border: 1px solid var(--cs_dc_color); }
 
-.ui-dialog .tab-content .charsheet .sheet-tracker-talent {
-	background-color: var(--cs_tracker_talent_bg);
-}
+.ui-dialog .tab-content .charsheet .sheet-tracker-talent { border: 1px solid var(--cs_dc_color); }
 
 .ui-dialog .tab-content .charsheet .sheet-tracker h4 {
 	text-align: center;
@@ -6586,8 +6611,8 @@ select[name="attr_damage_bonus"] {
 	gap: 0.75em; 
 }
 
-.ui-dialog .tab-content .charsheet input[name="attr_show_strain_meter"][value="1"] ~ .sheet-strain-meter,
-.ui-dialog .tab-content .charsheet input[name="attr_show_health_meter"][value="1"] ~ .sheet-health-meter
+.ui-dialog .tab-content .charsheet input[name="attr_show_strain_meter"][value="1"] ~ .sheet-tracker-stim-column .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet input[name="attr_show_health_meter"][value="1"] ~ .sheet-tracker-stim-column .sheet-health-meter
  { display: flex; }
 
 /* Pip group + individual pip */
@@ -6623,6 +6648,7 @@ select[name="attr_damage_bonus"] {
 	font-style: bold;
 	font-size: 110%;
 	width: 100px;
+	margin: 4px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
@@ -6742,7 +6768,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	margin: 0;
 	gap: 0;
@@ -7038,7 +7064,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	margin: 0;
 	gap: 0;
@@ -7053,7 +7079,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	margin: 0;
 	gap: 0;
@@ -7074,7 +7100,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	margin: 0;
 	gap: 0;
@@ -7167,7 +7193,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 	padding: 0;
 	margin: 0;
 	gap: 0;
@@ -7258,7 +7284,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .ct-mod-checkbox { flex: 0 0 24px; }
 
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: var(--cs_btn_session_text); border: none; font-size: 100%; }
+.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: var(--cs_txt_primary); border: none; font-size: 100%; }
 
 .ui-dialog .tab-content .charsheet input.ct-mod-checkbox {
 	height: 14px;
@@ -7590,7 +7616,7 @@ select[name="attr_damage_bonus"] {
 	height: 100%;
 	background-color: var(--cs_perk_row_bg);
 	border: 1px solid var(--cs_perk_border_accent);   /* darker green border accent on talent rows */
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 	border-bottom: none;                     /* replace earlier dotted divider */
 	column-gap: 10px;   /* keep horizontal spacing */
 	row-gap: 0;  /* belt & suspenders */
@@ -7671,7 +7697,7 @@ select[name="attr_damage_bonus"] {
 	height: 100%;
 	background-color: var(--cs_flaw_row_bg);        /* light red card (parallel to #aaf0c9) */
 	border: 1px solid var(--cs_flaw_border_accent);  /* darker red border (parallel to #198450) */
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 	border-bottom: none;
 	column-gap: 10px;
 	row-gap: 0;
@@ -7776,7 +7802,7 @@ select[name="attr_damage_bonus"] {
 	gap: 0px;
 	margin-bottom: 10px;
 	border: 1px solid var(--cs_dc_color);
-	border-radius: 6px;
+	border-radius: var(--cs_border_radius_md);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-skills-section {
@@ -7794,7 +7820,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-narrow-input {
 	width: 24px;
-	height: 20px;
+	height: var(--cs_row_height_sm);
 	padding: 1px 2px;
 	font-size: 85%;
 	text-align: center;
@@ -7810,7 +7836,7 @@ select[name="attr_damage_bonus"] {
 	gap: 0px;
 	min-width: 0;
 	white-space: nowrap;
-	height: 24px;
+	height: var(--cs_row_height);
 	box-sizing: border-box;
 }
 
@@ -7840,7 +7866,7 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-mini-flex .sheet-wounds-wrapper button[name="act_minionwounds"] {
-	height: 20px;
+	height: var(--cs_row_height_sm);
 	font-size: 85%;
 	padding: 0 6px;
 	white-space: nowrap;
@@ -7852,7 +7878,7 @@ select[name="attr_damage_bonus"] {
 	display: flex;
 	justify-content: start;
 	align-items: center;
-	height: 24px;
+	height: var(--cs_row_height);
 	gap: 0px;
 	margin: 0px;
 	padding: 0px;
@@ -7898,7 +7924,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-status-input,
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-talent-input {
 	width: 100%;
-	height: 20px;
+	height: var(--cs_row_height_sm);
 	box-sizing: border-box;
 	padding: 2px 4px;
 	background-color: var(--cs_input_bg);
@@ -7911,7 +7937,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-companions input[name="attr_minionmove"] {
 	width: 24px;         /* or whatever fixed width you want */
-	height: 20px;
+	height: var(--cs_row_height_sm);
 	padding: 1px 0px;
 	text-align: center;
 	background-color: var(--cs_input_bg);
@@ -7924,7 +7950,7 @@ select[name="attr_damage_bonus"] {
 /* Inputs */
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-wide-input {
 	flex: 1;
-	height: 23px;
+	height: var(--cs_row_height_xs);
 	width: 80px;
 	text-align: center;
 	font-size: 100%;
@@ -7936,7 +7962,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-narrow-input {
 	width: 10%;
-	height: 23px;
+	height: var(--cs_row_height_xs);
 	text-align: center;
 	font-size: 90%;
 	background-color: var(--cs_input_bg);
@@ -7946,13 +7972,13 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions input[type="text"].sheet-narrow-input {
-  height: 23px;
+	height: var(--cs_row_height_xs);
 }
 
 /* Roll Buttons */
 .ui-dialog .tab-content .charsheet .sheet-companions .smallbutton-roll,
 .ui-dialog .tab-content .charsheet .sheet-companions .smallnonskillbutton-roll {
-	height: 23px;
+	height: var(--cs_row_height_xs);
 	font-size: 90%;
 	margin-left: 4px;
 }
@@ -7990,7 +8016,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-attr-input {
 	width: 24px;
-	height: 20px;
+	height: var(--cs_row_height_sm);
 	padding: 1px 0px;
 	text-align: center;
 	background-color: var(--cs_input_bg);
@@ -8048,7 +8074,7 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-wide-input {
 	font-size: 100%;
-	height: 23px;
+	height: var(--cs_row_height_xs);
 	text-align: center;
 	background-color: var(--cs_input_bg);
 	color: var(--cs_input_text);
@@ -8065,7 +8091,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-maxdmg,
 .ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-malf,
 .ui-dialog .tab-content .charsheet .sheet-npc-header-row .sheet-wide-input-header-strain {
-	height: 24px;
+	height: var(--cs_row_height);
 	color: var(--cs_input_text);
 	font-size: 100%;
 	text-align: center;
@@ -8090,7 +8116,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-noimproll,
 .ui-dialog .tab-content .charsheet .sheet-wide-input-header-improll {
 	width: 45px;
-	height: 24px;
+	height: var(--cs_row_height);
 	color: var(--cs_input_text);
 	font-size: 75%;
 	margin: 0px 10px 8px 10px;
@@ -8098,12 +8124,12 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-select-npc-skill {
 	width: 100px;
-	height: 24px;
+	height: var(--cs_row_height);
 	margin-top: 10px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-npc-row .smallbutton-roll {
-	height: 24px;
+	height: var(--cs_row_height);
 	width: 24px;
 	color: var(--cs_btn_roll_text);
 }
@@ -8121,7 +8147,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-col button,
 .ui-dialog .tab-content .charsheet .sheet-col span {
 	width: 100%;
-	height: 24px;
+	height: var(--cs_row_height);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-attr-input-small {
@@ -8133,12 +8159,12 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-content-right input.sheet-wide-input {
 	width: 100%;
 	max-width: 170px;
-	height: 24px;
+	height: var(--cs_row_height);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-content-right input.sheet-narrow-input {
 	width: 60px;
-	height: 24px;
+	height: var(--cs_row_height);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-companions .sheet-npc-content-right .sheet-wide-input {
@@ -8212,7 +8238,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-vehicle-column-left {
@@ -8232,12 +8258,12 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-vehicle-info .sheet-wide-input {
-	height: 23px;
+	height: var(--cs_row_height_xs);
 	width: 25px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-vehicle-info .sheet-name-row .sheet-wide-input{
-	height: 23px;
+	height: var(--cs_row_height_xs);
 	width: 195px;
 }
 
@@ -8246,12 +8272,12 @@ select[name="attr_damage_bonus"] {
 	display: grid;
 	grid-template-columns: 30% 70%;
 	align-items: top;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-vehicle-col-value {
 	display: flex;
-	gap: 0.5rem;
+	gap: var(--cs_talent_row_gap);
 	align-items: center;
 }
 
@@ -8285,7 +8311,7 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-vehicle-impact-row > div > .sheet-vehicle-col-label {
-	height: 23px;
+	height: var(--cs_row_height_xs);
 	background-color: var(--cs_disabled_bg);
 	text-align: center;
 	padding: 4px;
@@ -8306,7 +8332,7 @@ select[name="attr_damage_bonus"] {
 /* Body hit Location */
 .sheet-rolltemplate-coc-body-hit-loc table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 	text-align: center;
@@ -8317,7 +8343,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-body-hit-loc td {
@@ -8336,11 +8362,11 @@ select[name="attr_damage_bonus"] {
 	display: inline-block;
 	min-width: 1.5em;
 	text-align: center;
-	border: solid 1px black;;
+	border: solid 1px black;
 	background-color: #702c91;
 }
 .sheet-rolltemplate-coc-body-hit-loc .inlinerollresult.importantroll {
-	border: solid 1px black;;
+	border: solid 1px black;
 	background-color: #702c91;
 	text-align: center;
 }
@@ -8348,7 +8374,7 @@ select[name="attr_damage_bonus"] {
 /* BD/PD defence rolltemplate */
 .sheet-rolltemplate-coc-defence table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -8358,7 +8384,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-defence td {
@@ -8394,7 +8420,7 @@ select[name="attr_damage_bonus"] {
 /* simple defence rolltemplate */
 .sheet-rolltemplate-coc-defence-1 table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -8404,7 +8430,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-defence-1 td {
@@ -8440,7 +8466,7 @@ select[name="attr_damage_bonus"] {
 /* Vehicular Attack rolltemplate */
 .sheet-rolltemplate-coc-vehicleattack table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #FFFFFF;
 }
@@ -8450,7 +8476,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-vehicleattack tr.template_row_background {
@@ -8522,7 +8548,7 @@ select[name="attr_damage_bonus"] {
 .sheet-rolltemplate-coc-penalty table,
 .sheet-rolltemplate-coc-bonus table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -8535,7 +8561,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 
@@ -8669,7 +8695,7 @@ select[name="attr_damage_bonus"] {
 /*  PD/BD Attack rolltemplate */
 .sheet-rolltemplate-coc-attack table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -8679,7 +8705,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-attack td {
@@ -8718,7 +8744,7 @@ select[name="attr_damage_bonus"] {
 /* simple (no PD/BD) rolltemplate */
 .sheet-rolltemplate-coc-1 table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #FFFFFF;
 }
@@ -8795,7 +8821,7 @@ select[name="attr_damage_bonus"] {
 .sheet-rolltemplate-coc-attack-1-impale table,
 .sheet-rolltemplate-coc-attack-1-noimpale table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #FFFFFF;
 }
@@ -8808,7 +8834,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 
@@ -8937,7 +8963,7 @@ select[name="attr_damage_bonus"] {
 .sheet-rolltemplate-coc-bp-dice-roll table,
 .sheet-rolltemplate-coc-dice-roll table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -8949,7 +8975,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em
 }
 
@@ -8959,7 +8985,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 
@@ -9033,7 +9059,7 @@ select[name="attr_damage_bonus"] {
 /* Dark Ages Bout of Madness- Real Time */
 .sheet-rolltemplate-coc-bomadness-da-rt table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -9043,7 +9069,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-bomadness-da-rt td {
@@ -9074,7 +9100,7 @@ select[name="attr_damage_bonus"] {
 /* Bout of Madness- Real Time */
 .sheet-rolltemplate-coc-bomadness-rt table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -9084,7 +9110,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-bomadness-rt td {
@@ -9115,7 +9141,7 @@ select[name="attr_damage_bonus"] {
 /* Pulp Bout of Madness- Real Time */
 .sheet-rolltemplate-coc-pulp-bomadness-rt table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -9125,7 +9151,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-pulp-bomadness-rt td {
@@ -9155,7 +9181,7 @@ select[name="attr_damage_bonus"] {
 /* Dark Ages Bout of Madness- Summary */
 .sheet-rolltemplate-coc-bomadness-da-summ table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -9165,7 +9191,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-bomadness-da-summ td {
@@ -9196,7 +9222,7 @@ select[name="attr_damage_bonus"] {
 /* Bout of Madness- Summary */
 .sheet-rolltemplate-coc-bomadness-summ table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -9206,7 +9232,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-bomadness-summ td {
@@ -9237,7 +9263,7 @@ select[name="attr_damage_bonus"] {
 /* Pulp Bout of Madness- Summary */
 .sheet-rolltemplate-coc-pulp-bomadness-summ table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #ffffff;
 }
@@ -9247,7 +9273,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-pulp-bomadness-summ td {
@@ -9278,7 +9304,7 @@ select[name="attr_damage_bonus"] {
 /* simple defence rolltemplate */
 .sheet-rolltemplate-coc-defence-2 table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #E3DEDB;
 }
@@ -9288,7 +9314,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-defence-2 td {
@@ -9328,7 +9354,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-minionattack td {
@@ -9413,7 +9439,7 @@ select[name="attr_damage_bonus"] {
 /* minion defence rolltemplate */
 .sheet-rolltemplate-coc-miniondef table {
 	width: 100%;
-	border: solid 1px black;;
+	border: solid 1px black;
 	color: black;
 	background-color: #E3DEDB;
 }
@@ -9423,7 +9449,7 @@ select[name="attr_damage_bonus"] {
 	color: white;
 	font-weight: bold;
 	padding: 2px;
-	border: solid 1px black;;
+	border: solid 1px black;
 	line-height: 1.6em;
 }
 .sheet-rolltemplate-coc-miniondef td {

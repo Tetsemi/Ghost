@@ -5498,9 +5498,30 @@ select[name="attr_damage_bonus"] {
 	padding: 6px 10px;
 	font-size: 90%;
 	text-align: center;
-	border-radius: var(--cs_border_radius_sm);
+	border-radius: var(--cs_border_radius_md);
 	cursor: pointer;
 	user-select: none;
+}
+
+/* Rest button gradient fills — rough visual indicator of strain recovery amount */
+.ui-dialog .tab-content .charsheet button[name="act_strain_brief_catch"] ~ .sheet-roll-label {
+	background: linear-gradient(to right, var(--cs_state_strained_bg) 25%, var(--cs_btn_inactive_bg) 25%);
+	background-color: transparent;
+	color: var(--cs_state_strained_text);
+}
+.ui-dialog .tab-content .charsheet button[name="act_strain_short_rest"] ~ .sheet-roll-label {
+	background: linear-gradient(to right, var(--cs_state_strained_bg) 50%, var(--cs_btn_inactive_bg) 50%);
+	background-color: transparent;
+	color: var(--cs_state_strained_text);
+}
+.ui-dialog .tab-content .charsheet button[name="act_strain_extended_rest"] ~ .sheet-roll-label {
+	background: linear-gradient(to right, var(--cs_state_strained_bg) 75%, var(--cs_btn_inactive_bg) 75%);
+	background-color: transparent;
+	color: var(--cs_state_strained_text);
+}
+.ui-dialog .tab-content .charsheet button[name="act_strain_full_rest"] ~ .sheet-roll-label {
+	background: var(--cs_state_strained_bg);
+	color: var(--cs_state_strained_text);
 }
 .ui-dialog .tab-content .charsheet .sheet-tracker-stim-header,
 .ui-dialog .tab-content .charsheet .sheet-tracker-talent-header {
@@ -5527,8 +5548,10 @@ select[name="attr_damage_bonus"] {
 	position: relative;
 	display: inline-block;
 	border: 1px solid var(--cs_dc_color);
+	border-radius: var(--cs_border_radius_md);
 	background-color: var(--cs_btn_active_bg);
 	color: var(--cs_btn_active_text);
+	overflow: hidden;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-section {

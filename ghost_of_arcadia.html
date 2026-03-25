@@ -113,7 +113,7 @@
 						<div class="sheet-attr-label" data-i18n="vitality-u">Vitality</div>
 						<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_vitality" placeholder="current" data-i18n-placeholder="current"/>
 						<div class="sheet-vitality-slash">/</div>
-						<input class="sheet-attr-input" type="text" data-i18n-placeholder="max-u" name="attr_vitality_max" placeholder="max" readonly/>
+						<input class="sheet-attr-input sheet-readonly" type="text" data-i18n-placeholder="max-u" name="attr_vitality_max" placeholder="max"/>
 
 						<!-- Row 2: CON / APP / EDU / STRAIN -->
 						<!-- CON -->
@@ -165,7 +165,7 @@
 						<input type="hidden" name="attr_strained_css" value="0"/>
 						<input class="sheet-attr-input sheet-edit-toggle-field sheet-strain-input" type="text" name="attr_strain" placeholder="current" data-i18n-placeholder="current"/>
 						<div class="sheet-strain-slash">/</div>
-						<input class="sheet-attr-input" type="text" data-i18n-placeholder="max-u" name="attr_strain_max" placeholder="max" readonly/>
+						<input class="sheet-attr-input sheet-readonly" type="text" data-i18n-placeholder="max-u" name="attr_strain_max" placeholder="max" />
 
 						<!-- Row 3: SIZ / INT / MAG / HP -->
 						<!-- SIZ -->
@@ -196,7 +196,7 @@
 						<input type="hidden" name="attr_bloodied_css" value="0"/>
 						<input class="sheet-attr-input sheet-edit-toggle-field sheet-hp-input" type="text" name="attr_hp" placeholder="current" data-i18n-placeholder="current"/>
 						<div class="sheet-hp-slash">/</div>
-						<input class="sheet-attr-input" type="text" data-i18n-placeholder="max-u" name="attr_pulphp_max" placeholder="max" readonly/>
+						<input class="sheet-attr-input sheet-readonly" type="text" data-i18n-placeholder="max-u" name="attr_pulphp_max" placeholder="max" />
 
 					</div>
 					<!-- Separator -->
@@ -405,12 +405,15 @@
 		<div class="sheet-tab-buttons">
 			<button type="action" name="act_summary_text" data-i18n="summary_text-u">Summary Text</button>
 			<button type="action" name="act_summary_type" data-i18n="summary_type-u">Summary Type</button>
+			<button type="action" name="act_cybertech" data-i18n="cybertech-u">Cybertech</button>
 			<button type="action" name="act_inventory" data-i18n="inventory-u">Inventory</button>
 			<button type="action" name="act_backstory" data-i18n="backstory-u">Backstory</button>
-			<button type="action" name="act_perks" data-i18n="perks-u">Perks</button>
-			<button type="action" name="act_flaws" data-i18n="flaws-u">Flaws</button>
 			<button type="action" name="act_npcs" data-i18n="npcs-u">NPCs</button>
 			<button type="action" name="act_vehicles" data-i18n="vehicles-u">Vehicles</button>
+		</div>
+		<div class="sheet-tab-buttons">
+			<button type="action" name="act_perks" data-i18n="perks-u">Perks</button>
+			<button type="action" name="act_flaws" data-i18n="flaws-u">Flaws</button>
 		</div>
 
 		<!-- -------------------------- SKILLS -------------------- -->
@@ -27746,6 +27749,292 @@
 
 		</div>
 
+		<!-- -------------------------- Cybertech ------------------------- -->
+		<div class="sheet-tab-content sheet-cybertech">
+			<h4 class="sheet-section-head" data-i18n="cybertech-u">Cybertech</h4>
+
+			<!-- Vitality Totals -->
+			<div class="sheet-ct-vitality-totals">
+				<div class="flex-row">
+					<div class="flex-cell ct-vitality-label" data-i18n="ct_vitality_totals-u">Vitality Used</div>
+					<div class="flex-cell ct-vitality-used">
+						<input type="text" name="attr_ct_vitality_total" class="sheet-ct-vitality-total-field sheet-readonly" title="Total Vitality used by cybertech" data-i18n-title="ct_vitality_total_title-u"/>
+					</div>
+					<div class="flex-cell ct-vitality-sep">/</div>
+					<div class="flex-cell ct-vitality-max">
+						<input type="text" name="attr_vitality_max" class="sheet-ct-vitality-total-field sheet-readonly" title="Maximum Vitality (POW)" data-i18n-title="ct_vitality_max_title-u"/>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="sheet-colrow sheet-tech sheet-cybertech-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="cybertech_collapse" name="attr_cybertech_collapse" value="1"/>
+
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="techcyber-u">Tech/Cyber</span>
+					<label class="sheet-top-collapse-hit" for="cybertech_collapse" title="Toggle section"></label>
+				</h4>
+
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<fieldset class="repeating_ct">
+							<!-- Sibling checkbox that drives CSS but is visually hidden -->
+							<input type="hidden" name="attr_show_ct_mod1_proxy" value="0"/>
+							<input type="hidden" name="attr_show_ct_mod2_proxy" value="0"/>
+							<input type="hidden" name="attr_show_ct_mod3_proxy" value="0"/>
+							<input type="hidden" name="attr_show_ct_mod4_proxy" value="0"/>
+							<input type="hidden" name="attr_show_ct_mod5_proxy" value="0"/>
+							<input type="hidden" name="attr_show_ct_mod6_proxy" value="0"/>
+							<input type="hidden" name="attr_show_ct_mod7_proxy" value="0"/>
+							<input type="hidden" name="attr_show_ct_mod8_proxy" value="0"/>
+
+							<!-- CT Core Info -->
+							<div class="ct-header-row">
+								<div class="flex-row">
+									<div class="flex-cell ct-name"><span data-i18n="ct_name-u">CT Name</span></div>
+									<div class="flex-cell ct-vitality"><span data-i18n="ct_vitality-u">Vitality</span></div>
+									<div class="flex-cell ct-level"><span data-i18n="ct_level-u">Level</span></div>
+									<div class="flex-cell ct-capacity"><span data-i18n="ct_capacity-u">Capacity</span></div>
+									<div class="flex-cell ct-description"><span data-i18n="ct_description-u">Description</span></div>
+								</div>
+							</div>
+
+							<div class="ct-row">
+								<div class="flex-row">
+									<input class="flex-cell ct-name" type="text" name="attr_ct_name" placeholder="CT Name" data-i18n-placeholder="ct_name-u"/>
+									<input class="flex-cell ct-vitality" type="number" name="attr_ct_vitality" placeholder="Vitality" data-i18n-placeholder="ct_vitality-u"/>
+									<input class="flex-cell ct-level" type="number" name="attr_ct_level" placeholder="Level" data-i18n-placeholder="ct_level-u"/>
+									<input class="flex-cell ct-capacity" type="number" name="attr_ct_capacity" placeholder="Capacity" data-i18n-placeholder="ct_capacity-u"/>
+									<input class="flex-cell ct-description" type="text" name="attr_ct_description" placeholder="Description" data-i18n-placeholder="ct_description-u"/>
+								</div>
+							</div>
+
+							<div class="ct-effect-checkbox-wrapper">
+								<div class="ct-effect-row">
+									<textarea class="flex-cell ct-effect" name="attr_ct_effect" placeholder="CT Effect" data-i18n-placeholder="ct_effect-u"></textarea>
+								</div>
+
+								<div class="ct-mod-checkbox-row">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod1" value="1"/>
+										<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_1-u">Show Mod 1</label>
+									</div>
+								</div>
+							</div>
+
+							<!-- CT Mod 1 -->
+							<div class="ct-mod-wrapper1">
+							
+								<div class="ct-mod">
+									<div class="flex-row">
+										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod1_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
+										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod1_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
+										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod1_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
+									</div>
+								</div>
+
+								<div class="ct-effect-checkbox-wrapper">
+									<div class="ct-mod-row">
+										<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod1_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
+									</div>
+
+									<div class="ct-mod-checkbox-row">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod2" value="1"/>
+											<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_2-u">Show Mod 2</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- CT Mod 2 -->
+							<div class="ct-mod-wrapper2">
+								<div class="ct-mod">
+									<div class="ct-mod-2">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod2_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
+											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod2_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
+											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod2_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
+										</div>
+									</div>
+								</div>
+
+								<div class="ct-effect-checkbox-wrapper">
+									<div class="ct-mod-row">
+										<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod2_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
+									</div>
+
+									<div class="ct-mod-checkbox-row">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod3" value="1"/>
+											<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_3-u">Show Mod 3</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- CT Mod 3 -->
+							<div class="ct-mod-wrapper3">
+								<div class="ct-mod">
+									<div class="ct-mod-3">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod3_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
+											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod3_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
+											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod3_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
+										</div>
+									</div>
+								</div>
+
+								<div class="ct-effect-checkbox-wrapper">
+									<div class="ct-mod-row">
+										<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod3_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
+									</div>
+
+									<div class="ct-mod-checkbox-row">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod4" value="1"/>
+											<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_4-u">Show Mod 4</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- CT Mod 4 -->
+							<div class="ct-mod-wrapper4">
+								<div class="ct-mod">
+									<div class="ct-mod-4">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod4_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
+											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod4_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
+											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod4_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
+										</div>
+									</div>
+								</div>
+
+								<div class="ct-effect-checkbox-wrapper">
+									<div class="ct-mod-row">
+										<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod4_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
+									</div>
+
+									<div class="ct-mod-checkbox-row">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod5" value="1"/>
+											<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_5-u">Show Mod 5</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- CT Mod 5 -->
+							<div class="ct-mod-wrapper5">
+								<div class="ct-mod">
+									<div class="ct-mod-5">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod5_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
+											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod5_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
+											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod5_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
+										</div>
+									</div>
+								</div>
+
+								<div class="ct-effect-checkbox-wrapper">
+									<div class="ct-mod-row">
+										<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod5_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
+									</div>
+
+									<div class="ct-mod-checkbox-row">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod6" value="1"/>
+											<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_6-u">Show Mod 6</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- CT Mod 6 -->
+							<div class="ct-mod-wrapper6">
+								<div class="ct-mod">
+									<div class="ct-mod-6">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod6_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
+											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod6_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
+											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod6_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
+										</div>
+									</div>
+								</div>
+
+								<div class="ct-effect-checkbox-wrapper">
+									<div class="ct-mod-row">
+										<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod6_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
+									</div>
+
+									<div class="ct-mod-checkbox-row">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod7" value="1"/>
+											<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_7-u">Show Mod 7</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- CT Mod 7 -->
+							<div class="ct-mod-wrapper7">
+								<div class="ct-mod">
+									<div class="ct-mod-7">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod7_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
+											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod7_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
+											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod7_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
+										</div>
+									</div>
+								</div>
+
+								<div class="ct-effect-checkbox-wrapper">
+									<div class="ct-mod-row">
+										<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod7_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
+									</div>
+
+									<div class="ct-mod-checkbox-row">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod8" value="1"/>
+											<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_8-u">Show Mod 8</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- CT Mod 8 -->
+							<div class="ct-mod-wrapper8">
+								<div class="ct-mod">
+									<div class="ct-mod-8">
+										<div class="flex-row">
+											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod8_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
+											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod8_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
+											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod8_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
+										</div>
+									</div>
+								</div>
+
+								<div class="ct-effect-checkbox-wrapper">
+									<div class="ct-mod-row">
+										<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod8_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
+									</div>
+
+									<div class="ct-mod-checkbox-row">
+										<div class="flex-row">
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
 		<!-- -------------------------- Gear and Possessions ------------------------- -->
 		<div class="sheet-tab-content sheet-inventory">
 			<div class="sheet-2colrow">
@@ -27844,260 +28133,6 @@
 									<input class="flex-cell item-qty" type="number" name="attr_item_quantity" placeholder="0"/>
 									<input class="flex-cell item-description" type="text" name="attr_item_description" placeholder="Short Description" data-i18n-placeholder="item_short_description-u"/>
 									<input class="flex-cell item-properties" type="text" name="attr_item_properties" placeholder="Properties" data-i18n-placeholder="item_properties-u"/>
-								</div>
-							</div>
-						</fieldset>
-					</div>
-				</div>
-			</div>
-
-			<div class="sheet-colrow sheet-tech sheet-inventory-collapsible">
-				<input type="checkbox" class="sheet-top-collapse" id="inventory_tech_collapse" name="attr_inventory_tech_collapse" value="1"/>
-
-				<h4 class="sheet-section-head-collapsible">
-					<span data-i18n="techcyber-u">Tech/Cyber</span>
-					<label class="sheet-top-collapse-hit" for="inventory_tech_collapse" title="Toggle section"></label>
-				</h4>
-
-				<div class="sheet-section-body">
-					<div class="sheet-section">
-
-						<fieldset class="repeating_ct">
-							<!-- Sibling checkbox that drives CSS but is visually hidden -->
-							<input type="hidden" name="attr_show_ct_mod1_proxy" value="0"/>
-							<input type="hidden" name="attr_show_ct_mod2_proxy" value="0"/>
-							<input type="hidden" name="attr_show_ct_mod3_proxy" value="0"/>
-							<input type="hidden" name="attr_show_ct_mod4_proxy" value="0"/>
-							<input type="hidden" name="attr_show_ct_mod5_proxy" value="0"/>
-							<input type="hidden" name="attr_show_ct_mod6_proxy" value="0"/>
-							<input type="hidden" name="attr_show_ct_mod7_proxy" value="0"/>
-							<input type="hidden" name="attr_show_ct_mod8_proxy" value="0"/>
-
-							<!-- CT Core Info -->
-							<div class="ct-header-row">
-								<div class="flex-row">
-									<div class="flex-cell ct-name"><span data-i18n="ct_name-u">CT Name</span></div>
-									<div class="flex-cell ct-vitality"><span data-i18n="ct_vitality-u">Vitality</span></div>
-									<div class="flex-cell ct-level"><span data-i18n="ct_level-u">Level</span></div>
-									<div class="flex-cell ct-capacity"><span data-i18n="ct_capacity-u">Capacity</span></div>
-									<div class="flex-cell ct-description"><span data-i18n="ct_description-u">Description</span></div>
-								</div>
-							</div>
-
-							<div class="ct-row">
-								<div class="flex-row">
-									<input class="flex-cell ct-name" type="text" name="attr_ct_name" placeholder="CT Name" data-i18n-placeholder="ct_name-u"/>
-									<input class="flex-cell ct-vitality" type="number" name="attr_ct_vitality" placeholder="Vitality" data-i18n-placeholder="ct_vitality-u"/>
-									<input class="flex-cell ct-level" type="number" name="attr_ct_level" placeholder="Level" data-i18n-placeholder="ct_level-u"/>
-									<input class="flex-cell ct-capacity" type="number" name="attr_ct_capacity" placeholder="Capacity" data-i18n-placeholder="ct_capacity-u"/>
-									<input class="flex-cell ct-description" type="text" name="attr_ct_description" placeholder="Description" data-i18n-placeholder="ct_description-u"/>
-								</div>
-							</div>
-
-							<div class="ct-effect-row">
-								<textarea class="flex-cell ct-effect" name="attr_ct_effect" placeholder="CT Effect" data-i18n-placeholder="ct_effect-u"></textarea>
-							</div>
-
-							<div class="ct-mod-checkbox-row">
-								<div class="flex-row">
-									<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod1" value="1"/>
-									<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_1-u">Show Mod 1</label>
-								</div>
-							</div>
-
-							<div class="ct-mod-header-row">
-								<div class="flex-row">
-									<div class="flex-cell ct-mod-name"><span data-i18n="ct_mod_name-u">Mod Name</span></div>
-									<div class="flex-cell ct-mod-capreq"><span data-i18n="ct_mod_capreq-u">Cap. Req.</span></div>
-									<div class="flex-cell ct-mod-requirements"><span data-i18n="ct_mod_requirements-u">Requirements</span></div>
-								</div>
-							</div>
-
-							<!-- CT Mod 1 -->
-							<div class="ct-mod-wrapper1">
-								<div class="ct-mod">
-									<div class="flex-row">
-										<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod1_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
-										<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod1_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
-										<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod1_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
-									</div>
-								</div>
-
-								<div class="ct-mod-row">
-									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod1_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
-								</div>
-
-								<div class="ct-mod-checkbox-row">
-									<div class="flex-row">
-										<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod2" value="1"/>
-										<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_2-u">Show Mod 2</label>
-									</div>
-								</div>
-							</div>
-
-							<!-- CT Mod 2 -->
-							<div class="ct-mod-wrapper2">
-								<div class="ct-mod">
-									<div class="ct-mod-2">
-										<div class="flex-row">
-											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod2_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
-											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod2_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
-											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod2_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
-										</div>
-									</div>
-								</div>
-
-								<div class="ct-mod-row">
-									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod2_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
-								</div>
-
-								<div class="ct-mod-checkbox-row">
-									<div class="flex-row">
-										<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod3" value="1"/>
-										<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_3-u">Show Mod 3</label>
-									</div>
-								</div>
-							</div>
-
-							<!-- CT Mod 3 -->
-							<div class="ct-mod-wrapper3">
-								<div class="ct-mod">
-									<div class="ct-mod-3">
-										<div class="flex-row">
-											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod3_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
-											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod3_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
-											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod3_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
-										</div>
-									</div>
-								</div>
-
-								<div class="ct-mod-row">
-									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod3_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
-								</div>
-
-								<div class="ct-mod-checkbox-row">
-									<div class="flex-row">
-										<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod4" value="1"/>
-										<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_4-u">Show Mod 4</label>
-									</div>
-								</div>
-							</div>
-
-							<!-- CT Mod 4 -->
-							<div class="ct-mod-wrapper4">
-								<div class="ct-mod">
-									<div class="ct-mod-4">
-										<div class="flex-row">
-											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod4_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
-											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod4_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
-											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod4_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
-										</div>
-									</div>
-								</div>
-
-								<div class="ct-mod-row">
-									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod4_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
-								</div>
-
-								<div class="ct-mod-checkbox-row">
-									<div class="flex-row">
-										<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod5" value="1"/>
-										<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_5-u">Show Mod 5</label>
-									</div>
-								</div>
-							</div>
-
-							<!-- CT Mod 5 -->
-							<div class="ct-mod-wrapper5">
-								<div class="ct-mod">
-									<div class="ct-mod-5">
-										<div class="flex-row">
-											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod5_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
-											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod5_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
-											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod5_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
-										</div>
-									</div>
-								</div>
-
-								<div class="ct-mod-row">
-									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod5_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
-								</div>
-
-								<div class="ct-mod-checkbox-row">
-									<div class="flex-row">
-										<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod6" value="1"/>
-										<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_6-u">Show Mod 6</label>
-									</div>
-								</div>
-							</div>
-
-							<!-- CT Mod 6 -->
-							<div class="ct-mod-wrapper6">
-								<div class="ct-mod">
-									<div class="ct-mod-6">
-										<div class="flex-row">
-											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod6_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
-											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod6_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
-											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod6_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
-										</div>
-									</div>
-								</div>
-
-								<div class="ct-mod-row">
-									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod6_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
-								</div>
-
-								<div class="ct-mod-checkbox-row">
-									<div class="flex-row">
-										<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod7" value="1"/>
-										<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_7-u">Show Mod 7</label>
-									</div>
-								</div>
-							</div>
-
-							<!-- CT Mod 7 -->
-							<div class="ct-mod-wrapper7">
-								<div class="ct-mod">
-									<div class="ct-mod-7">
-										<div class="flex-row">
-											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod7_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
-											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod7_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
-											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod7_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
-										</div>
-									</div>
-								</div>
-
-								<div class="ct-mod-row">
-									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod7_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
-								</div>
-
-								<div class="ct-mod-checkbox-row">
-									<div class="flex-row">
-										<input class="flex-cell ct-mod-checkbox" type="checkbox" name="attr_show_ct_mod8" value="1"/>
-										<label class="flex-cell ct-mod-checkbox-label" data-i18n="ct_show_mod_8-u">Show Mod 8</label>
-									</div>
-								</div>
-							</div>
-
-							<!-- CT Mod 8 -->
-							<div class="ct-mod-wrapper8">
-								<div class="ct-mod">
-									<div class="ct-mod-8">
-										<div class="flex-row">
-											<input class="flex-cell ct-mod-name" type="text" name="attr_ct_mod8_name" placeholder="Mod Name" data-i18n-placeholder="ct_mod_name-u"/>
-											<input class="flex-cell ct-mod-capreq" type="number" name="attr_ct_mod8_capacity" placeholder="Capacity Req." data-i18n-placeholder="ct_mod_capreq-u"/>
-											<input class="flex-cell ct-mod-requirements" type="text" name="attr_ct_mod8_requirements" placeholder="Requirements" data-i18n-placeholder="ct_mod_requirements-u"/>
-										</div>
-									</div>
-								</div>
-
-								<div class="ct-mod-row">
-									<textarea class="flex-cell ct-mod-effect" name="attr_ct_mod8_effect" placeholder="Mod Effect" data-i18n-placeholder="ct_mod_effect-u"></textarea>
-								</div>
-
-								<div class="ct-mod-checkbox-row">
-									<div class="flex-row">
-									</div>
 								</div>
 							</div>
 						</fieldset>
@@ -47035,7 +47070,7 @@ let MIRROR_SKILL_INDEX = null;
 
 /* Initialization Section - Start  */
 
-const tabList = ["skills", "perks", "flaws", "ancestry", "background", "careers",  "combat", "spells", "inventory", "backstory", "npcs", "vehicles", "summary_text", "summary_type", "ledger", "tracker"];
+const tabList = ["skills", "ancestry", "background", "careers",  "combat", "spells", "tracker", "ledger", "summary_text", "summary_type", "cybertech", "inventory", "backstory", "perks", "flaws", "npcs", "vehicles" ];
 
 const registeredRaces = new Set();
 const registeredSkillHandlers = new Set();
@@ -49559,6 +49594,35 @@ const recalcArmorTotals = () => {
   });
 };
 
+const recalcCtVitalityTotal = () => {
+  getSectionIDs("repeating_ct", (ids) => {
+    const computeAndSet = (load) => {
+      getAttrs(["pow"], (vals) => {
+        const ipow = parseInt(vals.pow, 10) || 0;
+        setAttrs({
+          ct_vitality_total: load,
+          vitality: Math.max(0, ipow - load)
+        });
+      });
+    };
+
+    if (!ids.length) {
+      computeAndSet(0);
+      return;
+    }
+
+    const repKeys = ids.map(id => `repeating_ct_${id}_ct_vitality`);
+
+    getAttrs(repKeys, (rows) => {
+      const total = ids.reduce((sum, id) => {
+        return sum + (parseInt(rows[`repeating_ct_${id}_ct_vitality`], 10) || 0);
+      }, 0);
+
+      computeAndSet(total);
+    });
+  });
+};
+
 const toggleFlag = (attr) => {
   getAttrs([attr], (v) => setAttrs({ [attr]: v[attr] === "1" ? "0" : "1" }));
 };
@@ -49950,6 +50014,8 @@ const initializeSheetOnOpen = (eventInfo) => {
       migrateSkillRenamesV2(() => {
         migrateSkillRenamesV3(() => {
           applyRaceState();
+          recalcArmorTotals();
+          recalcCtVitalityTotal();
           applyTranslationsOnOpen(() => {
             if (debug_on_trace) console.log("[initializeSheetOnOpen] Done");
             sheetInitComplete = true;
@@ -52144,6 +52210,10 @@ on("change:showracials " +
   "change:repeating_armorsmdr:armor_arcane_mdr " +
   "remove:repeating_armorsmdr",
   recalcArmorTotals
+);
+
+on("change:repeating_ct:ct_vitality change:pow remove:repeating_ct",
+  recalcCtVitalityTotal
 );
 
 on("change:showracials change:recompute_nonce", (evt) => {

@@ -1384,6 +1384,19 @@
 }
 /* ============================================================================ */
 
+/* ======================= Cybertech Tab Collapsible Sections ======================= */
+/* Reuse the same +/- hitbox style, but scope the collapse rules to the Cybertech tab */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cybertech-collapsible input.sheet-top-collapse:checked
+~ h4 .sheet-top-collapse-hit::after {
+	content: "+";
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cybertech-collapsible input.sheet-top-collapse:checked
+~ .sheet-section-body {
+	display: none;
+}
+/* =============================================================================== */
+
 /* ======================= Inventory Tab Collapsible Sections ======================= */
 /* Reuse the same +/- hitbox style, but scope the collapse rules to the Inventory tab */
 .ui-dialog .tab-content .charsheet .sheet-inventory .sheet-inventory-collapsible input.sheet-top-collapse:checked
@@ -1989,6 +2002,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="careers"] ~ .sheet-careers,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="combat"] ~ .sheet-combat,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="spells"] ~ .sheet-spells,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[value="cybertech"] ~ .sheet-cybertech,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="inventory"] ~ .sheet-inventory,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="backstory"] ~ .sheet-backstory,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="npcs"] ~ .sheet-npcs,
@@ -2034,6 +2048,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="careers"] ~ .sheet-tab-buttons button[name="act_careers"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="combat"] ~ .sheet-tab-buttons button[name="act_combat"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="spells"] ~ .sheet-tab-buttons button[name="act_spells"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[value="cybertech"] ~ .sheet-tab-buttons button[name="act_cybertech"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="inventory"] ~ .sheet-tab-buttons button[name="act_inventory"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="backstory"] ~ .sheet-tab-buttons button[name="act_backstory"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="npcs"] ~ .sheet-tab-buttons button[name="act_npcs"],
@@ -7065,6 +7080,375 @@ select[name="attr_damage_bonus"] {
 
 /* ------------------------ Summary Type - End ---------------------------------------------------- */
 
+/* ------------------------ Cybertech - Start --------------------------------------------------- */
+
+/* Vitality Totals Row */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals {
+	background-color: var(--cs_section_bg_color);
+	border: solid 1px var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+	margin-bottom: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+/* Boost specificity over .sheet-cybertech .flex-cell — label and sep only */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .flex-cell {
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .ct-vitality-label {
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
+	flex: 2 1 40%;
+	font-weight: bold;
+	padding: 0 8px;
+	text-align: left;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .ct-vitality-used,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .ct-vitality-max {
+	flex: 0 1 12%;
+}
+
+/* Used (readonly) — disabled identity, clearly non-editable */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .ct-vitality-used {
+	background-color: var(--cs_disabled_bg);
+	border: solid 1px var(--cs_disabled_border);
+	color: var(--cs_disabled_text);
+}
+
+/* Max (editable) — input identity, clearly editable */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .ct-vitality-max {
+	background-color: var(--cs_input_bg);
+	border: solid 1px var(--cs_input_border);
+	color: var(--cs_input_text);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .ct-vitality-sep {
+	background-color: var(--cs_bg_color);
+	color: var(--cs_dc_color);
+	flex: 0 0 20px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .ct-vitality-used input {
+	background-color: var(--cs_disabled_bg);
+	box-sizing: border-box;
+	color: var(--cs_disabled_text);
+	font-size: 1.1em;
+	font-weight: bold;
+	height: 100%;
+	padding: 0 4px;
+	pointer-events: none;
+	text-align: center;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-ct-vitality-totals .ct-vitality-max input {
+	background-color: var(--cs_input_bg);
+	box-sizing: border-box;
+	color: var(--cs_input_text);
+	font-size: 1.1em;
+	font-weight: bold;
+	height: 100%;
+	padding: 0 4px;
+	pointer-events: auto;
+	text-align: center;
+	width: 100%;
+}
+
+/* Inherits all shared properties from global .flex-cell; only bg override needed here */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .flex-cell { 
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
+}
+
+/* .flex-cell-wrapper global rule covers all properties; no scoped override needed */
+
+/* Inputs and Selects */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .flex-cell input[type="text"],
+.ui-dialog .tab-content .charsheet .sheet-cybertech .flex-cell input[type="number"] {
+	background-color: var(--cs_input_bg);
+	border: none;
+	box-sizing: border-box;
+	color: var(--cs_input_text);
+	font-size: 100%;
+	height: 100%;
+	width: 100%;
+	line-height: var(--cs_row_height);
+	margin: 0;
+	padding: 0 4px;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .flex-cell select {
+	background-color: var(--cs_input_bg);
+	box-sizing: border-box;
+	color: var(--cs_input_text);
+	height: 100%;
+	margin: 0;
+	padding: 2px 4px;
+	text-align: center;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .flex-cell input[type="checkbox"] {
+	display: block;
+	margin: auto;
+	margin-top: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-header-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: var(--cs_row_height);
+	padding: 0;
+	margin: 0;
+	gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-header-row .flex-cell {
+	background-color: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
+	font-weight: bold;
+}
+
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-header-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: var(--cs_row_height);
+	padding: 0;
+	margin: 0;
+	gap: 0;
+	background-color: var(--cs_btn_active_bg);
+	color: var(--cs_btn_active_text);
+	font-weight: bold;
+}
+
+/* ct-effect-row and ct-mod-row are intentionally absent — they use flex-direction: column
+   and are handled by the separate rule below; mixing them here would conflict */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-2,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-3,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-4,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-5,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-6,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-7,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-8,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-checkbox-row {
+	align-items: center;
+	background-color: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+/* Stub — ct-effect textarea inside .sheet-cybertech .ct-effect-row, inherits from flex-cell + textarea base */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-effect { }
+
+/* Stub — ct-mod-effect textarea inside .sheet-cybertech .ct-mod-row, inherits from flex-cell + ct-mod-row textarea rule */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-effect { }
+
+/* Stubs — numbered modifier slot containers, inherit layout from .ct-mod */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-2 { }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-3 { }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-4 { }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-5 { }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-6 { }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-7 { }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-8 { }
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repeating_ct {
+	margin-bottom: 0px;
+	padding: 0px;
+	border: none;
+	background-color: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
+}
+
+/* Container for all repeating entries */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 0;
+	margin-bottom: 10px;
+}
+
+/* Each repeated entry */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_ct"] > .repitem {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	border: solid 1px var(--cs_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_ct"] > .repitem .flex-row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	width: 100%;
+	gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_ct"] {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	border: solid 1px var(--cs_input_border);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-header-row .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-row .flex-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: var(--cs_row_height);
+	padding: 0;
+	margin: 0;
+	gap: 0;
+	text-align: center;
+}
+
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-effect-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-row {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: auto; /* Let content flow */
+	padding: 4px 0;
+}
+
+/* Textarea (90%) and Show Mod checkbox (10%) share one row */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-effect-checkbox-wrapper {
+	align-items: stretch;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-effect-checkbox-wrapper .ct-effect-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-effect-checkbox-wrapper .ct-mod-row {
+	flex: 0 0 90%;
+	padding: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-effect-checkbox-wrapper .ct-mod-checkbox-row {
+	align-items: center;
+	flex: 0 0 10%;
+	justify-content: center;
+	height: 45px;
+	border: 1px solid var(--cs_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-effect-row textarea,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-row textarea {
+	background-color: var(--cs_ui_element_bg);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	font-size: 90%;
+	font-style: bold;
+	height: 45px;
+	resize: vertical;
+	width: 100%;
+	padding: 6px;
+	border: 1px solid var(--cs_dc_color);
+}
+
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-name { flex: 2 1 20%; font-weight:bold; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-name { flex: 2 1 20%; font-weight:bold; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-vitality,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-level,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-capacity,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-capreq { flex: 0 1 8%; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-description { flex: 2 1 56%; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-requirements { flex: 2 1 72%; text-align: center; }
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-checkbox { flex: 0 0 24px; }
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-checkbox-label { flex: 0 1 100px; color: var(--cs_txt_primary); border: none; font-size: 100%; }
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech input.ct-mod-checkbox {
+	height: 14px;
+	width: 14px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-wrapper1,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-wrapper2,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-wrapper3,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-wrapper4,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-wrapper5,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-wrapper6,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-wrapper7,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .ct-mod-wrapper8 {
+	display: none;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	border: solid 1px var(--cs_input_border);
+}
+
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem input[name="attr_show_ct_mod1_proxy"][value="1"] ~ .ct-mod-wrapper1,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem input[name="attr_show_ct_mod2_proxy"][value="1"] ~ .ct-mod-wrapper2,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem input[name="attr_show_ct_mod3_proxy"][value="1"] ~ .ct-mod-wrapper3,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem input[name="attr_show_ct_mod4_proxy"][value="1"] ~ .ct-mod-wrapper4,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem input[name="attr_show_ct_mod5_proxy"][value="1"] ~ .ct-mod-wrapper5,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem input[name="attr_show_ct_mod6_proxy"][value="1"] ~ .ct-mod-wrapper6,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem input[name="attr_show_ct_mod7_proxy"][value="1"] ~ .ct-mod-wrapper7,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repitem input[name="attr_show_ct_mod8_proxy"][value="1"] ~ .ct-mod-wrapper8 {
+	display: block;
+}
+
+
+/* ------------------------ Cybertech - End ----------------------------------------------------- */
+
+
 /* ----------------- Gear and Inventory - Start ---------------------- */
 
 .ui-dialog .tab-content .charsheet .sheet-tech {
@@ -7080,8 +7464,7 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header,
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-header,
-.ui-dialog .tab-content .charsheet .ct-header-row {
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-header {
 	display: flex;
 	flex-wrap: nowrap;
 	flex-direction: row;
@@ -7094,30 +7477,10 @@ select[name="attr_damage_bonus"] {
 	background-color: var(--cs_btn_inactive_bg);
 	color: var(--cs_btn_inactive_text);
 	font-weight: bold;
-}
-
-.ui-dialog .tab-content .charsheet .ct-mod-header-row {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: var(--cs_row_height);
-	padding: 0;
-	margin: 0;
-	gap: 0;
-	background-color: var(--cs_btn_active_bg);
-	color: var(--cs_btn_active_text);
-	font-weight: bold;
-}
+}	
 
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl,
-.ui-dialog .tab-content .charsheet .sheet-inventory-item,
-.ui-dialog .tab-content .charsheet .ct-row,
-.ui-dialog .tab-content .charsheet .ct-effect-row,
-.ui-dialog .tab-content .charsheet .ct-mod,
-.ui-dialog .tab-content .charsheet .ct-mod-row,
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox-row {
+.ui-dialog .tab-content .charsheet .sheet-inventory-item {
 	display: flex;
 	flex-wrap: nowrap;
 	flex-direction: row;
@@ -7140,26 +7503,8 @@ select[name="attr_damage_bonus"] {
   align-items: flex-start;
 }
 
-/* Stub — section (bare) is a typo for sheet-section in HTML at lines 27748, 27790, 27822 — fix in HTML */
-
-/* Stub — ct-effect textarea inside .ct-effect-row, inherits from flex-cell + textarea base */
-.ui-dialog .tab-content .charsheet .ct-effect { }
-
-/* Stub — ct-mod-effect textarea inside .ct-mod-row, inherits from flex-cell + ct-mod-row textarea rule */
-.ui-dialog .tab-content .charsheet .ct-mod-effect { }
-
-/* Stubs — numbered modifier slot containers, inherit layout from .ct-mod */
-.ui-dialog .tab-content .charsheet .ct-mod-2 { }
-.ui-dialog .tab-content .charsheet .ct-mod-3 { }
-.ui-dialog .tab-content .charsheet .ct-mod-4 { }
-.ui-dialog .tab-content .charsheet .ct-mod-5 { }
-.ui-dialog .tab-content .charsheet .ct-mod-6 { }
-.ui-dialog .tab-content .charsheet .ct-mod-7 { }
-.ui-dialog .tab-content .charsheet .ct-mod-8 { }
-
 .ui-dialog .tab-content .charsheet .repeating_inventory-item-appl,
-.ui-dialog .tab-content .charsheet .repeating_inventory-item,
-.ui-dialog .tab-content .charsheet .repeating_ct {
+.ui-dialog .tab-content .charsheet .repeating_inventory-item {
 	margin-bottom: 0px;
 	padding: 0px;
 	border: none;
@@ -7185,32 +7530,8 @@ select[name="attr_damage_bonus"] {
 	padding: 0;
 	margin: 0;
 }
-
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-}
-
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] > .repitem .flex-row {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	width: 100%;
-	gap: 0;
-}
-
-.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_ct"] {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	border: solid 1px var(--cs_input_border);
-}
-
 .ui-dialog .tab-content .charsheet .sheet-inventory-item-appl-header .flex-row,
-.ui-dialog .tab-content .charsheet .sheet-inventory-item-header .flex-row,
-.ui-dialog .tab-content .charsheet .ct-header-row .flex-row,
-.ui-dialog .tab-content .charsheet .ct-row .flex-row {
+.ui-dialog .tab-content .charsheet .sheet-inventory-item-header .flex-row {
 	display: flex;
 	flex-wrap: nowrap;
 	flex-direction: row;
@@ -7221,35 +7542,6 @@ select[name="attr_damage_bonus"] {
 	margin: 0;
 	gap: 0;
 	text-align: center;
-}
-
-.ui-dialog .tab-content .charsheet .ct-effect-row,
-.ui-dialog .tab-content .charsheet .ct-mod-row {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: auto; /* Let content flow */
-	padding: 4px 0;
-}
-
-.ui-dialog .tab-content .charsheet .ct-effect-row textarea,
-.ui-dialog .tab-content .charsheet .ct-mod-row textarea {
-	height: 30px;
-	resize: vertical;
-	box-sizing: border-box;
-	width: 100%;
-	font-size: 90%;
-	font-style: bold;
-}
-
-.ui-dialog .tab-content .charsheet .ct-effect-row textarea {
-	background-color: var(--cs_ui_element_bg);
-	color: var(--cs_txt_primary);
-}
-
-.ui-dialog .tab-content .charsheet .ct-mod-row textarea {
-	background-color: var(--cs_ui_element_bg);
-	color: var(--cs_txt_primary);
 }
 
 .ui-dialog .tab-content .charsheet .flex-cell input[type="text"],
@@ -7292,42 +7584,6 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .item-appl-uses-scene, .ui-dialog .tab-content .charsheet .item-appl-used-scene { background-color: var(--cs_btn_active_bg); color: var(--cs_btn_active_text); }
 
 .ui-dialog .tab-content .charsheet .item-appl-uses-session, .ui-dialog .tab-content .charsheet .item-appl-used-session { background-color: var(--cs_btn_session_bg); color: var(--cs_btn_session_text); }
-
-.ui-dialog .tab-content .charsheet .ct-name,
-.ui-dialog .tab-content .charsheet .ct-mod-name { flex: 2 1 20%; font-weight:bold; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .ct-vitality,
-.ui-dialog .tab-content .charsheet .ct-level,
-.ui-dialog .tab-content .charsheet .ct-capacity,
-.ui-dialog .tab-content .charsheet .ct-mod-capreq { flex: 0 1 8%; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .ct-description { flex: 2 1 56%; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .ct-mod-requirements { flex: 2 1 72%; text-align: center; }
-
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox { flex: 0 0 24px; }
-
-.ui-dialog .tab-content .charsheet .ct-mod-checkbox-label { flex: 0 1 100px; color: var(--cs_txt_primary); border: none; font-size: 100%; }
-
-.ui-dialog .tab-content .charsheet input.ct-mod-checkbox {
-	height: 14px;
-	width: 14px;
-}
-
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper1,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper2,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper3,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper4,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper5,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper6,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper7,
-.ui-dialog .tab-content .charsheet .ct-mod-wrapper8 {
-	display: none;
-	flex-direction: column;
-	width: 100%;
-	height: 100%;
-	border: solid 1px var(--cs_input_border);
-}
 
 .ui-dialog .tab-content .charsheet .sheet-gear-flex {
 	display: flex;
@@ -7380,17 +7636,6 @@ select[name="attr_damage_bonus"] {
 	border: solid 1px var(--cs_dc_color);
 	padding: 6px;
 	box-sizing: border-box;
-}
-
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod1_proxy"][value="1"] ~ .ct-mod-wrapper1,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod2_proxy"][value="1"] ~ .ct-mod-wrapper2,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod3_proxy"][value="1"] ~ .ct-mod-wrapper3,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod4_proxy"][value="1"] ~ .ct-mod-wrapper4,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod5_proxy"][value="1"] ~ .ct-mod-wrapper5,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod6_proxy"][value="1"] ~ .ct-mod-wrapper6,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod7_proxy"][value="1"] ~ .ct-mod-wrapper7,
-.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_ct_mod8_proxy"][value="1"] ~ .ct-mod-wrapper8 {
-	display: block;
 }
 
 /* ------------------------ Money Ledger (reuses core ledger row styles) ------------------------ */

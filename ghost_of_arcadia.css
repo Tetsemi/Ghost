@@ -5073,7 +5073,112 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet input[name="attr_show_weapon_advanced_default"][value="1"] ~ .sheet-weaponblock-advanced-default,
 .ui-dialog .tab-content .charsheet input[name="attr_show_weapon_advanced"][value="1"] ~ .sheet-weaponblock-advanced,
 .ui-dialog .tab-content .charsheet .sheet-weaponblock-grid-row input[name="attr_show_weapon_advanced"][value="1"] ~ .sheet-weaponblock-advanced {
-	display: flex; /* or block, depending on layout */
+	display: flex;
+}
+
+/* Advanced panel — three-column grid */
+.ui-dialog .tab-content .charsheet .sheet-weapon-advanced-grid {
+	border-bottom: 1px solid var(--cs_input_border);
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-group {
+	border-right: 1px solid var(--cs_input_border);
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	padding: 4px 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-group:last-child {
+	border-right: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-label {
+	background-color: var(--cs_section_head_bg_color);
+	color: var(--cs_section_head_txt);
+	font-size: 90%;
+	font-weight: bold;
+	margin: -4px -6px 4px -6px;
+	padding: 2px 6px;
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-select {
+	background-color: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	box-sizing: border-box;
+	color: var(--cs_input_text);
+	font-size: 90%;
+	padding: 1px 2px;
+	width: 100%;
+}
+
+/* Hidden numeric sync select — value read by macros inline, not shown to user */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-select-hidden {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-checkbox-label {
+	align-items: center;
+	color: var(--cs_txt_primary);
+	display: flex;
+	font-size: 85%;
+	gap: 4px;
+	margin-top: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-mods {
+	align-items: center;
+	display: grid;
+	gap: 3px 6px;
+	grid-template-columns: auto 44px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-mod-label {
+	color: var(--cs_txt_primary);
+	font-size: 85%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-mod-input {
+	background-color: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	box-sizing: border-box;
+	color: var(--cs_input_text);
+	font-size: 90%;
+	padding: 1px 3px;
+	text-align: center;
+	width: 44px;
+}
+
+/* Traits row — full width below the grid */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-traits-row {
+	align-items: center;
+	display: flex;
+	gap: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-traits-row .sheet-weapon-adv-label {
+	flex: 0 0 auto;
+	margin: 0;
+	padding: 3px 8px;
+	white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-traits-row input[type="text"] {
+	background-color: var(--cs_input_bg);
+	border: none;
+	border-left: 1px solid var(--cs_input_border);
+	box-sizing: border-box;
+	color: var(--cs_input_text);
+	flex: 1;
+	font-size: 90%;
+	height: var(--cs_row_height);
+	padding: 0 6px;
 }
 
 /* Roll Button Style */
@@ -9200,6 +9305,7 @@ select[name="attr_damage_bonus"] {
 .sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_fail,
 .sheet-rolltemplate-coc-attack-1-noimpale td.sheet-template_value_fumble {
 	text-align: center;
+	font-weight: bold;			   
 }
 
 .sheet-rolltemplate-coc-attack-1 td.sheet-template_value_critical,

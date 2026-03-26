@@ -20710,6 +20710,12 @@
 								<input type="hidden" name="attr_weapon1_mdr_damage_numdice" value="0"/>
 								<input type="hidden" name="attr_weapon1_mdr_damage_dicesize" value="0"/>
 								<input type="hidden" name="attr_weapon1_mdr_damage_bonus" value="0"/>
+								<input type="hidden" name="attr_weapon1_mdr_mode_mult" value="1"/>
+								<input type="hidden" name="attr_weapon1_mdr_mode_label" value="SS"/>
+								<input type="hidden" name="attr_weapon1_mdr_mode_num" value="10"/>
+								<input type="hidden" name="attr_weapon1_mdr_mode_penalty" value="0"/>
+								<input type="hidden" name="attr_weapon1_mdr_ammo_type_label" value="Standard"/>
+								<input type="hidden" name="attr_weapon1_mdr_mod_hit" value="0"/>
 								<input type="hidden" name="attr_weapon1_mdr_strain" value="0"/>
 								<div class="flex-cell weapon-name"><input type="text" name="attr_weapon1_mdr_name" placeholder="Weapon Name" data-i18n-placeholder="weaponname-u"/></div>
 								<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_roll_weapon1_mdr_attack_impale_checkbox" value="1"/></div>
@@ -20731,8 +20737,8 @@
 									<input class="sheet-readonly" type="text" name="attr_weapon1_skill_mdr_display"/>
 									<div class="weapon-roll">
 										<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle sheet-readonly" value="noimpale"/>
-										<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weapon1_mdr_attack_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weapon1_mdr_name}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weapon1_skill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[0 + @{weapon1_mdr_strain}]]}}"></button>
-										<button type="roll" class="new-roll sheet-roll-impale" name="roll_weapon1_mdr_attack_impale" value="&{template:coc-attack-1-impale} {{name=@{weapon1_mdr_name}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weapon1_skill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[(@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus}]]}} {{strain=[[0 + @{weapon1_mdr_strain}]]}}"></button>
+										<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weapon1_mdr_attack_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weapon1_mdr_name}}} {{mode=@{weapon1_mdr_mode_label}}} {{ammo=@{weapon1_mdr_ammo_type_label}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weapon1_skill_mdr}+@{dice_modifier_checkbox}+@{weapon1_mdr_mod_hit}+@{weapon1_mdr_mode_penalty}}kh1]]}} {{hard=[[{1, floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox}+@{weapon1_mdr_mod_hit}+@{weapon1_mdr_mode_penalty})/2)}kh1]]}} {{extreme=[[{1, floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox}+@{weapon1_mdr_mod_hit}+@{weapon1_mdr_mode_penalty})/5)}kh1]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[floor(@{weapon1_mdr_mode_num}/10) * (@{weapon1_mdr_damage}@{weapon1_mdr_db})]]}} {{extremedamage=[[floor(@{weapon1_mdr_mode_num}/10) * ((@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus})]]}} {{strain=[[0 + @{weapon1_mdr_strain}]]}}"></button>
+										<button type="roll" class="new-roll sheet-roll-impale" name="roll_weapon1_mdr_attack_impale" value="&{template:coc-attack-1-impale} {{name=@{weapon1_mdr_name}}} {{mode=@{weapon1_mdr_mode_label}}} {{ammo=@{weapon1_mdr_ammo_type_label}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weapon1_skill_mdr}+@{dice_modifier_checkbox}+@{weapon1_mdr_mod_hit}+@{weapon1_mdr_mode_penalty}}kh1]]}} {{hard=[[{1, floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox}+@{weapon1_mdr_mod_hit}+@{weapon1_mdr_mode_penalty})/2)}kh1]]}} {{extreme=[[{1, floor((@{weapon1_skill_mdr}+@{dice_modifier_checkbox}+@{weapon1_mdr_mod_hit}+@{weapon1_mdr_mode_penalty})/5)}kh1]]}} {{malf=@{weapon1_mdr_malf}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[floor(@{weapon1_mdr_mode_num}/10) * (@{weapon1_mdr_damage}@{weapon1_mdr_db})]]}} {{basedamage=[[@{weapon1_mdr_damage}@{weapon1_mdr_db}]]}} {{extremedamage=[[floor(@{weapon1_mdr_mode_num}/10) * ((@{weapon1_mdr_damage_numdice}*@{weapon1_mdr_damage_dicesize})+@{weapon1_mdr_damage_bonus})]]}} {{strain=[[0 + @{weapon1_mdr_strain}]]}}"></button>
 									</div>
 								</div>
 								<div class="flex-cell weapon-damage"><input type="text" name="attr_weapon1_mdr_damage" placeholder="Damage" data-i18n-placeholder="damage-u"/></div>
@@ -20754,10 +20760,49 @@
 								</div>
 							</div>
 							<div class="sheet-weaponblock-advanced">
-								<div class="flex-row">
-									<div class="flex-cell weapon-trait">
-										<input type="text" name="attr_weapon_traits" data-i18n="weapon_trait-u" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
+								<div class="sheet-weapon-advanced-grid">
+									<!-- Mode -->
+									<div class="sheet-weapon-adv-group">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_mode-u">Mode</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_mode">
+											<option value="ss" data-i18n="weapon_mode_ss-u">SS — Single Shot</option>
+											<option value="sa" data-i18n="weapon_mode_sa-u">SA — Semi-Auto</option>
+											<option value="bf" data-i18n="weapon_mode_bf-u">BF — Burst Fire (×2)</option>
+											<option value="fa" data-i18n="weapon_mode_fa-u">FA — Full Auto (×3)</option>
+										</select>
 									</div>
+									<!-- Ammo -->
+									<div class="sheet-weapon-adv-group">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_ammo_type-u">Ammo loaded</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_ammo_type">
+											<option value="standard" data-i18n="ammo_standard-u">Standard</option>
+											<option value="veil_charged" data-i18n="ammo_veil_charged-u">Veil-Charged ([V])</option>
+											<option value="ap_slugs" data-i18n="ammo_ap_slugs-u">AP Slugs (+AP2, −1 die)</option>
+											<option value="shock" data-i18n="ammo_shock-u">Shock Rounds (+2d6 mech)</option>
+											<option value="hollow_point" data-i18n="ammo_hollow_point-u">Hollow Point (cond)</option>
+											<option value="subsonic" data-i18n="ammo_subsonic-u">Subsonic (BF suppressed)</option>
+											<option value="breacher" data-i18n="ammo_breacher-u">Breacher Slugs (struct)</option>
+										</select>
+										<label class="sheet-weapon-adv-checkbox-label">
+											<input type="checkbox" name="attr_weapon1_mdr_ammo_active" value="1"/>
+											<span data-i18n="weapon_ammo_active-u">Special ammo active</span>
+										</label>
+									</div>
+									<!-- Mod bonuses -->
+									<div class="sheet-weapon-adv-group">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_mod_bonuses-u">Mod bonuses</div>
+										<div class="sheet-weapon-adv-mods">
+											<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_hit-u">Hit bonus</span>
+											<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon1_mdr_mod_hit" value="0" placeholder="0"/>
+											<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_penalty_reduce-u">Penalty reduce</span>
+											<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon1_mdr_mod_penalty_reduce" value="0" placeholder="0"/>
+										</div>
+									</div>
+								</div>
+								<!-- Traits -->
+								<div class="sheet-weapon-adv-traits-row">
+									<div class="sheet-weapon-adv-label" data-i18n="weapon_trait-u">Traits</div>
+									<input type="text" name="attr_weapon_traits" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
 								</div>
 							</div>
 						</div>
@@ -20772,6 +20817,12 @@
 									<input type="hidden" name="attr_damage_numdice" value="0"/>
 									<input type="hidden" name="attr_damage_dicesize" value="0"/>
 									<input type="hidden" name="attr_damage_bonus" value="0"/>
+									<input type="hidden" name="attr_weapon_mode_mult_mdr" value="1"/>
+									<input type="hidden" name="attr_weapon_mode_label_mdr" value="SS"/>
+									<input type="hidden" name="attr_weapon_mode_num_mdr" value="10"/>
+									<input type="hidden" name="attr_weapon_mode_penalty_mdr" value="0"/>
+									<input type="hidden" name="attr_weapon_ammo_type_label_mdr" value="Standard"/>
+									<input type="hidden" name="attr_weapon_mod_hit_mdr" value="0"/>
 									<input type="hidden" name="attr_weaponstrain_mdr" value="0"/>
 									<div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr" placeholder="Weapon Name" data-i18n-placeholder="weaponname-u"/></div>
 									<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"/></div>
@@ -20793,8 +20844,8 @@
 										<input type="text" name="attr_weaponskill_mdr_display" class="sheet-readonly"/>
 										<div class="weapon-roll">
 											<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
-											<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponskill_mdr_check_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
-											<button type="roll" class="new-roll sheet-roll-impale" name="roll_weaponskill_mdr_check_impale" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[(@{damage_numdice}*@{damage_dicesize})+@{damage_bonus}]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
+											<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponskill_mdr_check_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{mode=@{weapon_mode_label_mdr}}} {{ammo=@{weapon_ammo_type_label_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_mod_hit_mdr}+@{weapon_mode_penalty_mdr}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_mod_hit_mdr}+@{weapon_mode_penalty_mdr})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_mod_hit_mdr}+@{weapon_mode_penalty_mdr})/5)}kh1]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[floor(@{weapon_mode_num_mdr}/10) * (@{weapondamage_mdr}@{weapondb_mdr})]]}} {{extremedamage=[[floor(@{weapon_mode_num_mdr}/10) * ((@{damage_numdice}*@{damage_dicesize})+@{damage_bonus})]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
+											<button type="roll" class="new-roll sheet-roll-impale" name="roll_weaponskill_mdr_check_impale" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{mode=@{weapon_mode_label_mdr}}} {{ammo=@{weapon_ammo_type_label_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_mod_hit_mdr}+@{weapon_mode_penalty_mdr}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_mod_hit_mdr}+@{weapon_mode_penalty_mdr})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_mod_hit_mdr}+@{weapon_mode_penalty_mdr})/5)}kh1]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[floor(@{weapon_mode_num_mdr}/10) * (@{weapondamage_mdr}@{weapondb_mdr})]]}} {{basedamage=[[@{weapondamage_mdr}@{weapondb_mdr}]]}} {{extremedamage=[[floor(@{weapon_mode_num_mdr}/10) * ((@{damage_numdice}*@{damage_dicesize})+@{damage_bonus})]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
 										</div>
 									</div>
 									<div class="flex-cell weapon-damage"><input type="text" name="attr_weapondamage_mdr" placeholder="Damage" data-i18n-placeholder="damage-u"/></div>
@@ -20816,10 +20867,49 @@
 									</div>
 								</div>
 								<div class="sheet-weaponblock-advanced">
-									<div class="flex-row">
-										<div class="flex-cell weapon-trait">
-											<input type="text" name="attr_weapon_traits" data-i18n="weapon_trait-u" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
+									<div class="sheet-weapon-advanced-grid">
+										<!-- Mode -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_mode-u">Mode</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_mode_mdr">
+												<option value="ss" data-i18n="weapon_mode_ss-u">SS — Single Shot</option>
+												<option value="sa" data-i18n="weapon_mode_sa-u">SA — Semi-Auto</option>
+												<option value="bf" data-i18n="weapon_mode_bf-u">BF — Burst Fire (×2)</option>
+												<option value="fa" data-i18n="weapon_mode_fa-u">FA — Full Auto (×3)</option>
+											</select>
 										</div>
+										<!-- Ammo -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_ammo_type-u">Ammo loaded</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_ammo_type_mdr">
+												<option value="standard" data-i18n="ammo_standard-u">Standard</option>
+												<option value="veil_charged" data-i18n="ammo_veil_charged-u">Veil-Charged ([V])</option>
+												<option value="ap_slugs" data-i18n="ammo_ap_slugs-u">AP Slugs (+AP2, −1 die)</option>
+												<option value="shock" data-i18n="ammo_shock-u">Shock Rounds (+2d6 mech)</option>
+												<option value="hollow_point" data-i18n="ammo_hollow_point-u">Hollow Point (cond)</option>
+												<option value="subsonic" data-i18n="ammo_subsonic-u">Subsonic (BF suppressed)</option>
+												<option value="breacher" data-i18n="ammo_breacher-u">Breacher Slugs (struct)</option>
+											</select>
+											<label class="sheet-weapon-adv-checkbox-label">
+												<input type="checkbox" name="attr_weapon_ammo_active_mdr" value="1"/>
+												<span data-i18n="weapon_ammo_active-u">Special ammo active</span>
+											</label>
+										</div>
+										<!-- Mod bonuses -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_mod_bonuses-u">Mod bonuses</div>
+											<div class="sheet-weapon-adv-mods">
+												<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_hit-u">Hit bonus</span>
+												<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon_mod_hit_mdr" value="0" placeholder="0"/>
+												<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_penalty_reduce-u">Penalty reduce</span>
+												<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon_mod_penalty_reduce_mdr" value="0" placeholder="0"/>
+											</div>
+										</div>
+									</div>
+									<!-- Traits -->
+									<div class="sheet-weapon-adv-traits-row">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_trait-u">Traits</div>
+										<input type="text" name="attr_weapon_traits" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
 									</div>
 								</div>
 							</div>
@@ -34179,21 +34269,31 @@ Body Hit Location---------------------------------------------------------------
 
         <!-- Damage and Other Info -->
 
+        {{#rollGreater() roll1 extreme}}
         <tr>
             <td class="template_label" data-i18n="dam-u">Dam:</td>
             <td class="template_value">{{damage}}</td>
         </tr>
+        {{/rollGreater() roll1 extreme}}
 
         {{#rollTotal() roll1 1}}
         <tr>
-            <td class="template_label" data-i18n="extreme-damage">Extreme Dam:</td>
+            <td class="template_label" data-i18n="dam-u">Dam:</td>
+            <td class="template_value">{{basedamage}}</td>
+        </tr>
+        <tr>
+            <td class="template_label" data-i18n="extreme-damage">Max Dam:</td>
             <td class="template_value">{{extremedamage}}</td>
         </tr>
         {{/rollTotal() roll1 1}}
 
         {{#rollBetween() roll1 2 extreme}}
         <tr>
-            <td class="template_label" data-i18n="extreme-damage">Extreme Dam:</td>
+            <td class="template_label" data-i18n="dam-u">Base Dam:</td>
+            <td class="template_value">{{basedamage}}</td>
+        </tr>
+        <tr>
+            <td class="template_label" data-i18n="extreme-damage">Max Dam:</td>
             <td class="template_value">{{extremedamage}}</td>
         </tr>
         {{/rollBetween() roll1 2 extreme}}
@@ -49693,6 +49793,54 @@ const recalcCtVitalityTotal = () => {
   });
 };
 
+/* Initialise computed weapon attrs for all existing repeating rows on sheet open.
+   Prevents "No attribute found" errors for mode_mult, mode_label, mode_penalty, ammo_type_label
+   which are only written by change handlers and may be missing on existing rows. */
+const initWeaponComputedAttrs = () => {
+  const numMap      = { ss: "10", sa: "10", bf: "21", fa: "32" };
+  const labelMap    = { ss: "SS", sa: "SA", bf: "BF x2", fa: "FA x3" };
+  const penaltyDice = { ss: 0, sa: 0, bf: 1, fa: 2 };
+
+  getSectionIDs("repeating_weaponsmdr", (ids) => {
+    if (!ids.length) return;
+
+    const fetchKeys = ids.flatMap(id => ([
+      `repeating_weaponsmdr_${id}_weapon_mode_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_ammo_type_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_ammo_active_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`
+    ]));
+
+    getAttrs(fetchKeys, (rows) => {
+      const updates = {};
+
+      ids.forEach(id => {
+        const mode     = rows[`repeating_weaponsmdr_${id}_weapon_mode_mdr`] || "ss";
+        const reduce   = parseInt(rows[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`], 10) || 0;
+        const ammoType = rows[`repeating_weaponsmdr_${id}_weapon_ammo_type_mdr`] || "standard";
+        const ammoAct  = rows[`repeating_weaponsmdr_${id}_weapon_ammo_active_mdr`];
+        const labelSet = rows[`repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`];
+        const dice     = penaltyDice[mode] || 0;
+        const netPenalty = -(Math.max(0, dice - Math.min(reduce, dice)) * 10);
+
+        updates[`repeating_weaponsmdr_${id}_weapon_mode_num_mdr`]     = numMap[mode]   || "10";
+        updates[`repeating_weaponsmdr_${id}_weapon_mode_label_mdr`]   = labelMap[mode] || "SS";
+        updates[`repeating_weaponsmdr_${id}_weapon_mode_penalty_mdr`] = netPenalty;
+
+        if (!labelSet) {
+          updates[`repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`] =
+            (ammoAct === "1" && ammoType !== "standard")
+              ? ammoType.replace(/_/g, " ")
+              : "Standard";
+        }
+      });
+
+      if (Object.keys(updates).length) setAttrs(updates, { silent: true });
+    });
+  });
+};
+
 const toggleFlag = (attr) => {
   getAttrs([attr], (v) => setAttrs({ [attr]: v[attr] === "1" ? "0" : "1" }));
 };
@@ -50086,6 +50234,7 @@ const initializeSheetOnOpen = (eventInfo) => {
           applyRaceState();
           recalcArmorTotals();
           recalcCtVitalityTotal();
+          initWeaponComputedAttrs();
           applyTranslationsOnOpen(() => {
             if (debug_on_trace) console.log("[initializeSheetOnOpen] Done");
             sheetInitComplete = true;
@@ -52351,6 +52500,74 @@ on("change:weapon1_mdr_damage", function() {
     const damageString = values.weapon1_mdr_damage || "";
     const updates = parseDamageString(damageString, "weapon1_mdr");
     setAttrs(updates);
+  });
+});
+
+on("change:weapon1_mdr_mode change:weapon1_mdr_mod_penalty_reduce", () => {
+  if (debug_on_trace) console.log("[change:weapon1_mdr_mode/penalty_reduce]");
+  getAttrs(["weapon1_mdr_mode", "weapon1_mdr_mod_penalty_reduce"], (v) => {
+    const mode        = v.weapon1_mdr_mode || "ss";
+    const reduce      = parseInt(v.weapon1_mdr_mod_penalty_reduce, 10) || 0;
+    const numMap      = { ss: "10", sa: "10", bf: "21", fa: "32" };
+    const labelMap    = { ss: "SS", sa: "SA", bf: "BF x2", fa: "FA x3" };
+    const penaltyDice = { ss: 0, sa: 0, bf: 1, fa: 2 };
+    const dice        = penaltyDice[mode] || 0;
+    const netPenalty  = -(Math.max(0, dice - Math.min(reduce, dice)) * 10);
+    setAttrs({
+      weapon1_mdr_mode_num:     numMap[mode]   || "10",
+      weapon1_mdr_mode_label:   labelMap[mode] || "SS",
+      weapon1_mdr_mode_penalty: netPenalty
+    });
+  });
+});
+
+on("change:weapon1_mdr_ammo_type change:weapon1_mdr_ammo_active", () => {
+  if (debug_on_trace) console.log("[change:weapon1_mdr_ammo]");
+  getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
+    const type   = v.weapon1_mdr_ammo_type || "standard";
+    const active = v.weapon1_mdr_ammo_active;
+    const label  = (active === "1" && type !== "standard") ? type.replace(/_/g, " ") : "Standard";
+    setAttrs({ weapon1_mdr_ammo_type_label: label });
+  });
+});
+
+on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weapon_mod_penalty_reduce_mdr", (eventInfo) => {
+  if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapon_mode/penalty_reduce]");
+  const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+  if (!m) return;
+  const id = m[1];
+  getAttrs([
+    `repeating_weaponsmdr_${id}_weapon_mode_mdr`,
+    `repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`
+  ], (v) => {
+    const mode        = v[`repeating_weaponsmdr_${id}_weapon_mode_mdr`] || "ss";
+    const reduce      = parseInt(v[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`], 10) || 0;
+    const numMap      = { ss: "10", sa: "10", bf: "21", fa: "32" };
+    const labelMap    = { ss: "SS", sa: "SA", bf: "BF x2", fa: "FA x3" };
+    const penaltyDice = { ss: 0, sa: 0, bf: 1, fa: 2 };
+    const dice        = penaltyDice[mode] || 0;
+    const netPenalty  = -(Math.max(0, dice - Math.min(reduce, dice)) * 10);
+    setAttrs({
+      [`repeating_weaponsmdr_${id}_weapon_mode_num_mdr`]:   numMap[mode]   || "10",
+      [`repeating_weaponsmdr_${id}_weapon_mode_label_mdr`]: labelMap[mode] || "SS",
+      [`repeating_weaponsmdr_${id}_weapon_mode_penalty_mdr`]: netPenalty
+    });
+  });
+});
+
+on("change:repeating_weaponsmdr:weapon_ammo_type_mdr change:repeating_weaponsmdr:weapon_ammo_active_mdr", (eventInfo) => {
+  if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapon_ammo]");
+  const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+  if (!m) return;
+  const id = m[1];
+  getAttrs([
+    `repeating_weaponsmdr_${id}_weapon_ammo_type_mdr`,
+    `repeating_weaponsmdr_${id}_weapon_ammo_active_mdr`
+  ], (v) => {
+    const type   = v[`repeating_weaponsmdr_${id}_weapon_ammo_type_mdr`] || "standard";
+    const active = v[`repeating_weaponsmdr_${id}_weapon_ammo_active_mdr`];
+    const label  = (active === "1" && type !== "standard") ? type.replace(/_/g, " ") : "Standard";
+    setAttrs({ [`repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`]: label });
   });
 });
 

@@ -196,7 +196,8 @@
 						<input type="hidden" name="attr_bloodied_css" value="0"/>
 						<input class="sheet-attr-input sheet-edit-toggle-field sheet-hp-input" type="text" name="attr_hp" placeholder="current" data-i18n-placeholder="current"/>
 						<div class="sheet-hp-slash">/</div>
-						<input class="sheet-attr-input sheet-readonly" type="text" data-i18n-placeholder="max-u" name="attr_pulphp_max" placeholder="max" />
+						<input class="sheet-attr-input sheet-readonly" type="text" data-i18n-placeholder="max-u" name="attr_pulphp_max" placeholder="max" 
+						/>
 
 					</div>
 					<!-- Separator -->
@@ -27753,20 +27754,36 @@
 		<div class="sheet-tab-content sheet-cybertech">
 			<h4 class="sheet-section-head" data-i18n="cybertech-u">Cybertech</h4>
 
-			<!-- Vitality Totals -->
-			<div class="sheet-ct-vitality-totals">
-				<div class="flex-row">
-					<div class="flex-cell ct-vitality-label" data-i18n="ct_vitality_totals-u">Vitality Used</div>
-					<div class="flex-cell ct-vitality-used">
-						<input type="text" name="attr_ct_vitality_total" class="sheet-ct-vitality-total-field sheet-readonly" title="Total Vitality used by cybertech" data-i18n-title="ct_vitality_total_title-u"/>
-					</div>
-					<div class="flex-cell ct-vitality-sep">/</div>
-					<div class="flex-cell ct-vitality-max">
-						<input type="text" name="attr_vitality_max" class="sheet-ct-vitality-total-field sheet-readonly" title="Maximum Vitality (POW)" data-i18n-title="ct_vitality_max_title-u"/>
+			<!-- Cybertech Trackers: Vitality and Neuralware side by side -->
+			<div class="sheet-ct-trackers-row">
+
+				<div class="sheet-ct-vitality-totals">
+					<div class="flex-row">
+						<div class="flex-cell ct-vitality-label" data-i18n="ct_vitality_totals-u">Vitality Used</div>
+						<div class="flex-cell ct-vitality-used">
+							<input type="text" name="attr_ct_vitality_total" class="sheet-ct-vitality-total-field sheet-readonly" title="Total Vitality used by cybertech" data-i18n-title="ct_vitality_total_title-u"/>
+						</div>
+						<div class="flex-cell ct-vitality-sep">/</div>
+						<div class="flex-cell ct-vitality-max">
+							<input type="text" name="attr_vitality_max" class="sheet-ct-vitality-total-field sheet-readonly" title="Maximum Vitality (POW)" data-i18n-title="ct_vitality_max_title-u"/>
+						</div>
 					</div>
 				</div>
-			</div>
 
+				<div class="sheet-ct-vitality-totals sheet-ct-neuralware-totals">
+					<div class="flex-row">
+						<div class="flex-cell ct-vitality-label" data-i18n="ct_neuralware_slots_totals-u">Neuralware Slots</div>
+						<div class="flex-cell ct-vitality-used">
+							<input type="text" name="attr_ct_neuralware_slots_used" class="sheet-ct-vitality-total-field sheet-readonly" title="Neuralware slots used" data-i18n-title="ct_neuralware_slots_used_title-u"/>
+						</div>
+						<div class="flex-cell ct-vitality-sep">/</div>
+						<div class="flex-cell ct-vitality-max">
+							<input type="text" name="attr_ct_neuralware_slots_max" class="sheet-ct-vitality-total-field sheet-readonly" value="5" title="Maximum Neuralware slots (always 5)" data-i18n-title="ct_neuralware_slots_max_title-u"/>
+						</div>
+					</div>
+				</div>
+
+			</div>
 
 			<div class="sheet-colrow sheet-tech sheet-cybertech-collapsible">
 				<input type="checkbox" class="sheet-top-collapse" id="cybertech_collapse" name="attr_cybertech_collapse" value="1"/>
@@ -27789,31 +27806,64 @@
 							<input type="hidden" name="attr_show_ct_mod6_proxy" value="0"/>
 							<input type="hidden" name="attr_show_ct_mod7_proxy" value="0"/>
 							<input type="hidden" name="attr_show_ct_mod8_proxy" value="0"/>
+							<!-- Neuralware slot cost: defaults 1, set to 2 for CortexNode Mk3 -->
+							<input type="hidden" name="attr_ct_neuralware_slots" value="1"/>
 
-							<!-- CT Core Info -->
+							<!-- CT Row 1: Identity & Stats -->
 							<div class="ct-header-row">
 								<div class="flex-row">
-									<div class="flex-cell ct-name"><span data-i18n="ct_name-u">CT Name</span></div>
+									<div class="flex-cell ct-name"><span data-i18n="ct_name-u">Cyberware/Tech Name</span></div>
 									<div class="flex-cell ct-vitality"><span data-i18n="ct_vitality-u">Vitality</span></div>
-									<div class="flex-cell ct-level"><span data-i18n="ct_level-u">Level</span></div>
 									<div class="flex-cell ct-capacity"><span data-i18n="ct_capacity-u">Capacity</span></div>
-									<div class="flex-cell ct-description"><span data-i18n="ct_description-u">Description</span></div>
+									<div class="flex-cell ct-category"><span data-i18n="ct_category-u">Category</span></div>
+									<div class="flex-cell ct-rarity"><span data-i18n="ct_rarity-u">Rarity</span></div>
 								</div>
 							</div>
 
 							<div class="ct-row">
 								<div class="flex-row">
-									<input class="flex-cell ct-name" type="text" name="attr_ct_name" placeholder="CT Name" data-i18n-placeholder="ct_name-u"/>
-									<input class="flex-cell ct-vitality" type="number" name="attr_ct_vitality" placeholder="Vitality" data-i18n-placeholder="ct_vitality-u"/>
-									<input class="flex-cell ct-level" type="number" name="attr_ct_level" placeholder="Level" data-i18n-placeholder="ct_level-u"/>
-									<input class="flex-cell ct-capacity" type="number" name="attr_ct_capacity" placeholder="Capacity" data-i18n-placeholder="ct_capacity-u"/>
-									<input class="flex-cell ct-description" type="text" name="attr_ct_description" placeholder="Description" data-i18n-placeholder="ct_description-u"/>
+									<input class="flex-cell ct-name" type="text" name="attr_ct_name" placeholder="Cyberware/Tech Name" data-i18n-placeholder="ct_name-u"/>
+									<input class="flex-cell ct-vitality" type="number" name="attr_ct_vitality" placeholder="0" min="0"/>
+									<input class="flex-cell ct-capacity" type="number" name="attr_ct_capacity" placeholder="0" min="0"/>
+									<select class="flex-cell ct-category" name="attr_ct_category">
+										<option value="" data-i18n="ct_category_none-u">— Select —</option>
+										<option value="cosmeticware" data-i18n="ct_category_cosmeticware-u">Cosmeticware</option>
+										<option value="neuralware" data-i18n="ct_category_neuralware-u">Neuralware</option>
+										<option value="cyber_optics" data-i18n="ct_category_cyber_optics-u">Cyber Optics</option>
+										<option value="cyber_audio" data-i18n="ct_category_cyber_audio-u">Cyber Audio</option>
+										<option value="internal" data-i18n="ct_category_internal-u">Internal</option>
+										<option value="cyberlimb" data-i18n="ct_category_cyberlimb-u">Cyberlimb</option>
+									</select>
+									<select class="flex-cell ct-rarity" name="attr_ct_rarity">
+										<option value="" data-i18n="ct_rarity_none-u">— Select —</option>
+										<option value="common" data-i18n="ct_rarity_common-u">Common</option>
+										<option value="permit" data-i18n="ct_rarity_permit-u">Permit Required</option>
+										<option value="restricted" data-i18n="ct_rarity_restricted-u">Restricted</option>
+										<option value="illegal" data-i18n="ct_rarity_illegal-u">Illegal</option>
+									</select>
 								</div>
 							</div>
 
+							<!-- CT Row 2: Context -->
+							<div class="ct-header-row">
+								<div class="flex-row">
+									<div class="flex-cell ct-effect-short"><span data-i18n="ct_effect_short-u">Effect</span></div>
+									<div class="flex-cell ct-prerequisites"><span data-i18n="ct_prerequisites-u">Prerequisites</span></div>
+									<div class="flex-cell ct-cost"><span data-i18n="ct_cost-u">Cost</span></div>
+								</div>
+							</div>
+
+							<div class="ct-row">
+								<div class="flex-row">
+									<input class="flex-cell ct-effect-short" type="text" name="attr_ct_effect_short" placeholder="Short effect summary" data-i18n-placeholder="ct_effect_short_placeholder-u"/>
+									<input class="flex-cell ct-prerequisites" type="text" name="attr_ct_prerequisites" placeholder="Prerequisites" data-i18n-placeholder="ct_prerequisites-u"/>
+									<input class="flex-cell ct-cost" type="text" name="attr_ct_cost" placeholder="Cost" data-i18n-placeholder="ct_cost-u"/>
+								</div>
+							</div>					
+
 							<div class="ct-effect-checkbox-wrapper">
 								<div class="ct-effect-row">
-									<textarea class="flex-cell ct-effect" name="attr_ct_effect" placeholder="CT Effect" data-i18n-placeholder="ct_effect-u"></textarea>
+									<textarea class="flex-cell ct-effect" name="attr_ct_effect" placeholder="Full description" data-i18n-placeholder="ct_description_long-u"></textarea>
 								</div>
 
 								<div class="ct-mod-checkbox-row">
@@ -49596,29 +49646,49 @@ const recalcArmorTotals = () => {
 
 const recalcCtVitalityTotal = () => {
   getSectionIDs("repeating_ct", (ids) => {
-    const computeAndSet = (load) => {
+    const computeAndSet = (load, neuralwareSlots) => {
       getAttrs(["pow"], (vals) => {
         const ipow = parseInt(vals.pow, 10) || 0;
         setAttrs({
-          ct_vitality_total: load,
-          vitality: Math.max(0, ipow - load)
+          ct_neuralware_slots_used: neuralwareSlots,
+          ct_neuralware_slots_max:  5,
+          ct_vitality_total:        load,
+          vitality:                 Math.max(0, ipow - load)
         });
       });
     };
 
     if (!ids.length) {
-      computeAndSet(0);
+      computeAndSet(0, 0);
       return;
     }
 
-    const repKeys = ids.map(id => `repeating_ct_${id}_ct_vitality`);
+    const repKeys = ids.flatMap(id => ([
+      `repeating_ct_${id}_ct_vitality`,
+      `repeating_ct_${id}_ct_category`,
+      `repeating_ct_${id}_ct_neuralware_slots`
+    ]));
 
     getAttrs(repKeys, (rows) => {
-      const total = ids.reduce((sum, id) => {
-        return sum + (parseInt(rows[`repeating_ct_${id}_ct_vitality`], 10) || 0);
-      }, 0);
+      let vitalityLoad    = 0;
+      let neuralwareSlots = 0;
+      let hasNeuralware   = false;
 
-      computeAndSet(total);
+      ids.forEach(id => {
+        vitalityLoad += parseInt(rows[`repeating_ct_${id}_ct_vitality`], 10) || 0;
+
+        const category = rows[`repeating_ct_${id}_ct_category`] || "";
+        if (category === "neuralware") {
+          hasNeuralware    = true;
+          neuralwareSlots += parseInt(rows[`repeating_ct_${id}_ct_neuralware_slots`], 10) || 1;
+        }
+      });
+
+      /* Neural Link is required for all Neuralware and is not counted against the 5-slot limit.
+         If any Neuralware is installed we assume Neural Link is present and subtract 1. */
+      if (hasNeuralware) neuralwareSlots = Math.max(0, neuralwareSlots - 1);
+
+      computeAndSet(vitalityLoad, neuralwareSlots);
     });
   });
 };
@@ -52212,7 +52282,7 @@ on("change:showracials " +
   recalcArmorTotals
 );
 
-on("change:repeating_ct:ct_vitality change:pow remove:repeating_ct",
+on("change:repeating_ct:ct_vitality change:repeating_ct:ct_category change:repeating_ct:ct_neuralware_slots change:pow remove:repeating_ct",
   recalcCtVitalityTotal
 );
 

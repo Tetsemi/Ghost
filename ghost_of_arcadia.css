@@ -5128,7 +5128,7 @@ select[name="attr_damage_bonus"] {
 	display: flex;
 	font-size: 85%;
 	gap: 4px;
-	margin-top: 4px;
+	margin-top: 0px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-mods {
@@ -5201,6 +5201,58 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-mr-slot {
 	border-color: var(--cs_txt_accent);
 	margin-top: 4px;
+}
+
+/* Summary row — tags + net hit/penalty display below the three grids */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-row {
+	border-top: 1px solid var(--cs_input_border);
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	padding: 4px 6px;
+	width: 100%;
+	border: 1px solid var(--cs_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-tags {
+	align-items: baseline;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-net {
+	align-items: baseline;
+	display: flex;
+	gap: 8px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-label {
+	color: var(--cs_section_head_txt);
+	font-size: 80%;
+	font-weight: bold;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-tags-display {
+	color: var(--cs_txt_primary);
+	font-size: 85%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-net-display {
+	font-size: 90%;
+	font-weight: bold;
+	min-width: 80px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-net-hit {
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-net-penalty {
+	color: var(--cs_txt_primary);
+	font-weight: bold;
 }
 
 /* Roll Button Style */
@@ -5288,6 +5340,1207 @@ select[name="attr_damage_bonus"] {
 	pointer-events: auto;
 	background-color: transparent;
 	color: transparent;
+}
+
+/* ── Weapon Preset — 1-column full-width grid ───────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-advanced-grid-1col {
+	border-bottom: 1px solid var(--cs_input_border);
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-preset-group {
+	display: none;
+}
+
+/* Name cell hosts the skill-gated preset selects */
+.ui-dialog .tab-content .charsheet .sheet-weapon-preset-name-cell {
+	padding: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-preset-name-cell .sheet-weapon-preset-group {
+	display: none;
+	flex: 1;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-preset-name-cell .sheet-weapon-adv-group {
+	border: none;
+	padding: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-preset-name-cell .sheet-weapon-adv-label {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-preset-name-cell .sheet-weapon-adv-select {
+	height: var(--cs_row_height);
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_skill_class_mdr"][value="skill-melee"]    ~ .weapon-preset-melee,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_skill_class_mdr"][value="skill-throw"]    ~ .weapon-preset-throw,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_skill_class_mdr"][value="skill-handgun"]  ~ .weapon-preset-handgun,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_skill_class_mdr"][value="skill-shotgun"]  ~ .weapon-preset-shotgun,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_skill_class_mdr"][value="skill-rifle"]    ~ .weapon-preset-rifle,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_skill_class_mdr"][value="skill-smg"]      ~ .weapon-preset-smg,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_skill_class_mdr"][value="skill-heavy"]    ~ .weapon-preset-heavy,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_skill_class"][value="skill-melee"]       ~ .weapon-preset-melee,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_skill_class"][value="skill-throw"]       ~ .weapon-preset-throw,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_skill_class"][value="skill-handgun"]     ~ .weapon-preset-handgun,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_skill_class"][value="skill-shotgun"]     ~ .weapon-preset-shotgun,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_skill_class"][value="skill-rifle"]       ~ .weapon-preset-rifle,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_skill_class"][value="skill-smg"]         ~ .weapon-preset-smg,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_skill_class"][value="skill-heavy"]       ~ .weapon-preset-heavy {
+	display: flex;
+}
+
+
+/* ── Mode 2×2 button grid ────────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-mode-grid {
+	display: grid;
+	gap: 2px;
+	grid-template-columns: 1fr 1fr;
+	margin-top: 2px;
+	width: 100%;
+}
+
+/* Base: unavailable (greyed out, no pointer) */
+.ui-dialog .tab-content .charsheet .sheet-weapon-mode-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	cursor: not-allowed;
+	font-size: 85%;
+	font-weight: bold;
+	opacity: 0.25;
+	padding: 2px 0;
+	text-align: center;
+	width: 100%;
+}
+
+/* Available — full opacity, pointer */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_modes_available_mdr"][value~="ss"] ~ .sheet-weapon-mode-grid .mode-ss,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_modes_available_mdr"][value~="sa"] ~ .sheet-weapon-mode-grid .mode-sa,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_modes_available_mdr"][value~="bf"] ~ .sheet-weapon-mode-grid .mode-bf,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_modes_available_mdr"][value~="fa"] ~ .sheet-weapon-mode-grid .mode-fa,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="ss"] ~ .sheet-weapon-mode-grid .mode-ss,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="sa"] ~ .sheet-weapon-mode-grid .mode-sa,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="bf"] ~ .sheet-weapon-mode-grid .mode-bf,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="fa"] ~ .sheet-weapon-mode-grid .mode-fa {
+	cursor: pointer;
+	opacity: 1;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_modes_available_mdr"][value~="ss"] ~ .sheet-weapon-mode-grid .mode-ss:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_modes_available_mdr"][value~="sa"] ~ .sheet-weapon-mode-grid .mode-sa:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_modes_available_mdr"][value~="bf"] ~ .sheet-weapon-mode-grid .mode-bf:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_modes_available_mdr"][value~="fa"] ~ .sheet-weapon-mode-grid .mode-fa:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="ss"] ~ .sheet-weapon-mode-grid .mode-ss:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="sa"] ~ .sheet-weapon-mode-grid .mode-sa:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="bf"] ~ .sheet-weapon-mode-grid .mode-bf:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="fa"] ~ .sheet-weapon-mode-grid .mode-fa:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active mode — red highlight */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mode_mdr"][value="ss"] ~ .sheet-weapon-mode-grid .mode-ss,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mode_mdr"][value="sa"] ~ .sheet-weapon-mode-grid .mode-sa,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mode_mdr"][value="bf"] ~ .sheet-weapon-mode-grid .mode-bf,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mode_mdr"][value="fa"] ~ .sheet-weapon-mode-grid .mode-fa,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mode"][value="ss"] ~ .sheet-weapon-mode-grid .mode-ss,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mode"][value="sa"] ~ .sheet-weapon-mode-grid .mode-sa,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mode"][value="bf"] ~ .sheet-weapon-mode-grid .mode-bf,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mode"][value="fa"] ~ .sheet-weapon-mode-grid .mode-fa {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+	cursor: pointer;
+	opacity: 1;
+}
+
+
+/* ── Ammo 3×2 button grid ────────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-ammo-grid {
+	display: grid;
+	gap: 2px;
+	grid-template-columns: 1fr 1fr 1fr;
+	margin-top: 2px;
+	width: 100%;
+}
+
+/* Base: unavailable (greyed, not-allowed) */
+.ui-dialog .tab-content .charsheet .sheet-ammo-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	cursor: not-allowed;
+	font-size: 78%;
+	font-weight: bold;
+	opacity: 0.25;
+	padding: 2px 0;
+	text-align: center;
+	width: 100%;
+}
+
+/* Compatible ammo — shown for handgun/smg/rifle weapons */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-ap-slugs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-hollow-point,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-shock,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-subsonic,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-veil-charged,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-ap-slugs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-hollow-point,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-shock,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-subsonic,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-veil-charged,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-ap-slugs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-hollow-point,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-shock,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-subsonic,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-veil-charged,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-ap-slugs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-hollow-point,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-shock,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-subsonic,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-veil-charged,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-ap-slugs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-hollow-point,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-shock,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-subsonic,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-veil-charged,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-ap-slugs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-hollow-point,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-shock,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-subsonic,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-veil-charged,
+/* Breacher: shotgun only */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="shotgun"]  ~ .sheet-weapon-ammo-grid .ammo-breacher,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="shotgun"] ~ .sheet-weapon-ammo-grid .ammo-breacher {
+	cursor: pointer;
+	opacity: 1;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-ap-slugs:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-hollow-point:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-shock:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-subsonic:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-veil-charged:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-ap-slugs:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-hollow-point:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-shock:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-subsonic:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-veil-charged:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-ap-slugs:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-hollow-point:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-shock:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-subsonic:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-veil-charged:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-ap-slugs:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-hollow-point:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-shock:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-subsonic:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-veil-charged:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-ap-slugs:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-hollow-point:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-shock:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-subsonic:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]     ~ .sheet-weapon-ammo-grid .ammo-veil-charged:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-ap-slugs:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-hollow-point:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-shock:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-subsonic:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]   ~ .sheet-weapon-ammo-grid .ammo-veil-charged:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="shotgun"]  ~ .sheet-weapon-ammo-grid .ammo-breacher:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="shotgun"] ~ .sheet-weapon-ammo-grid .ammo-breacher:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active ammo — highlighted */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_ammo_type_mdr"][value="ap_slugs"]    ~ .sheet-weapon-ammo-grid .ammo-ap-slugs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_ammo_type_mdr"][value="breacher"]    ~ .sheet-weapon-ammo-grid .ammo-breacher,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_ammo_type_mdr"][value="hollow_point"]~ .sheet-weapon-ammo-grid .ammo-hollow-point,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_ammo_type_mdr"][value="shock"]       ~ .sheet-weapon-ammo-grid .ammo-shock,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_ammo_type_mdr"][value="subsonic"]    ~ .sheet-weapon-ammo-grid .ammo-subsonic,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_ammo_type_mdr"][value="veil_charged"]~ .sheet-weapon-ammo-grid .ammo-veil-charged,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_ammo_type"][value="ap_slugs"]    ~ .sheet-weapon-ammo-grid .ammo-ap-slugs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_ammo_type"][value="breacher"]    ~ .sheet-weapon-ammo-grid .ammo-breacher,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_ammo_type"][value="hollow_point"]~ .sheet-weapon-ammo-grid .ammo-hollow-point,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_ammo_type"][value="shock"]       ~ .sheet-weapon-ammo-grid .ammo-shock,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_ammo_type"][value="subsonic"]    ~ .sheet-weapon-ammo-grid .ammo-subsonic,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_ammo_type"][value="veil_charged"]~ .sheet-weapon-ammo-grid .ammo-veil-charged {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+	cursor: pointer;
+	opacity: 1;
+}
+
+
+/* ── Range 3+2 button grid ───────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-range-grid {
+	display: grid;
+	gap: 2px;
+	grid-template-columns: 1fr 1fr 1fr;
+	margin-top: 2px;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-range-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	cursor: pointer;
+	font-size: 78%;
+	font-weight: bold;
+	opacity: 1;
+	padding: 2px 0;
+	text-align: center;
+	width: 100%;
+}
+
+/* Row 2: Long spans cols 1-2, Extreme spans col 3 */
+.ui-dialog .tab-content .charsheet .sheet-weapon-range-grid .range-long    { grid-column: 1 / span 2; }
+.ui-dialog .tab-content .charsheet .sheet-weapon-range-grid .range-extreme { grid-column: 3; }
+
+.ui-dialog .tab-content .charsheet .sheet-range-btn:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active range — highlighted */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_range_band_mdr"][value="engaged"]  ~ .sheet-weapon-range-grid .range-engaged,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_range_band_mdr"][value="short"]    ~ .sheet-weapon-range-grid .range-short,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_range_band_mdr"][value="medium"]   ~ .sheet-weapon-range-grid .range-medium,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_range_band_mdr"][value="long"]     ~ .sheet-weapon-range-grid .range-long,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_range_band_mdr"][value="extreme"]  ~ .sheet-weapon-range-grid .range-extreme,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_range_band"][value="engaged"] ~ .sheet-weapon-range-grid .range-engaged,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_range_band"][value="short"]   ~ .sheet-weapon-range-grid .range-short,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_range_band"][value="medium"]  ~ .sheet-weapon-range-grid .range-medium,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_range_band"][value="long"]    ~ .sheet-weapon-range-grid .range-long,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_range_band"][value="extreme"] ~ .sheet-weapon-range-grid .range-extreme {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+}
+
+/* ── Cap tracking cell ───────────────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .weapon-cap-cell {
+	align-items: center;
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 2px;
+	justify-content: flex-start;
+	overflow: hidden;
+	padding: 0 3px;
+}
+
+.ui-dialog .tab-content .charsheet .cap-box {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: 2px;
+	cursor: pointer;
+	flex-shrink: 0;
+	height: 10px;
+	width: 10px;
+}
+
+.ui-dialog .tab-content .charsheet .cap-box-tracked {
+	border-radius: 3px;
+	height: 11px;
+	width: 9px;
+}
+
+.ui-dialog .tab-content .charsheet .cap-box-belt {
+	border-radius: 1px;
+	height: 9px;
+	width: 8px;
+}
+
+.ui-dialog .tab-content .charsheet .cap-box.cap-spent {
+	background: var(--cs_input_text);
+	border-color: var(--cs_input_text);
+}
+
+.ui-dialog .tab-content .charsheet .cap-box.cap-sa-tick {
+	background: #1a3a5a;
+	border-color: #3a6a9a;
+}
+
+.ui-dialog .tab-content .charsheet .weapon-cap-cell.cap-pcell .cap-box.cap-spent {
+	background: #7a3ab0;
+	border-color: #a060e0;
+}
+
+.ui-dialog .tab-content .charsheet .cap-type-label {
+	color: #888;
+	flex-shrink: 0;
+	font-size: 9px;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .cap-type-label.cap-pcell-label {
+	color: #c080ff;
+}
+
+.ui-dialog .tab-content .charsheet .cap-reload-btn {
+	align-items: center;
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: 2px;
+	color: #aaa;
+	cursor: pointer;
+	display: flex;
+	flex-shrink: 0;
+	font-size: 10px;
+	height: 14px;
+	justify-content: center;
+	line-height: 1;
+	padding: 0;
+	width: 14px;
+}
+
+.ui-dialog .tab-content .charsheet .cap-reload-btn:hover {
+	background: var(--cs_ui_element_bg);
+	color: var(--cs_txt_primary);
+}
+
+/* ── Cap box visibility rules ───────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n01,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n02,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n03,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n04,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n05,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n06,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n07,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n08,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n09,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n10,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n11,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n12,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n13,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n14,
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-box-n15 {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .weapon-cap-cell .cap-type-str { display: none; }
+
+input[name="attr_weapon_cap_display_mdr"][value="b2"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="b2"] ~ .weapon-cap-cell .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b2"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b2"] ~ .cap-box-track-row .cap-box-n02 {
+	display: inline-block;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="b2"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="b2"] ~ .weapon-cap-cell .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b2"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b2"] ~ .cap-box-track-row .cap-box-n02 {
+	display: inline-block;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="b3"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="b3"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="b3"] ~ .weapon-cap-cell .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b3"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b3"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b3"] ~ .cap-box-track-row .cap-box-n03 {
+	display: inline-block;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="b3"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="b3"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="b3"] ~ .weapon-cap-cell .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b3"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b3"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b3"] ~ .cap-box-track-row .cap-box-n03 {
+	display: inline-block;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="b4"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="b4"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="b4"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="b4"] ~ .weapon-cap-cell .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b4"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b4"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b4"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b4"] ~ .cap-box-track-row .cap-box-n04 {
+	display: inline-block;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="b4"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="b4"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="b4"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="b4"] ~ .weapon-cap-cell .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b4"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b4"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b4"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b4"] ~ .cap-box-track-row .cap-box-n04 {
+	display: inline-block;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .weapon-cap-cell .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b5"] ~ .cap-box-track-row .cap-box-n05 {
+	display: inline-block;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .weapon-cap-cell .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b5"] ~ .cap-box-track-row .cap-box-n05 {
+	display: inline-block;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .weapon-cap-cell .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="b6"] ~ .cap-box-track-row .cap-box-n06 {
+	display: inline-block;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .weapon-cap-cell .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="b6"] ~ .cap-box-track-row .cap-box-n06 {
+	display: inline-block;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .weapon-cap-cell .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .cap-box-track-row .cap-box-n04 {
+	display: inline-block;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d4"] ~ .cap-box-track-row .cap-type-str {
+	content: "Drum";
+	display: inline;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .weapon-cap-cell .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .cap-box-track-row .cap-box-n04 {
+	display: inline-block;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d4"] ~ .cap-box-track-row .cap-type-str {
+	content: "Drum";
+	display: inline;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .weapon-cap-cell .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .cap-box-track-row .cap-box-n06 {
+	display: inline-block;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d6"] ~ .cap-box-track-row .cap-type-str {
+	content: "Drum";
+	display: inline;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .weapon-cap-cell .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .cap-box-track-row .cap-box-n06 {
+	display: inline-block;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d6"] ~ .cap-box-track-row .cap-type-str {
+	content: "Drum";
+	display: inline;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .weapon-cap-cell .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .cap-box-track-row .cap-box-n07 {
+	display: inline-block;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="d7"] ~ .cap-box-track-row .cap-type-str {
+	content: "Drum";
+	display: inline;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .weapon-cap-cell .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .cap-box-track-row .cap-box-n07 {
+	display: inline-block;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="d7"] ~ .cap-box-track-row .cap-type-str {
+	content: "Drum";
+	display: inline;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t1"] ~ .weapon-cap-cell .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t1"] ~ .cap-box-track-row .cap-box-n01 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t1"] ~ .weapon-cap-cell .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t1"] ~ .cap-box-track-row .cap-box-n01 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t2"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t2"] ~ .weapon-cap-cell .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t2"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t2"] ~ .cap-box-track-row .cap-box-n02 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t2"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t2"] ~ .weapon-cap-cell .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t2"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t2"] ~ .cap-box-track-row .cap-box-n02 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t3"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t3"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="t3"] ~ .weapon-cap-cell .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t3"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t3"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t3"] ~ .cap-box-track-row .cap-box-n03 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t3"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t3"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="t3"] ~ .weapon-cap-cell .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t3"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t3"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t3"] ~ .cap-box-track-row .cap-box-n03 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t4"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t4"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="t4"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="t4"] ~ .weapon-cap-cell .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t4"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t4"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t4"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t4"] ~ .cap-box-track-row .cap-box-n04 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t4"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t4"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="t4"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="t4"] ~ .weapon-cap-cell .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t4"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t4"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t4"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t4"] ~ .cap-box-track-row .cap-box-n04 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .weapon-cap-cell .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t5"] ~ .cap-box-track-row .cap-box-n05 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .weapon-cap-cell .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t5"] ~ .cap-box-track-row .cap-box-n05 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .weapon-cap-cell .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t6"] ~ .cap-box-track-row .cap-box-n06 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .weapon-cap-cell .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t6"] ~ .cap-box-track-row .cap-box-n06 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .weapon-cap-cell .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t7"] ~ .cap-box-track-row .cap-box-n07 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .weapon-cap-cell .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t7"] ~ .cap-box-track-row .cap-box-n07 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .weapon-cap-cell .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t8"] ~ .cap-box-track-row .cap-box-n08 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .weapon-cap-cell .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t8"] ~ .cap-box-track-row .cap-box-n08 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n08,
+input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .weapon-cap-cell .cap-box-n09,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t9"] ~ .cap-box-track-row .cap-box-n09 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n08,
+input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .weapon-cap-cell .cap-box-n09,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t9"] ~ .cap-box-track-row .cap-box-n09 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n08,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n09,
+input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .weapon-cap-cell .cap-box-n10,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n09,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="t10"] ~ .cap-box-track-row .cap-box-n10 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n08,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n09,
+input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .weapon-cap-cell .cap-box-n10,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n09,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="t10"] ~ .cap-box-track-row .cap-box-n10 {
+	border-radius: 3px;
+	display: inline-block;
+	height: 11px;
+	width: 9px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n08,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n09,
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-box-n10,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n09,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-box-n10 {
+	border-radius: 1px;
+	display: inline-block;
+	height: 9px;
+	width: 8px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e10"] ~ .cap-box-track-row .cap-type-str {
+	content: "Belt";
+	display: inline;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n08,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n09,
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-box-n10,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n09,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-box-n10 {
+	border-radius: 1px;
+	display: inline-block;
+	height: 9px;
+	width: 8px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e10"] ~ .cap-box-track-row .cap-type-str {
+	content: "Belt";
+	display: inline;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n08,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n09,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n10,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n11,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n12,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n13,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n14,
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-box-n15,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n09,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n10,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n11,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n12,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n13,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n14,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-box-n15 {
+	border-radius: 1px;
+	display: inline-block;
+	height: 9px;
+	width: 8px;
+}
+
+input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_display_mdr"][value="e15"] ~ .cap-box-track-row .cap-type-str {
+	content: "Belt";
+	display: inline;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n01,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n02,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n03,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n04,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n05,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n06,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n07,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n08,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n09,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n10,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n11,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n12,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n13,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n14,
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-box-n15,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n01,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n02,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n03,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n04,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n05,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n06,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n07,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n08,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n09,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n10,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n11,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n12,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n13,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n14,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-box-n15 {
+	border-radius: 1px;
+	display: inline-block;
+	height: 9px;
+	width: 8px;
+}
+
+input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-type-str,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .cap-box-track-row .cap-type-str {
+	content: "Belt";
+	display: inline;
+}
+
+
+
+/* ── Cap counter cell (main row — read-only X/N display) ─────────────── */
+.ui-dialog .tab-content .charsheet .weapon-cap-counter-cell {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	padding: 0 4px;
+}
+
+.ui-dialog .tab-content .charsheet .cap-counter-display {
+	color: var(--cs_txt_primary);
+	font-size: 90%;
+	font-weight: bold;
+	text-align: center;
+}
+
+/* ── Cap tracking section in summary row ────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-cap {
+	align-items: center;
+	border-top: 1px solid var(--cs_input_border);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding-top: 4px;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .cap-box-track-row {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px;
+}
+
+/* All cap boxes in summary hidden by default — shown by cap_display rules */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-cap .cap-box {
+	display: none;
+}
+
+/* ── Mod section collapse ─────────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-mods-collapsible {
+	display: block;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mods_collapsed"][value="1"] ~ .sheet-weapon-mods-collapsible,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_weapon_mods_collapsed_mdr"][value="1"] ~ .sheet-weapon-mods-collapsible {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-mods-toggle-btn {
+	background: var(--cs_section_head_bg_color);
+	border: none;
+	color: var(--cs_section_head_txt);
+	cursor: pointer;
+	font-size: 85%;
+	font-weight: bold;
+	padding: 3px 6px;
+	text-align: left;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-mods-toggle-btn:hover {
+	filter: brightness(1.1);
+}
+
+/* Mods btn: show – when expanded (value=0), + when collapsed (value=1) */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mods_collapsed"][value="1"] ~ .sheet-weapon-mods-toggle-btn::after,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_weapon_mods_collapsed_mdr"][value="1"] ~ .sheet-weapon-mods-toggle-btn::after {
+	content: " [+]";
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mods_collapsed"][value="0"] ~ .sheet-weapon-mods-toggle-btn::after,
+.ui-dialog .tab-content .charsheet .repitem input[name="attr_weapon_mods_collapsed_mdr"][value="0"] ~ .sheet-weapon-mods-toggle-btn::after {
+	content: " [–]";
+}
+
+/* ── Ammo and range display in summary net row ───────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-ammo-display,
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-range-display {
+	color: var(--cs_txt_primary);
+	font-size: 90%;
+	min-width: 48px;
 }
 /* ------------------------------------ Comabt - End ------------------------------------ */
 
@@ -8780,7 +10033,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 	text-align: center;
 }
 .sheet-rolltemplate-coc-body-hit-loc caption {
@@ -8822,7 +10075,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-defence caption {
 	text-align: center;
@@ -8868,7 +10121,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-defence-1 caption {
 	text-align: center;
@@ -8996,7 +10249,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 
 .sheet-rolltemplate-coc caption,
@@ -9143,7 +10396,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-attack caption {
 	text-align: center;
@@ -9412,7 +10665,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 
 .sheet-rolltemplate-coc-bp-dice-roll caption {
@@ -9508,7 +10761,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-bomadness-da-rt caption {
 	text-align: center;
@@ -9528,7 +10781,7 @@ select[name="attr_damage_bonus"] {
 }
 .sheet-rolltemplate-coc-bomadness-da-rt td.sheet-template_value {
 	text-align: center;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-bomadness-da-rt .inlinerollresult  {
 	display: inline-block;
@@ -9549,7 +10802,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-bomadness-rt caption {
 	text-align: center;
@@ -9569,7 +10822,7 @@ select[name="attr_damage_bonus"] {
 }
 .sheet-rolltemplate-coc-bomadness-rt td.sheet-template_value {
 	text-align: center;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-bomadness-rt .inlinerollresult  {
 	display: inline-block;
@@ -9590,7 +10843,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-pulp-bomadness-rt caption {
 	text-align: center;
@@ -9610,7 +10863,7 @@ select[name="attr_damage_bonus"] {
 }
 .sheet-rolltemplate-coc-pulp-bomadness-rt td.sheet-template_value {
 	text-align: center;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-pulp-bomadness-rt .inlinerollresult  {
 	display: inline-block;
@@ -9630,7 +10883,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-bomadness-da-summ caption {
 	text-align: center;
@@ -9650,7 +10903,7 @@ select[name="attr_damage_bonus"] {
 }
 .sheet-rolltemplate-coc-bomadness-da-summ td.sheet-template_value {
 	text-align: center;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-bomadness-da-summ .inlinerollresult  {
 	display: inline-block;
@@ -9671,7 +10924,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-bomadness-summ caption {
 	text-align: center;
@@ -9691,7 +10944,7 @@ select[name="attr_damage_bonus"] {
 }
 .sheet-rolltemplate-coc-bomadness-summ td.sheet-template_value {
 	text-align: center;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-bomadness-summ .inlinerollresult  {
 	display: inline-block;
@@ -9712,7 +10965,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-pulp-bomadness-summ caption {
 	text-align: center;
@@ -9732,7 +10985,7 @@ select[name="attr_damage_bonus"] {
 }
 .sheet-rolltemplate-coc-pulp-bomadness-summ td.sheet-template_value {
 	text-align: center;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-pulp-bomadness-summ .inlinerollresult  {
 	display: inline-block;
@@ -9793,7 +11046,7 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 	border: solid 1px black;
 	color: black;
-	background-color: #ffffff;
+	background-color: var(--cs_txt_accent);
 }
 .sheet-rolltemplate-coc-minionattack caption {
 	text-align: center;

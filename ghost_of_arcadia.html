@@ -20664,7 +20664,7 @@
 								<div class="flex-cell weapon-damage-bonus"><span data-i18n="db-z">DB</span></div>
 								<div class="flex-cell weapon-range"><span data-i18n="range-u">Range</span></div>
 								<div class="flex-cell weapon-attacks"><span data-i18n="attacks-u">Attacks</span></div>
-								<div class="flex-cell weapon-ammo"><span data-i18n="ammo-u">Ammo</span></div>
+								<div class="flex-cell weapon-ammo"><span data-i18n="cap-u">Cap</span></div>
 								<div class="flex-cell weapon-malf"><span data-i18n="malf-u">Malf</span></div>
 								<div class="flex-cell weapon-contested"><span data-i18n="constested-u">Contested</span></div>
 								<div class="flex-cell weapon-strain"><span data-i18n="strain-u">Strain</span></div>
@@ -20716,13 +20716,178 @@
 								<input type="hidden" name="attr_weapon1_mdr_effective_bonus" value="0"/>
 								<input type="hidden" name="attr_weapon1_mdr_mode_mult" value="1"/>
 								<input type="hidden" name="attr_weapon1_mdr_computed_hit" value="0"/>
+								<input type="hidden" name="attr_weapon1_mdr_tags_display" value=""/>
+								<input type="hidden" name="attr_weapon1_mdr_net_hit_display" value=""/>
+								<input type="hidden" name="attr_weapon1_mdr_net_penalty_display" value=""/>
 								<input type="hidden" name="attr_weapon1_mdr_mode_label" value="SS"/>
 								<input type="hidden" name="attr_weapon1_mdr_mode_num" value="10"/>
 								<input type="hidden" name="attr_weapon1_mdr_mode_penalty" value="0"/>
 								<input type="hidden" name="attr_weapon1_mdr_ammo_type_label" value=""/>
 								<input type="hidden" name="attr_weapon1_mdr_mod_hit" value="0"/>
 								<input type="hidden" name="attr_weapon1_mdr_strain" value="0"/>
-								<div class="flex-cell weapon-name"><input type="text" name="attr_weapon1_mdr_name" placeholder="Weapon Name" data-i18n-placeholder="weaponname-u"/></div>
+								<input type="hidden" name="attr_weapon1_mdr_name" value=""/>
+								<input type="hidden" name="attr_weapon1_mdr_cap_rating" value=""/>
+								<input type="hidden" name="attr_weapon1_mdr_cap_pcell" value="0"/>
+								<div class="flex-cell weapon-name sheet-weapon-preset-name-cell">
+									<input type="hidden" name="attr_weapon1_skill_class" value=""/>
+									<!-- Weapon Preset: melee_weapons -->
+									<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-melee">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_weapon_preset_melee">
+											<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+											<optgroup label="Melee">
+												<option value="arc_blade" data-i18n="weapon_arc_blade-u">Arc-Blade</option>
+												<option value="arc_katana" data-i18n="weapon_arc_katana-u">Arc-Katana</option>
+												<option value="combat_axe" data-i18n="weapon_combat_axe-u">Combat Axe</option>
+												<option value="combat_knife" data-i18n="weapon_combat_knife-u">Combat Knife</option>
+												<option value="improvised_club" data-i18n="weapon_improvised_club-u">Improvised Club</option>
+												<option value="improvised_weapon_pistol" data-i18n="weapon_improvised_weapon_pistol-u">Improvised Weapon (Handgun)</option>
+												<option value="improvised_weapon_rifle" data-i18n="weapon_improvised_weapon_rifle-u">Improvised Weapon (Rifle)</option>
+												<option value="mono_blade_katana" data-i18n="weapon_mono_blade_katana-u">Mono-Blade Katana</option>
+												<option value="stun_baton" data-i18n="weapon_stun_baton-u">Stun Baton</option>
+												<option value="warded_glaive" data-i18n="weapon_warded_glaive-u">Warded Glaive</option>
+											</optgroup>
+											<optgroup label="Cyberware">
+												<option value="veil_renders" data-i18n="weapon_veil_renders-u">Veil Renders (Cyberware)</option>
+												<option value="wraith_claws" data-i18n="weapon_wraith_claws-u">Wraith Claws (Cyberware)</option>
+											</optgroup>
+										</select>
+									</div>
+									<!-- Weapon Preset: throw -->
+									<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-throw">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_weapon_preset_throw">
+											<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+											<optgroup label="Thrown">
+												<option value="glass_bottle" data-i18n="weapon_glass_bottle-u">Glass Bottle (Improvised)</option>
+												<option value="throwing_knife" data-i18n="weapon_throwing_knife-u">Throwing Knife</option>
+												<option value="throwing_star" data-i18n="weapon_throwing_star-u">Throwing Star</option>
+												<option value="tomahawk" data-i18n="weapon_tomahawk-u">Tomahawk</option>
+											</optgroup>
+										</select>
+									</div>
+									<!-- Weapon Preset: firearms_handgun -->
+									<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-handgun">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_weapon_preset_handgun">
+											<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+											<optgroup label="Hold-Out">
+												<option value="vexmod_whisper_mk2" data-i18n="weapon_vexmod_whisper_mk2-u">VexMod 'Whisper' Mk2</option>
+												<option value="whipsting_derringer" data-i18n="weapon_whipsting_derringer-u">Whipsting Derringer</option>
+											</optgroup>
+											<optgroup label="Light">
+												<option value="corvus_flatline" data-i18n="weapon_corvus_flatline-u">Corvus 'Flatline'</option>
+												<option value="farsight_9_compact" data-i18n="weapon_farsight_9_compact-u">Farsight-9 Compact</option>
+												<option value="krontek_diplomat" data-i18n="weapon_krontek_diplomat-u">Krontek 'Diplomat'</option>
+												<option value="myriad_avenger_p3" data-i18n="weapon_myriad_avenger_p3-u">Myriad Avenger P3</option>
+												<option value="sablecorp_emberlash_pistol" data-i18n="weapon_sablecorp_emberlash_pistol-u">SableCorp Emberlash</option>
+												<option value="skyline_firehawk" data-i18n="weapon_skyline_firehawk-u">Skyline Firehawk</option>
+												<option value="talon_s7_service" data-i18n="weapon_talon_s7_service-u">Talon S7 Service</option>
+											</optgroup>
+											<optgroup label="Heavy">
+												<option value="blackforge_twinser" data-i18n="weapon_blackforge_twinser-u">Blackforge Twinser</option>
+												<option value="reaver_mk6_revolver" data-i18n="weapon_reaver_mk6_revolver-u">Reaver Mk6 Revolver</option>
+												<option value="vaelion_arcflare" data-i18n="weapon_vaelion_arcflare-u">Vaelion Arcflare</option>
+												<option value="vaelion_paladin_50_exec" data-i18n="weapon_vaelion_paladin_50_exec-u">Vaelion Paladin .50 Exec</option>
+												<option value="vantix_hammer_45" data-i18n="weapon_vantix_hammer_45-u">Vantix Hammer .45</option>
+											</optgroup>
+											<optgroup label="Machine Pistols">
+												<option value="blackforge_splinter_9" data-i18n="weapon_blackforge_splinter_9-u">Blackforge Splinter 9</option>
+												<option value="havokline_mkzero" data-i18n="weapon_havokline_mkzero-u">HavokLine MKZero</option>
+												<option value="zetta_arms_viper_12" data-i18n="weapon_zetta_arms_viper_12-u">Zetta Arms Viper-12</option>
+											</optgroup>
+											<optgroup label="Tranquilizer">
+												<option value="vexmod_hush_tranq_pistol" data-i18n="weapon_vexmod_hush_tranq_pistol-u">VexMod 'Hush' Tranq Handgun</option>
+											</optgroup>
+										</select>
+									</div>
+									<!-- Weapon Preset: firearms_shotgun -->
+									<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-shotgun">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_weapon_preset_shotgun">
+											<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+											<optgroup label="Shotgun">
+												<option value="blackforge_razorjaw" data-i18n="weapon_blackforge_razorjaw-u">Blackforge Razorjaw</option>
+												<option value="blackforge_splatterhawk" data-i18n="weapon_blackforge_splatterhawk-u">Blackforge Splatterhawk</option>
+												<option value="ironbrand_riot_870" data-i18n="weapon_ironbrand_riot_870-u">Ironbrand Riot 870</option>
+												<option value="sablecorp_veilshot_4" data-i18n="weapon_sablecorp_veilshot_4-u">SableCorp Veilshot 4</option>
+												<option value="talon_tactical_sentry" data-i18n="weapon_talon_tactical_sentry-u">Talon Tactical Sentry</option>
+												<option value="vaelion_arclance_6" data-i18n="weapon_vaelion_arclance_6-u">Vaelion Arclance 6</option>
+												<option value="volkov_harrow_10_drum" data-i18n="weapon_volkov_harrow_10_drum-u">Volkov Harrow-10 Drum</option>
+											</optgroup>
+										</select>
+									</div>
+									<!-- Weapon Preset: firearms_rifle -->
+									<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-rifle">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_weapon_preset_rifle">
+											<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+											<optgroup label="Assault Rifles">
+												<option value="blackforge_wasp" data-i18n="weapon_blackforge_wasp-u">Blackforge Wasp</option>
+												<option value="ironbrand_striker" data-i18n="weapon_ironbrand_striker-u">Ironbrand Striker</option>
+												<option value="krontek_peacekeeper" data-i18n="weapon_krontek_peacekeeper-u">Krontek Peacekeeper</option>
+												<option value="sablecorp_emberlash_ar" data-i18n="weapon_sablecorp_emberlash_ar-u">SableCorp Emberlash AR</option>
+												<option value="talon_s13_recon" data-i18n="weapon_talon_s13_recon-u">Talon S13 Recon</option>
+												<option value="volkov_reaver_22" data-i18n="weapon_volkov_reaver_22-u">Volkov Reaver-22</option>
+											</optgroup>
+											<optgroup label="PDW">
+												<option value="talon_s6_compact" data-i18n="weapon_talon_s6_compact-u">Talon S6 Compact</option>
+											</optgroup>
+											<optgroup label="DMR">
+												<option value="ironbrand_watcher_17s" data-i18n="weapon_ironbrand_watcher_17s-u">Ironbrand Watcher 17-S</option>
+											</optgroup>
+											<optgroup label="Sniper Rifles">
+												<option value="blackforge_manhunter" data-i18n="weapon_blackforge_manhunter-u">Blackforge Manhunter</option>
+												<option value="ironbrand_watcher_17" data-i18n="weapon_ironbrand_watcher_17-u">Ironbrand Watcher 17</option>
+												<option value="sablecorp_veilpiercer" data-i18n="weapon_sablecorp_veilpiercer-u">SableCorp Veilpiercer</option>
+												<option value="talon_s50_sentinel" data-i18n="weapon_talon_s50_sentinel-u">Talon S50 Sentinel</option>
+												<option value="vaelion_eclipse" data-i18n="weapon_vaelion_eclipse-u">Vaelion Eclipse</option>
+												<option value="vexmod_linecutter_mk4" data-i18n="weapon_vexmod_linecutter_mk4-u">VexMod 'Linecutter' Mk IV</option>
+											</optgroup>
+											<optgroup label="Tranquilizer">
+												<option value="coreline_hush_tranq_rifle" data-i18n="weapon_coreline_hush_tranq_rifle-u">Coreline 'Hush' Tranq Rifle</option>
+											</optgroup>
+										</select>
+									</div>
+									<!-- Weapon Preset: firearms_smg -->
+									<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-smg">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_weapon_preset_smg">
+											<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+											<optgroup label="SMG">
+												<option value="blackforge_trencher_12" data-i18n="weapon_blackforge_trencher_12-u">Blackforge Trencher 12</option>
+												<option value="havokline_hydrax" data-i18n="weapon_havokline_hydrax-u">HavokLine HydraX</option>
+												<option value="maverick_latch_5" data-i18n="weapon_maverick_latch_5-u">Maverick Latch-5</option>
+												<option value="razorline_nixie" data-i18n="weapon_razorline_nixie-u">RazorLine 'Nixie'</option>
+												<option value="sablecorp_veilburst_smg" data-i18n="weapon_sablecorp_veilburst_smg-u">SableCorp Veilburst SMG</option>
+												<option value="sentryguard_r40" data-i18n="weapon_sentryguard_r40-u">SentryGuard R40</option>
+												<option value="talon_s10_apex" data-i18n="weapon_talon_s10_apex-u">Talon S10 Apex</option>
+												<option value="vaelion_pulsebreaker" data-i18n="weapon_vaelion_pulsebreaker-u">Vaelion Pulsebreaker</option>
+												<option value="vexmod_ghostline_v2" data-i18n="weapon_vexmod_ghostline_v2-u">VexMod Ghostline V2</option>
+												<option value="volkov_f74_drumfire" data-i18n="weapon_volkov_f74_drumfire-u">Volkov F74 Drumfire</option>
+											</optgroup>
+										</select>
+									</div>
+									<!-- Weapon Preset: heavy_weapons -->
+									<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-heavy">
+										<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_weapon_preset_heavy">
+											<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+											<optgroup label="Heavy">
+												<option value="arc_disruptor_rifle" data-i18n="weapon_arc_disruptor_rifle-u">Arc Disruptor Rifle</option>
+												<option value="arclance_anti_armor_rifle" data-i18n="weapon_arclance_anti_armor_rifle-u">ArcLance Anti-Armor Rifle</option>
+												<option value="crownbreaker_recoil_cannon" data-i18n="weapon_crownbreaker_recoil_cannon-u">Crownbreaker Recoil Cannon</option>
+												<option value="riftpiercer_rocket_launcher" data-i18n="weapon_riftpiercer_rocket_launcher-u">Riftpiercer Rocket Launcher</option>
+												<option value="tempest_shard_scattergun" data-i18n="weapon_tempest_shard_scattergun-u">Tempest Shard Scattergun</option>
+												<option value="veilcore_breach_cannon" data-i18n="weapon_veilcore_breach_cannon-u">Veilcore Breach Cannon</option>
+											</optgroup>
+											<optgroup label="Machine Guns">
+												<option value="razorline_mg7_lmg" data-i18n="weapon_razorline_mg7_lmg-u">Razorline MG-7 LMG</option>
+												<option value="vaultline_torchwall_hmg" data-i18n="weapon_vaultline_torchwall_hmg-u">Vaultline 'Torchwall' HMG</option>
+											</optgroup>
+										</select>
+									</div>
+								</div>
 								<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_roll_weapon1_mdr_attack_impale_checkbox" value="1"/></div>
 								<div class="flex-cell weapon-skill">
 									<select name="attr_weapon1_skill_mdr">
@@ -20732,7 +20897,8 @@
 										<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Handgun</option>
 										<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
 										<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
-										<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+										<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle</option>
+										<option value="@{firearms_shotgun_mdr}" data-i18n="firearms_shotgun-u">Shotgun</option>
 										<option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
 										<option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
 										<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
@@ -20756,7 +20922,11 @@
 								</div>
 								<div class="flex-cell weapon-range"><input type="text" name="attr_weapon1_mdr_range" placeholder="Range" data-i18n-placeholder="range-u"/></div>
 								<div class="flex-cell weapon-attacks"><input type="text" name="attr_weapon1_mdr_attacks" placeholder="Attacks" data-i18n-placeholder="attacks-u"/></div>
-								<div class="flex-cell weapon-ammo"><input type="text" name="attr_weapon1_mdr_ammo" placeholder="Ammo" data-i18n-placeholder="ammo-u"/></div>
+								<input type="hidden" name="attr_weapon1_mdr_cap_display" value="b0"/>
+								<input type="hidden" name="attr_weapon1_mdr_cap_counter" value="—"/>
+								<div class="flex-cell weapon-ammo weapon-cap-cell weapon-cap-counter-cell">
+									<span class="cap-counter-display" name="attr_weapon1_mdr_cap_counter"></span>
+								</div>
 								<div class="flex-cell weapon-malf"><input type="text" name="attr_weapon1_mdr_malf" placeholder="Malf" data-i18n-placeholder="malf-u"/></div>
 								<div class="flex-cell weapon-contested"><input type="text" name="attr_weapon1_mdr_contested" placeholder="-" data-i18n-placeholder="dash-z"/></div>
 								<div class="flex-cell weapon-strain"><input type="text" name="attr_weapon1_mdr_strain" placeholder="Strain" data-i18n-placeholder="strain-u"/></div>
@@ -20765,16 +20935,57 @@
 								</div>
 							</div>
 							<div class="sheet-weaponblock-advanced">
+								<!-- Summary row -->
+								<div class="sheet-weapon-adv-summary-row">
+									<div class="sheet-weapon-adv-summary-tags">
+										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_active_tags-u">Active</span>
+										<span class="sheet-weapon-adv-tags-display" name="attr_weapon1_mdr_tags_display"></span>
+									</div>
+									<div class="sheet-weapon-adv-summary-net">
+										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_hit-u">Net hit</span>
+										<span class="sheet-weapon-adv-net-display sheet-weapon-adv-net-hit" name="attr_weapon1_mdr_net_hit_display"></span>
+										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_penalty-u">Penalty</span>
+										<span class="sheet-weapon-adv-net-display sheet-weapon-adv-net-penalty" name="attr_weapon1_mdr_net_penalty_display"></span>
+										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo</span>
+										<span class="sheet-weapon-adv-net-display sheet-weapon-adv-ammo-display" name="attr_weapon1_mdr_ammo_type_label"></span>
+										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
+										<span class="sheet-weapon-adv-net-display sheet-weapon-adv-range-display" name="attr_weapon1_mdr_range_band"></span>
+									</div>
+									<div class="sheet-weapon-adv-summary-cap">
+										<input type="hidden" name="attr_weapon1_mdr_cap_display" value="b0"/>
+										<div class="cap-box-track-row">
+											<input type="checkbox" class="cap-box cap-box-n01" name="attr_weapon1_mdr_cap_box_01" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n02" name="attr_weapon1_mdr_cap_box_02" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n03" name="attr_weapon1_mdr_cap_box_03" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n04" name="attr_weapon1_mdr_cap_box_04" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n05" name="attr_weapon1_mdr_cap_box_05" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n06" name="attr_weapon1_mdr_cap_box_06" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n07" name="attr_weapon1_mdr_cap_box_07" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n08" name="attr_weapon1_mdr_cap_box_08" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n09" name="attr_weapon1_mdr_cap_box_09" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n10" name="attr_weapon1_mdr_cap_box_10" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n11" name="attr_weapon1_mdr_cap_box_11" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n12" name="attr_weapon1_mdr_cap_box_12" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n13" name="attr_weapon1_mdr_cap_box_13" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n14" name="attr_weapon1_mdr_cap_box_14" value="1"/>
+											<input type="checkbox" class="cap-box cap-box-n15" name="attr_weapon1_mdr_cap_box_15" value="1"/>
+											<span class="cap-type-label"></span>
+											<button type="action" class="cap-reload-btn" name="act_weapon1_cap_reload">↺</button>
+										</div>
+									</div>
+								</div>
 								<div class="sheet-weapon-advanced-grid">
 									<!-- Mode -->
 									<div class="sheet-weapon-adv-group">
 										<div class="sheet-weapon-adv-label" data-i18n="weapon_mode-u">Mode</div>
-										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_mode">
-											<option value="ss" data-i18n="weapon_mode_ss-u">SS — Single Shot</option>
-											<option value="sa" data-i18n="weapon_mode_sa-u">SA — Semi-Auto</option>
-											<option value="bf" data-i18n="weapon_mode_bf-u">BF — Burst Fire (×2)</option>
-											<option value="fa" data-i18n="weapon_mode_fa-u">FA — Full Auto (×3)</option>
-										</select>
+										<input type="hidden" name="attr_weapon1_mdr_mode" value="ss"/>
+										<input type="hidden" name="attr_weapon1_mdr_modes_available" value=""/>
+										<div class="sheet-weapon-mode-grid">
+											<button type="action" class="sheet-weapon-mode-btn mode-ss" name="act_weapon1_mode_ss">SS</button>
+											<button type="action" class="sheet-weapon-mode-btn mode-sa" name="act_weapon1_mode_sa">SA</button>
+											<button type="action" class="sheet-weapon-mode-btn mode-bf" name="act_weapon1_mode_bf">BF</button>
+											<button type="action" class="sheet-weapon-mode-btn mode-fa" name="act_weapon1_mode_fa">FA</button>
+										</div>
 										<select class="sheet-weapon-adv-select-hidden" name="attr_weapon1_mdr_mode_num">
 											<option value="10">SS</option>
 											<option value="10">SA</option>
@@ -20785,105 +20996,85 @@
 									<!-- Ammo -->
 									<div class="sheet-weapon-adv-group">
 										<div class="sheet-weapon-adv-label" data-i18n="weapon_ammo_type-u">Ammo loaded</div>
-										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_ammo_type">
-											<option value="standard" data-i18n="ammo_standard-u">Standard</option>
-											<option value="veil_charged" data-i18n="ammo_veil_charged-u">Veil-Charged ([V])</option>
-											<option value="ap_slugs" data-i18n="ammo_ap_slugs-u">AP Slugs (+AP2, −1 die)</option>
-											<option value="shock" data-i18n="ammo_shock-u">Shock Rounds (+2d6 mech)</option>
-											<option value="hollow_point" data-i18n="ammo_hollow_point-u">Hollow Point (cond)</option>
-											<option value="subsonic" data-i18n="ammo_subsonic-u">Subsonic (BF suppressed)</option>
-											<option value="breacher" data-i18n="ammo_breacher-u">Breacher Slugs (struct)</option>
-										</select>
-										<label class="sheet-weapon-adv-checkbox-label">
-											<input type="checkbox" name="attr_weapon1_mdr_ammo_active" value="1"/>
-											<span data-i18n="weapon_ammo_active-u">Special ammo active</span>
-										</label>
+										<input type="hidden" name="attr_weapon1_mdr_ammo_type" value="standard"/>
+										<input type="hidden" name="attr_weapon1_mdr_ammo_active" value="0"/>
+										<input type="hidden" name="attr_weapon1_mdr_category" value=""/>
+										<input type="hidden" name="attr_weapon1_mdr_max_range" value=""/>
+										<div class="sheet-weapon-ammo-grid">
+											<button type="action" class="sheet-ammo-btn ammo-ap-slugs" name="act_weapon1-ammo-ap">AP Slugs</button>
+											<button type="action" class="sheet-ammo-btn ammo-breacher" name="act_weapon1-ammo-br">Breacher</button>
+											<button type="action" class="sheet-ammo-btn ammo-hollow-point" name="act_weapon1-ammo-hp">Hollow Pt</button>
+											<button type="action" class="sheet-ammo-btn ammo-shock" name="act_weapon1-ammo-sh">Shock</button>
+											<button type="action" class="sheet-ammo-btn ammo-subsonic" name="act_weapon1-ammo-su">Subsonic</button>
+											<button type="action" class="sheet-ammo-btn ammo-veil-charged" name="act_weapon1-ammo-vc">Veil-Chrgd</button>
+										</div>
 									</div>
 									<!-- Range -->
 									<div class="sheet-weapon-adv-group">
 										<div class="sheet-weapon-adv-label" data-i18n="weapon_range_band-u">Range</div>
-										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_range_band">
-											<option value="engaged" data-i18n="range_engaged-u">Engaged</option>
-											<option value="short" data-i18n="range_short-u">Short</option>
-											<option value="medium" data-i18n="range_medium-u">Medium</option>
-											<option value="long" data-i18n="range_long-u">Long</option>
-											<option value="extreme" data-i18n="range_extreme-u">Extreme</option>
-										</select>
-									</div>
-								</div>
-								<div class="sheet-weapon-advanced-grid">
-									<!-- Optics -->
-									<div class="sheet-weapon-adv-group">
-										<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
-										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_optics">
-											<option value="none" data-i18n="mod_none-u">--- none ---</option>
-											<option value="reflex" data-i18n="mod_reflex_sight-u">Reflex Sight</option>
-											<option value="magnification" data-i18n="mod_magnification_scope-u">Magnification Scope</option>
-											<option value="thermal" data-i18n="mod_thermal_scope-u">Thermal Scope</option>
-										</select>
-									</div>
-									<!-- Barrel / Muzzle -->
-									<div class="sheet-weapon-adv-group">
-										<div class="sheet-weapon-adv-label" data-i18n="weapon_barrel-u">Barrel / Muzzle</div>
-										<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_barrel">
-											<option value="" data-i18n="mod_none-u">--- none ---</option>
-											<option value="Silencer" data-i18n="mod_silencer-u">Silencer</option>
-											<option value="Suppressor" data-i18n="mod_suppressor-u">Suppressor</option>
-											<option value="Precision Choke" data-i18n="mod_precision_choke-u">Precision Choke</option>
-											<option value="Slug Barrel" data-i18n="mod_slug_barrel-u">Slug Barrel</option>
-											<option value="Compensator" data-i18n="mod_compensator-u">Compensator</option>
-										</select>
-									</div>
-									<!-- Penalty reduce -->
-									<div class="sheet-weapon-adv-group">
-										<div class="sheet-weapon-adv-label" data-i18n="weapon_mod_bonuses-u">Mod bonuses</div>
-										<div class="sheet-weapon-adv-mods">
-											<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_penalty_reduce-u">Penalty reduce</span>
-											<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon1_mdr_mod_penalty_reduce" value="0" placeholder="0"/>
+										<input type="hidden" name="attr_weapon1_mdr_range_band" value="short"/>
+										<div class="sheet-weapon-range-grid">
+											<button type="action" class="sheet-range-btn range-engaged" name="act_weapon1-range-en">Engaged</button>
+											<button type="action" class="sheet-range-btn range-short"   name="act_weapon1-range-sh">Short</button>
+											<button type="action" class="sheet-range-btn range-medium"  name="act_weapon1-range-md">Medium</button>
+											<button type="action" class="sheet-range-btn range-long"    name="act_weapon1-range-ln">Long</button>
+											<button type="action" class="sheet-range-btn range-extreme" name="act_weapon1-range-ex">Extreme</button>
 										</div>
 									</div>
 								</div>
-								<div class="sheet-weapon-advanced-grid">
-									<!-- Internal -->
-									<div class="sheet-weapon-adv-group">
-										<div class="sheet-weapon-adv-label" data-i18n="weapon_internal-u">Internal</div>
-										<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon1_mdr_mod_smartlink" value="1"/><span data-i18n="mod_smartlink-u">Smartlink</span></label>
-										<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon1_mdr_mod_irs" value="1"/><span data-i18n="mod_irs-u">Internal Recoil System</span></label>
-										<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon1_mdr_mod_qst" value="1"/><span data-i18n="mod_qst-u">Quick-Select Trigger</span></label>
-										<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon1_mdr_mod_qls" value="1"/><span data-i18n="mod_qls-u">Quick-Load System</span></label>
-										<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon1_mdr_mod_biocoded" value="1"/><span data-i18n="mod_biocoded-u">Bio-Coded</span></label>
+								<input type="hidden" name="attr_weapon1_mdr_mods_collapsed" value="0"/>
+								<button type="action" class="sheet-weapon-mods-toggle-btn" name="act_weapon1_mods_toggle" data-i18n="weapon_mods_toggle-u">Mods ▼</button>
+								<div class="sheet-weapon-mods-collapsible">
+									<div class="sheet-weapon-advanced-grid">
+										<!-- Optics -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_optics">
+												<option value="none" data-i18n="mod_none-u">--- none ---</option>
+												<option value="magnification" data-i18n="mod_magnification_scope-u">Magnification Scope</option>
+												<option value="reflex" data-i18n="mod_reflex_sight-u">Reflex Sight</option>
+												<option value="thermal" data-i18n="mod_thermal_scope-u">Thermal Scope</option>
+											</select>
+										</div>
+										<!-- Barrel / Muzzle -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_barrel-u">Barrel / Muzzle</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_barrel">
+												<option value="" data-i18n="mod_none-u">--- none ---</option>
+												<option value="Compensator" data-i18n="mod_compensator-u">Compensator</option>
+												<option value="Precision Choke" data-i18n="mod_precision_choke-u">Precision Choke</option>
+												<option value="Silencer" data-i18n="mod_silencer-u">Silencer</option>
+												<option value="Slug Barrel" data-i18n="mod_slug_barrel-u">Slug Barrel</option>
+												<option value="Suppressor" data-i18n="mod_suppressor-u">Suppressor</option>
+											</select>
+										</div>
+										<!-- Internal -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_internal-u">Internal</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_mod_internal">
+												<option value="none" data-i18n="mod_none-u">--- none ---</option>
+												<option value="biocoded" data-i18n="mod_biocoded-u">Bio-Coded</option>
+												<option value="irs" data-i18n="mod_irs-u">Internal Recoil System</option>
+												<option value="qls" data-i18n="mod_qls-u">Quick-Load System</option>
+												<option value="qst" data-i18n="mod_qst-u">Quick-Select Trigger</option>
+												<option value="smartlink" data-i18n="mod_smartlink-u">Smartlink</option>
+											</select>
+										</div>
 									</div>
-									<!-- Modular Rail -->
-									<div class="sheet-weapon-adv-group">
-										<div class="sheet-weapon-adv-label" data-i18n="weapon_modular_rail-u">Modular Rail</div>
-										<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon1_mdr_mod_mr" value="1"/><span data-i18n="weapon_modular_rail-u">Installed</span></label>
-										<select class="sheet-weapon-adv-select sheet-weapon-adv-mr-slot" name="attr_weapon1_mdr_mod_mr_slot">
-											<option value="none" data-i18n="mod_none-u">--- bonus slot ---</option>
-										<optgroup label="Optics">
-											<option value="reflex_mr" data-i18n="mod_reflex_sight-u">Reflex Sight</option>
-											<option value="magnification_mr" data-i18n="mod_magnification_scope-u">Magnification Scope</option>
-											<option value="thermal_mr" data-i18n="mod_thermal_scope-u">Thermal Scope</option>
-										</optgroup>
-										<optgroup label="Barrel / Muzzle">
-											<option value="Silencer" data-i18n="mod_silencer-u">Silencer</option>
-											<option value="Suppressor" data-i18n="mod_suppressor-u">Suppressor</option>
-											<option value="Precision Choke" data-i18n="mod_precision_choke-u">Precision Choke</option>
-											<option value="Slug Barrel" data-i18n="mod_slug_barrel-u">Slug Barrel</option>
-											<option value="Compensator" data-i18n="mod_compensator-u">Compensator</option>
-										</optgroup>
-										<optgroup label="Internal">
-											<option value="sl_mr" data-i18n="mod_smartlink-u">Smartlink</option>
-											<option value="irs_mr" data-i18n="mod_irs-u">Internal Recoil System</option>
-											<option value="qst_mr" data-i18n="mod_qst-u">Quick-Select Trigger</option>
-											<option value="qls_mr" data-i18n="mod_qls-u">Quick-Load System</option>
-											<option value="bc_mr" data-i18n="mod_biocoded-u">Bio-Coded</option>
-										</optgroup>
-										</select>
-									</div>
-									<!-- Traits -->
-									<div class="sheet-weapon-adv-group sheet-weapon-adv-traits-cell">
-										<div class="sheet-weapon-adv-label" data-i18n="weapon_trait-u">Traits</div>
-										<input type="text" name="attr_weapon_traits" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
+									<div class="sheet-weapon-advanced-grid">
+										<!-- Mod bonuses -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_mod_bonuses-u">Mod bonuses</div>
+											<div class="sheet-weapon-adv-mods">
+												<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_penalty_reduce-u">Penalty reduce</span>
+												<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon1_mdr_mod_penalty_reduce" value="0" placeholder="0"/>
+											</div>
+										</div>
+										<!-- Traits -->
+										<div class="sheet-weapon-adv-group sheet-weapon-adv-traits-cell">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_trait-u">Traits</div>
+											<input type="text" name="attr_weapon_traits" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -20905,13 +21096,178 @@
 									<input type="hidden" name="attr_weapon_effective_bonus" value="0"/>
 									<input type="hidden" name="attr_weapon_mode_mult_mdr" value="1"/>
 									<input type="hidden" name="attr_weapon_computed_hit_mdr" value="0"/>
+									<input type="hidden" name="attr_weapon_tags_display_mdr" value=""/>
+									<input type="hidden" name="attr_weapon_net_hit_display_mdr" value=""/>
+									<input type="hidden" name="attr_weapon_net_penalty_display_mdr" value=""/>
 									<input type="hidden" name="attr_weapon_mode_label_mdr" value="SS"/>
 									<input type="hidden" name="attr_weapon_mode_num_mdr" value="10"/>
 									<input type="hidden" name="attr_weapon_mode_penalty_mdr" value="0"/>
 									<input type="hidden" name="attr_weapon_ammo_type_label_mdr" value=""/>
 									<input type="hidden" name="attr_weapon_mod_hit_mdr" value="0"/>
 									<input type="hidden" name="attr_weaponstrain_mdr" value="0"/>
-									<div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr" placeholder="Weapon Name" data-i18n-placeholder="weaponname-u"/></div>
+									<input type="hidden" name="attr_weaponname_mdr" value=""/>
+									<input type="hidden" name="attr_weapon_cap_rating_mdr" value=""/>
+									<input type="hidden" name="attr_weapon_cap_pcell_mdr" value="0"/>
+									<div class="flex-cell weapon-name sheet-weapon-preset-name-cell">
+										<input type="hidden" name="attr_weapon_skill_class_mdr" value=""/>
+										<!-- Weapon Preset: melee_weapons -->
+										<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-melee">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_preset_melee_mdr">
+												<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+												<optgroup label="Melee">
+													<option value="arc_blade" data-i18n="weapon_arc_blade-u">Arc-Blade</option>
+													<option value="arc_katana" data-i18n="weapon_arc_katana-u">Arc-Katana</option>
+													<option value="combat_axe" data-i18n="weapon_combat_axe-u">Combat Axe</option>
+													<option value="combat_knife" data-i18n="weapon_combat_knife-u">Combat Knife</option>
+													<option value="improvised_club" data-i18n="weapon_improvised_club-u">Improvised Club</option>
+													<option value="improvised_weapon_pistol" data-i18n="weapon_improvised_weapon_pistol-u">Improvised Weapon (Handgun)</option>
+													<option value="improvised_weapon_rifle" data-i18n="weapon_improvised_weapon_rifle-u">Improvised Weapon (Rifle)</option>
+													<option value="mono_blade_katana" data-i18n="weapon_mono_blade_katana-u">Mono-Blade Katana</option>
+													<option value="stun_baton" data-i18n="weapon_stun_baton-u">Stun Baton</option>
+													<option value="warded_glaive" data-i18n="weapon_warded_glaive-u">Warded Glaive</option>
+												</optgroup>
+												<optgroup label="Cyberware">
+													<option value="veil_renders" data-i18n="weapon_veil_renders-u">Veil Renders (Cyberware)</option>
+													<option value="wraith_claws" data-i18n="weapon_wraith_claws-u">Wraith Claws (Cyberware)</option>
+												</optgroup>
+											</select>
+										</div>
+										<!-- Weapon Preset: throw -->
+										<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-throw">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_preset_throw_mdr">
+												<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+												<optgroup label="Thrown">
+													<option value="glass_bottle" data-i18n="weapon_glass_bottle-u">Glass Bottle (Improvised)</option>
+													<option value="throwing_knife" data-i18n="weapon_throwing_knife-u">Throwing Knife</option>
+													<option value="throwing_star" data-i18n="weapon_throwing_star-u">Throwing Star</option>
+													<option value="tomahawk" data-i18n="weapon_tomahawk-u">Tomahawk</option>
+												</optgroup>
+											</select>
+										</div>
+										<!-- Weapon Preset: firearms_handgun -->
+										<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-handgun">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_preset_handgun_mdr">
+												<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+												<optgroup label="Hold-Out">
+													<option value="vexmod_whisper_mk2" data-i18n="weapon_vexmod_whisper_mk2-u">VexMod 'Whisper' Mk2</option>
+													<option value="whipsting_derringer" data-i18n="weapon_whipsting_derringer-u">Whipsting Derringer</option>
+												</optgroup>
+												<optgroup label="Light">
+													<option value="corvus_flatline" data-i18n="weapon_corvus_flatline-u">Corvus 'Flatline'</option>
+													<option value="farsight_9_compact" data-i18n="weapon_farsight_9_compact-u">Farsight-9 Compact</option>
+													<option value="krontek_diplomat" data-i18n="weapon_krontek_diplomat-u">Krontek 'Diplomat'</option>
+													<option value="myriad_avenger_p3" data-i18n="weapon_myriad_avenger_p3-u">Myriad Avenger P3</option>
+													<option value="sablecorp_emberlash_pistol" data-i18n="weapon_sablecorp_emberlash_pistol-u">SableCorp Emberlash</option>
+													<option value="skyline_firehawk" data-i18n="weapon_skyline_firehawk-u">Skyline Firehawk</option>
+													<option value="talon_s7_service" data-i18n="weapon_talon_s7_service-u">Talon S7 Service</option>
+												</optgroup>
+												<optgroup label="Heavy">
+													<option value="blackforge_twinser" data-i18n="weapon_blackforge_twinser-u">Blackforge Twinser</option>
+													<option value="reaver_mk6_revolver" data-i18n="weapon_reaver_mk6_revolver-u">Reaver Mk6 Revolver</option>
+													<option value="vaelion_arcflare" data-i18n="weapon_vaelion_arcflare-u">Vaelion Arcflare</option>
+													<option value="vaelion_paladin_50_exec" data-i18n="weapon_vaelion_paladin_50_exec-u">Vaelion Paladin .50 Exec</option>
+													<option value="vantix_hammer_45" data-i18n="weapon_vantix_hammer_45-u">Vantix Hammer .45</option>
+												</optgroup>
+												<optgroup label="Machine Pistols">
+													<option value="blackforge_splinter_9" data-i18n="weapon_blackforge_splinter_9-u">Blackforge Splinter 9</option>
+													<option value="havokline_mkzero" data-i18n="weapon_havokline_mkzero-u">HavokLine MKZero</option>
+													<option value="zetta_arms_viper_12" data-i18n="weapon_zetta_arms_viper_12-u">Zetta Arms Viper-12</option>
+												</optgroup>
+												<optgroup label="Tranquilizer">
+													<option value="vexmod_hush_tranq_pistol" data-i18n="weapon_vexmod_hush_tranq_pistol-u">VexMod 'Hush' Tranq Handgun</option>
+												</optgroup>
+											</select>
+										</div>
+										<!-- Weapon Preset: firearms_shotgun -->
+										<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-shotgun">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_preset_shotgun_mdr">
+												<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+												<optgroup label="Shotgun">
+													<option value="blackforge_razorjaw" data-i18n="weapon_blackforge_razorjaw-u">Blackforge Razorjaw</option>
+													<option value="blackforge_splatterhawk" data-i18n="weapon_blackforge_splatterhawk-u">Blackforge Splatterhawk</option>
+													<option value="ironbrand_riot_870" data-i18n="weapon_ironbrand_riot_870-u">Ironbrand Riot 870</option>
+													<option value="sablecorp_veilshot_4" data-i18n="weapon_sablecorp_veilshot_4-u">SableCorp Veilshot 4</option>
+													<option value="talon_tactical_sentry" data-i18n="weapon_talon_tactical_sentry-u">Talon Tactical Sentry</option>
+													<option value="vaelion_arclance_6" data-i18n="weapon_vaelion_arclance_6-u">Vaelion Arclance 6</option>
+													<option value="volkov_harrow_10_drum" data-i18n="weapon_volkov_harrow_10_drum-u">Volkov Harrow-10 Drum</option>
+												</optgroup>
+											</select>
+										</div>
+										<!-- Weapon Preset: firearms_rifle -->
+										<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-rifle">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_preset_rifle_mdr">
+												<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+												<optgroup label="Assault Rifles">
+													<option value="blackforge_wasp" data-i18n="weapon_blackforge_wasp-u">Blackforge Wasp</option>
+													<option value="ironbrand_striker" data-i18n="weapon_ironbrand_striker-u">Ironbrand Striker</option>
+													<option value="krontek_peacekeeper" data-i18n="weapon_krontek_peacekeeper-u">Krontek Peacekeeper</option>
+													<option value="sablecorp_emberlash_ar" data-i18n="weapon_sablecorp_emberlash_ar-u">SableCorp Emberlash AR</option>
+													<option value="talon_s13_recon" data-i18n="weapon_talon_s13_recon-u">Talon S13 Recon</option>
+													<option value="volkov_reaver_22" data-i18n="weapon_volkov_reaver_22-u">Volkov Reaver-22</option>
+												</optgroup>
+												<optgroup label="PDW">
+													<option value="talon_s6_compact" data-i18n="weapon_talon_s6_compact-u">Talon S6 Compact</option>
+												</optgroup>
+												<optgroup label="DMR">
+													<option value="ironbrand_watcher_17s" data-i18n="weapon_ironbrand_watcher_17s-u">Ironbrand Watcher 17-S</option>
+												</optgroup>
+												<optgroup label="Sniper Rifles">
+													<option value="blackforge_manhunter" data-i18n="weapon_blackforge_manhunter-u">Blackforge Manhunter</option>
+													<option value="ironbrand_watcher_17" data-i18n="weapon_ironbrand_watcher_17-u">Ironbrand Watcher 17</option>
+													<option value="sablecorp_veilpiercer" data-i18n="weapon_sablecorp_veilpiercer-u">SableCorp Veilpiercer</option>
+													<option value="talon_s50_sentinel" data-i18n="weapon_talon_s50_sentinel-u">Talon S50 Sentinel</option>
+													<option value="vaelion_eclipse" data-i18n="weapon_vaelion_eclipse-u">Vaelion Eclipse</option>
+													<option value="vexmod_linecutter_mk4" data-i18n="weapon_vexmod_linecutter_mk4-u">VexMod 'Linecutter' Mk IV</option>
+												</optgroup>
+												<optgroup label="Tranquilizer">
+													<option value="coreline_hush_tranq_rifle" data-i18n="weapon_coreline_hush_tranq_rifle-u">Coreline 'Hush' Tranq Rifle</option>
+												</optgroup>
+											</select>
+										</div>
+										<!-- Weapon Preset: firearms_smg -->
+										<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-smg">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_preset_smg_mdr">
+												<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+												<optgroup label="SMG">
+													<option value="blackforge_trencher_12" data-i18n="weapon_blackforge_trencher_12-u">Blackforge Trencher 12</option>
+													<option value="havokline_hydrax" data-i18n="weapon_havokline_hydrax-u">HavokLine HydraX</option>
+													<option value="maverick_latch_5" data-i18n="weapon_maverick_latch_5-u">Maverick Latch-5</option>
+													<option value="razorline_nixie" data-i18n="weapon_razorline_nixie-u">RazorLine 'Nixie'</option>
+													<option value="sablecorp_veilburst_smg" data-i18n="weapon_sablecorp_veilburst_smg-u">SableCorp Veilburst SMG</option>
+													<option value="sentryguard_r40" data-i18n="weapon_sentryguard_r40-u">SentryGuard R40</option>
+													<option value="talon_s10_apex" data-i18n="weapon_talon_s10_apex-u">Talon S10 Apex</option>
+													<option value="vaelion_pulsebreaker" data-i18n="weapon_vaelion_pulsebreaker-u">Vaelion Pulsebreaker</option>
+													<option value="vexmod_ghostline_v2" data-i18n="weapon_vexmod_ghostline_v2-u">VexMod Ghostline V2</option>
+													<option value="volkov_f74_drumfire" data-i18n="weapon_volkov_f74_drumfire-u">Volkov F74 Drumfire</option>
+												</optgroup>
+											</select>
+										</div>
+										<!-- Weapon Preset: heavy_weapons -->
+										<div class="sheet-weapon-adv-group sheet-weapon-preset-group weapon-preset-heavy">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_preset-u">Weapon Preset</div>
+											<select class="sheet-weapon-adv-select" name="attr_weapon_preset_heavy_mdr">
+												<option value="" data-i18n="weapon_select_placeholder-u">--- select weapon ---</option>
+												<optgroup label="Heavy">
+													<option value="arc_disruptor_rifle" data-i18n="weapon_arc_disruptor_rifle-u">Arc Disruptor Rifle</option>
+													<option value="arclance_anti_armor_rifle" data-i18n="weapon_arclance_anti_armor_rifle-u">ArcLance Anti-Armor Rifle</option>
+													<option value="crownbreaker_recoil_cannon" data-i18n="weapon_crownbreaker_recoil_cannon-u">Crownbreaker Recoil Cannon</option>
+													<option value="riftpiercer_rocket_launcher" data-i18n="weapon_riftpiercer_rocket_launcher-u">Riftpiercer Rocket Launcher</option>
+													<option value="tempest_shard_scattergun" data-i18n="weapon_tempest_shard_scattergun-u">Tempest Shard Scattergun</option>
+													<option value="veilcore_breach_cannon" data-i18n="weapon_veilcore_breach_cannon-u">Veilcore Breach Cannon</option>
+												</optgroup>
+												<optgroup label="Machine Guns">
+													<option value="razorline_mg7_lmg" data-i18n="weapon_razorline_mg7_lmg-u">Razorline MG-7 LMG</option>
+													<option value="vaultline_torchwall_hmg" data-i18n="weapon_vaultline_torchwall_hmg-u">Vaultline 'Torchwall' HMG</option>
+												</optgroup>
+											</select>
+										</div>
+									</div>
 									<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"/></div>
 									<div class="flex-cell weapon-skill">
 										<select name="attr_weaponskill_mdr">
@@ -20921,7 +21277,8 @@
 											<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Handgun</option>
 											<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
 											<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
-											<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle/Shotgun</option>
+											<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle</option>
+										<option value="@{firearms_shotgun_mdr}" data-i18n="firearms_shotgun-u">Shotgun</option>
 											<option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
 											<option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
 											<option value="@{magic_universal_mdr}" data-i18n="magic_universal-u">Magic</option>
@@ -20945,7 +21302,11 @@
 									</div>
 									<div class="flex-cell weapon-range"><input type="text" name="attr_weaponrange_mdr" placeholder="Range" data-i18n-placeholder="range-u"/></div>
 									<div class="flex-cell weapon-attacks"><input type="text" name="attr_weaponattacks_mdr" placeholder="Attacks" data-i18n-placeholder="attacks-u"/></div>
-									<div class="flex-cell weapon-ammo"><input type="text" name="attr_weaponammo_mdr" placeholder="Ammo" data-i18n-placeholder="ammo-u"/></div>
+									<input type="hidden" name="attr_weapon_cap_display_mdr" value="b0"/>
+									<input type="hidden" name="attr_weapon_cap_counter_mdr" value="—"/>
+									<div class="flex-cell weapon-ammo weapon-cap-cell weapon-cap-counter-cell">
+										<span class="cap-counter-display" name="attr_weapon_cap_counter_mdr"></span>
+									</div>
 									<div class="flex-cell weapon-malf"><input type="text" name="attr_weaponmalf_mdr" placeholder="Malf" data-i18n-placeholder="malf-u"/></div>
 									<div class="flex-cell weapon-contested"><input type="text" name="attr_weaponcontested" placeholder="-" data-i18n-placeholder="dash-z"/></div>
 									<div class="flex-cell weapon-strain"><input type="text" name="attr_weaponstrain_mdr" placeholder="Strain" data-i18n-placeholder="strain-u"/></div>
@@ -20954,16 +21315,57 @@
 									</div>
 								</div>
 								<div class="sheet-weaponblock-advanced">
+									<!-- Summary row -->
+									<div class="sheet-weapon-adv-summary-row">
+										<div class="sheet-weapon-adv-summary-tags">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_active_tags-u">Active</span>
+											<span class="sheet-weapon-adv-tags-display" name="attr_weapon_tags_display_mdr"></span>
+										</div>
+										<div class="sheet-weapon-adv-summary-net">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_hit-u">Net hit</span>
+											<span class="sheet-weapon-adv-net-display sheet-weapon-adv-net-hit" name="attr_weapon_net_hit_display_mdr"></span>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_penalty-u">Penalty</span>
+											<span class="sheet-weapon-adv-net-display sheet-weapon-adv-net-penalty" name="attr_weapon_net_penalty_display_mdr"></span>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo</span>
+											<span class="sheet-weapon-adv-net-display sheet-weapon-adv-ammo-display" name="attr_weapon_ammo_type_label_mdr"></span>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
+											<span class="sheet-weapon-adv-net-display sheet-weapon-adv-range-display" name="attr_weapon_range_band_mdr"></span>
+										</div>
+										<div class="sheet-weapon-adv-summary-cap">
+											<input type="hidden" name="attr_weapon_cap_display_mdr" value="b0"/>
+											<div class="cap-box-track-row">
+												<input type="checkbox" class="cap-box cap-box-n01" name="attr_weapon_cap_box_mdr_01" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n02" name="attr_weapon_cap_box_mdr_02" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n03" name="attr_weapon_cap_box_mdr_03" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n04" name="attr_weapon_cap_box_mdr_04" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n05" name="attr_weapon_cap_box_mdr_05" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n06" name="attr_weapon_cap_box_mdr_06" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n07" name="attr_weapon_cap_box_mdr_07" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n08" name="attr_weapon_cap_box_mdr_08" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n09" name="attr_weapon_cap_box_mdr_09" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n10" name="attr_weapon_cap_box_mdr_10" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n11" name="attr_weapon_cap_box_mdr_11" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n12" name="attr_weapon_cap_box_mdr_12" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n13" name="attr_weapon_cap_box_mdr_13" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n14" name="attr_weapon_cap_box_mdr_14" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n15" name="attr_weapon_cap_box_mdr_15" value="1"/>
+												<span class="cap-type-label"></span>
+												<button type="action" class="cap-reload-btn" name="act_weapon-cap-reload">↺</button>
+											</div>
+										</div>
+									</div>
 									<div class="sheet-weapon-advanced-grid">
 										<!-- Mode -->
 										<div class="sheet-weapon-adv-group">
 											<div class="sheet-weapon-adv-label" data-i18n="weapon_mode-u">Mode</div>
-											<select class="sheet-weapon-adv-select" name="attr_weapon_mode_mdr">
-												<option value="ss" data-i18n="weapon_mode_ss-u">SS — Single Shot</option>
-												<option value="sa" data-i18n="weapon_mode_sa-u">SA — Semi-Auto</option>
-												<option value="bf" data-i18n="weapon_mode_bf-u">BF — Burst Fire (×2)</option>
-												<option value="fa" data-i18n="weapon_mode_fa-u">FA — Full Auto (×3)</option>
-											</select>
+											<input type="hidden" name="attr_weapon_mode_mdr" value="ss"/>
+											<input type="hidden" name="attr_weapon_modes_available_mdr" value=""/>
+											<div class="sheet-weapon-mode-grid">
+												<button type="action" class="sheet-weapon-mode-btn mode-ss" name="act_weapon-mode-ss">SS</button>
+												<button type="action" class="sheet-weapon-mode-btn mode-sa" name="act_weapon-mode-sa">SA</button>
+												<button type="action" class="sheet-weapon-mode-btn mode-bf" name="act_weapon-mode-bf">BF</button>
+												<button type="action" class="sheet-weapon-mode-btn mode-fa" name="act_weapon-mode-fa">FA</button>
+											</div>
 											<select class="sheet-weapon-adv-select-hidden" name="attr_weapon_mode_num_mdr">
 												<option value="10">SS</option>
 												<option value="10">SA</option>
@@ -20974,105 +21376,85 @@
 										<!-- Ammo -->
 										<div class="sheet-weapon-adv-group">
 											<div class="sheet-weapon-adv-label" data-i18n="weapon_ammo_type-u">Ammo loaded</div>
-											<select class="sheet-weapon-adv-select" name="attr_weapon_ammo_type_mdr">
-												<option value="standard" data-i18n="ammo_standard-u">Standard</option>
-												<option value="veil_charged" data-i18n="ammo_veil_charged-u">Veil-Charged ([V])</option>
-												<option value="ap_slugs" data-i18n="ammo_ap_slugs-u">AP Slugs (+AP2, −1 die)</option>
-												<option value="shock" data-i18n="ammo_shock-u">Shock Rounds (+2d6 mech)</option>
-												<option value="hollow_point" data-i18n="ammo_hollow_point-u">Hollow Point (cond)</option>
-												<option value="subsonic" data-i18n="ammo_subsonic-u">Subsonic (BF suppressed)</option>
-												<option value="breacher" data-i18n="ammo_breacher-u">Breacher Slugs (struct)</option>
-											</select>
-											<label class="sheet-weapon-adv-checkbox-label">
-												<input type="checkbox" name="attr_weapon_ammo_active_mdr" value="1"/>
-												<span data-i18n="weapon_ammo_active-u">Special ammo active</span>
-											</label>
+											<input type="hidden" name="attr_weapon_ammo_type_mdr" value="standard"/>
+											<input type="hidden" name="attr_weapon_ammo_active_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon_category_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_max_range_mdr" value=""/>
+											<div class="sheet-weapon-ammo-grid">
+												<button type="action" class="sheet-ammo-btn ammo-ap-slugs" name="act_weapon-ammo-ap">AP Slugs</button>
+												<button type="action" class="sheet-ammo-btn ammo-breacher" name="act_weapon-ammo-br">Breacher</button>
+												<button type="action" class="sheet-ammo-btn ammo-hollow-point" name="act_weapon-ammo-hp">Hollow Pt</button>
+												<button type="action" class="sheet-ammo-btn ammo-shock" name="act_weapon-ammo-sh">Shock</button>
+												<button type="action" class="sheet-ammo-btn ammo-subsonic" name="act_weapon-ammo-su">Subsonic</button>
+												<button type="action" class="sheet-ammo-btn ammo-veil-charged" name="act_weapon-ammo-vc">Veil-Chrgd</button>
+											</div>
 										</div>
 										<!-- Range -->
 										<div class="sheet-weapon-adv-group">
 											<div class="sheet-weapon-adv-label" data-i18n="weapon_range_band-u">Range</div>
-											<select class="sheet-weapon-adv-select" name="attr_weapon_range_band_mdr">
-												<option value="engaged" data-i18n="range_engaged-u">Engaged</option>
-												<option value="short" data-i18n="range_short-u">Short</option>
-												<option value="medium" data-i18n="range_medium-u">Medium</option>
-												<option value="long" data-i18n="range_long-u">Long</option>
-												<option value="extreme" data-i18n="range_extreme-u">Extreme</option>
-											</select>
-										</div>
-									</div>
-									<div class="sheet-weapon-advanced-grid">
-										<!-- Optics -->
-										<div class="sheet-weapon-adv-group">
-											<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
-											<select class="sheet-weapon-adv-select" name="attr_weapon_optics_mdr">
-												<option value="none" data-i18n="mod_none-u">--- none ---</option>
-												<option value="reflex" data-i18n="mod_reflex_sight-u">Reflex Sight</option>
-												<option value="magnification" data-i18n="mod_magnification_scope-u">Magnification Scope</option>
-												<option value="thermal" data-i18n="mod_thermal_scope-u">Thermal Scope</option>
-											</select>
-										</div>
-										<!-- Barrel / Muzzle -->
-										<div class="sheet-weapon-adv-group">
-											<div class="sheet-weapon-adv-label" data-i18n="weapon_barrel-u">Barrel / Muzzle</div>
-											<select class="sheet-weapon-adv-select" name="attr_weapon_barrel_mdr">
-												<option value="" data-i18n="mod_none-u">--- none ---</option>
-												<option value="Silencer" data-i18n="mod_silencer-u">Silencer</option>
-												<option value="Suppressor" data-i18n="mod_suppressor-u">Suppressor</option>
-												<option value="Precision Choke" data-i18n="mod_precision_choke-u">Precision Choke</option>
-												<option value="Slug Barrel" data-i18n="mod_slug_barrel-u">Slug Barrel</option>
-												<option value="Compensator" data-i18n="mod_compensator-u">Compensator</option>
-											</select>
-										</div>
-										<!-- Penalty reduce -->
-										<div class="sheet-weapon-adv-group">
-											<div class="sheet-weapon-adv-label" data-i18n="weapon_mod_bonuses-u">Mod bonuses</div>
-											<div class="sheet-weapon-adv-mods">
-												<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_penalty_reduce-u">Penalty reduce</span>
-												<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon_mod_penalty_reduce_mdr" value="0" placeholder="0"/>
+											<input type="hidden" name="attr_weapon_range_band_mdr" value="short"/>
+											<div class="sheet-weapon-range-grid">
+												<button type="action" class="sheet-range-btn range-engaged" name="act_weapon-range-en">Engaged</button>
+												<button type="action" class="sheet-range-btn range-short"   name="act_weapon-range-sh">Short</button>
+												<button type="action" class="sheet-range-btn range-medium"  name="act_weapon-range-md">Medium</button>
+												<button type="action" class="sheet-range-btn range-long"    name="act_weapon-range-ln">Long</button>
+												<button type="action" class="sheet-range-btn range-extreme" name="act_weapon-range-ex">Extreme</button>
 											</div>
 										</div>
 									</div>
-									<div class="sheet-weapon-advanced-grid">
-										<!-- Internal -->
-										<div class="sheet-weapon-adv-group">
-											<div class="sheet-weapon-adv-label" data-i18n="weapon_internal-u">Internal</div>
-											<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon_mod_smartlink_mdr" value="1"/><span data-i18n="mod_smartlink-u">Smartlink</span></label>
-											<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon_mod_irs_mdr" value="1"/><span data-i18n="mod_irs-u">Internal Recoil System</span></label>
-											<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon_mod_qst_mdr" value="1"/><span data-i18n="mod_qst-u">Quick-Select Trigger</span></label>
-											<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon_mod_qls_mdr" value="1"/><span data-i18n="mod_qls-u">Quick-Load System</span></label>
-											<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon_mod_biocoded_mdr" value="1"/><span data-i18n="mod_biocoded-u">Bio-Coded</span></label>
+									<input type="hidden" name="attr_weapon_mods_collapsed_mdr" value="0"/>
+									<button type="action" class="sheet-weapon-mods-toggle-btn" name="act_weapon-mods-toggle" data-i18n="weapon_mods_toggle-u">Mods ▼</button>
+									<div class="sheet-weapon-mods-collapsible">
+										<div class="sheet-weapon-advanced-grid">
+											<!-- Optics -->
+											<div class="sheet-weapon-adv-group">
+												<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
+												<select class="sheet-weapon-adv-select" name="attr_weapon_optics_mdr">
+													<option value="none" data-i18n="mod_none-u">--- none ---</option>
+													<option value="magnification" data-i18n="mod_magnification_scope-u">Magnification Scope</option>
+													<option value="reflex" data-i18n="mod_reflex_sight-u">Reflex Sight</option>
+													<option value="thermal" data-i18n="mod_thermal_scope-u">Thermal Scope</option>
+												</select>
+											</div>
+											<!-- Barrel / Muzzle -->
+											<div class="sheet-weapon-adv-group">
+												<div class="sheet-weapon-adv-label" data-i18n="weapon_barrel-u">Barrel / Muzzle</div>
+												<select class="sheet-weapon-adv-select" name="attr_weapon_barrel_mdr">
+													<option value="" data-i18n="mod_none-u">--- none ---</option>
+													<option value="Compensator" data-i18n="mod_compensator-u">Compensator</option>
+													<option value="Precision Choke" data-i18n="mod_precision_choke-u">Precision Choke</option>
+													<option value="Silencer" data-i18n="mod_silencer-u">Silencer</option>
+													<option value="Slug Barrel" data-i18n="mod_slug_barrel-u">Slug Barrel</option>
+													<option value="Suppressor" data-i18n="mod_suppressor-u">Suppressor</option>
+												</select>
+											</div>
+											<!-- Internal -->
+											<div class="sheet-weapon-adv-group">
+												<div class="sheet-weapon-adv-label" data-i18n="weapon_internal-u">Internal</div>
+												<select class="sheet-weapon-adv-select" name="attr_weapon_mod_internal_mdr">
+													<option value="none" data-i18n="mod_none-u">--- none ---</option>
+													<option value="biocoded" data-i18n="mod_biocoded-u">Bio-Coded</option>
+													<option value="irs" data-i18n="mod_irs-u">Internal Recoil System</option>
+													<option value="qls" data-i18n="mod_qls-u">Quick-Load System</option>
+													<option value="qst" data-i18n="mod_qst-u">Quick-Select Trigger</option>
+													<option value="smartlink" data-i18n="mod_smartlink-u">Smartlink</option>
+												</select>
+											</div>
 										</div>
-										<!-- Modular Rail -->
-										<div class="sheet-weapon-adv-group">
-											<div class="sheet-weapon-adv-label" data-i18n="weapon_modular_rail-u">Modular Rail</div>
-											<label class="sheet-weapon-adv-checkbox-label"><input type="checkbox" name="attr_weapon_mod_mr_mdr" value="1"/><span data-i18n="weapon_modular_rail-u">Installed</span></label>
-											<select class="sheet-weapon-adv-select sheet-weapon-adv-mr-slot" name="attr_weapon_mod_mr_slot_mdr">
-												<option value="none" data-i18n="mod_none-u">--- bonus slot ---</option>
-											<optgroup label="Optics">
-												<option value="reflex_mr" data-i18n="mod_reflex_sight-u">Reflex Sight</option>
-												<option value="magnification_mr" data-i18n="mod_magnification_scope-u">Magnification Scope</option>
-												<option value="thermal_mr" data-i18n="mod_thermal_scope-u">Thermal Scope</option>
-											</optgroup>
-											<optgroup label="Barrel / Muzzle">
-												<option value="Silencer" data-i18n="mod_silencer-u">Silencer</option>
-												<option value="Suppressor" data-i18n="mod_suppressor-u">Suppressor</option>
-												<option value="Precision Choke" data-i18n="mod_precision_choke-u">Precision Choke</option>
-												<option value="Slug Barrel" data-i18n="mod_slug_barrel-u">Slug Barrel</option>
-												<option value="Compensator" data-i18n="mod_compensator-u">Compensator</option>
-											</optgroup>
-											<optgroup label="Internal">
-												<option value="sl_mr" data-i18n="mod_smartlink-u">Smartlink</option>
-												<option value="irs_mr" data-i18n="mod_irs-u">Internal Recoil System</option>
-												<option value="qst_mr" data-i18n="mod_qst-u">Quick-Select Trigger</option>
-												<option value="qls_mr" data-i18n="mod_qls-u">Quick-Load System</option>
-												<option value="bc_mr" data-i18n="mod_biocoded-u">Bio-Coded</option>
-											</optgroup>
-											</select>
-										</div>
-										<!-- Traits -->
-										<div class="sheet-weapon-adv-group sheet-weapon-adv-traits-cell">
-											<div class="sheet-weapon-adv-label" data-i18n="weapon_trait-u">Traits</div>
-											<input type="text" name="attr_weapon_traits" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
+										<div class="sheet-weapon-advanced-grid">
+											<!-- Mod bonuses -->
+											<div class="sheet-weapon-adv-group">
+												<div class="sheet-weapon-adv-label" data-i18n="weapon_mod_bonuses-u">Mod bonuses</div>
+												<div class="sheet-weapon-adv-mods">
+													<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_penalty_reduce-u">Penalty reduce</span>
+													<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon_mod_penalty_reduce_mdr" value="0" placeholder="0"/>
+												</div>
+											</div>
+											<!-- Traits -->
+											<div class="sheet-weapon-adv-group sheet-weapon-adv-traits-cell">
+												<div class="sheet-weapon-adv-label" data-i18n="weapon_trait-u">Traits</div>
+												<input type="text" name="attr_weapon_traits" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -47406,11 +47788,12 @@ const weaponDataMap = {
 		traits: ["ap_2", "veil_linked"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E"],
 		cost: 4000,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	arc_katana: {
 		name_key: "weapon_arc_katana-u",
@@ -47425,11 +47808,12 @@ const weaponDataMap = {
 		traits: ["ap_3", "veil_linked"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E"],
 		cost: 7500,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	combat_axe: {
 		name_key: "weapon_combat_axe-u",
@@ -47444,11 +47828,12 @@ const weaponDataMap = {
 		traits: ["ap_1", "heavy"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E"],
 		cost: 800,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	combat_knife: {
 		name_key: "weapon_combat_knife-u",
@@ -47463,11 +47848,72 @@ const weaponDataMap = {
 		traits: ["concealable"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E"],
 		cost: 100,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
+	},
+	improvised_club: {
+		name_key: "weapon_improvised_club-u",
+		category: "melee",
+		subcategory: "melee",
+		skill: "melee_weapons",
+		damage: "1d6+1",
+		num_dice: 1,
+		dice_size: 6,
+		damage_bonus: 1,
+		damage_type: "physical",
+		traits: ["cheap", "improvised", "unbalanced"],
+		mode: [],
+		mr: [0, 0],
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
+		range: ["E"],
+		cost: 50,
+		rarity: "common",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
+	},
+	improvised_weapon_pistol: {
+		name_key: "weapon_improvised_weapon_pistol-u",
+		category: "melee",
+		subcategory: "melee",
+		skill: "melee_weapons",
+		damage: "1d4",
+		num_dice: 1,
+		dice_size: 4,
+		damage_bonus: 0,
+		damage_type: "physical",
+		traits: ["improvised"],
+		mode: [],
+		mr: [0, 0],
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
+		range: ["E"],
+		cost: 0,
+		rarity: "common",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
+	},
+	improvised_weapon_rifle: {
+		name_key: "weapon_improvised_weapon_rifle-u",
+		category: "melee",
+		subcategory: "melee",
+		skill: "melee_weapons",
+		damage: "1d6",
+		num_dice: 1,
+		dice_size: 6,
+		damage_bonus: 0,
+		damage_type: "physical",
+		traits: ["improvised", "heavy", "unbalanced"],
+		mode: [],
+		mr: [0, 0],
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
+		range: ["E"],
+		cost: 0,
+		rarity: "common",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	mono_blade_katana: {
 		name_key: "weapon_mono_blade_katana-u",
@@ -47482,11 +47928,12 @@ const weaponDataMap = {
 		traits: ["ap_2"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E"],
 		cost: 3200,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		rarity: "permit",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	stun_baton: {
 		name_key: "weapon_stun_baton-u",
@@ -47501,11 +47948,12 @@ const weaponDataMap = {
 		traits: ["stunning", "electric"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E"],
 		cost: 1200,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	warded_glaive: {
 		name_key: "weapon_warded_glaive-u",
@@ -47520,11 +47968,12 @@ const weaponDataMap = {
 		traits: ["heavy", "sigilbound", "veil_linked", "reach"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E", "S"],
 		cost: 8000,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	/* Cyberware */
 	veil_renders: {
@@ -47540,11 +47989,12 @@ const weaponDataMap = {
 		traits: ["ap_2", "concealed", "cyberware"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E"],
 		cost: null,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	wraith_claws: {
 		name_key: "weapon_wraith_claws-u",
@@ -47559,13 +48009,34 @@ const weaponDataMap = {
 		traits: ["ap_1", "concealed", "cyberware"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["E"],
 		cost: null,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	/* Thrown */
+	glass_bottle: {
+		name_key: "weapon_glass_bottle-u",
+		category: "melee",
+		subcategory: "thrown",
+		skill: "throw",
+		damage: "1d4",
+		num_dice: 1,
+		dice_size: 4,
+		damage_bonus: 0,
+		damage_type: "physical",
+		traits: ["thrown", "improvised", "cheap"],
+		mode: [],
+		mr: [0, 0],
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
+		range: ["S"],
+		cost: 10,
+		rarity: "common",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
+	},
 	throwing_knife: {
 		name_key: "weapon_throwing_knife-u",
 		category: "melee",
@@ -47579,11 +48050,12 @@ const weaponDataMap = {
 		traits: ["thrown", "multi_throw", "concealable"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["S"],
 		cost: 150,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	throwing_star: {
 		name_key: "weapon_throwing_star-u",
@@ -47598,11 +48070,12 @@ const weaponDataMap = {
 		traits: ["thrown", "multi_throw", "concealable"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["S"],
 		cost: 100,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
 	tomahawk: {
 		name_key: "weapon_tomahawk-u",
@@ -47617,13 +48090,13 @@ const weaponDataMap = {
 		traits: ["thrown", "ap_1"],
 		mode: [],
 		mr: [0, 0],
-		cap: { amount: null, type: null },
+		cap: { rating: "tracked_0", pcell: false },
+		mod_slots: [],
 		range: ["S"],
 		cost: 600,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "melee-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "melee-u" },
 	},
-
 	/* HANDGUNS */
 	/* Hold-Out */
 	vexmod_whisper_mk2: {
@@ -47639,11 +48112,12 @@ const weaponDataMap = {
 		traits: ["silent", "concealable"],
 		mode: ["SA"],
 		mr: [98, 100],
-		cap: { amount: 11, type: "standard" },
+		cap: { rating: "cap_3", pcell: false },
+		mod_slots: [],
 		range: ["E", "S"],
 		cost: 1800,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	whipsting_derringer: {
 		name_key: "weapon_whipsting_derringer-u",
@@ -47658,11 +48132,12 @@ const weaponDataMap = {
 		traits: ["concealable", "silent", "fast_draw", "micro_frame"],
 		mode: ["SS"],
 		mr: [95, 100],
-		cap: { amount: 2, type: "standard" },
+		cap: { rating: "tracked_2", pcell: false },
+		mod_slots: [],
 		range: ["E", "S"],
 		cost: 650,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	/* Light */
 	corvus_flatline: {
@@ -47678,11 +48153,12 @@ const weaponDataMap = {
 		traits: ["loud", "unstable"],
 		mode: ["SA", "BF"],
 		mr: [96, 100],
-		cap: { amount: 16, type: "standard" },
+		cap: { rating: "cap_4", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 1800,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	farsight_9_compact: {
 		name_key: "weapon_farsight_9_compact-u",
@@ -47697,11 +48173,12 @@ const weaponDataMap = {
 		traits: ["smartlink"],
 		mode: ["SA"],
 		mr: [0, 0],
-		cap: { amount: 13, type: "standard" },
+		cap: { rating: "cap_3", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 750,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	krontek_diplomat: {
 		name_key: "weapon_krontek_diplomat-u",
@@ -47716,11 +48193,12 @@ const weaponDataMap = {
 		traits: ["silent", "concealable", "biometric"],
 		mode: ["SA"],
 		mr: [0, 0],
-		cap: { amount: 13, type: "standard" },
+		cap: { rating: "cap_3", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 2000,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	myriad_avenger_p3: {
 		name_key: "weapon_myriad_avenger_p3-u",
@@ -47735,11 +48213,12 @@ const weaponDataMap = {
 		traits: ["fast_draw", "concealable"],
 		mode: ["SA"],
 		mr: [98, 100],
-		cap: { amount: 11, type: "standard" },
+		cap: { rating: "cap_3", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 1200,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	sablecorp_emberlash_pistol: {
 		name_key: "weapon_sablecorp_emberlash_pistol-u",
@@ -47754,11 +48233,12 @@ const weaponDataMap = {
 		traits: ["veil_linked", "smartlink", "concealable"],
 		mode: ["SA"],
 		mr: [96, 100],
-		cap: { amount: 10, type: "pcell" },
+		cap: { rating: "cap_2", pcell: true },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 8500,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	skyline_firehawk: {
 		name_key: "weapon_skyline_firehawk-u",
@@ -47773,11 +48253,12 @@ const weaponDataMap = {
 		traits: ["smartlink", "burst_capable"],
 		mode: ["SA", "BF"],
 		mr: [98, 100],
-		cap: { amount: 21, type: "standard" },
+		cap: { rating: "cap_4", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 4200,
-		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	talon_s7_service: {
 		name_key: "weapon_talon_s7_service-u",
@@ -47789,14 +48270,15 @@ const weaponDataMap = {
 		dice_size: 8,
 		damage_bonus: 0,
 		damage_type: "physical",
-		traits: ["smartlink", "modular_rail", "reliable"],
+		traits: ["smartlink", "reliable"],
 		mode: ["SA"],
 		mr: [0, 0],
-		cap: { amount: 19, type: "standard" },
+		cap: { rating: "cap_4", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 1500,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	/* Heavy */
 	blackforge_twinser: {
@@ -47812,11 +48294,12 @@ const weaponDataMap = {
 		traits: ["double_barrel", "loud", "unstable"],
 		mode: ["SS"],
 		mr: [94, 100],
-		cap: { amount: 2, type: "standard" },
+		cap: { rating: "tracked_2", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S"],
 		cost: 3800,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	reaver_mk6_revolver: {
 		name_key: "weapon_reaver_mk6_revolver-u",
@@ -47831,11 +48314,12 @@ const weaponDataMap = {
 		traits: ["ap_2", "loud"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 6, type: "standard" },
+		cap: { rating: "tracked_6", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 3000,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		rarity: "permit",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	vaelion_arcflare: {
 		name_key: "weapon_vaelion_arcflare-u",
@@ -47850,11 +48334,12 @@ const weaponDataMap = {
 		traits: ["veil_linked", "veil_residue"],
 		mode: ["SA"],
 		mr: [98, 100],
-		cap: { amount: 10, type: "pcell" },
+		cap: { rating: "cap_2", pcell: true },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 9000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	vaelion_paladin_50_exec: {
 		name_key: "weapon_vaelion_paladin_50_exec-u",
@@ -47869,11 +48354,12 @@ const weaponDataMap = {
 		traits: ["loud", "ap_3", "smartlink", "heavy"],
 		mode: ["SA"],
 		mr: [96, 100],
-		cap: { amount: 7, type: "standard" },
+		cap: { rating: "cap_2", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 15000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	vantix_hammer_45: {
 		name_key: "weapon_vantix_hammer_45-u",
@@ -47888,11 +48374,12 @@ const weaponDataMap = {
 		traits: ["ap_2", "loud", "heavy"],
 		mode: ["SA"],
 		mr: [98, 100],
-		cap: { amount: 9, type: "standard" },
+		cap: { rating: "cap_2", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 2500,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		rarity: "permit",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	/* Machine Pistols */
 	blackforge_splinter_9: {
@@ -47908,11 +48395,12 @@ const weaponDataMap = {
 		traits: ["loud", "drum_fed", "unstable"],
 		mode: ["SA", "BF"],
 		mr: [94, 100],
-		cap: { amount: 33, type: "drum" },
+		cap: { rating: "drum_6", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 1600,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	havokline_mkzero: {
 		name_key: "weapon_havokline_mkzero-u",
@@ -47927,11 +48415,12 @@ const weaponDataMap = {
 		traits: ["full_auto", "unstable", "smartlink"],
 		mode: ["SA", "BF", "FA"],
 		mr: [96, 100],
-		cap: { amount: 25, type: "standard" },
+		cap: { rating: "cap_5", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 2200,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
 	zetta_arms_viper_12: {
 		name_key: "weapon_zetta_arms_viper_12-u",
@@ -47946,13 +48435,13 @@ const weaponDataMap = {
 		traits: ["concealable", "unstable", "cq"],
 		mode: ["SA", "BF"],
 		mr: [96, 100],
-		cap: { amount: 19, type: "standard" },
+		cap: { rating: "cap_4", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S"],
 		cost: 1000,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "handguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "handguns-u" },
 	},
-
 	/* SUBMACHINE GUNS */
 	blackforge_trencher_12: {
 		name_key: "weapon_blackforge_trencher_12-u",
@@ -47967,11 +48456,12 @@ const weaponDataMap = {
 		traits: ["ap_1", "loud", "unstable"],
 		mode: ["SA", "FA"],
 		mr: [96, 100],
-		cap: { amount: 31, type: "standard" },
+		cap: { rating: "cap_6", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 3200,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	havokline_hydrax: {
 		name_key: "weapon_havokline_hydrax-u",
@@ -47986,11 +48476,12 @@ const weaponDataMap = {
 		traits: ["cq", "drum_fed", "scatter_spray", "unstable"],
 		mode: ["SA", "BF"],
 		mr: [94, 100],
-		cap: { amount: 32, type: "drum" },
+		cap: { rating: "drum_6", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S"],
 		cost: 3600,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	maverick_latch_5: {
 		name_key: "weapon_maverick_latch_5-u",
@@ -48005,11 +48496,12 @@ const weaponDataMap = {
 		traits: ["loud", "cheap", "unstable"],
 		mode: ["SA", "BF"],
 		mr: [96, 100],
-		cap: { amount: 25, type: "standard" },
+		cap: { rating: "cap_5", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 950,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	razorline_nixie: {
 		name_key: "weapon_razorline_nixie-u",
@@ -48024,11 +48516,12 @@ const weaponDataMap = {
 		traits: ["concealable", "cq", "smartlink"],
 		mode: ["SA", "BF"],
 		mr: [98, 100],
-		cap: { amount: 21, type: "standard" },
+		cap: { rating: "cap_4", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 1800,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	sablecorp_veilburst_smg: {
 		name_key: "weapon_sablecorp_veilburst_smg-u",
@@ -48043,11 +48536,12 @@ const weaponDataMap = {
 		traits: ["veil_linked", "smartlink"],
 		mode: ["SA", "BF"],
 		mr: [98, 100],
-		cap: { amount: 25, type: "pcell" },
+		cap: { rating: "cap_5", pcell: true },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 6000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	sentryguard_r40: {
 		name_key: "weapon_sentryguard_r40-u",
@@ -48062,11 +48556,12 @@ const weaponDataMap = {
 		traits: ["smartlink", "reliable"],
 		mode: ["SA", "BF"],
 		mr: [0, 0],
-		cap: { amount: 31, type: "standard" },
+		cap: { rating: "cap_6", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 2000,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	talon_s10_apex: {
 		name_key: "weapon_talon_s10_apex-u",
@@ -48078,14 +48573,15 @@ const weaponDataMap = {
 		dice_size: 8,
 		damage_bonus: 1,
 		damage_type: "physical",
-		traits: ["smartlink", "modular_rail"],
+		traits: ["smartlink"],
 		mode: ["SA", "BF"],
 		mr: [0, 0],
-		cap: { amount: 31, type: "standard" },
+		cap: { rating: "cap_6", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 3500,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	vaelion_pulsebreaker: {
 		name_key: "weapon_vaelion_pulsebreaker-u",
@@ -48100,11 +48596,12 @@ const weaponDataMap = {
 		traits: ["veil_linked", "unstable"],
 		mode: ["SA", "BF", "FA"],
 		mr: [94, 100],
-		cap: { amount: 20, type: "pcell" },
+		cap: { rating: "cap_4", pcell: true },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 9000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	vexmod_ghostline_v2: {
 		name_key: "weapon_vexmod_ghostline_v2-u",
@@ -48119,11 +48616,12 @@ const weaponDataMap = {
 		traits: ["silent", "concealable", "cq"],
 		mode: ["SA", "BF"],
 		mr: [0, 0],
-		cap: { amount: 25, type: "standard" },
+		cap: { rating: "cap_5", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 3200,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
 	volkov_f74_drumfire: {
 		name_key: "weapon_volkov_f74_drumfire-u",
@@ -48138,13 +48636,13 @@ const weaponDataMap = {
 		traits: ["drum_fed", "loud", "unstable"],
 		mode: ["SA", "BF", "FA"],
 		mr: [96, 100],
-		cap: { amount: 41, type: "drum" },
+		cap: { rating: "drum_7", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 2800,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "smg-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "smg-u" },
 	},
-
 	/* SHOTGUNS */
 	blackforge_razorjaw: {
 		name_key: "weapon_blackforge_razorjaw-u",
@@ -48159,11 +48657,12 @@ const weaponDataMap = {
 		traits: ["concealable", "cq", "double_barrel", "unstable"],
 		mode: ["SS"],
 		mr: [94, 100],
-		cap: { amount: 2, type: "standard" },
+		cap: { rating: "tracked_2", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S"],
 		cost: 1800,
-		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "shotguns-u" }
+		rarity: "permit",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "shotguns-u" },
 	},
 	blackforge_splatterhawk: {
 		name_key: "weapon_blackforge_splatterhawk-u",
@@ -48178,11 +48677,12 @@ const weaponDataMap = {
 		traits: ["flechette", "scatter_spray", "cq", "unstable"],
 		mode: ["SS", "BF"],
 		mr: [94, 100],
-		cap: { amount: 6, type: "tube" },
+		cap: { rating: "cap_2", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 3800,
-		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "shotguns-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "shotguns-u" },
 	},
 	ironbrand_riot_870: {
 		name_key: "weapon_ironbrand_riot_870-u",
@@ -48197,11 +48697,12 @@ const weaponDataMap = {
 		traits: ["loud", "reliable", "cq"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 5, type: "tube" },
+		cap: { rating: "tracked_5", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 1200,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "shotguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "shotguns-u" },
 	},
 	sablecorp_veilshot_4: {
 		name_key: "weapon_sablecorp_veilshot_4-u",
@@ -48216,11 +48717,12 @@ const weaponDataMap = {
 		traits: ["veil_linked", "cq", "knockback"],
 		mode: ["SS"],
 		mr: [98, 100],
-		cap: { amount: 4, type: "pcell" },
+		cap: { rating: "tracked_4", pcell: true },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S"],
 		cost: 4200,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "shotguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "shotguns-u" },
 	},
 	talon_tactical_sentry: {
 		name_key: "weapon_talon_tactical_sentry-u",
@@ -48235,11 +48737,12 @@ const weaponDataMap = {
 		traits: ["smartlink"],
 		mode: ["SA"],
 		mr: [0, 0],
-		cap: { amount: 7, type: "standard" },
+		cap: { rating: "cap_2", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 2600,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "shotguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "shotguns-u" },
 	},
 	vaelion_arclance_6: {
 		name_key: "weapon_vaelion_arclance_6-u",
@@ -48254,11 +48757,12 @@ const weaponDataMap = {
 		traits: ["veil_linked", "smartlink", "knockback"],
 		mode: ["SS"],
 		mr: [98, 100],
-		cap: { amount: 4, type: "pcell" },
+		cap: { rating: "tracked_4", pcell: true },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 7500,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "shotguns-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "shotguns-u" },
 	},
 	volkov_harrow_10_drum: {
 		name_key: "weapon_volkov_harrow_10_drum-u",
@@ -48273,13 +48777,13 @@ const weaponDataMap = {
 		traits: ["drum_fed", "brutal", "unstable"],
 		mode: ["SA", "FA"],
 		mr: [96, 100],
-		cap: { amount: 12, type: "drum" },
+		cap: { rating: "drum_4", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 3800,
-		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "shotguns-u" }
+		rarity: "restricted",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "shotguns-u" },
 	},
-
 	/* RIFLES */
 	/* Assault Rifles */
 	blackforge_wasp: {
@@ -48295,11 +48799,12 @@ const weaponDataMap = {
 		traits: ["smartlink", "cq"],
 		mode: ["SA", "FA"],
 		mr: [94, 100],
-		cap: { amount: 25, type: "standard" },
+		cap: { rating: "cap_5", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 3500,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	ironbrand_striker: {
 		name_key: "weapon_ironbrand_striker-u",
@@ -48314,11 +48819,12 @@ const weaponDataMap = {
 		traits: ["reliable", "ap_3"],
 		mode: ["SA"],
 		mr: [0, 0],
-		cap: { amount: 26, type: "standard" },
+		cap: { rating: "cap_5", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 3000,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	krontek_peacekeeper: {
 		name_key: "weapon_krontek_peacekeeper-u",
@@ -48333,11 +48839,12 @@ const weaponDataMap = {
 		traits: ["smartlink", "precision_burst"],
 		mode: ["SA", "BF"],
 		mr: [0, 0],
-		cap: { amount: 31, type: "standard" },
+		cap: { rating: "cap_6", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M", "L"],
 		cost: 3200,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	sablecorp_emberlash_ar: {
 		name_key: "weapon_sablecorp_emberlash_ar-u",
@@ -48352,11 +48859,12 @@ const weaponDataMap = {
 		traits: ["veil_linked", "smartlink", "knockback"],
 		mode: ["SA", "BF"],
 		mr: [96, 100],
-		cap: { amount: 18, type: "pcell" },
+		cap: { rating: "cap_4", pcell: true },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M", "L"],
 		cost: 6000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	talon_s13_recon: {
 		name_key: "weapon_talon_s13_recon-u",
@@ -48371,11 +48879,12 @@ const weaponDataMap = {
 		traits: ["smartlink"],
 		mode: ["SA", "BF"],
 		mr: [0, 0],
-		cap: { amount: 31, type: "standard" },
+		cap: { rating: "cap_6", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M", "L"],
 		cost: 2400,
 		rarity: "common",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	volkov_reaver_22: {
 		name_key: "weapon_volkov_reaver_22-u",
@@ -48390,11 +48899,12 @@ const weaponDataMap = {
 		traits: ["loud", "unstable"],
 		mode: ["SA", "FA"],
 		mr: [96, 100],
-		cap: { amount: 29, type: "standard" },
+		cap: { rating: "cap_5", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M", "L"],
 		cost: 3600,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	/* PDW */
 	talon_s6_compact: {
@@ -48410,11 +48920,12 @@ const weaponDataMap = {
 		traits: ["smartlink", "concealable", "ap_1"],
 		mode: ["SA", "BF"],
 		mr: [0, 0],
-		cap: { amount: 21, type: "standard" },
+		cap: { rating: "cap_4", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle"],
 		range: ["E", "S", "M"],
 		cost: 2800,
-		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		rarity: "common",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	/* DMR */
 	ironbrand_watcher_17s: {
@@ -48430,11 +48941,12 @@ const weaponDataMap = {
 		traits: ["scoped", "ap_2", "smartlink"],
 		mode: ["SA"],
 		mr: [0, 0],
-		cap: { amount: 11, type: "standard" },
+		cap: { rating: "cap_3", pcell: false },
+		mod_slots: ["barrel_muzzle"],
 		range: ["E", "S", "M", "L"],
 		cost: 4800,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	/* Sniper Rifles */
 	blackforge_manhunter: {
@@ -48450,11 +48962,12 @@ const weaponDataMap = {
 		traits: ["loud", "ap_5", "knockback"],
 		mode: ["SS"],
 		mr: [96, 100],
-		cap: { amount: 5, type: "standard" },
+		cap: { rating: "tracked_5", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S", "M", "L", "X"],
 		cost: 7200,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	ironbrand_watcher_17: {
 		name_key: "weapon_ironbrand_watcher_17-u",
@@ -48469,11 +48982,12 @@ const weaponDataMap = {
 		traits: ["scoped", "loud", "ap_3"],
 		mode: ["SA"],
 		mr: [98, 100],
-		cap: { amount: 9, type: "standard" },
+		cap: { rating: "cap_2", pcell: false },
+		mod_slots: ["barrel_muzzle", "internal"],
 		range: ["E", "S", "M", "L", "X"],
 		cost: 5800,
 		rarity: "permit",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	sablecorp_veilpiercer: {
 		name_key: "weapon_sablecorp_veilpiercer-u",
@@ -48488,11 +49002,12 @@ const weaponDataMap = {
 		traits: ["veil_linked", "smartlink", "silent", "ap_4"],
 		mode: ["SS"],
 		mr: [96, 100],
-		cap: { amount: 4, type: "pcell" },
+		cap: { rating: "tracked_4", pcell: true },
+		mod_slots: ["barrel_muzzle"],
 		range: ["E", "S", "M", "L", "X"],
 		cost: 8000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	talon_s50_sentinel: {
 		name_key: "weapon_talon_s50_sentinel-u",
@@ -48507,11 +49022,12 @@ const weaponDataMap = {
 		traits: ["reliable", "heavy", "scoped", "ap_4", "minimum_floor"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 6, type: "standard" },
+		cap: { rating: "tracked_6", pcell: false },
+		mod_slots: ["barrel_muzzle", "internal"],
 		range: ["E", "S", "M", "L", "X"],
 		cost: 6800,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	vaelion_eclipse: {
 		name_key: "weapon_vaelion_eclipse-u",
@@ -48526,11 +49042,12 @@ const weaponDataMap = {
 		traits: ["smartlink", "scoped", "ap_4"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 6, type: "standard" },
+		cap: { rating: "tracked_6", pcell: false },
+		mod_slots: ["barrel_muzzle"],
 		range: ["E", "S", "M", "L", "X"],
 		cost: 7000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
 	vexmod_linecutter_mk4: {
 		name_key: "weapon_vexmod_linecutter_mk4-u",
@@ -48545,13 +49062,13 @@ const weaponDataMap = {
 		traits: ["silent", "scoped", "ap_3"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 7, type: "standard" },
+		cap: { rating: "tracked_7", pcell: false },
+		mod_slots: ["barrel_muzzle", "internal"],
 		range: ["E", "S", "M", "L", "X"],
 		cost: 6500,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "rifles-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "rifles-u" },
 	},
-
 	/* HEAVY WEAPONS */
 	/* Heavy */
 	arc_disruptor_rifle: {
@@ -48567,12 +49084,13 @@ const weaponDataMap = {
 		traits: ["veil_linked", "brace_recommended"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 5, type: "pcell" },
+		cap: { rating: "tracked_5", pcell: true },
+		mod_slots: [],
 		range: ["E", "S", "M"],
 		setup: "maneuver_brace",
 		cost: 19000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "heavy-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "heavy-u" },
 	},
 	arclance_anti_armor_rifle: {
 		name_key: "weapon_arclance_anti_armor_rifle-u",
@@ -48587,12 +49105,13 @@ const weaponDataMap = {
 		traits: ["bipod_required"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 5, type: "standard" },
+		cap: { rating: "tracked_5", pcell: false },
+		mod_slots: [],
 		range: ["E", "S", "M"],
 		setup: "maneuver_bipod",
 		cost: 18000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "heavy-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "heavy-u" },
 	},
 	crownbreaker_recoil_cannon: {
 		name_key: "weapon_crownbreaker_recoil_cannon-u",
@@ -48607,12 +49126,13 @@ const weaponDataMap = {
 		traits: ["unbraced_penalty"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 10, type: "standard" },
+		cap: { rating: "tracked_10", pcell: false },
+		mod_slots: [],
 		range: ["E", "S"],
 		setup: "none",
 		cost: 15000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "heavy-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "heavy-u" },
 	},
 	riftpiercer_rocket_launcher: {
 		name_key: "weapon_riftpiercer_rocket_launcher-u",
@@ -48627,12 +49147,13 @@ const weaponDataMap = {
 		traits: [],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 1, type: "standard" },
+		cap: { rating: "tracked_1", pcell: false },
+		mod_slots: [],
 		range: ["E", "S", "M"],
 		setup: "none",
 		cost: 16000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "heavy-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "heavy-u" },
 	},
 	tempest_shard_scattergun: {
 		name_key: "weapon_tempest_shard_scattergun-u",
@@ -48647,12 +49168,13 @@ const weaponDataMap = {
 		traits: ["scatter_spray", "half_damage_heavy_armor"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 8, type: "standard" },
+		cap: { rating: "tracked_8", pcell: false },
+		mod_slots: [],
 		range: ["E", "S"],
 		setup: "none",
 		cost: 12000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "heavy-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "heavy-u" },
 	},
 	veilcore_breach_cannon: {
 		name_key: "weapon_veilcore_breach_cannon-u",
@@ -48667,12 +49189,13 @@ const weaponDataMap = {
 		traits: ["veil_linked"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 3, type: "pcell" },
+		cap: { rating: "tracked_3", pcell: true },
+		mod_slots: [],
 		range: ["E", "S", "M"],
 		setup: "full_round",
 		cost: 15000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "heavy-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "heavy-u" },
 	},
 	/* Machine Guns */
 	razorline_mg7_lmg: {
@@ -48685,15 +49208,16 @@ const weaponDataMap = {
 		dice_size: 10,
 		damage_bonus: 0,
 		damage_type: "physical",
-		traits: ["bipod_required"],
-		mode: ["FA"],
+		traits: ["bipod_required", "suppression"],
+		mode: ["BF", "FA"],
 		mr: [0, 0],
-		cap: { amount: 100, type: "belt" },
+		cap: { rating: "belt_10", pcell: false },
+		mod_slots: ["optics", "internal"],
 		range: ["E", "S", "M"],
 		setup: "maneuver_bipod",
 		cost: 9500,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "heavy-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "heavy-u" },
 	},
 	vaultline_torchwall_hmg: {
 		name_key: "weapon_vaultline_torchwall_hmg-u",
@@ -48705,17 +49229,17 @@ const weaponDataMap = {
 		dice_size: 10,
 		damage_bonus: 0,
 		damage_type: "physical",
-		traits: ["tripod_required"],
-		mode: ["FA"],
+		traits: ["tripod_required", "suppression", "ap_2_heavy_targets"],
+		mode: ["BF", "FA"],
 		mr: [0, 0],
-		cap: { amount: 200, type: "belt" },
+		cap: { rating: "belt_15", pcell: false },
+		mod_slots: ["optics"],
 		range: ["E", "S", "M", "L"],
 		setup: "full_round_tripod",
 		cost: 14000,
 		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "heavy-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "heavy-u" },
 	},
-
 	/* TRANQUILIZER */
 	coreline_hush_tranq_rifle: {
 		name_key: "weapon_coreline_hush_tranq_rifle-u",
@@ -48730,11 +49254,12 @@ const weaponDataMap = {
 		traits: ["tranquilizing", "silent", "scoped"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 9, type: "standard" },
+		cap: { rating: "tracked_9", pcell: false },
+		mod_slots: ["barrel_muzzle", "internal"],
 		range: ["E", "S", "M"],
 		cost: 4200,
-		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "tranq-u" }
+		rarity: "permit",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "tranq-u" },
 	},
 	vexmod_hush_tranq_pistol: {
 		name_key: "weapon_vexmod_hush_tranq_pistol-u",
@@ -48749,15 +49274,35 @@ const weaponDataMap = {
 		traits: ["tranquilizing", "silent", "concealable"],
 		mode: ["SS"],
 		mr: [0, 0],
-		cap: { amount: 7, type: "standard" },
+		cap: { rating: "tracked_7", pcell: false },
+		mod_slots: ["optics", "barrel_muzzle", "internal"],
 		range: ["E", "S"],
 		cost: 2800,
-		rarity: "restricted",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "tranq-u" }
-	},
+		rarity: "permit",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "tranq-u" },
+	}
 };
 
 const ammoDataMap = {
+	veil_charged_rounds: {
+		name_key: "ammo_veil_charged_rounds-u",
+		compatible_categories: ["handgun", "smg", "rifle"],
+		compatible_subcategories: ["hold_out", "light", "heavy", "machine", "smg", "assault", "pdw", "dmr", "sniper"],
+		veil_linked_compatible: false,
+		cost_per_clip: 400,
+		rarity: "restricted",
+		damage_type_override: "veil",
+		damage_die_shift: 0,
+		bonus_damage: null,
+		bonus_damage_condition: null,
+		ap_modifier: 0,
+		soak_modifier: null,
+		structural_damage_multiplier: 1,
+		suppressed_bf_enabled: false,
+		on_fumble: "veil_burnout",
+		effect_summary_key: "ammo_veil_charged_rounds_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "ammunition-u" }
+	},
 	ap_slugs: {
 		name_key: "ammo_ap_slugs-u",
 		compatible_categories: ["handgun", "smg", "rifle"],
@@ -48775,7 +49320,7 @@ const ammoDataMap = {
 		suppressed_bf_enabled: false,
 		on_fumble: null,
 		effect_summary_key: "ammo_ap_slugs_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "ammunition-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "ammunition-u" }
 	},
 	breacher_slugs: {
 		name_key: "ammo_breacher_slugs-u",
@@ -48797,7 +49342,7 @@ const ammoDataMap = {
 		forces_single_target: true,
 		on_fumble: null,
 		effect_summary_key: "ammo_breacher_slugs_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "ammunition-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "ammunition-u" }
 	},
 	hollow_point: {
 		name_key: "ammo_hollow_point-u",
@@ -48819,7 +49364,7 @@ const ammoDataMap = {
 		suppressed_bf_enabled: false,
 		on_fumble: null,
 		effect_summary_key: "ammo_hollow_point_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "ammunition-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "ammunition-u" }
 	},
 	shock_rounds: {
 		name_key: "ammo_shock_rounds-u",
@@ -48839,7 +49384,7 @@ const ammoDataMap = {
 		on_fumble: null,
 		on_hit_effect: "systems_check",
 		effect_summary_key: "ammo_shock_rounds_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "ammunition-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "ammunition-u" }
 	},
 	subsonic_rounds: {
 		name_key: "ammo_subsonic_rounds-u",
@@ -48860,48 +49405,27 @@ const ammoDataMap = {
 		requires_suppressor: true,
 		on_fumble: null,
 		effect_summary_key: "ammo_subsonic_rounds_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "ammunition-u" }
-	},
-	veil_charged_rounds: {
-		name_key: "ammo_veil_charged_rounds-u",
-		compatible_categories: ["handgun", "smg", "rifle"],
-		compatible_subcategories: ["hold_out", "light", "heavy", "machine", "smg", "assault", "pdw", "dmr", "sniper"],
-		veil_linked_compatible: false,
-		cost_per_clip: 400,
-		rarity: "restricted",
-		damage_type_override: "veil",
-		damage_die_shift: 0,
-		bonus_damage: null,
-		bonus_damage_condition: null,
-		ap_modifier: 0,
-		soak_modifier: null,
-		structural_damage_multiplier: 1,
-		suppressed_bf_enabled: false,
-		on_fumble: "veil_burnout",
-		effect_summary_key: "ammo_veil_charged_rounds_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "ammunition-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "ammunition-u" }
 	}
 };
 
 const weaponModDataMap = {
 	bio_coded: {
-		name_key: "mod_bio_coded-u",
+		name_key: "mod_biocoded-u",
 		slot: "internal",
-		cost: "half_base_weapon_price",
-		cost_fixed: null,
-		cost_formula: "half_base_weapon_price",
+		cost: "fixed",
+		cost_fixed: 1000,
+		cost_formula: null,
 		compatible_categories: ["handgun", "smg", "shotgun", "rifle", "heavy"],
 		compatible_subcategories: [],
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: ["bio_coded"],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: [],
 		bonus_die_range: [],
 		bf_penalty_reduction: 0,
@@ -48921,7 +49445,7 @@ const weaponModDataMap = {
 		removal_roll: "hard_mechanics",
 		removal_failure: "weapon_destroyed",
 		effect_summary_key: "mod_bio_coded_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	compensator: {
 		name_key: "mod_compensator-u",
@@ -48934,22 +49458,17 @@ const weaponModDataMap = {
 		incompatible_traits: ["loud"],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: [],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: [],
 		bonus_die_range: [],
 		bf_penalty_reduction: 0,
 		fa_penalty_reduction: 0,
 		sa_follow_up_reduction: true,
-		sa_follow_up_effect: {
-			second_shot_penalty_dice: 0,
-			third_shot_penalty_dice: 1
-		},
+		sa_follow_up_effect: { second_shot_penalty_dice: 0, third_shot_penalty_dice: 1 },
 		mode_restriction: ["SA"],
 		mode_unlock: [],
 		reload_as_free_action: false,
@@ -48961,10 +49480,10 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_compensator_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	internal_recoil_system: {
-		name_key: "mod_internal_recoil_system-u",
+		name_key: "mod_irs-u",
 		slot: "internal",
 		cost: "fixed",
 		cost_fixed: 2200,
@@ -48974,13 +49493,11 @@ const weaponModDataMap = {
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: [],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: [],
 		bonus_die_range: [],
 		bf_penalty_reduction: 1,
@@ -48998,7 +49515,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_internal_recoil_system_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	magnification_scope: {
 		name_key: "mod_magnification_scope-u",
@@ -49011,13 +49528,11 @@ const weaponModDataMap = {
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: [],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: ["E", "S"],
 		bonus_die_range: ["L", "X"],
 		bf_penalty_reduction: 0,
@@ -49034,7 +49549,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_magnification_scope_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	precision_choke: {
 		name_key: "mod_precision_choke-u",
@@ -49047,7 +49562,6 @@ const weaponModDataMap = {
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: [],
 		suppresses_trait: ["scatter_spray"],
@@ -49055,7 +49569,6 @@ const weaponModDataMap = {
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: [],
 		bonus_die_range: [],
 		bf_penalty_reduction: 0,
@@ -49072,10 +49585,10 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_precision_choke_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	quick_load_system: {
-		name_key: "mod_quick_load_system-u",
+		name_key: "mod_qls-u",
 		slot: "internal",
 		cost: "fixed",
 		cost_fixed: 1200,
@@ -49084,15 +49597,13 @@ const weaponModDataMap = {
 		compatible_subcategories: [],
 		incompatible_traits: [],
 		requires_trait: [],
-		incompatible_cap_types: ["tube", "pcell", "belt"],
+		incompatible_cap_types: ["pcell", "belt"],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: [],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: [],
 		bonus_die_range: [],
 		bf_penalty_reduction: 0,
@@ -49109,10 +49620,10 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_quick_load_system_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	quick_select_trigger_module: {
-		name_key: "mod_quick_select_trigger_module-u",
+		name_key: "mod_qst-u",
 		slot: "internal",
 		cost: "fixed",
 		cost_fixed: 800,
@@ -49122,13 +49633,11 @@ const weaponModDataMap = {
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: [],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: [],
 		bonus_die_range: [],
 		bf_penalty_reduction: 0,
@@ -49147,7 +49656,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_quick_select_trigger_module_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	reflex_sight: {
 		name_key: "mod_reflex_sight-u",
@@ -49184,7 +49693,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_reflex_sight_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	silencer: {
 		name_key: "mod_silencer-u",
@@ -49192,18 +49701,16 @@ const weaponModDataMap = {
 		cost: "fixed",
 		cost_fixed: 1000,
 		cost_formula: null,
-		compatible_categories: ["pistol"],
+		compatible_categories: ["handgun"],
 		compatible_subcategories: ["hold_out", "light", "heavy", "machine"],
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: ["loud"],
 		adds_trait: ["silenced"],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		stealth_bonus_pct: 10,
 		stealth_bonus_condition: "firing_while_hidden",
 		detection_range_when_fired: "S",
@@ -49223,7 +49730,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_silencer_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	slug_barrel: {
 		name_key: "mod_slug_barrel-u",
@@ -49236,13 +49743,11 @@ const weaponModDataMap = {
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: [],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: [],
 		bonus_die_range: [],
 		bf_penalty_reduction: 0,
@@ -49260,7 +49765,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_slug_barrel_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	smartlink: {
 		name_key: "mod_smartlink-u",
@@ -49274,13 +49779,11 @@ const weaponModDataMap = {
 		requires_trait: [],
 		requires_cyberware: "smartlink_cyberware",
 		no_benefit_without_cyberware: true,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: ["smartlink"],
 		hit_bonus_pct: 10,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		called_shot_bonus_die: 1,
 		penalty_die_range: [],
 		bonus_die_range: [],
@@ -49300,7 +49803,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_smartlink_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	suppressor: {
 		name_key: "mod_suppressor-u",
@@ -49313,14 +49816,11 @@ const weaponModDataMap = {
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: ["loud"],
 		adds_trait: ["suppressed"],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
-		stealth_bonus_pct: 0,
 		stealth_roll_after_firing: true,
 		stealth_roll_penalty_dice: 1,
 		penalty_die_range: [],
@@ -49339,7 +49839,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_suppressor_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	},
 	thermal_scope: {
 		name_key: "mod_thermal_scope-u",
@@ -49352,13 +49852,11 @@ const weaponModDataMap = {
 		incompatible_traits: [],
 		requires_trait: [],
 		requires_cyberware: null,
-		stacks_with_smartlink: true,
 		removes_trait: [],
 		adds_trait: [],
 		hit_bonus_pct: 0,
 		hit_bonus_aim_only: false,
 		hit_bonus_range_limit: [],
-		hit_bonus_stacks_with_smartlink: true,
 		penalty_die_range: [],
 		bonus_die_range: [],
 		bf_penalty_reduction: 0,
@@ -49375,8 +49873,8 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: "M",
 		special_rule: null,
 		effect_summary_key: "mod_thermal_scope_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260322", date: "2026-03-22", section: "weapon_mods-u" }
-	},
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
+	}
 };
 
 /* Maps - End */
@@ -51988,13 +52486,21 @@ const initWeaponComputedAttrs = () => {
       `repeating_weaponsmdr_${id}_weapon_ammo_active_mdr`,
       `repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`,
       `repeating_weaponsmdr_${id}_weapon_optics_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_mod_smartlink_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_mod_internal_mdr`,
       `repeating_weaponsmdr_${id}_weapon_range_band_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_mod_mr_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_mod_mr_slot_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_mod_irs_mdr`,
       `repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`,
-      `repeating_weaponsmdr_${id}_weapondamage_mdr`
+      `repeating_weaponsmdr_${id}_weapon_barrel_mdr`,
+      `repeating_weaponsmdr_${id}_weapondamage_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_modes_available_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_category_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_max_range_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_preset_melee_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_preset_throw_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_preset_handgun_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_preset_shotgun_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_preset_rifle_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_preset_smg_mdr`,
+      `repeating_weaponsmdr_${id}_weapon_preset_heavy_mdr`
     ]));
 
     getAttrs(fetchKeys, (rows) => {
@@ -52013,6 +52519,33 @@ const initWeaponComputedAttrs = () => {
         updates[`repeating_weaponsmdr_${id}_weapon_mode_label_mdr`]   = labelMap[mode] || "SS";
         updates[`repeating_weaponsmdr_${id}_weapon_mode_penalty_mdr`] = netPenalty;
 
+        /* Initialise modes_available and category from weaponDataMap if not yet set */
+        const modesAvail = rows[`repeating_weaponsmdr_${id}_weapon_modes_available_mdr`];
+        const catVal     = rows[`repeating_weaponsmdr_${id}_weapon_category_mdr`];
+        const presetKey = rows[`repeating_weaponsmdr_${id}_weapon_preset_melee_mdr`]
+            || rows[`repeating_weaponsmdr_${id}_weapon_preset_throw_mdr`]
+            || rows[`repeating_weaponsmdr_${id}_weapon_preset_handgun_mdr`]
+            || rows[`repeating_weaponsmdr_${id}_weapon_preset_shotgun_mdr`]
+            || rows[`repeating_weaponsmdr_${id}_weapon_preset_rifle_mdr`]
+            || rows[`repeating_weaponsmdr_${id}_weapon_preset_smg_mdr`]
+            || rows[`repeating_weaponsmdr_${id}_weapon_preset_heavy_mdr`]
+            || "";
+        const entry = presetKey ? weaponDataMap[presetKey] : null;
+        if (entry) {
+          if (!modesAvail && entry.mode && entry.mode.length) {
+            updates[`repeating_weaponsmdr_${id}_weapon_modes_available_mdr`] =
+              entry.mode.map(m => m.toLowerCase()).join(" ");
+          }
+          if (!catVal && entry.category) {
+            updates[`repeating_weaponsmdr_${id}_weapon_category_mdr`] = entry.category;
+          }
+          const maxRangeVal = rows[`repeating_weaponsmdr_${id}_weapon_max_range_mdr`];
+          if (!maxRangeVal && entry.range && entry.range.length) {
+            updates[`repeating_weaponsmdr_${id}_weapon_max_range_mdr`] =
+              entry.range[entry.range.length - 1];
+          }
+        }
+
         if (!labelSet) {
           updates[`repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`] =
             (ammoAct === "1" && ammoType !== "standard") ? ammoType.replace(/_/g, " ") : "";
@@ -52029,14 +52562,28 @@ const initWeaponComputedAttrs = () => {
         const effective = computeEffectiveDamage(numdice, dicesize, bonus, ammoType, ammoAct, `repeating_weaponsmdr_${id}`, `repeating_weaponsmdr_${id}_weapon_effective`);
         Object.assign(updates, effective);
         const optics  = rows[`repeating_weaponsmdr_${id}_weapon_optics_mdr`]        || "none";
-        const slI     = rows[`repeating_weaponsmdr_${id}_weapon_mod_smartlink_mdr`];
+        const intI    = rows[`repeating_weaponsmdr_${id}_weapon_mod_internal_mdr`] || "none";
+        const slI     = intI === "smartlink" ? "1" : undefined;
+        const irsI    = intI === "irs"        ? "1" : undefined;
+        const qstI    = intI === "qst"        ? "1" : undefined;
+        const qlsI    = intI === "qls"        ? "1" : undefined;
+        const bioI    = intI === "biocoded"   ? "1" : undefined;
         const rangeI  = rows[`repeating_weaponsmdr_${id}_weapon_range_band_mdr`]    || "short";
-        const mrI     = rows[`repeating_weaponsmdr_${id}_weapon_mod_mr_mdr`];
-        const mrSlotI = (mrI === "1") ? (rows[`repeating_weaponsmdr_${id}_weapon_mod_mr_slot_mdr`] || "none") : "none";
-        const irsI    = rows[`repeating_weaponsmdr_${id}_weapon_mod_irs_mdr`];
         const reduceI = parseInt(rows[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`], 10) || 0;
-        updates[`repeating_weaponsmdr_${id}_weapon_computed_hit_mdr`]           = computeWeaponHit(optics, mrSlotI, slI, rangeI);
-        updates[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_eff_mdr`] = reduceI + ((irsI === "1" || mrSlotI === "irs_mr") ? 1 : 0);
+        updates[`repeating_weaponsmdr_${id}_weapon_computed_hit_mdr`]           = computeWeaponHit(optics, slI, rangeI);
+        const reduceEffI = reduceI + (irsI === "1" ? 1 : 0);
+        updates[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_eff_mdr`] = reduceEffI;
+        /* Summary display attrs */
+        const modeI    = rows[`repeating_weaponsmdr_${id}_weapon_mode_mdr`] || "ss";
+        const barrelI  = rows[`repeating_weaponsmdr_${id}_weapon_barrel_mdr`] || "";
+        const penDiceI = { ss: 0, sa: 0, bf: 1, fa: 2 };
+        const diceI    = penDiceI[modeI] || 0;
+        const netDiceI = Math.max(0, diceI - Math.min(reduceEffI, diceI));
+        const netPenI  = -(netDiceI * 10);
+        const hitI     = computeWeaponHit(optics, slI, rangeI);
+        updates[`repeating_weaponsmdr_${id}_weapon_tags_display_mdr`]        = buildTagsStr(optics, slI, barrelI, irsI, qstI, qlsI, bioI, modeI);
+        updates[`repeating_weaponsmdr_${id}_weapon_net_hit_display_mdr`]     = hitI === 0 ? "—" : (hitI > 0 ? "+" : "") + hitI + "%";
+        updates[`repeating_weaponsmdr_${id}_weapon_net_penalty_display_mdr`] = netDiceI === 0 ? "—" : netPenI + "% (" + netDiceI + " " + (netDiceI === 1 ? "die" : "dice") + ")";
       });
 
       if (Object.keys(updates).length) setAttrs(updates, { silent: true });
@@ -54740,57 +55287,91 @@ on("change:weapon1_mdr_damage", () => {
 
 /* Compute net hit bonus: optics + smartlink non-stacking, mag scope penalty separate.
    Reflex Sight and Smartlink do not stack — take the higher. */
-function computeWeaponHit(optics, mrSlot, smartlink, range) {
+function computeWeaponHit(optics, smartlink, range, category, maxRange) {
+  const bandOrder    = ["engaged", "short", "medium", "long", "extreme"];
+  const maxRangeMap  = { E: "engaged", S: "short", M: "medium", L: "long", X: "extreme" };
   const reflexRanges = ["engaged", "short", "medium"];
   const longRanges   = ["long", "extreme"];
   const closeRanges  = ["engaged", "short"];
   function opticBonus(o) {
-    if (o === "reflex" || o === "reflex_mr")         return reflexRanges.includes(range) ? 10 : 0;
-    if (o === "magnification" || o === "magnification_mr")
-      return longRanges.includes(range) ? 10 : closeRanges.includes(range) ? -10 : 0;
+    if (o === "reflex")        return reflexRanges.includes(range) ? 10 : 0;
+    if (o === "magnification") return longRanges.includes(range) ? 10 : closeRanges.includes(range) ? -10 : 0;
     return 0;
   }
-  const prim      = opticBonus(optics);
-  const mrB       = (mrSlot === "reflex_mr" || mrSlot === "magnification_mr") ? opticBonus(mrSlot) : 0;
-  const bestOptic = Math.max(prim > 0 ? prim : 0, mrB > 0 ? mrB : 0);
-  const slBonus   = (smartlink === "1" || smartlink === true) ? 10 : 0;
-  const magPen    = Math.min(prim < 0 ? prim : 0, mrB < 0 ? mrB : 0);
-  return Math.max(bestOptic, slBonus) + magPen;
+  /* Distance modifier: Short +10%, Medium 0%, Long -10%, Extreme -20% */
+  const distMod  = { engaged: 0, short: 10, medium: 0, long: -10, extreme: -20 };
+  const rangeMod = distMod[range] !== undefined ? distMod[range] : 0;
+  /* Engaged range penalty — handgun: -10%, long arms: -20% (stacks with distMod) */
+  const longArms   = ["rifle", "smg", "shotgun", "heavy"];
+  const engagedPen = range === "engaged"
+    ? (longArms.includes(category) ? -20 : category === "handgun" ? -10 : 0)
+    : 0;
+  const prim    = opticBonus(optics);
+  const slBonus = (smartlink === "1" || smartlink === true) ? 10 : 0;
+  const magPen  = prim < 0 ? prim : 0;
+  return Math.max(prim > 0 ? prim : 0, slBonus) + magPen + engagedPen + rangeMod;
 }
 
-on("change:weapon1_mdr_optics change:weapon1_mdr_mod_smartlink change:weapon1_mdr_range_band change:weapon1_mdr_mod_mr change:weapon1_mdr_mod_mr_slot change:weapon1_mdr_mod_irs change:weapon1_mdr_mod_penalty_reduce", () => {
-  if (debug_on_trace) console.log("[change:weapon1_mdr_hit]");
-  getAttrs(["weapon1_mdr_optics", "weapon1_mdr_mod_smartlink", "weapon1_mdr_range_band",
-            "weapon1_mdr_mod_mr", "weapon1_mdr_mod_mr_slot", "weapon1_mdr_mod_irs",
-            "weapon1_mdr_mod_penalty_reduce"], (v) => {
-    const optics  = v.weapon1_mdr_optics       || "none";
-    const sl      = v.weapon1_mdr_mod_smartlink;
-    const range   = v.weapon1_mdr_range_band   || "short";
-    const mr      = v.weapon1_mdr_mod_mr;
-    const mrSlot  = (mr === "1") ? (v.weapon1_mdr_mod_mr_slot || "none") : "none";
-    const irs     = v.weapon1_mdr_mod_irs;
-    const reduce  = parseInt(v.weapon1_mdr_mod_penalty_reduce, 10) || 0;
-    setAttrs({
-      weapon1_mdr_computed_hit:           computeWeaponHit(optics, mrSlot, sl, range),
-      weapon1_mdr_mod_penalty_reduce_eff: reduce + ((irs === "1" || mrSlot === "irs_mr") ? 1 : 0)
-    });
-  });
-});
 
-on("change:weapon1_mdr_mode change:weapon1_mdr_mod_penalty_reduce", () => {
-  if (debug_on_trace) console.log("[change:weapon1_mdr_mode/penalty_reduce]");
-  getAttrs(["weapon1_mdr_mode", "weapon1_mdr_mod_penalty_reduce"], (v) => {
-    const mode        = v.weapon1_mdr_mode || "ss";
-    const reduce      = parseInt(v.weapon1_mdr_mod_penalty_reduce, 10) || 0;
-    const numMap      = { ss: "10", sa: "10", bf: "21", fa: "32" };
-    const labelMap    = { ss: "SS", sa: "SA", bf: "BF x2", fa: "FA x3" };
-    const penaltyDice = { ss: 0, sa: 0, bf: 1, fa: 2 };
-    const dice        = penaltyDice[mode] || 0;
-    const netPenalty  = -(Math.max(0, dice - Math.min(reduce, dice)) * 10);
+function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode) {
+  const opticLabels = {
+    reflex: "Reflex Sight", magnification: "Mag Scope", thermal: "Thermal Scope"
+  };
+  const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
+  const tags = [labelMap[mode] || "SS"];
+  const slActive = sl === "1";
+  if (optics === "reflex" && slActive) {
+    tags.push("Smartlink/Reflex (no stack)");
+  } else {
+    if (slActive) tags.push("Smartlink +10%");
+    if (optics !== "none") tags.push(opticLabels[optics] || optics);
+  }
+  if (barrel) tags.push(barrel);
+  if (irs === "1") tags.push("IRS −1 die");
+  if (qst === "1") tags.push("Quick-Select");
+  if (qls === "1") tags.push("Quick-Load");
+  if (biocoded === "1") tags.push("Bio-Coded");
+  return tags.join("  •  ");
+}
+
+on("change:weapon1_mdr_optics change:weapon1_mdr_mod_internal change:weapon1_mdr_range_band change:weapon1_mdr_mod_penalty_reduce change:weapon1_mdr_mode change:weapon1_mdr_barrel", () => {
+  if (debug_on_trace) console.log("[change:weapon1_mdr_summary]");
+  getAttrs(["weapon1_mdr_optics", "weapon1_mdr_mod_internal", "weapon1_mdr_range_band",
+            "weapon1_mdr_mod_penalty_reduce", "weapon1_mdr_mode", "weapon1_mdr_barrel",
+            "weapon1_mdr_category", "weapon1_mdr_max_range"], (v) => {
+    const optics   = v.weapon1_mdr_optics          || "none";
+    const internal = v.weapon1_mdr_mod_internal || "none";
+    const sl       = internal === "smartlink" ? "1" : undefined;
+    const irs      = internal === "irs"        ? "1" : undefined;
+    const qst      = internal === "qst"        ? "1" : undefined;
+    const qls      = internal === "qls"        ? "1" : undefined;
+    const biocoded = internal === "biocoded"   ? "1" : undefined;
+    const range    = v.weapon1_mdr_range_band      || "short";
+    const category = v.weapon1_mdr_category        || "";
+    const maxRange = v.weapon1_mdr_max_range        || "";
+    const reduce   = parseInt(v.weapon1_mdr_mod_penalty_reduce, 10) || 0;
+    const mode     = v.weapon1_mdr_mode            || "ss";
+    const barrel   = v.weapon1_mdr_barrel          || "";
+    const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
+    const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
+    const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
+    const irsBonus = irs === "1" ? 1 : 0;
+    const redEff   = reduce + irsBonus;
+    const dice     = penDice[mode] || 0;
+    const netDice  = Math.max(0, dice - Math.min(redEff, dice));
+    const netPen   = -(netDice * 10);
+    const hit      = computeWeaponHit(optics, sl, range, category, maxRange);
+    const hitStr   = hit === 0 ? "—" : (hit > 0 ? "+" : "") + hit + "%";
+    const penStr   = netDice === 0 ? "—" : netPen + "% (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")";
     setAttrs({
-      weapon1_mdr_mode_num:     numMap[mode]   || "10",
-      weapon1_mdr_mode_label:   labelMap[mode] || "SS",
-      weapon1_mdr_mode_penalty: netPenalty
+      weapon1_mdr_computed_hit:            hit,
+      weapon1_mdr_mod_penalty_reduce_eff:  redEff,
+      weapon1_mdr_mode_num:                numMap[mode]   || "10",
+      weapon1_mdr_mode_label:              labelMap[mode] || "SS",
+      weapon1_mdr_mode_penalty:            netPen,
+      weapon1_mdr_tags_display:            buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode),
+      weapon1_mdr_net_hit_display:         hitStr,
+      weapon1_mdr_net_penalty_display:     penStr
     });
   });
 });
@@ -54812,26 +55393,50 @@ on("change:weapon1_mdr_ammo_type change:weapon1_mdr_ammo_active", () => {
   });
 });
 
-on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weapon_mod_penalty_reduce_mdr", (eventInfo) => {
-  if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapon_mode/penalty_reduce]");
+on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weapon_mod_penalty_reduce_mdr change:repeating_weaponsmdr:weapon_optics_mdr change:repeating_weaponsmdr:weapon_mod_internal_mdr change:repeating_weaponsmdr:weapon_range_band_mdr change:repeating_weaponsmdr:weapon_barrel_mdr", (eventInfo) => {
+  if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapon_summary]");
   const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
   if (!m) return;
   const id = m[1];
+  const p  = `repeating_weaponsmdr_${id}_`;
   getAttrs([
-    `repeating_weaponsmdr_${id}_weapon_mode_mdr`,
-    `repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`
+    p + "weapon_mode_mdr", p + "weapon_mod_penalty_reduce_mdr",
+    p + "weapon_optics_mdr", p + "weapon_mod_internal_mdr", p + "weapon_range_band_mdr",
+    p + "weapon_barrel_mdr", p + "weapon_category_mdr", p + "weapon_max_range_mdr"
   ], (v) => {
-    const mode        = v[`repeating_weaponsmdr_${id}_weapon_mode_mdr`] || "ss";
-    const reduce      = parseInt(v[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`], 10) || 0;
-    const numMap      = { ss: "10", sa: "10", bf: "21", fa: "32" };
-    const labelMap    = { ss: "SS", sa: "SA", bf: "BF x2", fa: "FA x3" };
-    const penaltyDice = { ss: 0, sa: 0, bf: 1, fa: 2 };
-    const dice        = penaltyDice[mode] || 0;
-    const netPenalty  = -(Math.max(0, dice - Math.min(reduce, dice)) * 10);
+    const mode    = v[p + "weapon_mode_mdr"]              || "ss";
+    const reduce  = parseInt(v[p + "weapon_mod_penalty_reduce_mdr"], 10) || 0;
+    const optics  = v[p + "weapon_optics_mdr"]            || "none";
+    const internal = v[p + "weapon_mod_internal_mdr"] || "none";
+    const sl       = internal === "smartlink" ? "1" : undefined;
+    const irs      = internal === "irs"        ? "1" : undefined;
+    const qst      = internal === "qst"        ? "1" : undefined;
+    const qls      = internal === "qls"        ? "1" : undefined;
+    const biocoded = internal === "biocoded"   ? "1" : undefined;
+    const range    = v[p + "weapon_range_band_mdr"]        || "short";
+    const category = v[p + "weapon_category_mdr"]          || "";
+    const maxRange = v[p + "weapon_max_range_mdr"]         || "";
+    const barrel   = v[p + "weapon_barrel_mdr"]            || "";
+    const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
+    const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
+    const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
+    const irsBonus = irs === "1" ? 1 : 0;
+    const redEff   = reduce + irsBonus;
+    const dice     = penDice[mode] || 0;
+    const netDice  = Math.max(0, dice - Math.min(redEff, dice));
+    const netPen   = -(netDice * 10);
+    const hit      = computeWeaponHit(optics, sl, range, category, maxRange);
+    const hitStr   = hit === 0 ? "—" : (hit > 0 ? "+" : "") + hit + "%";
+    const penStr   = netDice === 0 ? "—" : netPen + "% (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")";
     setAttrs({
-      [`repeating_weaponsmdr_${id}_weapon_mode_num_mdr`]:   numMap[mode]   || "10",
-      [`repeating_weaponsmdr_${id}_weapon_mode_label_mdr`]: labelMap[mode] || "SS",
-      [`repeating_weaponsmdr_${id}_weapon_mode_penalty_mdr`]: netPenalty
+      [p + "weapon_computed_hit_mdr"]:           hit,
+      [p + "weapon_mod_penalty_reduce_eff_mdr"]: redEff,
+      [p + "weapon_mode_num_mdr"]:               numMap[mode]   || "10",
+      [p + "weapon_mode_label_mdr"]:             labelMap[mode] || "SS",
+      [p + "weapon_mode_penalty_mdr"]:           netPen,
+      [p + "weapon_tags_display_mdr"]:           buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode),
+      [p + "weapon_net_hit_display_mdr"]:        hitStr,
+      [p + "weapon_net_penalty_display_mdr"]:    penStr
     });
   });
 });
@@ -54856,34 +55461,6 @@ on("change:repeating_weaponsmdr:weapon_ammo_type_mdr change:repeating_weaponsmdr
     const bonus    = parseInt(v[`repeating_weaponsmdr_${id}_damage_bonus`],    10) || 0;
     const effective = computeEffectiveDamage(numdice, dicesize, bonus, type, active, `repeating_weaponsmdr_${id}`, `repeating_weaponsmdr_${id}_weapon_effective`);
     setAttrs({ [`repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`]: label, ...effective });
-  });
-});
-
-on("change:repeating_weaponsmdr:weapon_optics_mdr change:repeating_weaponsmdr:weapon_mod_smartlink_mdr change:repeating_weaponsmdr:weapon_range_band_mdr change:repeating_weaponsmdr:weapon_mod_mr_mdr change:repeating_weaponsmdr:weapon_mod_mr_slot_mdr change:repeating_weaponsmdr:weapon_mod_irs_mdr change:repeating_weaponsmdr:weapon_mod_penalty_reduce_mdr", (eventInfo) => {
-  if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapon_hit]");
-  const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-  if (!m) return;
-  const id = m[1];
-  getAttrs([
-    `repeating_weaponsmdr_${id}_weapon_optics_mdr`,
-    `repeating_weaponsmdr_${id}_weapon_mod_smartlink_mdr`,
-    `repeating_weaponsmdr_${id}_weapon_range_band_mdr`,
-    `repeating_weaponsmdr_${id}_weapon_mod_mr_mdr`,
-    `repeating_weaponsmdr_${id}_weapon_mod_mr_slot_mdr`,
-    `repeating_weaponsmdr_${id}_weapon_mod_irs_mdr`,
-    `repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`
-  ], (v) => {
-    const optics  = v[`repeating_weaponsmdr_${id}_weapon_optics_mdr`]        || "none";
-    const sl      = v[`repeating_weaponsmdr_${id}_weapon_mod_smartlink_mdr`];
-    const range   = v[`repeating_weaponsmdr_${id}_weapon_range_band_mdr`]    || "short";
-    const mr      = v[`repeating_weaponsmdr_${id}_weapon_mod_mr_mdr`];
-    const mrSlot  = (mr === "1") ? (v[`repeating_weaponsmdr_${id}_weapon_mod_mr_slot_mdr`] || "none") : "none";
-    const irs     = v[`repeating_weaponsmdr_${id}_weapon_mod_irs_mdr`];
-    const reduce  = parseInt(v[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`], 10) || 0;
-    setAttrs({
-      [`repeating_weaponsmdr_${id}_weapon_computed_hit_mdr`]:           computeWeaponHit(optics, mrSlot, sl, range),
-      [`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_eff_mdr`]: reduce + ((irs === "1" || mrSlot === "irs_mr") ? 1 : 0)
-    });
   });
 });
 
@@ -55344,6 +55921,398 @@ on("change:repeating_contacts:contact_type change:repeating_contacts:contact_cos
 		});
 	});
 });
+
+
+const weaponSkillClassMap = {
+	"@{melee_weapons_mdr}":    "skill-melee",
+	"@{throw_mdr}":            "skill-throw",
+	"@{firearms_handgun_mdr}": "skill-handgun",
+	"@{firearms_shotgun_mdr}": "skill-shotgun",
+	"@{firearms_rifle_mdr}":   "skill-rifle",
+	"@{firearms_smg_mdr}":     "skill-smg",
+	"@{heavy_weapons_mdr}":    "skill-heavy",
+};
+
+/* ── Cap helpers ─────────────────────────────────────────────────────── */
+function parseCapRating(rating) {
+	if (!rating) return { capType: "box", capCount: 0 };
+	if (rating.startsWith("cap_"))     return { capType: "box",     capCount: parseInt(rating.slice(4),  10) };
+	if (rating.startsWith("drum_"))    return { capType: "drum",    capCount: parseInt(rating.slice(5),  10) };
+	if (rating.startsWith("tracked_")) return { capType: "tracked", capCount: parseInt(rating.slice(8),  10) };
+	if (rating === "belt_10")          return { capType: "belt",    capCount: 10 };
+	if (rating === "belt_15")          return { capType: "belt",    capCount: 15 };
+	return { capType: "box", capCount: 0 };
+}
+
+function capDisplayCode(rating) {
+	if (!rating) return "b0";
+	if (rating.startsWith("cap_"))     return "b" + rating.slice(4);
+	if (rating.startsWith("drum_"))    return "d" + rating.slice(5);
+	if (rating.startsWith("tracked_")) return "t" + rating.slice(8);
+	if (rating === "belt_10")          return "e10";
+	if (rating === "belt_15")          return "e15";
+	return "b0";
+}
+
+/* Build a display string for MR: [0,0] → "00", else "lo-hi" */
+function mrDisplayStr(mr) {
+	if (!mr || !Array.isArray(mr)) return "00";
+	const [lo, hi] = mr;
+	if (lo === 0 && hi === 0) return "00";
+	return String(lo).padStart(2, "0") + "-" + String(hi).padStart(2, "0");
+}
+
+/* ── Weapon preset — repeating row ─────────────────────────────────── */
+on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weaponsmdr:weapon_preset_throw_mdr change:repeating_weaponsmdr:weapon_preset_handgun_mdr change:repeating_weaponsmdr:weapon_preset_shotgun_mdr change:repeating_weaponsmdr:weapon_preset_rifle_mdr change:repeating_weaponsmdr:weapon_preset_smg_mdr change:repeating_weaponsmdr:weapon_preset_heavy_mdr", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapon_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1];
+	const p  = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_preset_melee_mdr",
+		p + "weapon_preset_throw_mdr",
+		p + "weapon_preset_handgun_mdr",
+		p + "weapon_preset_shotgun_mdr",
+		p + "weapon_preset_rifle_mdr",
+		p + "weapon_preset_smg_mdr",
+		p + "weapon_preset_heavy_mdr"], (v) => {
+		const p_melee = v[p + "weapon_preset_melee_mdr"] || "";
+		const p_throw = v[p + "weapon_preset_throw_mdr"] || "";
+		const p_handgun = v[p + "weapon_preset_handgun_mdr"] || "";
+		const p_shotgun = v[p + "weapon_preset_shotgun_mdr"] || "";
+		const p_rifle = v[p + "weapon_preset_rifle_mdr"] || "";
+		const p_smg = v[p + "weapon_preset_smg_mdr"] || "";
+		const p_heavy = v[p + "weapon_preset_heavy_mdr"] || "";
+		const presetKey = p_melee || p_throw || p_handgun || p_shotgun || p_rifle || p_smg || p_heavy;
+		if (!presetKey) return;
+		const entry = weaponDataMap[presetKey];
+		if (!entry) return;
+		const capRating  = entry.cap.rating;
+		const pcellNum   = entry.cap.pcell ? 1 : 0;
+		const modeStr    = (entry.mode || []).join("/") || "—";
+		const rangeStr   = (entry.range || []).join("/") || "—";
+		const nameKey    = entry.name_key || "";
+		const name       = (typeof getTranslationByKey === "function" && getTranslationByKey(nameKey)) || nameKey;
+		/* Determine which preset select fired so we can clear the others */
+		const skillPresets = ["melee","throw","handgun","shotgun","rifle","smg","heavy"];
+		const activePreset = skillPresets.find(s => v[p + "weapon_preset_" + s + "_mdr"] === presetKey) || "";
+		const clearOthers = {};
+		skillPresets.forEach(s => {
+			if (s !== activePreset) clearOthers[p + "weapon_preset_" + s + "_mdr"] = "";
+		});
+		/* Parse damage immediately — change: events don't fire from worker setAttrs */
+		const damageStr = entry.damage || "";
+		const baseDmg   = parseDamageString(damageStr, p.slice(0, -1));
+		const nd = parseInt(baseDmg[p + "damage_numdice"],  10) || 0;
+		const ds = parseInt(baseDmg[p + "damage_dicesize"], 10) || 0;
+		const bn = parseInt(baseDmg[p + "damage_bonus"],    10) || 0;
+		const effective = computeEffectiveDamage(nd, ds, bn, "standard", "0", p.slice(0, -1), p + "weapon_effective");
+		setAttrs(Object.assign(clearOthers, baseDmg, effective, {
+			[p + "weaponname_mdr"]:                  name,
+			[p + "weapondamage_mdr"]:                damageStr,
+			[p + "weaponmalf_mdr"]:                  mrDisplayStr(entry.mr),
+			[p + "weaponattacks_mdr"]:               modeStr,
+			[p + "weaponrange_mdr"]:                 rangeStr,
+			[p + "weapon_cap_rating_mdr"]:           capRating,
+			[p + "weapon_cap_pcell_mdr"]:            pcellNum ? "1" : "0",
+			[p + "weapon_cap_display_mdr"]:          capDisplayCode(capRating),
+			[p + "weapon_modes_available_mdr"]:      (entry.mode || ["ss"]).map(m => m.toLowerCase()).join(" "),
+			[p + "weapon_mode_mdr"]:                 (entry.mode && entry.mode.length ? entry.mode[0].toLowerCase() : "ss"),
+			[p + "weapon_cap_counter_mdr"]:          parseCapRating(capRating).capCount + "/" + parseCapRating(capRating).capCount,
+			[p + "weapon_category_mdr"]:             entry.category || "",
+			[p + "weapon_ammo_type_mdr"]:            "standard",
+			[p + "weapon_ammo_active_mdr"]:          "0",
+		}));
+	});
+});
+
+/* ── Weapon preset — static weapon1 ────────────────────────────────── */
+on("change:weapon1_mdr_weapon_preset_melee change:weapon1_mdr_weapon_preset_throw change:weapon1_mdr_weapon_preset_handgun change:weapon1_mdr_weapon_preset_shotgun change:weapon1_mdr_weapon_preset_rifle change:weapon1_mdr_weapon_preset_smg change:weapon1_mdr_weapon_preset_heavy", () => {
+	if (debug_on_trace) console.log("[change:weapon1_mdr_weapon_preset]");
+	getAttrs(["weapon1_mdr_weapon_preset_melee",
+		"weapon1_mdr_weapon_preset_throw",
+		"weapon1_mdr_weapon_preset_handgun",
+		"weapon1_mdr_weapon_preset_shotgun",
+		"weapon1_mdr_weapon_preset_rifle",
+		"weapon1_mdr_weapon_preset_smg",
+		"weapon1_mdr_weapon_preset_heavy"], (v) => {
+		const p_melee = v["weapon1_mdr_weapon_preset_melee"] || "";
+		const p_throw = v["weapon1_mdr_weapon_preset_throw"] || "";
+		const p_handgun = v["weapon1_mdr_weapon_preset_handgun"] || "";
+		const p_shotgun = v["weapon1_mdr_weapon_preset_shotgun"] || "";
+		const p_rifle = v["weapon1_mdr_weapon_preset_rifle"] || "";
+		const p_smg = v["weapon1_mdr_weapon_preset_smg"] || "";
+		const p_heavy = v["weapon1_mdr_weapon_preset_heavy"] || "";
+		const presetKey = p_melee || p_throw || p_handgun || p_shotgun || p_rifle || p_smg || p_heavy;
+		if (!presetKey) return;
+		const entry = weaponDataMap[presetKey];
+		if (!entry) return;
+		const capRating  = entry.cap.rating;
+		const pcellNum   = entry.cap.pcell ? 1 : 0;
+		const modeStr    = (entry.mode || []).join("/") || "—";
+		const rangeStr   = (entry.range || []).join("/") || "—";
+		const nameKey    = entry.name_key || "";
+		const name       = (typeof getTranslationByKey === "function" && getTranslationByKey(nameKey)) || nameKey;
+		/* Parse damage immediately — change: events don't fire from worker setAttrs */
+		const damageStr = entry.damage || "";
+		const baseDmg   = parseDamageString(damageStr, "weapon1_mdr");
+		const nd = parseInt(baseDmg["weapon1_mdr_damage_numdice"],  10) || 0;
+		const ds = parseInt(baseDmg["weapon1_mdr_damage_dicesize"], 10) || 0;
+		const bn = parseInt(baseDmg["weapon1_mdr_damage_bonus"],    10) || 0;
+		const effective = computeEffectiveDamage(nd, ds, bn, "standard", "0", "weapon1_mdr", "weapon1_mdr_effective");
+		setAttrs(Object.assign(baseDmg, effective, {
+			weapon1_mdr_name:               name,
+			weapon1_mdr_damage:             damageStr,
+			weapon1_mdr_malf:               mrDisplayStr(entry.mr),
+			weapon1_mdr_attacks:            modeStr,
+			weapon1_mdr_range:              rangeStr,
+			weapon1_mdr_cap_rating:         capRating,
+			weapon1_mdr_cap_pcell:          pcellNum ? "1" : "0",
+			weapon1_mdr_cap_display:        capDisplayCode(capRating),
+			weapon1_mdr_modes_available:    (entry.mode || ["ss"]).map(m => m.toLowerCase()).join(" "),
+			weapon1_mdr_mode:               (entry.mode && entry.mode.length ? entry.mode[0].toLowerCase() : "ss"),
+			weapon1_mdr_cap_counter:        parseCapRating(capRating).capCount + "/" + parseCapRating(capRating).capCount,
+			weapon1_mdr_category:           entry.category || "",
+			weapon1_mdr_max_range:          (entry.range && entry.range.length ? entry.range[entry.range.length - 1] : ""),
+			weapon1_mdr_ammo_type:          "standard",
+			weapon1_mdr_ammo_active:        "0",
+		}));
+	});
+});
+
+/* ── Skill change → CSS preset class ───────────────────────────────── */
+on("change:repeating_weaponsmdr:weaponskill_mdr", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weaponskill_mdr:class]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1];
+	const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weaponskill_mdr"], (v) => {
+		const cssClass = weaponSkillClassMap[v[p + "weaponskill_mdr"] || ""] || "";
+		/* Clear all preset selects so stale values don't pollute the presetKey lookup */
+		setAttrs({
+			[p + "weapon_skill_class_mdr"]:      cssClass,
+			[p + "weapon_preset_melee_mdr"]:     "",
+			[p + "weapon_preset_throw_mdr"]:     "",
+			[p + "weapon_preset_handgun_mdr"]:   "",
+			[p + "weapon_preset_shotgun_mdr"]:   "",
+			[p + "weapon_preset_rifle_mdr"]:     "",
+			[p + "weapon_preset_smg_mdr"]:       "",
+			[p + "weapon_preset_heavy_mdr"]:     "",
+		});
+	});
+});
+
+on("change:weapon1_skill_mdr", () => {
+	if (debug_on_trace) console.log("[change:weapon1_skill_mdr:class]");
+	getAttrs(["weapon1_skill_mdr"], (v) => {
+		const cssClass = weaponSkillClassMap[v["weapon1_skill_mdr"] || ""] || "";
+		setAttrs({ weapon1_skill_class: cssClass });
+	});
+});
+
+
+/* ── Cap reload — repeating row ────────────────────────────────────── */
+
+/* ── Cap reload — static weapon1 ───────────────────────────────────── */
+on("clicked:weapon1_cap_reload", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1_cap_reload]");
+	const updates = {};
+	for (let n = 1; n <= 15; n++) {
+		const pad = n < 10 ? "0" + n : "" + n;
+		updates["weapon1_mdr_cap_box_" + pad] = "0";
+	}
+	setAttrs(updates);
+});
+
+
+/* ── Cap counter — update X/N display in main row ───────────────────── */
+function updateCapCounter(capRatingAttr, boxAttrFn, counterAttr, total, modeAttr, modesAvailAttr) {
+	const attrs = [capRatingAttr];
+	for (let n = 1; n <= total; n++) attrs.push(boxAttrFn(n));
+	if (modeAttr)      attrs.push(modeAttr);
+	if (modesAvailAttr) attrs.push(modesAvailAttr);
+	getAttrs(attrs, (v) => {
+		const { capCount } = parseCapRating(v[capRatingAttr] || "");
+		if (capCount === 0) { setAttrs({ [counterAttr]: "—" }); return; }
+		let spent = 0;
+		for (let n = 1; n <= capCount; n++) if (v[boxAttrFn(n)] === "1") spent++;
+		const remaining = capCount - spent;
+		const updates = { [counterAttr]: remaining + "/" + capCount };
+		/* Gate modes by remaining rounds: FA needs ≥3, BF needs ≥2, SA/SS need ≥1 */
+		if (modeAttr && modesAvailAttr) {
+			const mode  = v[modeAttr]      || "ss";
+			const avail = (v[modesAvailAttr] || "").split(" ").filter(Boolean);
+			const minRounds = { fa: 3, bf: 2, sa: 1, ss: 1 };
+			const modeBlocked = remaining < (minRounds[mode] || 1);
+			if (modeBlocked) {
+				/* Find best available mode given remaining rounds */
+				const priority = ["ss","sa","bf","fa"];
+				const fallback = priority.find(m => avail.includes(m) && remaining >= (minRounds[m] || 1)) || "";
+				updates[modeAttr] = fallback;
+			}
+		}
+		setAttrs(updates);
+	});
+}
+
+on("change:repeating_weaponsmdr:weapon_cap_box_mdr_01 change:repeating_weaponsmdr:weapon_cap_box_mdr_02 change:repeating_weaponsmdr:weapon_cap_box_mdr_03 change:repeating_weaponsmdr:weapon_cap_box_mdr_04 change:repeating_weaponsmdr:weapon_cap_box_mdr_05 change:repeating_weaponsmdr:weapon_cap_box_mdr_06 change:repeating_weaponsmdr:weapon_cap_box_mdr_07 change:repeating_weaponsmdr:weapon_cap_box_mdr_08 change:repeating_weaponsmdr:weapon_cap_box_mdr_09 change:repeating_weaponsmdr:weapon_cap_box_mdr_10 change:repeating_weaponsmdr:weapon_cap_box_mdr_11 change:repeating_weaponsmdr:weapon_cap_box_mdr_12 change:repeating_weaponsmdr:weapon_cap_box_mdr_13 change:repeating_weaponsmdr:weapon_cap_box_mdr_14 change:repeating_weaponsmdr:weapon_cap_box_mdr_15", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapon_cap_box]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	const pad = (n) => n < 10 ? "0" + n : "" + n;
+	updateCapCounter(p + "weapon_cap_rating_mdr", (n) => p + "weapon_cap_box_mdr_" + pad(n), p + "weapon_cap_counter_mdr", 15, p + "weapon_mode_mdr", p + "weapon_modes_available_mdr");
+});
+
+on("change:weapon1_mdr_cap_box_01 change:weapon1_mdr_cap_box_02 change:weapon1_mdr_cap_box_03 change:weapon1_mdr_cap_box_04 change:weapon1_mdr_cap_box_05 change:weapon1_mdr_cap_box_06 change:weapon1_mdr_cap_box_07 change:weapon1_mdr_cap_box_08 change:weapon1_mdr_cap_box_09 change:weapon1_mdr_cap_box_10 change:weapon1_mdr_cap_box_11 change:weapon1_mdr_cap_box_12 change:weapon1_mdr_cap_box_13 change:weapon1_mdr_cap_box_14 change:weapon1_mdr_cap_box_15", () => {
+	if (debug_on_trace) console.log("[change:weapon1_mdr_cap_box]");
+	const pad = (n) => n < 10 ? "0" + n : "" + n;
+	updateCapCounter("weapon1_mdr_cap_rating", (n) => "weapon1_mdr_cap_box_" + pad(n), "weapon1_mdr_cap_counter", 15, "weapon1_mdr_mode", "weapon1_mdr_modes_available");
+});
+
+on("clicked:repeating_weaponsmdr:weapon-cap-reload", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-cap-reload]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	const updates = {};
+	for (let n = 1; n <= 15; n++) { const pad = n < 10 ? "0" + n : "" + n; updates[p + "weapon_cap_box_mdr_" + pad] = "0"; }
+	setAttrs(updates, {}, () => {
+		const pad = (n) => n < 10 ? "0" + n : "" + n;
+		updateCapCounter(p + "weapon_cap_rating_mdr", (n) => p + "weapon_cap_box_mdr_" + pad(n), p + "weapon_cap_counter_mdr", 15, p + "weapon_mode_mdr", p + "weapon_modes_available_mdr");
+	});
+});
+
+on("clicked:weapon1_cap_reload", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1_cap_reload]");
+	const updates = {};
+	for (let n = 1; n <= 15; n++) { const pad = n < 10 ? "0" + n : "" + n; updates["weapon1_mdr_cap_box_" + pad] = "0"; }
+	setAttrs(updates, {}, () => {
+		const pad = (n) => n < 10 ? "0" + n : "" + n;
+		updateCapCounter("weapon1_mdr_cap_rating", (n) => "weapon1_mdr_cap_box_" + pad(n), "weapon1_mdr_cap_counter", 15, "weapon1_mdr_mode", "weapon1_mdr_modes_available");
+	});
+});
+
+/* ── Mod section collapse toggle ─────────────────────────────────────── */
+on("clicked:repeating_weaponsmdr:weapon-mods-toggle", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mods-toggle]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const attr = `repeating_weaponsmdr_${id}_weapon_mods_collapsed_mdr`;
+	getAttrs([attr], (v) => { setAttrs({ [attr]: v[attr] === "1" ? "0" : "1" }); });
+});
+
+on("clicked:weapon1_mods_toggle", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1_mods_toggle]");
+	getAttrs(["weapon1_mdr_mods_collapsed"], (v) => {
+		setAttrs({ weapon1_mdr_mods_collapsed: v.weapon1_mdr_mods_collapsed === "1" ? "0" : "1" });
+	});
+});
+
+
+/* ── Mode button handlers — repeating row ───────────────────────────── */
+(function() {
+	["ss", "sa", "bf", "fa"].forEach((mode) => {
+		on("clicked:repeating_weaponsmdr:weapon-mode-" + mode, (eventInfo) => {
+			if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-" + mode + "]");
+			const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+			if (!m) return;
+			const id = m[1];
+			const p  = `repeating_weaponsmdr_${id}_`;
+			getAttrs([p + "weapon_modes_available_mdr"], (v) => {
+				const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
+				if (!avail.includes(mode)) return;
+				setAttrs({ [p + "weapon_mode_mdr"]: mode });
+			});
+		});
+	});
+}());
+
+/* ── Mode button handlers — static weapon1 ──────────────────────────── */
+(function() {
+	["ss", "sa", "bf", "fa"].forEach((mode) => {
+		on("clicked:weapon1_mode_" + mode, () => {
+			if (debug_on_trace) console.log("[clicked:weapon1_mode_" + mode + "]");
+			getAttrs(["weapon1_mdr_modes_available"], (v) => {
+				const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
+				if (!avail.includes(mode)) return;
+				setAttrs({ weapon1_mdr_mode: mode });
+			});
+		});
+	});
+}());
+
+
+/* ── Ammo button handlers — repeating row ───────────────────────────── */
+(function() {
+	const ammoMap = { ap: "ap_slugs", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" };
+	Object.keys(ammoMap).forEach((code) => {
+		on("clicked:repeating_weaponsmdr:weapon-ammo-" + code, (eventInfo) => {
+			if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-" + code + "]");
+			const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+			if (!m) return;
+			const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+			const ammoVal = ammoMap[code];
+			getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+				const cur    = v[p + "weapon_ammo_type_mdr"]   || "standard";
+				const active = v[p + "weapon_ammo_active_mdr"] || "0";
+				/* Toggle: clicking active ammo deactivates → standard; else activate */
+				if (cur === ammoVal && active === "1") {
+					setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
+				} else {
+					setAttrs({ [p + "weapon_ammo_type_mdr"]: ammoVal, [p + "weapon_ammo_active_mdr"]: "1" });
+				}
+			});
+		});
+	});
+}());
+
+/* ── Ammo button handlers — static weapon1 ──────────────────────────── */
+(function() {
+	const ammoMap = { ap: "ap_slugs", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" };
+	Object.keys(ammoMap).forEach((code) => {
+		on("clicked:weapon1-ammo-" + code, () => {
+			if (debug_on_trace) console.log("[clicked:weapon1-ammo-" + code + "]");
+			const ammoVal = ammoMap[code];
+			getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
+				const cur    = v["weapon1_mdr_ammo_type"]   || "standard";
+				const active = v["weapon1_mdr_ammo_active"] || "0";
+				if (cur === ammoVal && active === "1") {
+					setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
+				} else {
+					setAttrs({ weapon1_mdr_ammo_type: ammoVal, weapon1_mdr_ammo_active: "1" });
+				}
+			});
+		});
+	});
+}());
+
+
+/* ── Range button handlers — repeating row ──────────────────────────── */
+(function() {
+	const rangeMap = { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" };
+	Object.keys(rangeMap).forEach((code) => {
+		on("clicked:repeating_weaponsmdr:weapon-range-" + code, (eventInfo) => {
+			if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-" + code + "]");
+			const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+			if (!m) return;
+			const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+			setAttrs({ [p + "weapon_range_band_mdr"]: rangeMap[code] });
+		});
+	});
+}());
+
+/* ── Range button handlers — static weapon1 ─────────────────────────── */
+(function() {
+	const rangeMap = { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" };
+	Object.keys(rangeMap).forEach((code) => {
+		on("clicked:weapon1-range-" + code, () => {
+			if (debug_on_trace) console.log("[clicked:weapon1-range-" + code + "]");
+			setAttrs({ weapon1_mdr_range_band: rangeMap[code] });
+		});
+	});
+}());
 
 /*	Watchers Section - End */
 </script>

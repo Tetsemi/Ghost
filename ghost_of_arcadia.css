@@ -5415,6 +5415,7 @@ select[name="attr_damage_bonus"] {
 	box-sizing: border-box;
 	color: var(--cs_txt_primary);
 	cursor: not-allowed;
+	pointer-events: none;
 	font-size: 85%;
 	font-weight: bold;
 	opacity: 0.25;
@@ -5433,6 +5434,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="bf"] ~ .sheet-weapon-mode-grid .mode-bf,
 .ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_modes_available"][value~="fa"] ~ .sheet-weapon-mode-grid .mode-fa {
 	cursor: pointer;
+	pointer-events: all;
 	opacity: 1;
 }
 
@@ -5461,9 +5463,89 @@ select[name="attr_damage_bonus"] {
 	border-color: var(--cs_dc_color);
 	color: var(--cs_txt_accent);
 	cursor: pointer;
+	pointer-events: all;
 	opacity: 1;
 }
 
+
+
+/* ── Optics 3×1 button grid ─────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-optics-grid {
+	display: grid;
+	gap: 2px;
+	grid-template-columns: 1fr 1fr 1fr;
+	margin-top: 2px;
+	width: 100%;
+}
+
+/* Base: incompatible — greyed, not-allowed */
+.ui-dialog .tab-content .charsheet .sheet-optics-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	cursor: not-allowed;
+	pointer-events: none;
+	font-size: 78%;
+	font-weight: bold;
+	opacity: 0.25;
+	padding: 2px 0;
+	text-align: center;
+	width: 100%;
+}
+
+/* Compatible: rifle gets Mag + Reflex + Thermal */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-optics-grid .sheet-optics-btn,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]  ~ .sheet-weapon-optics-grid .sheet-optics-btn,
+/* SMG gets Reflex + Thermal */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-optics-grid .optics-thermal,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]    ~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]    ~ .sheet-weapon-optics-grid .optics-thermal,
+/* Handgun + Shotgun + Heavy get Reflex only */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="shotgun"] ~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="heavy"]   ~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"]~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="shotgun"]~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="heavy"]  ~ .sheet-weapon-optics-grid .optics-reflex {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+
+/* Hover for compatible buttons */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-optics-grid .sheet-optics-btn:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]  ~ .sheet-weapon-optics-grid .sheet-optics-btn:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-optics-grid .optics-reflex:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-optics-grid .optics-thermal:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]    ~ .sheet-weapon-optics-grid .optics-reflex:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]    ~ .sheet-weapon-optics-grid .optics-thermal:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-optics-grid .optics-reflex:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="shotgun"] ~ .sheet-weapon-optics-grid .optics-reflex:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="heavy"]   ~ .sheet-weapon-optics-grid .optics-reflex:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"]~ .sheet-weapon-optics-grid .optics-reflex:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="shotgun"]~ .sheet-weapon-optics-grid .optics-reflex:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="heavy"]  ~ .sheet-weapon-optics-grid .optics-reflex:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active optic — highlighted */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_optics_mdr"][value="magnification"] ~ .sheet-weapon-optics-grid .optics-magnification,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_optics_mdr"][value="reflex"]        ~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_optics_mdr"][value="thermal"]       ~ .sheet-weapon-optics-grid .optics-thermal,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_optics"][value="magnification"]~ .sheet-weapon-optics-grid .optics-magnification,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_optics"][value="reflex"]       ~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_optics"][value="thermal"]      ~ .sheet-weapon-optics-grid .optics-thermal {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+	cursor: pointer;
+	pointer-events: all;
+	opacity: 1;
+}
 
 /* ── Ammo 3×2 button grid ────────────────────────────────────────────── */
 .ui-dialog .tab-content .charsheet .sheet-weapon-ammo-grid {
@@ -5482,6 +5564,7 @@ select[name="attr_damage_bonus"] {
 	box-sizing: border-box;
 	color: var(--cs_txt_primary);
 	cursor: not-allowed;
+	pointer-events: none;	
 	font-size: 78%;
 	font-weight: bold;
 	opacity: 0.25;
@@ -5526,6 +5609,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="shotgun"] ~ .sheet-weapon-ammo-grid .ammo-breacher {
 	cursor: pointer;
 	opacity: 1;
+	pointer-events: all;
 }
 
 .ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-ammo-grid .ammo-ap-slugs:hover,
@@ -5581,6 +5665,7 @@ select[name="attr_damage_bonus"] {
 	border-color: var(--cs_dc_color);
 	color: var(--cs_txt_accent);
 	cursor: pointer;
+	pointer-events: all;
 	opacity: 1;
 }
 

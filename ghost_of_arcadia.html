@@ -21029,12 +21029,13 @@
 										<!-- Optics -->
 										<div class="sheet-weapon-adv-group">
 											<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
-											<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_optics">
-												<option value="none" data-i18n="mod_none-u">--- none ---</option>
-												<option value="magnification" data-i18n="mod_magnification_scope-u">Magnification Scope</option>
-												<option value="reflex" data-i18n="mod_reflex_sight-u">Reflex Sight</option>
-												<option value="thermal" data-i18n="mod_thermal_scope-u">Thermal Scope</option>
-											</select>
+											<input type="hidden" name="attr_weapon1_mdr_optics" value="none"/>
+											<input type="hidden" class="sheet-cat-mirror" name="attr_weapon1_mdr_category" value=""/>
+											<div class="sheet-weapon-optics-grid">
+												<button type="action" class="sheet-optics-btn optics-magnification" name="act_weapon1-optics-mag">Mag Scope</button>
+												<button type="action" class="sheet-optics-btn optics-reflex"        name="act_weapon1-optics-ref">Reflex Sight</button>
+												<button type="action" class="sheet-optics-btn optics-thermal"       name="act_weapon1-optics-thm">Thermal Scope</button>
+											</div>
 										</div>
 										<!-- Barrel / Muzzle -->
 										<div class="sheet-weapon-adv-group">
@@ -21409,12 +21410,13 @@
 											<!-- Optics -->
 											<div class="sheet-weapon-adv-group">
 												<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
-												<select class="sheet-weapon-adv-select" name="attr_weapon_optics_mdr">
-													<option value="none" data-i18n="mod_none-u">--- none ---</option>
-													<option value="magnification" data-i18n="mod_magnification_scope-u">Magnification Scope</option>
-													<option value="reflex" data-i18n="mod_reflex_sight-u">Reflex Sight</option>
-													<option value="thermal" data-i18n="mod_thermal_scope-u">Thermal Scope</option>
-												</select>
+												<input type="hidden" name="attr_weapon_optics_mdr" value="none"/>
+												<input type="hidden" class="sheet-cat-mirror" name="attr_weapon_category_mdr" value=""/>
+												<div class="sheet-weapon-optics-grid">
+													<button type="action" class="sheet-optics-btn optics-magnification" name="act_weapon-optics-mag">Mag Scope</button>
+													<button type="action" class="sheet-optics-btn optics-reflex"        name="act_weapon-optics-ref">Reflex Sight</button>
+													<button type="action" class="sheet-optics-btn optics-thermal"       name="act_weapon-optics-thm">Thermal Scope</button>
+												</div>
 											</div>
 											<!-- Barrel / Muzzle -->
 											<div class="sheet-weapon-adv-group">
@@ -55334,46 +55336,51 @@ function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode) {
   return tags.join("  •  ");
 }
 
+function refreshWeapon1Summary() {
+	if (debug_on_trace) console.log("[refreshWeapon1Summary]");
+	getAttrs(["weapon1_mdr_optics", "weapon1_mdr_mod_internal", "weapon1_mdr_range_band",
+	          "weapon1_mdr_mod_penalty_reduce", "weapon1_mdr_mode", "weapon1_mdr_barrel",
+	          "weapon1_mdr_category", "weapon1_mdr_max_range"], (v) => {
+		const optics   = v.weapon1_mdr_optics             || "none";
+		const internal = v.weapon1_mdr_mod_internal       || "none";
+		const sl       = internal === "smartlink" ? "1" : undefined;
+		const irs      = internal === "irs"        ? "1" : undefined;
+		const qst      = internal === "qst"        ? "1" : undefined;
+		const qls      = internal === "qls"        ? "1" : undefined;
+		const biocoded = internal === "biocoded"   ? "1" : undefined;
+		const range    = v.weapon1_mdr_range_band         || "short";
+		const category = v.weapon1_mdr_category           || "";
+		const maxRange = v.weapon1_mdr_max_range          || "";
+		const reduce   = parseInt(v.weapon1_mdr_mod_penalty_reduce, 10) || 0;
+		const mode     = v.weapon1_mdr_mode               || "ss";
+		const barrel   = v.weapon1_mdr_barrel             || "";
+		const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
+		const labelMap = { ss: "SS", sa: "SA", bf: "BF × 2", fa: "FA × 3" };
+		const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
+		const irsBonus = irs === "1" ? 1 : 0;
+		const redEff   = reduce + irsBonus;
+		const dice     = penDice[mode] || 0;
+		const netDice  = Math.max(0, dice - Math.min(redEff, dice));
+		const netPen   = -(netDice * 10);
+		const hit      = computeWeaponHit(optics, sl, range, category, maxRange);
+		const hitStr   = hit === 0 ? "—" : (hit > 0 ? "+" : "") + hit + "%";
+		const penStr   = netDice === 0 ? "—" : netPen + "% (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")";
+		setAttrs({
+			weapon1_mdr_computed_hit:           hit,
+			weapon1_mdr_mod_penalty_reduce_eff: redEff,
+			weapon1_mdr_mode_num:               numMap[mode]   || "10",
+			weapon1_mdr_mode_label:             labelMap[mode] || "SS",
+			weapon1_mdr_mode_penalty:           netPen,
+			weapon1_mdr_tags_display:           buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode),
+			weapon1_mdr_net_hit_display:        hitStr,
+			weapon1_mdr_net_penalty_display:    penStr,
+		});
+	});
+}
+
 on("change:weapon1_mdr_optics change:weapon1_mdr_mod_internal change:weapon1_mdr_range_band change:weapon1_mdr_mod_penalty_reduce change:weapon1_mdr_mode change:weapon1_mdr_barrel", () => {
   if (debug_on_trace) console.log("[change:weapon1_mdr_summary]");
-  getAttrs(["weapon1_mdr_optics", "weapon1_mdr_mod_internal", "weapon1_mdr_range_band",
-            "weapon1_mdr_mod_penalty_reduce", "weapon1_mdr_mode", "weapon1_mdr_barrel",
-            "weapon1_mdr_category", "weapon1_mdr_max_range"], (v) => {
-    const optics   = v.weapon1_mdr_optics          || "none";
-    const internal = v.weapon1_mdr_mod_internal || "none";
-    const sl       = internal === "smartlink" ? "1" : undefined;
-    const irs      = internal === "irs"        ? "1" : undefined;
-    const qst      = internal === "qst"        ? "1" : undefined;
-    const qls      = internal === "qls"        ? "1" : undefined;
-    const biocoded = internal === "biocoded"   ? "1" : undefined;
-    const range    = v.weapon1_mdr_range_band      || "short";
-    const category = v.weapon1_mdr_category        || "";
-    const maxRange = v.weapon1_mdr_max_range        || "";
-    const reduce   = parseInt(v.weapon1_mdr_mod_penalty_reduce, 10) || 0;
-    const mode     = v.weapon1_mdr_mode            || "ss";
-    const barrel   = v.weapon1_mdr_barrel          || "";
-    const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
-    const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
-    const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
-    const irsBonus = irs === "1" ? 1 : 0;
-    const redEff   = reduce + irsBonus;
-    const dice     = penDice[mode] || 0;
-    const netDice  = Math.max(0, dice - Math.min(redEff, dice));
-    const netPen   = -(netDice * 10);
-    const hit      = computeWeaponHit(optics, sl, range, category, maxRange);
-    const hitStr   = hit === 0 ? "—" : (hit > 0 ? "+" : "") + hit + "%";
-    const penStr   = netDice === 0 ? "—" : netPen + "% (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")";
-    setAttrs({
-      weapon1_mdr_computed_hit:            hit,
-      weapon1_mdr_mod_penalty_reduce_eff:  redEff,
-      weapon1_mdr_mode_num:                numMap[mode]   || "10",
-      weapon1_mdr_mode_label:              labelMap[mode] || "SS",
-      weapon1_mdr_mode_penalty:            netPen,
-      weapon1_mdr_tags_display:            buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode),
-      weapon1_mdr_net_hit_display:         hitStr,
-      weapon1_mdr_net_penalty_display:     penStr
-    });
-  });
+  refreshWeapon1Summary();
 });
 
 on("change:weapon1_mdr_ammo_type change:weapon1_mdr_ammo_active", () => {
@@ -56076,7 +56083,7 @@ on("change:weapon1_mdr_weapon_preset_melee change:weapon1_mdr_weapon_preset_thro
 			weapon1_mdr_max_range:          (entry.range && entry.range.length ? entry.range[entry.range.length - 1] : ""),
 			weapon1_mdr_ammo_type:          "standard",
 			weapon1_mdr_ammo_active:        "0",
-		}));
+		}), () => { refreshWeapon1Summary(); });
 	});
 });
 
@@ -56107,7 +56114,17 @@ on("change:weapon1_skill_mdr", () => {
 	if (debug_on_trace) console.log("[change:weapon1_skill_mdr:class]");
 	getAttrs(["weapon1_skill_mdr"], (v) => {
 		const cssClass = weaponSkillClassMap[v["weapon1_skill_mdr"] || ""] || "";
-		setAttrs({ weapon1_skill_class: cssClass });
+		/* Clear all preset selects so stale values don't pollute the presetKey lookup */
+		setAttrs({
+			weapon1_skill_class:               cssClass,
+			weapon1_mdr_weapon_preset_melee:   "",
+			weapon1_mdr_weapon_preset_throw:   "",
+			weapon1_mdr_weapon_preset_handgun: "",
+			weapon1_mdr_weapon_preset_shotgun: "",
+			weapon1_mdr_weapon_preset_rifle:   "",
+			weapon1_mdr_weapon_preset_smg:     "",
+			weapon1_mdr_weapon_preset_heavy:   "",
+		});
 	});
 });
 
@@ -56310,6 +56327,41 @@ on("clicked:weapon1_mods_toggle", () => {
 		on("clicked:weapon1-range-" + code, () => {
 			if (debug_on_trace) console.log("[clicked:weapon1-range-" + code + "]");
 			setAttrs({ weapon1_mdr_range_band: rangeMap[code] });
+		});
+	});
+}());
+
+
+/* ── Optics button handlers — repeating row ─────────────────────────── */
+(function() {
+	const opticsMap = { mag: "magnification", ref: "reflex", thm: "thermal" };
+	Object.keys(opticsMap).forEach((code) => {
+		on("clicked:repeating_weaponsmdr:weapon-optics-" + code, (eventInfo) => {
+			if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-optics-" + code + "]");
+			const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+			if (!m) return;
+			const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+			const val = opticsMap[code];
+			getAttrs([p + "weapon_optics_mdr"], (v) => {
+				const cur = v[p + "weapon_optics_mdr"] || "none";
+				setAttrs({ [p + "weapon_optics_mdr"]: cur === val ? "none" : val });
+			});
+		});
+	});
+}());
+
+/* ── Optics button handlers — static weapon1 ────────────────────────── */
+(function() {
+	const opticsMap = { mag: "magnification", ref: "reflex", thm: "thermal" };
+	Object.keys(opticsMap).forEach((code) => {
+		on("clicked:weapon1-optics-" + code, () => {
+			if (debug_on_trace) console.log("[clicked:weapon1-optics-" + code + "]");
+			const val = opticsMap[code];
+			getAttrs(["weapon1_mdr_optics"], (v) => {
+				const cur = v["weapon1_mdr_optics"] || "none";
+				setAttrs({ weapon1_mdr_optics: cur === val ? "none" : val },
+					() => { refreshWeapon1Summary(); });
+			});
 		});
 	});
 }());

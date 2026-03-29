@@ -5205,26 +5205,54 @@ select[name="attr_damage_bonus"] {
 
 /* Summary row — tags + net hit/penalty display below the three grids */
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-row {
-	border-top: 1px solid var(--cs_input_border);
-	display: flex;
-	flex-direction: column;
+	border: 1px solid var(--cs_dc_color);
+	display: grid;
 	gap: 3px;
+	grid-template-columns: 75% 25%;
 	padding: 4px 6px;
 	width: 100%;
-	border: 1px solid var(--cs_dc_color);
 }
 
-.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-tags {
-	align-items: baseline;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 4px;
+/* Left panel: 3-row grid — label | value | tags */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-left {
+	display: grid;
+	align-items: center;
+	column-gap: 6px;
+	grid-template-columns: max-content max-content 1fr;
+	grid-template-rows: auto auto auto;
+	row-gap: 2px;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-net {
-	align-items: baseline;
-	display: flex;
-	gap: 8px;
+/* Right panel: 2-row grid — label | value */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-right {
+	border-left: 1px solid var(--cs_input_border);
+	display: grid;
+	align-items: center;
+	column-gap: 6px;
+	grid-template-columns: max-content 1fr;
+	grid-template-rows: auto auto;
+	padding-left: 6px;
+	row-gap: 2px;
+}
+
+/* Tags span the tags column across Gear+Aim and Mode+Env rows */
+.ui-dialog .tab-content .charsheet .sheet-summary-tags {
+	color: var(--cs_txt_primary);
+	font-size: 85%;
+	grid-column: 3;
+	grid-row: 1 / span 2;
+	align-self: center;
+}
+
+/* NET row: label and value span full width, tags col empty */
+.ui-dialog .tab-content .charsheet .sheet-summary-label-net {
+	grid-column: 1;
+	grid-row: 3;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-net-roll {
+	grid-column: 2 / span 2;
+	grid-row: 3;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-label {
@@ -5241,9 +5269,16 @@ select[name="attr_damage_bonus"] {
 }
 
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-net-display {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
 	font-size: 90%;
 	font-weight: bold;
-	min-width: 80px;
+	min-width: 64px;
+	padding: 1px 4px;
+	text-align: center;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-net-hit {
@@ -5252,7 +5287,24 @@ select[name="attr_damage_bonus"] {
 
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-net-penalty {
 	color: var(--cs_txt_primary);
-	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-net-roll {
+	color: var(--cs_txt_primary);
+}
+
+/* Net value positive — green, using sheet budget variables */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_net_roll_sign"][value="pos"]  ~ .sheet-weapon-adv-net-roll,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_net_roll_sign_mdr"][value="pos"]   ~ .sheet-weapon-adv-net-roll {
+	background-color: var(--cs_budget_ok_bg);
+	color: var(--cs_budget_text);
+}
+
+/* Net value negative — red, using sheet budget variables */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_net_roll_sign"][value="neg"]  ~ .sheet-weapon-adv-net-roll,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_net_roll_sign_mdr"][value="neg"]   ~ .sheet-weapon-adv-net-roll {
+	background-color: var(--cs_budget_over_bg);
+	color: var(--cs_budget_text);
 }
 
 /* Roll Button Style */
@@ -6035,6 +6087,46 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .cap-reload-btn:hover {
 	background: var(--cs_ui_element_bg);
 	color: var(--cs_txt_primary);
+}
+
+/* ── Aim action buttons ──────────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-aim-btns {
+	display: flex;
+	flex-shrink: 0;
+	gap: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-aim-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	color: var(--cs_txt_primary);
+	cursor: pointer;
+	font-size: 78%;
+	font-weight: bold;
+	padding: 1px 4px;
+	white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-aim-btn:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active — Quick Aim */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_aim_mdr"][value="quick"]    ~ .sheet-weapon-aim-btns .aim-quick,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_aim"][value="quick"]   ~ .sheet-weapon-aim-btns .aim-quick {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+}
+
+/* Active — Focused Aim */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_aim_mdr"][value="focused"]  ~ .sheet-weapon-aim-btns .aim-focused,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_aim"][value="focused"] ~ .sheet-weapon-aim-btns .aim-focused {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
 }
 
 /* ── Cap box visibility rules ───────────────────────────────────────── */

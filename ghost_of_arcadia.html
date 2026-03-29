@@ -20717,6 +20717,7 @@
 								<input type="hidden" name="attr_weapon1_mdr_mode_mult" value="1"/>
 								<input type="hidden" name="attr_weapon1_mdr_computed_hit" value="0"/>
 								<input type="hidden" name="attr_weapon1_mdr_tags_display" value=""/>
+								<input type="hidden" name="attr_weapon1_mdr_traits_display" value=""/>
 								<input type="hidden" name="attr_weapon1_mdr_net_hit_display" value=""/>
 								<input type="hidden" name="attr_weapon1_mdr_net_penalty_display" value=""/>
 								<input type="hidden" name="attr_weapon1_mdr_net_roll_display" value=""/>
@@ -20937,28 +20938,28 @@
 							</div>
 							<div class="sheet-weaponblock-advanced">
 								<!-- Summary row -->
-									<!-- Summary row -->
-									<div class="sheet-weapon-adv-summary-row">
-										<!-- Left 75%: Gear+Aim / Mode+Env / Net with tags column -->
-										<div class="sheet-weapon-adv-summary-left">
-											<input type="hidden" name="attr_weapon1_mdr_net_roll_sign" value="zero"/>
-											<span class="sheet-weapon-adv-summary-label sheet-summary-label-gear" data-i18n="weapon_bonus-u">Gear + Aim</span>
-											<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-hit sheet-readonly" name="attr_weapon1_mdr_net_hit_display" value="—"/>
-											<span class="sheet-weapon-adv-tags-display sheet-summary-tags" name="attr_weapon1_mdr_tags_display"></span>
-											<span class="sheet-weapon-adv-summary-label sheet-summary-label-env" data-i18n="weapon_net_penalty-u">Mode + Env</span>
-											<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-penalty sheet-readonly" name="attr_weapon1_mdr_net_penalty_display" value="—"/>
-											<span class="sheet-weapon-adv-summary-label sheet-summary-label-net" data-i18n="weapon_net_roll-u">NET</span>
-											<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-roll sheet-readonly" name="attr_weapon1_mdr_net_roll_display" value="—"/>
-										</div>
-										<!-- Right 25%: Ammo / Range -->
-										<div class="sheet-weapon-adv-summary-right">
-											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo Loaded</span>
-											<span class="sheet-weapon-adv-net-display sheet-weapon-adv-ammo-display" name="attr_weapon1_mdr_ammo_type_label"></span>
-											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
-											<span class="sheet-weapon-adv-net-display sheet-weapon-adv-range-display" name="attr_weapon1_mdr_range_band"></span>
-										</div>
+								<div class="sheet-weapon-adv-summary-row">
+									<!-- Left 75%: Gear+Aim / Mode+Env / Net with tags column -->
+									<div class="sheet-weapon-adv-summary-left">
+										<input type="hidden" name="attr_weapon1_mdr_net_roll_sign" value="zero"/>
+										<span class="sheet-weapon-adv-summary-label sheet-summary-label-gear" data-i18n="weapon_bonus-u">Gear + Aim</span>
+										<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-hit sheet-readonly" name="attr_weapon1_mdr_net_hit_display" value="—"/>
+										<span class="sheet-weapon-adv-tags-display sheet-summary-tags" name="attr_weapon1_mdr_tags_display"></span>
+										<span class="sheet-weapon-adv-summary-label sheet-summary-label-env" data-i18n="weapon_net_penalty-u">Mode + Env</span>
+										<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-penalty sheet-readonly" name="attr_weapon1_mdr_net_penalty_display" value="—"/>
+										<span class="sheet-weapon-adv-summary-label sheet-summary-label-net" data-i18n="weapon_net_roll-u">NET</span>
+										<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-roll sheet-readonly" name="attr_weapon1_mdr_net_roll_display" value="—"/>
 									</div>
-									<div class="sheet-weapon-adv-summary-cap">
+									<!-- Right 25%: Ammo / Range -->
+									<div class="sheet-weapon-adv-summary-right">
+										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo Loaded</span>
+										<span class="sheet-weapon-adv-net-display sheet-weapon-adv-ammo-display" name="attr_weapon1_mdr_ammo_type_label"></span>
+										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
+										<span class="sheet-weapon-adv-net-display sheet-weapon-adv-range-display" name="attr_weapon1_mdr_range_band"></span>
+									</div>
+								</div>
+								<div class="sheet-weapon-adv-summary-cap">
+									<div class="sheet-weapon-adv-cap-left">
 										<input type="hidden" name="attr_weapon1_mdr_cap_display" value="b0"/>
 										<input type="hidden" name="attr_weapon1_mdr_aim" value=""/>
 										<div class="sheet-weapon-aim-btns">
@@ -20984,7 +20985,12 @@
 											<span class="cap-type-label"></span>
 											<button type="action" class="cap-reload-btn" name="act_weapon1_cap_reload">↺</button>
 										</div>
-									</div>									
+									</div>
+									<div class="sheet-weapon-adv-cap-right">
+										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_trait-u">Traits</span>
+										<input type="text" class="sheet-weapon-traits-display sheet-readonly" name="attr_weapon1_mdr_traits_display" value=""/>
+									</div>
+								</div>
 								<div class="sheet-weapon-advanced-grid">
 									<!-- Mode -->
 									<div class="sheet-weapon-adv-group">
@@ -21099,11 +21105,6 @@
 												<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon1_mdr_mod_penalty_reduce" value="0" placeholder="0"/>
 											</div>
 										</div>
-										<!-- Traits -->
-										<div class="sheet-weapon-adv-group sheet-weapon-adv-traits-cell">
-											<div class="sheet-weapon-adv-label" data-i18n="weapon_trait-u">Traits</div>
-											<input type="text" name="attr_weapon_traits" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -21126,6 +21127,7 @@
 									<input type="hidden" name="attr_weapon_mode_mult_mdr" value="1"/>
 									<input type="hidden" name="attr_weapon_computed_hit_mdr" value="0"/>
 									<input type="hidden" name="attr_weapon_tags_display_mdr" value=""/>
+									<input type="hidden" name="attr_weapon_traits_display_mdr" value=""/>
 									<input type="hidden" name="attr_weapon_net_hit_display_mdr" value=""/>
 									<input type="hidden" name="attr_weapon_net_penalty_display_mdr" value=""/>
 									<input type="hidden" name="attr_weapon_net_roll_display_mdr" value=""/>
@@ -21367,30 +21369,36 @@
 										</div>
 									</div>
 									<div class="sheet-weapon-adv-summary-cap">
-										<input type="hidden" name="attr_weapon_cap_display_mdr" value="b0"/>
-										<input type="hidden" name="attr_weapon_aim_mdr" value=""/>
-										<div class="sheet-weapon-aim-btns">
-											<button type="action" class="sheet-aim-btn aim-quick"   name="act_weapon-aim-quick"   data-i18n="weapon_aim_quick-u">Quick</button>
-											<button type="action" class="sheet-aim-btn aim-focused" name="act_weapon-aim-focused" data-i18n="weapon_aim_focused-u">Focused</button>
+										<div class="sheet-weapon-adv-cap-left">
+											<input type="hidden" name="attr_weapon_cap_display_mdr" value="b0"/>
+											<input type="hidden" name="attr_weapon_aim_mdr" value=""/>
+											<div class="sheet-weapon-aim-btns">
+												<button type="action" class="sheet-aim-btn aim-quick"   name="act_weapon-aim-quick"   data-i18n="weapon_aim_quick-u">Quick</button>
+												<button type="action" class="sheet-aim-btn aim-focused" name="act_weapon-aim-focused" data-i18n="weapon_aim_focused-u">Focused</button>
+											</div>
+											<div class="cap-box-track-row">
+												<input type="checkbox" class="cap-box cap-box-n01" name="attr_weapon_cap_box_mdr_01" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n02" name="attr_weapon_cap_box_mdr_02" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n03" name="attr_weapon_cap_box_mdr_03" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n04" name="attr_weapon_cap_box_mdr_04" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n05" name="attr_weapon_cap_box_mdr_05" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n06" name="attr_weapon_cap_box_mdr_06" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n07" name="attr_weapon_cap_box_mdr_07" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n08" name="attr_weapon_cap_box_mdr_08" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n09" name="attr_weapon_cap_box_mdr_09" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n10" name="attr_weapon_cap_box_mdr_10" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n11" name="attr_weapon_cap_box_mdr_11" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n12" name="attr_weapon_cap_box_mdr_12" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n13" name="attr_weapon_cap_box_mdr_13" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n14" name="attr_weapon_cap_box_mdr_14" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n15" name="attr_weapon_cap_box_mdr_15" value="1"/>
+												<span class="cap-type-label"></span>
+												<button type="action" class="cap-reload-btn" name="act_weapon-cap-reload">↺</button>
+											</div>
 										</div>
-										<div class="cap-box-track-row">
-											<input type="checkbox" class="cap-box cap-box-n01" name="attr_weapon_cap_box_mdr_01" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n02" name="attr_weapon_cap_box_mdr_02" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n03" name="attr_weapon_cap_box_mdr_03" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n04" name="attr_weapon_cap_box_mdr_04" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n05" name="attr_weapon_cap_box_mdr_05" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n06" name="attr_weapon_cap_box_mdr_06" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n07" name="attr_weapon_cap_box_mdr_07" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n08" name="attr_weapon_cap_box_mdr_08" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n09" name="attr_weapon_cap_box_mdr_09" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n10" name="attr_weapon_cap_box_mdr_10" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n11" name="attr_weapon_cap_box_mdr_11" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n12" name="attr_weapon_cap_box_mdr_12" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n13" name="attr_weapon_cap_box_mdr_13" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n14" name="attr_weapon_cap_box_mdr_14" value="1"/>
-											<input type="checkbox" class="cap-box cap-box-n15" name="attr_weapon_cap_box_mdr_15" value="1"/>
-											<span class="cap-type-label"></span>
-											<button type="action" class="cap-reload-btn" name="act_weapon-cap-reload">↺</button>
+										<div class="sheet-weapon-adv-cap-right">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_trait-u">Traits</span>
+											<input type="text" class="sheet-weapon-traits-display sheet-readonly" name="attr_weapon_traits_display_mdr" value=""/>
 										</div>
 									</div>
 									<div class="sheet-weapon-advanced-grid">
@@ -21506,11 +21514,6 @@
 													<span class="sheet-weapon-adv-mod-label" data-i18n="weapon_mod_penalty_reduce-u">Penalty reduce</span>
 													<input type="number" class="sheet-weapon-adv-mod-input" name="attr_weapon_mod_penalty_reduce_mdr" value="0" placeholder="0"/>
 												</div>
-											</div>
-											<!-- Traits -->
-											<div class="sheet-weapon-adv-group sheet-weapon-adv-traits-cell">
-												<div class="sheet-weapon-adv-label" data-i18n="weapon_trait-u">Traits</div>
-												<input type="text" name="attr_weapon_traits" placeholder="Weapon Traits" data-i18n-placeholder="weapon_trait_placeholder-u"/>
 											</div>
 										</div>
 									</div>
@@ -47860,6 +47863,32 @@ function computeModButtons(entry, prefix) {
 	};
 }
 
+
+/* ── Weapon trait display labels ────────────────────────────────────── */
+const traitLabelMap = {
+	ap_1: "AP (1)", ap_2: "AP (2)", ap_3: "AP (3)", ap_4: "AP (4)", ap_5: "AP (5)",
+	ap_2_heavy_targets: "AP (2) Heavy",
+	biometric: "Biometric", bipod_required: "Bipod Required",
+	brace_recommended: "Brace Recommended", brutal: "Brutal",
+	burst_capable: "Burst-Capable", cheap: "Cheap",
+	concealable: "Concealable", concealed: "Concealed", cq: "CQ",
+	cyberware: "Cyberware", double_barrel: "Double-Barrel", drum_fed: "Drum-Fed",
+	electric: "Electric", fast_draw: "Fast Draw", flechette: "Flechette",
+	full_auto: "Full Auto", half_damage_heavy_armor: "Half Dmg (Heavy)",
+	heavy: "Heavy", improvised: "Improvised", knockback: "Knockback",
+	loud: "Loud", micro_frame: "Micro-Frame", minimum_floor: "Minimum Floor",
+	multi_throw: "Multi-Throw", precision_burst: "Precision Burst", reach: "Reach",
+	reliable: "Reliable", scatter_spray: "Scatter Spray", scoped: "Scoped",
+	sigilbound: "Sigilbound", silent: "Silent", smartlink: "Smartlink",
+	stunning: "Stunning", suppression: "Suppression", thrown: "Thrown",
+	tranquilizing: "Tranquilizing", tripod_required: "Tripod Required",
+	unbalanced: "Unbalanced", unbraced_penalty: "Unbraced Penalty",
+	unstable: "Unstable", veil_linked: "Veil-Linked", veil_residue: "Veil Residue",
+};
+function traitsDisplayStr(traits) {
+	return (traits || []).map(t => traitLabelMap[t] || t).join(", ");
+}
+
 const weaponDataMap = {
 	/* MELEE & THROWN */
 	/* Melee */
@@ -52639,6 +52668,7 @@ const initWeaponComputedAttrs = () => {
           const slots = entry.mod_slots || [];
           Object.assign(updates, computeModButtons(entry, `repeating_weaponsmdr_${id}_weapon_`));
           updates[`repeating_weaponsmdr_${id}_weapon_trait_smartlink_mdr`]   = (entry.traits || []).includes("smartlink")  ? "1" : "";
+          updates[`repeating_weaponsmdr_${id}_weapon_traits_display_mdr`]    = traitsDisplayStr(entry.traits);
           updates[`repeating_weaponsmdr_${id}_weapon_trait_scoped_mdr`]      = (entry.traits || []).includes("scoped")      ? "1" : "";
           updates[`repeating_weaponsmdr_${id}_weapon_trait_cq_mdr`]          = (entry.traits || []).includes("cq")          ? "1" : "";
           updates[`repeating_weaponsmdr_${id}_weapon_trait_veil_linked_mdr`] = (entry.traits || []).includes("veil_linked") ? "1" : "";
@@ -56254,6 +56284,7 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 			[p + "weapon_cap_counter_mdr"]:          parseCapRating(capRating).capCount + "/" + parseCapRating(capRating).capCount,
 			[p + "weapon_category_mdr"]:             entry.category || "",
 			[p + "weapon_max_range_mdr"]:            (entry.range && entry.range.length ? entry.range[entry.range.length - 1] : ""),
+			[p + "weapon_traits_display_mdr"]:       traitsDisplayStr(entry.traits),
 			[p + "weapon_trait_smartlink_mdr"]:      (entry.traits || []).includes("smartlink")   ? "1" : "",
 			[p + "weapon_trait_scoped_mdr"]:         (entry.traits || []).includes("scoped")       ? "1" : "",
 			[p + "weapon_trait_cq_mdr"]:             (entry.traits || []).includes("cq")           ? "1" : "",
@@ -56374,6 +56405,7 @@ on("change:weapon1_mdr_weapon_preset_melee change:weapon1_mdr_weapon_preset_thro
 			weapon1_mdr_trait_cq:           (entry.traits || []).includes("cq")          ? "1" : "",
 			weapon1_mdr_trait_veil_linked:  (entry.traits || []).includes("veil_linked") ? "1" : "",
 			weapon1_mdr_max_range:          (entry.range && entry.range.length ? entry.range[entry.range.length - 1] : ""),
+			weapon1_mdr_traits_display:     traitsDisplayStr(entry.traits),
 			weapon1_mdr_ammo_type:          "standard",
 			weapon1_mdr_ammo_active:        "0",
 			...computeModButtons(entry, "weapon1_"),
@@ -56478,15 +56510,6 @@ on("clicked:weapon1-aim-focused", () => {
 /* ── Cap reload — repeating row ────────────────────────────────────── */
 
 /* ── Cap reload — static weapon1 ───────────────────────────────────── */
-on("clicked:weapon1_cap_reload", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1_cap_reload]");
-	const updates = {};
-	for (let n = 1; n <= 15; n++) {
-		const pad = n < 10 ? "0" + n : "" + n;
-		updates["weapon1_mdr_cap_box_" + pad] = "0";
-	}
-	setAttrs(updates);
-});
 
 
 /* ── Cap counter — update X/N display in main row ───────────────────── */

@@ -6889,12 +6889,40 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 
 /* ── Cap tracking section in summary row ────────────────────────────── */
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-cap {
-	align-items: center;
 	border-top: 1px solid var(--cs_input_border);
+	display: grid;
+	grid-template-columns: 60% 40%;
+	gap: 4px;
+	padding-top: 4px;
+	width: 100%;
+}
+
+/* Left 60%: aim buttons + cap track row */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-cap-left {
+	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px;
-	padding-top: 4px;
+}
+
+/* Right 40%: traits label + display */
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-cap-right {
+	align-items: flex-start;
+	border-left: 1px solid var(--cs_input_border);
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding-left: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-traits-display {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	font-size: 85%;
+	padding: 2px 4px;
 	width: 100%;
 }
 
@@ -6906,7 +6934,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 }
 
 /* All cap boxes in summary hidden by default — shown by cap_display rules */
-.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-cap .cap-box {
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-cap-left .cap-box {
 	display: none;
 }
 

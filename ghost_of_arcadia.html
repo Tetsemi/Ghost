@@ -20980,6 +20980,7 @@
 										<div class="sheet-weapon-adv-label" data-i18n="weapon_mode-u">Mode</div>
 										<input type="hidden" name="attr_weapon1_mdr_mode" value="ss"/>
 										<input type="hidden" name="attr_weapon1_mdr_modes_available" value=""/>
+								<input type="hidden" name="attr_weapon1_mdr_modes_base" value=""/>
 										<div class="sheet-weapon-mode-grid">
 											<button type="action" class="sheet-weapon-mode-btn mode-ss" name="act_weapon1_mode_ss">SS</button>
 											<button type="action" class="sheet-weapon-mode-btn mode-sa" name="act_weapon1_mode_sa">SA</button>
@@ -21000,6 +21001,7 @@
 										<input type="hidden" name="attr_weapon1_mdr_ammo_active" value="0"/>
 										<input type="hidden" name="attr_weapon1_mdr_category" value=""/>
 										<input type="hidden" name="attr_weapon1_mdr_max_range" value=""/>
+										<input type="hidden" name="attr_weapon1_mdr_trait_veil_linked" value=""/>
 										<div class="sheet-weapon-ammo-grid">
 											<button type="action" class="sheet-ammo-btn ammo-ap-slugs" name="act_weapon1-ammo-ap">AP Slugs</button>
 											<button type="action" class="sheet-ammo-btn ammo-breacher" name="act_weapon1-ammo-br">Breacher</button>
@@ -21029,8 +21031,10 @@
 										<!-- Optics -->
 										<div class="sheet-weapon-adv-group">
 											<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
-											<input type="hidden" name="attr_weapon1_mdr_optics" value="none"/>
-											<input type="hidden" class="sheet-cat-mirror" name="attr_weapon1_mdr_category" value=""/>
+											<input type="hidden" name="attr_weapon1_mdr_optics" value=""/>
+											<input type="hidden" name="attr_weapon1_btn_optics_mag_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_optics_reflex_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_optics_thermal_mdr" value="0"/>
 											<div class="sheet-weapon-optics-grid">
 												<button type="action" class="sheet-optics-btn optics-magnification" name="act_weapon1-optics-mag">Mag Scope</button>
 												<button type="action" class="sheet-optics-btn optics-reflex"        name="act_weapon1-optics-ref">Reflex Sight</button>
@@ -21040,26 +21044,39 @@
 										<!-- Barrel / Muzzle -->
 										<div class="sheet-weapon-adv-group">
 											<div class="sheet-weapon-adv-label" data-i18n="weapon_barrel-u">Barrel / Muzzle</div>
-											<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_barrel">
-												<option value="" data-i18n="mod_none-u">--- none ---</option>
-												<option value="Compensator" data-i18n="mod_compensator-u">Compensator</option>
-												<option value="Precision Choke" data-i18n="mod_precision_choke-u">Precision Choke</option>
-												<option value="Silencer" data-i18n="mod_silencer-u">Silencer</option>
-												<option value="Slug Barrel" data-i18n="mod_slug_barrel-u">Slug Barrel</option>
-												<option value="Suppressor" data-i18n="mod_suppressor-u">Suppressor</option>
-											</select>
+											<input type="hidden" name="attr_weapon1_mdr_barrel" value=""/>
+											<input type="hidden" name="attr_weapon1_btn_barrel_silencer_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_barrel_compensator_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_barrel_suppressor_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_barrel_prec_choke_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_barrel_slug_mdr" value="0"/>
+											<div class="sheet-weapon-barrel-grid">
+												<button type="action" class="sheet-barrel-btn barrel-silencer"   name="act_weapon1-barrel-sl">Silencer</button>
+												<button type="action" class="sheet-barrel-btn barrel-compensator" name="act_weapon1-barrel-co">Compensator</button>
+												<button type="action" class="sheet-barrel-btn barrel-suppressor"  name="act_weapon1-barrel-su">Suppressor</button>
+												<button type="action" class="sheet-barrel-btn barrel-prec-choke"  name="act_weapon1-barrel-pc">Prec Choke</button>
+												<button type="action" class="sheet-barrel-btn barrel-slug"        name="act_weapon1-barrel-sb">Slug Barrel</button>
+											</div>
 										</div>
 										<!-- Internal -->
 										<div class="sheet-weapon-adv-group">
 											<div class="sheet-weapon-adv-label" data-i18n="weapon_internal-u">Internal</div>
-											<select class="sheet-weapon-adv-select" name="attr_weapon1_mdr_mod_internal">
-												<option value="none" data-i18n="mod_none-u">--- none ---</option>
-												<option value="biocoded" data-i18n="mod_biocoded-u">Bio-Coded</option>
-												<option value="irs" data-i18n="mod_irs-u">Internal Recoil System</option>
-												<option value="qls" data-i18n="mod_qls-u">Quick-Load System</option>
-												<option value="qst" data-i18n="mod_qst-u">Quick-Select Trigger</option>
-												<option value="smartlink" data-i18n="mod_smartlink-u">Smartlink</option>
-											</select>
+											<input type="hidden" name="attr_weapon1_mdr_mod_internal" value=""/>
+											<input type="hidden" name="attr_weapon1_mdr_trait_smartlink" value=""/>
+											<input type="hidden" name="attr_weapon1_mdr_trait_cq" value=""/>
+											<input type="hidden" name="attr_weapon1_mdr_trait_scoped" value=""/>
+											<input type="hidden" name="attr_weapon1_btn_internal_smartlink_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_internal_biocoded_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_internal_irs_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_internal_qls_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon1_btn_internal_qst_mdr" value="0"/>
+											<div class="sheet-weapon-internal-grid">
+												<button type="action" class="sheet-internal-btn internal-smartlink" name="act_weapon1-internal-sl">Smartlink</button>
+												<button type="action" class="sheet-internal-btn internal-biocoded"  name="act_weapon1-internal-bc">Bio-Coded</button>
+												<button type="action" class="sheet-internal-btn internal-irs"       name="act_weapon1-internal-ir">Recoil Sys</button>
+												<button type="action" class="sheet-internal-btn internal-qls"       name="act_weapon1-internal-ql">Quick-Load</button>
+												<button type="action" class="sheet-internal-btn internal-qst"       name="act_weapon1-internal-qt">Quick-Sel</button>
+											</div>
 										</div>
 									</div>
 									<div class="sheet-weapon-advanced-grid">
@@ -21361,6 +21378,7 @@
 											<div class="sheet-weapon-adv-label" data-i18n="weapon_mode-u">Mode</div>
 											<input type="hidden" name="attr_weapon_mode_mdr" value="ss"/>
 											<input type="hidden" name="attr_weapon_modes_available_mdr" value=""/>
+									<input type="hidden" name="attr_weapon_modes_base_mdr" value=""/>
 											<div class="sheet-weapon-mode-grid">
 												<button type="action" class="sheet-weapon-mode-btn mode-ss" name="act_weapon-mode-ss">SS</button>
 												<button type="action" class="sheet-weapon-mode-btn mode-sa" name="act_weapon-mode-sa">SA</button>
@@ -21381,6 +21399,7 @@
 											<input type="hidden" name="attr_weapon_ammo_active_mdr" value="0"/>
 											<input type="hidden" name="attr_weapon_category_mdr" value=""/>
 											<input type="hidden" name="attr_weapon_max_range_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_trait_veil_linked_mdr" value=""/>
 											<div class="sheet-weapon-ammo-grid">
 												<button type="action" class="sheet-ammo-btn ammo-ap-slugs" name="act_weapon-ammo-ap">AP Slugs</button>
 												<button type="action" class="sheet-ammo-btn ammo-breacher" name="act_weapon-ammo-br">Breacher</button>
@@ -21410,8 +21429,10 @@
 											<!-- Optics -->
 											<div class="sheet-weapon-adv-group">
 												<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
-												<input type="hidden" name="attr_weapon_optics_mdr" value="none"/>
-												<input type="hidden" class="sheet-cat-mirror" name="attr_weapon_category_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_optics_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_btn_optics_mag_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_optics_reflex_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_optics_thermal_mdr" value="0"/>
 												<div class="sheet-weapon-optics-grid">
 													<button type="action" class="sheet-optics-btn optics-magnification" name="act_weapon-optics-mag">Mag Scope</button>
 													<button type="action" class="sheet-optics-btn optics-reflex"        name="act_weapon-optics-ref">Reflex Sight</button>
@@ -21421,26 +21442,39 @@
 											<!-- Barrel / Muzzle -->
 											<div class="sheet-weapon-adv-group">
 												<div class="sheet-weapon-adv-label" data-i18n="weapon_barrel-u">Barrel / Muzzle</div>
-												<select class="sheet-weapon-adv-select" name="attr_weapon_barrel_mdr">
-													<option value="" data-i18n="mod_none-u">--- none ---</option>
-													<option value="Compensator" data-i18n="mod_compensator-u">Compensator</option>
-													<option value="Precision Choke" data-i18n="mod_precision_choke-u">Precision Choke</option>
-													<option value="Silencer" data-i18n="mod_silencer-u">Silencer</option>
-													<option value="Slug Barrel" data-i18n="mod_slug_barrel-u">Slug Barrel</option>
-													<option value="Suppressor" data-i18n="mod_suppressor-u">Suppressor</option>
-												</select>
+												<input type="hidden" name="attr_weapon_barrel_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_btn_barrel_silencer_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_barrel_compensator_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_barrel_suppressor_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_barrel_prec_choke_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_barrel_slug_mdr" value="0"/>
+												<div class="sheet-weapon-barrel-grid">
+													<button type="action" class="sheet-barrel-btn barrel-silencer"    name="act_weapon-barrel-sl">Silencer</button>
+													<button type="action" class="sheet-barrel-btn barrel-compensator" name="act_weapon-barrel-co">Compensator</button>
+													<button type="action" class="sheet-barrel-btn barrel-suppressor"  name="act_weapon-barrel-su">Suppressor</button>
+													<button type="action" class="sheet-barrel-btn barrel-prec-choke"  name="act_weapon-barrel-pc">Prec Choke</button>
+													<button type="action" class="sheet-barrel-btn barrel-slug"        name="act_weapon-barrel-sb">Slug Barrel</button>
+												</div>
 											</div>
 											<!-- Internal -->
 											<div class="sheet-weapon-adv-group">
 												<div class="sheet-weapon-adv-label" data-i18n="weapon_internal-u">Internal</div>
-												<select class="sheet-weapon-adv-select" name="attr_weapon_mod_internal_mdr">
-													<option value="none" data-i18n="mod_none-u">--- none ---</option>
-													<option value="biocoded" data-i18n="mod_biocoded-u">Bio-Coded</option>
-													<option value="irs" data-i18n="mod_irs-u">Internal Recoil System</option>
-													<option value="qls" data-i18n="mod_qls-u">Quick-Load System</option>
-													<option value="qst" data-i18n="mod_qst-u">Quick-Select Trigger</option>
-													<option value="smartlink" data-i18n="mod_smartlink-u">Smartlink</option>
-												</select>
+												<input type="hidden" name="attr_weapon_mod_internal_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_smartlink_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_cq_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_scoped_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_btn_internal_smartlink_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_internal_biocoded_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_internal_irs_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_internal_qls_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_internal_qst_mdr" value="0"/>
+												<div class="sheet-weapon-internal-grid">
+													<button type="action" class="sheet-internal-btn internal-smartlink" name="act_weapon-internal-sl">Smartlink</button>
+													<button type="action" class="sheet-internal-btn internal-biocoded"  name="act_weapon-internal-bc">Bio-Coded</button>
+													<button type="action" class="sheet-internal-btn internal-irs"       name="act_weapon-internal-ir">Recoil Sys</button>
+													<button type="action" class="sheet-internal-btn internal-qls"       name="act_weapon-internal-ql">Quick-Load</button>
+													<button type="action" class="sheet-internal-btn internal-qst"       name="act_weapon-internal-qt">Quick-Sel</button>
+												</div>
 											</div>
 										</div>
 										<div class="sheet-weapon-advanced-grid">
@@ -47774,6 +47808,37 @@ const careerDataMap = {
 
 /* Equipment Data Maps */
 
+
+/* ── Mod button availability — computed from weaponDataMap ──────────────
+	 Call computeModButtons(entry) to get a flat object of btn attr values.
+	 Each value is "1" (slot exists + category compatible) or "0".
+	 ─────────────────────────────────────────────────────────────────────── */
+function computeModButtons(entry, prefix) {
+	const slots    = entry.mod_slots || [];
+	const cat      = entry.category  || "";
+	/* tranq weapons are handgun-platform — treat identically for mod compatibility */
+	const effCat   = cat === "tranq" ? "handgun" : cat;
+	const hasOpticsSlot   = slots.includes("optics");
+	const hasBarrelSlot   = slots.includes("barrel_muzzle");
+	const hasInternalSlot = slots.includes("internal");
+	const btn = (slotOk, cats) => (slotOk && cats.includes(effCat)) ? "1" : "0";
+	return {
+		[prefix + "btn_optics_mag_mdr"]:          btn(hasOpticsSlot,   ["rifle"]),
+		[prefix + "btn_optics_reflex_mdr"]:        btn(hasOpticsSlot,   ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_optics_thermal_mdr"]:       btn(hasOpticsSlot,   ["smg", "rifle"]),
+		[prefix + "btn_barrel_silencer_mdr"]:      btn(hasBarrelSlot,   ["handgun"]),
+		[prefix + "btn_barrel_compensator_mdr"]:   btn(hasBarrelSlot && !(entry.traits || []).includes("loud"), ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_barrel_suppressor_mdr"]:    btn(hasBarrelSlot,   ["smg", "rifle"]),
+		[prefix + "btn_barrel_prec_choke_mdr"]:    btn(hasBarrelSlot,   ["shotgun"]),
+		[prefix + "btn_barrel_slug_mdr"]:          btn(hasBarrelSlot,   ["shotgun"]),
+		[prefix + "btn_internal_smartlink_mdr"]:   btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_internal_biocoded_mdr"]:    btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_internal_irs_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_internal_qls_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_internal_qst_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+	};
+}
+
 const weaponDataMap = {
 	/* MELEE & THROWN */
 	/* Melee */
@@ -52546,6 +52611,12 @@ const initWeaponComputedAttrs = () => {
             updates[`repeating_weaponsmdr_${id}_weapon_max_range_mdr`] =
               entry.range[entry.range.length - 1];
           }
+          const slots = entry.mod_slots || [];
+          Object.assign(updates, computeModButtons(entry, `repeating_weaponsmdr_${id}_weapon_`));
+          updates[`repeating_weaponsmdr_${id}_weapon_trait_smartlink_mdr`]   = (entry.traits || []).includes("smartlink")  ? "1" : "";
+          updates[`repeating_weaponsmdr_${id}_weapon_trait_scoped_mdr`]      = (entry.traits || []).includes("scoped")      ? "1" : "";
+          updates[`repeating_weaponsmdr_${id}_weapon_trait_cq_mdr`]          = (entry.traits || []).includes("cq")          ? "1" : "";
+          updates[`repeating_weaponsmdr_${id}_weapon_trait_veil_linked_mdr`] = (entry.traits || []).includes("veil_linked") ? "1" : "";
         }
 
         if (!labelSet) {
@@ -52563,16 +52634,18 @@ const initWeaponComputedAttrs = () => {
 
         const effective = computeEffectiveDamage(numdice, dicesize, bonus, ammoType, ammoAct, `repeating_weaponsmdr_${id}`, `repeating_weaponsmdr_${id}_weapon_effective`);
         Object.assign(updates, effective);
-        const optics  = rows[`repeating_weaponsmdr_${id}_weapon_optics_mdr`]        || "none";
-        const intI    = rows[`repeating_weaponsmdr_${id}_weapon_mod_internal_mdr`] || "none";
-        const slI     = intI === "smartlink" ? "1" : undefined;
+        const optics  = rows[`repeating_weaponsmdr_${id}_weapon_optics_mdr`] || (rows[`repeating_weaponsmdr_${id}_weapon_trait_scoped_mdr`] === "1" ? "magnification" : "");
+        const intI    = rows[`repeating_weaponsmdr_${id}_weapon_mod_internal_mdr`] || "";
+        const traitSLI = rows[`repeating_weaponsmdr_${id}_weapon_trait_smartlink_mdr`] === "1";
+        const slI     = (intI === "smartlink" || traitSLI) ? "1" : undefined;
         const irsI    = intI === "irs"        ? "1" : undefined;
         const qstI    = intI === "qst"        ? "1" : undefined;
         const qlsI    = intI === "qls"        ? "1" : undefined;
         const bioI    = intI === "biocoded"   ? "1" : undefined;
         const rangeI  = rows[`repeating_weaponsmdr_${id}_weapon_range_band_mdr`]    || "short";
         const reduceI = parseInt(rows[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`], 10) || 0;
-        updates[`repeating_weaponsmdr_${id}_weapon_computed_hit_mdr`]           = computeWeaponHit(optics, slI, rangeI);
+        const cqI     = rows[`repeating_weaponsmdr_${id}_weapon_trait_cq_mdr`] === "1";
+        updates[`repeating_weaponsmdr_${id}_weapon_computed_hit_mdr`]           = computeWeaponHit(optics, slI, rangeI, undefined, undefined, cqI);
         const reduceEffI = reduceI + (irsI === "1" ? 1 : 0);
         updates[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_eff_mdr`] = reduceEffI;
         /* Summary display attrs */
@@ -52582,7 +52655,7 @@ const initWeaponComputedAttrs = () => {
         const diceI    = penDiceI[modeI] || 0;
         const netDiceI = Math.max(0, diceI - Math.min(reduceEffI, diceI));
         const netPenI  = -(netDiceI * 10);
-        const hitI     = computeWeaponHit(optics, slI, rangeI);
+        const hitI     = computeWeaponHit(optics, slI, rangeI, undefined, undefined, cqI);
         updates[`repeating_weaponsmdr_${id}_weapon_tags_display_mdr`]        = buildTagsStr(optics, slI, barrelI, irsI, qstI, qlsI, bioI, modeI);
         updates[`repeating_weaponsmdr_${id}_weapon_net_hit_display_mdr`]     = hitI === 0 ? "—" : (hitI > 0 ? "+" : "") + hitI + "%";
         updates[`repeating_weaponsmdr_${id}_weapon_net_penalty_display_mdr`] = netDiceI === 0 ? "—" : netPenI + "% (" + netDiceI + " " + (netDiceI === 1 ? "die" : "dice") + ")";
@@ -52591,6 +52664,28 @@ const initWeaponComputedAttrs = () => {
       if (Object.keys(updates).length) setAttrs(updates, { silent: true });
     });
   });
+};
+
+/* Initialise mod button attrs for static weapon1 on sheet open.
+   Mirrors initWeaponComputedAttrs but for the non-repeating weapon1 block. */
+const initWeapon1ModButtons = () => {
+	if (debug_on_trace) console.log("[initWeapon1ModButtons]");
+	const presetKeys = [
+		"weapon1_mdr_weapon_preset_melee",
+		"weapon1_mdr_weapon_preset_throw",
+		"weapon1_mdr_weapon_preset_handgun",
+		"weapon1_mdr_weapon_preset_shotgun",
+		"weapon1_mdr_weapon_preset_rifle",
+		"weapon1_mdr_weapon_preset_smg",
+		"weapon1_mdr_weapon_preset_heavy",
+	];
+	getAttrs(presetKeys, (v) => {
+		const presetKey = presetKeys.map(k => v[k] || "").find(Boolean) || "";
+		if (!presetKey) return;
+		const entry = weaponDataMap[presetKey];
+		if (!entry) return;
+		setAttrs(computeModButtons(entry, "weapon1_"), { silent: true });
+	});
 };
 
 const toggleFlag = (attr) => {
@@ -52987,6 +53082,7 @@ const initializeSheetOnOpen = (eventInfo) => {
           recalcArmorTotals();
           recalcCtVitalityTotal();
           initWeaponComputedAttrs();
+          initWeapon1ModButtons();
           applyTranslationsOnOpen(() => {
             if (debug_on_trace) console.log("[initializeSheetOnOpen] Done");
             sheetInitComplete = true;
@@ -55289,29 +55385,39 @@ on("change:weapon1_mdr_damage", () => {
 
 /* Compute net hit bonus: optics + smartlink non-stacking, mag scope penalty separate.
    Reflex Sight and Smartlink do not stack — take the higher. */
-function computeWeaponHit(optics, smartlink, range, category, maxRange) {
-  const bandOrder    = ["engaged", "short", "medium", "long", "extreme"];
-  const maxRangeMap  = { E: "engaged", S: "short", M: "medium", L: "long", X: "extreme" };
+function computeWeaponHit(optics, smartlink, range, category, maxRange, cq) {
   const reflexRanges = ["engaged", "short", "medium"];
   const longRanges   = ["long", "extreme"];
   const closeRanges  = ["engaged", "short"];
-  function opticBonus(o) {
-    if (o === "reflex")        return reflexRanges.includes(range) ? 10 : 0;
-    if (o === "magnification") return longRanges.includes(range) ? 10 : closeRanges.includes(range) ? -10 : 0;
-    return 0;
-  }
+
+  /* Smartlink: always +10%, no range restriction */
+  const slBonus = (smartlink === "1" || smartlink === true) ? 10 : 0;
+
+  /* Reflex Sight: +10% at E/S/M only — non-stacking with Smartlink (take higher) */
+  const reflexBonus = (optics === "reflex" && reflexRanges.includes(range)) ? 10 : 0;
+
+  /* Magnification Scope: die modifier — independent of hit%, always stacks
+     +1 bonus die (+10%) at L/X, +1 penalty die (-10%) at E/S */
+  const magDieMod = optics === "magnification"
+    ? (longRanges.includes(range) ? 10 : closeRanges.includes(range) ? -10 : 0)
+    : 0;
+
   /* Distance modifier: Short +10%, Medium 0%, Long -10%, Extreme -20% */
   const distMod  = { engaged: 0, short: 10, medium: 0, long: -10, extreme: -20 };
   const rangeMod = distMod[range] !== undefined ? distMod[range] : 0;
-  /* Engaged range penalty — handgun: -10%, long arms: -20% (stacks with distMod) */
-  const longArms   = ["rifle", "smg", "shotgun", "heavy"];
-  const engagedPen = range === "engaged"
-    ? (longArms.includes(category) ? -20 : category === "handgun" ? -10 : 0)
-    : 0;
-  const prim    = opticBonus(optics);
-  const slBonus = (smartlink === "1" || smartlink === true) ? 10 : 0;
-  const magPen  = prim < 0 ? prim : 0;
-  return Math.max(prim > 0 ? prim : 0, slBonus) + magPen + engagedPen + rangeMod;
+
+  /* Engaged range penalty — handgun: -10%, long arms: -20%
+     CQ trait: long arms reduced to -10%, handguns reduced to 0% */
+  const longArms = ["rifle", "smg", "shotgun", "heavy"];
+  let engagedPen = 0;
+  if (range === "engaged") {
+    if (longArms.includes(category))  engagedPen = cq ? -10 : -20;
+    else if (category === "handgun")  engagedPen = cq ?   0 : -10;
+  }
+
+  /* Reflex and Smartlink non-stack: take higher of the two hit% bonuses.
+     Magnification die modifier always applies independently. */
+  return Math.max(reflexBonus, slBonus) + magDieMod + engagedPen + rangeMod;
 }
 
 
@@ -55326,7 +55432,7 @@ function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode) {
     tags.push("Smartlink/Reflex (no stack)");
   } else {
     if (slActive) tags.push("Smartlink +10%");
-    if (optics !== "none") tags.push(opticLabels[optics] || optics);
+    if (optics !== "") tags.push(opticLabels[optics] || optics);
   }
   if (barrel) tags.push(barrel);
   if (irs === "1") tags.push("IRS −1 die");
@@ -55340,10 +55446,11 @@ function refreshWeapon1Summary() {
 	if (debug_on_trace) console.log("[refreshWeapon1Summary]");
 	getAttrs(["weapon1_mdr_optics", "weapon1_mdr_mod_internal", "weapon1_mdr_range_band",
 	          "weapon1_mdr_mod_penalty_reduce", "weapon1_mdr_mode", "weapon1_mdr_barrel",
-	          "weapon1_mdr_category", "weapon1_mdr_max_range"], (v) => {
-		const optics   = v.weapon1_mdr_optics             || "none";
-		const internal = v.weapon1_mdr_mod_internal       || "none";
-		const sl       = internal === "smartlink" ? "1" : undefined;
+	          "weapon1_mdr_category", "weapon1_mdr_max_range", "weapon1_mdr_trait_smartlink", "weapon1_mdr_trait_scoped", "weapon1_mdr_trait_cq"], (v) => {
+		const optics   = v.weapon1_mdr_optics || (v.weapon1_mdr_trait_scoped === "1" ? "magnification" : "");
+		const internal = v.weapon1_mdr_mod_internal       || "";
+		const traitSL  = v.weapon1_mdr_trait_smartlink === "1";
+		const sl       = (internal === "smartlink" || traitSL) ? "1" : undefined;
 		const irs      = internal === "irs"        ? "1" : undefined;
 		const qst      = internal === "qst"        ? "1" : undefined;
 		const qls      = internal === "qls"        ? "1" : undefined;
@@ -55362,7 +55469,8 @@ function refreshWeapon1Summary() {
 		const dice     = penDice[mode] || 0;
 		const netDice  = Math.max(0, dice - Math.min(redEff, dice));
 		const netPen   = -(netDice * 10);
-		const hit      = computeWeaponHit(optics, sl, range, category, maxRange);
+		const cq       = v.weapon1_mdr_trait_cq === "1";
+		const hit      = computeWeaponHit(optics, sl, range, category, maxRange, cq);
 		const hitStr   = hit === 0 ? "—" : (hit > 0 ? "+" : "") + hit + "%";
 		const penStr   = netDice === 0 ? "—" : netPen + "% (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")";
 		setAttrs({
@@ -55378,7 +55486,7 @@ function refreshWeapon1Summary() {
 	});
 }
 
-on("change:weapon1_mdr_optics change:weapon1_mdr_mod_internal change:weapon1_mdr_range_band change:weapon1_mdr_mod_penalty_reduce change:weapon1_mdr_mode change:weapon1_mdr_barrel", () => {
+on("change:weapon1_mdr_optics change:weapon1_mdr_mod_internal change:weapon1_mdr_range_band change:weapon1_mdr_mod_penalty_reduce change:weapon1_mdr_mode change:weapon1_mdr_barrel change:weapon1_mdr_trait_smartlink change:weapon1_mdr_trait_scoped change:weapon1_mdr_trait_cq", () => {
   if (debug_on_trace) console.log("[change:weapon1_mdr_summary]");
   refreshWeapon1Summary();
 });
@@ -55400,7 +55508,7 @@ on("change:weapon1_mdr_ammo_type change:weapon1_mdr_ammo_active", () => {
   });
 });
 
-on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weapon_mod_penalty_reduce_mdr change:repeating_weaponsmdr:weapon_optics_mdr change:repeating_weaponsmdr:weapon_mod_internal_mdr change:repeating_weaponsmdr:weapon_range_band_mdr change:repeating_weaponsmdr:weapon_barrel_mdr", (eventInfo) => {
+on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weapon_mod_penalty_reduce_mdr change:repeating_weaponsmdr:weapon_optics_mdr change:repeating_weaponsmdr:weapon_mod_internal_mdr change:repeating_weaponsmdr:weapon_range_band_mdr change:repeating_weaponsmdr:weapon_barrel_mdr change:repeating_weaponsmdr:weapon_trait_smartlink_mdr change:repeating_weaponsmdr:weapon_trait_scoped_mdr change:repeating_weaponsmdr:weapon_trait_cq_mdr", (eventInfo) => {
   if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapon_summary]");
   const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
   if (!m) return;
@@ -55409,13 +55517,15 @@ on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weap
   getAttrs([
     p + "weapon_mode_mdr", p + "weapon_mod_penalty_reduce_mdr",
     p + "weapon_optics_mdr", p + "weapon_mod_internal_mdr", p + "weapon_range_band_mdr",
-    p + "weapon_barrel_mdr", p + "weapon_category_mdr", p + "weapon_max_range_mdr"
+    p + "weapon_barrel_mdr", p + "weapon_category_mdr", p + "weapon_max_range_mdr",
+    p + "weapon_trait_smartlink_mdr", p + "weapon_trait_scoped_mdr", p + "weapon_trait_cq_mdr"
   ], (v) => {
     const mode    = v[p + "weapon_mode_mdr"]              || "ss";
     const reduce  = parseInt(v[p + "weapon_mod_penalty_reduce_mdr"], 10) || 0;
-    const optics  = v[p + "weapon_optics_mdr"]            || "none";
-    const internal = v[p + "weapon_mod_internal_mdr"] || "none";
-    const sl       = internal === "smartlink" ? "1" : undefined;
+    const optics  = v[p + "weapon_optics_mdr"] || (v[p + "weapon_trait_scoped_mdr"] === "1" ? "magnification" : "");
+    const internal = v[p + "weapon_mod_internal_mdr"] || "";
+    const traitSL  = v[p + "weapon_trait_smartlink_mdr"] === "1";
+    const sl       = (internal === "smartlink" || traitSL) ? "1" : undefined;
     const irs      = internal === "irs"        ? "1" : undefined;
     const qst      = internal === "qst"        ? "1" : undefined;
     const qls      = internal === "qls"        ? "1" : undefined;
@@ -55432,7 +55542,8 @@ on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weap
     const dice     = penDice[mode] || 0;
     const netDice  = Math.max(0, dice - Math.min(redEff, dice));
     const netPen   = -(netDice * 10);
-    const hit      = computeWeaponHit(optics, sl, range, category, maxRange);
+    const cq       = v[p + "weapon_trait_cq_mdr"] === "1";
+    const hit      = computeWeaponHit(optics, sl, range, category, maxRange, cq);
     const hitStr   = hit === 0 ? "—" : (hit > 0 ? "+" : "") + hit + "%";
     const penStr   = netDice === 0 ? "—" : netPen + "% (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")";
     setAttrs({
@@ -56024,12 +56135,67 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 			[p + "weapon_cap_pcell_mdr"]:            pcellNum ? "1" : "0",
 			[p + "weapon_cap_display_mdr"]:          capDisplayCode(capRating),
 			[p + "weapon_modes_available_mdr"]:      (entry.mode || ["ss"]).map(m => m.toLowerCase()).join(" "),
+			[p + "weapon_modes_base_mdr"]:           (entry.mode || ["ss"]).map(m => m.toLowerCase()).join(" "),
 			[p + "weapon_mode_mdr"]:                 (entry.mode && entry.mode.length ? entry.mode[0].toLowerCase() : "ss"),
+			[p + "weapon_barrel_mdr"]:               "",
+			[p + "weapon_optics_mdr"]:               "",
+			[p + "weapon_mod_internal_mdr"]:         "",
 			[p + "weapon_cap_counter_mdr"]:          parseCapRating(capRating).capCount + "/" + parseCapRating(capRating).capCount,
 			[p + "weapon_category_mdr"]:             entry.category || "",
+			[p + "weapon_trait_smartlink_mdr"]:      (entry.traits || []).includes("smartlink")   ? "1" : "",
+			[p + "weapon_trait_scoped_mdr"]:         (entry.traits || []).includes("scoped")       ? "1" : "",
+			[p + "weapon_trait_cq_mdr"]:             (entry.traits || []).includes("cq")           ? "1" : "",
+			[p + "weapon_trait_veil_linked_mdr"]:    (entry.traits || []).includes("veil_linked")  ? "1" : "",
 			[p + "weapon_ammo_type_mdr"]:            "standard",
 			[p + "weapon_ammo_active_mdr"]:          "0",
-		}));
+			...computeModButtons(entry, p + "weapon_"),
+		}), () => {
+			/* Re-run summary after full batch commits — prevents race where change
+			   watchers read stale trait values mid-batch (e.g. trait_smartlink) */
+			const summaryAttrs = [
+				p + "weapon_mode_mdr", p + "weapon_mod_penalty_reduce_mdr",
+				p + "weapon_optics_mdr", p + "weapon_mod_internal_mdr", p + "weapon_range_band_mdr",
+				p + "weapon_barrel_mdr", p + "weapon_category_mdr", p + "weapon_max_range_mdr",
+				p + "weapon_trait_smartlink_mdr", p + "weapon_trait_scoped_mdr", p + "weapon_trait_cq_mdr",
+			];
+			getAttrs(summaryAttrs, (sv) => {
+				const sMode    = sv[p + "weapon_mode_mdr"]              || "ss";
+				const sReduce  = parseInt(sv[p + "weapon_mod_penalty_reduce_mdr"], 10) || 0;
+				const sOptics  = sv[p + "weapon_optics_mdr"] || (sv[p + "weapon_trait_scoped_mdr"] === "1" ? "magnification" : "");
+				const sInt     = sv[p + "weapon_mod_internal_mdr"] || "";
+				const sSL      = (sInt === "smartlink" || sv[p + "weapon_trait_smartlink_mdr"] === "1") ? "1" : undefined;
+				const sIRS     = sInt === "irs"      ? "1" : undefined;
+				const sQST     = sInt === "qst"      ? "1" : undefined;
+				const sQLS     = sInt === "qls"      ? "1" : undefined;
+				const sBIO     = sInt === "biocoded" ? "1" : undefined;
+				const sRange   = sv[p + "weapon_range_band_mdr"]  || "short";
+				const sCat     = sv[p + "weapon_category_mdr"]    || "";
+				const sMax     = sv[p + "weapon_max_range_mdr"]   || "";
+				const sBarrel  = sv[p + "weapon_barrel_mdr"]      || "";
+				const sCQ      = sv[p + "weapon_trait_cq_mdr"] === "1";
+				const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
+				const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
+				const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
+				const irsBonus = sIRS === "1" ? 1 : 0;
+				const redEff   = sReduce + irsBonus;
+				const dice     = penDice[sMode] || 0;
+				const netDice  = Math.max(0, dice - Math.min(redEff, dice));
+				const netPen   = -(netDice * 10);
+				const hit      = computeWeaponHit(sOptics, sSL, sRange, sCat, sMax, sCQ);
+				const hitStr   = hit === 0 ? "—" : (hit > 0 ? "+" : "") + hit + "%";
+				const penStr   = netDice === 0 ? "—" : netPen + "% (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")";
+				setAttrs({
+					[p + "weapon_computed_hit_mdr"]:           hit,
+					[p + "weapon_mod_penalty_reduce_eff_mdr"]: redEff,
+					[p + "weapon_mode_num_mdr"]:               numMap[sMode]   || "10",
+					[p + "weapon_mode_label_mdr"]:             labelMap[sMode] || "SS",
+					[p + "weapon_mode_penalty_mdr"]:           netPen,
+					[p + "weapon_tags_display_mdr"]:           buildTagsStr(sOptics, sSL, sBarrel, sIRS, sQST, sQLS, sBIO, sMode),
+					[p + "weapon_net_hit_display_mdr"]:        hitStr,
+					[p + "weapon_net_penalty_display_mdr"]:    penStr,
+				});
+			});
+		});
 	});
 });
 
@@ -56077,12 +56243,21 @@ on("change:weapon1_mdr_weapon_preset_melee change:weapon1_mdr_weapon_preset_thro
 			weapon1_mdr_cap_pcell:          pcellNum ? "1" : "0",
 			weapon1_mdr_cap_display:        capDisplayCode(capRating),
 			weapon1_mdr_modes_available:    (entry.mode || ["ss"]).map(m => m.toLowerCase()).join(" "),
+			weapon1_mdr_modes_base:         (entry.mode || ["ss"]).map(m => m.toLowerCase()).join(" "),
 			weapon1_mdr_mode:               (entry.mode && entry.mode.length ? entry.mode[0].toLowerCase() : "ss"),
+			weapon1_mdr_barrel:             "",
+			weapon1_mdr_optics:             "",
+			weapon1_mdr_mod_internal:       "",
 			weapon1_mdr_cap_counter:        parseCapRating(capRating).capCount + "/" + parseCapRating(capRating).capCount,
 			weapon1_mdr_category:           entry.category || "",
+			weapon1_mdr_trait_smartlink:    (entry.traits || []).includes("smartlink")  ? "1" : "",
+			weapon1_mdr_trait_scoped:       (entry.traits || []).includes("scoped")      ? "1" : "",
+			weapon1_mdr_trait_cq:           (entry.traits || []).includes("cq")          ? "1" : "",
+			weapon1_mdr_trait_veil_linked:  (entry.traits || []).includes("veil_linked") ? "1" : "",
 			weapon1_mdr_max_range:          (entry.range && entry.range.length ? entry.range[entry.range.length - 1] : ""),
 			weapon1_mdr_ammo_type:          "standard",
 			weapon1_mdr_ammo_active:        "0",
+			...computeModButtons(entry, "weapon1_"),
 		}), () => { refreshWeapon1Summary(); });
 	});
 });
@@ -56106,6 +56281,14 @@ on("change:repeating_weaponsmdr:weaponskill_mdr", (eventInfo) => {
 			[p + "weapon_preset_rifle_mdr"]:     "",
 			[p + "weapon_preset_smg_mdr"]:       "",
 			[p + "weapon_preset_heavy_mdr"]:     "",
+			[p + "weapon_barrel_mdr"]:           "",
+			[p + "weapon_optics_mdr"]:           "",
+			[p + "weapon_mod_internal_mdr"]:     "",
+			[p + "weapon_trait_smartlink_mdr"]:  "",
+			[p + "weapon_trait_scoped_mdr"]:      "",
+			[p + "weapon_trait_cq_mdr"]:          "",
+			[p + "weapon_trait_veil_linked_mdr"]: "",
+			...Object.fromEntries(Object.keys(computeModButtons({ mod_slots: [], category: "" }, p + "weapon_")).map(k => [k, "0"])),
 		});
 	});
 });
@@ -56124,6 +56307,14 @@ on("change:weapon1_skill_mdr", () => {
 			weapon1_mdr_weapon_preset_rifle:   "",
 			weapon1_mdr_weapon_preset_smg:     "",
 			weapon1_mdr_weapon_preset_heavy:   "",
+			weapon1_mdr_barrel:                "",
+			weapon1_mdr_optics:                "",
+			weapon1_mdr_mod_internal:          "",
+			weapon1_mdr_trait_smartlink:       "",
+			weapon1_mdr_trait_scoped:          "",
+			weapon1_mdr_trait_cq:              "",
+			weapon1_mdr_trait_veil_linked:     "",
+			...Object.fromEntries(Object.keys(computeModButtons({ mod_slots: [], category: "" }, "weapon1_")).map(k => [k, "0"])),
 		});
 	});
 });
@@ -56229,142 +56420,586 @@ on("clicked:weapon1_mods_toggle", () => {
 
 
 /* ── Mode button handlers — repeating row ───────────────────────────── */
-(function() {
-	["ss", "sa", "bf", "fa"].forEach((mode) => {
-		on("clicked:repeating_weaponsmdr:weapon-mode-" + mode, (eventInfo) => {
-			if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-" + mode + "]");
-			const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-			if (!m) return;
-			const id = m[1];
-			const p  = `repeating_weaponsmdr_${id}_`;
-			getAttrs([p + "weapon_modes_available_mdr"], (v) => {
-				const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
-				if (!avail.includes(mode)) return;
-				setAttrs({ [p + "weapon_mode_mdr"]: mode });
-			});
-		});
+on("clicked:repeating_weaponsmdr:weapon-mode-ss", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-ss]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_modes_available_mdr"], (v) => {
+		const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
+		if (avail.includes("ss")) setAttrs({ [p + "weapon_mode_mdr"]: "ss" });
 	});
-}());
+});
+on("clicked:repeating_weaponsmdr:weapon-mode-sa", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-sa]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_modes_available_mdr"], (v) => {
+		const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
+		if (avail.includes("sa")) setAttrs({ [p + "weapon_mode_mdr"]: "sa" });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-mode-bf", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-bf]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_modes_available_mdr"], (v) => {
+		const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
+		if (avail.includes("bf")) setAttrs({ [p + "weapon_mode_mdr"]: "bf" });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-mode-fa", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-fa]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_modes_available_mdr"], (v) => {
+		const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
+		if (avail.includes("fa")) setAttrs({ [p + "weapon_mode_mdr"]: "fa" });
+	});
+});
 
 /* ── Mode button handlers — static weapon1 ──────────────────────────── */
-(function() {
-	["ss", "sa", "bf", "fa"].forEach((mode) => {
-		on("clicked:weapon1_mode_" + mode, () => {
-			if (debug_on_trace) console.log("[clicked:weapon1_mode_" + mode + "]");
-			getAttrs(["weapon1_mdr_modes_available"], (v) => {
-				const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
-				if (!avail.includes(mode)) return;
-				setAttrs({ weapon1_mdr_mode: mode });
-			});
-		});
+on("clicked:weapon1_mode_ss", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1_mode_ss]");
+	getAttrs(["weapon1_mdr_modes_available"], (v) => {
+		const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
+		if (avail.includes("ss")) setAttrs({ weapon1_mdr_mode: "ss" });
 	});
-}());
+});
+on("clicked:weapon1_mode_sa", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1_mode_sa]");
+	getAttrs(["weapon1_mdr_modes_available"], (v) => {
+		const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
+		if (avail.includes("sa")) setAttrs({ weapon1_mdr_mode: "sa" });
+	});
+});
+on("clicked:weapon1_mode_bf", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1_mode_bf]");
+	getAttrs(["weapon1_mdr_modes_available"], (v) => {
+		const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
+		if (avail.includes("bf")) setAttrs({ weapon1_mdr_mode: "bf" });
+	});
+});
+on("clicked:weapon1_mode_fa", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1_mode_fa]");
+	getAttrs(["weapon1_mdr_modes_available"], (v) => {
+		const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
+		if (avail.includes("fa")) setAttrs({ weapon1_mdr_mode: "fa" });
+	});
+});
 
 
 /* ── Ammo button handlers — repeating row ───────────────────────────── */
-(function() {
-	const ammoMap = { ap: "ap_slugs", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" };
-	Object.keys(ammoMap).forEach((code) => {
-		on("clicked:repeating_weaponsmdr:weapon-ammo-" + code, (eventInfo) => {
-			if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-" + code + "]");
-			const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-			if (!m) return;
-			const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-			const ammoVal = ammoMap[code];
-			getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
-				const cur    = v[p + "weapon_ammo_type_mdr"]   || "standard";
-				const active = v[p + "weapon_ammo_active_mdr"] || "0";
-				/* Toggle: clicking active ammo deactivates → standard; else activate */
-				if (cur === ammoVal && active === "1") {
-					setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
-				} else {
-					setAttrs({ [p + "weapon_ammo_type_mdr"]: ammoVal, [p + "weapon_ammo_active_mdr"]: "1" });
-				}
-			});
-		});
+on("clicked:repeating_weaponsmdr:weapon-ammo-ap", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-ap]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
+		const act = v[p + "weapon_ammo_active_mdr"] || "0";
+		if (cur === "ap_slugs" && act === "1") {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
+		} else {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "ap_slugs", [p + "weapon_ammo_active_mdr"]: "1" });
+		}
 	});
-}());
+});
+on("clicked:repeating_weaponsmdr:weapon-ammo-br", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-br]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
+		const act = v[p + "weapon_ammo_active_mdr"] || "0";
+		if (cur === "breacher" && act === "1") {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
+		} else {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "breacher", [p + "weapon_ammo_active_mdr"]: "1" });
+		}
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-ammo-hp", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-hp]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
+		const act = v[p + "weapon_ammo_active_mdr"] || "0";
+		if (cur === "hollow_point" && act === "1") {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
+		} else {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "hollow_point", [p + "weapon_ammo_active_mdr"]: "1" });
+		}
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-ammo-sh", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-sh]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
+		const act = v[p + "weapon_ammo_active_mdr"] || "0";
+		if (cur === "shock" && act === "1") {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
+		} else {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "shock", [p + "weapon_ammo_active_mdr"]: "1" });
+		}
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-ammo-su", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-su]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
+		const act = v[p + "weapon_ammo_active_mdr"] || "0";
+		if (cur === "subsonic" && act === "1") {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
+		} else {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "subsonic", [p + "weapon_ammo_active_mdr"]: "1" });
+		}
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-ammo-vc", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-vc]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
+		const act = v[p + "weapon_ammo_active_mdr"] || "0";
+		if (cur === "veil_charged" && act === "1") {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
+		} else {
+			setAttrs({ [p + "weapon_ammo_type_mdr"]: "veil_charged", [p + "weapon_ammo_active_mdr"]: "1" });
+		}
+	});
+});
 
 /* ── Ammo button handlers — static weapon1 ──────────────────────────── */
-(function() {
-	const ammoMap = { ap: "ap_slugs", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" };
-	Object.keys(ammoMap).forEach((code) => {
-		on("clicked:weapon1-ammo-" + code, () => {
-			if (debug_on_trace) console.log("[clicked:weapon1-ammo-" + code + "]");
-			const ammoVal = ammoMap[code];
-			getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
-				const cur    = v["weapon1_mdr_ammo_type"]   || "standard";
-				const active = v["weapon1_mdr_ammo_active"] || "0";
-				if (cur === ammoVal && active === "1") {
-					setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
-				} else {
-					setAttrs({ weapon1_mdr_ammo_type: ammoVal, weapon1_mdr_ammo_active: "1" });
-				}
-			});
-		});
+on("clicked:weapon1-ammo-ap", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-ammo-ap]");
+	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
+		const cur = v["weapon1_mdr_ammo_type"] || "standard";
+		const act = v["weapon1_mdr_ammo_active"] || "0";
+		if (cur === "ap_slugs" && act === "1") {
+			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
+		} else {
+			setAttrs({ weapon1_mdr_ammo_type: "ap_slugs", weapon1_mdr_ammo_active: "1" });
+		}
 	});
-}());
-
+});
+on("clicked:weapon1-ammo-br", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-ammo-br]");
+	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
+		const cur = v["weapon1_mdr_ammo_type"] || "standard";
+		const act = v["weapon1_mdr_ammo_active"] || "0";
+		if (cur === "breacher" && act === "1") {
+			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
+		} else {
+			setAttrs({ weapon1_mdr_ammo_type: "breacher", weapon1_mdr_ammo_active: "1" });
+		}
+	});
+});
+on("clicked:weapon1-ammo-hp", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-ammo-hp]");
+	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
+		const cur = v["weapon1_mdr_ammo_type"] || "standard";
+		const act = v["weapon1_mdr_ammo_active"] || "0";
+		if (cur === "hollow_point" && act === "1") {
+			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
+		} else {
+			setAttrs({ weapon1_mdr_ammo_type: "hollow_point", weapon1_mdr_ammo_active: "1" });
+		}
+	});
+});
+on("clicked:weapon1-ammo-sh", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-ammo-sh]");
+	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
+		const cur = v["weapon1_mdr_ammo_type"] || "standard";
+		const act = v["weapon1_mdr_ammo_active"] || "0";
+		if (cur === "shock" && act === "1") {
+			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
+		} else {
+			setAttrs({ weapon1_mdr_ammo_type: "shock", weapon1_mdr_ammo_active: "1" });
+		}
+	});
+});
+on("clicked:weapon1-ammo-su", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-ammo-su]");
+	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
+		const cur = v["weapon1_mdr_ammo_type"] || "standard";
+		const act = v["weapon1_mdr_ammo_active"] || "0";
+		if (cur === "subsonic" && act === "1") {
+			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
+		} else {
+			setAttrs({ weapon1_mdr_ammo_type: "subsonic", weapon1_mdr_ammo_active: "1" });
+		}
+	});
+});
+on("clicked:weapon1-ammo-vc", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-ammo-vc]");
+	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
+		const cur = v["weapon1_mdr_ammo_type"] || "standard";
+		const act = v["weapon1_mdr_ammo_active"] || "0";
+		if (cur === "veil_charged" && act === "1") {
+			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
+		} else {
+			setAttrs({ weapon1_mdr_ammo_type: "veil_charged", weapon1_mdr_ammo_active: "1" });
+		}
+	});
+});
 
 /* ── Range button handlers — repeating row ──────────────────────────── */
-(function() {
-	const rangeMap = { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" };
-	Object.keys(rangeMap).forEach((code) => {
-		on("clicked:repeating_weaponsmdr:weapon-range-" + code, (eventInfo) => {
-			if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-" + code + "]");
-			const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-			if (!m) return;
-			const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-			setAttrs({ [p + "weapon_range_band_mdr"]: rangeMap[code] });
-		});
-	});
-}());
+on("clicked:repeating_weaponsmdr:weapon-range-en", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-en]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "engaged" });
+});
+on("clicked:repeating_weaponsmdr:weapon-range-sh", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-sh]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "short" });
+});
+on("clicked:repeating_weaponsmdr:weapon-range-md", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-md]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "medium" });
+});
+on("clicked:repeating_weaponsmdr:weapon-range-ln", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-ln]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "long" });
+});
+on("clicked:repeating_weaponsmdr:weapon-range-ex", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-ex]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "extreme" });
+});
 
 /* ── Range button handlers — static weapon1 ─────────────────────────── */
-(function() {
-	const rangeMap = { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" };
-	Object.keys(rangeMap).forEach((code) => {
-		on("clicked:weapon1-range-" + code, () => {
-			if (debug_on_trace) console.log("[clicked:weapon1-range-" + code + "]");
-			setAttrs({ weapon1_mdr_range_band: rangeMap[code] });
-		});
-	});
-}());
+on("clicked:weapon1-range-en", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-range-en]");
+	setAttrs({ weapon1_mdr_range_band: "engaged" });
+});
+on("clicked:weapon1-range-sh", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-range-sh]");
+	setAttrs({ weapon1_mdr_range_band: "short" });
+});
+on("clicked:weapon1-range-md", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-range-md]");
+	setAttrs({ weapon1_mdr_range_band: "medium" });
+});
+on("clicked:weapon1-range-ln", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-range-ln]");
+	setAttrs({ weapon1_mdr_range_band: "long" });
+});
+on("clicked:weapon1-range-ex", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-range-ex]");
+	setAttrs({ weapon1_mdr_range_band: "extreme" });
+});
 
 
 /* ── Optics button handlers — repeating row ─────────────────────────── */
-(function() {
-	const opticsMap = { mag: "magnification", ref: "reflex", thm: "thermal" };
-	Object.keys(opticsMap).forEach((code) => {
-		on("clicked:repeating_weaponsmdr:weapon-optics-" + code, (eventInfo) => {
-			if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-optics-" + code + "]");
-			const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-			if (!m) return;
-			const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-			const val = opticsMap[code];
-			getAttrs([p + "weapon_optics_mdr"], (v) => {
-				const cur = v[p + "weapon_optics_mdr"] || "none";
-				setAttrs({ [p + "weapon_optics_mdr"]: cur === val ? "none" : val });
-			});
-		});
+on("clicked:repeating_weaponsmdr:weapon-optics-mag", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-optics-mag]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_optics_mdr"], (v) => {
+		const cur = v[p + "weapon_optics_mdr"] || "";
+		setAttrs({ [p + "weapon_optics_mdr"]: cur === "magnification" ? "" : "magnification" });
 	});
-}());
+});
+on("clicked:repeating_weaponsmdr:weapon-optics-ref", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-optics-ref]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_optics_mdr"], (v) => {
+		const cur = v[p + "weapon_optics_mdr"] || "";
+		setAttrs({ [p + "weapon_optics_mdr"]: cur === "reflex" ? "" : "reflex" });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-optics-thm", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-optics-thm]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_optics_mdr"], (v) => {
+		const cur = v[p + "weapon_optics_mdr"] || "";
+		setAttrs({ [p + "weapon_optics_mdr"]: cur === "thermal" ? "" : "thermal" });
+	});
+});
 
 /* ── Optics button handlers — static weapon1 ────────────────────────── */
-(function() {
-	const opticsMap = { mag: "magnification", ref: "reflex", thm: "thermal" };
-	Object.keys(opticsMap).forEach((code) => {
-		on("clicked:weapon1-optics-" + code, () => {
-			if (debug_on_trace) console.log("[clicked:weapon1-optics-" + code + "]");
-			const val = opticsMap[code];
-			getAttrs(["weapon1_mdr_optics"], (v) => {
-				const cur = v["weapon1_mdr_optics"] || "none";
-				setAttrs({ weapon1_mdr_optics: cur === val ? "none" : val },
-					() => { refreshWeapon1Summary(); });
-			});
-		});
+on("clicked:weapon1-optics-mag", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-optics-mag]");
+	getAttrs(["weapon1_mdr_optics"], (v) => {
+		const cur = v["weapon1_mdr_optics"] || "";
+		setAttrs({ weapon1_mdr_optics: cur === "magnification" ? "" : "magnification" },
+			() => { refreshWeapon1Summary(); });
 	});
-}());
+});
+on("clicked:weapon1-optics-ref", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-optics-ref]");
+	getAttrs(["weapon1_mdr_optics"], (v) => {
+		const cur = v["weapon1_mdr_optics"] || "";
+		setAttrs({ weapon1_mdr_optics: cur === "reflex" ? "" : "reflex" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-optics-thm", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-optics-thm]");
+	getAttrs(["weapon1_mdr_optics"], (v) => {
+		const cur = v["weapon1_mdr_optics"] || "";
+		setAttrs({ weapon1_mdr_optics: cur === "thermal" ? "" : "thermal" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+
+
+/* ── Barrel button handlers ─────────────────────────────────────────── */
+/* Mode restrictions: Silencer→ss only, Compensator→sa only, Suppressor→sa only */
+/* Precision Choke / Slug Barrel → no mode restriction */
+const barrelModeRestrict = {
+	Silencer:      ["ss"],
+	Compensator:   ["ss", "sa"],
+	Suppressor:    ["ss", "sa"],
+	"Precision Choke": null,
+	"Slug Barrel":     null,
+};
+const barrelMap = {
+	sl: "Silencer", co: "Compensator", su: "Suppressor",
+	pc: "Precision Choke", sb: "Slug Barrel"
+};
+
+function applyBarrelModeRestriction(baseModes, barrelVal) {
+	const allowed = barrelModeRestrict[barrelVal];
+	if (!allowed) return baseModes; /* no restriction */
+	return baseModes.filter(m => allowed.includes(m));
+}
+
+/* ── Barrel button handlers — repeating row ─────────────────────────── */
+on("clicked:repeating_weaponsmdr:weapon-barrel-sl", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-sl]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_barrel_mdr", p + "weapon_modes_base_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
+		const cur = v[p + "weapon_barrel_mdr"] || "";
+		const barrel = cur === "Silencer" ? "" : "Silencer";
+		const base = (v[p + "weapon_modes_base_mdr"] || v[p + "weapon_modes_available_mdr"] || "ss").split(" ").filter(Boolean);
+		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
+		const modes = avail.length ? avail : ["ss"];
+		const mode = modes.includes(v[p + "weapon_mode_mdr"]) ? v[p + "weapon_mode_mdr"] : modes[0];
+		setAttrs({ [p + "weapon_barrel_mdr"]: barrel, [p + "weapon_modes_available_mdr"]: modes.join(" "), [p + "weapon_mode_mdr"]: mode });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-barrel-co", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-co]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_barrel_mdr", p + "weapon_modes_base_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
+		const cur = v[p + "weapon_barrel_mdr"] || "";
+		const barrel = cur === "Compensator" ? "" : "Compensator";
+		const base = (v[p + "weapon_modes_base_mdr"] || v[p + "weapon_modes_available_mdr"] || "ss").split(" ").filter(Boolean);
+		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
+		const modes = avail.length ? avail : ["ss"];
+		const mode = modes.includes(v[p + "weapon_mode_mdr"]) ? v[p + "weapon_mode_mdr"] : modes[0];
+		setAttrs({ [p + "weapon_barrel_mdr"]: barrel, [p + "weapon_modes_available_mdr"]: modes.join(" "), [p + "weapon_mode_mdr"]: mode });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-barrel-su", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-su]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_barrel_mdr", p + "weapon_modes_base_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
+		const cur = v[p + "weapon_barrel_mdr"] || "";
+		const barrel = cur === "Suppressor" ? "" : "Suppressor";
+		const base = (v[p + "weapon_modes_base_mdr"] || v[p + "weapon_modes_available_mdr"] || "ss").split(" ").filter(Boolean);
+		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
+		const modes = avail.length ? avail : ["ss"];
+		const mode = modes.includes(v[p + "weapon_mode_mdr"]) ? v[p + "weapon_mode_mdr"] : modes[0];
+		setAttrs({ [p + "weapon_barrel_mdr"]: barrel, [p + "weapon_modes_available_mdr"]: modes.join(" "), [p + "weapon_mode_mdr"]: mode });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-barrel-pc", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-pc]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_barrel_mdr"], (v) => {
+		const cur = v[p + "weapon_barrel_mdr"] || "";
+		setAttrs({ [p + "weapon_barrel_mdr"]: cur === "Precision Choke" ? "" : "Precision Choke" });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-barrel-sb", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-sb]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
+	if (!m) return;
+	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
+	getAttrs([p + "weapon_barrel_mdr"], (v) => {
+		const cur = v[p + "weapon_barrel_mdr"] || "";
+		setAttrs({ [p + "weapon_barrel_mdr"]: cur === "Slug Barrel" ? "" : "Slug Barrel" });
+	});
+});
+
+/* ── Barrel button handlers — static weapon1 ────────────────────────── */
+on("clicked:weapon1-barrel-sl", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-barrel-sl]");
+	getAttrs(["weapon1_mdr_barrel", "weapon1_mdr_modes_base", "weapon1_mdr_mode", "weapon1_mdr_modes_available"], (v) => {
+		const cur = v["weapon1_mdr_barrel"] || "";
+		const barrel = cur === "Silencer" ? "" : "Silencer";
+		const base = (v["weapon1_mdr_modes_base"] || v["weapon1_mdr_modes_available"] || "ss").split(" ").filter(Boolean);
+		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
+		const modes = avail.length ? avail : ["ss"];
+		const mode = modes.includes(v["weapon1_mdr_mode"]) ? v["weapon1_mdr_mode"] : modes[0];
+		setAttrs({ weapon1_mdr_barrel: barrel, weapon1_mdr_modes_available: modes.join(" "), weapon1_mdr_mode: mode },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-barrel-co", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-barrel-co]");
+	getAttrs(["weapon1_mdr_barrel", "weapon1_mdr_modes_base", "weapon1_mdr_mode", "weapon1_mdr_modes_available"], (v) => {
+		const cur = v["weapon1_mdr_barrel"] || "";
+		const barrel = cur === "Compensator" ? "" : "Compensator";
+		const base = (v["weapon1_mdr_modes_base"] || v["weapon1_mdr_modes_available"] || "ss").split(" ").filter(Boolean);
+		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
+		const modes = avail.length ? avail : ["ss"];
+		const mode = modes.includes(v["weapon1_mdr_mode"]) ? v["weapon1_mdr_mode"] : modes[0];
+		setAttrs({ weapon1_mdr_barrel: barrel, weapon1_mdr_modes_available: modes.join(" "), weapon1_mdr_mode: mode },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-barrel-su", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-barrel-su]");
+	getAttrs(["weapon1_mdr_barrel", "weapon1_mdr_modes_base", "weapon1_mdr_mode", "weapon1_mdr_modes_available"], (v) => {
+		const cur = v["weapon1_mdr_barrel"] || "";
+		const barrel = cur === "Suppressor" ? "" : "Suppressor";
+		const base = (v["weapon1_mdr_modes_base"] || v["weapon1_mdr_modes_available"] || "ss").split(" ").filter(Boolean);
+		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
+		const modes = avail.length ? avail : ["ss"];
+		const mode = modes.includes(v["weapon1_mdr_mode"]) ? v["weapon1_mdr_mode"] : modes[0];
+		setAttrs({ weapon1_mdr_barrel: barrel, weapon1_mdr_modes_available: modes.join(" "), weapon1_mdr_mode: mode },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-barrel-pc", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-barrel-pc]");
+	getAttrs(["weapon1_mdr_barrel"], (v) => {
+		const cur = v["weapon1_mdr_barrel"] || "";
+		setAttrs({ weapon1_mdr_barrel: cur === "Precision Choke" ? "" : "Precision Choke" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-barrel-sb", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-barrel-sb]");
+	getAttrs(["weapon1_mdr_barrel"], (v) => {
+		const cur = v["weapon1_mdr_barrel"] || "";
+		setAttrs({ weapon1_mdr_barrel: cur === "Slug Barrel" ? "" : "Slug Barrel" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+
+/* ── Internal mod buttons — repeating row ───────────────────────────── */
+on("clicked:repeating_weaponsmdr:weapon-internal-bc", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-bc]");
+	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
+	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
+		const cur = v[p + "weapon_mod_internal_mdr"] || "";
+		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "biocoded" ? "" : "biocoded" });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-internal-ir", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-ir]");
+	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
+	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
+		const cur = v[p + "weapon_mod_internal_mdr"] || "";
+		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "irs" ? "" : "irs" });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-internal-ql", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-ql]");
+	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
+	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
+		const cur = v[p + "weapon_mod_internal_mdr"] || "";
+		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "qls" ? "" : "qls" });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-internal-qt", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-qt]");
+	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
+	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
+		const cur = v[p + "weapon_mod_internal_mdr"] || "";
+		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "qst" ? "" : "qst" });
+	});
+});
+on("clicked:repeating_weaponsmdr:weapon-internal-sl", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-sl]");
+	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
+	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
+		const cur = v[p + "weapon_mod_internal_mdr"] || "";
+		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "smartlink" ? "" : "smartlink" });
+	});
+});
+
+/* ── Internal mod buttons — static weapon1 ──────────────────────────── */
+on("clicked:weapon1-internal-bc", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-internal-bc]");
+	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
+		const cur = v["weapon1_mdr_mod_internal"] || "";
+		setAttrs({ weapon1_mdr_mod_internal: cur === "biocoded" ? "" : "biocoded" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-internal-ir", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-internal-ir]");
+	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
+		const cur = v["weapon1_mdr_mod_internal"] || "";
+		setAttrs({ weapon1_mdr_mod_internal: cur === "irs" ? "" : "irs" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-internal-ql", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-internal-ql]");
+	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
+		const cur = v["weapon1_mdr_mod_internal"] || "";
+		setAttrs({ weapon1_mdr_mod_internal: cur === "qls" ? "" : "qls" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-internal-qt", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-internal-qt]");
+	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
+		const cur = v["weapon1_mdr_mod_internal"] || "";
+		setAttrs({ weapon1_mdr_mod_internal: cur === "qst" ? "" : "qst" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
+on("clicked:weapon1-internal-sl", () => {
+	if (debug_on_trace) console.log("[clicked:weapon1-internal-sl]");
+	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
+		const cur = v["weapon1_mdr_mod_internal"] || "";
+		setAttrs({ weapon1_mdr_mod_internal: cur === "smartlink" ? "" : "smartlink" },
+			() => { refreshWeapon1Summary(); });
+	});
+});
 
 /*	Watchers Section - End */
 </script>

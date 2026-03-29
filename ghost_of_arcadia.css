@@ -5469,6 +5469,227 @@ select[name="attr_damage_bonus"] {
 
 
 
+
+/* ── Barrel / Muzzle 3+2 button grid ────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-barrel-grid {
+	display: grid;
+	gap: 2px;
+	grid-template-columns: 1fr 1fr 1fr;
+	margin-top: 2px;
+	width: 100%;
+}
+
+/* Row 2: Prec Choke spans cols 1-2, Slug Barrel col 3 */
+.ui-dialog .tab-content .charsheet .sheet-weapon-barrel-grid .barrel-prec-choke { grid-column: 1 / span 2; }
+.ui-dialog .tab-content .charsheet .sheet-weapon-barrel-grid .barrel-slug       { grid-column: 3; }
+
+/* Base: incompatible — greyed, blocked */
+.ui-dialog .tab-content .charsheet .sheet-barrel-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	cursor: not-allowed;
+	font-size: 78%;
+	font-weight: bold;
+	opacity: 0.25;
+	padding: 2px 0;
+	pointer-events: none;
+	text-align: center;
+	width: 100%;
+}
+
+/* ── Barrel button enable — sheet worker writes "1" when slot + category both allow ── */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_silencer_mdr"][value="1"]    ~ .sheet-weapon-barrel-grid .barrel-silencer,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_silencer_mdr"][value="1"]   ~ .sheet-weapon-barrel-grid .barrel-silencer {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_silencer_mdr"][value="1"]    ~ .sheet-weapon-barrel-grid .barrel-silencer:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_silencer_mdr"][value="1"]   ~ .sheet-weapon-barrel-grid .barrel-silencer:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_compensator_mdr"][value="1"] ~ .sheet-weapon-barrel-grid .barrel-compensator,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_compensator_mdr"][value="1"]~ .sheet-weapon-barrel-grid .barrel-compensator {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_compensator_mdr"][value="1"] ~ .sheet-weapon-barrel-grid .barrel-compensator:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_compensator_mdr"][value="1"]~ .sheet-weapon-barrel-grid .barrel-compensator:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_suppressor_mdr"][value="1"]  ~ .sheet-weapon-barrel-grid .barrel-suppressor,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_suppressor_mdr"][value="1"] ~ .sheet-weapon-barrel-grid .barrel-suppressor {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_suppressor_mdr"][value="1"]  ~ .sheet-weapon-barrel-grid .barrel-suppressor:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_suppressor_mdr"][value="1"] ~ .sheet-weapon-barrel-grid .barrel-suppressor:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_prec_choke_mdr"][value="1"]  ~ .sheet-weapon-barrel-grid .barrel-prec-choke,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_prec_choke_mdr"][value="1"] ~ .sheet-weapon-barrel-grid .barrel-prec-choke {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_prec_choke_mdr"][value="1"]  ~ .sheet-weapon-barrel-grid .barrel-prec-choke:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_prec_choke_mdr"][value="1"] ~ .sheet-weapon-barrel-grid .barrel-prec-choke:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_slug_mdr"][value="1"]        ~ .sheet-weapon-barrel-grid .barrel-slug,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_slug_mdr"][value="1"]       ~ .sheet-weapon-barrel-grid .barrel-slug {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_barrel_slug_mdr"][value="1"]        ~ .sheet-weapon-barrel-grid .barrel-slug:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_barrel_slug_mdr"][value="1"]       ~ .sheet-weapon-barrel-grid .barrel-slug:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active barrel — highlighted */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_barrel_mdr"][value="Silencer"]        ~ .sheet-weapon-barrel-grid .barrel-silencer,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_barrel_mdr"][value="Compensator"]     ~ .sheet-weapon-barrel-grid .barrel-compensator,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_barrel_mdr"][value="Suppressor"]      ~ .sheet-weapon-barrel-grid .barrel-suppressor,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_barrel_mdr"][value="Precision Choke"] ~ .sheet-weapon-barrel-grid .barrel-prec-choke,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_barrel_mdr"][value="Slug Barrel"]     ~ .sheet-weapon-barrel-grid .barrel-slug,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_barrel"][value="Silencer"]        ~ .sheet-weapon-barrel-grid .barrel-silencer,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_barrel"][value="Compensator"]     ~ .sheet-weapon-barrel-grid .barrel-compensator,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_barrel"][value="Suppressor"]      ~ .sheet-weapon-barrel-grid .barrel-suppressor,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_barrel"][value="Precision Choke"] ~ .sheet-weapon-barrel-grid .barrel-prec-choke,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_barrel"][value="Slug Barrel"]     ~ .sheet-weapon-barrel-grid .barrel-slug {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+
+/* ── Internal 3+2 button grid ────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-internal-grid {
+	display: grid;
+	gap: 2px;
+	grid-template-columns: 1fr 1fr 1fr;
+	margin-top: 2px;
+	width: 100%;
+}
+
+/* Row 2: Quick-Load spans cols 1-2, Quick-Sel col 3 */
+.ui-dialog .tab-content .charsheet .sheet-weapon-internal-grid .internal-qls { grid-column: 1 / span 2; }
+.ui-dialog .tab-content .charsheet .sheet-weapon-internal-grid .internal-qst { grid-column: 3; }
+
+/* Base: incompatible — greyed, blocked */
+.ui-dialog .tab-content .charsheet .sheet-internal-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	cursor: not-allowed;
+	font-size: 78%;
+	font-weight: bold;
+	opacity: 0.25;
+	padding: 2px 0;
+	pointer-events: none;
+	text-align: center;
+	width: 100%;
+}
+
+/* ── Internal button enable — sheet worker writes "1" when slot + category both allow ── */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_smartlink_mdr"][value="1"]  ~ .sheet-weapon-internal-grid .internal-smartlink,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_smartlink_mdr"][value="1"] ~ .sheet-weapon-internal-grid .internal-smartlink {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_smartlink_mdr"][value="1"]  ~ .sheet-weapon-internal-grid .internal-smartlink:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_smartlink_mdr"][value="1"] ~ .sheet-weapon-internal-grid .internal-smartlink:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_biocoded_mdr"][value="1"]   ~ .sheet-weapon-internal-grid .internal-biocoded,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_biocoded_mdr"][value="1"]  ~ .sheet-weapon-internal-grid .internal-biocoded {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_biocoded_mdr"][value="1"]   ~ .sheet-weapon-internal-grid .internal-biocoded:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_biocoded_mdr"][value="1"]  ~ .sheet-weapon-internal-grid .internal-biocoded:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_irs_mdr"][value="1"]        ~ .sheet-weapon-internal-grid .internal-irs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_irs_mdr"][value="1"]       ~ .sheet-weapon-internal-grid .internal-irs {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_irs_mdr"][value="1"]        ~ .sheet-weapon-internal-grid .internal-irs:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_irs_mdr"][value="1"]       ~ .sheet-weapon-internal-grid .internal-irs:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_qls_mdr"][value="1"]        ~ .sheet-weapon-internal-grid .internal-qls,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_qls_mdr"][value="1"]       ~ .sheet-weapon-internal-grid .internal-qls {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_qls_mdr"][value="1"]        ~ .sheet-weapon-internal-grid .internal-qls:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_qls_mdr"][value="1"]       ~ .sheet-weapon-internal-grid .internal-qls:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_qst_mdr"][value="1"]        ~ .sheet-weapon-internal-grid .internal-qst,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_qst_mdr"][value="1"]       ~ .sheet-weapon-internal-grid .internal-qst {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_internal_qst_mdr"][value="1"]        ~ .sheet-weapon-internal-grid .internal-qst:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_internal_qst_mdr"][value="1"]       ~ .sheet-weapon-internal-grid .internal-qst:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active internal — highlighted */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mod_internal_mdr"][value="biocoded"]  ~ .sheet-weapon-internal-grid .internal-biocoded,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mod_internal_mdr"][value="irs"]       ~ .sheet-weapon-internal-grid .internal-irs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mod_internal_mdr"][value="qls"]       ~ .sheet-weapon-internal-grid .internal-qls,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mod_internal_mdr"][value="qst"]       ~ .sheet-weapon-internal-grid .internal-qst,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_mod_internal_mdr"][value="smartlink"] ~ .sheet-weapon-internal-grid .internal-smartlink,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mod_internal"][value="biocoded"]  ~ .sheet-weapon-internal-grid .internal-biocoded,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mod_internal"][value="irs"]       ~ .sheet-weapon-internal-grid .internal-irs,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mod_internal"][value="qls"]       ~ .sheet-weapon-internal-grid .internal-qls,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mod_internal"][value="qst"]       ~ .sheet-weapon-internal-grid .internal-qst,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_mod_internal"][value="smartlink"] ~ .sheet-weapon-internal-grid .internal-smartlink {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+
 /* ── Optics 3×1 button grid ─────────────────────────────────────────── */
 .ui-dialog .tab-content .charsheet .sheet-weapon-optics-grid {
 	display: grid;
@@ -5495,39 +5716,39 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 }
 
-/* Compatible: rifle gets Mag + Reflex + Thermal */
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-optics-grid .sheet-optics-btn,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]  ~ .sheet-weapon-optics-grid .sheet-optics-btn,
-/* SMG gets Reflex + Thermal */
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-optics-grid .optics-reflex,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-optics-grid .optics-thermal,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]    ~ .sheet-weapon-optics-grid .optics-reflex,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]    ~ .sheet-weapon-optics-grid .optics-thermal,
-/* Handgun + Shotgun + Heavy get Reflex only */
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-optics-grid .optics-reflex,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="shotgun"] ~ .sheet-weapon-optics-grid .optics-reflex,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="heavy"]   ~ .sheet-weapon-optics-grid .optics-reflex,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"]~ .sheet-weapon-optics-grid .optics-reflex,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="shotgun"]~ .sheet-weapon-optics-grid .optics-reflex,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="heavy"]  ~ .sheet-weapon-optics-grid .optics-reflex {
+/* ── Optics button enable — sheet worker writes "1" when slot + category both allow ── */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_optics_mag_mdr"][value="1"]    ~ .sheet-weapon-optics-grid .optics-magnification,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_optics_mag_mdr"][value="1"]   ~ .sheet-weapon-optics-grid .optics-magnification {
 	cursor: pointer;
 	opacity: 1;
 	pointer-events: all;
 }
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_optics_mag_mdr"][value="1"]    ~ .sheet-weapon-optics-grid .optics-magnification:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_optics_mag_mdr"][value="1"]   ~ .sheet-weapon-optics-grid .optics-magnification:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
 
-/* Hover for compatible buttons */
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="rifle"]   ~ .sheet-weapon-optics-grid .sheet-optics-btn:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="rifle"]  ~ .sheet-weapon-optics-grid .sheet-optics-btn:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-optics-grid .optics-reflex:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="smg"]     ~ .sheet-weapon-optics-grid .optics-thermal:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]    ~ .sheet-weapon-optics-grid .optics-reflex:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="smg"]    ~ .sheet-weapon-optics-grid .optics-thermal:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="handgun"] ~ .sheet-weapon-optics-grid .optics-reflex:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="shotgun"] ~ .sheet-weapon-optics-grid .optics-reflex:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_category_mdr"][value="heavy"]   ~ .sheet-weapon-optics-grid .optics-reflex:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="handgun"]~ .sheet-weapon-optics-grid .optics-reflex:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="shotgun"]~ .sheet-weapon-optics-grid .optics-reflex:hover,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_category"][value="heavy"]  ~ .sheet-weapon-optics-grid .optics-reflex:hover {
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_optics_reflex_mdr"][value="1"] ~ .sheet-weapon-optics-grid .optics-reflex,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_optics_reflex_mdr"][value="1"]~ .sheet-weapon-optics-grid .optics-reflex {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_optics_reflex_mdr"][value="1"] ~ .sheet-weapon-optics-grid .optics-reflex:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_optics_reflex_mdr"][value="1"]~ .sheet-weapon-optics-grid .optics-reflex:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_optics_thermal_mdr"][value="1"] ~ .sheet-weapon-optics-grid .optics-thermal,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_optics_thermal_mdr"][value="1"]~ .sheet-weapon-optics-grid .optics-thermal {
+	cursor: pointer;
+	opacity: 1;
+	pointer-events: all;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_btn_optics_thermal_mdr"][value="1"] ~ .sheet-weapon-optics-grid .optics-thermal:hover,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_btn_optics_thermal_mdr"][value="1"]~ .sheet-weapon-optics-grid .optics-thermal:hover {
 	background: var(--cs_btn_roll_hover_bg);
 	color: var(--cs_btn_roll_hover_text);
 }
@@ -5669,6 +5890,19 @@ select[name="attr_damage_bonus"] {
 	opacity: 1;
 }
 
+/* ── Veil-linked weapons: no special ammo compatible ────────────────────
+	 Placed after all enable + active rules so it overrides them.
+	 ─────────────────────────────────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_trait_veil_linked_mdr"][value="1"]  ~ .sheet-weapon-ammo-grid .sheet-ammo-btn,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_trait_veil_linked"][value="1"] ~ .sheet-weapon-ammo-grid .sheet-ammo-btn {
+	background: var(--cs_input_bg);
+	border-color: var(--cs_input_border);
+	color: var(--cs_txt_primary);
+	cursor: not-allowed;
+	opacity: 0.25;
+	pointer-events: none;
+}
+
 
 /* ── Range 3+2 button grid ───────────────────────────────────────────── */
 .ui-dialog .tab-content .charsheet .sheet-weapon-range-grid {
@@ -5690,6 +5924,7 @@ select[name="attr_damage_bonus"] {
 	font-weight: bold;
 	opacity: 1;
 	padding: 2px 0;
+	pointer-events: auto;
 	text-align: center;
 	width: 100%;
 }
@@ -5717,6 +5952,7 @@ select[name="attr_damage_bonus"] {
 	background: var(--cs_dc_color);
 	border-color: var(--cs_dc_color);
 	color: var(--cs_txt_accent);
+	pointer-events: auto;
 }
 
 /* ── Cap tracking cell ───────────────────────────────────────────────────── */

@@ -20721,7 +20721,11 @@
 								<input type="hidden" name="attr_weapon1_mdr_net_hit_display" value=""/>
 								<input type="hidden" name="attr_weapon1_mdr_net_penalty_display" value=""/>
 								<input type="hidden" name="attr_weapon1_mdr_net_roll_display" value=""/>
+								<input type="hidden" name="attr_weapon1_mdr_bonus_dice_display" value="0"/>
+								<input type="hidden" name="attr_weapon1_mdr_penalty_dice_display" value="0"/>
+								<input type="hidden" name="attr_weapon1_mdr_net_dice_display" value="0"/>
 								<input type="hidden" name="attr_weapon1_mdr_net_roll_sign" value="zero"/>
+								<input type="hidden" name="attr_weapon1_mdr_net_dice_sign" value="zero"/>
 								<input type="hidden" name="attr_weapon1_mdr_mode_label" value="SS"/>
 								<input type="hidden" name="attr_weapon1_mdr_mode_num" value="10"/>
 								<input type="hidden" name="attr_weapon1_mdr_mode_penalty" value="0"/>
@@ -20938,26 +20942,37 @@
 							</div>
 							<div class="sheet-weaponblock-advanced">
 								<!-- Summary row -->
-								<div class="sheet-weapon-adv-summary-row">
-									<!-- Left 75%: Gear+Aim / Mode+Env / Net with tags column -->
-									<div class="sheet-weapon-adv-summary-left">
+									<!-- Summary row -->
+									<div class="sheet-weapon-adv-summary-row">
 										<input type="hidden" name="attr_weapon1_mdr_net_roll_sign" value="zero"/>
-										<span class="sheet-weapon-adv-summary-label sheet-summary-label-gear" data-i18n="weapon_bonus-u">Gear + Aim</span>
-										<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-hit sheet-readonly" name="attr_weapon1_mdr_net_hit_display" value="—"/>
-										<span class="sheet-weapon-adv-tags-display sheet-summary-tags" name="attr_weapon1_mdr_tags_display"></span>
-										<span class="sheet-weapon-adv-summary-label sheet-summary-label-env" data-i18n="weapon_net_penalty-u">Mode + Env</span>
-										<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-penalty sheet-readonly" name="attr_weapon1_mdr_net_penalty_display" value="—"/>
-										<span class="sheet-weapon-adv-summary-label sheet-summary-label-net" data-i18n="weapon_net_roll-u">NET</span>
-										<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-roll sheet-readonly" name="attr_weapon1_mdr_net_roll_display" value="—"/>
+										<div class="sheet-weapon-adv-summary-tags">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_active_tags-u">Active</span>
+											<span class="sheet-weapon-adv-tags-display" name="attr_weapon1_mdr_tags_display"></span>
+										</div>										
+										<div class="sheet-weapon-adv-summary-pct">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_bonus-u">Gear + Aim</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon1_mdr_net_hit_display" value="—"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_penalty-u">Mode + Env</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon1_mdr_net_penalty_display" value="—"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_roll-u">NET</span>
+											<input type="text" class="sheet-attr-input-small sheet-weapon-net-roll sheet-readonly" name="attr_weapon1_mdr_net_roll_display" value="—"/>
+										</div>
+										<div class="sheet-weapon-adv-summary-dice">
+											<input type="hidden" name="attr_weapon1_mdr_net_dice_sign" value="zero"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_bonus-u">Bonus</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon1_mdr_bonus_dice_display" value="0"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_penalty-u">Penalty</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon1_mdr_penalty_dice_display" value="0"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_net-u">Net</span>
+											<input type="text" class="sheet-attr-input-small sheet-weapon-net-dice sheet-readonly" name="attr_weapon1_mdr_net_dice_display" value="0"/>
+										</div>
+										<div class="sheet-weapon-adv-summary-ammo">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo Loaded</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon1_mdr_ammo_type_label"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon1_mdr_range_band"/>
+										</div>
 									</div>
-									<!-- Right 25%: Ammo / Range -->
-									<div class="sheet-weapon-adv-summary-right">
-										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo Loaded</span>
-										<span class="sheet-weapon-adv-net-display sheet-weapon-adv-ammo-display" name="attr_weapon1_mdr_ammo_type_label"></span>
-										<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
-										<span class="sheet-weapon-adv-net-display sheet-weapon-adv-range-display" name="attr_weapon1_mdr_range_band"></span>
-									</div>
-								</div>
 								<div class="sheet-weapon-adv-summary-cap">
 									<div class="sheet-weapon-adv-cap-left">
 										<input type="hidden" name="attr_weapon1_mdr_cap_display" value="b0"/>
@@ -21131,7 +21146,11 @@
 									<input type="hidden" name="attr_weapon_net_hit_display_mdr" value=""/>
 									<input type="hidden" name="attr_weapon_net_penalty_display_mdr" value=""/>
 									<input type="hidden" name="attr_weapon_net_roll_display_mdr" value=""/>
+									<input type="hidden" name="attr_weapon_bonus_dice_display_mdr" value="0"/>
+									<input type="hidden" name="attr_weapon_penalty_dice_display_mdr" value="0"/>
+									<input type="hidden" name="attr_weapon_net_dice_display_mdr" value="0"/>
 									<input type="hidden" name="attr_weapon_net_roll_sign_mdr" value="zero"/>
+									<input type="hidden" name="attr_weapon_net_dice_sign_mdr" value="zero"/>
 									<input type="hidden" name="attr_weapon_mode_label_mdr" value="SS"/>
 									<input type="hidden" name="attr_weapon_mode_num_mdr" value="10"/>
 									<input type="hidden" name="attr_weapon_mode_penalty_mdr" value="0"/>
@@ -21348,26 +21367,38 @@
 								</div>
 								<div class="sheet-weaponblock-advanced">
 									<!-- Summary row -->
-									<div class="sheet-weapon-adv-summary-row">
-										<!-- Left 75%: Gear+Aim / Mode+Env / Net with tags column -->
-										<div class="sheet-weapon-adv-summary-left">
+										<!-- Summary row -->
+										<!-- Summary row -->
+										<div class="sheet-weapon-adv-summary-row">
 											<input type="hidden" name="attr_weapon_net_roll_sign_mdr" value="zero"/>
-											<span class="sheet-weapon-adv-summary-label sheet-summary-label-gear" data-i18n="weapon_bonus-u">Gear + Aim</span>
-											<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-hit sheet-readonly" name="attr_weapon_net_hit_display_mdr" value="—"/>
-											<span class="sheet-weapon-adv-tags-display sheet-summary-tags" name="attr_weapon_tags_display_mdr"></span>
-											<span class="sheet-weapon-adv-summary-label sheet-summary-label-env" data-i18n="weapon_net_penalty-u">Mode + Env</span>
-											<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-penalty sheet-readonly" name="attr_weapon_net_penalty_display_mdr" value="—"/>
-											<span class="sheet-weapon-adv-summary-label sheet-summary-label-net" data-i18n="weapon_net_roll-u">NET</span>
-											<input type="text" class="sheet-weapon-adv-net-display sheet-weapon-adv-net-roll sheet-readonly" name="attr_weapon_net_roll_display_mdr" value="—"/>
+											<div class="sheet-weapon-adv-summary-tags">
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_active_tags-u">Active</span>
+												<span class="sheet-weapon-adv-tags-display" name="attr_weapon_tags_display_mdr"></span>
+											</div>
+											<div class="sheet-weapon-adv-summary-pct">
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_bonus-u">Gear + Aim</span>
+												<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_net_hit_display_mdr" value="—"/>
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_penalty-u">Mode + Env</span>
+												<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_net_penalty_display_mdr" value="—"/>
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_roll-u">NET</span>
+												<input type="text" class="sheet-attr-input-small sheet-weapon-net-roll sheet-readonly" name="attr_weapon_net_roll_display_mdr" value="—"/>
+											</div>
+											<div class="sheet-weapon-adv-summary-dice">
+												<input type="hidden" name="attr_weapon_net_dice_sign_mdr" value="zero"/>
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_bonus-u">Bonus</span>
+												<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_bonus_dice_display_mdr" value="0"/>
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_penalty-u">Penalty</span>
+												<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_penalty_dice_display_mdr" value="0"/>
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_net-u">Net</span>
+												<input type="text" class="sheet-attr-input-small sheet-weapon-net-dice sheet-readonly" name="attr_weapon_net_dice_display_mdr" value="0"/>
+											</div>
+											<div class="sheet-weapon-adv-summary-ammo">
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo Loaded</span>
+												<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_ammo_type_label_mdr"/>
+												<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
+												<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_range_band_mdr"/>
+											</div>
 										</div>
-										<!-- Right 25%: Ammo / Range -->
-										<div class="sheet-weapon-adv-summary-right">
-											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo Loaded</span>
-											<span class="sheet-weapon-adv-net-display sheet-weapon-adv-ammo-display" name="attr_weapon_ammo_type_label_mdr"></span>
-											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
-											<span class="sheet-weapon-adv-net-display sheet-weapon-adv-range-display" name="attr_weapon_range_band_mdr"></span>
-										</div>
-									</div>
 									<div class="sheet-weapon-adv-summary-cap">
 										<div class="sheet-weapon-adv-cap-left">
 											<input type="hidden" name="attr_weapon_cap_display_mdr" value="b0"/>
@@ -52705,25 +52736,26 @@ const initWeaponComputedAttrs = () => {
         const aimI      = rows[`repeating_weaponsmdr_${id}_weapon_aim_mdr`] || "";
         const modeI    = rows[`repeating_weaponsmdr_${id}_weapon_mode_mdr`] || "ss";
         const barrelI  = rows[`repeating_weaponsmdr_${id}_weapon_barrel_mdr`] || "";
-        const hitObjI  = computeWeaponHit(optics, slI, rangeI, catI, maxRangeI, cqI, barrelI, aimI);
+        const hitObjI  = computeWeaponHit(optics, slI, rangeI, aimI);
         updates[`repeating_weaponsmdr_${id}_weapon_computed_hit_mdr`]           = hitObjI.total;
         const reduceEffI = reduceI + (irsI === "1" ? 1 : 0);
         updates[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_eff_mdr`] = reduceEffI;
         /* Summary display attrs */
-        const penDiceI = { ss: 0, sa: 0, bf: 1, fa: 2 };
-        const diceI    = penDiceI[modeI] || 0;
-        const netDiceI = Math.max(0, diceI - Math.min(reduceEffI, diceI));
-        const netPenI  = -(netDiceI * 10);
         const bonusI      = hitObjI.bonus;
         const sitModI     = hitObjI.sitMod;
-        const totalHitI   = hitObjI.total;
-        const penTotalI   = sitModI + netPenI;
+        const penTotalI   = sitModI;
         const netRollI    = bonusI + penTotalI;
+        const diceObjI    = computeWeaponDice(optics, aimI, modeI, reduceEffI, rangeI, catI, maxRangeI, barrelI, cqI);
+        const netDiceValI = diceObjI.bonusDice - diceObjI.penaltyDice;
         updates[`repeating_weaponsmdr_${id}_weapon_tags_display_mdr`]        = buildTagsStr(optics, slI, barrelI, irsI, qstI, qlsI, bioI, modeI, rangeI, catI, maxRangeI, cqI, aimI);
         updates[`repeating_weaponsmdr_${id}_weapon_net_hit_display_mdr`]     = bonusI === 0 ? "—" : "+" + bonusI + "%";
-        updates[`repeating_weaponsmdr_${id}_weapon_net_penalty_display_mdr`] = penTotalI === 0 ? "—" : penTotalI + "%" + (netDiceI > 0 ? " (" + netDiceI + " " + (netDiceI === 1 ? "die" : "dice") + ")" : "");
+        updates[`repeating_weaponsmdr_${id}_weapon_net_penalty_display_mdr`] = penTotalI === 0 ? "—" : penTotalI + "%";
         updates[`repeating_weaponsmdr_${id}_weapon_net_roll_display_mdr`]    = netRollI === 0 ? "—" : (netRollI > 0 ? "+" : "") + netRollI + "%";
         updates[`repeating_weaponsmdr_${id}_weapon_net_roll_sign_mdr`]       = netRollI > 0 ? "pos" : netRollI < 0 ? "neg" : "zero";
+        updates[`repeating_weaponsmdr_${id}_weapon_net_dice_sign_mdr`]       = netDiceValI > 0 ? "pos" : netDiceValI < 0 ? "neg" : "zero";
+        updates[`repeating_weaponsmdr_${id}_weapon_bonus_dice_display_mdr`]  = diceObjI.bonusDice > 0 ? "+" + diceObjI.bonusDice : "0";
+        updates[`repeating_weaponsmdr_${id}_weapon_penalty_dice_display_mdr`] = diceObjI.penaltyDice > 0 ? "−" + diceObjI.penaltyDice : "0";
+        updates[`repeating_weaponsmdr_${id}_weapon_net_dice_display_mdr`]    = netDiceValI === 0 ? "0" : (netDiceValI > 0 ? "+" : "") + netDiceValI;
       });
 
       if (Object.keys(updates).length) setAttrs(updates, { silent: true });
@@ -55448,59 +55480,77 @@ on("change:weapon1_mdr_damage", () => {
   });
 });
 
-/* Compute hit modifier breakdown.
-   Returns { bonus, sitMod, total } where:
-     bonus  = gear/action bonuses (Smartlink, Reflex, Aim, Mag Scope at L/X)
-     sitMod = situational modifiers (distance, engaged, out-of-range, Mag Scope at E/S)
-     total  = bonus + sitMod (used for roll macro)
-   Reflex Sight: +10% only when Aim active AND range S/M AND no Smartlink.
-   Smartlink: always +10%, no conditions.
-   Aim (Quick/Focused): +10% independently of Smartlink or Reflex. */
-function computeWeaponHit(optics, smartlink, range, category, maxRange, cq, barrel, aim) {
+/* Compute hit% breakdown: gear/action bonuses + distance modifier only.
+   Engaged and out-of-range penalties are expressed as dice — see computeWeaponDice.
+   Returns { bonus, sitMod, total }. */
+function computeWeaponHit(optics, smartlink, range, aim) {
+  const aimActive   = aim === "quick" || aim === "focused";
+  const hasSL       = smartlink === "1" || smartlink === true;
+
+  /* ── Gear/action bonuses (hit% only — dice handled separately) ── */
+  const slBonus     = hasSL ? 10 : 0;
+  const reflexBonus = (optics === "reflex" && aimActive && ["short","medium"].includes(range) && !hasSL) ? 10 : 0;
+  const aimBonus    = aimActive ? 10 : 0;
+  /* Focused Aim bonus die and Mag Scope dice are reported in dice column, not hit% */
+
+  /* ── Situational modifiers (hit% only) ── */
+  /* Distance modifier — Short +10%, Long -10%, Extreme -20% */
+  const distMod     = { engaged: 0, short: 10, medium: 0, long: -10, extreme: -20 };
+  const rangeMod    = distMod[range] !== undefined ? distMod[range] : 0;
+  /* Engaged and out-of-range penalties are expressed as penalty dice — see computeWeaponDice */
+
+  const bonus  = slBonus + reflexBonus + aimBonus;
+  const sitMod = rangeMod;
+  return { bonus, sitMod, total: bonus + sitMod };
+}
+
+
+
+/* Compute bonus and penalty dice separately from hit%.
+   Bonus: Focused Aim +1, Mag Scope at L/X +1.
+   Penalty: mode dice (after IRS reduction), Mag Scope at E/S +1.
+   Returns { bonusDice, penaltyDice } as non-negative integers. */
+function computeWeaponDice(optics, aim, mode, reduceEff, range, category, maxRange, barrel, cq) {
   const bandOrder   = ["engaged", "short", "medium", "long", "extreme"];
   const maxRangeMap = { E: "engaged", S: "short", M: "medium", L: "long", X: "extreme" };
   const longRanges  = ["long", "extreme"];
   const closeRanges = ["engaged", "short"];
-  const aimActive   = aim === "quick" || aim === "focused";
-  const hasSL       = smartlink === "1" || smartlink === true;
+  const longArms    = ["rifle", "shotgun", "heavy"];
+  const penDiceMap  = { ss: 0, sa: 0, bf: 1, fa: 2 };
 
-  /* ── Gear/action bonuses ── */
-  const slBonus     = hasSL ? 10 : 0;
-  const reflexBonus = (optics === "reflex" && aimActive && ["short","medium"].includes(range) && !hasSL) ? 10 : 0;
-  const aimBonus    = aimActive ? 10 : 0;
-  const focusedDie  = (aim === "focused") ? 10 : 0;
-  /* Mag scope at L/X: bonus die — gear bonus */
-  const magBonus    = (optics === "magnification" && longRanges.includes(range)) ? 10 : 0;
+  /* Bonus dice */
+  const focusedBonus = (aim === "focused") ? 1 : 0;
+  const magBonus     = (optics === "magnification" && longRanges.includes(range)) ? 1 : 0;
+  const bonusDice    = focusedBonus + magBonus;
 
-  /* ── Situational modifiers ── */
-  /* Mag scope at E/S: penalty die — situational */
-  const magPenalty  = (optics === "magnification" && closeRanges.includes(range)) ? -10 : 0;
-  /* Distance modifier */
-  const distMod     = { engaged: 0, short: 10, medium: 0, long: -10, extreme: -20 };
-  const rangeMod    = distMod[range] !== undefined ? distMod[range] : 0;
-  /* Engaged range penalty */
-  const longArms    = ["rifle", "smg", "shotgun", "heavy"];
-  let engagedPen    = 0;
+  /* Penalty dice — mode (after IRS reduction) */
+  const rawModeDice  = penDiceMap[mode] || 0;
+  const netModeDice  = Math.max(0, rawModeDice - Math.min(reduceEff, rawModeDice));
+
+  /* Penalty dice — mag scope at E/S */
+  const magPenalty   = (optics === "magnification" && closeRanges.includes(range)) ? 1 : 0;
+
+  /* Penalty dice — Engaged range */
+  let engagedPenDice = 0;
   if (range === "engaged") {
-    if (longArms.includes(category))  engagedPen = cq ? -10 : -20;
-    else if (category === "handgun")  engagedPen = cq ?   0 : -10;
+    if (longArms.includes(category)) engagedPenDice = cq ? 1 : 2;
+    else if (category === "handgun") engagedPenDice = cq ? 0 : 1;
   }
-  /* Out-of-range penalty */
-  let outOfRangePen = 0;
+
+  /* Penalty dice — beyond max range (1 band over = 1 die) */
+  let oorPenDice = 0;
   if (maxRange) {
     const maxBand   = maxRangeMap[maxRange] || maxRange;
     const maxIdx    = bandOrder.indexOf(maxBand);
     const curIdx    = bandOrder.indexOf(range);
     const slugExt   = (barrel === "Slug Barrel") ? 1 : 0;
     const bandsOver = curIdx - maxIdx - slugExt;
-    if (bandsOver > 0) outOfRangePen = -(bandsOver * 10);
+    if (bandsOver > 0) oorPenDice = bandsOver;
   }
 
-  const bonus  = slBonus + reflexBonus + aimBonus + focusedDie + magBonus;
-  const sitMod = magPenalty + rangeMod + engagedPen + outOfRangePen;
-  return { bonus, sitMod, total: bonus + sitMod };
+  const penaltyDice = netModeDice + magPenalty + engagedPenDice + oorPenDice;
+  return { bonusDice, penaltyDice };
 }
-
 
 function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, category, maxRange, cq, aim) {
   const bandOrder   = ["engaged", "short", "medium", "long", "extreme"];
@@ -55508,9 +55558,12 @@ function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, 
   const reflexRanges = ["engaged", "short", "medium"];
   const longRanges   = ["long", "extreme"];
   const closeRanges  = ["engaged", "short"];
-  const longArms     = ["rifle", "smg", "shotgun", "heavy"];
-  const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
-  const tags = [labelMap[mode] || "SS"];
+  const longArms     = ["rifle", "shotgun", "heavy"];
+  const labelMap   = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
+  const penDiceMap = { ss: 0, sa: 0, bf: 1, fa: 2 };
+  const modePenDice = penDiceMap[mode] || 0;
+  const modeLabel = labelMap[mode] || "SS";
+  const tags = [modePenDice > 0 ? `${modeLabel} (−${modePenDice} ${modePenDice === 1 ? "die" : "dice"})` : modeLabel];
 
   /* ── Mod tags ── */
   const slActive     = sl === "1";
@@ -55520,38 +55573,33 @@ function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, 
   if (slActive)     tags.push("Smartlink +10%");
   if (reflexActive) tags.push("Reflex Sight +10%");
   if (optics === "thermal") tags.push("Thermal Scope");
-  /* Magnification scope: label depends on range */
-  if (optics === "magnification") {
-    if (longRanges.includes(range))   tags.push("Mag Scope +10%");
-    else if (closeRanges.includes(range)) tags.push("Mag Scope −10%");
-    else                              tags.push("Mag Scope");
-  }
+  /* Magnification scope: range die effect shown in dice column */
+  if (optics === "magnification") tags.push("Mag Scope");
   if (barrel && barrel !== "Slug Barrel") tags.push(barrel);
   if (irs      === "1") tags.push("IRS −1 die");
   if (aim      === "quick")   tags.push("Quick Aim +10%");
-  if (aim      === "focused") tags.push("Focused Aim +10% +1 die");
+  if (aim      === "focused") tags.push("Focused Aim +10%");
   if (qst      === "1") tags.push("Quick-Select");
   if (qls      === "1") tags.push("Quick-Load");
   if (biocoded === "1") tags.push("Bio-Coded");
 
   /* ── Range tags (only when range is known) ── */
   if (range) {
-    /* Engaged penalty */
+    /* Engaged penalty — expressed as dice */
     if (range === "engaged") {
       if (longArms.includes(category)) {
-        const pen = cq ? 10 : 20;
-        tags.push(cq ? "Engaged −10%" : "Engaged −20%");
-      } else if (category === "handgun" && !cq) {
-        tags.push("Engaged −10%");
+        tags.push(cq ? "Engaged −1 die" : "Engaged −2 dice");
+      } else if (category === "handgun") {
+        tags.push(cq ? "Engaged (no pen)" : "Engaged −1 die");
       }
     }
-    /* Distance modifier */
+    /* Distance modifier — expressed as % */
     const distMod = { short: 10, long: -10, extreme: -20 };
     if (distMod[range] !== undefined) {
       const d = distMod[range];
       tags.push(`${range.charAt(0).toUpperCase() + range.slice(1)} ${d > 0 ? "+" : "−"}${Math.abs(d)}%`);
     }
-    /* Out-of-range penalty */
+    /* Out-of-range penalty — expressed as dice */
     if (maxRange) {
       const maxBand  = maxRangeMap[maxRange] || maxRange;
       const maxIdx   = bandOrder.indexOf(maxBand);
@@ -55559,9 +55607,8 @@ function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, 
       const slugExt  = (barrel === "Slug Barrel") ? 1 : 0;
       const bandsOver = curIdx - maxIdx - slugExt;
       if (bandsOver > 0) {
-        tags.push(`Beyond max −${bandsOver * 10}%`);
+        tags.push(`Beyond max −${bandsOver} ${bandsOver === 1 ? "die" : "dice"}`);
       } else if (slugExt && curIdx === maxIdx + 1) {
-        /* Firing at what would be OOR but slug barrel negates it */
         tags.push("Slug Barrel (ext.)");
       }
     }
@@ -55595,27 +55642,31 @@ function refreshWeapon1Summary() {
 		const irsBonus = irs === "1" ? 1 : 0;
 		const redEff   = reduce + irsBonus;
 		const dice     = penDice[mode] || 0;
-		const netDice  = Math.max(0, dice - Math.min(redEff, dice));
-		const netPen   = -(netDice * 10);
-		const cq       = v.weapon1_mdr_trait_cq === "1";
-		const aim      = v.weapon1_mdr_aim || "";
-		const hitObj      = computeWeaponHit(optics, sl, range, category, maxRange, cq, barrel, aim);
+		const cq          = v.weapon1_mdr_trait_cq === "1";
+		const aim         = v.weapon1_mdr_aim || "";
+		const hitObj      = computeWeaponHit(optics, sl, range, aim);
 		const bonus       = hitObj.bonus;
 		const sitMod      = hitObj.sitMod;
-		const penTotal    = sitMod + netPen;
+		const penTotal    = sitMod;
 		const netRoll     = bonus + penTotal;
 		const netRollStr  = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
+		const diceObj     = computeWeaponDice(optics, aim, mode, redEff, range, category, maxRange, barrel, cq);
+		const netDiceVal  = diceObj.bonusDice - diceObj.penaltyDice;
 		setAttrs({
-			weapon1_mdr_computed_hit:           hitObj.total,
-			weapon1_mdr_mod_penalty_reduce_eff: redEff,
-			weapon1_mdr_mode_num:               numMap[mode]   || "10",
-			weapon1_mdr_mode_label:             labelMap[mode] || "SS",
-			weapon1_mdr_mode_penalty:           netPen,
-			weapon1_mdr_tags_display:           buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, category, maxRange, cq, aim),
-			weapon1_mdr_net_hit_display:        bonus === 0 ? "—" : "+" + bonus + "%",
-			weapon1_mdr_net_penalty_display:    penTotal === 0 ? "—" : penTotal + "%" + (netDice > 0 ? " (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")" : ""),
-			weapon1_mdr_net_roll_display:       netRollStr,
-			weapon1_mdr_net_roll_sign:          netRoll > 0 ? "pos" : netRoll < 0 ? "neg" : "zero",
+			weapon1_mdr_computed_hit:             hitObj.total,
+			weapon1_mdr_mod_penalty_reduce_eff:   redEff,
+			weapon1_mdr_mode_num:                 numMap[mode]   || "10",
+			weapon1_mdr_mode_label:               labelMap[mode] || "SS",
+			weapon1_mdr_mode_penalty:             0,
+			weapon1_mdr_tags_display:             buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, category, maxRange, cq, aim),
+			weapon1_mdr_net_hit_display:          bonus === 0 ? "—" : "+" + bonus + "%",
+			weapon1_mdr_net_penalty_display:      penTotal === 0 ? "—" : penTotal + "%",
+			weapon1_mdr_net_roll_display:         netRollStr,
+			weapon1_mdr_net_roll_sign:            netRoll > 0 ? "pos" : netRoll < 0 ? "neg" : "zero",
+			weapon1_mdr_net_dice_sign:            netDiceVal > 0 ? "pos" : netDiceVal < 0 ? "neg" : "zero",
+			weapon1_mdr_bonus_dice_display:       diceObj.bonusDice > 0 ? "+" + diceObj.bonusDice : "0",
+			weapon1_mdr_penalty_dice_display:     diceObj.penaltyDice > 0 ? "−" + diceObj.penaltyDice : "0",
+			weapon1_mdr_net_dice_display:         netDiceVal === 0 ? "0" : (netDiceVal > 0 ? "+" : "") + netDiceVal,
 		});
 	});
 }
@@ -55675,27 +55726,31 @@ on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weap
     const irsBonus = irs === "1" ? 1 : 0;
     const redEff   = reduce + irsBonus;
     const dice     = penDice[mode] || 0;
-    const netDice  = Math.max(0, dice - Math.min(redEff, dice));
-    const netPen   = -(netDice * 10);
-    const cq       = v[p + "weapon_trait_cq_mdr"] === "1";
-    const aim      = v[p + "weapon_aim_mdr"] || "";
-    const hitObj      = computeWeaponHit(optics, sl, range, category, maxRange, cq, barrel, aim);
+    const cq          = v[p + "weapon_trait_cq_mdr"] === "1";
+    const aim         = v[p + "weapon_aim_mdr"] || "";
+    const hitObj      = computeWeaponHit(optics, sl, range, aim);
     const bonus       = hitObj.bonus;
     const sitMod      = hitObj.sitMod;
-    const penTotal    = sitMod + netPen;
+    const penTotal    = sitMod;
     const netRoll     = bonus + penTotal;
     const netRollStr  = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
+    const diceObj     = computeWeaponDice(optics, aim, mode, redEff, range, category, maxRange, barrel, cq);
+    const netDiceVal  = diceObj.bonusDice - diceObj.penaltyDice;
     setAttrs({
-      [p + "weapon_computed_hit_mdr"]:           hitObj.total,
-      [p + "weapon_mod_penalty_reduce_eff_mdr"]: redEff,
-      [p + "weapon_mode_num_mdr"]:               numMap[mode]   || "10",
-      [p + "weapon_mode_label_mdr"]:             labelMap[mode] || "SS",
-      [p + "weapon_mode_penalty_mdr"]:           netPen,
-      [p + "weapon_tags_display_mdr"]:           buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, category, maxRange, cq, aim),
-      [p + "weapon_net_hit_display_mdr"]:        bonus === 0 ? "—" : "+" + bonus + "%",
-      [p + "weapon_net_penalty_display_mdr"]:    penTotal === 0 ? "—" : penTotal + "%" + (netDice > 0 ? " (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")" : ""),
-      [p + "weapon_net_roll_display_mdr"]:       netRollStr,
-      [p + "weapon_net_roll_sign_mdr"]:          netRoll > 0 ? "pos" : netRoll < 0 ? "neg" : "zero"
+      [p + "weapon_computed_hit_mdr"]:             hitObj.total,
+      [p + "weapon_mod_penalty_reduce_eff_mdr"]:   redEff,
+      [p + "weapon_mode_num_mdr"]:                 numMap[mode]   || "10",
+      [p + "weapon_mode_label_mdr"]:               labelMap[mode] || "SS",
+      [p + "weapon_mode_penalty_mdr"]:             0,
+      [p + "weapon_tags_display_mdr"]:             buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, category, maxRange, cq, aim),
+      [p + "weapon_net_hit_display_mdr"]:          bonus === 0 ? "—" : "+" + bonus + "%",
+      [p + "weapon_net_penalty_display_mdr"]:      penTotal === 0 ? "—" : penTotal + "%",
+      [p + "weapon_net_roll_display_mdr"]:         netRollStr,
+      [p + "weapon_net_roll_sign_mdr"]:            netRoll > 0 ? "pos" : netRoll < 0 ? "neg" : "zero",
+      [p + "weapon_net_dice_sign_mdr"]:            netDiceVal > 0 ? "pos" : netDiceVal < 0 ? "neg" : "zero",
+      [p + "weapon_bonus_dice_display_mdr"]:       diceObj.bonusDice > 0 ? "+" + diceObj.bonusDice : "0",
+      [p + "weapon_penalty_dice_display_mdr"]:     diceObj.penaltyDice > 0 ? "−" + diceObj.penaltyDice : "0",
+      [p + "weapon_net_dice_display_mdr"]:         (diceObj.bonusDice - diceObj.penaltyDice) === 0 ? "0" : (diceObj.bonusDice - diceObj.penaltyDice > 0 ? "+" : "") + (diceObj.bonusDice - diceObj.penaltyDice)
     });
   });
 });
@@ -56324,25 +56379,29 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 				const irsBonus = sIRS === "1" ? 1 : 0;
 				const redEff   = sReduce + irsBonus;
 				const dice     = penDice[sMode] || 0;
-				const netDice  = Math.max(0, dice - Math.min(redEff, dice));
-				const netPen   = -(netDice * 10);
-				const hitObj      = computeWeaponHit(sOptics, sSL, sRange, sCat, sMax, sCQ, sBarrel, sAim);
+				const hitObj      = computeWeaponHit(sOptics, sSL, sRange, sAim);
 				const sBonus      = hitObj.bonus;
 				const sSitMod     = hitObj.sitMod;
-				const sPenTotal   = sSitMod + netPen;
+				const sPenTotal   = sSitMod;
 				const netRoll     = sBonus + sPenTotal;
 				const netRollStr  = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
+				const diceObj     = computeWeaponDice(sOptics, sAim, sMode, redEff, sRange, sCat, sMax, sBarrel, sCQ);
+				const netDiceVal  = diceObj.bonusDice - diceObj.penaltyDice;
 				setAttrs({
-					[p + "weapon_computed_hit_mdr"]:           hitObj.total,
-					[p + "weapon_mod_penalty_reduce_eff_mdr"]: redEff,
-					[p + "weapon_mode_num_mdr"]:               numMap[sMode]   || "10",
-					[p + "weapon_mode_label_mdr"]:             labelMap[sMode] || "SS",
-					[p + "weapon_mode_penalty_mdr"]:           netPen,
-					[p + "weapon_tags_display_mdr"]:           buildTagsStr(sOptics, sSL, sBarrel, sIRS, sQST, sQLS, sBIO, sMode, sRange, sCat, sMax, sCQ, sAim),
-					[p + "weapon_net_hit_display_mdr"]:        sBonus === 0 ? "—" : "+" + sBonus + "%",
-					[p + "weapon_net_penalty_display_mdr"]:    sPenTotal === 0 ? "—" : sPenTotal + "%" + (netDice > 0 ? " (" + netDice + " " + (netDice === 1 ? "die" : "dice") + ")" : ""),
-					[p + "weapon_net_roll_display_mdr"]:       netRollStr,
-					[p + "weapon_net_roll_sign_mdr"]:          netRoll > 0 ? "pos" : netRoll < 0 ? "neg" : "zero",
+					[p + "weapon_computed_hit_mdr"]:             hitObj.total,
+					[p + "weapon_mod_penalty_reduce_eff_mdr"]:   redEff,
+					[p + "weapon_mode_num_mdr"]:                 numMap[sMode]   || "10",
+					[p + "weapon_mode_label_mdr"]:               labelMap[sMode] || "SS",
+					[p + "weapon_mode_penalty_mdr"]:             0,
+					[p + "weapon_tags_display_mdr"]:             buildTagsStr(sOptics, sSL, sBarrel, sIRS, sQST, sQLS, sBIO, sMode, sRange, sCat, sMax, sCQ, sAim),
+					[p + "weapon_net_hit_display_mdr"]:          sBonus === 0 ? "—" : "+" + sBonus + "%",
+					[p + "weapon_net_penalty_display_mdr"]:      sPenTotal === 0 ? "—" : sPenTotal + "%",
+					[p + "weapon_net_roll_display_mdr"]:         netRollStr,
+					[p + "weapon_net_roll_sign_mdr"]:            netRoll > 0 ? "pos" : netRoll < 0 ? "neg" : "zero",
+					[p + "weapon_net_dice_sign_mdr"]:            netDiceVal > 0 ? "pos" : netDiceVal < 0 ? "neg" : "zero",
+					[p + "weapon_bonus_dice_display_mdr"]:       diceObj.bonusDice > 0 ? "+" + diceObj.bonusDice : "0",
+					[p + "weapon_penalty_dice_display_mdr"]:     diceObj.penaltyDice > 0 ? "−" + diceObj.penaltyDice : "0",
+					[p + "weapon_net_dice_display_mdr"]:         (diceObj.bonusDice - diceObj.penaltyDice) === 0 ? "0" : (diceObj.bonusDice - diceObj.penaltyDice > 0 ? "+" : "") + (diceObj.bonusDice - diceObj.penaltyDice),
 				});
 			});
 		});

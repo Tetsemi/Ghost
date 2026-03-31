@@ -5080,9 +5080,13 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-weapon-advanced-grid {
 	border-bottom: 1px solid var(--cs_input_border);
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: 0.5fr 0.5fr 1fr 1fr;
 	gap: 0;
 	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-weapon-mods-grid {
+	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-group {
@@ -6013,6 +6017,69 @@ width: 62px;
 	background: var(--cs_dc_color);
 	border-color: var(--cs_dc_color);
 	color: var(--cs_txt_accent);
+	pointer-events: auto;
+}
+
+/* ── Loadout buttons ─────────────────────────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-weapon-loadout-grid {
+	display: grid;
+	gap: 2px;
+	grid-template-columns: 1fr;
+	margin-top: 2px;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-loadout-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	cursor: pointer;
+	font-size: 78%;
+	font-weight: bold;
+	padding: 2px 0;
+	text-align: center;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-loadout-btn:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active — Ext. Mag */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_loadout_mdr"][value="extmag"]   ~ .sheet-weapon-loadout-grid .loadout-extmag,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_loadout"][value="extmag"]  ~ .sheet-weapon-loadout-grid .loadout-extmag {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+}
+
+/* Active — Drum */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_loadout_mdr"][value="drum"]     ~ .sheet-weapon-loadout-grid .loadout-drum,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_loadout"][value="drum"]    ~ .sheet-weapon-loadout-grid .loadout-drum {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+}
+
+/* Ext. Mag hidden for P-Cell weapons */
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_trait_veil_linked_mdr"][value="1"] ~ .sheet-weapon-loadout-grid .loadout-extmag,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_trait_veil_linked"][value="1"] ~ .sheet-weapon-loadout-grid .loadout-extmag {
+	display: none;
+}
+
+/* Drum dimmed unless cap_base_num = 6 */
+.ui-dialog .tab-content .charsheet .sheet-weapon-loadout-grid .loadout-drum {
+	cursor: not-allowed;
+	opacity: 0.25;
+	pointer-events: none;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_base_num_mdr"][value="6"]   ~ .sheet-weapon-loadout-grid .loadout-drum,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_base_num"][value="6"]  ~ .sheet-weapon-loadout-grid .loadout-drum {
+	cursor: pointer;
+	opacity: 1;
 	pointer-events: auto;
 }
 
@@ -7420,11 +7487,11 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	color: var(--cs_txt_primary);
 	background-color: var(--cs_ui_element_bg);
 	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_md);
 	font-weight: bold;
 	padding: 6px 10px;
 	font-size: 90%;
 	text-align: center;
-	border-radius: var(--cs_border_radius_md);
 	cursor: pointer;
 	user-select: none;
 }
@@ -7507,13 +7574,142 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	padding: 4px 0;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-tracker-stim { border: 1px solid var(--cs_dc_color); }
+.ui-dialog .tab-content .charsheet .sheet-tracker-stim { }
 
-.ui-dialog .tab-content .charsheet .sheet-tracker-talent { border: 1px solid var(--cs_dc_color); }
+.ui-dialog .tab-content .charsheet .sheet-tracker-talent { }
 
 .ui-dialog .tab-content .charsheet .sheet-tracker h4 {
 	text-align: center;
+	font-size: 18px;
+	margin: 4px 0;
+	height: 22px;
+	padding: 2px;
 }
+
+/* Tab Button Bar Styling */
+.ui-dialog .tab-content .charsheet .sheet-tracker .sheet-tab-buttons,
+.ui-dialog .tab-content .charsheet .sheet-careers .sheet-tab-buttons {
+	display: flex;
+	width: 100%;
+	justify-content: space-around;
+	margin-bottom: 5px;
+	color: var(--cs_txt_primary);
+	background-color: var(--cs_ui_element_bg);
+	border: 1px solid var(--cs_input_border);
+}
+
+/* Hide by default; reveal when show-flag is 1 */
+.ui-dialog .tab-content .charsheet .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet .sheet-health-meter {
+	display: none;
+	width: 396px;
+	gap: 0.75em; 
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_show_strain_meter"][value="1"] ~ .sheet-tracker-stim-column .sheet-strain-meter,
+.ui-dialog .tab-content .charsheet input[name="attr_show_health_meter"][value="1"] ~ .sheet-tracker-stim-column .sheet-health-meter
+ { display: flex; }
+
+/* Pip group + individual pip */
+.ui-dialog .tab-content .charsheet .sheet-health-pips {
+	display: flex;
+	gap: 10px;
+}
+.ui-dialog .tab-content .charsheet .sheet-health-pip,
+.ui-dialog .tab-content .charsheet .sheet-strain-pip {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	line-height: 1;
+}
+
+/* Checkbox size matches your small tracker boxes */
+.ui-dialog .tab-content .charsheet .sheet-strain-pip .sheet-tracker-checkbox,
+.ui-dialog .tab-content .charsheet .sheet-health-pip .sheet-tracker-checkbox {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+}
+
+/* Under-label */
+.ui-dialog .tab-content .charsheet .sheet-strain-pip-label,
+.ui-dialog .tab-content .charsheet .sheet-health-pip-label {
+	font-size: 14px;
+	margin-top: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-button-row {
+	display: flex;
+	gap: 1em;
+}
+.ui-dialog .tab-content .charsheet .sheet-tracker-button-row .sheet-tracker-group-row {
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-button-row .sheet-tracker-button-wrapper {
+	grid-column: 1 / -1;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-button-row .sheet-tracker-button-row-left,
+.ui-dialog .tab-content .charsheet .sheet-tracker-button-row .sheet-tracker-button-row-right {
+	border: 1px solid var(--cs_dc_color);
+	flex: 1;
+	width: 100%;
+}
+.ui-dialog .tab-content .charsheet .sheet-tracker-button-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 2px;
+	position: relative;
+}
+
+.ui-dialog .tab-content .charsheet button.sheet-roll-label { position: absolute; opacity: 0; z-index: 2; width: 100%; height: 100% }
+
+
+.ui-dialog .tab-content .charsheet .sheet-strain-meter .sheet-tracker-label,
+.ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
+	font-style: bold;
+	font-size: 110%;
+	width: 100px;
+	margin: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
+	color: var(--cs_health_danger_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-strain-meter .sheet-tracker-label {
+	color: var(--cs_strain_color);
+	margin-right: 10px;
+}
+
+/* ===== Tracker: two-column group rows (label | content) ===== */
+.ui-dialog .tab-content .charsheet .sheet-tracker-group-row {
+	display: grid;
+	grid-template-columns: 120px 1fr; /* label | list */
+	align-items: start;
+	gap: 0.5em 0.75em;
+	margin: 0.25em 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-group-title {
+	font-weight: bold;
+	text-align: right;
+	padding-top: 2px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-tracker-group-body {
+	display: flex;
+	flex-direction: column;
+}
+
+/* optional column headers for the two big columns */
+.ui-dialog .tab-content .charsheet .sheet-tracker-colhead {
+	text-align: center; /* keeps consistent with existing tracker h4 styling */
+	margin-bottom: 0.25em;
+}
+
 
 /* scene-item-name-wrapper — label wrapper inside scene tracker rows */
 .ui-dialog .tab-content .charsheet .scene-item-name-wrapper { }
@@ -8538,101 +8734,6 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 .ui-dialog .tab-content .charsheet input[name="attr_show_soul_forger_city_weave_circuit"][value="1"] ~ .sheet-soul_forger-city_weave_circuit,
 .ui-dialog .tab-content .charsheet input[name="attr_show_soul_forger_nullwave_bloom"][value="1"] ~ .sheet-soul_forger-nullwave_bloom {
 	display: flex;
-}
-
-/* Tab Button Bar Styling */
-.ui-dialog .tab-content .charsheet .sheet-tracker .sheet-tab-buttons,
-.ui-dialog .tab-content .charsheet .sheet-careers .sheet-tab-buttons {
-	display: flex;
-	width: 100%;
-	justify-content: space-around;
-	margin-bottom: 5px;
-	color: var(--cs_txt_primary);
-	background-color: var(--cs_ui_element_bg);
-	border: 1px solid var(--cs_input_border);
-}
-
-/* Hide by default; reveal when show-flag is 1 */
-.ui-dialog .tab-content .charsheet .sheet-strain-meter,
-.ui-dialog .tab-content .charsheet .sheet-health-meter {
-	display: none;
-	width: 396px;
-	gap: 0.75em; 
-}
-
-.ui-dialog .tab-content .charsheet input[name="attr_show_strain_meter"][value="1"] ~ .sheet-tracker-stim-column .sheet-strain-meter,
-.ui-dialog .tab-content .charsheet input[name="attr_show_health_meter"][value="1"] ~ .sheet-tracker-stim-column .sheet-health-meter
- { display: flex; }
-
-/* Pip group + individual pip */
-.ui-dialog .tab-content .charsheet .sheet-health-pips {
-	display: flex;
-	gap: 10px;
-}
-.ui-dialog .tab-content .charsheet .sheet-health-pip,
-.ui-dialog .tab-content .charsheet .sheet-strain-pip {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	line-height: 1;
-}
-
-/* Checkbox size matches your small tracker boxes */
-.ui-dialog .tab-content .charsheet .sheet-strain-pip .sheet-tracker-checkbox,
-.ui-dialog .tab-content .charsheet .sheet-health-pip .sheet-tracker-checkbox {
-	width: 16px;
-	height: 16px;
-	margin: 0;
-}
-
-/* Under-label */
-.ui-dialog .tab-content .charsheet .sheet-strain-pip-label,
-.ui-dialog .tab-content .charsheet .sheet-health-pip-label {
-	font-size: 14px;
-	margin-top: 4px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-strain-meter .sheet-tracker-label,
-.ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
-	font-style: bold;
-	font-size: 110%;
-	width: 100px;
-	margin: 4px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-health-meter .sheet-tracker-label {
-	color: var(--cs_health_danger_color);
-}
-
-.ui-dialog .tab-content .charsheet .sheet-strain-meter .sheet-tracker-label {
-	color: var(--cs_strain_color);
-	margin-right: 10px;
-}
-
-/* ===== Tracker: two-column group rows (label | content) ===== */
-.ui-dialog .tab-content .charsheet .sheet-tracker-group-row {
-	display: grid;
-	grid-template-columns: 120px 1fr; /* label | list */
-	align-items: start;
-	gap: 0.5em 0.75em;
-	margin: 0.25em 0;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-group-title {
-	font-weight: bold;
-	text-align: right;
-	padding-top: 2px;
-}
-
-.ui-dialog .tab-content .charsheet .sheet-tracker-group-body {
-	display: flex;
-	flex-direction: column;
-}
-
-/* optional column headers for the two big columns */
-.ui-dialog .tab-content .charsheet .sheet-tracker-colhead {
-	text-align: center; /* keeps consistent with existing tracker h4 styling */
-	margin-bottom: 0.25em;
 }
 
 /* ------------------------------------ Tracker - End ------------------------------------ */

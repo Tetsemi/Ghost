@@ -21043,6 +21043,8 @@
 										<input type="hidden" name="attr_weapon1_mdr_loadout" value=""/>
 										<input type="hidden" name="attr_weapon1_mdr_cap_base_num" value="0"/>
 										<input type="hidden" name="attr_weapon1_mdr_trait_veil_linked" value=""/>
+										<input type="hidden" name="attr_weapon1_mdr_trait_drum_fed" value=""/>
+										<input type="hidden" name="attr_weapon1_mdr_drum_eligible" value=""/>
 										<div class="sheet-weapon-loadout-grid">
 											<button type="action" class="sheet-loadout-btn loadout-extmag" name="act_weapon1-loadout-extmag" data-i18n="weapon_loadout_extmag-u">Ext. Mag</button>
 											<button type="action" class="sheet-loadout-btn loadout-drum"   name="act_weapon1-loadout-drum"   data-i18n="weapon_loadout_drum-u">Drum</button>
@@ -21120,6 +21122,7 @@
 											<input type="hidden" name="attr_weapon1_mdr_trait_cq" value=""/>
 											<input type="hidden" name="attr_weapon1_mdr_trait_ap" value=""/>
 											<input type="hidden" name="attr_weapon1_mdr_trait_concealable" value=""/>
+											<input type="hidden" name="attr_weapon1_mdr_trait_drum_fed" value=""/>
 											<input type="hidden" name="attr_weapon1_mdr_loadout" value=""/>
 											<input type="hidden" name="attr_weapon1_mdr_cap_base" value=""/>
 											<input type="hidden" name="attr_weapon1_mdr_cap_base_num" value="0"/>
@@ -21486,6 +21489,8 @@
 											<input type="hidden" name="attr_weapon_loadout_mdr" value=""/>
 											<input type="hidden" name="attr_weapon_cap_base_num_mdr" value="0"/>
 											<input type="hidden" name="attr_weapon_trait_veil_linked_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_trait_drum_fed_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_drum_eligible_mdr" value=""/>
 											<div class="sheet-weapon-loadout-grid">
 												<button type="action" class="sheet-loadout-btn loadout-extmag" name="act_weapon-loadout-extmag" data-i18n="weapon_loadout_extmag-u">Ext. Mag</button>
 												<button type="action" class="sheet-loadout-btn loadout-drum"   name="act_weapon-loadout-drum"   data-i18n="weapon_loadout_drum-u">Drum</button>
@@ -21563,6 +21568,8 @@
 												<input type="hidden" name="attr_weapon_trait_cq_mdr" value=""/>
 												<input type="hidden" name="attr_weapon_trait_ap_mdr" value=""/>
 												<input type="hidden" name="attr_weapon_trait_concealable_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_drum_fed_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_drum_eligible_mdr" value=""/>
 												<input type="hidden" name="attr_weapon_loadout_mdr" value=""/>
 												<input type="hidden" name="attr_weapon_cap_base_mdr" value=""/>
 												<input type="hidden" name="attr_weapon_cap_base_num_mdr" value="0"/>
@@ -52757,6 +52764,8 @@ const initWeaponComputedAttrs = () => {
           updates[`repeating_weaponsmdr_${id}_weapon_trait_veil_linked_mdr`] = (entry.traits || []).includes("veil_linked") ? "1" : "";
           updates[`repeating_weaponsmdr_${id}_weapon_trait_ap_mdr`]          = (entry.traits || []).some(t => t.startsWith("ap_")) ? "1" : "";
           updates[`repeating_weaponsmdr_${id}_weapon_trait_concealable_mdr`] = (entry.traits || []).includes("concealable") ? "1" : "";
+          updates[`repeating_weaponsmdr_${id}_weapon_trait_drum_fed_mdr`]   = (entry.traits || []).includes("drum_fed") ? "1" : "";
+          updates[`repeating_weaponsmdr_${id}_weapon_drum_eligible_mdr`]    = (parseCapRating(entry.cap.rating).capCount === 6 && (entry.traits || []).includes("drum_fed")) ? "1" : "";
           updates[`repeating_weaponsmdr_${id}_weapon_cap_base_mdr`]          = entry.cap.rating;
           updates[`repeating_weaponsmdr_${id}_weapon_cap_base_num_mdr`]      = String(parseCapRating(entry.cap.rating).capCount);
         }
@@ -56448,6 +56457,8 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 			[p + "weapon_trait_veil_linked_mdr"]:    (entry.traits || []).includes("veil_linked")  ? "1" : "",
 			[p + "weapon_trait_ap_mdr"]:             (entry.traits || []).some(t => t.startsWith("ap_")) ? "1" : "",
 			[p + "weapon_trait_concealable_mdr"]:    (entry.traits || []).includes("concealable") ? "1" : "",
+			[p + "weapon_trait_drum_fed_mdr"]:       (entry.traits || []).includes("drum_fed") ? "1" : "",
+			[p + "weapon_drum_eligible_mdr"]:        (parseCapRating(entry.cap.rating).capCount === 6 && (entry.traits || []).includes("drum_fed")) ? "1" : "",
 			[p + "weapon_loadout_mdr"]:              "",
 			[p + "weapon_cap_base_mdr"]:             capRating,
 			[p + "weapon_cap_base_num_mdr"]:         String(parseCapRating(capRating).capCount),
@@ -56585,6 +56596,8 @@ on("change:weapon1_mdr_weapon_preset_melee change:weapon1_mdr_weapon_preset_thro
 			weapon1_mdr_trait_veil_linked:  (entry.traits || []).includes("veil_linked") ? "1" : "",
 			weapon1_mdr_trait_ap:           (entry.traits || []).some(t => t.startsWith("ap_")) ? "1" : "",
 			weapon1_mdr_trait_concealable:  (entry.traits || []).includes("concealable") ? "1" : "",
+			weapon1_mdr_trait_drum_fed:     (entry.traits || []).includes("drum_fed") ? "1" : "",
+			weapon1_mdr_drum_eligible:      (parseCapRating(entry.cap.rating).capCount === 6 && (entry.traits || []).includes("drum_fed")) ? "1" : "",
 			weapon1_mdr_loadout:            "",
 			weapon1_mdr_cap_base:           capRating,
 			weapon1_mdr_cap_base_num:       String(parseCapRating(capRating).capCount),

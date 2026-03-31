@@ -6064,20 +6064,24 @@ width: 62px;
 	color: var(--cs_txt_accent);
 }
 
-/* Ext. Mag hidden for P-Cell weapons */
+/* Ext. Mag hidden for P-Cell weapons or drum_fed weapons */
 .ui-dialog .tab-content .charsheet input[name="attr_weapon_trait_veil_linked_mdr"][value="1"] ~ .sheet-weapon-loadout-grid .loadout-extmag,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_trait_veil_linked"][value="1"] ~ .sheet-weapon-loadout-grid .loadout-extmag {
-	display: none;
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_trait_veil_linked"][value="1"] ~ .sheet-weapon-loadout-grid .loadout-extmag,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_trait_drum_fed_mdr"][value="1"] ~ .sheet-weapon-loadout-grid .loadout-extmag,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_trait_drum_fed"][value="1"] ~ .sheet-weapon-loadout-grid .loadout-extmag {
+	cursor: not-allowed;
+	opacity: 0.25;
+	pointer-events: none;
 }
 
-/* Drum dimmed unless cap_base_num = 6 */
+/* Drum dimmed unless drum_eligible = "1" (cap=6 AND drum_fed trait) */
 .ui-dialog .tab-content .charsheet .sheet-weapon-loadout-grid .loadout-drum {
 	cursor: not-allowed;
 	opacity: 0.25;
 	pointer-events: none;
 }
-.ui-dialog .tab-content .charsheet input[name="attr_weapon_cap_base_num_mdr"][value="6"]   ~ .sheet-weapon-loadout-grid .loadout-drum,
-.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_cap_base_num"][value="6"]  ~ .sheet-weapon-loadout-grid .loadout-drum {
+.ui-dialog .tab-content .charsheet input[name="attr_weapon_drum_eligible_mdr"][value="1"]  ~ .sheet-weapon-loadout-grid .loadout-drum,
+.ui-dialog .tab-content .charsheet input[name="attr_weapon1_mdr_drum_eligible"][value="1"] ~ .sheet-weapon-loadout-grid .loadout-drum {
 	cursor: pointer;
 	opacity: 1;
 	pointer-events: auto;

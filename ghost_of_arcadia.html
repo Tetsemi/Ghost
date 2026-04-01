@@ -21601,6 +21601,166 @@
 			</div>
 
 			<div class="sheet-colrow sheet-section sheet-combat-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="combat_grenades_collapse" name="attr_combat_grenades_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="grenades_explosives-u">Grenades &amp; Explosives</span>
+					<label class="sheet-top-collapse-hit" for="combat_grenades_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+						<!-- Column header — mirrors weapon header structure exactly -->
+						<div class="sheet-grenade-header">
+							<div class="flex-row">
+								<div class="flex-cell grenade-name"><span data-i18n="grenade_name-u">Name / Preset</span></div>
+								<div class="flex-cell grenade-skill-wrapper"><span data-i18n="skill_display-u">Val</span></div>
+								<div class="flex-cell grenade-primary"><span data-i18n="grenade_primary-u">Primary</span></div>
+								<div class="flex-cell grenade-secondary"><span data-i18n="grenade_secondary-u">Secondary</span></div>
+								<div class="flex-cell grenade-qty"><span data-i18n="grenade_qty-u">Qty</span></div>
+								<div class="flex-cell grenade-effect"><span data-i18n="grenade_effect-u">Effect</span></div>
+								<div class="flex-cell sheet-toggle-wrapper flex-wrapper-cell"><span>▼</span></div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_grenadesmdr">
+							<div class="sheet-grenadeblock-grid-row">
+								<!-- show_grenade_advanced: first child of grid-row, sibling of flex-row and sheet-grenadeblock-advanced -->
+								<input type="hidden" name="attr_show_grenade_advanced" value="0"/>
+								<!-- Persistent and roll-referenced attrs at grid-row level -->
+								<input type="hidden" name="attr_grenade_preset_mdr" value=""/>
+								<input type="hidden" name="attr_grenade_name_mdr" value=""/>
+								<input type="hidden" name="attr_grenade_skill_mdr" value="@{throw_mdr}"/>
+								<input type="hidden" name="attr_grenade_skill_display_mdr" value="0"/>
+								<input type="hidden" name="attr_grenade_primary_display_mdr" value=""/>
+								<input type="hidden" name="attr_grenade_secondary_display_mdr" value=""/>
+								<input type="hidden" name="attr_grenade_effect_display_mdr" value=""/>
+								<input type="hidden" name="attr_grenade_tags_display_mdr" value=""/>
+								<input type="hidden" name="attr_grenade_save_stat_mdr" value="—"/>
+								<input type="hidden" name="attr_grenade_save_fail_mdr" value="—"/>
+								<input type="hidden" name="attr_grenade_save_pass_mdr" value="—"/>
+								<input type="hidden" name="attr_grenade_condition_display_mdr" value=""/>
+								<input type="hidden" name="attr_grenade_delivery_note_mdr" value="Throw — Short range max"/>
+								<input type="hidden" name="attr_grenade_has_damage_mdr" value="0"/>
+								<input type="hidden" name="attr_grenade_damage_numdice_mdr" value="0"/>
+								<input type="hidden" name="attr_grenade_damage_dicesize_mdr" value="0"/>
+								<input type="hidden" name="attr_grenade_damage_bonus_mdr" value="0"/>
+
+								<!-- Main row -->
+								<div class="flex-row">
+									<!-- Name / Preset select -->
+									<div class="flex-cell grenade-name">
+										<select class="sheet-weapon-adv-select" name="attr_grenade_preset_mdr">
+											<option value="" data-i18n="grenade_select_placeholder-u">--- select explosive ---</option>
+											<optgroup label="Grenades">
+												<option value="emp_grenade" data-i18n="explosive_emp_grenade-u">EMP Grenade</option>
+												<option value="flashbang_grenade" data-i18n="explosive_flashbang_grenade-u">Flashbang Grenade</option>
+												<option value="fragmentation_grenade" data-i18n="explosive_fragmentation_grenade-u">Fragmentation Grenade</option>
+												<option value="incendiary_grenade" data-i18n="explosive_incendiary_grenade-u">Incendiary Grenade</option>
+												<option value="knockout_gas_grenade" data-i18n="explosive_knockout_gas_grenade-u">Knockout Gas Grenade</option>
+												<option value="nullburst_disruption_grenade" data-i18n="explosive_nullburst_disruption_grenade-u">Nullburst Disruption Grenade</option>
+												<option value="riot_gas_grenade" data-i18n="explosive_riot_gas_grenade-u">Riot Gas Grenade</option>
+												<option value="scatterfoam_deployment_puck" data-i18n="explosive_scatterfoam_deployment_puck-u">Scatterfoam Deployment Puck</option>
+												<option value="smoke_grenade" data-i18n="explosive_smoke_grenade-u">Smoke Grenade</option>
+											</optgroup>
+											<optgroup label="Mines">
+												<option value="arcshock_pulse_mine" data-i18n="explosive_arcshock_pulse_mine-u">ArcShock Pulse Mine</option>
+											</optgroup>
+											<optgroup label="Placed Charges">
+												<option value="breaching_charge" data-i18n="explosive_breaching_charge-u">Breaching Charge</option>
+												<option value="plastic_explosives" data-i18n="explosive_plastic_explosives-u">Plastic Explosives (block)</option>
+											</optgroup>
+										</select>
+									</div>
+									<!-- Skill value + hidden roll button — sheet-val-roll-static pattern -->
+									<div class="flex-cell-wrapper sheet-val-roll-static grenade-skill-wrapper">
+										<input type="text" name="attr_grenade_skill_display_mdr" class="sheet-readonly"/>
+										<div class="weapon-roll">
+											<button type="roll" class="new-roll" name="roll_grenade_mdr"
+												value="&{template:coc-attack-1-noimpale} {{name=@{grenade_name_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{grenade_skill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{grenade_skill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{grenade_skill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[(@{grenade_damage_numdice_mdr}d@{grenade_damage_dicesize_mdr})+@{grenade_damage_bonus_mdr}]]}} {{extremedamage=[[(@{grenade_damage_numdice_mdr}*@{grenade_damage_dicesize_mdr})+@{grenade_damage_bonus_mdr}]]}} {{strain=[[0]]}}">
+											</button>
+										</div>
+									</div>
+									<!-- Primary damage/zone -->
+									<div class="flex-cell grenade-primary">
+										<input type="text" class="sheet-readonly" name="attr_grenade_primary_display_mdr" placeholder="—"/>
+									</div>
+									<!-- Secondary damage/zone -->
+									<div class="flex-cell grenade-secondary">
+										<input type="text" class="sheet-readonly" name="attr_grenade_secondary_display_mdr" placeholder="—"/>
+									</div>
+									<!-- Qty: current / max — persistent inventory -->
+									<div class="flex-cell grenade-qty">
+										<div class="sheet-grenade-qty-wrapper">
+											<input type="text" class="sheet-grenade-qty-input" name="attr_grenade_qty_current_mdr" value="0" placeholder="0"/>
+											<span class="sheet-grenade-qty-sep">/</span>
+											<input type="text" class="sheet-grenade-qty-input" name="attr_grenade_qty_max_mdr" value="0" placeholder="0"/>
+										</div>
+									</div>
+									<!-- Effect summary -->
+									<div class="flex-cell grenade-effect">
+										<input type="text" class="sheet-readonly" name="attr_grenade_effect_display_mdr" placeholder="—"/>
+									</div>
+									<!-- Advanced toggle button -->
+									<div class="flex-cell sheet-toggle-wrapper">
+										<button type="action" class="sheet-toggle-button" name="act_grenadeadvanced">▼</button>
+									</div>
+								</div>
+
+								<!-- Advanced panel — show_grenade_advanced is a sibling above in sheet-grenadeblock-grid-row -->
+								<div class="sheet-grenadeblock-advanced">
+									<!-- State inputs inside the panel, directly before their grids — matches weapon ammo/loadout pattern -->
+									<input type="hidden" name="attr_grenade_delivery_mdr" value="throw"/>
+									<input type="hidden" name="attr_grenade_blast_primary_mdr" value=""/>
+									<input type="hidden" name="attr_grenade_blast_secondary_mdr" value=""/>
+									<input type="hidden" name="attr_grenade_m32_eligible_mdr" value="0"/>
+									<!-- ACTIVE summary bar — reuses weapon classes for consistent theming -->
+									<div class="sheet-weapon-adv-summary-row">
+										<div class="sheet-weapon-adv-summary-tags">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_active_tags-u">Active</span>
+											<span class="sheet-weapon-adv-tags-display" name="attr_grenade_tags_display_mdr"></span>
+										</div>
+										<div class="sheet-grenade-adv-save">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="grenade_save_stat-u">Save</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_grenade_save_stat_mdr"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="grenade_save_fail-u">Fail</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_grenade_save_fail_mdr"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="grenade_save_pass-u">Pass</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_grenade_save_pass_mdr"/>
+										</div>
+									</div>
+									<!-- Three-panel grid: Blast Zones / Delivery / Condition -->
+									<div class="sheet-weapon-advanced-grid sheet-weapon-mods-grid">
+										<!-- Blast Zones -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="grenade_blast_zones-u">Blast Zones</div>
+											<div class="sheet-weapon-range-grid">
+												<button type="action" class="sheet-range-btn grenade-zone-engaged" name="act_grenade-zone-en" data-i18n="range_engaged-u">Engaged</button>
+												<button type="action" class="sheet-range-btn grenade-zone-short"   name="act_grenade-zone-sh" data-i18n="range_short-u">Short</button>
+												<button type="action" class="sheet-range-btn grenade-zone-medium"  name="act_grenade-zone-md" data-i18n="range_medium-u">Medium</button>
+											</div>
+										</div>
+										<!-- Delivery -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="grenade_delivery-u">Delivery</div>
+											<div class="sheet-grenade-delivery-grid">
+												<button type="action" class="sheet-delivery-btn delivery-throw" name="act_grenade-delivery-throw" data-i18n="grenade_delivery_throw-u">Throw</button>
+												<button type="action" class="sheet-delivery-btn delivery-m32"   name="act_grenade-delivery-m32"   data-i18n="grenade_delivery_m32-u">M-32</button>
+											</div>
+											<input type="text" class="sheet-grenade-note-display sheet-readonly" name="attr_grenade_delivery_note_mdr"/>
+										</div>
+										<!-- Condition -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="grenade_condition-u">Condition</div>
+											<span type="text" class="sheet-grenade-note-display" name="attr_grenade_condition_display_mdr"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+
+			<div class="sheet-colrow sheet-section sheet-combat-collapsible">
 				<input type="checkbox" class="sheet-top-collapse" id="combat_omnidecks_collapse" name="attr_combat_omnidecks_collapse" value="1"/>
 				<h4 class="sheet-section-head-collapsible">
 					<span data-i18n="omnidecks-u">Omnidecks</span>
@@ -47921,63 +48081,6 @@ const careerDataMap = {
 
 /* Equipment Data Maps */
 
-
-/* ── Mod button availability — computed from weaponDataMap ──────────────
-	 Call computeModButtons(entry) to get a flat object of btn attr values.
-	 Each value is "1" (slot exists + category compatible) or "0".
-	 ─────────────────────────────────────────────────────────────────────── */
-function computeModButtons(entry, prefix) {
-	const slots    = entry.mod_slots || [];
-	const cat      = entry.category  || "";
-	/* tranq weapons are handgun-platform — treat identically for mod compatibility */
-	const effCat   = cat === "tranq" ? "handgun" : cat;
-	const hasOpticsSlot   = slots.includes("optics");
-	const hasBarrelSlot   = slots.includes("barrel_muzzle");
-	const hasInternalSlot = slots.includes("internal");
-	const btn = (slotOk, cats) => (slotOk && cats.includes(effCat)) ? "1" : "0";
-	return {
-		[prefix + "btn_optics_mag_mdr"]:          btn(hasOpticsSlot,   ["rifle"]),
-		[prefix + "btn_optics_reflex_mdr"]:        btn(hasOpticsSlot,   ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_optics_thermal_mdr"]:       btn(hasOpticsSlot,   ["smg", "rifle"]),
-		[prefix + "btn_barrel_silencer_mdr"]:      btn(hasBarrelSlot,   ["handgun"]),
-		[prefix + "btn_barrel_compensator_mdr"]:   btn(hasBarrelSlot && !(entry.traits || []).includes("loud"), ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_barrel_suppressor_mdr"]:    btn(hasBarrelSlot,   ["smg", "rifle"]),
-		[prefix + "btn_barrel_prec_choke_mdr"]:    btn(hasBarrelSlot,   ["shotgun"]),
-		[prefix + "btn_barrel_slug_mdr"]:          btn(hasBarrelSlot,   ["shotgun"]),
-		[prefix + "btn_internal_smartlink_mdr"]:   btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_internal_biocoded_mdr"]:    btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_internal_irs_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_internal_qls_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_internal_qst_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-	};
-}
-
-
-/* ── Weapon trait display labels ────────────────────────────────────── */
-const traitLabelMap = {
-	ap_1: "AP (1)", ap_2: "AP (2)", ap_3: "AP (3)", ap_4: "AP (4)", ap_5: "AP (5)",
-	ap_2_heavy_targets: "AP (2) Heavy",
-	biometric: "Biometric", bipod_required: "Bipod Required",
-	brace_recommended: "Brace Recommended", brutal: "Brutal",
-	burst_capable: "Burst-Capable", cheap: "Cheap",
-	concealable: "Concealable", concealed: "Concealed", cq: "CQ",
-	cyberware: "Cyberware", double_barrel: "Double-Barrel", drum_fed: "Drum-Fed",
-	electric: "Electric", fast_draw: "Fast Draw", flechette: "Flechette",
-	full_auto: "Full Auto", half_damage_heavy_armor: "Half Dmg (Heavy)",
-	heavy: "Heavy", improvised: "Improvised", knockback: "Knockback",
-	loud: "Loud", micro_frame: "Micro-Frame", minimum_floor: "Minimum Floor",
-	multi_throw: "Multi-Throw", precision_burst: "Precision Burst", reach: "Reach",
-	reliable: "Reliable", scatter_spray: "Scatter Spray", scoped: "Scoped",
-	sigilbound: "Sigilbound", silent: "Silent", smartlink: "Smartlink",
-	stunning: "Stunning", suppression: "Suppression", thrown: "Thrown",
-	tranquilizing: "Tranquilizing", tripod_required: "Tripod Required",
-	unbalanced: "Unbalanced", unbraced_penalty: "Unbraced Penalty",
-	unstable: "Unstable", veil_linked: "Veil-Linked", veil_residue: "Veil Residue",
-};
-function traitsDisplayStr(traits) {
-	return (traits || []).map(t => traitLabelMap[t] || t).join(", ");
-}
-
 const weaponDataMap = {
 	/* MELEE & THROWN */
 	/* Melee */
@@ -49681,9 +49784,9 @@ const explosivesDataMap = {
 		subcategory:           "grenade",
 		damage_primary:        "2d10",
 		damage_type:           "physical",
-		blast_primary:         "short",
+		blast_primary:         "engaged",
 		damage_secondary:      null,
-		blast_secondary:       null,
+		blast_secondary:       "short",
 		targets:               "machines_drones_cyberware_only",
 		save_stat:             "con",
 		save_success:          null,
@@ -49712,9 +49815,9 @@ const explosivesDataMap = {
 		subcategory:           "grenade",
 		damage_primary:        null,
 		damage_type:           "none",
-		blast_primary:         "short",
+		blast_primary:         "engaged",
 		damage_secondary:      null,
-		blast_secondary:       null,
+		blast_secondary:       "short",
 		save_stat:             "con",
 		save_success:          "impaired",
 		save_fail:             "stunned",
@@ -49801,9 +49904,9 @@ const explosivesDataMap = {
 		subcategory:           "grenade",
 		damage_primary:        null,
 		damage_type:           "none",
-		blast_primary:         "short",
+		blast_primary:         "engaged",
 		damage_secondary:      null,
-		blast_secondary:       null,
+		blast_secondary:       "short",
 		save_stat:             "con",
 		save_halves_damage:    false,
 		save_success:          "impaired",
@@ -49831,9 +49934,9 @@ const explosivesDataMap = {
 		subcategory:           "grenade",
 		damage_primary:        null,
 		damage_type:           "none",
-		blast_primary:         "short",
+		blast_primary:         "engaged",
 		damage_secondary:      null,
-		blast_secondary:       null,
+		blast_secondary:       "short",
 		save_stat:             null,
 		save_halves_damage:    false,
 		save_success:          null,
@@ -49862,9 +49965,9 @@ const explosivesDataMap = {
 		subcategory:           "grenade",
 		damage_primary:        null,
 		damage_type:           "none",
-		blast_primary:         "short",
+		blast_primary:         "engaged",
 		damage_secondary:      null,
-		blast_secondary:       null,
+		blast_secondary:       "short",
 		save_stat:             "pow",
 		save_halves_damage:    false,
 		save_success:          null,
@@ -49921,9 +50024,9 @@ const explosivesDataMap = {
 		subcategory:           "grenade",
 		damage_primary:        null,
 		damage_type:           "none",
-		blast_primary:         "short",
+		blast_primary:         "engaged",
 		damage_secondary:      null,
-		blast_secondary:       null,
+		blast_secondary:       "short",
 		save_stat:             null,
 		save_halves_damage:    false,
 		save_success:          null,
@@ -50660,6 +50763,28 @@ const weaponModDataMap = {
 		effect_summary_key: "mod_thermal_scope_effect-u",
 		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
 	}
+};
+
+/* ── Weapon trait display labels ────────────────────────────────────── */
+const traitLabelMap = {
+	ap_1: "AP (1)", ap_2: "AP (2)", ap_3: "AP (3)", ap_4: "AP (4)", ap_5: "AP (5)",
+	ap_2_heavy_targets: "AP (2) Heavy",
+	biometric: "Biometric", bipod_required: "Bipod Required",
+	brace_recommended: "Brace Recommended", brutal: "Brutal",
+	burst_capable: "Burst-Capable", cheap: "Cheap",
+	concealable: "Concealable", concealed: "Concealed", cq: "CQ",
+	cyberware: "Cyberware", double_barrel: "Double-Barrel", drum_fed: "Drum-Fed",
+	electric: "Electric", fast_draw: "Fast Draw", flechette: "Flechette",
+	full_auto: "Full Auto", half_damage_heavy_armor: "Half Dmg (Heavy)",
+	heavy: "Heavy", improvised: "Improvised", knockback: "Knockback",
+	loud: "Loud", micro_frame: "Micro-Frame", minimum_floor: "Minimum Floor",
+	multi_throw: "Multi-Throw", precision_burst: "Precision Burst", reach: "Reach",
+	reliable: "Reliable", scatter_spray: "Scatter Spray", scoped: "Scoped",
+	sigilbound: "Sigilbound", silent: "Silent", smartlink: "Smartlink",
+	stunning: "Stunning", suppression: "Suppression", thrown: "Thrown",
+	tranquilizing: "Tranquilizing", tripod_required: "Tripod Required",
+	unbalanced: "Unbalanced", unbraced_penalty: "Unbraced Penalty",
+	unstable: "Unstable", veil_linked: "Veil-Linked", veil_residue: "Veil Residue",
 };
 
 /* Maps - End */
@@ -53615,104 +53740,6 @@ const initCareers = () => {
 	});
 };
 
-// === MIGRATION: skill_rename_migration_v2 ===
-// One-time migration for pilot_boat renamed to pilot_watercraft.
-// Only migrates _skill_mdr (player-invested points above base).
-// initializeRaceState → calculateAndUpdateSkillValues recomputes _mdr after.
-// REMOVE this function and its call in afterAllSets once all sheets have opened post-deploy.
-function migrateSkillRenamesV2(done) {
-	getAttrs(["skill_rename_migration_v2"], (flags) => {
-		if (flags["skill_rename_migration_v2"] === "1") { done(); return; }
-
-		// _skill_mdr: only migrate if player invested above base
-		const skillMigrations = [
-			{ old: "pilot_boat_skill_mdr", new: "pilot_watercraft_skill_mdr", base: 10 },
-		];
-
-		// checkbox/lock attrs: copy if truthy (player made a choice)
-		const checkboxMigrations = [
-			{ old: "bg_pilot_boat_mdr_checkbox", new: "bg_pilot_watercraft_mdr_checkbox" },
-			{ old: "bg_pilot_boat_lock",         new: "bg_pilot_watercraft_lock" },
-		];
-
-		const toRead = [
-			...skillMigrations.map(m => m.old),
-			...checkboxMigrations.map(m => m.old),
-		];
-
-		getAttrs(toRead, (vals) => {
-			const updates = { skill_rename_migration_v2: "1" };
-
-			skillMigrations.forEach(m => {
-				const oldVal = parseInt(vals[m.old] || "0", 10);
-				if (oldVal > m.base) {
-					updates[m.new] = oldVal;
-					if (typeof debug_on !== "undefined" && debug_on) console.log(`[migrateSkillRenamesV2] ${m.old}(${oldVal}) -> ${m.new}`);
-				}
-			});
-
-			checkboxMigrations.forEach(m => {
-				const oldVal = vals[m.old];
-				if (oldVal && oldVal !== "0") {
-					updates[m.new] = oldVal;
-					if (typeof debug_on !== "undefined" && debug_on) console.log(`[migrateSkillRenamesV2] ${m.old}(${oldVal}) -> ${m.new}`);
-				}
-			});
-
-			setAttrs(updates, { silent: true }, done);
-		});
-	});
-}
-
-// === MIGRATION: skill_rename_migration_v3 ===
-// One-time migration for pilot_arc renamed to pilot_mech_walker.
-// Only migrates _skill_mdr (player-invested points above base).
-// initializeRaceState → calculateAndUpdateSkillValues recomputes _mdr after.
-// REMOVE this function and its call in afterAllSets once all sheets have opened post-deploy.
-function migrateSkillRenamesV3(done) {
-	getAttrs(["skill_rename_migration_v3"], (flags) => {
-		if (flags["skill_rename_migration_v3"] === "1") { done(); return; }
-
-		// _skill_mdr: only migrate if player invested above base
-		const skillMigrations = [
-			{ old: "pilot_arc_skill_mdr", new: "pilot_mech_walker_skill_mdr", base: 5 },
-		];
-
-		// checkbox/lock attrs: copy if truthy (player made a choice)
-		const checkboxMigrations = [
-			{ old: "bg_pilot_arc_mdr_checkbox", new: "bg_pilot_mech_walker_mdr_checkbox" },
-			{ old: "bg_pilot_arc_lock",         new: "bg_pilot_mech_walker_lock" },
-		];
-
-		const toRead = [
-			...skillMigrations.map(m => m.old),
-			...checkboxMigrations.map(m => m.old),
-		];
-
-		getAttrs(toRead, (vals) => {
-			const updates = { skill_rename_migration_v3: "1" };
-
-			skillMigrations.forEach(m => {
-				const oldVal = parseInt(vals[m.old] || "0", 10);
-				if (oldVal > m.base) {
-					updates[m.new] = oldVal;
-					if (typeof debug_on !== "undefined" && debug_on) console.log(`[migrateSkillRenamesV3] ${m.old}(${oldVal}) -> ${m.new}`);
-				}
-			});
-
-			checkboxMigrations.forEach(m => {
-				const oldVal = vals[m.old];
-				if (oldVal && oldVal !== "0") {
-					updates[m.new] = oldVal;
-					if (typeof debug_on !== "undefined" && debug_on) console.log(`[migrateSkillRenamesV3] ${m.old}(${oldVal}) -> ${m.new}`);
-				}
-			});
-
-			setAttrs(updates, { silent: true }, done);
-		});
-	});
-}
-
 const applyTranslationsOnOpen = (done) => {
   if (typeof done !== "function") done = () => {};
 
@@ -53843,6 +53870,7 @@ const initializeSheetOnOpen = (eventInfo) => {
           recalcArmorTotals();
           recalcCtVitalityTotal();
           initWeaponComputedAttrs();
+          initGrenadeComputedAttrs();
           initWeapon1ModButtons();
           applyTranslationsOnOpen(() => {
             if (debug_on_trace) console.log("[initializeSheetOnOpen] Done");
@@ -54052,6 +54080,138 @@ const careerTalentEvents = Object.keys(careerDataMap)
 /* Initialization Section - End  */
 
 /*  Function Section - Start  */
+
+// === MIGRATION: skill_rename_migration_v2 ===
+// One-time migration for pilot_boat renamed to pilot_watercraft.
+// Only migrates _skill_mdr (player-invested points above base).
+// initializeRaceState → calculateAndUpdateSkillValues recomputes _mdr after.
+// REMOVE this function and its call in afterAllSets once all sheets have opened post-deploy.
+function migrateSkillRenamesV2(done) {
+	getAttrs(["skill_rename_migration_v2"], (flags) => {
+		if (flags["skill_rename_migration_v2"] === "1") { done(); return; }
+
+		// _skill_mdr: only migrate if player invested above base
+		const skillMigrations = [
+			{ old: "pilot_boat_skill_mdr", new: "pilot_watercraft_skill_mdr", base: 10 },
+		];
+
+		// checkbox/lock attrs: copy if truthy (player made a choice)
+		const checkboxMigrations = [
+			{ old: "bg_pilot_boat_mdr_checkbox", new: "bg_pilot_watercraft_mdr_checkbox" },
+			{ old: "bg_pilot_boat_lock",         new: "bg_pilot_watercraft_lock" },
+		];
+
+		const toRead = [
+			...skillMigrations.map(m => m.old),
+			...checkboxMigrations.map(m => m.old),
+		];
+
+		getAttrs(toRead, (vals) => {
+			const updates = { skill_rename_migration_v2: "1" };
+
+			skillMigrations.forEach(m => {
+				const oldVal = parseInt(vals[m.old] || "0", 10);
+				if (oldVal > m.base) {
+					updates[m.new] = oldVal;
+					if (typeof debug_on !== "undefined" && debug_on) console.log(`[migrateSkillRenamesV2] ${m.old}(${oldVal}) -> ${m.new}`);
+				}
+			});
+
+			checkboxMigrations.forEach(m => {
+				const oldVal = vals[m.old];
+				if (oldVal && oldVal !== "0") {
+					updates[m.new] = oldVal;
+					if (typeof debug_on !== "undefined" && debug_on) console.log(`[migrateSkillRenamesV2] ${m.old}(${oldVal}) -> ${m.new}`);
+				}
+			});
+
+			setAttrs(updates, { silent: true }, done);
+		});
+	});
+}
+
+// === MIGRATION: skill_rename_migration_v3 ===
+// One-time migration for pilot_arc renamed to pilot_mech_walker.
+// Only migrates _skill_mdr (player-invested points above base).
+// initializeRaceState → calculateAndUpdateSkillValues recomputes _mdr after.
+// REMOVE this function and its call in afterAllSets once all sheets have opened post-deploy.
+function migrateSkillRenamesV3(done) {
+	getAttrs(["skill_rename_migration_v3"], (flags) => {
+		if (flags["skill_rename_migration_v3"] === "1") { done(); return; }
+
+		// _skill_mdr: only migrate if player invested above base
+		const skillMigrations = [
+			{ old: "pilot_arc_skill_mdr", new: "pilot_mech_walker_skill_mdr", base: 5 },
+		];
+
+		// checkbox/lock attrs: copy if truthy (player made a choice)
+		const checkboxMigrations = [
+			{ old: "bg_pilot_arc_mdr_checkbox", new: "bg_pilot_mech_walker_mdr_checkbox" },
+			{ old: "bg_pilot_arc_lock",         new: "bg_pilot_mech_walker_lock" },
+		];
+
+		const toRead = [
+			...skillMigrations.map(m => m.old),
+			...checkboxMigrations.map(m => m.old),
+		];
+
+		getAttrs(toRead, (vals) => {
+			const updates = { skill_rename_migration_v3: "1" };
+
+			skillMigrations.forEach(m => {
+				const oldVal = parseInt(vals[m.old] || "0", 10);
+				if (oldVal > m.base) {
+					updates[m.new] = oldVal;
+					if (typeof debug_on !== "undefined" && debug_on) console.log(`[migrateSkillRenamesV3] ${m.old}(${oldVal}) -> ${m.new}`);
+				}
+			});
+
+			checkboxMigrations.forEach(m => {
+				const oldVal = vals[m.old];
+				if (oldVal && oldVal !== "0") {
+					updates[m.new] = oldVal;
+					if (typeof debug_on !== "undefined" && debug_on) console.log(`[migrateSkillRenamesV3] ${m.old}(${oldVal}) -> ${m.new}`);
+				}
+			});
+
+			setAttrs(updates, { silent: true }, done);
+		});
+	});
+}
+
+/* ── Mod button availability — computed from weaponDataMap ──────────────
+	 Call computeModButtons(entry) to get a flat object of btn attr values.
+	 Each value is "1" (slot exists + category compatible) or "0".
+	 ─────────────────────────────────────────────────────────────────────── */
+function computeModButtons(entry, prefix) {
+	const slots    = entry.mod_slots || [];
+	const cat      = entry.category  || "";
+	/* tranq weapons are handgun-platform — treat identically for mod compatibility */
+	const effCat   = cat === "tranq" ? "handgun" : cat;
+	const hasOpticsSlot   = slots.includes("optics");
+	const hasBarrelSlot   = slots.includes("barrel_muzzle");
+	const hasInternalSlot = slots.includes("internal");
+	const btn = (slotOk, cats) => (slotOk && cats.includes(effCat)) ? "1" : "0";
+	return {
+		[prefix + "btn_optics_mag_mdr"]:          btn(hasOpticsSlot,   ["rifle"]),
+		[prefix + "btn_optics_reflex_mdr"]:        btn(hasOpticsSlot,   ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_optics_thermal_mdr"]:       btn(hasOpticsSlot,   ["smg", "rifle"]),
+		[prefix + "btn_barrel_silencer_mdr"]:      btn(hasBarrelSlot,   ["handgun"]),
+		[prefix + "btn_barrel_compensator_mdr"]:   btn(hasBarrelSlot && !(entry.traits || []).includes("loud"), ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_barrel_suppressor_mdr"]:    btn(hasBarrelSlot,   ["smg", "rifle"]),
+		[prefix + "btn_barrel_prec_choke_mdr"]:    btn(hasBarrelSlot,   ["shotgun"]),
+		[prefix + "btn_barrel_slug_mdr"]:          btn(hasBarrelSlot,   ["shotgun"]),
+		[prefix + "btn_internal_smartlink_mdr"]:   btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_internal_biocoded_mdr"]:    btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_internal_irs_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_internal_qls_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+		[prefix + "btn_internal_qst_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
+	};
+}
+
+function traitsDisplayStr(traits) {
+	return (traits || []).map(t => traitLabelMap[t] || t).join(", ");
+}
 
 function getAllTalentSkills(race) {
   if (debug_on_trace) console.log("[getAllTalentSkills] Start");
@@ -58160,6 +58320,266 @@ on("clicked:weapon1-internal-sl", () => {
 			() => { refreshWeapon1Summary(); });
 	});
 });
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   GRENADE & EXPLOSIVES WORKERS
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Grenade display helpers ─────────────────────────────────────────── */
+
+/* Format a damage+zone pair for the primary/secondary columns */
+function grenadeZoneDisplay(damage, zone) {
+	if (!zone) return "";
+	const label = { engaged: "Eng", short: "Short", medium: "Med" };
+	return (damage || "—") + " " + (label[zone] || zone);
+}
+
+/* Build ACTIVE tags string shown in the summary bar */
+function buildGrenadeTagsStr(entry, delivery) {
+	if (!entry) return "";
+	const tags = [];
+	const skillLabel = delivery === "m32" ? "Rifles" : (entry.skill === "demolitions" ? "Demolitions" : "Throw");
+	tags.push(skillLabel);
+	const zoneLabel = { engaged: "Engaged", short: "Short", medium: "Medium" };
+	if (entry.blast_primary)   tags.push("Blast: " + (zoneLabel[entry.blast_primary] || entry.blast_primary));
+	if (entry.blast_secondary) tags.push("+ " + (zoneLabel[entry.blast_secondary] || entry.blast_secondary));
+	if (entry.save_stat) {
+		const s = entry.save_halves_damage
+			? entry.save_stat.toUpperCase() + " save halves"
+			: entry.save_stat.toUpperCase() + " save";
+		tags.push(s);
+	}
+	if (entry.silent)              tags.push("Silent");
+	if (entry.arcanotech)          tags.push("Arcanotech");
+	if (entry.requires_detonator)  tags.push("Needs detonator");
+	if (entry.linkable)            tags.push("Linkable");
+	if (entry.targets_surfaces_only) tags.push("Structural only");
+	if (delivery === "m32")        tags.push("M-32 — Medium range");
+	const rarityLabel = { common: "Common", permit: "Permit Required", restricted: "Restricted" };
+	if (entry.rarity) tags.push(rarityLabel[entry.rarity] || entry.rarity);
+	return tags.join("  •  ");
+}
+
+/* Build the short effect summary for the Effect column */
+function buildGrenadeEffectStr(entry) {
+	if (!entry) return "";
+	if (!entry.damage_primary || entry.damage_type === "none") {
+		if (entry.obscurement)      return "Obscure " + entry.condition_duration + " rds — pen die through";
+		if (entry.suppresses_magic) return "Magic suppressed " + entry.suppresses_duration + " rd";
+		if (entry.save_stat && entry.condition_on_fail) {
+			const pass = entry.condition_on_success ? " / " + entry.condition_on_success : "";
+			return entry.save_stat.toUpperCase() + " save — " + entry.condition_on_fail + pass;
+		}
+		return "";
+	}
+	if (entry.save_halves_damage) {
+		const cond = entry.condition_on_fail ? " — " + entry.condition_on_fail + " on fail" : " — halves";
+		return entry.save_stat.toUpperCase() + " save" + cond;
+	}
+	if (entry.save_stat) return entry.save_stat.toUpperCase() + " save — " + (entry.condition_on_fail || "effect");
+	return entry.damage_type === "structural" ? "Structural dmg" : "";
+}
+
+/* Build the Condition panel text for the advanced panel */
+function buildGrenadeConditionStr(entry) {
+	if (!entry || !entry.save_stat) return "No save required";
+	const parts = ["Roll " + entry.save_stat.toUpperCase()];
+	if (entry.condition_on_fail) {
+		let s = "Fail: " + entry.condition_on_fail;
+		if (entry.condition_duration) s += " " + entry.condition_duration + " rd";
+		parts.push(s);
+	}
+	if (entry.save_halves_damage) {
+		parts.push("Pass: half damage");
+	} else if (entry.condition_on_success) {
+		let s = "Pass: " + entry.condition_on_success;
+		if (entry.condition_duration_success) s += " " + entry.condition_duration_success + " rd";
+		parts.push(s);
+	}
+	if (entry.immunity_notes) parts.push("Immune: " + entry.immunity_notes);
+	return parts.join(" — ");
+}
+
+/* Save fail / pass one-line display */
+function buildGrenadeSaveFailStr(entry) {
+	if (!entry || !entry.save_stat) return "—";
+	if (entry.save_halves_damage)   return "half dmg";
+	return entry.condition_on_fail || "—";
+}
+function buildGrenadeSavePassStr(entry) {
+	if (!entry || !entry.save_stat) return "—";
+	if (entry.save_halves_damage)   return "half dmg";
+	return entry.condition_on_success || "no effect";
+}
+
+/* Delivery note below Throw/M-32 buttons */
+function buildGrenadeDeliveryNote(entry, delivery) {
+	if (!entry) return "";
+	if (delivery === "m32") return "Rifles skill — Medium range";
+	if (entry.category === "placed_charge" || entry.category === "mine") return "Place: Maneuver + Demolitions";
+	return "Throw — Short range max";
+}
+
+/* Resolve the correct Roll20 attr reference for skill */
+function grenadeSkillRef(entry, delivery) {
+	if (!entry) return "@{throw_mdr}";
+	if (delivery === "m32" && entry.m32_compatible) return "@{firearms_rifle_mdr}";
+	if (entry.skill === "demolitions") return "@{demolitions_mdr}";
+	return "@{throw_mdr}";
+}
+
+/* Parse damage string into numdice / dicesize / bonus for the roll template */
+function parseGrenadeDamage(damageStr) {
+	if (!damageStr) return { numdice: 0, dicesize: 6, bonus: 0 };
+	const m = (damageStr + "").match(/^(\d+)d(\d+)(?:\+(\d+))?/i);
+	if (!m) return { numdice: 0, dicesize: 6, bonus: 0 };
+	return {
+		numdice:  parseInt(m[1], 10) || 0,
+		dicesize: parseInt(m[2], 10) || 6,
+		bonus:    parseInt(m[3] || "0", 10)
+	};
+}
+
+/* ── Core: compute and write all display attrs for one grenade row ────── */
+function applyGrenadePreset(p, presetKey, delivery) {
+	const entry = presetKey ? explosivesDataMap[presetKey] : null;
+	/* If M-32 requested but not compatible, fall back to throw */
+	const effectiveDelivery = (delivery === "m32" && entry && !entry.m32_compatible) ? "throw" : (delivery || "throw");
+	/* Translated name for roll caption */
+	const nameKey  = entry ? (entry.name_key || "") : "";
+	const name     = (nameKey && typeof getTranslationByKey === "function")
+		? (getTranslationByKey(nameKey) || nameKey)
+		: (presetKey ? presetKey.replace(/_/g, " ") : "");
+	const skillRef = grenadeSkillRef(entry, effectiveDelivery);
+	const skillKey = skillRef.replace(/^@{|}$/g, "");
+	/* Damage parsing */
+	const dmgParsed     = parseGrenadeDamage(entry ? entry.damage_primary : null);
+	const hasDmg        = (entry && entry.damage_primary) ? "1" : "0";
+	/* Display strings */
+	const primaryDisp   = entry ? grenadeZoneDisplay(entry.damage_primary, entry.blast_primary) : "";
+	const secondaryDisp = entry ? grenadeZoneDisplay(entry.damage_secondary, entry.blast_secondary) : "";
+	const effectDisp    = buildGrenadeEffectStr(entry);
+	const tagsDisp      = buildGrenadeTagsStr(entry, effectiveDelivery);
+	const saveStatDisp  = (entry && entry.save_stat) ? entry.save_stat.toUpperCase() : "—";
+	const saveFailDisp  = buildGrenadeSaveFailStr(entry);
+	const savePassDisp  = buildGrenadeSavePassStr(entry);
+	const condDisp      = buildGrenadeConditionStr(entry);
+	const delivNote     = buildGrenadeDeliveryNote(entry, effectiveDelivery);
+	const m32Eligible   = (entry && entry.m32_compatible) ? "1" : "0";
+	const blastPrimary  = (entry && entry.blast_primary)   ? entry.blast_primary   : "";
+	const blastSecondary= (entry && entry.blast_secondary) ? entry.blast_secondary : "";
+	const updates = {
+		[p + "grenade_name_mdr"]:               name,
+		[p + "grenade_skill_mdr"]:              skillRef,
+		[p + "grenade_delivery_mdr"]:           effectiveDelivery,
+		[p + "grenade_primary_display_mdr"]:    primaryDisp,
+		[p + "grenade_secondary_display_mdr"]:  secondaryDisp,
+		[p + "grenade_effect_display_mdr"]:     effectDisp,
+		[p + "grenade_tags_display_mdr"]:       tagsDisp,
+		[p + "grenade_save_stat_mdr"]:          saveStatDisp,
+		[p + "grenade_save_fail_mdr"]:          saveFailDisp,
+		[p + "grenade_save_pass_mdr"]:          savePassDisp,
+		[p + "grenade_condition_display_mdr"]:  condDisp,
+		[p + "grenade_delivery_note_mdr"]:      delivNote,
+		[p + "grenade_has_damage_mdr"]:         hasDmg,
+		[p + "grenade_m32_eligible_mdr"]:       m32Eligible,
+		[p + "grenade_blast_primary_mdr"]:      blastPrimary,
+		[p + "grenade_blast_secondary_mdr"]:    blastSecondary,
+		[p + "grenade_damage_numdice_mdr"]:     dmgParsed.numdice,
+		[p + "grenade_damage_dicesize_mdr"]:    dmgParsed.dicesize,
+		[p + "grenade_damage_bonus_mdr"]:       dmgParsed.bonus,
+	};
+	setAttrs(updates, {}, () => {
+		getAttrs([skillKey], (sv) => {
+			setAttrs({ [p + "grenade_skill_display_mdr"]: sv[skillKey] || "0" });
+		});
+	});
+}
+
+/* ── Preset change watcher ───────────────────────────────────────────── */
+on("change:repeating_grenadesmdr:grenade_preset_mdr", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_grenadesmdr:grenade_preset_mdr]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_grenadesmdr_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_grenadesmdr_${m[1]}_`;
+	getAttrs([p + "grenade_preset_mdr", p + "grenade_delivery_mdr"], (v) => {
+		applyGrenadePreset(p, v[p + "grenade_preset_mdr"] || "", v[p + "grenade_delivery_mdr"] || "throw");
+	});
+});
+
+/* ── Advanced panel toggle ───────────────────────────────────────────── */
+on("clicked:repeating_grenadesmdr:grenadeadvanced", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_grenadesmdr:grenadeadvanced]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_grenadesmdr_([^_]+)_/);
+	if (!m) return;
+	const attr = `repeating_grenadesmdr_${m[1]}_show_grenade_advanced`;
+	getAttrs([attr], (v) => { setAttrs({ [attr]: v[attr] === "1" ? "0" : "1" }); });
+});
+
+/* ── Delivery — Throw ────────────────────────────────────────────────── */
+on("clicked:repeating_grenadesmdr:grenade-delivery-throw", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_grenadesmdr:grenade-delivery-throw]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_grenadesmdr_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_grenadesmdr_${m[1]}_`;
+	getAttrs([p + "grenade_preset_mdr", p + "grenade_delivery_mdr"], (v) => {
+		if (v[p + "grenade_delivery_mdr"] === "throw") return;
+		applyGrenadePreset(p, v[p + "grenade_preset_mdr"] || "", "throw");
+	});
+});
+
+/* ── Delivery — M-32 ─────────────────────────────────────────────────── */
+on("clicked:repeating_grenadesmdr:grenade-delivery-m32", (eventInfo) => {
+	if (debug_on_trace) console.log("[clicked:repeating_grenadesmdr:grenade-delivery-m32]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_grenadesmdr_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_grenadesmdr_${m[1]}_`;
+	getAttrs([p + "grenade_preset_mdr", p + "grenade_delivery_mdr", p + "grenade_m32_eligible_mdr"], (v) => {
+		if (v[p + "grenade_delivery_mdr"] === "m32") return;
+		if (v[p + "grenade_m32_eligible_mdr"] !== "1") return;
+		applyGrenadePreset(p, v[p + "grenade_preset_mdr"] || "", "m32");
+	});
+});
+
+/* ── Skill display refresh when character skills change ──────────────── */
+on("change:throw_mdr change:demolitions_mdr change:firearms_rifle_mdr", () => {
+	if (debug_on_trace) console.log("[change:skill — grenade skill display refresh]");
+	getSectionIDs("repeating_grenadesmdr", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ["throw_mdr", "demolitions_mdr", "firearms_rifle_mdr",
+			...ids.map(id => `repeating_grenadesmdr_${id}_grenade_skill_mdr`)];
+		getAttrs(fetchKeys, (v) => {
+			const updates = {};
+			ids.forEach(id => {
+				const p        = `repeating_grenadesmdr_${id}_`;
+				const skillRef = v[p + "grenade_skill_mdr"] || "@{throw_mdr}";
+				const skillKey = skillRef.replace(/^@{|}$/g, "");
+				updates[p + "grenade_skill_display_mdr"] = v[skillKey] || "0";
+			});
+			if (Object.keys(updates).length) setAttrs(updates);
+		});
+	});
+});
+
+/* ── Init on sheet open ──────────────────────────────────────────────── */
+const initGrenadeComputedAttrs = () => {
+	getSectionIDs("repeating_grenadesmdr", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.flatMap(id => [
+			`repeating_grenadesmdr_${id}_grenade_preset_mdr`,
+			`repeating_grenadesmdr_${id}_grenade_delivery_mdr`,
+		]);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p        = `repeating_grenadesmdr_${id}_`;
+				const preset   = rows[p + "grenade_preset_mdr"]   || "";
+				const delivery = rows[p + "grenade_delivery_mdr"] || "throw";
+				if (preset) applyGrenadePreset(p, preset, delivery);
+			});
+		});
+	});
+};
 
 /*	Watchers Section - End */
 </script>

@@ -5095,6 +5095,7 @@ select[name="attr_damage_bonus"] {
 	flex-direction: column;
 	gap: 0;
 	padding: 4px 6px;
+	height: 100%;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-weapon-adv-group:last-child {
@@ -5341,6 +5342,24 @@ width: 62px;
 .ui-dialog .tab-content .charsheet button[type="roll"]:hover.new-roll {
 	background: var(--cs_btn_roll_hover_bg);
 	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Override: new-roll width:24px must not win inside sheet-val-roll-static.
+   Scoped to weapon and grenade sections only — does not affect skill or spell rolls. */
+.ui-dialog .tab-content .charsheet .sheet-weapon-default .sheet-val-roll-static button[type="roll"].new-roll,
+.ui-dialog .tab-content .charsheet .sheet-weapon-block .sheet-val-roll-static button[type="roll"].new-roll,
+.ui-dialog .tab-content .charsheet .sheet-weaponblock-grid-row .sheet-val-roll-static button[type="roll"].new-roll,
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-grid-row .sheet-val-roll-static button[type="roll"].new-roll {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.ui-dialog .tab-content .charsheet .sheet-weapon-adv-summary-row .sheet-attr-input-small {
+	width: 100px;
+	background-color: var(--cs_input_bg);
+	margin-right: 4px;
 }
 
 /* Disabled roll button */
@@ -7132,6 +7151,169 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	font-size: 90%;
 	width: 52px;
 }
+/* ── Grenades & Explosives section ──────────────────────────────────── */
+
+/* Header and repeating row flex layout — plugs into existing flex-row rules */
+.ui-dialog .tab-content .charsheet .sheet-grenade-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-grid-row > .flex-row {
+	align-items: center;
+	border-bottom: 1px solid var(--cs_input_border);
+	display: flex;
+	flex-wrap: nowrap;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+/* Grid row wrapper — mirrors sheet-weaponblock-grid-row exactly */
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-grid-row {
+	display: flex;
+	flex-wrap: wrap;
+	flex: 1;
+	min-width: 0;
+	gap: 0px;
+	padding: 0px;
+	margin-bottom: 0px;
+	background-color: var(--cs_ui_element_bg);
+	box-sizing: border-box;
+}
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-grid-row > .flex-row {
+	width: 100%;
+}
+
+/* Header — same vars as weapon/omnideck/program headers */
+.ui-dialog .tab-content .charsheet .sheet-grenade-header,
+.ui-dialog .tab-content .charsheet .sheet-grenade-header .flex-cell {
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text);
+	font-weight: bold;
+	text-align: center;
+}
+
+/* Flex cell widths */
+.ui-dialog .tab-content .charsheet .grenade-name         { flex: 2 1 28%; }
+.ui-dialog .tab-content .charsheet .grenade-skill-wrapper { flex: 1 1 8%; }
+.ui-dialog .tab-content .charsheet .grenade-primary      { flex: 1 1 8%; }
+.ui-dialog .tab-content .charsheet .grenade-secondary    { flex: 1 1 8%; }
+.ui-dialog .tab-content .charsheet .grenade-qty          { flex: 0 0 72px; }
+.ui-dialog .tab-content .charsheet .grenade-effect       { flex: 2 1 20%; }
+
+/* Advanced panel — identical to sheet-weaponblock-advanced */
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced {
+	display: none;
+	max-width: 100%;
+	flex-wrap: wrap;
+	gap: 2px;
+	margin-bottom: 4px;
+	background-color: var(--cs_ui_element_bg);
+	box-sizing: content-box;
+}
+/* Toggle — mirrors .sheet-weaponblock-grid-row input ~ .sheet-weaponblock-advanced pattern */
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-grid-row input[name="attr_show_grenade_advanced"][value="1"] ~ .sheet-grenadeblock-advanced {
+	display: flex;
+}
+
+/* ACTIVE summary bar save section — sits beside the tags in weapon-adv-summary-row */
+.ui-dialog .tab-content .charsheet .sheet-grenade-adv-save {
+	border-left: 1px solid var(--cs_input_border);
+	display: grid;
+	grid-template-columns: max-content auto max-content auto max-content auto;
+	column-gap: 4px;
+	align-items: center;
+	padding: 0 4px;
+}
+
+/* Delivery toggle buttons */
+.ui-dialog .tab-content .charsheet .sheet-grenade-delivery-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2px;
+	margin-top: 2px;
+}
+.ui-dialog .tab-content .charsheet .sheet-delivery-btn {
+	background: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	color: var(--cs_txt_primary);
+	cursor: pointer;
+	font-size: 78%;
+	font-weight: bold;
+	padding: 2px 4px;
+	text-align: center;
+}
+.ui-dialog .tab-content .charsheet .sheet-delivery-btn:hover {
+	background: var(--cs_btn_roll_hover_bg);
+	color: var(--cs_btn_roll_hover_text);
+}
+
+/* Active delivery — inputs are inside .sheet-grenadeblock-advanced, direct siblings of the grid wrapper */
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_delivery_mdr"][value="throw"] ~ .sheet-weapon-advanced-grid .delivery-throw,
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_delivery_mdr"][value="m32"]   ~ .sheet-weapon-advanced-grid .delivery-m32 {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+}
+
+/* Active blast zones — primary and secondary each light their zone */
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_blast_primary_mdr"][value="engaged"]  ~ .sheet-weapon-advanced-grid .grenade-zone-engaged,
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_blast_secondary_mdr"][value="engaged"] ~ .sheet-weapon-advanced-grid .grenade-zone-engaged,
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_blast_primary_mdr"][value="short"]    ~ .sheet-weapon-advanced-grid .grenade-zone-short,
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_blast_secondary_mdr"][value="short"]  ~ .sheet-weapon-advanced-grid .grenade-zone-short,
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_blast_primary_mdr"][value="medium"]   ~ .sheet-weapon-advanced-grid .grenade-zone-medium,
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_blast_secondary_mdr"][value="medium"] ~ .sheet-weapon-advanced-grid .grenade-zone-medium {
+	background: var(--cs_dc_color);
+	border-color: var(--cs_dc_color);
+	color: var(--cs_txt_accent);
+	pointer-events: auto;
+}
+
+/* M-32 ineligible — dim the M-32 button */
+.ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced input[name="attr_grenade_m32_eligible_mdr"][value="0"] ~ .sheet-weapon-advanced-grid .delivery-m32 {
+	cursor: not-allowed;
+	opacity: 0.25;
+	pointer-events: none;
+}
+
+/* Note and condition read-only text fields */
+.ui-dialog .tab-content .charsheet .sheet-grenade-note-display {
+	background-color: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	box-sizing: border-box;
+	color: var(--cs_input_text);
+	font-size: 83%;
+	margin-top: 3px;
+	padding: 2px 4px;
+	pointer-events: none;
+	width: 100%;
+	height: 100%;
+}
+
+/* Qty counter */
+.ui-dialog .tab-content .charsheet .sheet-grenade-qty-wrapper {
+	align-items: center;
+	display: flex;
+	gap: 2px;
+	justify-content: center;
+	padding: 0 4px;
+	width: 100%;
+}
+.ui-dialog .tab-content .charsheet .sheet-grenade-qty-input {
+	background-color: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_sm);
+	color: var(--cs_input_text);
+	font-size: 90%;
+	padding: 1px 2px;
+	text-align: center;
+	width: 26px;
+}
+.ui-dialog .tab-content .charsheet .sheet-grenade-qty-sep {
+	color: var(--cs_txt_primary);
+	font-size: 85%;
+}
+
 /* ------------------------------------ Comabt - End ------------------------------------ */
 
 /* ------------------------------------ Spells - Start ------------------------------------ */

@@ -50765,6 +50765,208 @@ const weaponModDataMap = {
 	}
 };
 
+/* ══════════════════════════════════════════════════════════════════
+   ARMOR DATA MAP
+   Source: Gear & Loadout, section: armor
+   Fields:
+     name_key       — i18n key for display name
+     physical       — Physical Soak (P)
+     veil           — Veil Soak (V)
+     layer          — "underlayer" | "outerlayer" | "full_body"
+     category       — "light" | "medium" | "heavy"
+     cost           — credit cost (number)
+     rarity         — "common" | "permit" | "restricted"
+     traits         — array of trait keys (see armor trait glossary)
+     pcell_required — true if powered armor requiring P-Cell
+   ══════════════════════════════════════════════════════════════════ */
+const armorDataMap = {
+	/* ── UNDERLAYERS ───────────────────────────────────────── */
+	reflexweave_undersuit: {
+		name_key:      "armor_reflexweave_undersuit-u",
+		physical:      2,
+		veil:          0,
+		layer:         "underlayer",
+		category:      "light",
+		cost:          1200,
+		rarity:        "common",
+		traits:        ["flexible"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	skinlace_bodysuit: {
+		name_key:      "armor_skinlace_bodysuit-u",
+		physical:      1,
+		veil:          2,
+		layer:         "underlayer",
+		category:      "light",
+		cost:          2400,
+		rarity:        "permit",
+		traits:        ["concealed", "flexible"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	subdermal_mesh_liner: {
+		name_key:      "armor_subdermal_mesh_liner-u",
+		physical:      2,
+		veil:          1,
+		layer:         "underlayer",
+		category:      "light",
+		cost:          1400,
+		rarity:        "permit",
+		traits:        ["flexible"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	/* ── OUTERLAYERS — LIGHT ───────────────────────────────── */
+	duskweave_jacket: {
+		name_key:      "armor_duskweave_jacket-u",
+		physical:      3,
+		veil:          1,
+		layer:         "outerlayer",
+		category:      "light",
+		cost:          3500,
+		rarity:        "common",
+		traits:        ["concealed", "flexible"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	ghostweave_jacket: {
+		name_key:      "armor_ghostweave_jacket-u",
+		physical:      2,
+		veil:          0,
+		layer:         "outerlayer",
+		category:      "light",
+		cost:          1000,
+		rarity:        "common",
+		traits:        ["concealed"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	urban_reclaimer_coat: {
+		name_key:      "armor_urban_reclaimer_coat-u",
+		physical:      2,
+		veil:          1,
+		layer:         "outerlayer",
+		category:      "light",
+		cost:          2000,
+		rarity:        "common",
+		traits:        ["concealed", "flexible", "modular"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	wardweave_longcoat: {
+		name_key:      "armor_wardweave_longcoat-u",
+		physical:      3,
+		veil:          1,
+		layer:         "outerlayer",
+		category:      "light",
+		cost:          2500,
+		rarity:        "common",
+		traits:        ["concealed", "flexible", "veil_shielded"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	/* ── OUTERLAYERS — MEDIUM ──────────────────────────────── */
+	arcplate_warden_harness: {
+		name_key:      "armor_arcplate_warden_harness-u",
+		physical:      5,
+		veil:          3,
+		layer:         "outerlayer",
+		category:      "medium",
+		cost:          10000,
+		rarity:        "restricted",
+		traits:        ["modular", "stealth_penalty_10", "veil_shielded"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	corsec_tactical_vest: {
+		name_key:      "armor_corsec_tactical_vest-u",
+		physical:      4,
+		veil:          1,
+		layer:         "outerlayer",
+		category:      "medium",
+		cost:          5000,
+		rarity:        "common",
+		traits:        ["modular", "stealth_penalty_10"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	streetguard_laminate: {
+		name_key:      "armor_streetguard_laminate-u",
+		physical:      5,
+		veil:          0,
+		layer:         "outerlayer",
+		category:      "medium",
+		cost:          3000,
+		rarity:        "common",
+		traits:        ["bulky", "fire_resistant", "stealth_penalty_20"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	veilguard_operative_coat: {
+		name_key:      "armor_veilguard_operative_coat-u",
+		physical:      3,
+		veil:          3,
+		layer:         "outerlayer",
+		category:      "medium",
+		cost:          6500,
+		rarity:        "permit",
+		traits:        ["flexible", "veil_shielded"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	/* ── FULL BODY — MEDIUM ────────────────────────────────── */
+	wraithguard_armor: {
+		name_key:      "armor_wraithguard_armor-u",
+		physical:      7,
+		veil:          2,
+		layer:         "full_body",
+		category:      "medium",
+		cost:          30000,
+		rarity:        "restricted",
+		traits:        ["adaptive_camo_weave", "modular"],
+		pcell_required: false,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	/* ── FULL BODY — HEAVY ─────────────────────────────────── */
+	ironveil_bulwark_suit: {
+		name_key:      "armor_ironveil_bulwark_suit-u",
+		physical:      9,
+		veil:          3,
+		layer:         "full_body",
+		category:      "heavy",
+		cost:          35000,
+		rarity:        "restricted",
+		traits:        ["bulky", "modular", "requires_pcell", "sealed", "stealth_penalty_die"],
+		pcell_required: true,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	sablecorp_aggressor_frame: {
+		name_key:      "armor_sablecorp_aggressor_frame-u",
+		physical:      11,
+		veil:          1,
+		layer:         "full_body",
+		category:      "heavy",
+		cost:          40000,
+		rarity:        "restricted",
+		traits:        ["bulky", "requires_pcell", "sealed", "stealth_penalty_die"],
+		pcell_required: true,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+	verdant_enclave_sentinel_plate: {
+		name_key:      "armor_verdant_enclave_sentinel_plate-u",
+		physical:      8,
+		veil:          5,
+		layer:         "full_body",
+		category:      "heavy",
+		cost:          50000,
+		rarity:        "restricted",
+		traits:        ["bulky", "requires_pcell", "sealed", "stealth_penalty_die", "veil_shielded"],
+		pcell_required: true,
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "armor-u" },
+	},
+};
+
 /* ── Weapon trait display labels ────────────────────────────────────── */
 const traitLabelMap = {
 	ap_1: "AP (1)", ap_2: "AP (2)", ap_3: "AP (3)", ap_4: "AP (4)", ap_5: "AP (5)",

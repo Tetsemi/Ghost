@@ -61309,44 +61309,40 @@ const rarityAbbrevKey = {
 /* ── Core: fill effect for one clothing row (repeating) ─────────────── */
 function applyClothingPreset(p, presetKey) {
 	const entry = presetKey ? clothingDataMap[presetKey] : null;
-	if (!entry) return;
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	setAttrs({
-		[p + "clothing_effect"]: entry.effect_key ? tr(entry.effect_key) : "",
-		[p + "clothing_rarity"]: tr(rarityAbbrevKey[entry.rarity] || ""),
+		[p + "clothing_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[p + "clothing_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
 	});
 }
 
 /* ── Core: fill effect for one clothing row (static clothing1/2) ────── */
 function applyClothingPresetStatic(index, presetKey) {
 	const entry = presetKey ? clothingDataMap[presetKey] : null;
-	if (!entry) return;
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	setAttrs({
-		[`clothing${index}_effect`]: entry.effect_key ? tr(entry.effect_key) : "",
-		[`clothing${index}_rarity`]: tr(rarityAbbrevKey[entry.rarity] || ""),
+		[`clothing${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[`clothing${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
 	});
 }
 
 /* ── Core: fill effect for one disguise row (repeating) ─────────────── */
 function applyDisguisePreset(p, presetKey) {
 	const entry = presetKey ? disguiseGearDataMap[presetKey] : null;
-	if (!entry) return;
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	setAttrs({
-		[p + "disguise_effect"]: entry.effect_key ? tr(entry.effect_key) : "",
-		[p + "disguise_rarity"]: tr(rarityAbbrevKey[entry.rarity] || ""),
+		[p + "disguise_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[p + "disguise_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
 	});
 }
 
 /* ── Core: fill effect for one disguise row (static disguise1/2) ─────── */
 function applyDisguisePresetStatic(index, presetKey) {
 	const entry = presetKey ? disguiseGearDataMap[presetKey] : null;
-	if (!entry) return;
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	setAttrs({
-		[`disguise${index}_effect`]: entry.effect_key ? tr(entry.effect_key) : "",
-		[`disguise${index}_rarity`]: tr(rarityAbbrevKey[entry.rarity] || ""),
+		[`disguise${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[`disguise${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
 	});
 }
 

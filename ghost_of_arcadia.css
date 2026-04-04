@@ -1437,8 +1437,9 @@
 
 /* ---- Clothing section flex-cell column sizing ---- */
 .ui-dialog .tab-content .charsheet .clothing-name     { width: 190px; }
+.ui-dialog .tab-content .charsheet .clothing-rarity   { width: 24px; text-align: center; }
 .ui-dialog .tab-content .charsheet .clothing-equipped { width: 24px; }
-.ui-dialog .tab-content .charsheet .clothing-effect   { width: 600px; position: relative; }
+.ui-dialog .tab-content .charsheet .clothing-effect   { width: 575px; position: relative; }
 
 /* Clothing rows use standard fixed height — no wrapping */
 .ui-dialog .tab-content .charsheet .sheet-clothing-header .flex-row,
@@ -1475,6 +1476,55 @@
 
 /* Full text in tooltip bubble — wider than skill default, anchored right */
 .ui-dialog .tab-content .charsheet .clothing-effect .sheet-tooltip-bubble {
+	min-width: 280px;
+	max-width: 380px;
+	left: auto;
+	right: 0;
+	color: var(--cs_txt_primary);
+}
+/* -------------------------------------------------- */
+
+/* ---- Disguise & Identity Gear section flex-cell column sizing ---- */
+.ui-dialog .tab-content .charsheet .disguise-name     { width: 190px; }
+.ui-dialog .tab-content .charsheet .disguise-rarity   { width: 24px; text-align: center; }
+.ui-dialog .tab-content .charsheet .disguise-equipped { width: 24px; }
+.ui-dialog .tab-content .charsheet .disguise-effect   { width: 575px; position: relative; }
+
+/* Disguise rows — standard fixed height */
+.ui-dialog .tab-content .charsheet .sheet-disguise-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-disguise-default .flex-row,
+.ui-dialog .tab-content .charsheet .repeating_disguisegear .flex-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: var(--cs_row_height);
+	padding: 0;
+	margin: 0;
+	gap: 0;
+}
+
+/* Tooltip wrapper fills the effect cell */
+.ui-dialog .tab-content .charsheet .disguise-effect .sheet-skill-tooltip {
+	width: 100%;
+	min-width: 0;
+}
+
+/* Preview div — single line, truncated with ellipsis */
+.ui-dialog .tab-content .charsheet .disguise-effect .disguise-effect-preview {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	padding: 0 4px;
+	color: var(--cs_txt_primary);
+	cursor: help;
+}
+
+/* Full text in tooltip bubble — anchored right */
+.ui-dialog .tab-content .charsheet .disguise-effect .sheet-tooltip-bubble {
 	min-width: 280px;
 	max-width: 380px;
 	left: auto;

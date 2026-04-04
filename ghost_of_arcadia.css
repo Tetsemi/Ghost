@@ -1422,6 +1422,67 @@
 }
 /* =============================================================================== */
 
+/* ======================= Gear Tab Collapsible Sections ======================= */
+/* Reuse the same +/- hitbox style, but scope the collapse rules to the Gear tab */
+.ui-dialog .tab-content .charsheet .sheet-gear .sheet-gear-collapsible input.sheet-top-collapse:checked
+~ h4 .sheet-top-collapse-hit::after {
+	content: "+";
+}
+
+.ui-dialog .tab-content .charsheet .sheet-gear .sheet-gear-collapsible input.sheet-top-collapse:checked
+~ .sheet-section-body {
+	display: none;
+}
+/* ============================================================================ */
+
+/* ---- Clothing section flex-cell column sizing ---- */
+.ui-dialog .tab-content .charsheet .clothing-name     { width: 190px; }
+.ui-dialog .tab-content .charsheet .clothing-equipped { width: 24px; }
+.ui-dialog .tab-content .charsheet .clothing-effect   { width: 600px; position: relative; }
+
+/* Clothing rows use standard fixed height — no wrapping */
+.ui-dialog .tab-content .charsheet .sheet-clothing-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-clothing-default .flex-row,
+.ui-dialog .tab-content .charsheet .repeating_clothinggear .flex-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: var(--cs_row_height);
+	padding: 0;
+	margin: 0;
+	gap: 0;
+}
+
+/* Tooltip wrapper fills the effect cell, stays inline-flex for correct bubble positioning */
+.ui-dialog .tab-content .charsheet .clothing-effect .sheet-skill-tooltip {
+	width: 100%;
+	min-width: 0;
+}
+
+/* Preview div — single line, truncated with ellipsis */
+.ui-dialog .tab-content .charsheet .clothing-effect .clothing-effect-preview {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	padding: 0 4px;
+	color: var(--cs_txt_primary);
+	cursor: help;
+}
+
+/* Full text in tooltip bubble — wider than skill default, anchored right */
+.ui-dialog .tab-content .charsheet .clothing-effect .sheet-tooltip-bubble {
+	min-width: 280px;
+	max-width: 380px;
+	left: auto;
+	right: 0;
+	color: var(--cs_txt_primary);
+}
+/* -------------------------------------------------- */
+
 /* ---------------------------- */
 /* Spenders Section Layout      */
 /* ---------------------------- */
@@ -2138,7 +2199,7 @@ select[name="attr_damage_bonus"] {
 	left: 0;
 	top: calc(100% + 5px);
 	z-index: 999;
-	background-color: var(--cs_txt_accent);
+	background-color: var(--cs_bg_color);
 	border: 1px solid var(--cs_tooltip_border);
 	border-radius: var(--cs_border_radius_sm);
 	padding: 6px 8px;
@@ -2146,7 +2207,7 @@ select[name="attr_damage_bonus"] {
 	max-width: 240px;
 	font-size: 11px;
 	line-height: 1.5;
-	color: var(--cs_tooltip_label_text);
+	color: var(--cs_txt_primary);
 	white-space: normal;
 	box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
 	transition: opacity 0.12s ease;
@@ -2189,7 +2250,7 @@ select[name="attr_damage_bonus"] {
 	font-weight: bold;
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
-	color: var(--cs_tooltip_label_text);
+	color: var(--cs_txt_primary);
 	margin-bottom: 3px;
 }
 

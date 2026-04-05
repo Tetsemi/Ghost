@@ -213,7 +213,7 @@
 							<label class="sheet-attr-label" data-i18n="move_rate-u">Move rate</label>
 							<div class="sheet-grid-move">
 								<input class="sheet-attr-input sheet-edit-toggle-field" type="text" name="attr_mov"/>
-								<button class="sheet-move-roll" type="roll" name="roll_mov_check" value="&{template:coc-dice-roll} {{name=Initiative (Chase) - @{name}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{diceroll=[[{0d0, 1d10 + @{mov} + @{dice_modifier_checkbox}}kh1 &{tracker}]]}}"></button>
+								<button class="sheet-move-roll" type="roll" name="roll_mov_check" value="&{template:coc-dice-roll} {{name=Initiative (Chase) - @{name}}} {{modifier=[[0]]}} {{diceroll=[[{0d0, 1d10 + @{mov}}kh1 &{tracker}]]}}"></button>
 							</div>
 						</div>
 
@@ -21851,25 +21851,23 @@
 			<div class="sheet-colrow sheet-section sheet-combat-collapsible">
 				<input type="checkbox" class="sheet-top-collapse" id="combat_omnidecks_collapse" name="attr_combat_omnidecks_collapse" value="1"/>
 				<h4 class="sheet-section-head-collapsible">
-					<span data-i18n="omnidecks-u">Omnidecks</span>
+					<span data-i18n="omnidecks-u">OmniDecks</span>
 					<label class="sheet-top-collapse-hit" for="combat_omnidecks_collapse" title="Toggle section"></label>
 				</h4>
 				<div class="sheet-section-body">
 					<div class="sheet-section">
 						<div class="sheet-omnideck-header">
 							<div class="flex-row">
-								<div class="flex-cell omnideck-name"><span data-i18n="omnideck_name-u">Omnideck Name</span></div>
+								<div class="flex-cell omnideck-name"><span data-i18n="omnideck_name-u">Deck</span></div>
+								<div class="flex-cell omnideck-rarity"><span data-i18n="rarity-u">R</span></div>
 								<div class="flex-cell omnideck-equipped"><span data-i18n="omnideck_equipped-u">E</span></div>
 								<div class="flex-cell omnideck-skill"><span data-i18n="omnideck_skill-u">Skill</span></div>
 								<div class="flex-cell omnideck-skill-display"><span data-i18n="skill_display-u">Val</span></div>
-								<div class="flex-cell omnideck-ir"><span data-i18n="omnideck_ir-u">IR</span></div>
-								<div class="flex-cell omnideck-mr"><span data-i18n="omnideck_mr-u">MR</span></div>
-								<div class="flex-cell omnideck-fr"><span data-i18n="omnideck_fr-u">FR</span></div>
-								<div class="flex-cell omnideck-dic"><span data-i18n="omnideck_dic-u">DIC</span></div>
-								<div class="flex-cell omnideck-dit"><span data-i18n="omnideck_dit-u">DIT</span></div>
-								<div class="flex-cell omnideck-ar"><span data-i18n="omnideck_ar-u">AR</span></div>
-								<div class="flex-cell omnideck-prog_slots"><span data-i18n="omnideck_prog_slots-u">Program Slots</span></div>
-								<div class="flex-cell omnideck-mod_slots"><span data-i18n="omnideck_mod_slots-u">Mod Slots</span></div>
+								<div class="flex-cell omnideck-roll"><span><!-- roll --></span></div>
+								<div class="flex-cell omnideck-stability"><span data-i18n="omnideck_stability-u">Stab</span></div>
+								<div class="flex-cell omnideck-prog_slots"><span data-i18n="omnideck_prog_slots-u">PS</span></div>
+								<div class="flex-cell omnideck-mod_slots"><span data-i18n="omnideck_mod_slots-u">MS</span></div>
+								<div class="flex-cell omnideck-escalation"><span data-i18n="omnideck_escalation-u">Esc</span></div>
 							</div>
 						</div>
 
@@ -21877,38 +21875,38 @@
 
 						<fieldset class="repeating_omnidecksmdr">
 							<div class="flex-row">
-								<div class="flex-cell omnideck-name"><input type="text" name="attr_omnideck_name" placeholder="Omnideck Name" data-i18n-placeholder="omnideck_name-u"/></div>
+								<div class="flex-cell omnideck-name">
+									<input type="hidden" name="attr_omnideck_name" value=""/>
+									<select name="attr_omnideck_preset" class="sheet-armor-preset-select" data-i18n-title="omnideck_preset-u">
+										<option value="" data-i18n="omnideck_select_placeholder-u">--- select deck ---</option>
+										<option value="neuronedge_x_drive" data-i18n="gear_neuronedge_x_drive-u">NeuronEdge X-Drive</option>
+										<option value="omni_core_pro" data-i18n="gear_omni_core_pro-u">OmniCore Pro</option>
+										<option value="omni_lite_c1" data-i18n="gear_omni_lite_c1-u">OmniLite C1</option>
+										<option value="omniphantom_mkiii" data-i18n="gear_omniphantom_mkiii-u">OmniPhantom MkIII</option>
+										<option value="stratos_v_trace" data-i18n="gear_stratos_v_trace-u">Stratos V-Trace</option>
+										<option value="streetplug_mini" data-i18n="gear_streetplug_mini-u">StreetPlug Mini</option>
+										<option value="vantix_void_mirror" data-i18n="gear_vantix_void_mirror-u">Vantix Void Mirror</option>
+										<option value="wraith_x_ghostdeck" data-i18n="gear_wraith_x_ghostdeck-u">WRAITH-X GhostDeck</option>
+									</select>
+								</div>
+								<div class="flex-cell omnideck-rarity"><span name="attr_omnideck_rarity"></span></div>
 								<div class="flex-cell omnideck-equipped"><input type="checkbox" name="attr_omnideck_equipped" value="1"/></div>
 								<div class="flex-cell omnideck-skill">
 									<select name="attr_omnideck_skill_mdr">
-										<option value="@{slicing_mdr}" data-i18n="slicing-u">Slicing</option>
+										<option value="@{arcanotech_mdr}" data-i18n="arcanotech-u">Arcanotech</option>
 										<option value="@{computer_use_mdr}" data-i18n="computer_use-u">Computer Use</option>
+										<option value="@{security_mdr}" data-i18n="security-u">Security Systems</option>
+										<option value="@{slicing_mdr}" data-i18n="slicing-u">Slicing</option>
 									</select>
 								</div>
 								<div class="flex-cell omnideck-skill-display"><input type="text" name="attr_omnideck_skill_mdr_display" class="sheet-readonly"/></div>
-								<div class="omnideck-roll-wrapper">
-									<div class="flex-cell omnideck-roll">
-										<button type="roll" class="new-roll" name="roll_omnideck_ir_mdr_attack" value="&{template:coc-1} {{name=@{omnideck_name} - IR Roll}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, (floor(@{omnideck_skill_mdr}/5))+@{omnideck_ir}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor(((floor(@{omnideck_skill_mdr}/5))+@{omnideck_ir}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor(((floor(@{omnideck_skill_mdr}/5))+@{omnideck_ir}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
-									</div>
-									<div class="flex-cell omnideck-ir"><input name="attr_omnideck_ir" type="text"/></div>
+								<div class="flex-cell omnideck-roll">
+									<button type="roll" name="roll_omnideck_access_mdr" value="&{template:coc-1} {{name=@{omnideck_name} - Access Roll}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{omnideck_skill_mdr_display}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{omnideck_skill_mdr_display}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{omnideck_skill_mdr_display}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
 								</div>
-								<div class="omnideck-roll-wrapper">
-									<div class="flex-cell omnideck-roll">
-										<button type="roll" class="new-roll" name="roll_omnideck_mr_mdr_attack" value="&{template:coc-1} {{name=@{omnideck_name} - MR Roll}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, (floor(@{omnideck_skill_mdr}/5))+@{omnideck_mr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor(((floor(@{omnideck_skill_mdr}/5))+@{omnideck_mr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor(((floor(@{omnideck_skill_mdr}/5))+@{omnideck_mr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
-									</div>
-									<div class="flex-cell omnideck-mr"><input name="attr_omnideck_mr" type="text"/></div>
-								</div>
-								<div class="omnideck-roll-wrapper">
-									<div class="flex-cell omnideck-roll">
-										<button type="roll" class="new-roll" name="roll_omnideck_fr_mdr_attack" value="&{template:coc-1} {{name=@{omnideck_name} - FR Roll}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, (floor(@{omnideck_skill_mdr}/5))+@{omnideck_fr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor(((floor(@{omnideck_skill_mdr}/5))+@{omnideck_fr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor(((floor(@{omnideck_skill_mdr}/5))+@{omnideck_fr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
-									</div>
-									<div class="flex-cell omnideck-fr"><input name="attr_omnideck_fr" type="text"/></div>
-								</div>
-								<div class="flex-cell omnideck-dic"><input type="text" name="attr_omnideck_dic" placeholder="DIC"/></div>
-								<div class="flex-cell omnideck-dit"><input type="text" name="attr_omnideck_dit" placeholder="DIT"/></div>
-								<div class="flex-cell omnideck-ar"><input type="text" name="attr_omnideck_ar" placeholder="AR"/></div>
-								<div class="flex-cell omnideck-prog_slots"><input type="text" name="attr_omnideck_prog_slots" placeholder="0"/></div>
-								<div class="flex-cell omnideck-mod_slots"><input type="text" name="attr_omnideck_mod_slots" placeholder="0"/></div>
+								<div class="flex-cell omnideck-stability"><span name="attr_omnideck_stability"></span></div>
+								<div class="flex-cell omnideck-prog_slots"><span name="attr_omnideck_prog_slots"></span></div>
+								<div class="flex-cell omnideck-mod_slots"><span name="attr_omnideck_mod_slots"></span></div>
+								<div class="flex-cell omnideck-escalation"><input type="text" name="attr_omnideck_escalation" placeholder="0"/></div>
 							</div>
 						</fieldset>
 					</div>
@@ -29712,6 +29710,467 @@
 										<div class="sheet-tooltip-bubble">
 											<div class="tooltip-label" data-i18n="surveillance_effect-u"></div>
 											<span name="attr_surveillance_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- -------------------------- Arcane Supplies -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_arcanesupply_collapse" name="attr_gear_arcanesupply_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="arcane_supplies-u">Arcane Supplies</span>
+					<label class="sheet-top-collapse-hit" for="gear_arcanesupply_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<div class="sheet-arcanesupply-header">
+							<div class="flex-row">
+								<div class="flex-cell arcanesupply-name"><span data-i18n="arcanesupply_item_name-u">Item</span></div>
+								<div class="flex-cell arcanesupply-rarity"><span data-i18n="rarity-u">R</span></div>
+								<div class="flex-cell arcanesupply-equipped"><span data-i18n="arcanesupply_equipped-u">E</span></div>
+								<div class="flex-cell arcanesupply-effect"><span data-i18n="arcanesupply_effect-u">Effect</span></div>
+							</div>
+						</div>
+
+						<div class="sheet-arcanesupply-default">
+							<div class="flex-row">
+								<div class="flex-cell arcanesupply-name">
+									<select name="attr_arcanesupply1_preset" class="sheet-armor-preset-select" data-i18n-title="arcanesupply_preset-u">
+										<option value="" data-i18n="arcanesupply_select_placeholder-u">--- select item ---</option>
+										<option value="corruption_assay_strip" data-i18n="gear_corruption_assay_strip-u">Corruption Assay Strip (×3)</option>
+										<option value="null_seal_flask" data-i18n="gear_null_seal_flask-u">Null-Seal Flask (×2)</option>
+										<option value="ritual_supply_pack" data-i18n="gear_ritual_supply_pack-u">Ritual Supply Pack</option>
+										<option value="veil_containment_vessel" data-i18n="gear_veil_containment_vessel-u">Veil Containment Vessel</option>
+									</select>
+								</div>
+								<div class="flex-cell arcanesupply-rarity"><span name="attr_arcanesupply1_rarity"></span></div>
+								<div class="flex-cell arcanesupply-equipped"><input type="checkbox" name="attr_arcanesupply1_equipped_checkbox"/></div>
+								<div class="flex-cell arcanesupply-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="arcanesupply-effect-preview"><span name="attr_arcanesupply1_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="arcanesupply_effect-u"></div>
+											<span name="attr_arcanesupply1_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="flex-row">
+								<div class="flex-cell arcanesupply-name">
+									<select name="attr_arcanesupply2_preset" class="sheet-armor-preset-select" data-i18n-title="arcanesupply_preset-u">
+										<option value="" data-i18n="arcanesupply_select_placeholder-u">--- select item ---</option>
+										<option value="corruption_assay_strip" data-i18n="gear_corruption_assay_strip-u">Corruption Assay Strip (×3)</option>
+										<option value="null_seal_flask" data-i18n="gear_null_seal_flask-u">Null-Seal Flask (×2)</option>
+										<option value="ritual_supply_pack" data-i18n="gear_ritual_supply_pack-u">Ritual Supply Pack</option>
+										<option value="veil_containment_vessel" data-i18n="gear_veil_containment_vessel-u">Veil Containment Vessel</option>
+									</select>
+								</div>
+								<div class="flex-cell arcanesupply-rarity"><span name="attr_arcanesupply2_rarity"></span></div>
+								<div class="flex-cell arcanesupply-equipped"><input type="checkbox" name="attr_arcanesupply2_equipped_checkbox"/></div>
+								<div class="flex-cell arcanesupply-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="arcanesupply-effect-preview"><span name="attr_arcanesupply2_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="arcanesupply_effect-u"></div>
+											<span name="attr_arcanesupply2_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_arcanesupplygear">
+							<div class="flex-row">
+								<div class="flex-cell arcanesupply-name">
+									<select name="attr_arcanesupply_preset" class="sheet-armor-preset-select" data-i18n-title="arcanesupply_preset-u">
+										<option value="" data-i18n="arcanesupply_select_placeholder-u">--- select item ---</option>
+										<option value="corruption_assay_strip" data-i18n="gear_corruption_assay_strip-u">Corruption Assay Strip (×3)</option>
+										<option value="null_seal_flask" data-i18n="gear_null_seal_flask-u">Null-Seal Flask (×2)</option>
+										<option value="ritual_supply_pack" data-i18n="gear_ritual_supply_pack-u">Ritual Supply Pack</option>
+										<option value="veil_containment_vessel" data-i18n="gear_veil_containment_vessel-u">Veil Containment Vessel</option>
+									</select>
+								</div>
+								<div class="flex-cell arcanesupply-rarity"><span name="attr_arcanesupply_rarity"></span></div>
+								<div class="flex-cell arcanesupply-equipped"><input type="checkbox" name="attr_arcanesupply_equipped_checkbox"/></div>
+								<div class="flex-cell arcanesupply-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="arcanesupply-effect-preview"><span name="attr_arcanesupply_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="arcanesupply_effect-u"></div>
+											<span name="attr_arcanesupply_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- -------------------------- General Utility Gear -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_utility_collapse" name="attr_gear_utility_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="general_utility_gear-u">General Utility Gear</span>
+					<label class="sheet-top-collapse-hit" for="gear_utility_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<div class="sheet-utility-header">
+							<div class="flex-row">
+								<div class="flex-cell utility-name"><span data-i18n="utility_item_name-u">Item</span></div>
+								<div class="flex-cell utility-rarity"><span data-i18n="rarity-u">R</span></div>
+								<div class="flex-cell utility-equipped"><span data-i18n="utility_equipped-u">E</span></div>
+								<div class="flex-cell utility-effect"><span data-i18n="utility_effect-u">Effect</span></div>
+							</div>
+						</div>
+
+						<div class="sheet-utility-default">
+							<div class="flex-row">
+								<div class="flex-cell utility-name">
+									<select name="attr_utility1_preset" class="sheet-armor-preset-select" data-i18n-title="utility_preset-u">
+										<option value="" data-i18n="utility_select_placeholder-u">--- select item ---</option>
+										<option value="arcano_calibration_lens" data-i18n="gear_arcano_calibration_lens-u">Arcano-Calibration Lens</option>
+										<option value="cybernetic_install_kit" data-i18n="gear_cybernetic_install_kit-u">Cybernetic Install Kit</option>
+										<option value="field_mechanic_rig" data-i18n="gear_field_mechanic_rig-u">Field Mechanic Rig</option>
+										<option value="heavy_pcell" data-i18n="gear_heavy_pcell-u">Heavy P-Cell</option>
+										<option value="industrial_pcell" data-i18n="gear_industrial_pcell-u">Industrial P-Cell</option>
+										<option value="micro_welder_torch" data-i18n="gear_micro_welder_torch-u">Micro-Welder Torch</option>
+										<option value="smartlink_hud_visor" data-i18n="gear_smartlink_hud_visor-u">Smartlink HUD Visor</option>
+										<option value="standard_pcell" data-i18n="gear_standard_pcell-u">Standard P-Cell</option>
+										<option value="standard_restraint_kit" data-i18n="gear_standard_restraint_kit-u">Standard Restraint Kit</option>
+										<option value="tactical_optics_visor" data-i18n="gear_tactical_optics_visor-u">Tactical Optics Visor</option>
+										<option value="tech_tool_basic_kit" data-i18n="gear_tech_tool_basic_kit-u">Tech Tool Basic Kit</option>
+										<option value="veil_binders" data-i18n="gear_veil_binders-u">Veil Binders</option>
+										<option value="veil_sight_goggles" data-i18n="gear_veil_sight_goggles-u">Veil-Sight Goggles</option>
+									</select>
+								</div>
+								<div class="flex-cell utility-rarity"><span name="attr_utility1_rarity"></span></div>
+								<div class="flex-cell utility-equipped"><input type="checkbox" name="attr_utility1_equipped_checkbox"/></div>
+								<div class="flex-cell utility-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="utility-effect-preview"><span name="attr_utility1_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="utility_effect-u"></div>
+											<span name="attr_utility1_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="flex-row">
+								<div class="flex-cell utility-name">
+									<select name="attr_utility2_preset" class="sheet-armor-preset-select" data-i18n-title="utility_preset-u">
+										<option value="" data-i18n="utility_select_placeholder-u">--- select item ---</option>
+										<option value="arcano_calibration_lens" data-i18n="gear_arcano_calibration_lens-u">Arcano-Calibration Lens</option>
+										<option value="cybernetic_install_kit" data-i18n="gear_cybernetic_install_kit-u">Cybernetic Install Kit</option>
+										<option value="field_mechanic_rig" data-i18n="gear_field_mechanic_rig-u">Field Mechanic Rig</option>
+										<option value="heavy_pcell" data-i18n="gear_heavy_pcell-u">Heavy P-Cell</option>
+										<option value="industrial_pcell" data-i18n="gear_industrial_pcell-u">Industrial P-Cell</option>
+										<option value="micro_welder_torch" data-i18n="gear_micro_welder_torch-u">Micro-Welder Torch</option>
+										<option value="smartlink_hud_visor" data-i18n="gear_smartlink_hud_visor-u">Smartlink HUD Visor</option>
+										<option value="standard_pcell" data-i18n="gear_standard_pcell-u">Standard P-Cell</option>
+										<option value="standard_restraint_kit" data-i18n="gear_standard_restraint_kit-u">Standard Restraint Kit</option>
+										<option value="tactical_optics_visor" data-i18n="gear_tactical_optics_visor-u">Tactical Optics Visor</option>
+										<option value="tech_tool_basic_kit" data-i18n="gear_tech_tool_basic_kit-u">Tech Tool Basic Kit</option>
+										<option value="veil_binders" data-i18n="gear_veil_binders-u">Veil Binders</option>
+										<option value="veil_sight_goggles" data-i18n="gear_veil_sight_goggles-u">Veil-Sight Goggles</option>
+									</select>
+								</div>
+								<div class="flex-cell utility-rarity"><span name="attr_utility2_rarity"></span></div>
+								<div class="flex-cell utility-equipped"><input type="checkbox" name="attr_utility2_equipped_checkbox"/></div>
+								<div class="flex-cell utility-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="utility-effect-preview"><span name="attr_utility2_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="utility_effect-u"></div>
+											<span name="attr_utility2_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_utilitygear">
+							<div class="flex-row">
+								<div class="flex-cell utility-name">
+									<select name="attr_utility_preset" class="sheet-armor-preset-select" data-i18n-title="utility_preset-u">
+										<option value="" data-i18n="utility_select_placeholder-u">--- select item ---</option>
+										<option value="arcano_calibration_lens" data-i18n="gear_arcano_calibration_lens-u">Arcano-Calibration Lens</option>
+										<option value="cybernetic_install_kit" data-i18n="gear_cybernetic_install_kit-u">Cybernetic Install Kit</option>
+										<option value="field_mechanic_rig" data-i18n="gear_field_mechanic_rig-u">Field Mechanic Rig</option>
+										<option value="heavy_pcell" data-i18n="gear_heavy_pcell-u">Heavy P-Cell</option>
+										<option value="industrial_pcell" data-i18n="gear_industrial_pcell-u">Industrial P-Cell</option>
+										<option value="micro_welder_torch" data-i18n="gear_micro_welder_torch-u">Micro-Welder Torch</option>
+										<option value="smartlink_hud_visor" data-i18n="gear_smartlink_hud_visor-u">Smartlink HUD Visor</option>
+										<option value="standard_pcell" data-i18n="gear_standard_pcell-u">Standard P-Cell</option>
+										<option value="standard_restraint_kit" data-i18n="gear_standard_restraint_kit-u">Standard Restraint Kit</option>
+										<option value="tactical_optics_visor" data-i18n="gear_tactical_optics_visor-u">Tactical Optics Visor</option>
+										<option value="tech_tool_basic_kit" data-i18n="gear_tech_tool_basic_kit-u">Tech Tool Basic Kit</option>
+										<option value="veil_binders" data-i18n="gear_veil_binders-u">Veil Binders</option>
+										<option value="veil_sight_goggles" data-i18n="gear_veil_sight_goggles-u">Veil-Sight Goggles</option>
+									</select>
+								</div>
+								<div class="flex-cell utility-rarity"><span name="attr_utility_rarity"></span></div>
+								<div class="flex-cell utility-equipped"><input type="checkbox" name="attr_utility_equipped_checkbox"/></div>
+								<div class="flex-cell utility-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="utility-effect-preview"><span name="attr_utility_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="utility_effect-u"></div>
+											<span name="attr_utility_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- -------------------------- Survival Kits & Field Essentials -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_survival_collapse" name="attr_gear_survival_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="survival_kits-u">Survival Kits &amp; Field Essentials</span>
+					<label class="sheet-top-collapse-hit" for="gear_survival_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<div class="sheet-survival-header">
+							<div class="flex-row">
+								<div class="flex-cell survival-name"><span data-i18n="survival_item_name-u">Item</span></div>
+								<div class="flex-cell survival-rarity"><span data-i18n="rarity-u">R</span></div>
+								<div class="flex-cell survival-equipped"><span data-i18n="survival_equipped-u">E</span></div>
+								<div class="flex-cell survival-effect"><span data-i18n="survival_effect-u">Effect</span></div>
+							</div>
+						</div>
+
+						<div class="sheet-survival-default">
+							<div class="flex-row">
+								<div class="flex-cell survival-name">
+									<select name="attr_survival1_preset" class="sheet-armor-preset-select" data-i18n-title="survival_preset-u">
+										<option value="" data-i18n="survival_select_placeholder-u">--- select item ---</option>
+										<option value="climbing_harness_kit" data-i18n="gear_climbing_harness_kit-u">Climbing Harness Kit</option>
+										<option value="emergency_breather_mask" data-i18n="gear_emergency_breather_mask-u">Emergency Breather Mask</option>
+										<option value="field_expedition_pack" data-i18n="gear_field_expedition_pack-u">Field Expedition Pack</option>
+										<option value="grappling_cartridge" data-i18n="gear_grappling_cartridge-u">Grappling Cartridge (×1)</option>
+										<option value="grappling_launcher" data-i18n="gear_grappling_launcher-u">Grappling Launcher</option>
+										<option value="urban_emergency_kit" data-i18n="gear_urban_emergency_kit-u">Urban Emergency Kit</option>
+										<option value="veil_zone_operations_pack" data-i18n="gear_veil_zone_operations_pack-u">Veil-Zone Operations Pack</option>
+									</select>
+								</div>
+								<div class="flex-cell survival-rarity"><span name="attr_survival1_rarity"></span></div>
+								<div class="flex-cell survival-equipped"><input type="checkbox" name="attr_survival1_equipped_checkbox"/></div>
+								<div class="flex-cell survival-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="survival-effect-preview"><span name="attr_survival1_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="survival_effect-u"></div>
+											<span name="attr_survival1_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="flex-row">
+								<div class="flex-cell survival-name">
+									<select name="attr_survival2_preset" class="sheet-armor-preset-select" data-i18n-title="survival_preset-u">
+										<option value="" data-i18n="survival_select_placeholder-u">--- select item ---</option>
+										<option value="climbing_harness_kit" data-i18n="gear_climbing_harness_kit-u">Climbing Harness Kit</option>
+										<option value="emergency_breather_mask" data-i18n="gear_emergency_breather_mask-u">Emergency Breather Mask</option>
+										<option value="field_expedition_pack" data-i18n="gear_field_expedition_pack-u">Field Expedition Pack</option>
+										<option value="grappling_cartridge" data-i18n="gear_grappling_cartridge-u">Grappling Cartridge (×1)</option>
+										<option value="grappling_launcher" data-i18n="gear_grappling_launcher-u">Grappling Launcher</option>
+										<option value="urban_emergency_kit" data-i18n="gear_urban_emergency_kit-u">Urban Emergency Kit</option>
+										<option value="veil_zone_operations_pack" data-i18n="gear_veil_zone_operations_pack-u">Veil-Zone Operations Pack</option>
+									</select>
+								</div>
+								<div class="flex-cell survival-rarity"><span name="attr_survival2_rarity"></span></div>
+								<div class="flex-cell survival-equipped"><input type="checkbox" name="attr_survival2_equipped_checkbox"/></div>
+								<div class="flex-cell survival-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="survival-effect-preview"><span name="attr_survival2_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="survival_effect-u"></div>
+											<span name="attr_survival2_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_survivalgear">
+							<div class="flex-row">
+								<div class="flex-cell survival-name">
+									<select name="attr_survival_preset" class="sheet-armor-preset-select" data-i18n-title="survival_preset-u">
+										<option value="" data-i18n="survival_select_placeholder-u">--- select item ---</option>
+										<option value="climbing_harness_kit" data-i18n="gear_climbing_harness_kit-u">Climbing Harness Kit</option>
+										<option value="emergency_breather_mask" data-i18n="gear_emergency_breather_mask-u">Emergency Breather Mask</option>
+										<option value="field_expedition_pack" data-i18n="gear_field_expedition_pack-u">Field Expedition Pack</option>
+										<option value="grappling_cartridge" data-i18n="gear_grappling_cartridge-u">Grappling Cartridge (×1)</option>
+										<option value="grappling_launcher" data-i18n="gear_grappling_launcher-u">Grappling Launcher</option>
+										<option value="urban_emergency_kit" data-i18n="gear_urban_emergency_kit-u">Urban Emergency Kit</option>
+										<option value="veil_zone_operations_pack" data-i18n="gear_veil_zone_operations_pack-u">Veil-Zone Operations Pack</option>
+									</select>
+								</div>
+								<div class="flex-cell survival-rarity"><span name="attr_survival_rarity"></span></div>
+								<div class="flex-cell survival-equipped"><input type="checkbox" name="attr_survival_equipped_checkbox"/></div>
+								<div class="flex-cell survival-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="survival-effect-preview"><span name="attr_survival_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="survival_effect-u"></div>
+											<span name="attr_survival_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- -------------------------- Entertainment & Software -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_entertainment_collapse" name="attr_gear_entertainment_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="entertainment_software-u">Entertainment &amp; Software</span>
+					<label class="sheet-top-collapse-hit" for="gear_entertainment_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<div class="sheet-entertainment-header">
+							<div class="flex-row">
+								<div class="flex-cell entertainment-name"><span data-i18n="entertainment_item_name-u">Item</span></div>
+								<div class="flex-cell entertainment-rarity"><span data-i18n="rarity-u">R</span></div>
+								<div class="flex-cell entertainment-equipped"><span data-i18n="entertainment_equipped-u">E</span></div>
+								<div class="flex-cell entertainment-effect"><span data-i18n="entertainment_effect-u">Effect</span></div>
+							</div>
+						</div>
+
+						<div class="sheet-entertainment-default">
+							<div class="flex-row">
+								<div class="flex-cell entertainment-name">
+									<select name="attr_entertainment1_preset" class="sheet-armor-preset-select" data-i18n-title="entertainment_preset-u">
+										<option value="" data-i18n="entertainment_select_placeholder-u">--- select item ---</option>
+										<option value="black_echo_chip" data-i18n="ent_black_echo_chip-u">Black Echo Chip</option>
+										<option value="blacksoft_bundle" data-i18n="ent_blacksoft_bundle-u">BlackSoft Bundle</option>
+										<option value="combat_sim_chip" data-i18n="ent_combat_sim_chip-u">Combat Sim Chip</option>
+										<option value="dateslate" data-i18n="ent_dateslate-u">DataSlate</option>
+										<option value="deepdrift_sleeve" data-i18n="ent_deepdrift_sleeve-u">DeepDrift Sleeve</option>
+										<option value="dreamfeed_chip" data-i18n="ent_dreamfeed_chip-u">DreamFeed Chip</option>
+										<option value="driftlink_module" data-i18n="ent_driftlink_module-u">DriftLink Module</option>
+										<option value="feeltrack" data-i18n="ent_feeltrack-u">FeelTrack</option>
+										<option value="halo_rig" data-i18n="ent_halo_rig-u">HALO Rig</option>
+										<option value="lang_chip_comprehension" data-i18n="ent_lang_chip_comprehension-u">Lang-Chip (Comprehension)</option>
+										<option value="lang_chip_fluency" data-i18n="ent_lang_chip_fluency-u">Lang-Chip (Fluency)</option>
+										<option value="luxury_dreamfeed" data-i18n="ent_luxury_dreamfeed-u">Luxury DreamFeed</option>
+										<option value="memory_stim" data-i18n="ent_memory_stim-u">Memory Stim</option>
+										<option value="neurocast_player" data-i18n="ent_neurocast_player-u">NeuroCast Player</option>
+										<option value="pulsesim_chip" data-i18n="ent_pulsesim_chip-u">PulseSim Chip</option>
+										<option value="skillchip_tier1" data-i18n="ent_skillchip_tier1-u">SkillChip (Tier I)</option>
+										<option value="skillchip_tier2" data-i18n="ent_skillchip_tier2-u">SkillChip (Tier II)</option>
+										<option value="softmuse_ai_companion" data-i18n="ent_softmuse_ai_companion-u">SoftMuse AI Companion</option>
+										<option value="warfeed" data-i18n="ent_warfeed-u">WarFeed</option>
+									</select>
+								</div>
+								<div class="flex-cell entertainment-rarity"><span name="attr_entertainment1_rarity"></span></div>
+								<div class="flex-cell entertainment-equipped"><input type="checkbox" name="attr_entertainment1_equipped_checkbox"/></div>
+								<div class="flex-cell entertainment-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="entertainment-effect-preview"><span name="attr_entertainment1_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="entertainment_effect-u"></div>
+											<span name="attr_entertainment1_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="flex-row">
+								<div class="flex-cell entertainment-name">
+									<select name="attr_entertainment2_preset" class="sheet-armor-preset-select" data-i18n-title="entertainment_preset-u">
+										<option value="" data-i18n="entertainment_select_placeholder-u">--- select item ---</option>
+										<option value="black_echo_chip" data-i18n="ent_black_echo_chip-u">Black Echo Chip</option>
+										<option value="blacksoft_bundle" data-i18n="ent_blacksoft_bundle-u">BlackSoft Bundle</option>
+										<option value="combat_sim_chip" data-i18n="ent_combat_sim_chip-u">Combat Sim Chip</option>
+										<option value="dateslate" data-i18n="ent_dateslate-u">DataSlate</option>
+										<option value="deepdrift_sleeve" data-i18n="ent_deepdrift_sleeve-u">DeepDrift Sleeve</option>
+										<option value="dreamfeed_chip" data-i18n="ent_dreamfeed_chip-u">DreamFeed Chip</option>
+										<option value="driftlink_module" data-i18n="ent_driftlink_module-u">DriftLink Module</option>
+										<option value="feeltrack" data-i18n="ent_feeltrack-u">FeelTrack</option>
+										<option value="halo_rig" data-i18n="ent_halo_rig-u">HALO Rig</option>
+										<option value="lang_chip_comprehension" data-i18n="ent_lang_chip_comprehension-u">Lang-Chip (Comprehension)</option>
+										<option value="lang_chip_fluency" data-i18n="ent_lang_chip_fluency-u">Lang-Chip (Fluency)</option>
+										<option value="luxury_dreamfeed" data-i18n="ent_luxury_dreamfeed-u">Luxury DreamFeed</option>
+										<option value="memory_stim" data-i18n="ent_memory_stim-u">Memory Stim</option>
+										<option value="neurocast_player" data-i18n="ent_neurocast_player-u">NeuroCast Player</option>
+										<option value="pulsesim_chip" data-i18n="ent_pulsesim_chip-u">PulseSim Chip</option>
+										<option value="skillchip_tier1" data-i18n="ent_skillchip_tier1-u">SkillChip (Tier I)</option>
+										<option value="skillchip_tier2" data-i18n="ent_skillchip_tier2-u">SkillChip (Tier II)</option>
+										<option value="softmuse_ai_companion" data-i18n="ent_softmuse_ai_companion-u">SoftMuse AI Companion</option>
+										<option value="warfeed" data-i18n="ent_warfeed-u">WarFeed</option>
+									</select>
+								</div>
+								<div class="flex-cell entertainment-rarity"><span name="attr_entertainment2_rarity"></span></div>
+								<div class="flex-cell entertainment-equipped"><input type="checkbox" name="attr_entertainment2_equipped_checkbox"/></div>
+								<div class="flex-cell entertainment-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="entertainment-effect-preview"><span name="attr_entertainment2_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="entertainment_effect-u"></div>
+											<span name="attr_entertainment2_effect"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_entertainmentgear">
+							<div class="flex-row">
+								<div class="flex-cell entertainment-name">
+									<select name="attr_entertainment_preset" class="sheet-armor-preset-select" data-i18n-title="entertainment_preset-u">
+										<option value="" data-i18n="entertainment_select_placeholder-u">--- select item ---</option>
+										<option value="black_echo_chip" data-i18n="ent_black_echo_chip-u">Black Echo Chip</option>
+										<option value="blacksoft_bundle" data-i18n="ent_blacksoft_bundle-u">BlackSoft Bundle</option>
+										<option value="combat_sim_chip" data-i18n="ent_combat_sim_chip-u">Combat Sim Chip</option>
+										<option value="dateslate" data-i18n="ent_dateslate-u">DataSlate</option>
+										<option value="deepdrift_sleeve" data-i18n="ent_deepdrift_sleeve-u">DeepDrift Sleeve</option>
+										<option value="dreamfeed_chip" data-i18n="ent_dreamfeed_chip-u">DreamFeed Chip</option>
+										<option value="driftlink_module" data-i18n="ent_driftlink_module-u">DriftLink Module</option>
+										<option value="feeltrack" data-i18n="ent_feeltrack-u">FeelTrack</option>
+										<option value="halo_rig" data-i18n="ent_halo_rig-u">HALO Rig</option>
+										<option value="lang_chip_comprehension" data-i18n="ent_lang_chip_comprehension-u">Lang-Chip (Comprehension)</option>
+										<option value="lang_chip_fluency" data-i18n="ent_lang_chip_fluency-u">Lang-Chip (Fluency)</option>
+										<option value="luxury_dreamfeed" data-i18n="ent_luxury_dreamfeed-u">Luxury DreamFeed</option>
+										<option value="memory_stim" data-i18n="ent_memory_stim-u">Memory Stim</option>
+										<option value="neurocast_player" data-i18n="ent_neurocast_player-u">NeuroCast Player</option>
+										<option value="pulsesim_chip" data-i18n="ent_pulsesim_chip-u">PulseSim Chip</option>
+										<option value="skillchip_tier1" data-i18n="ent_skillchip_tier1-u">SkillChip (Tier I)</option>
+										<option value="skillchip_tier2" data-i18n="ent_skillchip_tier2-u">SkillChip (Tier II)</option>
+										<option value="softmuse_ai_companion" data-i18n="ent_softmuse_ai_companion-u">SoftMuse AI Companion</option>
+										<option value="warfeed" data-i18n="ent_warfeed-u">WarFeed</option>
+									</select>
+								</div>
+								<div class="flex-cell entertainment-rarity"><span name="attr_entertainment_rarity"></span></div>
+								<div class="flex-cell entertainment-equipped"><input type="checkbox" name="attr_entertainment_equipped_checkbox"/></div>
+								<div class="flex-cell entertainment-effect">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="entertainment-effect-preview"><span name="attr_entertainment_effect"></span></div>
+										<div class="sheet-tooltip-bubble">
+											<div class="tooltip-label" data-i18n="entertainment_effect-u"></div>
+											<span name="attr_entertainment_effect"></span>
 										</div>
 									</div>
 								</div>
@@ -57010,6 +57469,11 @@ const initializeSheetOnOpen = (eventInfo) => {
           initCommsPresets();
           initOmnidevicePresets();
           initSurveillancePresets();
+          initArcanesupplyPresets();
+          initUtilityPresets();
+          initSurvivalPresets();
+          initEntertainmentPresets();
+          initOmnideckPresets();
           initWeaponComputedAttrs();
           initGrenadeComputedAttrs();
           initWeapon1ModButtons();
@@ -58425,14 +58889,19 @@ on("clicked:edit_mode", () => {
 // dice_modifier_checkbox : the final value used by all roll buttons
 //   = manual + wound penalty (-10 major wound) + bloodied penalty (-10 at/below 50% HP)
 //               + strained penalty (-10 at/below 50% Strain)
-// Recalculate mov using current DEX, Athletics, and the active dice penalty.
-// Called after recalcDiceModifier so mov always reflects the penalized effective DEX.
 const recalcMov = () => {
-  getAttrs(["dex", "athletics_skill_mdr", "dice_modifier_checkbox"], (values) => {
-    const dex     = parseInt(values.dex, 10) || 0;
-    const ath     = parseInt(values.athletics_skill_mdr, 10) || 0;
-    const penalty = parseInt(values.dice_modifier_checkbox, 10) || 0;
-    const effDex  = Math.max(0, dex + penalty);
+  getAttrs(["dex", "athletics_skill_mdr", "major_wounds_checkbox", "hp", "pulphp_max", "strain", "strain_max"], (values) => {
+    const dex        = parseInt(values.dex, 10) || 0;
+    const ath        = parseInt(values.athletics_skill_mdr, 10) || 0;
+    const majorWound = values.major_wounds_checkbox === "1";
+    const hp         = parseInt(values.hp, 10);
+    const hpMax      = parseInt(values.pulphp_max, 10);
+    const bloodied   = !isNaN(hp) && !isNaN(hpMax) && hpMax > 0 && hp <= hpMax / 2;
+    const strain     = parseInt(values.strain, 10);
+    const strainMax  = parseInt(values.strain_max, 10);
+    const tired      = !isNaN(strain) && !isNaN(strainMax) && strainMax > 0 && strain <= strainMax / 2;
+    const penalty    = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (tired ? -10 : 0);
+    const effDex     = Math.max(0, dex + penalty);
     setAttrs({ mov: Math.min(14, Math.floor((effDex + ath) / 10)) });
   });
 };
@@ -58455,9 +58924,13 @@ const recalcDiceModifier = () => {
       dice_modifier_checkbox: String(final),
       bloodied_css:           bloodied  ? "1" : "0",
       strained_css:           strained  ? "1" : "0"
-    }, {}, recalcMov);
+    });
   });
 };
+
+// MOV is affected by Athletics, DEX, Bloodied, Tired, and Major Wound only —
+// not by the manual dice modifier buttons.
+on("change:dex change:athletics_skill_mdr change:major_wounds_checkbox change:hp change:pulphp_max change:strain change:strain_max", recalcMov);
 
 on("clicked:-20 clicked:-10 clicked:10 clicked:20", (event) => {
   const clicked = event.triggerName.replace("clicked:", "");
@@ -59556,6 +60029,114 @@ on("change:surveillance2_preset", () => {
 	});
 });
 
+/* ── Arcane Supply preset select — repeating rows ───────────────────── */
+on("change:repeating_arcanesupplygear:arcanesupply_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_arcanesupplygear:arcanesupply_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_arcanesupplygear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_arcanesupplygear_${m[1]}_`;
+	getAttrs([p + "arcanesupply_preset"], (v) => {
+		applyArcanesupplyPreset(p, v[p + "arcanesupply_preset"] || "");
+	});
+});
+
+/* ── Arcane Supply preset select — static row 1 ────────────────────── */
+on("change:arcanesupply1_preset", () => {
+	if (debug_on_trace) console.log("[change:arcanesupply1_preset]");
+	getAttrs(["arcanesupply1_preset"], (v) => {
+		applyArcanesupplyPresetStatic(1, v["arcanesupply1_preset"] || "");
+	});
+});
+
+/* ── Arcane Supply preset select — static row 2 ────────────────────── */
+on("change:arcanesupply2_preset", () => {
+	if (debug_on_trace) console.log("[change:arcanesupply2_preset]");
+	getAttrs(["arcanesupply2_preset"], (v) => {
+		applyArcanesupplyPresetStatic(2, v["arcanesupply2_preset"] || "");
+	});
+});
+
+/* ── Utility Gear preset select — repeating rows ────────────────────── */
+on("change:repeating_utilitygear:utility_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_utilitygear:utility_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_utilitygear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_utilitygear_${m[1]}_`;
+	getAttrs([p + "utility_preset"], (v) => {
+		applyUtilityPreset(p, v[p + "utility_preset"] || "");
+	});
+});
+
+/* ── Utility Gear preset select — static row 1 ─────────────────────── */
+on("change:utility1_preset", () => {
+	if (debug_on_trace) console.log("[change:utility1_preset]");
+	getAttrs(["utility1_preset"], (v) => {
+		applyUtilityPresetStatic(1, v["utility1_preset"] || "");
+	});
+});
+
+/* ── Utility Gear preset select — static row 2 ─────────────────────── */
+on("change:utility2_preset", () => {
+	if (debug_on_trace) console.log("[change:utility2_preset]");
+	getAttrs(["utility2_preset"], (v) => {
+		applyUtilityPresetStatic(2, v["utility2_preset"] || "");
+	});
+});
+
+/* ── Survival Gear preset select — repeating rows ───────────────────── */
+on("change:repeating_survivalgear:survival_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_survivalgear:survival_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_survivalgear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_survivalgear_${m[1]}_`;
+	getAttrs([p + "survival_preset"], (v) => {
+		applySurvivalPreset(p, v[p + "survival_preset"] || "");
+	});
+});
+
+/* ── Survival Gear preset select — static row 1 ────────────────────── */
+on("change:survival1_preset", () => {
+	if (debug_on_trace) console.log("[change:survival1_preset]");
+	getAttrs(["survival1_preset"], (v) => {
+		applySurvivalPresetStatic(1, v["survival1_preset"] || "");
+	});
+});
+
+/* ── Survival Gear preset select — static row 2 ────────────────────── */
+on("change:survival2_preset", () => {
+	if (debug_on_trace) console.log("[change:survival2_preset]");
+	getAttrs(["survival2_preset"], (v) => {
+		applySurvivalPresetStatic(2, v["survival2_preset"] || "");
+	});
+});
+
+/* ── Entertainment preset select — repeating rows ───────────────────── */
+on("change:repeating_entertainmentgear:entertainment_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_entertainmentgear:entertainment_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_entertainmentgear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_entertainmentgear_${m[1]}_`;
+	getAttrs([p + "entertainment_preset"], (v) => {
+		applyEntertainmentPreset(p, v[p + "entertainment_preset"] || "");
+	});
+});
+
+/* ── Entertainment preset select — static row 1 ────────────────────── */
+on("change:entertainment1_preset", () => {
+	if (debug_on_trace) console.log("[change:entertainment1_preset]");
+	getAttrs(["entertainment1_preset"], (v) => {
+		applyEntertainmentPresetStatic(1, v["entertainment1_preset"] || "");
+	});
+});
+
+/* ── Entertainment preset select — static row 2 ────────────────────── */
+on("change:entertainment2_preset", () => {
+	if (debug_on_trace) console.log("[change:entertainment2_preset]");
+	getAttrs(["entertainment2_preset"], (v) => {
+		applyEntertainmentPresetStatic(2, v["entertainment2_preset"] || "");
+	});
+});
+
 on("change:repeating_ct:ct_vitality change:repeating_ct:ct_category change:repeating_ct:ct_neuralware_slots change:pow remove:repeating_ct",
   recalcCtVitalityTotal
 );
@@ -60120,21 +60701,51 @@ on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
 });
 
 on("change:repeating_omnidecksmdr:omnideck_skill_mdr", function(eventInfo) {
-    if (debug_on_trace) console.log ("[change:repeating_omnidecksmdr:omnideck_skill_mdr] Start");
-  const repeatingId = eventInfo.sourceAttribute.match(/repeating_omnidecksmdr_([^_]+)_/)[1];
-  const skillAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr`;
+	if (debug_on_trace) console.log("[change:repeating_omnidecksmdr:omnideck_skill_mdr] Start");
+	const repeatingId = eventInfo.sourceAttribute.match(/repeating_omnidecksmdr_([^_]+)_/)[1];
+	const skillAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr`;
+	getAttrs([skillAttr], function(v) {
+		const referenceString = v[skillAttr];
+		const match = referenceString && referenceString.match(/@{([^}]+)}/);
+		if (!match) return;
+		const actualAttrName = match[1];
+		getAttrs([actualAttrName], function(values) {
+			const skillValue = values[actualAttrName] || "0";
+			const displayAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr_display`;
+			setAttrs({ [displayAttr]: skillValue });
+		});
+	});
+});
 
-  getAttrs([skillAttr], function(v) {
-    const referenceString = v[skillAttr];
-    const actualAttrName = referenceString.match(/@{([^}]+)}/)[1];
+/* ── Omnideck preset select — repeating rows ────────────────────────── */
+on("change:repeating_omnidecksmdr:omnideck_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_omnidecksmdr:omnideck_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_omnidecksmdr_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_omnidecksmdr_${m[1]}_`;
+	getAttrs([p + "omnideck_preset"], (v) => {
+		applyOmnideckPreset(p, v[p + "omnideck_preset"] || "");
+	});
+});
 
-    getAttrs([actualAttrName], function(values) {
-      const skillValue = values[actualAttrName] || "0";
-      const displayAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr_display`;
-
-      setAttrs({ [displayAttr]: skillValue });
-    });
-  });
+/* ── Refresh all omnideck skill displays when underlying skills change ─ */
+on("change:slicing_mdr change:computer_use_mdr change:security_mdr change:arcanotech_mdr", () => {
+	if (debug_on_trace) console.log("[change:skill_mdr] Refreshing omnideck skill displays");
+	getSectionIDs("repeating_omnidecksmdr", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_omnidecksmdr_${id}_omnideck_skill_mdr`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p = `repeating_omnidecksmdr_${id}_`;
+				const ref = rows[p + "omnideck_skill_mdr"] || "";
+				const match = ref.match(/@{([^}]+)}/);
+				if (!match) return;
+				getAttrs([match[1]], (v) => {
+					setAttrs({ [p + "omnideck_skill_mdr_display"]: v[match[1]] || "0" });
+				});
+			});
+		});
+	});
 });
 
 on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
@@ -61930,6 +62541,99 @@ function applySurveillancePresetStatic(index, presetKey) {
 	});
 }
 
+/* ── Core: fill attrs for one arcane supply row (repeating) ─────────── */
+function applyArcanesupplyPreset(p, presetKey) {
+	const entry = presetKey ? arcaneSuppliesDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[p + "arcanesupply_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[p + "arcanesupply_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+	});
+}
+
+/* ── Core: fill attrs for one arcane supply row (static arcanesupply1/2) */
+function applyArcanesupplyPresetStatic(index, presetKey) {
+	const entry = presetKey ? arcaneSuppliesDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[`arcanesupply${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[`arcanesupply${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+	});
+}
+
+/* ── Core: fill attrs for one utility gear row (repeating) ──────────── */
+function applyUtilityPreset(p, presetKey) {
+	const entry = presetKey ? utilityGearDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[p + "utility_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[p + "utility_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+	});
+}
+
+/* ── Core: fill attrs for one utility gear row (static utility1/2) ──── */
+function applyUtilityPresetStatic(index, presetKey) {
+	const entry = presetKey ? utilityGearDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[`utility${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[`utility${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+	});
+}
+
+/* ── Core: fill attrs for one survival gear row (repeating) ─────────── */
+function applySurvivalPreset(p, presetKey) {
+	const entry = presetKey ? survivalGearDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[p + "survival_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[p + "survival_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+	});
+}
+
+/* ── Core: fill attrs for one survival gear row (static survival1/2) ── */
+function applySurvivalPresetStatic(index, presetKey) {
+	const entry = presetKey ? survivalGearDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[`survival${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[`survival${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+	});
+}
+
+/* ── Core: fill attrs for one omnideck row (repeating) ──────────────── */
+function applyOmnideckPreset(p, presetKey) {
+	const entry = presetKey ? omnidecksDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[p + "omnideck_name"]:       entry && entry.name_key ? tr(entry.name_key) : " ",
+		[p + "omnideck_rarity"]:     entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+		[p + "omnideck_stability"]:  entry ? String(entry.stability) : " ",
+		[p + "omnideck_prog_slots"]: entry ? String(entry.program_slots) : " ",
+		[p + "omnideck_mod_slots"]:  entry ? String(entry.mod_slots) : " ",
+	});
+}
+
+/* ── Core: fill attrs for one entertainment row (repeating) ─────────── */
+function applyEntertainmentPreset(p, presetKey) {
+	const entry = presetKey ? entertainmentDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[p + "entertainment_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[p + "entertainment_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+	});
+}
+
+/* ── Core: fill attrs for one entertainment row (static entertainment1/2) */
+function applyEntertainmentPresetStatic(index, presetKey) {
+	const entry = presetKey ? entertainmentDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	setAttrs({
+		[`entertainment${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
+		[`entertainment${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+	});
+}
+
 /* ── Core: compute and write all display attrs for one grenade row ────── */
 function applyGrenadePreset(p, presetKey, delivery) {
 	const entry = presetKey ? explosivesDataMap[presetKey] : null;
@@ -62212,6 +62916,115 @@ const initSurveillancePresets = () => {
 				const p      = `repeating_surveillancegear_${id}_`;
 				const preset = rows[p + "surveillance_preset"] || "";
 				if (preset) applySurveillancePreset(p, preset);
+			});
+		});
+	});
+};
+
+/* ── Init on sheet open: re-apply arcane supply presets for all rows ── */
+const initArcanesupplyPresets = () => {
+	/* Static rows */
+	getAttrs(["arcanesupply1_preset", "arcanesupply2_preset"], (v) => {
+		if (v["arcanesupply1_preset"]) applyArcanesupplyPresetStatic(1, v["arcanesupply1_preset"]);
+		if (v["arcanesupply2_preset"]) applyArcanesupplyPresetStatic(2, v["arcanesupply2_preset"]);
+	});
+	/* Repeating rows */
+	getSectionIDs("repeating_arcanesupplygear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_arcanesupplygear_${id}_arcanesupply_preset`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p      = `repeating_arcanesupplygear_${id}_`;
+				const preset = rows[p + "arcanesupply_preset"] || "";
+				if (preset) applyArcanesupplyPreset(p, preset);
+			});
+		});
+	});
+};
+
+/* ── Init on sheet open: re-apply utility gear presets for all rows ─── */
+const initUtilityPresets = () => {
+	/* Static rows */
+	getAttrs(["utility1_preset", "utility2_preset"], (v) => {
+		if (v["utility1_preset"]) applyUtilityPresetStatic(1, v["utility1_preset"]);
+		if (v["utility2_preset"]) applyUtilityPresetStatic(2, v["utility2_preset"]);
+	});
+	/* Repeating rows */
+	getSectionIDs("repeating_utilitygear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_utilitygear_${id}_utility_preset`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p      = `repeating_utilitygear_${id}_`;
+				const preset = rows[p + "utility_preset"] || "";
+				if (preset) applyUtilityPreset(p, preset);
+			});
+		});
+	});
+};
+
+/* ── Init on sheet open: re-apply survival gear presets for all rows ── */
+const initSurvivalPresets = () => {
+	/* Static rows */
+	getAttrs(["survival1_preset", "survival2_preset"], (v) => {
+		if (v["survival1_preset"]) applySurvivalPresetStatic(1, v["survival1_preset"]);
+		if (v["survival2_preset"]) applySurvivalPresetStatic(2, v["survival2_preset"]);
+	});
+	/* Repeating rows */
+	getSectionIDs("repeating_survivalgear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_survivalgear_${id}_survival_preset`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p      = `repeating_survivalgear_${id}_`;
+				const preset = rows[p + "survival_preset"] || "";
+				if (preset) applySurvivalPreset(p, preset);
+			});
+		});
+	});
+};
+
+/* ── Init on sheet open: re-apply entertainment presets for all rows ── */
+const initEntertainmentPresets = () => {
+	/* Static rows */
+	getAttrs(["entertainment1_preset", "entertainment2_preset"], (v) => {
+		if (v["entertainment1_preset"]) applyEntertainmentPresetStatic(1, v["entertainment1_preset"]);
+		if (v["entertainment2_preset"]) applyEntertainmentPresetStatic(2, v["entertainment2_preset"]);
+	});
+	/* Repeating rows */
+	getSectionIDs("repeating_entertainmentgear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_entertainmentgear_${id}_entertainment_preset`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p      = `repeating_entertainmentgear_${id}_`;
+				const preset = rows[p + "entertainment_preset"] || "";
+				if (preset) applyEntertainmentPreset(p, preset);
+			});
+		});
+	});
+};
+
+/* ── Init on sheet open: re-apply omnideck presets and skill displays ── */
+const initOmnideckPresets = () => {
+	getSectionIDs("repeating_omnidecksmdr", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.flatMap(id => [
+			`repeating_omnidecksmdr_${id}_omnideck_preset`,
+			`repeating_omnidecksmdr_${id}_omnideck_skill_mdr`,
+		]);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p      = `repeating_omnidecksmdr_${id}_`;
+				const preset = rows[p + "omnideck_preset"] || "";
+				if (preset) applyOmnideckPreset(p, preset);
+				/* Resolve skill display */
+				const ref   = rows[p + "omnideck_skill_mdr"] || "";
+				const match = ref.match(/@{([^}]+)}/);
+				if (!match) return;
+				getAttrs([match[1]], (v) => {
+					setAttrs({ [p + "omnideck_skill_mdr_display"]: v[match[1]] || "0" });
+				});
 			});
 		});
 	});

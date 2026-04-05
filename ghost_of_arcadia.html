@@ -20579,6 +20579,7 @@
 						<div class="sheet-armor-totals">
 							<div class="flex-row">
 								<div class="flex-cell armor-name" data-i18n="armor_totals-u">Armor Totals</div>
+								<div class="flex-cell armor-rarity"></div>
 								<div class="flex-cell armor-equipped"></div>
 
 								<!-- Total Physical -->
@@ -20600,6 +20601,7 @@
 						<div class="sheet-armor-header">
 							<div class="flex-row">
 								<div class="flex-cell armor-name"><span data-i18n="armor_name-u">Armor</span></div>
+								<div class="flex-cell armor-rarity"><span data-i18n="rarity-u">R</span></div>
 								<div class="flex-cell armor-equipped"><span data-i18n="armor_equipped-u">E</span></div>
 								<div class="flex-cell armor-physical"><span data-i18n="armor_physical-u">Physical</span></div>
 								<div class="flex-cell armor-arcane"><span data-i18n="armor_arcane-u">Arcane</span></div>
@@ -20641,6 +20643,7 @@
 									</select>
 								</div>
 								<div class="flex-cell armor-equipped"><input type="checkbox" name="attr_armor1_equipped_checkbox"/></div>
+								<div class="flex-cell armor-rarity"><span name="attr_armor1_rarity"></span></div>
 								<div class="flex-cell armor-physical"><input type="text" name="attr_armor1_physical_mdr" placeholder="P" data-i18n-placeholder="armor_physical_abbrev-u"/></div>
 								<div class="flex-cell armor-arcane"><input type="text" name="attr_armor1_arcane_mdr" placeholder="A" data-i18n-placeholder="armor_arcane_abbrev-u"/></div>
 								<div class="flex-cell armor-layer"><input type="text" name="attr_armor1_layer_mdr" placeholder="Layer" data-i18n-placeholder="armor_layer-u"/></div>
@@ -20679,6 +20682,7 @@
 									</select>
 								</div>
 								<div class="flex-cell armor-equipped"><input type="checkbox" name="attr_armor2_equipped_checkbox"/></div>
+								<div class="flex-cell armor-rarity"><span name="attr_armor2_rarity"></span></div>
 								<div class="flex-cell armor-physical"><input type="text" name="attr_armor2_physical_mdr" placeholder="P" data-i18n-placeholder="armor_physical_abbrev-u"/></div>
 								<div class="flex-cell armor-arcane"><input type="text" name="attr_armor2_arcane_mdr" placeholder="A" data-i18n-placeholder="armor_arcane_abbrev-u"/></div>
 								<div class="flex-cell armor-layer"><input type="text" name="attr_armor2_layer_mdr" placeholder="Layer" data-i18n-placeholder="armor_layer-u"/></div>
@@ -20719,6 +20723,7 @@
 									</select>
 								</div>
 								<div class="flex-cell armor-equipped"><input type="checkbox" name="attr_armor_equipped_checkbox"/></div>
+								<div class="flex-cell armor-rarity"><span name="attr_armor_rarity"></span></div>
 								<div class="flex-cell armor-physical"><input type="text" name="attr_armor_physical_mdr" placeholder="P" data-i18n-placeholder="armor_physical_abbrev-u"/></div>
 								<div class="flex-cell armor-arcane"><input type="text" name="attr_armor_arcane_mdr" placeholder="A" data-i18n-placeholder="armor_arcane_abbrev-u"/></div>
 								<div class="flex-cell armor-layer"><input type="text" name="attr_armor_layer_mdr" placeholder="Layer" data-i18n-placeholder="armor_layer-u"/></div>
@@ -20743,6 +20748,7 @@
 							<div class="flex-row">
 								<div class="flex-cell weapon-name"><span data-i18n="weaponname-u">Weapon</span></div>
 								<div class="flex-cell weapon-impale" data-i18n="impale-abbrev-u">I</div>
+								<div class="flex-cell weapon-rarity"><span data-i18n="rarity-u">R</span></div>
 								<div class="flex-cell weapon-skill"><span data-i18n="skill-u">Skill</span></div>
 								<div class="flex-cell-wrapper">
 									<div class="flex-cell weapon-skill-display"><span data-i18n="skill_display-u">Val</span></div>
@@ -20990,11 +20996,11 @@
 									</div>
 								</div>
 								<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_roll_weapon1_mdr_attack_impale_checkbox" value="1"/></div>
+								<div class="flex-cell weapon-rarity"><span name="attr_weapon1_rarity"></span></div>
 								<div class="flex-cell weapon-skill">
 									<select name="attr_weapon1_skill_mdr">
 										<option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
 										<option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
-										<option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
 										<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Handgun</option>
 										<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
 										<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
@@ -21438,11 +21444,11 @@
 										</div>
 									</div>
 									<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"/></div>
+									<div class="flex-cell weapon-rarity"><span name="attr_weapon_rarity_mdr"></span></div>
 									<div class="flex-cell weapon-skill">
 										<select name="attr_weaponskill_mdr">
 											<option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
 											<option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
-											<option value="@{gunnery_mdr}" data-i18n="gunnery-u">Gunnery</option>
 											<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Handgun</option>
 											<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
 											<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
@@ -61174,6 +61180,7 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 		const rangeStr   = (entry.range || []).join("/") || "—";
 		const nameKey    = entry.name_key || "";
 		const name       = (typeof getTranslationByKey === "function" && getTranslationByKey(nameKey)) || nameKey;
+		const tr         = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 		/* Determine which preset select fired so we can clear the others */
 		const skillPresets = ["melee","throw","handgun","shotgun","rifle","smg","heavy"];
 		const activePreset = skillPresets.find(s => v[p + "weapon_preset_" + s + "_mdr"] === presetKey) || "";
@@ -61207,6 +61214,7 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 			[p + "weapon_category_mdr"]:             entry.category || "",
 			[p + "weapon_max_range_mdr"]:            (entry.range && entry.range.length ? entry.range[entry.range.length - 1] : ""),
 			[p + "weapon_traits_display_mdr"]:       traitsDisplayStr(entry.traits),
+			[p + "weapon_rarity_mdr"]:               tr(rarityAbbrevKey[entry.rarity] || ""),
 			[p + "weapon_trait_smartlink_mdr"]:      (entry.traits || []).includes("smartlink")   ? "1" : "",
 			[p + "weapon_trait_scoped_mdr"]:         (entry.traits || []).includes("scoped")       ? "1" : "",
 			[p + "weapon_trait_cq_mdr"]:             (entry.traits || []).includes("cq")           ? "1" : "",
@@ -61331,6 +61339,7 @@ on("change:weapon1_mdr_weapon_preset_melee change:weapon1_mdr_weapon_preset_thro
 		const rangeStr   = (entry.range || []).join("/") || "—";
 		const nameKey    = entry.name_key || "";
 		const name       = (typeof getTranslationByKey === "function" && getTranslationByKey(nameKey)) || nameKey;
+		const tr         = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 		/* Parse damage immediately — change: events don't fire from worker setAttrs */
 		const damageStr = entry.damage || "";
 		const baseDmg   = parseDamageString(damageStr, "weapon1_mdr");
@@ -61370,6 +61379,7 @@ on("change:weapon1_mdr_weapon_preset_melee change:weapon1_mdr_weapon_preset_thro
 			weapon1_mdr_cap_base_num:       String(parseCapRating(capRating).capCount),
 			weapon1_mdr_max_range:          (entry.range && entry.range.length ? entry.range[entry.range.length - 1] : ""),
 			weapon1_mdr_traits_display:     traitsDisplayStr(entry.traits),
+			weapon1_rarity:                 tr(rarityAbbrevKey[entry.rarity] || ""),
 			weapon1_mdr_ammo_type:          "standard",
 			weapon1_mdr_ammo_active:        "0",
 			...computeModButtons(entry, "weapon1_"),
@@ -62397,6 +62407,7 @@ function applyArmorPreset(p, presetKey) {
 		[p + "armor_layer_mdr"]:    tr(entry.layer_key),
 		[p + "armor_category_mdr"]: tr(entry.category_key),
 		[p + "armor_traits_mdr"]:   traitsStr,
+		[p + "armor_rarity"]:       tr(rarityAbbrevKey[entry.rarity] || ""),
 	});
 }
 
@@ -62412,6 +62423,7 @@ function applyArmorPresetStatic(index, presetKey) {
 		[`armor${index}_layer_mdr`]:    tr(entry.layer_key),
 		[`armor${index}_category_mdr`]: tr(entry.category_key),
 		[`armor${index}_traits_mdr`]:   traitsStr,
+		[`armor${index}_rarity`]:       tr(rarityAbbrevKey[entry.rarity] || ""),
 	});
 }
 

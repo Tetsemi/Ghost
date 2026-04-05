@@ -6,7 +6,8 @@ const skillDataMap = {
 		skill:	"archery_skill_mdr",
 		bonus:	"archery_mdr",
 		group:	[ "combat", "combat_ranged" ],
-		notes:	"archery_desc-u"
+		notes:	"archery_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	dodge: {
 		label:	"dodge-u",
@@ -14,7 +15,8 @@ const skillDataMap = {
 		skill:	"dodge_skill_mdr",
 		bonus:	"dodge_mdr",
 		group:	"combat",
-		notes:	"dodge_desc-u"
+		notes:	"dodge_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	gunnery: {
 		label:	"gunnery-u",
@@ -22,7 +24,8 @@ const skillDataMap = {
 		skill:	"gunnery_skill_mdr",
 		bonus:	"gunnery_mdr",
 		group:	[ "combat", "combat_ranged" ],
-		notes:	"gunnery_desc-u"
+		notes:	"gunnery_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	heavy_weapons: {
 		label:	"heavy_weapons-u",
@@ -30,7 +33,8 @@ const skillDataMap = {
 		skill:	"heavy_weapons_skill_mdr",
 		bonus:	"heavy_weapons_mdr",
 		group:	[ "combat", "combat_ranged" ],
-		notes:	"heavy_weapons_desc-u"
+		notes:	"heavy_weapons_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	melee_weapons: {
 		label:	"melee_weapons-u",
@@ -38,7 +42,8 @@ const skillDataMap = {
 		skill:	"melee_weapons_skill_mdr",
 		bonus:	"melee_weapons_mdr",
 		group:	[ "combat", "combat_melee" ],
-		notes:	"melee_weapons_desc-u"
+		notes:	"melee_weapons_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	firearms_handgun: {
 		label:	"firearms_handgun-u",
@@ -46,23 +51,26 @@ const skillDataMap = {
 		skill:	"firearms_handgun_skill_mdr",
 		bonus:	"firearms_handgun_mdr",
 		group:	[ "combat", "combat_ranged" ],
-		notes:	"firearms_handgun_desc-u"
+		notes:	"firearms_handgun_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
-	firearms_rifle:	{
+	firearms_rifle: {
 		label:	"firearms_rifle-u",
 		base:	25,
 		skill:	"firearms_rifle_skill_mdr",
 		bonus:	"firearms_rifle_mdr",
 		group:	[ "combat", "combat_ranged" ],
-		notes:	"firearms_rifle_desc-u"
+		notes:	"firearms_rifle_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
-	firearms_shotgun:	{
+	firearms_shotgun: {
 		label:	"firearms_shotgun-u",
 		base:	25,
 		skill:	"firearms_shotgun_skill_mdr",
 		bonus:	"firearms_shotgun_mdr",
 		group:	[ "combat", "combat_ranged" ],
-		notes:	"firearms_shotgun_desc-u"
+		notes:	"firearms_shotgun_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	firearms_smg: {
 		label:	"firearms_smg-u",
@@ -70,7 +78,8 @@ const skillDataMap = {
 		skill:	"firearms_smg_skill_mdr",
 		bonus:	"firearms_smg_mdr",
 		group:	[ "combat", "combat_ranged" ],
-		notes:	"firearms_smg_desc-u"
+		notes:	"firearms_smg_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	throw: {
 		label:	"throw-u",
@@ -78,7 +87,8 @@ const skillDataMap = {
 		skill:	"throw_skill_mdr",
 		bonus:	"throw_mdr",
 		group:	[ "combat", "combat_ranged" ],
-		notes:	"throw_desc-u"
+		notes:	"throw_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	unarmed: {
 		label:	"unarmed-u",
@@ -86,7 +96,8 @@ const skillDataMap = {
 		skill:	"unarmed_skill_mdr",
 		bonus:	"unarmed_mdr",
 		group:	[ "combat", "combat_melee" ],
-		notes:	"unarmed_desc-u"
+		notes:	"unarmed_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 /* Language */
 	language_own: {
@@ -95,7 +106,8 @@ const skillDataMap = {
 		skill:	"language_own_skill_mdr",
 		bonus:	"language_own_mdr",
 		group:	"language",
-		notes:	"language_own_desc-u"
+		notes:	"language_own_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	language_caltheran:	{
 		label:	"language_caltheran-u",
@@ -103,7 +115,8 @@ const skillDataMap = {
 		skill:	"language_caltheran_skill_mdr",
 		bonus:	"language_caltheran_mdr",
 		group:	"language",
-		notes:	"language_caltheran_desc-u"
+		notes:	"language_caltheran_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	otherskill3: {
 		label:	"otherskill3-u",
@@ -111,7 +124,8 @@ const skillDataMap = {
 		skill:	"otherskill3_skill_mdr",
 		bonus:	"otherskill3_mdr",
 		group:	"language",
-		notes:	"otherskill3_desc-u"
+		notes:	"otherskill3_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 /* Magic */
 	magic_alteration: {
@@ -120,7 +134,8 @@ const skillDataMap = {
 		skill:	"magic_alteration_skill_mdr",
 		bonus:	"magic_alteration_mdr",
 		group:	"magic",
-		notes:	"magic_alteration_desc-u"
+		notes:	"magic_alteration_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_elemental: {
 		label:	"magic_elemental-u",
@@ -128,7 +143,8 @@ const skillDataMap = {
 		skill:	"magic_elemental_skill_mdr",
 		bonus:	"magic_elemental_mdr",
 		group:	"magic",
-		notes:	"magic_elemental_desc-u"
+		notes:	"magic_elemental_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_enchantment: {
 		label:	"magic_enchantment-u",
@@ -136,7 +152,8 @@ const skillDataMap = {
 		skill:	"magic_enchantment_skill_mdr",
 		bonus:	"magic_enchantment_mdr",
 		group:	"magic",
-		notes:	"magic_enchantment_desc-u"
+		notes:	"magic_enchantment_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_illusion: {
 		label:	"magic_illusion-u",
@@ -144,7 +161,8 @@ const skillDataMap = {
 		skill:	"magic_illusion_skill_mdr",
 		bonus:	"magic_illusion_mdr",
 		group:	"magic",
-		notes:	"magic_illusion_desc-u"
+		notes:	"magic_illusion_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_necromancy: {
 		label:	"magic_necromancy-u",
@@ -152,7 +170,8 @@ const skillDataMap = {
 		skill:	"magic_necromancy_skill_mdr",
 		bonus:	"magic_necromancy_mdr",
 		group:	"magic",
-		notes:	"magic_necromancy_desc-u"
+		notes:	"magic_necromancy_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_restoration: {
 		label:	"magic_restoration-u",
@@ -160,7 +179,8 @@ const skillDataMap = {
 		skill:	"magic_restoration_skill_mdr",
 		bonus:	"magic_restoration_mdr",
 		group:	"magic",
-		notes:	"magic_restoration_desc-u"
+		notes:	"magic_restoration_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_summoning: {
 		label:	"magic_summoning-u",
@@ -168,7 +188,8 @@ const skillDataMap = {
 		skill:	"magic_summoning_skill_mdr",
 		bonus:	"magic_summoning_mdr",
 		group:	"magic",
-		notes:	"magic_summoning_desc-u"
+		notes:	"magic_summoning_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_technomancy: {
 		label:	"magic_technomancy-u",
@@ -176,7 +197,8 @@ const skillDataMap = {
 		skill:	"magic_technomancy_skill_mdr",
 		bonus:	"magic_technomancy_mdr",
 		group:	"magic",
-		notes:	"magic_technomancy_desc-u"
+		notes:	"magic_technomancy_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_warding: {
 		label:	"magic_warding-u",
@@ -184,7 +206,8 @@ const skillDataMap = {
 		skill:	"magic_warding_skill_mdr",
 		bonus:	"magic_warding_mdr",
 		group:	"magic",
-		notes:	"magic_warding_desc-u"
+		notes:	"magic_warding_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	magic_universal: {
 		label:	"magic_universal-u",
@@ -192,7 +215,8 @@ const skillDataMap = {
 		skill:	"magic_universal_skill_mdr",
 		bonus:	"magic_universal_mdr",
 		group: 	"magic",
-		notes: "magic_universal_desc-u"
+		notes: "magic_universal_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 /* Perform */
 	perform_acting: {
@@ -201,7 +225,8 @@ const skillDataMap = {
 		skill:	"perform_acting_skill_mdr",
 		bonus:	"perform_acting_mdr",
 		group:	"perform",
-		notes:	"perform_acting_desc-u"
+		notes:	"perform_acting_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	perform_dance: {
 		label:	"perform_dance-u",
@@ -209,7 +234,8 @@ const skillDataMap = {
 		skill:	"perform_dance_skill_mdr",
 		bonus:	"perform_dance_mdr",
 		group:	"perform",
-		notes:	"perform_dance_desc-u"
+		notes:	"perform_dance_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	perform_impersonation: {
 		label:	"perform_impersonation-u",
@@ -217,7 +243,8 @@ const skillDataMap = {
 		skill:	"perform_impersonation_skill_mdr",
 		bonus:	"perform_impersonation_mdr",
 		group:	"perform",
-		notes:	"perform_impersonation_desc-u"
+		notes:	"perform_impersonation_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	perform_instrument: {
 		label:	"perform_instrument-u",
@@ -225,7 +252,8 @@ const skillDataMap = {
 		skill:	"perform_instrument_skill_mdr",
 		bonus:	"perform_instrument_mdr",
 		group:	"perform",
-		notes:	"perform_instrument_desc-u"
+		notes:	"perform_instrument_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	perform_ritual: {
 		label:	"perform_ritual-u",
@@ -233,7 +261,8 @@ const skillDataMap = {
 		skill:	"perform_ritual_skill_mdr",
 		bonus:	"perform_ritual_mdr",
 		group:	"perform",
-		notes:	"perform_ritual_desc-u"
+		notes:	"perform_ritual_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	perform_vocal: {
 		label:	"perform_vocal-u",
@@ -241,7 +270,8 @@ const skillDataMap = {
 		skill:	"perform_vocal_skill_mdr",
 		bonus:	"perform_vocal_mdr",
 		group:	"perform",
-		notes:	"perform_vocal_desc-u"
+		notes:	"perform_vocal_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 /* Physical */
 	athletics: {
@@ -250,7 +280,8 @@ const skillDataMap = {
 		skill:	"athletics_skill_mdr",
 		bonus:	"athletics_mdr",
 		group:	"physical",
-		notes:	"athletics_desc-u"
+		notes:	"athletics_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	coordination: {
 		label:	"coordination-u",
@@ -258,7 +289,8 @@ const skillDataMap = {
 		skill:	"coordination_skill_mdr",
 		bonus:	"coordination_mdr",
 		group:	"physical",
-		notes:	"coordination_desc-u"
+		notes:	"coordination_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	swim: {
 		label:	"swim-u",
@@ -266,7 +298,9 @@ const skillDataMap = {
 		skill:	"swim_skill_mdr",
 		bonus:	"swim_mdr",
 		group:	"physical",
-		notes:	"swim_desc-u" },
+		notes:	"swim_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
+	},
 /* Pilot */
 	drive_auto: {
 		label:	"drive_auto-u",
@@ -274,7 +308,8 @@ const skillDataMap = {
 		skill:	"drive_auto_skill_mdr",
 		bonus:	"drive_auto_mdr",
 		group:	"pilot",
-		notes:	"drive_auto_desc-u"
+		notes:	"drive_auto_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	drone_operation: {
 		label:	"drone_operation-u",
@@ -282,31 +317,35 @@ const skillDataMap = {
 		skill:	"drone_operation_skill_mdr",
 		bonus:	"drone_operation_mdr",
 		group:	"pilot",
-		notes:	"drone_operation_desc-u"
+		notes:	"drone_operation_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
-	pilotaircraft: {
-		label:	"pilotaircraft-u",
+	pilot_aircraft: {
+		label:	"pilot_aircraft-u",
 		base:	1,
-		skill:	"pilotaircraft_skill_mdr",
-		bonus:	"pilotaircraft_mdr",
+		skill:	"pilot_aircraft_skill_mdr",
+		bonus:	"pilot_aircraft_mdr",
 		group:	"pilot",
-		notes:	"pilotaircraft_desc-u"
+		notes:	"pilot_aircraft_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
-	pilotarc: {
-		label:	"pilotarc-u",
+	pilot_mech_walker: {
+		label:	"pilot_mech_walker-u",
 		base:	5,
-		skill:	"pilotarc_skill_mdr",
-		bonus:	"pilotarc_mdr",
+		skill:	"pilot_mech_walker_skill_mdr",
+		bonus:	"pilot_mech_walker_mdr",
 		group:	"pilot",
-		notes:	"pilotarc_desc-u"
+		notes:	"pilot_mech_walker_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.260315", date: "2026-03-15", section: "skills-u" }
 	},
-	pilotboat: {
-		label:	"pilotboat-u",
-		base:	1,
-		skill:	"pilotboat_skill_mdr",
-		bonus:	"pilotboat_mdr",
+	pilot_watercraft: {
+		label:	"pilot_watercraft-u",
+		base:	10,
+		skill:	"pilot_watercraft_skill_mdr",
+		bonus:	"pilot_watercraft_mdr",
 		group:	"pilot",
-		notes:	"pilotboat_desc-u"
+		notes:	"pilot_watercraft_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.260315", date: "2026-03-15", section: "skills-u" }
 	},
 /* Science */
 	anthropology: {
@@ -315,7 +354,8 @@ const skillDataMap = {
 		skill:	"anthropology_skill_mdr",
 		bonus:	"anthropology_mdr",
 		group:	"science",
-		notes:	"anthropology_desc-u"
+		notes:	"anthropology_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	archaeology: {
 		label:	"archaeology-u",
@@ -323,7 +363,8 @@ const skillDataMap = {
 		skill:	"archaeology_skill_mdr",
 		bonus:	"archaeology_mdr",
 		group:	"science",
-		notes:	"archaeology_desc-u"
+		notes:	"archaeology_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	biology: {
 		label:	"biology-u",
@@ -331,7 +372,8 @@ const skillDataMap = {
 		skill:	"biology_skill_mdr",
 		bonus:	"biology_mdr",
 		group:	"science",
-		notes:	"biology_desc-u"
+		notes:	"biology_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	chemistry: {
 		label:	"chemistry-u",
@@ -339,7 +381,8 @@ const skillDataMap = {
 		skill:	"chemistry_skill_mdr",
 		bonus:	"chemistry_mdr",
 		group:	"science",
-		notes:	"chemistry_desc-u"
+		notes:	"chemistry_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	engineering: {
 		label:	"engineering-u",
@@ -347,7 +390,8 @@ const skillDataMap = {
 		skill:	"engineering_skill_mdr",
 		bonus:	"engineering_mdr",
 		group:	"science",
-		notes:	"engineering_desc-u"
+		notes:	"engineering_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	physics: {
 		label:	"physics-u",
@@ -355,7 +399,8 @@ const skillDataMap = {
 		skill:	"physics_skill_mdr",
 		bonus:	"physics_mdr",
 		group:	"science",
-		notes:	"physics_desc-u"
+		notes:	"physics_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 /* Knowledge */
 	arcana: {
@@ -364,7 +409,8 @@ const skillDataMap = {
 		skill:	"arcana_skill_mdr",
 		bonus:	"arcana_mdr",
 		group:	"knowledge",
-		notes:	"arcana_desc-u"
+		notes:	"arcana_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	architecture: {
 		label:	"architecture-u",
@@ -372,7 +418,8 @@ const skillDataMap = {
 		skill:	"architecture_skill_mdr",
 		bonus:	"architecture_mdr",
 		group:	"knowledge",
-		notes:	"architecture_desc-u"
+		notes:	"architecture_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	forbidden_lore: {
 		label:	"forbidden_lore-u",
@@ -380,7 +427,8 @@ const skillDataMap = {
 		skill:	"forbidden_lore_skill_mdr",
 		bonus:	"forbidden_lore_mdr",
 		group:	["knowledge", "lore" ],
-		notes:	"forbidden_lore_desc-u"
+		notes:	"forbidden_lore_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	history: {
 		label:	"history-u",
@@ -388,7 +436,8 @@ const skillDataMap = {
 		skill:	"history_skill_mdr",
 		bonus:	"history_mdr",
 		group:	"knowledge",
-		notes:	"history_desc-u"
+		notes:	"history_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	investigation: {
 		label:	"investigation-u",
@@ -396,7 +445,8 @@ const skillDataMap = {
 		skill:	"investigation_skill_mdr",
 		bonus:	"investigation_mdr",
 		group:	"knowledge",
-		notes:	"investigation_desc-u"
+		notes:	"investigation_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	law: {
 		label:	"law-u",
@@ -404,7 +454,8 @@ const skillDataMap = {
 		skill:	"law_skill_mdr",
 		bonus:	"law_mdr",
 		group:	"knowledge",
-		notes:	"law_desc-u"
+		notes:	"law_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	medicine: {
 		label:	"medicine-u",
@@ -412,7 +463,8 @@ const skillDataMap = {
 		skill:	"medicine_skill_mdr",
 		bonus:	"medicine_mdr",
 		group:	"knowledge",
-		notes:	"medicine_desc-u"
+		notes:	"medicine_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	natural_world: {
 		label: "natural_world-u",
@@ -420,7 +472,8 @@ const skillDataMap = {
 		skill: "natural_world_skill_mdr",
 		bonus: "natural_world_mdr",
 		group: "knowledge",
-		notes: "natural_world_desc-u"
+		notes: "natural_world_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	occult_lore: {
 		label:	"occult_lore-u",
@@ -428,7 +481,8 @@ const skillDataMap = {
 		skill:	"occult_lore_skill_mdr",
 		bonus:	"occult_lore_mdr",
 		group:	[ "knowledge", "lore" ],
-		notes:	"occult_lore_desc-u"
+		notes:	"occult_lore_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	spirit_lore: {
 		label:	"spirit_lore-u",
@@ -436,7 +490,8 @@ const skillDataMap = {
 		skill:	"spirit_lore_skill_mdr",
 		bonus:	"spirit_lore_mdr",
 		group:	["knowledge", "lore" ],
-		notes:	"spirit_lore_desc-u"
+		notes:	"spirit_lore_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	tradecraft_creative: {
 		label:	"tradecraft_creative-u",
@@ -444,7 +499,8 @@ const skillDataMap = {
 		skill:	"tradecraft_creative_skill_mdr",
 		bonus:	"tradecraft_creative_mdr",
 		group:	"knowledge",
-		notes:	"tradecraft_creative_desc-u"
+		notes:	"tradecraft_creative_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	tradecraft_labor: {
 		label:	"tradecraft_labor-u",
@@ -452,7 +508,8 @@ const skillDataMap = {
 		skill:	"tradecraft_labor_skill_mdr",
 		bonus:	"tradecraft_labor_mdr",
 		group:	"knowledge",
-		notes:	"tradecraft_labor_desc-u"
+		notes:	"tradecraft_labor_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	tradecraft_media: {
 		label:	"tradecraft_media-u",
@@ -460,7 +517,8 @@ const skillDataMap = {
 		skill:	"tradecraft_media_skill_mdr",
 		bonus:	"tradecraft_media_mdr",
 		group:	"knowledge",
-		notes:	"tradecraft_media_desc-u"
+		notes:	"tradecraft_media_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	veil_lore: {
 		label:	"veil_lore-u",
@@ -468,7 +526,8 @@ const skillDataMap = {
 		skill:	"veil_lore_skill_mdr",
 		bonus:	"veil_lore_mdr",
 		group:	["knowledge", "lore" ],
-		notes:	"veil_lore_desc-u"
+		notes:	"veil_lore_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 /* Social */
 	bureaucracy: {
@@ -477,7 +536,8 @@ const skillDataMap = {
 		skill:	"bureaucracy_skill_mdr",
 		bonus:	"bureaucracy_mdr",
 		group:	"social",
-		notes:	"bureaucracy_desc-u"
+		notes:	"bureaucracy_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	charm: {
 		label:	"charm-u",
@@ -485,7 +545,8 @@ const skillDataMap = {
 		skill:	"charm_skill_mdr",
 		bonus:	"charm_mdr",
 		group:	"social",
-		notes:	"charm_desc-u"
+		notes:	"charm_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	deception: {
 		label:	"deception-u",
@@ -493,7 +554,8 @@ const skillDataMap = {
 		skill:	"deception_skill_mdr",
 		bonus:	"deception_mdr",
 		group:	"social",
-		notes:	"deception_desc-u"
+		notes:	"deception_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	disguise: {
 		label:	"disguise-u",
@@ -501,7 +563,8 @@ const skillDataMap = {
 		skill:	"disguise_skill_mdr",
 		bonus:	"disguise_mdr",
 		group:	"social",
-		notes:	"disguise_desc-u"
+		notes:	"disguise_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_alteri: {
 		label:	"etiquette_alteri-u",
@@ -509,7 +572,8 @@ const skillDataMap = {
 		skill:	"etiquette_alteri_skill_mdr",
 		bonus:	"etiquette_alteri_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_alteri_desc-u"
+		notes:	"etiquette_alteri_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_draevi: {
 		label:	"etiquette_draevi-u",
@@ -517,7 +581,8 @@ const skillDataMap = {
 		skill:	"etiquette_draevi_skill_mdr",
 		bonus:	"etiquette_draevi_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_draevi_desc-u"
+		notes:	"etiquette_draevi_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_corporate: {
 		label:	"etiquette_corporate-u",
@@ -525,7 +590,8 @@ const skillDataMap = {
 		skill:	"etiquette_corporate_skill_mdr",
 		bonus:	"etiquette_corporate_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_corporate_desc-u"
+		notes:	"etiquette_corporate_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_high_society: {
 		label:	"etiquette_high_society-u",
@@ -533,7 +599,8 @@ const skillDataMap = {
 		skill:	"etiquette_high_society_skill_mdr",
 		bonus:	"etiquette_high_society_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_high_society_desc-u"
+		notes:	"etiquette_high_society_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_lyranni: {
 		label:	"etiquette_lyranni-u",
@@ -541,7 +608,8 @@ const skillDataMap = {
 		skill:	"etiquette_lyranni_skill_mdr",
 		bonus:	"etiquette_lyranni_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_lyranni_desc-u"
+		notes:	"etiquette_lyranni_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_magi: {
 		label:	"etiquette_magi-u",
@@ -549,7 +617,8 @@ const skillDataMap = {
 		skill:	"etiquette_magi_skill_mdr",
 		bonus:	"etiquette_magi_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_magi_desc-u"
+		notes:	"etiquette_magi_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_military: {
 		label:	"etiquette_military-u",
@@ -557,7 +626,8 @@ const skillDataMap = {
 		skill:	"etiquette_military_skill_mdr",
 		bonus:	"etiquette_military_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_military_desc-u"
+		notes:	"etiquette_military_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_underworld: {
 		label:	"etiquette_underworld-u",
@@ -565,7 +635,8 @@ const skillDataMap = {
 		skill:	"etiquette_underworld_skill_mdr",
 		bonus:	"etiquette_underworld_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_underworld_desc-u"
+		notes:	"etiquette_underworld_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	etiquette_other: {
 		label:	"etiquette_other-u",
@@ -573,7 +644,8 @@ const skillDataMap = {
 		skill:	"etiquette_other_skill_mdr",
 		bonus:	"etiquette_other_mdr",
 		group:	[ "etiquette", "social" ],
-		notes:	"etiquette_other_desc-u"
+		notes:	"etiquette_other_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	interrogation: {
 		label:	"interrogation-u",
@@ -581,7 +653,8 @@ const skillDataMap = {
 		skill:	"interrogation_skill_mdr",
 		bonus:	"interrogation_mdr",
 		group:	"social",
-		notes:	"interrogation_desc-u"
+		notes:	"interrogation_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 		},
 	intimidate: {
 		label:	"intimidate-u",
@@ -589,7 +662,8 @@ const skillDataMap = {
 		skill:	"intimidate_skill_mdr",
 		bonus:	"intimidate_mdr",
 		group:	"social",
-		notes:	"intimidate_desc-u"
+		notes:	"intimidate_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 		},
 	leadership: {
 		label:	"leadership-u",
@@ -597,7 +671,8 @@ const skillDataMap = {
 		skill:	"leadership_skill_mdr",
 		bonus:	"leadership_mdr",
 		group:	"social",
-		notes:	"leadership_desc-u"
+		notes:	"leadership_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 		},
 	persuade: {
 		label:	"persuade-u",
@@ -605,7 +680,8 @@ const skillDataMap = {
 		skill:	"persuade_skill_mdr",
 		bonus:	"persuade_mdr",
 		group:	"social",
-		notes:	"persuade_desc-u"
+		notes:	"persuade_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 		},
 	streetwise: {
 		label:	"streetwise-u",
@@ -613,16 +689,18 @@ const skillDataMap = {
 		skill:	"streetwise_skill_mdr",
 		bonus:	"streetwise_mdr",
 		group:	"social",
-		notes:	"streetwise_desc-u"
+		notes:	"streetwise_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 /* Survival */
-	animalhandling: {
-		label:	"animalhandling-u",
+	animal_handling: {
+		label:	"animal_handling-u",
 		base:	5,
-		skill:	"animalhandling_skill_mdr",
-		bonus:	"animalhandling_mdr",
+		skill:	"animal_handling_skill_mdr",
+		bonus:	"animal_handling_mdr",
 		group:	"survival",
-		notes:	"animalhandling_desc-u"
+		notes:	"animal_handling_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	first_aid: {
 		label:	"first_aid-u",
@@ -630,7 +708,8 @@ const skillDataMap = {
 		skill:	"first_aid_skill_mdr",
 		bonus:	"first_aid_mdr",
 		group:	"survival",
-		notes:	"first_aid_desc-u"
+		notes:	"first_aid_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	listen: {
 		label:	"listen-u",
@@ -638,7 +717,8 @@ const skillDataMap = {
 		skill:	"listen_skill_mdr",
 		bonus:	"listen_mdr",
 		group:	"survival",
-		notes:	"listen_desc-u"
+		notes:	"listen_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	navigate: {
 		label:	"navigate-u",
@@ -646,7 +726,8 @@ const skillDataMap = {
 		skill:	"navigate_skill_mdr",
 		bonus:	"navigate_mdr",
 		group:	"survival",
-		notes:	"navigate_desc-u"
+		notes:	"navigate_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	perception: {
 		label:	"perception-u",
@@ -654,7 +735,8 @@ const skillDataMap = {
 		skill:	"perception_skill_mdr",
 		bonus:	"perception_mdr",
 		group:	"survival",
-		notes:	"perception_desc-u"
+		notes:	"perception_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	sleight_of_hand: {
 		label:	"sleight_of_hand-u",
@@ -662,7 +744,8 @@ const skillDataMap = {
 		skill:	"sleight_of_hand_skill_mdr",
 		bonus:	"sleight_of_hand_mdr",
 		group:	"survival",
-		notes:	"sleight_of_hand_desc-u"
+		notes:	"sleight_of_hand_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	insight: {
 		label:	"insight-u",
@@ -670,7 +753,8 @@ const skillDataMap = {
 		skill:	"insight_skill_mdr",
 		bonus:	"insight_mdr",
 		group:	"survival",
-		notes:	"insight_desc-u"
+		notes:	"insight_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 		},
 	stealth: {
 		label:	"stealth-u",
@@ -678,7 +762,8 @@ const skillDataMap = {
 		skill:	"stealth_skill_mdr",
 		bonus:	"stealth_mdr",
 		group:	"survival",
-		notes:	"stealth_desc-u"
+		notes:	"stealth_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	survival_urban: {
 		label:	"survival_urban-u",
@@ -686,7 +771,8 @@ const skillDataMap = {
 		skill:	"survival_urban_skill_mdr",
 		bonus:	"survival_urban_mdr",
 		group:	"survival",
-		notes:	"survival_urban_desc-u"
+		notes:	"survival_urban_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	survival_veil_touched: {
 		label:	"survival_veil_touched-u",
@@ -694,7 +780,8 @@ const skillDataMap = {
 		skill:	"survival_veil_touched_skill_mdr",
 		bonus:	"survival_veil_touched_mdr",
 		group:	"survival",
-		notes:	"survival_veil_touched_desc-u"
+		notes:	"survival_veil_touched_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	survival_wilderness: {
 		label:	"survival_wilderness-u",
@@ -702,7 +789,8 @@ const skillDataMap = {
 		skill:	"survival_wilderness_skill_mdr",
 		bonus:	"survival_wilderness_mdr",
 		group:	"survival",
-		notes:	"survival_wilderness_desc-u"
+		notes:	"survival_wilderness_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	track: {
 		label:	"track-u",
@@ -710,7 +798,8 @@ const skillDataMap = {
 		skill:	"track_skill_mdr",
 		bonus:	"track_mdr",
 		group:	"survival",
-		notes:	"track_desc-u"
+		notes:	"track_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 /* Tech/Cyber */
 	arcanotech: {
@@ -719,7 +808,8 @@ const skillDataMap = {
 		skill:	"arcanotech_skill_mdr",
 		bonus:	"arcanotech_mdr",
 		group:	"techcyber",
-		notes:	"arcanotech_desc-u"
+		notes:	"arcanotech_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	computer_use: {
 		label:	"computer_use-u",
@@ -727,7 +817,8 @@ const skillDataMap = {
 		skill:	"computer_use_skill_mdr",
 		bonus:	"computer_use_mdr",
 		group:	"techcyber",
-		notes:	"computer_use_desc-u"
+		notes:	"computer_use_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	cybernetics: {
 		label:	"cybernetics-u",
@@ -735,7 +826,8 @@ const skillDataMap = {
 		skill:	"cybernetics_skill_mdr",
 		bonus:	"cybernetics_mdr",
 		group:	"techcyber",
-		notes:	"cybernetics_desc-u"
+		notes:	"cybernetics_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	demolitions: {
 		label:	"demolitions-u",
@@ -743,7 +835,8 @@ const skillDataMap = {
 		skill:	"demolitions_skill_mdr",
 		bonus:	"demolitions_mdr",
 		group:	"techcyber",
-		notes:	"demolitions_desc-u"
+		notes:	"demolitions_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	electronics: {
 		label: "electronics-u",
@@ -751,7 +844,8 @@ const skillDataMap = {
 		skill: "electronics_skill_mdr",
 		bonus: "electronics_mdr",
 		group: "techcyber",
-		notes: "electronics_desc-u"
+		notes: "electronics_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	forgery: {
 		label:	"forgery-u",
@@ -759,7 +853,8 @@ const skillDataMap = {
 		skill:	"forgery_skill_mdr",
 		bonus:	"forgery_mdr",
 		group:	"techcyber",
-		notes:	"forgery_desc-u"
+		notes:	"forgery_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 		},
 	mechanics: {
 		label:	"mechanics-u",
@@ -767,7 +862,8 @@ const skillDataMap = {
 		skill:	"mechanics_skill_mdr",
 		bonus:	"mechanics_mdr",
 		group:	"techcyber",
-		notes:	"mechanics_desc-u"
+		notes:	"mechanics_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	},
 	security: {
 		label:	"security-u",
@@ -775,7 +871,8 @@ const skillDataMap = {
 		skill:	"security_skill_mdr",
 		bonus:	"security_mdr",
 		group:	"techcyber",
-		notes:	"security_desc-u"
+		notes:	"security_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 		},
 	slicing: {
 		label:	"slicing-u",
@@ -783,6 +880,7 @@ const skillDataMap = {
 		skill:	"slicing_skill_mdr",
 		bonus:	"slicing_mdr",
 		group:	"techcyber",
-		notes:	"slicing_desc-u"
+		notes:	"slicing_desc-u",
+		source: { doc: "welcome_to_new_arcadia-u", version: "2.251129", date: "2025-11-29", section: "skills-u" }
 	}
 };

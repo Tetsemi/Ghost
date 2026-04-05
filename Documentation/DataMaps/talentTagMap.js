@@ -1,0 +1,22 @@
+const talentTagMap = {
+	assess:          { label_key: "tag_assess-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" } },
+	assist:          { label_key: "tag_assist-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	attack:          { label_key: "tag_attack-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	aura:            { label_key: "tag_aura-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	brace:           { label_key: "tag_brace-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	burst:           { label_key: "tag_burst-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	concentration:   { label_key: "tag_concentration-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	control:         { label_key: "tag_control-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	debuff:          { label_key: "tag_debuff-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	disable:         { label_key: "tag_disable-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	enhance:         { label_key: "tag_enhance-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	exploit:         { label_key: "tag_exploit-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	guard:           { label_key: "tag_guard-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	interrupt:       { label_key: "tag_interrupt-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	mitigation:      { label_key: "tag_mitigation-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	possession:      { label_key: "tag_possession-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	repair:          { label_key: "tag_repair-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	stance:          { label_key: "tag_stance-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	summon:          { label_key: "tag_summon-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  },
+	transformation:  { label_key: "tag_transformation-u", source: { doc: "tags-u", version: "2.260129", date: "2026-01-29", section: "tags-u" }  }
+};

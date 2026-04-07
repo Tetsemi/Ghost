@@ -21713,6 +21713,263 @@
 								</div>
 							</div>
 						</fieldset>
+						<hr class="sheet-weapon-divider"/>
+						<fieldset class="repeating_weaponmanual">
+							<div class="sheet-weaponblock-grid-row">
+								<input type="hidden" name="attr_show_weapon_advanced" value="0"/>
+								<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
+								<div class="flex-row">
+									<div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr" placeholder="Weapon Name" data-i18n-placeholder="weaponname-u"/></div>
+									<div class="flex-cell weapon-rarity">
+										<select name="attr_weapon_rarity_mdr" class="sheet-weapon-rarity-select">
+											<option value="C" data-i18n="rarity_abbrev_common-u">C</option>
+											<option value="I" data-i18n="rarity_abbrev_illegal-u">I</option>
+											<option value="P" data-i18n="rarity_abbrev_permit-u">P</option>
+											<option value="R" data-i18n="rarity_abbrev_restricted-u">R</option>
+										</select>
+									</div>
+									<div class="flex-cell weapon-impale"><input type="checkbox" name="attr_attack_impale_checkbox" value="1"/></div>
+									<div class="flex-cell weapon-skill">
+										<select name="attr_weaponskill_mdr">
+											<option value="@{archery_mdr}" data-i18n="archery-u">Archery</option>
+											<option value="@{firearms_handgun_mdr}" data-i18n="firearms(hg)-u">Handgun</option>
+											<option value="@{heavy_weapons_mdr}" data-i18n="heavy_weapons-u">Heavy Weapons</option>
+											<option value="@{melee_weapons_mdr}" data-i18n="melee_weapons-u">Melee Weapons</option>
+											<option value="@{firearms_rifle_mdr}" data-i18n="firearms_rifle-u">Rifle</option>
+											<option value="@{firearms_shotgun_mdr}" data-i18n="firearms_shotgun-u">Shotgun</option>
+											<option value="@{firearms_smg_mdr}" data-i18n="firearms_s_m_g-u">Submachine Gun</option>
+											<option value="@{throw_mdr}" data-i18n="throw-u">Throw</option>
+											<option value="@{unarmed_mdr}" data-i18n="unarmed-u">Unarmed</option>
+										</select>
+									</div>
+									<div class="flex-cell-wrapper sheet-val-roll-static">
+										<input type="text" name="attr_weaponskill_mdr_display" class="sheet-readonly"/>
+										<div class="weapon-roll">
+											<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponmanual_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[(@{weapondamage_mdr})@{weapondb_mdr}]]}} {{extremedamage=[[(@{weapondamage_mdr})@{weapondb_mdr}]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
+											<button type="roll" class="new-roll sheet-roll-impale" name="roll_weaponmanual_impale" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[(@{weapondamage_mdr})@{weapondb_mdr}]]}} {{basedamage=[[1d6]]}} {{extremedamage=[[(@{weapondamage_mdr})@{weapondb_mdr}]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
+										</div>
+									</div>
+									<div class="flex-cell weapon-damage"><input type="text" name="attr_weapondamage_mdr" placeholder="Damage" data-i18n-placeholder="damage-u"/></div>
+									<div class="flex-cell weapon-damage-bonus">
+										<select name="attr_weapondb_mdr">
+											<option value="+0" data-i18n="plus0-u">+0</option>
+											<option value="+round((@{damage_bonus})/2)" data-i18n="plus-half-db-u">+½db</option>
+											<option value="+@{damage_bonus}" data-i18n="plus-db-u">+db</option>
+										</select>
+									</div>
+									<div class="flex-cell weapon-range"><input type="text" name="attr_weaponrange_mdr" placeholder="Range" data-i18n-placeholder="range-u"/></div>
+									<div class="flex-cell weapon-attacks"><input type="text" name="attr_weaponattacks_mdr" placeholder="Attacks" data-i18n-placeholder="attacks-u"/></div>
+									<div class="flex-cell weapon-ammo"><input type="text" name="attr_weaponcap_mdr" placeholder="Cap" data-i18n-placeholder="cap-u"/></div>
+									<div class="flex-cell weapon-malf"><input type="text" name="attr_weaponmalf_mdr" placeholder="Malf" data-i18n-placeholder="malf-u"/></div>
+									<div class="flex-cell weapon-contested"><input type="text" name="attr_weaponcontested_mdr" placeholder="-" data-i18n-placeholder="dash-z"/></div>
+									<div class="flex-cell weapon-strain"><input type="text" name="attr_weaponstrain_mdr" placeholder="Strain" data-i18n-placeholder="strain-u"/></div>
+									<div class="flex-cell sheet-toggle-wrapper">
+										<button type="action" name="act_weaponadvanced" class="sheet-toggle-button">▼</button>
+									</div>
+								</div>
+								<div class="sheet-weaponblock-advanced">
+									<!-- Summary row -->
+									<div class="sheet-weapon-adv-summary-row">
+										<input type="hidden" name="attr_weapon_net_roll_sign_mdr" value="zero"/>
+										<div class="sheet-weapon-adv-summary-tags">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_active_tags-u">Active</span>
+											<span class="sheet-weapon-adv-tags-display" name="attr_weapon_tags_display_mdr"></span>
+										</div>
+										<input type="hidden" name="attr_weapon_target_prone_mdr" value=""/>
+										<input type="hidden" name="attr_weapon_target_cover_mdr" value=""/>
+										<input type="hidden" name="attr_weapon_cover_effective_mdr" value=""/>
+										<div class="sheet-weapon-adv-summary-target">
+											<button type="action" class="sheet-target-btn target-prone"   name="act_weapon-target-prone"   data-i18n="weapon_target_prone-u">Prone</button>
+											<button type="action" class="sheet-target-btn target-partial" name="act_weapon-target-partial" data-i18n="weapon_target_cover_partial-u">Part. Cover</button>
+											<button type="action" class="sheet-target-btn target-full"    name="act_weapon-target-full"    data-i18n="weapon_target_cover_full-u">Full Cover</button>
+										</div>
+										<div class="sheet-weapon-adv-summary-pct">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_bonus-u">Gear + Aim</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_net_hit_display_mdr" value="—"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_penalty-u">Mode + Env</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_net_penalty_display_mdr" value="—"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_net_roll-u">NET</span>
+											<input type="text" class="sheet-attr-input-small sheet-weapon-net-roll sheet-readonly" name="attr_weapon_net_roll_display_mdr" value="—"/>
+										</div>
+										<div class="sheet-weapon-adv-summary-dice">
+											<input type="hidden" name="attr_weapon_net_dice_sign_mdr" value="zero"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_bonus-u">Bonus</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_bonus_dice_display_mdr" value="0"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_penalty-u">Penalty</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_penalty_dice_display_mdr" value="0"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_dice_net-u">Net</span>
+											<input type="text" class="sheet-attr-input-small sheet-weapon-net-dice sheet-readonly" name="attr_weapon_net_dice_display_mdr" value="0"/>
+										</div>
+										<div class="sheet-weapon-adv-summary-ammo">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_ammo_type-u">Ammo Loaded</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_ammo_type_label_mdr"/>
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_range_band-u">Range</span>
+											<input type="text" class="sheet-attr-input-small sheet-readonly" name="attr_weapon_range_band_mdr"/>
+										</div>
+									</div>
+									<div class="sheet-weapon-adv-summary-cap">
+										<div class="sheet-weapon-adv-cap-left">
+											<input type="hidden" name="attr_weapon_cap_display_mdr" value="b0"/>
+											<input type="hidden" name="attr_weapon_aim_mdr" value=""/>
+											<div class="sheet-weapon-aim-btns">
+												<button type="action" class="sheet-aim-btn aim-quick"   name="act_weapon-aim-quick"   data-i18n="weapon_aim_quick-u">Quick</button>
+												<button type="action" class="sheet-aim-btn aim-focused" name="act_weapon-aim-focused" data-i18n="weapon_aim_focused-u">Focused</button>
+											</div>
+											<div class="cap-box-track-row">
+												<input type="checkbox" class="cap-box cap-box-n01" name="attr_weapon_cap_box_mdr_01" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n02" name="attr_weapon_cap_box_mdr_02" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n03" name="attr_weapon_cap_box_mdr_03" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n04" name="attr_weapon_cap_box_mdr_04" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n05" name="attr_weapon_cap_box_mdr_05" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n06" name="attr_weapon_cap_box_mdr_06" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n07" name="attr_weapon_cap_box_mdr_07" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n08" name="attr_weapon_cap_box_mdr_08" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n09" name="attr_weapon_cap_box_mdr_09" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n10" name="attr_weapon_cap_box_mdr_10" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n11" name="attr_weapon_cap_box_mdr_11" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n12" name="attr_weapon_cap_box_mdr_12" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n13" name="attr_weapon_cap_box_mdr_13" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n14" name="attr_weapon_cap_box_mdr_14" value="1"/>
+												<input type="checkbox" class="cap-box cap-box-n15" name="attr_weapon_cap_box_mdr_15" value="1"/>
+												<span class="cap-type-label"></span>
+												<button type="action" class="cap-reload-btn" name="act_weapon-cap-reload">↺</button>
+											</div>
+										</div>
+										<div class="sheet-weapon-adv-cap-right">
+											<span class="sheet-weapon-adv-summary-label" data-i18n="weapon_trait-u">Traits</span>
+											<input type="text" class="sheet-weapon-traits-display sheet-readonly" name="attr_weapon_traits_display_mdr" value=""/>
+										</div>
+									</div>
+									<div class="sheet-weapon-advanced-grid">
+										<!-- Mode -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_mode-u">Mode</div>
+											<input type="hidden" name="attr_weapon_mode_mdr" value="ss"/>
+											<input type="hidden" name="attr_weapon_modes_available_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_modes_base_mdr" value=""/>
+											<div class="sheet-weapon-mode-grid">
+												<button type="action" class="sheet-weapon-mode-btn mode-ss" name="act_weapon-mode-ss">SS</button>
+												<button type="action" class="sheet-weapon-mode-btn mode-sa" name="act_weapon-mode-sa">SA</button>
+												<button type="action" class="sheet-weapon-mode-btn mode-bf" name="act_weapon-mode-bf">BF</button>
+												<button type="action" class="sheet-weapon-mode-btn mode-fa" name="act_weapon-mode-fa">FA</button>
+											</div>
+											<select class="sheet-weapon-adv-select-hidden" name="attr_weapon_mode_num_mdr">
+												<option value="10">SS</option>
+												<option value="10">SA</option>
+												<option value="21">BF</option>
+												<option value="32">FA</option>
+											</select>
+										</div>
+										<!-- Loadout -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_loadout-u">Loadout</div>
+											<input type="hidden" name="attr_weapon_loadout_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_cap_base_num_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon_category_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_trait_veil_linked_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_trait_drum_fed_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_drum_eligible_mdr" value=""/>
+											<div class="sheet-weapon-loadout-grid">
+												<button type="action" class="sheet-loadout-btn loadout-extmag" name="act_weapon-loadout-extmag" data-i18n="weapon_loadout_extmag-u">Ext. Mag</button>
+												<button type="action" class="sheet-loadout-btn loadout-drum"   name="act_weapon-loadout-drum"   data-i18n="weapon_loadout_drum-u">Drum</button>
+											</div>
+										</div>
+										<!-- Ammo -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_ammo_type-u">Ammo loaded</div>
+											<input type="hidden" name="attr_weapon_ammo_type_mdr" value="standard"/>
+											<input type="hidden" name="attr_weapon_ammo_active_mdr" value="0"/>
+											<input type="hidden" name="attr_weapon_category_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_max_range_mdr" value=""/>
+											<input type="hidden" name="attr_weapon_trait_veil_linked_mdr" value=""/>
+											<div class="sheet-weapon-ammo-grid">
+												<button type="action" class="sheet-ammo-btn ammo-ap-rounds"    name="act_weapon-ammo-ap">AP Rounds</button>
+												<button type="action" class="sheet-ammo-btn ammo-breacher"      name="act_weapon-ammo-br">Breacher</button>
+												<button type="action" class="sheet-ammo-btn ammo-hollow-point"  name="act_weapon-ammo-hp">Hollow Pt</button>
+												<button type="action" class="sheet-ammo-btn ammo-shock"         name="act_weapon-ammo-sh">Shock</button>
+												<button type="action" class="sheet-ammo-btn ammo-subsonic"      name="act_weapon-ammo-su">Subsonic</button>
+												<button type="action" class="sheet-ammo-btn ammo-veil-charged"  name="act_weapon-ammo-vc">Veil-Chrgd</button>
+											</div>
+										</div>
+										<!-- Range -->
+										<div class="sheet-weapon-adv-group">
+											<div class="sheet-weapon-adv-label" data-i18n="weapon_range_band-u">Range</div>
+											<input type="hidden" name="attr_weapon_range_band_mdr" value="short"/>
+											<div class="sheet-weapon-range-grid">
+												<button type="action" class="sheet-range-btn range-engaged" name="act_weapon-range-en">Engaged</button>
+												<button type="action" class="sheet-range-btn range-short"   name="act_weapon-range-sh">Short</button>
+												<button type="action" class="sheet-range-btn range-medium"  name="act_weapon-range-md">Medium</button>
+												<button type="action" class="sheet-range-btn range-long"    name="act_weapon-range-ln">Long</button>
+												<button type="action" class="sheet-range-btn range-extreme" name="act_weapon-range-ex">Extreme</button>
+											</div>
+										</div>
+									</div>
+									<input type="hidden" name="attr_weapon_mods_collapsed_mdr" value="0"/>
+									<button type="action" class="sheet-weapon-mods-toggle-btn" name="act_weapon-mods-toggle" data-i18n="weapon_mods_toggle-u">Mods ▼</button>
+									<div class="sheet-weapon-mods-collapsible">
+										<div class="sheet-weapon-advanced-grid sheet-weapon-mods-grid">
+											<!-- Optics -->
+											<div class="sheet-weapon-adv-group">
+												<div class="sheet-weapon-adv-label" data-i18n="weapon_optics-u">Optics</div>
+												<input type="hidden" name="attr_weapon_optics_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_btn_optics_mag_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_optics_reflex_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_optics_thermal_mdr" value="0"/>
+												<div class="sheet-weapon-optics-grid">
+													<button type="action" class="sheet-optics-btn optics-magnification" name="act_weapon-optics-mag">Mag Scope</button>
+													<button type="action" class="sheet-optics-btn optics-reflex"        name="act_weapon-optics-ref">Reflex Sight</button>
+													<button type="action" class="sheet-optics-btn optics-thermal"       name="act_weapon-optics-thm">Thermal Scope</button>
+												</div>
+											</div>
+											<!-- Barrel / Muzzle -->
+											<div class="sheet-weapon-adv-group">
+												<div class="sheet-weapon-adv-label" data-i18n="weapon_barrel-u">Barrel / Muzzle</div>
+												<input type="hidden" name="attr_weapon_barrel_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_btn_barrel_silencer_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_barrel_compensator_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_barrel_suppressor_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_barrel_prec_choke_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_barrel_slug_mdr" value="0"/>
+												<div class="sheet-weapon-barrel-grid">
+													<button type="action" class="sheet-barrel-btn barrel-silencer"    name="act_weapon-barrel-sl">Silencer</button>
+													<button type="action" class="sheet-barrel-btn barrel-compensator" name="act_weapon-barrel-co">Compensator</button>
+													<button type="action" class="sheet-barrel-btn barrel-suppressor"  name="act_weapon-barrel-su">Suppressor</button>
+													<button type="action" class="sheet-barrel-btn barrel-prec-choke"  name="act_weapon-barrel-pc">Prec Choke</button>
+													<button type="action" class="sheet-barrel-btn barrel-slug"        name="act_weapon-barrel-sb">Slug Barrel</button>
+												</div>
+											</div>
+											<!-- Internal -->
+											<div class="sheet-weapon-adv-group">
+												<div class="sheet-weapon-adv-label" data-i18n="weapon_internal-u">Internal</div>
+												<input type="hidden" name="attr_weapon_mod_internal_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_smartlink_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_cq_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_ap_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_concealable_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_trait_drum_fed_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_drum_eligible_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_loadout_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_cap_base_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_cap_base_num_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_trait_scoped_mdr" value=""/>
+												<input type="hidden" name="attr_weapon_btn_internal_smartlink_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_internal_biocoded_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_internal_irs_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_internal_qls_mdr" value="0"/>
+												<input type="hidden" name="attr_weapon_btn_internal_qst_mdr" value="0"/>
+												<div class="sheet-weapon-internal-grid">
+													<button type="action" class="sheet-internal-btn internal-smartlink" name="act_weapon-internal-sl">Smartlink</button>
+													<button type="action" class="sheet-internal-btn internal-biocoded"  name="act_weapon-internal-bc">Bio-Coded</button>
+													<button type="action" class="sheet-internal-btn internal-irs"       name="act_weapon-internal-ir">Recoil Sys</button>
+													<button type="action" class="sheet-internal-btn internal-qls"       name="act_weapon-internal-ql">Quick-Load</button>
+													<button type="action" class="sheet-internal-btn internal-qst"       name="act_weapon-internal-qt">Quick-Sel</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
 					</div>
 				</div>
 			</div>
@@ -57528,6 +57785,7 @@ const initializeSheetOnOpen = (eventInfo) => {
           initEntertainmentPresets();
           initOmnideckPresets();
           initWeaponComputedAttrs();
+          initWeaponManualAttrs();
           initGrenadeComputedAttrs();
           initWeapon1ModButtons();
           applyTranslationsOnOpen(() => {
@@ -61466,6 +61724,7 @@ on("change:repeating_weaponsmdr:weaponskill_mdr", (eventInfo) => {
 	});
 });
 
+
 on("change:weapon1_skill_mdr", () => {
 	if (debug_on_trace) console.log("[change:weapon1_skill_mdr:class]");
 	getAttrs(["weapon1_skill_mdr"], (v) => {
@@ -62281,7 +62540,364 @@ on("clicked:repeating_weaponsmdr:weapon-internal-sl", (eventInfo) => {
 	});
 });
 
-/* ── Internal mod buttons — static weapon1 ──────────────────────────── */
+/* ── Manual weapon section: all button + change watchers ─────────────
+   Mirrors every repeating_weaponsmdr watcher exactly, targeting
+   repeating_weaponmanual instead.                                      */
+(function registerWeaponManualWatchers() {
+	const S = "repeating_weaponmanual";
+	const id = (src) => { const m = (src || "").match(new RegExp(`^${S}_([^_]+)_`)); return m ? m[1] : null; };
+	const pad = (n) => n < 10 ? "0" + n : "" + n;
+
+	/* ▼ Toggle */
+	on(`clicked:${S}:weaponadvanced`, (eventInfo = {}) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weaponadvanced]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		toggleFlag(`${S}_${rowId}_show_weapon_advanced`);
+	});
+
+	/* Impale toggle */
+	on(`change:${S}:attack_impale_checkbox`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[change:${S}:attack_impale_checkbox]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const impaleAttr = `${S}_${rowId}_attack_impale_checkbox`;
+		const toggleAttr = `${S}_${rowId}_attack_mode_toggle`;
+		getAttrs([impaleAttr], (v) => { setAttrs({ [toggleAttr]: v[impaleAttr] === "1" ? "impale" : "noimpale" }); });
+	});
+
+	/* Aim */
+	on(`clicked:${S}:weapon-aim-quick`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-aim-quick]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weapon_aim_mdr"], (v) => {
+			const cur = v[p + "weapon_aim_mdr"] || "";
+			setAttrs({ [p + "weapon_aim_mdr"]: cur === "quick" ? "" : cur === "focused" ? "both" : cur === "both" ? "focused" : "quick" });
+		});
+	});
+	on(`clicked:${S}:weapon-aim-focused`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-aim-focused]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weapon_aim_mdr"], (v) => {
+			const cur = v[p + "weapon_aim_mdr"] || "";
+			setAttrs({ [p + "weapon_aim_mdr"]: cur === "focused" ? "" : cur === "quick" ? "both" : cur === "both" ? "quick" : "focused" });
+		});
+	});
+
+	/* Target */
+	on(`clicked:${S}:weapon-target-prone`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-target-prone]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weapon_target_prone_mdr"], (v) => {
+			setAttrs({ [p + "weapon_target_prone_mdr"]: v[p + "weapon_target_prone_mdr"] === "1" ? "" : "1" });
+		});
+	});
+	on(`clicked:${S}:weapon-target-partial`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-target-partial]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weapon_target_cover_mdr"], (v) => {
+			setAttrs({ [p + "weapon_target_cover_mdr"]: v[p + "weapon_target_cover_mdr"] === "partial" ? "" : "partial" });
+		});
+	});
+	on(`clicked:${S}:weapon-target-full`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-target-full]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weapon_target_cover_mdr"], (v) => {
+			setAttrs({ [p + "weapon_target_cover_mdr"]: v[p + "weapon_target_cover_mdr"] === "full" ? "" : "full" });
+		});
+	});
+
+	/* Loadout */
+	on(`clicked:${S}:weapon-loadout-extmag`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-loadout-extmag]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weapon_loadout_mdr", p + "weapon_cap_base_mdr"], (v) => {
+			const next = v[p + "weapon_loadout_mdr"] === "extmag" ? "" : "extmag";
+			const newCap = applyLoadoutToCap(v[p + "weapon_cap_base_mdr"], next);
+			setAttrs({ [p + "weapon_loadout_mdr"]: next, [p + "weapon_cap_rating_mdr"]: newCap, [p + "weapon_cap_display_mdr"]: capDisplayCode(newCap) }, () => {
+				updateCapCounter(p + "weapon_cap_rating_mdr", (n) => p + "weapon_cap_box_mdr_" + pad(n), p + "weapon_cap_counter_mdr", 15, p + "weapon_mode_mdr", p + "weapon_modes_available_mdr");
+			});
+		});
+	});
+	on(`clicked:${S}:weapon-loadout-drum`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-loadout-drum]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weapon_loadout_mdr", p + "weapon_cap_base_mdr"], (v) => {
+			const next = v[p + "weapon_loadout_mdr"] === "drum" ? "" : "drum";
+			const newCap = applyLoadoutToCap(v[p + "weapon_cap_base_mdr"], next);
+			setAttrs({ [p + "weapon_loadout_mdr"]: next, [p + "weapon_cap_rating_mdr"]: newCap, [p + "weapon_cap_display_mdr"]: capDisplayCode(newCap) }, () => {
+				updateCapCounter(p + "weapon_cap_rating_mdr", (n) => p + "weapon_cap_box_mdr_" + pad(n), p + "weapon_cap_counter_mdr", 15, p + "weapon_mode_mdr", p + "weapon_modes_available_mdr");
+			});
+		});
+	});
+
+	/* Cap boxes */
+	on(`change:${S}:weapon_cap_box_mdr_01 change:${S}:weapon_cap_box_mdr_02 change:${S}:weapon_cap_box_mdr_03 change:${S}:weapon_cap_box_mdr_04 change:${S}:weapon_cap_box_mdr_05 change:${S}:weapon_cap_box_mdr_06 change:${S}:weapon_cap_box_mdr_07 change:${S}:weapon_cap_box_mdr_08 change:${S}:weapon_cap_box_mdr_09 change:${S}:weapon_cap_box_mdr_10 change:${S}:weapon_cap_box_mdr_11 change:${S}:weapon_cap_box_mdr_12 change:${S}:weapon_cap_box_mdr_13 change:${S}:weapon_cap_box_mdr_14 change:${S}:weapon_cap_box_mdr_15`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[change:${S}:weapon_cap_box]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		updateCapCounter(p + "weapon_cap_rating_mdr", (n) => p + "weapon_cap_box_mdr_" + pad(n), p + "weapon_cap_counter_mdr", 15, p + "weapon_mode_mdr", p + "weapon_modes_available_mdr");
+	});
+
+	/* Cap reload */
+	on(`clicked:${S}:weapon-cap-reload`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-cap-reload]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		const updates = {};
+		for (let n = 1; n <= 15; n++) updates[p + "weapon_cap_box_mdr_" + pad(n)] = "0";
+		setAttrs(updates, {}, () => {
+			updateCapCounter(p + "weapon_cap_rating_mdr", (n) => p + "weapon_cap_box_mdr_" + pad(n), p + "weapon_cap_counter_mdr", 15, p + "weapon_mode_mdr", p + "weapon_modes_available_mdr");
+		});
+	});
+
+	/* Mods toggle */
+	on(`clicked:${S}:weapon-mods-toggle`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[clicked:${S}:weapon-mods-toggle]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const attr = `${S}_${rowId}_weapon_mods_collapsed_mdr`;
+		getAttrs([attr], (v) => { setAttrs({ [attr]: v[attr] === "1" ? "0" : "1" }); });
+	});
+
+	/* Mode buttons */
+	["ss","sa","bf","fa"].forEach(mode => {
+		on(`clicked:${S}:weapon-mode-${mode}`, (eventInfo) => {
+			if (debug_on_trace) console.log(`[clicked:${S}:weapon-mode-${mode}]`);
+			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+			const p = `${S}_${rowId}_`;
+			getAttrs([p + "weapon_modes_available_mdr"], (v) => {
+				const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
+				if (avail.includes(mode)) setAttrs({ [p + "weapon_mode_mdr"]: mode });
+			});
+		});
+	});
+
+	/* Ammo buttons */
+	const ammoMap = { ap: "ap_rounds", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" };
+	Object.entries(ammoMap).forEach(([btn, val]) => {
+		on(`clicked:${S}:weapon-ammo-${btn}`, (eventInfo) => {
+			if (debug_on_trace) console.log(`[clicked:${S}:weapon-ammo-${btn}]`);
+			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+			const p = `${S}_${rowId}_`;
+			getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+				const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
+				const act = v[p + "weapon_ammo_active_mdr"] || "0";
+				if (cur === val && act === "1") {
+					setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
+				} else {
+					setAttrs({ [p + "weapon_ammo_type_mdr"]: val, [p + "weapon_ammo_active_mdr"]: "1" });
+				}
+			});
+		});
+	});
+
+	/* Range buttons */
+	const rangeMap = { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" };
+	Object.entries(rangeMap).forEach(([btn, val]) => {
+		on(`clicked:${S}:weapon-range-${btn}`, (eventInfo) => {
+			if (debug_on_trace) console.log(`[clicked:${S}:weapon-range-${btn}]`);
+			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+			setAttrs({ [`${S}_${rowId}_weapon_range_band_mdr`]: val });
+		});
+	});
+
+	/* Optics buttons */
+	const opticsMap = { mag: "magnification", ref: "reflex", thm: "thermal" };
+	Object.entries(opticsMap).forEach(([btn, val]) => {
+		on(`clicked:${S}:weapon-optics-${btn}`, (eventInfo) => {
+			if (debug_on_trace) console.log(`[clicked:${S}:weapon-optics-${btn}]`);
+			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+			const p = `${S}_${rowId}_`;
+			getAttrs([p + "weapon_optics_mdr"], (v) => {
+				setAttrs({ [p + "weapon_optics_mdr"]: v[p + "weapon_optics_mdr"] === val ? "" : val });
+			});
+		});
+	});
+
+	/* Barrel buttons (with mode restriction) */
+	["sl","co","su","pc","sb"].forEach(btn => {
+		on(`clicked:${S}:weapon-barrel-${btn}`, (eventInfo) => {
+			if (debug_on_trace) console.log(`[clicked:${S}:weapon-barrel-${btn}]`);
+			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+			const p = `${S}_${rowId}_`;
+			const barrelVal = barrelMap[btn];
+			if (barrelModeRestrict[barrelVal]) {
+				getAttrs([p + "weapon_barrel_mdr", p + "weapon_modes_base_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
+					const cur = v[p + "weapon_barrel_mdr"] || "";
+					const barrel = cur === barrelVal ? "" : barrelVal;
+					const base = (v[p + "weapon_modes_base_mdr"] || v[p + "weapon_modes_available_mdr"] || "ss").split(" ").filter(Boolean);
+					const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
+					const modes = avail.length ? avail : ["ss"];
+					const mode = modes.includes(v[p + "weapon_mode_mdr"]) ? v[p + "weapon_mode_mdr"] : modes[0];
+					setAttrs({ [p + "weapon_barrel_mdr"]: barrel, [p + "weapon_modes_available_mdr"]: modes.join(" "), [p + "weapon_mode_mdr"]: mode });
+				});
+			} else {
+				getAttrs([p + "weapon_barrel_mdr"], (v) => {
+					setAttrs({ [p + "weapon_barrel_mdr"]: v[p + "weapon_barrel_mdr"] === barrelVal ? "" : barrelVal });
+				});
+			}
+		});
+	});
+
+	/* Internal mod buttons */
+	const internalMap = { bc: "biocoded", ir: "irs", ql: "qls", qt: "qst", sl: "smartlink" };
+	Object.entries(internalMap).forEach(([btn, val]) => {
+		on(`clicked:${S}:weapon-internal-${btn}`, (eventInfo) => {
+			if (debug_on_trace) console.log(`[clicked:${S}:weapon-internal-${btn}]`);
+			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+			const p = `${S}_${rowId}_`;
+			getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
+				setAttrs({ [p + "weapon_mod_internal_mdr"]: v[p + "weapon_mod_internal_mdr"] === val ? "" : val });
+			});
+		});
+	});
+
+	/* Summary recalc — fires on any state-change attr */
+	on([
+		"weapon_mode_mdr","weapon_mod_penalty_reduce_mdr","weapon_optics_mdr","weapon_mod_internal_mdr",
+		"weapon_range_band_mdr","weapon_barrel_mdr","weapon_trait_smartlink_mdr","weapon_trait_scoped_mdr",
+		"weapon_trait_cq_mdr","weapon_aim_mdr","weapon_target_prone_mdr","weapon_target_cover_mdr",
+		"weapon_trait_ap_mdr","weapon_ammo_type_mdr","weapon_ammo_active_mdr","weapon_loadout_mdr"
+	].map(a => `change:${S}:${a}`).join(" "), (eventInfo) => {
+		if (debug_on_trace) console.log(`[change:${S}:weapon_summary]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([
+			p+"weapon_mode_mdr", p+"weapon_mod_penalty_reduce_mdr",
+			p+"weapon_optics_mdr", p+"weapon_mod_internal_mdr", p+"weapon_range_band_mdr",
+			p+"weapon_barrel_mdr", p+"weapon_category_mdr", p+"weapon_max_range_mdr",
+			p+"weapon_trait_smartlink_mdr", p+"weapon_trait_scoped_mdr", p+"weapon_trait_cq_mdr",
+			p+"weapon_aim_mdr", p+"weapon_target_prone_mdr", p+"weapon_target_cover_mdr",
+			p+"weapon_trait_ap_mdr", p+"weapon_ap_total_mdr",
+			p+"weapon_ammo_type_mdr", p+"weapon_ammo_active_mdr",
+			p+"weapon_trait_concealable_mdr", p+"weapon_loadout_mdr"
+		], (v) => {
+			const mode     = v[p+"weapon_mode_mdr"]              || "ss";
+			const reduce   = parseInt(v[p+"weapon_mod_penalty_reduce_mdr"], 10) || 0;
+			const optics   = v[p+"weapon_optics_mdr"] || (v[p+"weapon_trait_scoped_mdr"] === "1" ? "magnification" : "");
+			const internal = v[p+"weapon_mod_internal_mdr"] || "";
+			const traitSL  = v[p+"weapon_trait_smartlink_mdr"] === "1";
+			const sl       = (internal === "smartlink" || traitSL) ? "1" : undefined;
+			const irs      = internal === "irs"      ? "1" : undefined;
+			const qst      = internal === "qst"      ? "1" : undefined;
+			const qls      = internal === "qls"      ? "1" : undefined;
+			const biocoded = internal === "biocoded" ? "1" : undefined;
+			const range    = v[p+"weapon_range_band_mdr"]        || "short";
+			const category = v[p+"weapon_category_mdr"]          || "";
+			const maxRange = v[p+"weapon_max_range_mdr"]         || "";
+			const barrel   = v[p+"weapon_barrel_mdr"]            || "";
+			const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
+			const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
+			const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
+			const irsBonus = irs === "1" ? 1 : 0;
+			const redEff   = reduce + irsBonus;
+			const dice     = penDice[mode] || 0;
+			const cq         = v[p+"weapon_trait_cq_mdr"] === "1";
+			const aim        = v[p+"weapon_aim_mdr"] || "";
+			const prone      = v[p+"weapon_target_prone_mdr"] || "";
+			const cover      = v[p+"weapon_target_cover_mdr"] || "";
+			const ammoType   = v[p+"weapon_ammo_type_mdr"]   || "standard";
+			const ammoActive = v[p+"weapon_ammo_active_mdr"] || "0";
+			const ap         = v[p+"weapon_trait_ap_mdr"] === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
+			const concealable = v[p+"weapon_trait_concealable_mdr"] || "";
+			const loadout    = v[p+"weapon_loadout_mdr"] || "";
+			const nativeAP   = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
+			const ammoAP     = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
+			const apTotal    = nativeAP + ammoAP;
+			const rollAmmo   = buildRollAmmoLabel(apTotal, ammoType, ammoActive);
+			const hitObj     = computeWeaponHit(optics, sl, range, aim);
+			const bonus      = hitObj.bonus;
+			const sitMod     = hitObj.sitMod;
+			const netRoll    = bonus + sitMod;
+			const netRollStr = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
+			const diceObj    = computeWeaponDice(optics, aim, mode, redEff, range, category, maxRange, barrel, cq, prone, cover, ap);
+			const netDiceVal = diceObj.bonusDice - diceObj.penaltyDice;
+			setAttrs({
+				[p+"weapon_computed_hit_mdr"]:          hitObj.total,
+				[p+"weapon_mod_penalty_reduce_eff_mdr"]:redEff,
+				[p+"weapon_mode_num_mdr"]:              numMap[mode]   || "10",
+				[p+"weapon_mode_label_mdr"]:            labelMap[mode] || "SS",
+				[p+"weapon_mode_penalty_mdr"]:          0,
+				[p+"weapon_tags_display_mdr"]:          buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, category, maxRange, cq, aim, prone, cover, ap, concealable, loadout),
+				[p+"weapon_net_hit_display_mdr"]:       bonus === 0 ? "—" : "+" + bonus + "%",
+				[p+"weapon_net_penalty_display_mdr"]:   sitMod === 0 ? "—" : sitMod + "%",
+				[p+"weapon_net_roll_display_mdr"]:      netRollStr,
+				[p+"weapon_net_roll_sign_mdr"]:         netRoll > 0 ? "pos" : netRoll < 0 ? "neg" : "zero",
+				[p+"weapon_cover_effective_mdr"]:       cover,
+				[p+"weapon_net_dice_sign_mdr"]:         netDiceVal > 0 ? "pos" : netDiceVal < 0 ? "neg" : "zero",
+				[p+"weapon_bonus_dice_display_mdr"]:    diceObj.bonusDice > 0 ? "+" + diceObj.bonusDice : "0",
+				[p+"weapon_penalty_dice_display_mdr"]:  diceObj.penaltyDice > 0 ? "−" + diceObj.penaltyDice : "0",
+				[p+"weapon_net_dice_display_mdr"]:      netDiceVal === 0 ? "0" : (netDiceVal > 0 ? "+" : "") + netDiceVal,
+				[p+"weapon_roll_ammo_label_mdr"]:       rollAmmo,
+			});
+		});
+	});
+
+	/* Ammo label update */
+	on(`change:${S}:weapon_ammo_type_mdr change:${S}:weapon_ammo_active_mdr`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[change:${S}:weapon_ammo]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([
+			p+"weapon_ammo_type_mdr", p+"weapon_ammo_active_mdr",
+			p+"weapon_ap_total_mdr", p+"damage_numdice", p+"damage_dicesize", p+"damage_bonus"
+		], (v) => {
+			const type     = v[p+"weapon_ammo_type_mdr"]   || "standard";
+			const active   = v[p+"weapon_ammo_active_mdr"];
+			const label    = (active === "1" && type !== "standard") ? type.replace(/_/g, " ") : "";
+			const nativeAP = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
+			const ammoAP   = (active === "1" && type === "ap_rounds") ? 2 : 0;
+			const apTotal  = nativeAP + ammoAP;
+			const numdice  = parseInt(v[p+"damage_numdice"],  10) || 0;
+			const dicesize = parseInt(v[p+"damage_dicesize"], 10) || 0;
+			const bonus    = parseInt(v[p+"damage_bonus"],    10) || 0;
+			const effective = computeEffectiveDamage(numdice, dicesize, bonus, type, active, `${S}_${rowId}`, `${S}_${rowId}_weapon_effective`);
+			setAttrs({ [p+"weapon_ammo_type_label_mdr"]: label, [p+"weapon_roll_ammo_label_mdr"]: buildRollAmmoLabel(apTotal, type, active), ...effective });
+		});
+	});
+
+	/* Skill display watcher */
+	on(`change:${S}:weaponskill_mdr`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[change:${S}:weaponskill_mdr]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const skillAttr = `${S}_${rowId}_weaponskill_mdr`;
+		getAttrs([skillAttr], (v) => {
+			const match = (v[skillAttr] || "").match(/@{([^}]+)}/);
+			if (!match) return;
+			getAttrs([match[1]], (sv) => {
+				setAttrs({ [`${S}_${rowId}_weaponskill_mdr_display`]: sv[match[1]] || "0" });
+			});
+		});
+	});
+
+	/* Skill display refresh when underlying skill values change */
+	on("change:archery_mdr change:firearms_handgun_mdr change:heavy_weapons_mdr change:melee_weapons_mdr change:firearms_rifle_mdr change:firearms_shotgun_mdr change:firearms_smg_mdr change:throw_mdr change:unarmed_mdr", () => {
+		if (debug_on_trace) console.log(`[change:skill_mdr — ${S} skill display refresh]`);
+		getSectionIDs(S, (ids) => {
+			if (!ids.length) return;
+			const fetchKeys = [
+				"archery_mdr","firearms_handgun_mdr","heavy_weapons_mdr","melee_weapons_mdr",
+				"firearms_rifle_mdr","firearms_shotgun_mdr","firearms_smg_mdr","throw_mdr","unarmed_mdr",
+				...ids.map(rowId => `${S}_${rowId}_weaponskill_mdr`)
+			];
+			getAttrs(fetchKeys, (v) => {
+				const updates = {};
+				ids.forEach(rowId => {
+					const p = `${S}_${rowId}_`;
+					const skillRef = v[p + "weaponskill_mdr"] || "@{unarmed_mdr}";
+					const skillKey = skillRef.replace(/^@{|}$/g, "");
+					updates[p + "weaponskill_mdr_display"] = v[skillKey] || "0";
+				});
+				if (Object.keys(updates).length) setAttrs(updates);
+			});
+		});
+	});
+})();
 on("clicked:weapon1-internal-bc", () => {
 	if (debug_on_trace) console.log("[clicked:weapon1-internal-bc]");
 	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
@@ -62819,6 +63435,29 @@ on("change:throw_mdr change:demolitions_mdr change:firearms_rifle_mdr", () => {
 		});
 	});
 });
+
+/* ── Init on sheet open: resolve manual weapon skill displays ────────── */
+const initWeaponManualAttrs = () => {
+	getSectionIDs("repeating_weaponmanual", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = [
+			"archery_mdr", "firearms_handgun_mdr", "heavy_weapons_mdr",
+			"melee_weapons_mdr", "firearms_rifle_mdr", "firearms_shotgun_mdr",
+			"firearms_smg_mdr", "throw_mdr", "unarmed_mdr",
+			...ids.map(id => `repeating_weaponmanual_${id}_weaponskill_mdr`)
+		];
+		getAttrs(fetchKeys, (v) => {
+			const updates = {};
+			ids.forEach(id => {
+				const p        = `repeating_weaponmanual_${id}_`;
+				const skillRef = v[p + "weaponskill_mdr"] || "@{unarmed_mdr}";
+				const skillKey = skillRef.replace(/^@{|}$/g, "");
+				updates[p + "weaponskill_mdr_display"] = v[skillKey] || "0";
+			});
+			if (Object.keys(updates).length) setAttrs(updates);
+		});
+	});
+};
 
 /* ── Init on sheet open ──────────────────────────────────────────────── */
 const initGrenadeComputedAttrs = () => {

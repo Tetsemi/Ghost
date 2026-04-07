@@ -21719,6 +21719,18 @@
 								<input type="hidden" name="attr_show_weapon_advanced" value="0"/>
 								<input type="hidden" name="attr_attack_mode_toggle" class="sheet-attack-toggle" value="noimpale"/>
 								<div class="flex-row">
+									<input type="hidden" name="attr_damage_numdice" value="0"/>
+									<input type="hidden" name="attr_damage_dicesize" value="0"/>
+									<input type="hidden" name="attr_damage_bonus" value="0"/>
+									<input type="hidden" name="attr_weapon_computed_hit_mdr" value="0"/>
+									<input type="hidden" name="attr_weapon_effective_damage" value="0"/>
+									<input type="hidden" name="attr_weapon_effective_numdice" value="0"/>
+									<input type="hidden" name="attr_weapon_effective_dicesize" value="0"/>
+									<input type="hidden" name="attr_weapon_effective_bonus" value="0"/>
+									<input type="hidden" name="attr_weapon_mode_label_mdr" value="SS"/>
+									<input type="hidden" name="attr_weapon_mode_num_mdr" value="10"/>
+									<input type="hidden" name="attr_weapon_mode_penalty_mdr" value="0"/>
+									<input type="hidden" name="attr_weapon_roll_ammo_label_mdr" value=""/>
 									<div class="flex-cell weapon-name"><input type="text" name="attr_weaponname_mdr" placeholder="Weapon Name" data-i18n-placeholder="weaponname-u"/></div>
 									<div class="flex-cell weapon-rarity">
 										<select name="attr_weapon_rarity_mdr" class="sheet-weapon-rarity-select">
@@ -21745,8 +21757,8 @@
 									<div class="flex-cell-wrapper sheet-val-roll-static">
 										<input type="text" name="attr_weaponskill_mdr_display" class="sheet-readonly"/>
 										<div class="weapon-roll">
-											<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponmanual_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[(@{weapondamage_mdr})@{weapondb_mdr}]]}} {{extremedamage=[[(@{weapondamage_mdr})@{weapondb_mdr}]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
-											<button type="roll" class="new-roll sheet-roll-impale" name="roll_weaponmanual_impale" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[(@{weapondamage_mdr})@{weapondb_mdr}]]}} {{basedamage=[[1d6]]}} {{extremedamage=[[(@{weapondamage_mdr})@{weapondb_mdr}]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
+											<button type="roll" class="new-roll sheet-roll-noimpale" name="roll_weaponmanual_noimpale" value="&{template:coc-attack-1-noimpale} {{name=@{weaponname_mdr}}} {{mode=@{weapon_mode_label_mdr}}} {{ammo=@{weapon_roll_ammo_label_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_computed_hit_mdr}+@{weapon_mode_penalty_mdr}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_computed_hit_mdr}+@{weapon_mode_penalty_mdr})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_computed_hit_mdr}+@{weapon_mode_penalty_mdr})/5)}kh1]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[floor(@{weapon_mode_num_mdr}/10) * (@{weapon_effective_damage}@{weapondb_mdr})]]}} {{extremedamage=[[floor(@{weapon_mode_num_mdr}/10) * ((@{weapon_effective_numdice}*@{weapon_effective_dicesize})+@{weapon_effective_bonus})]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
+											<button type="roll" class="new-roll sheet-roll-impale" name="roll_weaponmanual_impale" value="&{template:coc-attack-1-impale} {{name=@{weaponname_mdr}}} {{mode=@{weapon_mode_label_mdr}}} {{ammo=@{weapon_roll_ammo_label_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_computed_hit_mdr}+@{weapon_mode_penalty_mdr}}kh1]]}} {{hard=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_computed_hit_mdr}+@{weapon_mode_penalty_mdr})/2)}kh1]]}} {{extreme=[[{1, floor((@{weaponskill_mdr}+@{dice_modifier_checkbox}+@{weapon_computed_hit_mdr}+@{weapon_mode_penalty_mdr})/5)}kh1]]}} {{malf=@{weaponmalf_mdr}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[floor(@{weapon_mode_num_mdr}/10) * (@{weapon_effective_damage}@{weapondb_mdr})]]}} {{basedamage=[[1d@{weapon_effective_dicesize}]]}} {{extremedamage=[[floor(@{weapon_mode_num_mdr}/10) * ((@{weapon_effective_numdice}*@{weapon_effective_dicesize})+@{weapon_effective_bonus})]]}} {{strain=[[0 + @{weaponstrain_mdr}]]}}"></button>
 										</div>
 									</div>
 									<div class="flex-cell weapon-damage"><input type="text" name="attr_weapondamage_mdr" placeholder="Damage" data-i18n-placeholder="damage-u"/></div>
@@ -21757,9 +21769,15 @@
 											<option value="+@{damage_bonus}" data-i18n="plus-db-u">+db</option>
 										</select>
 									</div>
+									<input type="hidden" name="attr_weapon_cap_display_mdr" value="b0"/>
+									<input type="hidden" name="attr_weapon_cap_counter_mdr" value="—"/>
+									<input type="hidden" name="attr_weapon_cap_base_mdr" value=""/>
+									<input type="hidden" name="attr_weapon_cap_base_num_mdr" value="0"/>
 									<div class="flex-cell weapon-range"><input type="text" name="attr_weaponrange_mdr" placeholder="Range" data-i18n-placeholder="range-u"/></div>
 									<div class="flex-cell weapon-attacks"><input type="text" name="attr_weaponattacks_mdr" placeholder="Attacks" data-i18n-placeholder="attacks-u"/></div>
-									<div class="flex-cell weapon-ammo"><input type="text" name="attr_weaponcap_mdr" placeholder="Cap" data-i18n-placeholder="cap-u"/></div>
+									<div class="flex-cell weapon-ammo weapon-cap-counter-cell">
+										<span class="cap-counter-display" name="attr_weapon_cap_counter_mdr"></span>
+									</div>
 									<div class="flex-cell weapon-malf"><input type="text" name="attr_weaponmalf_mdr" placeholder="Malf" data-i18n-placeholder="malf-u"/></div>
 									<div class="flex-cell weapon-contested"><input type="text" name="attr_weaponcontested_mdr" placeholder="-" data-i18n-placeholder="dash-z"/></div>
 									<div class="flex-cell weapon-strain"><input type="text" name="attr_weaponstrain_mdr" placeholder="Strain" data-i18n-placeholder="strain-u"/></div>
@@ -21816,6 +21834,8 @@
 												<button type="action" class="sheet-aim-btn aim-focused" name="act_weapon-aim-focused" data-i18n="weapon_aim_focused-u">Focused</button>
 											</div>
 											<div class="cap-box-track-row">
+												<span class="sheet-weapon-adv-summary-label" data-i18n="cap-u">Cap</span>
+												<input type="text" name="attr_weaponcap_mdr" class="sheet-attr-input-small" placeholder="0" style="width:2em;text-align:center;"/>
 												<input type="checkbox" class="cap-box cap-box-n01" name="attr_weapon_cap_box_mdr_01" value="1"/>
 												<input type="checkbox" class="cap-box cap-box-n02" name="attr_weapon_cap_box_mdr_02" value="1"/>
 												<input type="checkbox" class="cap-box cap-box-n03" name="attr_weapon_cap_box_mdr_03" value="1"/>
@@ -31436,7 +31456,7 @@
 											</div>
 										</div>
 										<div class="sheet-vehicle-row">
-											<div class="sheet-vehicle-col-label" data-i18n="cap-u">Capacity</div>
+											<div class="sheet-vehicle-col-label" data-i18n="capacity-u">Capacity</div>
 											<div class="sheet-vehicle-col-value">
 												<input type="text" class="sheet-wide-input" name="attr_vehiclecap"/>
 											</div>
@@ -61919,8 +61939,11 @@ on("clicked:weapon1-loadout-drum", () => {
 function updateCapCounter(capRatingAttr, boxAttrFn, counterAttr, total, modeAttr, modesAvailAttr) {
 	const attrs = [capRatingAttr];
 	for (let n = 1; n <= total; n++) attrs.push(boxAttrFn(n));
-	if (modeAttr)      attrs.push(modeAttr);
+	if (modeAttr)       attrs.push(modeAttr);
 	if (modesAvailAttr) attrs.push(modesAvailAttr);
+	/* Also fetch the base modes so we can restore them when rounds recover */
+	const modesBaseAttr = modesAvailAttr ? modesAvailAttr.replace("modes_available", "modes_base") : null;
+	if (modesBaseAttr) attrs.push(modesBaseAttr);
 	getAttrs(attrs, (v) => {
 		const { capCount } = parseCapRating(v[capRatingAttr] || "");
 		if (capCount === 0) { setAttrs({ [counterAttr]: "—" }); return; }
@@ -61930,14 +61953,18 @@ function updateCapCounter(capRatingAttr, boxAttrFn, counterAttr, total, modeAttr
 		const updates = { [counterAttr]: remaining + "/" + capCount };
 		/* Gate modes by remaining rounds: FA needs ≥3, BF needs ≥2, SA/SS need ≥1 */
 		if (modeAttr && modesAvailAttr) {
-			const mode  = v[modeAttr]      || "ss";
-			const avail = (v[modesAvailAttr] || "").split(" ").filter(Boolean);
+			const mode      = v[modeAttr]       || "ss";
+			const base      = (v[modesBaseAttr] || v[modesAvailAttr] || "ss").split(" ").filter(Boolean);
 			const minRounds = { fa: 3, bf: 2, sa: 1, ss: 1 };
+			/* Restrict available modes to those that have enough rounds remaining */
+			const allowed   = base.filter(m => remaining >= (minRounds[m] || 1));
+			const availStr  = allowed.length ? allowed.join(" ") : "ss";
+			updates[modesAvailAttr] = availStr;
+			/* If current mode is now blocked, fall back to best available */
 			const modeBlocked = remaining < (minRounds[mode] || 1);
 			if (modeBlocked) {
-				/* Find best available mode given remaining rounds */
 				const priority = ["ss","sa","bf","fa"];
-				const fallback = priority.find(m => avail.includes(m) && remaining >= (minRounds[m] || 1)) || "";
+				const fallback = priority.find(m => allowed.includes(m) && remaining >= (minRounds[m] || 1)) || "";
 				updates[modeAttr] = fallback;
 			}
 		}
@@ -62861,17 +62888,99 @@ on("clicked:repeating_weaponsmdr:weapon-internal-sl", (eventInfo) => {
 		});
 	});
 
-	/* Skill display watcher */
+	/* Cap input → cap_rating, cap_display, cap_base, counter */
+	on(`change:${S}:weaponcap_mdr`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[change:${S}:weaponcap_mdr]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weaponcap_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
+			const n = parseInt(v[p + "weaponcap_mdr"], 10) || 0;
+			const capRating = n > 0 ? "cap_" + n : "";
+			const pad = (x) => x < 10 ? "0" + x : "" + x;
+			setAttrs({
+				[p + "weapon_cap_rating_mdr"]:   capRating,
+				[p + "weapon_cap_base_mdr"]:     capRating,
+				[p + "weapon_cap_base_num_mdr"]: String(n),
+				[p + "weapon_cap_display_mdr"]:  capDisplayCode(capRating),
+			}, {}, () => {
+				updateCapCounter(p + "weapon_cap_rating_mdr", (x) => p + "weapon_cap_box_mdr_" + pad(x), p + "weapon_cap_counter_mdr", 15, p + "weapon_mode_mdr", p + "weapon_modes_available_mdr");
+			});
+		});
+	});
+
+	/* Damage string → effective damage attrs (numdice, dicesize, bonus, effective_damage) */
+	on(`change:${S}:weapondamage_mdr`, (eventInfo) => {
+		if (debug_on_trace) console.log(`[change:${S}:weapondamage_mdr]`);
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "weapondamage_mdr", p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
+			const damageString = v[p + "weapondamage_mdr"] || "";
+			const baseUpdates  = parseDamageString(damageString, `${S}_${rowId}`);
+			const numdice  = baseUpdates[`${S}_${rowId}_damage_numdice`]  || 0;
+			const dicesize = baseUpdates[`${S}_${rowId}_damage_dicesize`] || 0;
+			const bonus    = baseUpdates[`${S}_${rowId}_damage_bonus`]    || 0;
+			const ammoType = v[p + "weapon_ammo_type_mdr"]  || "standard";
+			const ammoAct  = v[p + "weapon_ammo_active_mdr"];
+			const effective = computeEffectiveDamage(numdice, dicesize, bonus, ammoType, ammoAct, `${S}_${rowId}`, `${S}_${rowId}_weapon_effective`);
+			setAttrs({ ...baseUpdates, ...effective });
+		});
+	});
+
+	/* Skill → category / modes / mod-button defaults for manual rows */
+	const skillToWeaponDefaults = {
+		"@{melee_weapons_mdr}":    { category: "melee",   mod_slots: ["internal"],                              modes: "ss" },
+		"@{throw_mdr}":            { category: "throw",   mod_slots: [],                                        modes: "ss" },
+		"@{firearms_handgun_mdr}": { category: "handgun", mod_slots: ["optics","barrel_muzzle","internal"],     modes: "ss sa bf fa" },
+		"@{firearms_smg_mdr}":     { category: "smg",     mod_slots: ["optics","barrel_muzzle","internal"],     modes: "ss sa bf fa" },
+		"@{firearms_rifle_mdr}":   { category: "rifle",   mod_slots: ["optics","barrel_muzzle","internal"],     modes: "ss sa bf fa" },
+		"@{firearms_shotgun_mdr}": { category: "shotgun", mod_slots: ["optics","barrel_muzzle","internal"],     modes: "ss sa fa" },
+		"@{heavy_weapons_mdr}":    { category: "heavy",   mod_slots: ["optics","internal"],                     modes: "ss bf fa" },
+	};
+
+	/* Skill display watcher — also drives category, modes and mod-button enables */
 	on(`change:${S}:weaponskill_mdr`, (eventInfo) => {
 		if (debug_on_trace) console.log(`[change:${S}:weaponskill_mdr]`);
 		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-		const skillAttr = `${S}_${rowId}_weaponskill_mdr`;
+		const p = `${S}_${rowId}_`;
+		const skillAttr = p + "weaponskill_mdr";
 		getAttrs([skillAttr], (v) => {
-			const match = (v[skillAttr] || "").match(/@{([^}]+)}/);
-			if (!match) return;
-			getAttrs([match[1]], (sv) => {
-				setAttrs({ [`${S}_${rowId}_weaponskill_mdr_display`]: sv[match[1]] || "0" });
-			});
+			const skillRef = v[skillAttr] || "";
+			const defaults = skillToWeaponDefaults[skillRef] || { category: "", mod_slots: [], modes: "ss" };
+			const entry    = { category: defaults.category, mod_slots: defaults.mod_slots };
+			const btnAttrs = computeModButtons(entry, p + "weapon_");
+			/* Resolve the live skill value for the display field */
+			const match = skillRef.match(/@{([^}]+)}/);
+			if (match) {
+				getAttrs([match[1]], (sv) => {
+					setAttrs({
+						[p + "weaponskill_mdr_display"]:    sv[match[1]] || "0",
+						[p + "weapon_category_mdr"]:        defaults.category,
+						[p + "weapon_modes_available_mdr"]: defaults.modes,
+						[p + "weapon_modes_base_mdr"]:      defaults.modes,
+						/* Reset any stale selections when weapon type changes */
+						[p + "weapon_barrel_mdr"]:          "",
+						[p + "weapon_optics_mdr"]:          "",
+						[p + "weapon_mod_internal_mdr"]:    "",
+						[p + "weapon_ammo_type_mdr"]:       "standard",
+						[p + "weapon_ammo_active_mdr"]:     "0",
+						[p + "weapon_loadout_mdr"]:         "",
+						...btnAttrs,
+					});
+				});
+			} else {
+				setAttrs({
+					[p + "weapon_category_mdr"]:        defaults.category,
+					[p + "weapon_modes_available_mdr"]: defaults.modes,
+					[p + "weapon_modes_base_mdr"]:      defaults.modes,
+					[p + "weapon_barrel_mdr"]:          "",
+					[p + "weapon_optics_mdr"]:          "",
+					[p + "weapon_mod_internal_mdr"]:    "",
+					[p + "weapon_ammo_type_mdr"]:       "standard",
+					[p + "weapon_ammo_active_mdr"]:     "0",
+					[p + "weapon_loadout_mdr"]:         "",
+					...btnAttrs,
+				});
+			}
 		});
 	});
 
@@ -63436,23 +63545,48 @@ on("change:throw_mdr change:demolitions_mdr change:firearms_rifle_mdr", () => {
 	});
 });
 
-/* ── Init on sheet open: resolve manual weapon skill displays ────────── */
+/* ── Init on sheet open: resolve manual weapon skill displays + btn flags ── */
 const initWeaponManualAttrs = () => {
-	getSectionIDs("repeating_weaponmanual", (ids) => {
+	const S = "repeating_weaponmanual";
+	const skillToWeaponDefaults = {
+		"@{melee_weapons_mdr}":    { category: "melee",   mod_slots: ["internal"],                          modes: "ss" },
+		"@{throw_mdr}":            { category: "throw",   mod_slots: [],                                    modes: "ss" },
+		"@{firearms_handgun_mdr}": { category: "handgun", mod_slots: ["optics","barrel_muzzle","internal"], modes: "ss sa bf fa" },
+		"@{firearms_smg_mdr}":     { category: "smg",     mod_slots: ["optics","barrel_muzzle","internal"], modes: "ss sa bf fa" },
+		"@{firearms_rifle_mdr}":   { category: "rifle",   mod_slots: ["optics","barrel_muzzle","internal"], modes: "ss sa bf fa" },
+		"@{firearms_shotgun_mdr}": { category: "shotgun", mod_slots: ["optics","barrel_muzzle","internal"], modes: "ss sa fa" },
+		"@{heavy_weapons_mdr}":    { category: "heavy",   mod_slots: ["optics","internal"],                 modes: "ss bf fa" },
+	};
+	getSectionIDs(S, (ids) => {
 		if (!ids.length) return;
+		const skillKeys = [
+			"archery_mdr","firearms_handgun_mdr","heavy_weapons_mdr","melee_weapons_mdr",
+			"firearms_rifle_mdr","firearms_shotgun_mdr","firearms_smg_mdr","throw_mdr","unarmed_mdr",
+		];
 		const fetchKeys = [
-			"archery_mdr", "firearms_handgun_mdr", "heavy_weapons_mdr",
-			"melee_weapons_mdr", "firearms_rifle_mdr", "firearms_shotgun_mdr",
-			"firearms_smg_mdr", "throw_mdr", "unarmed_mdr",
-			...ids.map(id => `repeating_weaponmanual_${id}_weaponskill_mdr`)
+			...skillKeys,
+			...ids.map(id => `${S}_${id}_weaponskill_mdr`),
+			...ids.map(id => `${S}_${id}_weapon_category_mdr`),
 		];
 		getAttrs(fetchKeys, (v) => {
 			const updates = {};
 			ids.forEach(id => {
-				const p        = `repeating_weaponmanual_${id}_`;
-				const skillRef = v[p + "weaponskill_mdr"] || "@{unarmed_mdr}";
+				const p        = `${S}_${id}_`;
+				const skillRef = v[p + "weaponskill_mdr"] || "";
 				const skillKey = skillRef.replace(/^@{|}$/g, "");
+				/* Display value */
 				updates[p + "weaponskill_mdr_display"] = v[skillKey] || "0";
+				/* Only write defaults if category not already set — avoids overwriting barrel restrictions */
+				if (!v[p + "weapon_category_mdr"] && skillToWeaponDefaults[skillRef]) {
+					const defaults = skillToWeaponDefaults[skillRef];
+					const entry    = { category: defaults.category, mod_slots: defaults.mod_slots };
+					Object.assign(updates, {
+						[p + "weapon_category_mdr"]:        defaults.category,
+						[p + "weapon_modes_available_mdr"]: defaults.modes,
+						[p + "weapon_modes_base_mdr"]:      defaults.modes,
+						...computeModButtons(entry, p + "weapon_"),
+					});
+				}
 			});
 			if (Object.keys(updates).length) setAttrs(updates);
 		});

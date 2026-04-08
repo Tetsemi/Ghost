@@ -31755,7 +31755,7 @@
 											<div class="sheet-npc-row">
 												<div class="sheet-npc-label" data-i18n="MOV-u">MOV</div>
 												<div class="sheet-npc-val">
-													<input type="text" name="attr_minionmove" class="sheet-wide-input" placeholder="Movement" data-i18n-placeholder="movement-u"/>
+													<input type="text" name="attr_minionmove" class="sheet-wide-input sheet-readonly" placeholder="Movement" data-i18n-placeholder="movement-u"/>
 												</div>
 											</div>
 											<div class="sheet-npc-row">
@@ -31765,6 +31765,19 @@
 													<span data-i18n="slash-z">/</span>
 													<input type="text" name="attr_miniondb" class="sheet-narrow-input" placeholder="DB" data-i18n-placeholder="db-z"/>
 												</div>
+											</div>
+										</div>
+										<div class="sheet-npc-row">
+											<div class="sheet-npc-label" data-i18n="dodge-u">Dodge</div>
+											<div class="sheet-npc-val">
+												<input type="text" name="attr_minion_dodge" class="sheet-npc-attr-input" placeholder="0"/>
+												<input type="text" name="attr_minion_dodge_calc" class="sheet-npc-attr-input sheet-readonly" placeholder="—"/>
+												<button type="roll" class="sheet-npc-attr-roll" name="roll_minion_dodge_check" value="&{template:coc-1} {{name=@{minion_name} rolling Dodge}} {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{minion_dodge_calc}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{minion_dodge_calc}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{minion_dodge_calc}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
+											</div>
+											<div class="sheet-npc-label" data-i18n="athletics-u">Athletics</div>
+											<div class="sheet-npc-val">
+												<input type="text" name="attr_minion_athletics" class="sheet-npc-attr-input" placeholder="0"/>
+												<button type="roll" class="sheet-npc-attr-roll" name="roll_minion_athletics_check" value="&{template:coc-1} {{name=@{minion_name} rolling Athletics}} {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{minion_athletics}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{minion_athletics}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{minion_athletics}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
 											</div>
 										</div>
 										<div class="sheet-npc-row">
@@ -58671,6 +58684,39 @@ const recalcMinionDiceModifier = (rowId) => {
   });
 };
 
+// ── Minion MOV: calculated from DEX + Athletics, condition-penalised ─────────
+// Mirrors PC recalcMov: floor((effDex + athletics) / 10), cap 14.
+// Penalty: major wound −10, bloodied −10, strained/tired −10, capped at −20.
+const recalcMinionMov = (rowId) => {
+  if (debug_on_trace) console.log("[recalcMinionMov] Start, rowId:", rowId);
+  const attrs = [
+    `repeating_minion_${rowId}_minionattr5`,
+    `repeating_minion_${rowId}_minion_athletics`,
+    `repeating_minion_${rowId}_minion_major_wounds_checkbox`,
+    `repeating_minion_${rowId}_minionhp`,
+    `repeating_minion_${rowId}_minionhp_max`,
+    `repeating_minion_${rowId}_minionmp`,
+    `repeating_minion_${rowId}_minionmp_max`
+  ];
+  getAttrs(attrs, (values) => {
+    const dex        = parseInt(values[`repeating_minion_${rowId}_minionattr5`], 10) || 0;
+    const ath        = parseInt(values[`repeating_minion_${rowId}_minion_athletics`], 10) || 0;
+    const majorWound = values[`repeating_minion_${rowId}_minion_major_wounds_checkbox`] === "1";
+    const hp         = parseInt(values[`repeating_minion_${rowId}_minionhp`], 10);
+    const hpMax      = parseInt(values[`repeating_minion_${rowId}_minionhp_max`], 10);
+    const bloodied   = !isNaN(hp) && !isNaN(hpMax) && hpMax > 0 && hp <= hpMax / 2;
+    const mp         = parseInt(values[`repeating_minion_${rowId}_minionmp`], 10);
+    const mpMax      = parseInt(values[`repeating_minion_${rowId}_minionmp_max`], 10);
+    const tired      = !isNaN(mp) && !isNaN(mpMax) && mpMax > 0 && mp <= mpMax / 2;
+    const rawPenalty = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (tired ? -10 : 0);
+    const penalty    = Math.max(rawPenalty, -20);
+    const effDex     = Math.max(0, dex + penalty);
+    const mov        = Math.min(14, Math.floor((effDex + ath) / 10));
+    if (debug_on) console.log("[recalcMinionMov] rowId:", rowId, "dex:", dex, "ath:", ath, "penalty:", penalty, "mov:", mov);
+    setAttrs({ [`repeating_minion_${rowId}_minionmove`]: String(mov) });
+  });
+};
+
 // Watch all scene/session tracker checkboxes
 const allTrackerAttrs = [
   ...getUsageLimitedTalentNames("long_rest"),
@@ -62078,6 +62124,31 @@ on("change:repeating_minion:minionhp change:repeating_minion:minionhp_max change
   const match = src.match(/repeating_minion_([^_]+)_/);
   if (!match) return;
   recalcMinionDiceModifier(match[1]);
+});
+
+// Recalc NPC MOV when DEX, Athletics, or any condition input changes
+on("change:repeating_minion:minionattr5 change:repeating_minion:minion_athletics change:repeating_minion:minionhp change:repeating_minion:minionhp_max change:repeating_minion:minionmp change:repeating_minion:minionmp_max change:repeating_minion:minion_major_wounds_checkbox", (eventInfo) => {
+  if (debug_on_watcher) console.log("[change:repeating_minion:mov inputs]", eventInfo.sourceAttribute);
+  const src   = eventInfo.sourceAttribute || "";
+  const match = src.match(/repeating_minion_([^_]+)_/);
+  if (!match) return;
+  recalcMinionMov(match[1]);
+});
+
+// Recalc NPC Dodge calc (half of Dodge skill, floored)
+// Recalc NPC Dodge calc: skill points + floor(DEX/2), matching PC dodge formula
+on("change:repeating_minion:minion_dodge change:repeating_minion:minionattr5", (eventInfo) => {
+  if (debug_on_watcher) console.log("[change:repeating_minion:minion_dodge/dex]", eventInfo.sourceAttribute);
+  const src   = eventInfo.sourceAttribute || "";
+  const match = src.match(/repeating_minion_([^_]+)_/);
+  if (!match) return;
+  const rowId = match[1];
+  getAttrs([`repeating_minion_${rowId}_minion_dodge`, `repeating_minion_${rowId}_minionattr5`], (values) => {
+    const dodgePoints = parseInt(values[`repeating_minion_${rowId}_minion_dodge`], 10) || 0;
+    const dex         = parseInt(values[`repeating_minion_${rowId}_minionattr5`], 10) || 0;
+    const dodgeTotal  = dodgePoints + Math.floor(dex / 2);
+    setAttrs({ [`repeating_minion_${rowId}_minion_dodge_calc`]: String(dodgeTotal) });
+  });
 });
 
 // Apply / remove Tired and Exhausted on NPC minion status slots when strain changes

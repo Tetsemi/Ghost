@@ -302,7 +302,7 @@ The manual fieldset is always separated from the preset fieldset by a divider ru
 | Rarity: `<span>` driven by `applyPreset` | Rarity: `<select>` with C/I/P/R options, `sheet-armor-rarity-select` |
 | Read-only display attrs (span) | Editable inputs for every column the user should control |
 | `applyPreset` writes all fields on select change | Watchers parse typed input and compute derived fields |
-| No blast zone / mode button watchers | IIFE registers all button and change watchers |
+| No blast zone / mode button watchers | Named `const` function registers all button and change watchers |
 
 ### 6c — CSS additions
 
@@ -319,12 +319,16 @@ The manual fieldset is always separated from the preset fieldset by a divider ru
 }
 ```
 
-### 6d — JS: IIFE pattern for manual watchers
+### 6d — JS: named `const` function for manual watchers
 
-Each manual fieldset has its own IIFE that registers all button and change watchers for that section, placed immediately before the `initSECTIONPresets` function.
+Each manual fieldset has its own named `const` arrow function that registers all button and change watchers for that section. The function is declared in the **Initialization Section** (before `/* Initialization Section - End */`) alongside the other `const` declarations, and called from `afterAllSets` inside `initializeSheetOnOpen`.
+
+**Do not use an IIFE.** IIFEs execute at parse time, which places their `on()` registrations in the middle of the function block and makes them structural oddities. The named function pattern keeps declarations and calls in their correct sections.
+
+The scoping benefit of the original IIFE is preserved — each function has its own private `S`, `id`, and any other locals, with no risk of collision.
 
 ```javascript
-(function registerSECTIONManualWatchers() {
+const registerSECTIONManualWatchers = () => {
 	const S = "repeating_SECTIONmanual";
 	const id = (src) => {
 		const m = (src || "").match(new RegExp(`^${S}_([^_]+)_`));
@@ -338,12 +342,12 @@ Each manual fieldset has its own IIFE that registers all button and change watch
 	});
 
 	/* Other watchers: buttons, selects, checkboxes */
-})();
+};
 ```
 
 ### 6e — Init function extension
 
-Add `initSECTIONManualAttrs()` alongside `initSECTIONPresets()` in the `sheet:opened` handler:
+Add `initSECTIONManualAttrs()` and `registerSECTIONManualWatchers()` to `afterAllSets` inside `initializeSheetOnOpen`:
 
 ```javascript
 const initSECTIONManualAttrs = () => {
@@ -353,9 +357,10 @@ const initSECTIONManualAttrs = () => {
 	});
 };
 
-// In afterAllSets / sheet:opened:
+// In afterAllSets inside initializeSheetOnOpen:
 initSECTIONPresets();
 initSECTIONManualAttrs();
+registerSECTIONManualWatchers();
 ```
 
 ---
@@ -410,8 +415,8 @@ initSECTIONManualAttrs();
 - [ ] HTML — all display fields are `<input type="text">` (user editable)
 - [ ] CSS — `repeating_SECTIONmanual` added to fieldset reset block
 - [ ] CSS — `repeating_SECTIONmanual .flex-row` shares the same sizing rule
-- [ ] JS — IIFE registers all watchers for the manual section
-- [ ] JS — `initSECTIONManualAttrs()` defined and called in `sheet:opened`
+- [ ] JS — `registerSECTIONManualWatchers` declared as `const` arrow function in the Function Section, called from `afterAllSets`
+- [ ] JS — `initSECTIONManualAttrs()` defined and called from `afterAllSets`
 
 ---
 

@@ -343,7 +343,7 @@ Credits (Cr) — primary economy unit.
 - **No duplicate keys.** Roll20 may silently use whichever duplicate it encounters first, leading to subtle display bugs.
 
 ### HTML / Sheet Workers
-- **Roll20 sheet attribute names must start with `attr_`.** Forgetting this prefix means Roll20 will not persist the value.
+- **Manual section watcher functions must be `const` arrow functions, not IIFEs.** The original `registerWeaponManualWatchers` and `registerGrenadeManualWatchers` were written as immediately-invoked function expressions (`(function foo() { ... })()`), which caused them to execute at parse time and left their `on()` registrations stranded in the Watchers section as structural oddities. The correct pattern is a named `const` arrow function declared in the **Initialization Section** (with the other `const` declarations, before `/* Initialization Section - End */`) and called from `afterAllSets` inside `initializeSheetOnOpen`. The scoping benefit (private `S`, `id`, etc.) is identical; the structure is correct.
 - **Repeating section attribute keys inside `<fieldset>` do NOT get the `attr_` prefix** — Roll20 adds `repeating_sectionname_id_` automatically. But the `name` attribute still needs `attr_` inside the fieldset — be precise.
 - **CSS classes must have the `sheet-` prefix.** Roll20 sandboxes the sheet CSS and strips classes without this prefix in some contexts.
 - **Do not hard-code theme colors.** Always use CSS variables. Hard-coded colors break when the theme switches.

@@ -36,7 +36,7 @@ To-do:
 
 13. **NPC - Add MOV penalty**
 
-14. **NPC - Cap Condition Penalty to -20**
+14. ~~**NPC - Cap Condition Penalty to -20**~~ ✓ DONE Cap Condition Penalty to -20**
 
 Clean-up:
 

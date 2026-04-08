@@ -59635,7 +59635,7 @@ const recalcMinionDiceModifier = (rowId) => {
     const mpMax      = parseInt(values[`repeating_minion_${rowId}_minionmp_max`], 10);
     const strained   = !isNaN(mp) && !isNaN(mpMax) && mpMax > 0 && mp <= mpMax / 2;
 
-    const penalty    = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (strained ? -10 : 0);
+    const penalty = Math.max((majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (strained ? -10 : 0), -20);
     const final      = manual + penalty;
     const bloodCss   = bloodied ? "1" : "0";
     const strainCss  = strained ? "1" : "0";

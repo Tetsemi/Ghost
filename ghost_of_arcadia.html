@@ -37364,8 +37364,8 @@ const debug_on = false;
 const debug_on_trace = false;
 const debug_on_watcher = false;
 
-const SHEET_VERSION = "2.26.04.05";
-const SHEET_BUILD   = "2026-04-05"; // optional (date, short SHA, etc.)
+const SHEET_VERSION = "2.26.04.08";
+const SHEET_BUILD   = "2026-04-08"; // optional (date, short SHA, etc.)
 const SHEET_SCHEMA  = 2;            // bump when you do a breaking data migration
 
 // === Unified guard utilities (single source of truth) ===
@@ -58604,7 +58604,8 @@ const recalcMov = () => {
     const strain     = parseInt(values.strain, 10);
     const strainMax  = parseInt(values.strain_max, 10);
     const tired      = !isNaN(strain) && !isNaN(strainMax) && strainMax > 0 && strain <= strainMax / 2;
-    const penalty    = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (tired ? -10 : 0);
+	const rawPenalty = (majorWound ? -10 : 0) + (bloodied ? -10 : 0) + (tired ? -10 : 0);
+	const penalty    = Math.max(rawPenalty, -20);
     const effDex     = Math.max(0, dex + penalty);
     setAttrs({ mov: Math.min(14, Math.floor((effDex + ath) / 10)) });
   });

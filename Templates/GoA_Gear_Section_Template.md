@@ -181,14 +181,58 @@ Add the new section inside the `sheet-gear` tab div, after the closing `</div>` 
 					<div class="flex-cell SECTION-effect"><span data-i18n="SECTION_effect-u">Effect</span></div>
 				</div>
 			</div>
-			<!-- Static rows (SECTION1, SECTION2) -->
-			<div class="sheet-SECTION-default"> ... </div>
+			<!-- Static rows (SECTION1, SECTION2) — show the effect cell in full -->
+			<div class="sheet-SECTION-default">
+				<div class="flex-row">
+					<div class="flex-cell SECTION-name">
+						<select name="attr_SECTION1_preset" class="sheet-armor-preset-select" data-i18n-title="SECTION_preset-u">
+							<option value="" data-i18n="SECTION_select_placeholder-u">--- select item ---</option>
+							<!-- options ... -->
+						</select>
+					</div>
+					<div class="flex-cell SECTION-rarity"><span name="attr_SECTION1_rarity"></span></div>
+					<div class="flex-cell SECTION-equipped"><input type="checkbox" name="attr_SECTION1_equipped_checkbox"/></div>
+					<div class="flex-cell SECTION-effect">
+						<div class="sheet-skill-tooltip has-notes">
+							<div class="SECTION-effect-preview"><span name="attr_SECTION1_effect"></span></div>
+							<div class="sheet-tooltip-bubble">
+								<div class="tooltip-label" data-i18n="SECTION_effect-u"></div>
+								<span name="attr_SECTION1_effect"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- Preset repeating fieldset -->
-			<fieldset class="repeating_SECTIONgear"> ... </fieldset>
+			<fieldset class="repeating_SECTIONgear">
+				<div class="flex-row">
+					<div class="flex-cell SECTION-name">
+						<select name="attr_SECTION_preset" class="sheet-armor-preset-select" data-i18n-title="SECTION_preset-u">
+							<option value="" data-i18n="SECTION_select_placeholder-u">--- select item ---</option>
+							<!-- options ... -->
+						</select>
+					</div>
+					<div class="flex-cell SECTION-rarity"><span name="attr_SECTION_rarity"></span></div>
+					<div class="flex-cell SECTION-equipped"><input type="checkbox" name="attr_SECTION_equipped_checkbox"/></div>
+					<div class="flex-cell SECTION-effect">
+						<div class="sheet-skill-tooltip has-notes">
+							<div class="SECTION-effect-preview"><span name="attr_SECTION_effect"></span></div>
+							<div class="sheet-tooltip-bubble">
+								<div class="tooltip-label" data-i18n="SECTION_effect-u"></div>
+								<span name="attr_SECTION_effect"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</fieldset>
 		</div>
 	</div>
 </div>
 ```
+
+> **TOOLTIP — always use `sheet-skill-tooltip has-notes`**
+>
+> The tooltip bubble is gated by `.sheet-skill-tooltip.has-notes:hover .sheet-tooltip-bubble { visibility: visible; }`. Without `has-notes` the help cursor appears but the bubble never shows. Gear preset sections **always** hardcode `has-notes` — it is not added dynamically the way skill note tooltips are. Every `sheet-skill-tooltip` div in a gear section must carry both classes.
 
 ---
 
@@ -377,6 +421,7 @@ registerSECTIONManualWatchers();
 | Manual row ID extraction fails | Section name must have NO underscores after `repeating_`. Use `repeating_armormanual` not `repeating_armor_manual`. |
 | Repeating section name breaks Roll20 | Roll20 splits repeating section names on underscores. `repeating_foo_bar` is treated as section `"foo"` with sub-key `"bar"`. Always use a single concatenated word after `repeating_`. |
 | Manual row buttons all greyed | The skill/type select must fire a watcher that writes the `btn_*` flag attrs. These are what the CSS reads to enable buttons. `computeModButtons()` does this for weapons. |
+| Tooltip cursor shows but bubble never appears | The tooltip bubble is hidden by default and only revealed by `.sheet-skill-tooltip.has-notes:hover`. Gear preset effect cells must use `class="sheet-skill-tooltip has-notes"` — both classes, always. `has-notes` is **not** added dynamically in gear sections the way it is in skill note tooltips. Omitting it gives the help cursor but a permanently invisible bubble. |
 
 ---
 
@@ -396,6 +441,7 @@ registerSECTIONManualWatchers();
 - [ ] HTML section — repeating fieldset class is `repeating_SECTIONgear`
 - [ ] HTML section — rarity cell between name and equipped in every row and header
 - [ ] HTML effect cells — wrapper div carries the class, not the named span
+- [ ] HTML effect cells — tooltip div uses `class="sheet-skill-tooltip has-notes"` (both classes — omitting `has-notes` silently breaks the tooltip bubble)
 - [ ] HTML rarity cells — plain named span, no wrapper div needed
 - [ ] CSS — column widths in pixels, not flex percentages
 - [ ] CSS — total column width ~813px (190 + 24 + 24 + 575)

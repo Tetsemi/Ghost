@@ -19,10 +19,9 @@ To-do:
 6. **Merge ancestryTalentDataMap into ancestryDataMap**
 
 
-7. **Comhat - DRONES & DEPLOYABLES**
+7. ~~**Gear - DRONES & DEPLOYABLES~~ ✓ DONE Section added**
 
-8. **Combat - BOTS & AUTONOMOUS UNITS**
-
+8. ~~**Gear - BOTS & AUTONOMOUS UNITS~~ ✓ DONE Section added**
  
 9. **Inventory - MEDTECH EQUIPMENT & Strain Compounds redo**
 
@@ -36,7 +35,7 @@ To-do:
 
 13. **NPC - Add MOV penalty**
 
-14. ~~**NPC - Cap Condition Penalty to -20**~~ ✓ DONE Cap Condition Penalty to -20**
+14. ~~**NPC - Cap Condition Penalty to -20~~ ✓ DONE Cap Condition Penalty to -20**
 
 Clean-up:
 

@@ -33,7 +33,7 @@ To-do:
 
 12. **Vehicle section including weapons (Gunnery)**
 
-13. **NPC - Add MOV penalty**
+13. ~~**NPC - Add MOV penalty~~ ✓ DONE**
 
 14. ~~**NPC - Cap Condition Penalty to -20~~ ✓ DONE Cap Condition Penalty to -20**
 

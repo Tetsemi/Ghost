@@ -31,7 +31,7 @@ To-do:
 11. **Cyberware section**
 
 
-12. **Vehicle section including weapons (Gunnery)**
+12. ~**Vehicle section including weapons (Gunnery)~~ ✓ DONE**
 
 13. ~~**NPC - Add MOV penalty~~ ✓ DONE**
 

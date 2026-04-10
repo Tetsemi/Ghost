@@ -62781,7 +62781,12 @@ const applyVehiclePreset = (prefix, key, preserveHp = false) => {
 	const skillEntry = (data && data.skill) ? skillDataMap[data.skill] : null;
 	const skillAttr  = skillEntry ? skillEntry.bonus : null;
 	const speedDisplay = (s) => {
-		const map = { slow: "Slow", standard: "Std", fast: "Fast", rapid: "Rapid" };
+		const map = {
+			slow:     tr("vehicle_speed_slow-u"),
+			standard: tr("vehicle_speed_standard-u"),
+			fast:     tr("vehicle_speed_fast-u"),
+			rapid:    tr("vehicle_speed_rapid-u"),
+		};
 		return map[s] || s || " ";
 	};
 	const handlingDisplay = (h) => {
@@ -62847,10 +62852,8 @@ const applyVehicleWeaponPreset = (prefix, key) => {
 	};
 	const listDisplay = (arr) => arr && arr.length ? arr.map(t => t.replace(/_/g, " ")).join(", ") : " ";
 	const modesDisplay = (arr) => arr && arr.length ? arr.map(m => m.toUpperCase()).join("/") : " ";
-	const nameDisplay   = data ? tr(data.name_key) : " ";
-	const traitsDisplay = data ? listDisplay(data.traits) : " ";
+	const effectFull = data ? tr(data.name_key) : " ";
 	setAttrs({
-		[prefix + "vweapon_name_display_mdr"]:    nameDisplay,
 		[prefix + "vweapon_damage_mdr"]:          data ? data.damage                                                           : " ",
 		[prefix + "vweapon_damage_display_mdr"]:  data ? (data.damage + (data.damage_type === "veil" ? " [V]" : ""))           : " ",
 		[prefix + "vweapon_mode_mdr"]:            data ? (data.mode || []).join("/")                                           : " ",
@@ -62862,8 +62865,8 @@ const applyVehicleWeaponPreset = (prefix, key) => {
 		[prefix + "vweapon_target_mdr"]:          data ? (data.target_class || []).join(",")                                   : " ",
 		[prefix + "vweapon_target_display_mdr"]:  data ? listDisplay(data.target_class)                                        : " ",
 		[prefix + "vweapon_traits_mdr"]:          data ? (data.traits || []).join(",")                                         : " ",
-		[prefix + "vweapon_traits_display_mdr"]:  traitsDisplay,
-		[prefix + "vweapon_effect_mdr"]:          traitsDisplay,
+		[prefix + "vweapon_traits_display_mdr"]:  data ? listDisplay(data.traits)                                              : " ",
+		[prefix + "vweapon_effect_mdr"]:          effectFull,
 		[prefix + "vweapon_cost_mdr"]:            data ? data.cost                                                             : 0,
 		[prefix + "vweapon_rarity_mdr"]:          data ? tr(rarityAbbrevKey[data.rarity] || " ")                              : " ",
 	});
@@ -62875,28 +62878,28 @@ const applyVehicleModPreset = (prefix, key) => {
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	const categoryDisplay = (c) => {
 		const map = {
-			performance:      "Performance",
-			armor:            "Armor",
-			weapons_tactical: "Weapons",
-			stealth_ecm:      "Stealth/ECM",
-			arcane:           "Arcane",
+			performance:      tr("vmod_category_performance-u"),
+			armor:            tr("vmod_category_armor-u"),
+			weapons_tactical: tr("vmod_category_weapons_tactical-u"),
+			stealth_ecm:      tr("vmod_category_stealth_ecm-u"),
+			arcane:           tr("vmod_category_arcane-u"),
 		};
 		return map[c] || c || " ";
 	};
 	const effectFull    = data ? tr(data.effect_key) : " ";
-	const effectPreview = effectFull.length > 45 ? effectFull.substring(0, 45) + "…" : effectFull;
 	setAttrs({
 		[prefix + "vmod_category_mdr"]:         data ? data.category                                                 : " ",
 		[prefix + "vmod_category_display_mdr"]: data ? categoryDisplay(data.category)                               : " ",
 		[prefix + "vmod_slots_mdr"]:            data ? data.mod_slots                                                : 0,
 		[prefix + "vmod_slots_display_mdr"]:    data ? String(data.mod_slots)                                       : " ",
 		[prefix + "vmod_effect_mdr"]:           effectFull,
-		[prefix + "vmod_effect_preview_mdr"]:   effectPreview,
+		[prefix + "vmod_effect_preview_mdr"]:   effectFull,
 		[prefix + "vmod_cost_mdr"]:             data ? (data.cost || data.cost_min || 0)                            : 0,
 		[prefix + "vmod_rarity_mdr"]:           data ? tr(rarityAbbrevKey[data.rarity] || " ")                     : " ",
-		[prefix + "vmod_vehicle_req_mdr"]:      data ? (data.vehicle_req ? data.vehicle_req.join(", ") : "Any")    : " ",
+		[prefix + "vmod_vehicle_req_mdr"]:      data ? (data.vehicle_req ? data.vehicle_req.join(", ") : tr("any-u")) : " ",
 	});
 };
+
 
 /* ── Core: compute and write all display attrs for one grenade row ────── */
 function applyGrenadePreset(p, presetKey, delivery) {

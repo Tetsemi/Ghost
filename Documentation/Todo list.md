@@ -1,6 +1,5 @@
 BUGS:
 
-Need to unhide buttons in the manual section
 
 To-do:
 	
@@ -12,7 +11,7 @@ To-do:
 
 3. **Full type/tag audit across all DataMaps**
 
-4. **ancestryTalentDataMap tag normalization** — 115 of 160 talents use display-name tags instead of snake_case (e.g. `"Observation"` instead of `"observation"`, `"Behavioral Echo"` instead of `"behavioral_echo"`)
+4. **~~ancestryTalentDataMap tag normalization — 115 of 160 talents use display-name tags instead of snake_case (e.g. `"Observation"` instead of `"observation"`, `"Behavioral Echo"` instead of `"behavioral_echo"`)~~ ✓ DONE**
 
 5. **Add Ancestry Traits to Summary Text**
 

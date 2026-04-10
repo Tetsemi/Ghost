@@ -32283,11 +32283,11 @@
 								<div class="flex-cell vweapon-shots"><span data-i18n="vweapon_shots_col-u">Shots</span></div>
 								<div class="flex-cell vweapon-target"><span data-i18n="vweapon_target_col-u">Target</span></div>
 								<div class="flex-cell vweapon-traits"><span data-i18n="vweapon_traits_col-u">Traits / Effect</span></div>
-								<div class="flex-cell vweapon-btn"></div>
 							</div>
 						</div>
 						<fieldset class="repeating_vehicleweapongear">
 							<div>
+								<input type="hidden" name="attr_vweapon_name_display_mdr" value=""/>
 								<input type="hidden" name="attr_vweapon_damage_mdr" value=""/>
 								<input type="hidden" name="attr_vweapon_mode_mdr" value=""/>
 								<input type="hidden" name="attr_vweapon_mount_mdr" value=""/>
@@ -32314,7 +32314,14 @@
 										</select>
 									</div>
 									<div class="flex-cell vweapon-rarity"><span name="attr_vweapon_rarity_mdr"></span></div>
-									<div class="flex-cell vweapon-damage"><span name="attr_vweapon_damage_display_mdr"></span></div>
+									<div class="flex-cell vweapon-damage">
+										<div class="sheet-val-roll-static">
+											<input type="text" name="attr_vweapon_damage_display_mdr" readonly/>
+											<button type="roll" name="roll_vweapon_attack"
+												value="&{template:coc-minionattack} {{name=@{vweapon_name_display_mdr} (Gunnery)}} {{success=[[@{gunnery_mdr}]]}} {{hard=[[floor(@{gunnery_mdr}/2)]]}} {{extreme=[[floor(@{gunnery_mdr}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vweapon_damage_mdr}]]}}">
+											</button>
+										</div>
+									</div>
 									<div class="flex-cell vweapon-mode"><span name="attr_vweapon_mode_display_mdr"></span></div>
 									<div class="flex-cell vweapon-mount"><span name="attr_vweapon_mount_display_mdr"></span></div>
 									<div class="flex-cell vweapon-shots"><span name="attr_vweapon_shots_display_mdr"></span></div>
@@ -32322,14 +32329,8 @@
 									<div class="flex-cell vweapon-traits">
 										<div class="sheet-skill-tooltip has-notes">
 											<div class="sheet-skill-tooltip-preview"><span name="attr_vweapon_traits_display_mdr"></span></div>
-											<div class="sheet-skill-tooltip-bubble"><span name="attr_vweapon_effect_mdr"></span></div>
+											<div class="sheet-tooltip-bubble"><span name="attr_vweapon_effect_mdr"></span></div>
 										</div>
-									</div>
-									<div class="flex-cell vweapon-btn">
-										<button class="smallbutton-roll" type="roll"
-											name="roll_vweapon_attack"
-											value="&{template:coc-minionattack} {{name=@{vweapon_preset} (Gunnery)}} {{success=[[@{gunnery_mdr}]]}} {{hard=[[floor(@{gunnery_mdr}/2)]]}} {{extreme=[[floor(@{gunnery_mdr}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vweapon_damage_mdr}]]}}">
-										</button>
 									</div>
 								</div><!-- /flex-row -->
 							</div>
@@ -32345,7 +32346,6 @@
 								<div class="flex-cell vweapon-shots"><span data-i18n="vweapon_shots_col-u">Shots</span></div>
 								<div class="flex-cell vweapon-target"><span data-i18n="vweapon_target_col-u">Target</span></div>
 								<div class="flex-cell vweapon-traits"><span data-i18n="vweapon_traits_col-u">Traits / Effect</span></div>
-								<div class="flex-cell vweapon-btn"></div>
 							</div>
 						</div>
 						<fieldset class="repeating_vehicleweaponmanual">
@@ -32360,18 +32360,19 @@
 											<option value="R">R</option>
 										</select>
 									</div>
-									<div class="flex-cell vweapon-damage"><input type="text" class="sheet-wide-input" name="attr_vweapon_damage_manual"/></div>
+									<div class="flex-cell vweapon-damage">
+										<div class="sheet-val-roll-static">
+											<input type="text" class="sheet-wide-input" name="attr_vweapon_damage_manual"/>
+											<button type="roll" name="roll_vweapon_manual_attack"
+												value="&{template:coc-minionattack} {{name=@{vweapon_name_mdr} (Gunnery)}} {{success=[[@{gunnery_mdr}]]}} {{hard=[[floor(@{gunnery_mdr}/2)]]}} {{extreme=[[floor(@{gunnery_mdr}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vweapon_damage_manual}]]}}">
+											</button>
+										</div>
+									</div>
 									<div class="flex-cell vweapon-mode"><input type="text" class="sheet-wide-input" name="attr_vweapon_mode_manual"/></div>
 									<div class="flex-cell vweapon-mount"><input type="text" class="sheet-wide-input" name="attr_vweapon_mount_manual"/></div>
 									<div class="flex-cell vweapon-shots"><input type="text" class="sheet-wide-input" name="attr_vweapon_shots_manual"/></div>
 									<div class="flex-cell vweapon-target"><input type="text" class="sheet-wide-input" name="attr_vweapon_target_manual"/></div>
 									<div class="flex-cell vweapon-traits"><input type="text" class="sheet-wide-input" name="attr_vweapon_traits_manual"/></div>
-									<div class="flex-cell vweapon-btn">
-										<button class="smallbutton-roll" type="roll"
-											name="roll_vweapon_manual_attack"
-											value="&{template:coc-minionattack} {{name=@{vweapon_name_mdr} (Gunnery)}} {{success=[[@{gunnery_mdr}]]}} {{hard=[[floor(@{gunnery_mdr}/2)]]}} {{extreme=[[floor(@{gunnery_mdr}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vweapon_damage_manual}]]}}">
-										</button>
-									</div>
 								</div><!-- /flex-row -->
 							</div>
 						</fieldset>
@@ -32460,7 +32461,7 @@
 									<div class="flex-cell vmod-effect">
 										<div class="sheet-skill-tooltip has-notes">
 											<div class="sheet-skill-tooltip-preview"><span name="attr_vmod_effect_preview_mdr"></span></div>
-											<div class="sheet-skill-tooltip-bubble"><span name="attr_vmod_effect_mdr"></span></div>
+											<div class="sheet-tooltip-bubble"><span name="attr_vmod_effect_mdr"></span></div>
 										</div>
 									</div>
 								</div><!-- /flex-row -->
@@ -62846,8 +62847,10 @@ const applyVehicleWeaponPreset = (prefix, key) => {
 	};
 	const listDisplay = (arr) => arr && arr.length ? arr.map(t => t.replace(/_/g, " ")).join(", ") : " ";
 	const modesDisplay = (arr) => arr && arr.length ? arr.map(m => m.toUpperCase()).join("/") : " ";
-	const effectFull = data ? tr(data.name_key) : " ";
+	const nameDisplay   = data ? tr(data.name_key) : " ";
+	const traitsDisplay = data ? listDisplay(data.traits) : " ";
 	setAttrs({
+		[prefix + "vweapon_name_display_mdr"]:    nameDisplay,
 		[prefix + "vweapon_damage_mdr"]:          data ? data.damage                                                           : " ",
 		[prefix + "vweapon_damage_display_mdr"]:  data ? (data.damage + (data.damage_type === "veil" ? " [V]" : ""))           : " ",
 		[prefix + "vweapon_mode_mdr"]:            data ? (data.mode || []).join("/")                                           : " ",
@@ -62859,8 +62862,8 @@ const applyVehicleWeaponPreset = (prefix, key) => {
 		[prefix + "vweapon_target_mdr"]:          data ? (data.target_class || []).join(",")                                   : " ",
 		[prefix + "vweapon_target_display_mdr"]:  data ? listDisplay(data.target_class)                                        : " ",
 		[prefix + "vweapon_traits_mdr"]:          data ? (data.traits || []).join(",")                                         : " ",
-		[prefix + "vweapon_traits_display_mdr"]:  data ? listDisplay(data.traits)                                              : " ",
-		[prefix + "vweapon_effect_mdr"]:          effectFull,
+		[prefix + "vweapon_traits_display_mdr"]:  traitsDisplay,
+		[prefix + "vweapon_effect_mdr"]:          traitsDisplay,
 		[prefix + "vweapon_cost_mdr"]:            data ? data.cost                                                             : 0,
 		[prefix + "vweapon_rarity_mdr"]:          data ? tr(rarityAbbrevKey[data.rarity] || " ")                              : " ",
 	});

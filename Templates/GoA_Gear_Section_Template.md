@@ -1,6 +1,6 @@
 # Ghost of Arcadia — Gear Tab Section Template
 
-*v3 — includes Manual Row pattern (Armor, Weapons, Grenades)*
+*v4 — Vehicle tab patterns, tooltip fix, val+roll pattern, i18n enforcement*
 
 ---
 
@@ -14,13 +14,12 @@ The four files changed for every new section are:
 - `ghost_of_arcadia.css` — column sizing and row rules
 - `translation.json` — all i18n keys
 
-> **New in v3**
+> **New in v4**
 >
-> Armor, Weapons, and Grenades & Explosives now each have a Manual Row section below the preset repeating fieldset.
->
-> Manual rows share the same column header as the preset section above them, separated by a divider rule.
->
-> Step 6 of this guide documents the Manual Row pattern for new sections.
+> - Vehicle tab implemented as the reference pattern for complex sections with stat columns, val+roll cells, condition tracking, and skill sync.
+> - Tooltip pattern clarified: bubble class must be `sheet-tooltip-bubble` (not `sheet-skill-tooltip-bubble`).
+> - Val+roll pattern documented: use `sheet-val-roll-static` — never create a separate button column.
+> - i18n enforcement: all display strings written via `setAttrs` must use `tr()`. No hardcoded English strings. No JS truncation.
 
 ---
 
@@ -59,6 +58,7 @@ Use fixed pixel widths for all columns — do **NOT** use flex percentages. The 
 | Effect / description | 575px | Truncated with ellipsis + hover tooltip. `position: relative` |
 | Short numeric | 60–80px | If replacing Effect — cost, rating, charges, etc. |
 | Short text | 100–160px | If replacing Effect — category, skill ref, etc. |
+| Val+Roll column | 50px | Numeric value that is also a roll button. `position: relative`. Use `sheet-val-roll-static`. No separate button column. |
 
 > **RULE**
 >
@@ -69,6 +69,8 @@ Use fixed pixel widths for all columns — do **NOT** use flex percentages. The 
 ## Step 1 — Data Map (HTML)
 
 Add the data map object inside the `<script>` block, grouped with the other data maps. Alphabetize entries within the map.
+
+If the section references a skill, store the **skillDataMap key** (e.g. `"drive_auto"`) in the `skill` field — not the sheet attribute name. The apply function resolves `skillDataMap[data.skill].bonus` to get the attr name and `skillDataMap[data.skill].label` for display.
 
 ### Standard fields
 
@@ -104,6 +106,10 @@ const SECTIONDataMap = {
 
 Add all keys in alphabetical order within the file. The four rarity abbreviation keys and `rarity-u` header key are already in the codebase — do not add them again.
 
+**When inserting many keys that span an existing range**, extract the full affected key group, add the new entries, sort the combined set, and write it back using Python. Never use a sequential anchor-after insertion strategy for multi-key additions — it produces out-of-order clumps.
+
+**If your apply function uses any display strings** (condition labels, speed categories, category names, fallback strings), add their translation keys here before writing any JS. Never hardcode English strings in `setAttrs` calls.
+
 ### Required keys for every section
 
 ```json
@@ -131,7 +137,9 @@ Add all keys in alphabetical order within the file. The four rarity abbreviation
 
 ## Step 3 — CSS (ghost_of_arcadia.css)
 
-Add the CSS block inside the Gear Tab Collapsible Sections area, after the previous section's block.
+**Before writing any CSS, read the surrounding section start/end markers.** Insert rules inside the correct named section only. Never add CSS from one section into another section's boundary block.
+
+Add the CSS block inside the appropriate section area. Also add the new fieldset names to the **fieldset reset block inside that same section** — not to the Combat section's reset block.
 
 ```css
 /* ---- SECTION section flex-cell column sizing ---- */
@@ -150,9 +158,34 @@ Add the CSS block inside the Gear Tab Collapsible Sections area, after the previ
 	padding: 0; margin: 0; gap: 0;
 }
 
-/* Add repeating_SECTIONmanual to fieldset reset block */
-.ui-dialog .tab-content .charsheet fieldset.repeating_SECTIONmanual { ... }
+/* Fieldset reset — inside this section's boundary, not Combat */
+.ui-dialog .tab-content .charsheet fieldset.repeating_SECTIONgear,
+.ui-dialog .tab-content .charsheet fieldset.repeating_SECTIONmanual {
+	margin: 0; padding: 0; border: none;
+}
 ```
+
+### Tooltip effect cell CSS
+
+When a section uses the `sheet-skill-tooltip has-notes` pattern for an effect cell, add these scoped rules to make the preview text fill the full cell width:
+
+```css
+.ui-dialog .tab-content .charsheet .SECTION-effect .sheet-skill-tooltip { display: flex; width: 100%; min-width: 0; align-items: stretch; }
+.ui-dialog .tab-content .charsheet .SECTION-effect .sheet-skill-tooltip-preview { flex: 1 1 0; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ui-dialog .tab-content .charsheet .SECTION-effect .sheet-skill-tooltip-preview span { display: block; width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+```
+
+**Never apply these rules globally** to `sheet-skill-tooltip-preview` — scope them to the specific effect cell class. A global rule will constrain preview text in other sections.
+
+### Val+Roll columns
+
+For columns that display a value and trigger a roll on click:
+
+```css
+.ui-dialog .tab-content .charsheet .SECTION-valcol { width: 50px; position: relative; }
+```
+
+Use `sheet-val-roll-static` in the HTML (see Step 4). No separate button column is needed or appropriate.
 
 ---
 
@@ -160,158 +193,120 @@ Add the CSS block inside the Gear Tab Collapsible Sections area, after the previ
 
 Add the new section inside the `sheet-gear` tab div, after the closing `</div>` of the previous section.
 
+### Tooltip effect cell HTML
+
+```html
+<div class="flex-cell SECTION-effect">
+    <div class="sheet-skill-tooltip has-notes">
+        <div class="sheet-skill-tooltip-preview"><span name="attr_SECTION_effect_preview_mdr"></span></div>
+        <div class="sheet-tooltip-bubble"><span name="attr_SECTION_effect_mdr"></span></div>
+    </div>
+</div>
+```
+
+**Critical:** `sheet-tooltip-bubble` — not `sheet-skill-tooltip-bubble`. The wrong class has no CSS hover rule and the bubble never appears.
+
+Both `attr_SECTION_effect_preview_mdr` and `attr_SECTION_effect_mdr` receive the **full effect text** from `tr(data.effect_key)`. CSS handles visual clipping of the preview. Never truncate in JS.
+
+### Val+Roll cell HTML
+
+```html
+<div class="flex-cell SECTION-valcol">
+    <div class="sheet-val-roll-static">
+        <input type="text" name="attr_SECTION_val_mdr" readonly/>
+        <button type="roll" name="roll_SECTION_check"
+            value="&{template:coc-1} {{name=@{SECTION_name_display_mdr}}} {{success=[[@{SECTION_val_mdr}]]}} ...">
+        </button>
+    </div>
+</div>
+```
+
+The button is `opacity: 0; position: absolute` covering the full cell — clicking the value triggers the roll. No separate button column needed.
+
+### Roll name attribute
+
+**Never use `@{SECTION_preset}` in a roll name field** — that resolves to the raw DataMap key (e.g. `cargo_van`), not a display name. Always write a `SECTION_name_display_mdr` attr via `tr(data.name_key)` in the apply function and reference `@{SECTION_name_display_mdr}` in the roll formula.
+
 ### Full section template
 
 ```html
 <div class="sheet-colrow sheet-section sheet-gear-collapsible">
-	<input type="checkbox" class="sheet-top-collapse" id="gear_SECTION_collapse"
-		name="attr_gear_SECTION_collapse" value="1"/>
-	<h4 class="sheet-section-head-collapsible">
-		<span data-i18n="SECTION_source-u">Section Display Name</span>
-		<label class="sheet-top-collapse-hit" for="gear_SECTION_collapse"></label>
-	</h4>
-	<div class="sheet-section-body">
-		<div class="sheet-section">
-			<!-- Header row -->
-			<div class="sheet-SECTION-header">
-				<div class="flex-row">
-					<div class="flex-cell SECTION-name"><span data-i18n="SECTION_item_name-u">Item</span></div>
-					<div class="flex-cell SECTION-rarity"><span data-i18n="rarity-u">R</span></div>
-					<div class="flex-cell SECTION-equipped"><span data-i18n="SECTION_equipped-u">E</span></div>
-					<div class="flex-cell SECTION-effect"><span data-i18n="SECTION_effect-u">Effect</span></div>
-				</div>
-			</div>
-			<!-- Static rows (SECTION1, SECTION2) — show the effect cell in full -->
-			<div class="sheet-SECTION-default">
-				<div class="flex-row">
-					<div class="flex-cell SECTION-name">
-						<select name="attr_SECTION1_preset" class="sheet-armor-preset-select" data-i18n-title="SECTION_preset-u">
-							<option value="" data-i18n="SECTION_select_placeholder-u">--- select item ---</option>
-							<!-- options ... -->
-						</select>
-					</div>
-					<div class="flex-cell SECTION-rarity"><span name="attr_SECTION1_rarity"></span></div>
-					<div class="flex-cell SECTION-equipped"><input type="checkbox" name="attr_SECTION1_equipped_checkbox"/></div>
-					<div class="flex-cell SECTION-effect">
-						<div class="sheet-skill-tooltip has-notes">
-							<div class="SECTION-effect-preview"><span name="attr_SECTION1_effect"></span></div>
-							<div class="sheet-tooltip-bubble">
-								<div class="tooltip-label" data-i18n="SECTION_effect-u"></div>
-								<span name="attr_SECTION1_effect"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- Preset repeating fieldset -->
-			<fieldset class="repeating_SECTIONgear">
-				<div class="flex-row">
-					<div class="flex-cell SECTION-name">
-						<select name="attr_SECTION_preset" class="sheet-armor-preset-select" data-i18n-title="SECTION_preset-u">
-							<option value="" data-i18n="SECTION_select_placeholder-u">--- select item ---</option>
-							<!-- options ... -->
-						</select>
-					</div>
-					<div class="flex-cell SECTION-rarity"><span name="attr_SECTION_rarity"></span></div>
-					<div class="flex-cell SECTION-equipped"><input type="checkbox" name="attr_SECTION_equipped_checkbox"/></div>
-					<div class="flex-cell SECTION-effect">
-						<div class="sheet-skill-tooltip has-notes">
-							<div class="SECTION-effect-preview"><span name="attr_SECTION_effect"></span></div>
-							<div class="sheet-tooltip-bubble">
-								<div class="tooltip-label" data-i18n="SECTION_effect-u"></div>
-								<span name="attr_SECTION_effect"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-		</div>
-	</div>
+    <input type="checkbox" class="sheet-top-collapse" id="gear_SECTION_collapse"
+        name="attr_gear_SECTION_collapse" value="1"/>
+    <h4 class="sheet-section-head-collapsible">
+        <span data-i18n="SECTION_source-u">Section Name</span>
+        <label class="sheet-top-collapse-hit" for="gear_SECTION_collapse"></label>
+    </h4>
+    <div class="sheet-section-body">
+        <div class="sheet-section">
+            <!-- Column header -->
+            <div class="sheet-SECTION-header">
+                <div class="flex-row">
+                    <div class="flex-cell SECTION-name"><span data-i18n="SECTION_preset-u">Item</span></div>
+                    <div class="flex-cell SECTION-rarity"><span data-i18n="rarity-u">R</span></div>
+                    <div class="flex-cell SECTION-equipped"><span data-i18n="SECTION_equipped-u">E</span></div>
+                    <div class="flex-cell SECTION-effect"><span data-i18n="SECTION_effect-u">Effect</span></div>
+                </div>
+            </div>
+            <!-- Repeating rows -->
+            <fieldset class="repeating_SECTIONgear">
+                <div>
+                    <div class="flex-row">
+                        <div class="flex-cell SECTION-name">
+                            <select name="attr_SECTION_preset">
+                                <option value="" data-i18n="SECTION_select_placeholder-u">--- select ---</option>
+                                <!-- options -->
+                            </select>
+                        </div>
+                        <div class="flex-cell SECTION-rarity">
+                            <span name="attr_SECTION_rarity"></span>
+                        </div>
+                        <div class="flex-cell SECTION-equipped">
+                            <input type="checkbox" name="attr_SECTION_equipped" value="1"/>
+                        </div>
+                        <div class="flex-cell SECTION-effect">
+                            <div class="sheet-skill-tooltip has-notes">
+                                <div class="sheet-skill-tooltip-preview"><span name="attr_SECTION_effect_preview_mdr"></span></div>
+                                <div class="sheet-tooltip-bubble"><span name="attr_SECTION_effect_mdr"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
 </div>
 ```
 
-> **TOOLTIP — always use `sheet-skill-tooltip has-notes`**
->
-> The tooltip bubble is gated by `.sheet-skill-tooltip.has-notes:hover .sheet-tooltip-bubble { visibility: visible; }`. Without `has-notes` the help cursor appears but the bubble never shows. Gear preset sections **always** hardcode `has-notes` — it is not added dynamically the way skill note tooltips are. Every `sheet-skill-tooltip` div in a gear section must carry both classes.
-
 ---
 
-## Step 5 — JavaScript (ghost_of_arcadia.html)
-
-Three additions: the two apply functions, the change watchers, and the init function.
-
-### 5a — Apply functions
+## Step 5 — JS Apply Function
 
 ```javascript
+/* ── Core: fill display attrs for one SECTION row (repeating) ─── */
 function applySECTIONPreset(p, presetKey) {
 	const entry = presetKey ? SECTIONDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function")
-		? (getTranslationByKey(k) || k) : (k || "");
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	const effectFull = entry ? tr(entry.effect_key) : " ";
 	setAttrs({
-		[p + "SECTION_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : "",
-		[p + "SECTION_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : "",
-	});
-}
-
-function applySECTIONPresetStatic(index, presetKey) {
-	const entry = presetKey ? SECTIONDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function")
-		? (getTranslationByKey(k) || k) : (k || "");
-	setAttrs({
-		[`SECTION${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : "",
-		[`SECTION${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : "",
+		[p + "SECTION_name_display_mdr"]: entry ? tr(entry.name_key)                      : " ",
+		[p + "SECTION_effect_preview_mdr"]: effectFull,
+		[p + "SECTION_effect_mdr"]:         effectFull,
+		[p + "SECTION_rarity"]:             entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
 	});
 }
 ```
 
-### 5b — Watchers
-
-```javascript
-on("change:repeating_SECTIONgear:SECTION_preset", (eventInfo) => {
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_SECTIONgear_([^_]+)_/);
-	if (!m) return;
-	const p = `repeating_SECTIONgear_${m[1]}_`;
-	getAttrs([p + "SECTION_preset"], (v) => {
-		applySECTIONPreset(p, v[p + "SECTION_preset"] || "");
-	});
-});
-
-on("change:SECTION1_preset", () => {
-	getAttrs(["SECTION1_preset"], (v) => { applySECTIONPresetStatic(1, v["SECTION1_preset"] || ""); });
-});
-
-on("change:SECTION2_preset", () => {
-	getAttrs(["SECTION2_preset"], (v) => { applySECTIONPresetStatic(2, v["SECTION2_preset"] || ""); });
-});
-```
-
-### 5c — Init function
-
-```javascript
-const initSECTIONPresets = () => {
-	getAttrs(["SECTION1_preset", "SECTION2_preset"], (v) => {
-		if (v["SECTION1_preset"]) applySECTIONPresetStatic(1, v["SECTION1_preset"]);
-		if (v["SECTION2_preset"]) applySECTIONPresetStatic(2, v["SECTION2_preset"]);
-	});
-	getSectionIDs("repeating_SECTIONgear", (ids) => {
-		if (!ids.length) return;
-		const fetchKeys = ids.map(id => `repeating_SECTIONgear_${id}_SECTION_preset`);
-		getAttrs(fetchKeys, (rows) => {
-			ids.forEach(id => {
-				const p = `repeating_SECTIONgear_${id}_`;
-				const preset = rows[p + "SECTION_preset"] || "";
-				if (preset) applySECTIONPreset(p, preset);
-			});
-		});
-	});
-};
-```
+**Rules:**
+- Never use `if (!entry) return` — always call `setAttrs` so fields clear on deselect.
+- Pass `" "` (single space) when clearing — Roll20 ignores `setAttrs` that set a value to `""`.
+- `effectFull` goes to **both** `effect_preview_mdr` and `effect_mdr`. CSS handles visual clipping.
+- All display strings (condition labels, speed, category, fallback "Any") must use `tr()`. If the key doesn't exist yet, add it to `translation.json` first.
+- If the section has a `skill` field, look it up via `skillDataMap[entry.skill].bonus` for the attr name and `skillDataMap[entry.skill].label` for display — never hardcode the attr name.
 
 ---
 
-## Step 6 — Manual Row Section (NEW in v3)
-
-Some sections (Armor, Weapons, Grenades & Explosives) include a manual entry fieldset below the preset repeating section. This allows players to enter custom items not covered by the preset data map.
+## Step 6 — Manual Row Pattern
 
 The manual fieldset is always separated from the preset fieldset by a divider rule and preceded by a duplicate column header row, so the header labels apply to both sections.
 
@@ -321,19 +316,19 @@ The manual fieldset is always separated from the preset fieldset by a divider ru
 <!-- Divider + duplicate header above the manual fieldset -->
 <hr class="sheet-armor-divider"/>
 <div class="sheet-SECTION-header">
-	<div class="flex-row">
-		<!-- exact same header cells as the preset header above -->
-		<div class="flex-cell SECTION-name"><span data-i18n="SECTION_item_name-u">Item</span></div>
-		<div class="flex-cell SECTION-rarity"><span data-i18n="rarity-u">R</span></div>
-		...
-	</div>
+    <div class="flex-row">
+        <!-- exact same header cells as the preset header above -->
+        <div class="flex-cell SECTION-name"><span data-i18n="SECTION_item_name-u">Item</span></div>
+        <div class="flex-cell SECTION-rarity"><span data-i18n="rarity-u">R</span></div>
+        ...
+    </div>
 </div>
 <fieldset class="repeating_SECTIONmanual">
-	<div class="...">
-		<!-- Hidden persistent attrs at grid-row level -->
-		<!-- Main flex-row: text inputs replacing the preset selects -->
-		<!-- Advanced panel (if the section has one) -->
-	</div>
+    <div class="...">
+        <!-- Hidden persistent attrs at grid-row level -->
+        <!-- Main flex-row: text inputs replacing the preset selects -->
+        <!-- Advanced panel (if the section has one) -->
+    </div>
 </fieldset>
 ```
 
@@ -351,11 +346,12 @@ The manual fieldset is always separated from the preset fieldset by a divider ru
 ### 6c — CSS additions
 
 ```css
-/* Add manual fieldset to the fieldset reset block (alphabetical) */
-.ui-dialog .tab-content .charsheet fieldset.repeating_SECTIONmanual,
+/* Add manual fieldset to the fieldset reset block (inside this section's CSS boundary) */
+.ui-dialog .tab-content .charsheet fieldset.repeating_SECTIONmanual {
+	margin: 0; padding: 0; border: none;
+}
 
 /* Manual rows share the same flex-row sizing as the preset rows */
-/* Add repeating_SECTIONmanual to the existing .flex-row rule: */
 .ui-dialog .tab-content .charsheet .repeating_SECTIONmanual .flex-row {
 	display: flex; flex-wrap: nowrap; flex-direction: row;
 	align-items: center; width: 100%; height: var(--cs_row_height);
@@ -365,11 +361,7 @@ The manual fieldset is always separated from the preset fieldset by a divider ru
 
 ### 6d — JS: named `const` function for manual watchers
 
-Each manual fieldset has its own named `const` arrow function that registers all button and change watchers for that section. The function is declared in the **Initialization Section** (before `/* Initialization Section - End */`) alongside the other `const` declarations, and called from `afterAllSets` inside `initializeSheetOnOpen`.
-
-**Do not use an IIFE.** IIFEs execute at parse time, which places their `on()` registrations in the middle of the function block and makes them structural oddities. The named function pattern keeps declarations and calls in their correct sections.
-
-The scoping benefit of the original IIFE is preserved — each function has its own private `S`, `id`, and any other locals, with no risk of collision.
+Each manual fieldset has its own named `const` arrow function. Declared in the **Initialization Section** (before `/* Initialization Section - End */`), called from `afterAllSets` inside `initializeSheetOnOpen`. Do not use an IIFE.
 
 ```javascript
 const registerSECTIONManualWatchers = () => {
@@ -379,19 +371,14 @@ const registerSECTIONManualWatchers = () => {
 		return m ? m[1] : null;
 	};
 
-	/* Fire on row creation to populate any derived display attrs */
 	on(`change:${S}:item_name_mdr`, (eventInfo) => {
 		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
 		// ... resolve and setAttrs
 	});
-
-	/* Other watchers: buttons, selects, checkboxes */
 };
 ```
 
 ### 6e — Init function extension
-
-Add `initSECTIONManualAttrs()` and `registerSECTIONManualWatchers()` to `afterAllSets` inside `initializeSheetOnOpen`:
 
 ```javascript
 const initSECTIONManualAttrs = () => {
@@ -413,15 +400,22 @@ registerSECTIONManualWatchers();
 
 | Gotcha | What to do |
 |---|---|
-| Fields don't clear on deselect | Never use `if (!entry) return`. Always call `setAttrs`. Pass a single space `" "` (not empty string) when clearing — Roll20 ignores `setAttrs` calls that set a value to `""`. |
+| Fields don't clear on deselect | Never use `if (!entry) return`. Always call `setAttrs`. Pass `" "` (not `""`) when clearing. |
 | `class=` on named spans ignored | Use a wrapper div for styling. The rarity span is the exception — single letter, no truncation needed. |
 | Column widths don't add up | When adding or removing a column, adjust the others. Standard 4-col total is ~813px: 190 + 24 + 24 + 575. |
-| `overflow: hidden` clips tooltip bubble | Never set `overflow: hidden` on the effect cell or tooltip wrapper. Only the preview div gets it. |
+| Tooltip bubble never appears | Bubble class must be `sheet-tooltip-bubble` — NOT `sheet-skill-tooltip-bubble`. The wrong class has no hover rule. Both `sheet-skill-tooltip` and `has-notes` must be on the wrapper div. |
+| `overflow: hidden` clips tooltip bubble | Never set `overflow: hidden` on the effect cell or tooltip wrapper. Only the preview div and its inner span get it. |
+| Preview text truncates too early | The base `sheet-skill-tooltip` is `display: inline-flex` and sizes to content. Add scoped rules: `display: flex; width: 100%; min-width: 0` on tooltip, `flex: 1 1 0; min-width: 0` on preview div, `display: block; width: 100%` on inner span. |
+| Preview text truncated in wrong place | Never truncate in JS. No `substring()`, no hardcoded `"…"`. Write the full translated string to both `_preview_mdr` and `_mdr`. CSS `text-overflow: ellipsis` handles visual clipping. |
 | Flex percentages don't work | Use `width: Npx` for all columns. Roll20's global `.flex-cell` rules fight `flex-basis` values. |
 | Manual row ID extraction fails | Section name must have NO underscores after `repeating_`. Use `repeating_armormanual` not `repeating_armor_manual`. |
 | Repeating section name breaks Roll20 | Roll20 splits repeating section names on underscores. `repeating_foo_bar` is treated as section `"foo"` with sub-key `"bar"`. Always use a single concatenated word after `repeating_`. |
-| Manual row buttons all greyed | The skill/type select must fire a watcher that writes the `btn_*` flag attrs. These are what the CSS reads to enable buttons. `computeModButtons()` does this for weapons. |
-| Tooltip cursor shows but bubble never appears | The tooltip bubble is hidden by default and only revealed by `.sheet-skill-tooltip.has-notes:hover`. Gear preset effect cells must use `class="sheet-skill-tooltip has-notes"` — both classes, always. `has-notes` is **not** added dynamically in gear sections the way it is in skill note tooltips. Omitting it gives the help cursor but a permanently invisible bubble. |
+| Roll name shows raw DataMap key | Never use `@{SECTION_preset}` in a roll name. Write `SECTION_name_display_mdr` via `tr(data.name_key)` in the apply function and reference that attr in the roll formula. |
+| Val column shows dice icon, not value | Use `sheet-val-roll-static` — a wrapper with a `readonly` input showing the value and an `opacity:0` button covering the cell. The column needs `position: relative`. No separate button column. |
+| Top-level attr unresolved in repeating span | `<span name="attr_gunnery_mdr">` inside a repeating fieldset won't resolve top-level attrs. Write a per-row copy of the value as a hidden attr via the apply function, and add a sync watcher on the source attr. |
+| Hardcoded display strings break translation | Any string written to a display attr via `setAttrs` must use `tr()`. Add missing keys to `translation.json` before writing the JS. |
+| CSS inserted in wrong section | Always read surrounding section start/end markers. Combat reset block is Combat-only. Vehicle resets go in Vehicle section. New gear resets go in Gear section. |
+| Init overwrites player state | When re-applying presets on `sheet:opened`, fetch existing stateful values (HP, ammo, etc.) and pass a `preserveState` flag. Never unconditionally overwrite. |
 
 ---
 
@@ -432,24 +426,36 @@ registerSECTIONManualWatchers();
 - [ ] `translation.json` — all name keys added and alphabetised
 - [ ] `translation.json` — all effect keys added and alphabetised
 - [ ] `translation.json` — section label, preset, placeholder, equipped, effect header keys added
+- [ ] `translation.json` — any display strings used in apply function (condition labels, speed, category, fallbacks) added
 - [ ] `translation.json` — do NOT add `rarity-u` or `rarity_abbrev_*-u` (already in codebase)
 - [ ] HTML data map — all entries have `name_key`, `effect_key`, `cost`, `rarity`, `source`
 - [ ] HTML data map — `rarity` value is exactly `"common"`, `"permit"`, `"restricted"`, or `"illegal"`
+- [ ] HTML data map — `skill` field holds skillDataMap key, not sheet attr name
 - [ ] HTML data map — entries alphabetised within the map
 - [ ] HTML section — collapse checkbox `id` and `for=` match
 - [ ] HTML section — both static rows present (`SECTION1` and `SECTION2`)
 - [ ] HTML section — repeating fieldset class is `repeating_SECTIONgear`
 - [ ] HTML section — rarity cell between name and equipped in every row and header
 - [ ] HTML effect cells — wrapper div carries the class, not the named span
-- [ ] HTML effect cells — tooltip div uses `class="sheet-skill-tooltip has-notes"` (both classes — omitting `has-notes` silently breaks the tooltip bubble)
+- [ ] HTML effect cells — tooltip div uses `class="sheet-skill-tooltip has-notes"` (both classes)
+- [ ] HTML effect cells — bubble div uses `class="sheet-tooltip-bubble"` (NOT `sheet-skill-tooltip-bubble`)
+- [ ] HTML effect cells — both `_preview_mdr` and `_mdr` attrs get full text; no JS truncation
+- [ ] HTML roll names — use `SECTION_name_display_mdr` attr, not raw preset select attr
+- [ ] HTML val+roll columns — use `sheet-val-roll-static` wrapper; no separate button column
 - [ ] HTML rarity cells — plain named span, no wrapper div needed
 - [ ] CSS — column widths in pixels, not flex percentages
 - [ ] CSS — total column width ~813px (190 + 24 + 24 + 575)
+- [ ] CSS — fieldset reset block inside this section's CSS boundary (not Combat)
+- [ ] CSS — tooltip scoped rules added for preview width
+- [ ] CSS — val+roll columns have `position: relative`
 - [ ] JS — NO `if (!entry) return` — always call `setAttrs`
+- [ ] JS — all display strings via `tr()`, no hardcoded English
+- [ ] JS — no `substring()` or `"…"` truncation
 - [ ] JS — `applySECTIONPreset` and `applySECTIONPresetStatic` defined
 - [ ] JS — rarity written via `rarityAbbrevKey[entry.rarity]` in both apply functions
 - [ ] JS — three change watchers registered (repeating + static 1 + static 2)
 - [ ] JS — `initSECTIONPresets` defined and called in `sheet:opened`
+- [ ] JS — init fetches existing stateful values before applying presets
 
 ### Manual section (Step 6)
 
@@ -459,9 +465,9 @@ registerSECTIONManualWatchers();
 - [ ] HTML — hidden persistent attrs at grid-row level (not inside `flex-row`)
 - [ ] HTML — rarity is a `<select>` not a `<span>` (user picks C/I/P/R)
 - [ ] HTML — all display fields are `<input type="text">` (user editable)
-- [ ] CSS — `repeating_SECTIONmanual` added to fieldset reset block
+- [ ] CSS — `repeating_SECTIONmanual` fieldset reset inside this section's CSS boundary
 - [ ] CSS — `repeating_SECTIONmanual .flex-row` shares the same sizing rule
-- [ ] JS — `registerSECTIONManualWatchers` declared as `const` arrow function in the Function Section, called from `afterAllSets`
+- [ ] JS — `registerSECTIONManualWatchers` declared as `const` arrow function, called from `afterAllSets`
 - [ ] JS — `initSECTIONManualAttrs()` defined and called from `afterAllSets`
 
 ---
@@ -481,3 +487,6 @@ registerSECTIONManualWatchers();
 | `weaponDataMap` | `weapon_` | `category`, `damage`, `mode`, `cap`, `mod_slots`, `traits`, `m32_compatible` |
 | `armorDataMap` | `armor_` | `physical`, `arcane`, `layer`, `category`, `traits` |
 | `explosivesDataMap` | `explosive_` | `blast_primary`, `blast_secondary`, `save_stat`, `damage_primary`, `m32_compatible` |
+| `vehiclesDataMap` | `vehicle_` | `skill` (skillDataMap key), `hp`, `dr`, `vs`, `defense`, `defense_hardened`, `speed`, `handling`, `crew_min`, `crew_max`, `hardpoints`, `mod_slots` |
+| `vehicleWeaponsDataMap` | `vweapon_` | `damage`, `mode`, `mount`, `shots`, `shots_note`, `target_class`, `traits` |
+| `vehicleModsDataMap` | `vmod_` | `category`, `mod_slots`, `vehicle_req` |

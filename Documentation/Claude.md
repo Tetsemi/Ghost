@@ -24,6 +24,16 @@
 
 ---
 
+## Workflow Rules
+
+### File Handling
+- **Always copy from uploaded files** (`/mnt/user-data/uploads/`) at the start of every session. Never copy from `/mnt/project/` — that path may be stale and not reflect the user's latest edits.
+- **Never overwrite mid-session.** Once working files are copied at session start, do not re-copy from uploads or project again during the same session.
+- **Deliver changes as outputs** from the working copies. The user merges outputs back into the project.
+- **Use `str_replace` for targeted edits** — never use large Python block replacements that reproduce entire file sections verbatim. Large replacements require matching the exact current file content and silently overwrite any user edits in that block if the match is stale.
+
+---
+
 ## Mandatory Formatting Rules
 
 ### Indentation
@@ -78,6 +88,9 @@ survivalGearDataMap
 dronesDataMap
 botsDataMap
 entertainmentDataMap
+vehiclesDataMap
+vehicleWeaponsDataMap
+vehicleModsDataMap
 ```
 
 ### DataMap Entry Structure
@@ -122,6 +135,10 @@ When any entry is added or modified, check:
 4. Is `section` the correct section translation key?
 5. If data came from a **new rules update** (e.g., `Weapons_2026-03-27.docx`), update the version and date accordingly.
 
+### DataMap `skill` field
+
+When a DataMap entry references a skill (e.g. `vehiclesDataMap`), the `skill` field must hold the **exact key from `skillDataMap`** — e.g. `"drive_auto"`, `"pilot_aircraft"`. The apply function then looks up `skillDataMap[data.skill].bonus` for the sheet attribute name and `skillDataMap[data.skill].label` for the display name. Never store the sheet attribute name (e.g. `"drive_auto_mdr"`) directly in the DataMap `skill` field — that bypasses the skillDataMap and introduces a mapping layer that doesn't need to exist.
+
 ---
 
 ## translation.json Rules
@@ -134,6 +151,7 @@ When any entry is added or modified, check:
 - When adding a new feature, add **all** required translation keys before touching the HTML.
 - Never duplicate a key.
 - Check that every `data-i18n="key-u"` attribute in HTML has a corresponding entry in `translation.json`.
+- **When inserting many keys across a range**, extract the full affected key range, add the new entries, sort the combined set, and write it back. Never use an anchor-after insertion strategy for multi-key additions — it produces out-of-order clumps.
 
 ### Key Naming Conventions
 
@@ -220,6 +238,57 @@ Pattern:
 - Never duplicate variable definitions.
 - Keep layout constants (border-radius, font sizes, row heights) as variables, not magic numbers.
 
+### CSS Section Boundaries
+
+The CSS file is divided into named sections with start/end markers, e.g.:
+
+```css
+/* ------- Combat - Start ------- */
+/* ------------------------------------ Combat - End ------------------------------------ */
+/* --- Vehicles - Start --- */
+/* --- Vehicle - End --- */
+```
+
+**Always read the surrounding section markers before inserting any CSS.** Insert rules inside the correct section only. Never add vehicle CSS to the Combat section, gear CSS to the Vehicle section, etc. The Combat fieldset reset block (inside the Combat section) is Combat-only — vehicle and new gear fieldset resets belong in their own sections.
+
+### Val+Roll Pattern (sheet-val-roll-static)
+
+When a row needs to display a numeric value that is also clickable to roll, use the existing `sheet-val-roll-static` wrapper — do **not** create separate value and button columns:
+
+```html
+<div class="flex-cell some-val-column">
+    <div class="sheet-val-roll-static">
+        <input type="text" name="attr_some_val_mdr" readonly/>
+        <button type="roll" name="roll_some_check" value="..."></button>
+    </div>
+</div>
+```
+
+The CSS for `sheet-val-roll-static` already makes the button `position: absolute; opacity: 0` covering the full cell — the value is visible, the button is invisible but intercepts all clicks. The column cell needs `position: relative`. No separate button column is needed.
+
+### Tooltip Pattern
+
+The gear tooltip pattern uses two nested divs inside `sheet-skill-tooltip has-notes`:
+
+```html
+<div class="sheet-skill-tooltip has-notes">
+    <div class="sheet-skill-tooltip-preview"><span name="attr_x_preview_mdr"></span></div>
+    <div class="sheet-tooltip-bubble"><span name="attr_x_mdr"></span></div>
+</div>
+```
+
+**Critical:** The bubble class is `sheet-tooltip-bubble` (no `skill-` prefix). Using `sheet-skill-tooltip-bubble` has no CSS hover rule and the bubble will never appear. The preview div uses `sheet-skill-tooltip-preview`.
+
+For the preview to fill its container width, the tooltip and its container need:
+
+```css
+.ui-dialog .tab-content .charsheet .SECTION-effect .sheet-skill-tooltip { display: flex; width: 100%; min-width: 0; align-items: stretch; }
+.ui-dialog .tab-content .charsheet .SECTION-effect .sheet-skill-tooltip-preview { flex: 1 1 0; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ui-dialog .tab-content .charsheet .SECTION-effect .sheet-skill-tooltip-preview span { display: block; width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+```
+
+**Never truncate preview text in JavaScript** (no `substring`, no hardcoded `"…"`). CSS `text-overflow: ellipsis` handles all visual clipping. Truncating in JS hides the full value from the DOM and makes debugging impossible.
+
 ---
 
 ## Sheet Workers (JavaScript)
@@ -232,6 +301,22 @@ Pattern:
 - Helper/apply functions follow DataMaps.
 - `on()` event watchers follow helpers.
 - `on('sheet:opened', ...)` init calls go at the very end.
+
+### i18n in Sheet Workers
+
+**Never hardcode display strings in sheet worker logic.** All user-visible strings must go through `tr()`:
+
+```javascript
+const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+```
+
+This applies to:
+- Condition labels (`tr("vehicle_condition_operational-u")` not `"Operational"`)
+- Speed/category display maps (`tr("vehicle_speed_fast-u")` not `"Fast"`)
+- Fallback strings (`tr("any-u")` not `"Any"`)
+- Any computed display string written to an attr via `setAttrs`
+
+If a translation key doesn't exist yet, **add it to `translation.json` first**, then use `tr()` in the sheet worker.
 
 ### Repeating Section Pattern
 
@@ -259,9 +344,51 @@ const applyGearPreset = (prefix, key) => {
 	if (!data) return;
 	setAttrs({
 		[prefix + "gear_rarity"]: data.rarity || "",
-		[prefix + "gear_effect"]: i18nLookup(data.effect_key) || "",
+		[prefix + "gear_effect"]: tr(data.effect_key) || "",
 	});
 };
+```
+
+### HP / State Preservation on Init
+
+When `initXxxPresets()` runs on `sheet:opened`, it must **not** overwrite values the player has already set (e.g. current HP). Fetch the existing value alongside the preset key and pass a `preserveState` flag:
+
+```javascript
+const initVehiclePresets = () => {
+	getSectionIDs("repeating_vehiclegear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.flatMap(id => [
+			`repeating_vehiclegear_${id}_vehicle_preset`,
+			`repeating_vehiclegear_${id}_vehicle_hp_current`,
+		]);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p     = `repeating_vehiclegear_${id}_`;
+				const key   = rows[p + "vehicle_preset"] || "";
+				const hasHp = (rows[p + "vehicle_hp_current"] || "") !== "";
+				if (key) applyVehiclePreset(p, key, hasHp);
+			});
+		});
+	});
+};
+```
+
+The apply function accepts `preserveHp = false` and only sets HP when `!preserveHp`.
+
+### Repeating Section Pattern
+
+```javascript
+getSectionIDs("repeating_sectionname", (ids) => {
+	if (!ids.length) return;
+	const fetchKeys = ids.map(id => `repeating_sectionname_${id}_attr_key`);
+	getAttrs(fetchKeys, (rows) => {
+		ids.forEach(id => {
+			const p = `repeating_sectionname_${id}_`;
+			const val = rows[p + "attr_key"] || "";
+			// process...
+		});
+	});
+});
 ```
 
 ---
@@ -318,7 +445,7 @@ Credits (Cr) — primary economy unit.
 10. **Inventory — MedTech Equipment & Strain Compounds** (redo).
 11. **Inventory — Pharmaceuticals & Street Narcotics** (redo).
 12. **Cyberware section** (not yet implemented).
-13. **Vehicle section including Gunnery weapons** (not yet implemented).
+13. **Vehicle section** ✓ implemented.
 14. **NPC — Add MOV penalty**.
 15. **NPC — Cap Condition Penalty to −20**.
 16. **Clean-up** — Move skill rolls to sheet worker on click (single place to edit roll value).
@@ -336,18 +463,33 @@ Credits (Cr) — primary economy unit.
 - **Always check `source: {}` when editing a DataMap entry.** If the rules text changed in a newer document version, the `version` and `date` fields must be updated too. Stale source metadata has caused confusion about which rulebook version the sheet reflects.
 - **DataMaps are the source of truth.** Do not patch values directly into HTML option lists, roll formulas, or sheet worker logic without updating the DataMap first. Discrepancies between the DataMap and the HTML have caused bugs that were hard to trace.
 - **`ancestryTalentDataMap` tags** — new entries must use snake_case tags (e.g. `"observation"`, not `"Observation"`). The normalization of the 115 legacy entries is a tracked to-do; do not add new mis-cased tags.
+- **DataMap `skill` field must hold the skillDataMap key**, not the sheet attribute name. Use `skillDataMap[data.skill].bonus` in the apply function to get the attr name. Never store `"drive_auto_mdr"` directly — store `"drive_auto"` and look it up.
 
 ### translation.json
 - **Every `data-i18n` attribute in HTML needs a matching key in `translation.json`.** Missing keys silently show the key string instead of translated text in Roll20.
 - **Every new feature needs its translation keys added first**, before the HTML is written, to avoid forgetting them.
 - **No duplicate keys.** Roll20 may silently use whichever duplicate it encounters first, leading to subtle display bugs.
+- **Multi-key insertions must sort the whole affected range**, not append after an anchor. Use Python to extract the range, merge, sort, and write back.
 
 ### HTML / Sheet Workers
-- **Manual section watcher functions must be `const` arrow functions, not IIFEs.** The original `registerWeaponManualWatchers` and `registerGrenadeManualWatchers` were written as immediately-invoked function expressions (`(function foo() { ... })()`), which caused them to execute at parse time and left their `on()` registrations stranded in the Watchers section as structural oddities. The correct pattern is a named `const` arrow function declared in the **Initialization Section** (with the other `const` declarations, before `/* Initialization Section - End */`) and called from `afterAllSets` inside `initializeSheetOnOpen`. The scoping benefit (private `S`, `id`, etc.) is identical; the structure is correct.
+- **Manual section watcher functions must be `const` arrow functions, not IIFEs.**
 - **Repeating section attribute keys inside `<fieldset>` do NOT get the `attr_` prefix** — Roll20 adds `repeating_sectionname_id_` automatically. But the `name` attribute still needs `attr_` inside the fieldset — be precise.
 - **CSS classes must have the `sheet-` prefix.** Roll20 sandboxes the sheet CSS and strips classes without this prefix in some contexts.
 - **Do not hard-code theme colors.** Always use CSS variables. Hard-coded colors break when the theme switches.
-- **Checkbox values should be `value="1"`.** Using other truthy values has caused inconsistent behavior with Roll20's attribute system.
+- **Checkbox values should be `value="1"`.**
+- **Never hardcode display strings in sheet workers.** Every user-visible string written via `setAttrs` must use `tr()` against a translation key. This includes condition labels, speed categories, mod categories, fallback strings like "Any", and any computed display value. If the key doesn't exist, add it to `translation.json` first.
+- **Never truncate text in JavaScript.** No `substring()` with hardcoded lengths, no appending `"…"`. CSS `text-overflow: ellipsis` handles all visual truncation. JS truncation hides the real value from the DOM and makes the problem invisible to debugging tools.
+- **Roll names must use display attrs, not raw select values.** `@{vweapon_preset}` resolves to the DataMap key (e.g. `apex_aa_scattercannon`), not the display name. Always write a `_name_display_mdr` attr via `tr(data.name_key)` in the apply function and reference that in roll formulas.
+- **`vweapon_effect_mdr` must hold effect/traits text, not the weapon name.** In `applyVehicleWeaponPreset`, `effectFull` should be built from traits/effect data, not from `tr(data.name_key)`.
+- **Init functions must preserve player state.** Never unconditionally overwrite current HP or other player-editable values on `sheet:opened`. Fetch existing values and use a `preserveState` flag.
+- **`@{attr}` in spans inside repeating fieldsets won't resolve top-level attrs.** If a repeating row needs to display a top-level character attribute (e.g. `gunnery_mdr`), write a per-row copy of that value as a hidden attr via the apply function and a sync watcher on `change:gunnery_mdr`.
+
+### CSS
+- **Respect section boundaries.** Always read the surrounding section start/end markers before inserting CSS. The Combat section fieldset reset block is Combat-only. Vehicle fieldset resets go in the Vehicle section. New gear sections get their own resets in the Gear section.
+- **Use `sheet-val-roll-static` for value+roll columns.** Never create a separate button column next to a value column — merge them using the existing `sheet-val-roll-static` pattern. The column cell needs `position: relative`.
+- **Tooltip bubble class is `sheet-tooltip-bubble`**, not `sheet-skill-tooltip-bubble`. The wrong class has no CSS hover rule.
+- **Never set `overflow: hidden` on the tooltip wrapper or effect cell container.** Only the preview div (and its inner span) gets overflow clipping. The bubble must be able to overflow its container.
+- **Tooltip preview width requires explicit flex rules.** The base `sheet-skill-tooltip` is `display: inline-flex` and sizes to content. Add `display: flex; width: 100%; min-width: 0` on the scoped tooltip rule, `flex: 1 1 0; min-width: 0` on the preview div, and `display: block; width: 100%` on the inner span. Scope all these rules to the specific effect cell class — do not apply globally.
 
 ### Roll20 API Scripts
 - **API scripts are server-side only.** They cannot reference sheet HTML elements directly, and sheet workers cannot call API script functions. Communication is only through attribute changes and chat messages.

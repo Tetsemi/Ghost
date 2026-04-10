@@ -31987,95 +31987,519 @@
 
 		<!-- -------------------------- Vehicles ------------------------- -->
 		<div class="sheet-tab-content sheet-vehicles">
-			<div class="sheet-vehicles-wrapper">
-				<h4 class="sheet-section-head" data-i18n="vehicles-u">Vehicles</h4>
-				<div class="sheet-vehicles-section">
 
-					<input type="hidden" name="attr_bonuspenalty_link" value=""/>
+			<input type="hidden" name="attr_bonuspenalty_link" value=""/>
 
-					<fieldset class="repeating_vehicle">
-						<div class="sheet-vehicle-grid">
-							<!-- Left Block -->
-							<div class="sheet-vehicle-column-left">
-								<div class="sheet-vehicle-grid-header">
-									<div class="sheet-vehicle-info">
-										<div class="sheet-name-row">
-											<div class="sheet-vehicle-col-label" data-i18n="name-u">Name</div>
-											<div class="sheet-vehicle-col-value">
-												<input type="text" class="sheet-wide-input" name="attr_vehicle_name" placeholder="Name" data-i18n-placeholder="name-u"/>
-											</div>
-										</div>
-										<div class="sheet-vehicle-row">
-											<div class="sheet-vehicle-col-label" data-i18n="build-u">Build</div>
-											<div class="sheet-vehicle-col-value">
-												<input type="text" class="sheet-wide-input" name="attr_vehiclebuild" placeholder="Current" data-i18n-placeholder="current-u"/>
-												<span data-i18n="slash-z">/</span>
-												<input type="text" class="sheet-wide-input" name="attr_vehiclebuildmax" placeholder="Max" data-i18n-placeholder="max-u"/>
-											</div>
-										</div>
-										<div class="sheet-vehicle-row">
-											<div class="sheet-vehicle-col-label" data-i18n="MOV-u">MOV</div>
-											<div class="sheet-vehicle-col-value">
-												<input type="text" class="sheet-wide-input" name="attr_vehiclemove"/>
-											</div>
-										</div>
-										<div class="sheet-vehicle-row">
-											<div class="sheet-vehicle-col-label" data-i18n="armor-u">Armor</div>
-											<div class="sheet-vehicle-col-value">
-												<input type="text" class="sheet-wide-input" name="attr_vehiclearmor"/>
-												<button class="smallnonskillbutton-roll" type="roll" name="roll_vehiclearmor" value="&{template:coc-miniondef} {{name=@{vehicle_name} Armor}} {{defence=[[@{vehiclearmor}]]}}"></button>
-											</div>
-										</div>
-										<div class="sheet-vehicle-row">
-											<div class="sheet-vehicle-col-label" data-i18n="capacity-u">Capacity</div>
-											<div class="sheet-vehicle-col-value">
-												<input type="text" class="sheet-wide-input" name="attr_vehiclecap"/>
-											</div>
-										</div>
-									</div>
-									<div class="sheet-vehicle-weaponblock">
-										<div class="sheet-vehicle-impact-row">
-											<div>
-												<div class="sheet-vehicle-col-label" data-i18n="vehicleattack-u">Vehicular Impact Attack</div>
-												<div class="sheet-vehicle-col-label" data-i18n="vehicleattack_req-u">Vehicular Impact Attack Requirement</div>
-											</div>
-											<button class="smallbutton-roll" type="roll" name="roll_vehicleattack_check" value="&{template:coc-vehicleattack} {{name=@{vehicle_name} attacking with @{operatorskillname}}} {{modifier=[[0]]}} {{success=[[@{operatorskill}]]}} {{hard=[[floor(@{operatorskill}/2)]]}} {{extreme=[[floor(@{operatorskill}/5)]]}} {{roll1=[[1d100]]}} {{builddam=[[@{vehiclebuild}d10/10]]}}"></button>
-										</div>
-										<div>
-											<input type="text" class="sheet-wide-input" name="attr_operatorskillname" placeholder="Operator's Skill" data-i18n-placeholder="operatorskill-u"/>
-											<input type="text" class="sheet-wide-input" name="attr_operatorskill"/>
-											<button class="smallbutton-roll" type="roll" name="roll_operatorskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{operatorskillname}}} {{modifier=[[0]]}} {{success=[[@{operatorskill}]]}} {{hard=[[floor(@{operatorskill}/2)]]}} {{extreme=[[floor(@{operatorskill}/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
-										</div>
-										<div>
-											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponskillname" placeholder="Mounted Weapon Skill" data-i18n-placeholder="mountedweapon_skill-u"/>
-											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponskill"/>
-											<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponskill_check" value="&{template:coc-1} {{name=@{vehicle_name} rolling @{vehicleweaponskillname}}} {{modifier=[[0]]}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
-										</div>
-										<div>
-											<input type="text" class="sheet-wide-input" name="attr_vehicleweaponname" placeholder="Mounted Weapon" data-i18n-placeholder="mountedweapon-u"/>
-											<input type="text" class="sheet-wide-input" name="attr_vehicleweapondamage" placeholder="Dam" data-i18n-placeholder="dam-u"/>
-											<button class="smallbutton-roll" type="roll" name="roll_vehicleweaponattack" value="&{template:coc-minionattack} {{name=@{vehicle_name} attacking with @{vehicleweaponname}}} {{success=[[@{vehicleweaponskill}]]}} {{hard=[[floor(@{vehicleweaponskill}/2)]]}} {{extreme=[[floor(@{vehicleweaponskill}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vehicleweapondamage}]]}}"></button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Right Block -->
-							<div class="sheet-vehicle-column-right">
-								<div class="sheet-vehicle-col-label sheet-section-head" data-i18n="generalinfo-u">General Info</div>
-								<textarea name="attr_vehicle_stats_info" class="sheet-vehicle-textarea" placeholder="General Info" data-i18n-placeholder="generalinfo-u"></textarea>
-								<div class="sheet-vehicle-col-label sheet-section-head" data-i18n="cargo-u">Cargo</div>
-								<textarea name="attr_vehicle_stats_info_2" class="sheet-vehicle-textarea" placeholder="Cargo" data-i18n-placeholder="cargo-u"></textarea>
-								<div class="sheet-vehicle-col-label sheet-section-head" data-i18n="passengers-u">Passengers</div>
-								<textarea name="attr_vehicle_stats_info_3" class="sheet-vehicle-textarea" placeholder="Passengers" data-i18n-placeholder="passengers-u"></textarea>
+			<!-- ═══════════════════ SECTION: VEHICLES ═══════════════════ -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_vehicle_collapse"
+					name="attr_gear_vehicle_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="vehiclegear_section-u">Vehicles</span>
+					<label class="sheet-top-collapse-hit" for="gear_vehicle_collapse"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<!-- Column header -->
+						<div class="sheet-vehicle-header">
+							<div class="flex-row">
+								<div class="flex-cell vehicle-name"><span data-i18n="vehicle_preset-u">Vehicle</span></div>
+								<div class="flex-cell vehicle-rarity"><span data-i18n="vehicle_rarity-u">R</span></div>
+								<div class="flex-cell vehicle-hp"><span data-i18n="vehicle_hp_tracker-u">HP</span></div>
+								<div class="flex-cell vehicle-dr"><span data-i18n="vehicle_dr-u">DR</span></div>
+								<div class="flex-cell vehicle-defense"><span data-i18n="vehicle_defense-u">Def</span></div>
+								<div class="flex-cell vehicle-speed"><span data-i18n="vehicle_speed-u">Speed</span></div>
+								<div class="flex-cell vehicle-handling"><span data-i18n="vehicle_handling-u">Hdl</span></div>
+								<div class="flex-cell vehicle-crew"><span data-i18n="vehicle_crew-u">Crew</span></div>
+								<div class="flex-cell vehicle-hardpoints"><span data-i18n="vehicle_hardpoints-u">HP↑</span></div>
+								<div class="flex-cell vehicle-modslots"><span data-i18n="vehicle_mod_slots-u">Slots</span></div>
+								<div class="flex-cell vehicle-condition"><span data-i18n="vehicle_condition-u">Cond.</span></div>
+								<div class="flex-cell vehicle-skillval"><span data-i18n="skill_value-u">Val</span></div>
+								<div class="flex-cell vehicle-gunneryval"><span data-i18n="skill_value-u">Val</span></div>
 							</div>
 						</div>
-						<hr/>
-					</fieldset>
+
+						<!-- Repeating vehicle rows -->
+						<fieldset class="repeating_vehiclegear">
+							<div>
+								<!-- Hidden persistent attrs — outside flex-row -->
+								<input type="hidden" name="attr_vehicle_name_display_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_hp_max_mdr" value="0"/>
+								<input type="hidden" name="attr_vehicle_dr_mdr" value="0"/>
+								<input type="hidden" name="attr_vehicle_vs_mdr" value="0"/>
+								<input type="hidden" name="attr_vehicle_defense_mdr" value="0"/>
+								<input type="hidden" name="attr_vehicle_defense_hardened_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_speed_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_handling_mdr" value="0"/>
+								<input type="hidden" name="attr_vehicle_crew_min_mdr" value="1"/>
+								<input type="hidden" name="attr_vehicle_crew_max_mdr" value="1"/>
+								<input type="hidden" name="attr_vehicle_hardpoints_mdr" value="0"/>
+								<input type="hidden" name="attr_vehicle_modslots_mdr" value="0"/>
+								<input type="hidden" name="attr_vehicle_skill_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_skill_attr_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_skill_val_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_gunnery_val_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_category_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_cost_mdr" value="0"/>
+								<input type="hidden" name="attr_vehicle_condition_mdr" value=""/>
+								<input type="hidden" name="attr_vehicle_effect_mdr" value=""/>
+
+								<!-- Main row -->
+								<div class="flex-row">
+									<div class="flex-cell vehicle-name">
+										<select name="attr_vehicle_preset">
+											<option value="" data-i18n="vehicle_select_placeholder-u">--- select vehicle ---</option>
+											<optgroup label="Arcbikes" data-i18n-label="vehicle_arcbikes-u">
+												<option value="asuka_gravleech_330">Asuka GravLeech™ 330</option>
+												<option value="asuka_gravleech_440t">Asuka GravLeech™ 440T</option>
+												<option value="heliodyne_sablehorn_m3">Heliodyne SableHorn™ M3</option>
+												<option value="kintari_streetjack_205x">Kintari Streetjack™ 205X</option>
+												<option value="kintari_streetjack_209x">Kintari Streetjack™ 209X</option>
+												<option value="peregrine_lancer_9x">Peregrine Lancer™ 9X</option>
+												<option value="phantom_viper_mkiv">Phantom Viper™ MkIV</option>
+												<option value="phantom_wraith_gt">Phantom Wraith™ GT</option>
+												<option value="veilcore_driftsurge_s2">Veilcore DriftSurge™ S2</option>
+											</optgroup>
+											<optgroup label="Arcrunners" data-i18n-label="vehicle_arcrunners-u">
+												<option value="asuka_cloudrider_5t">Asuka Cloudrider™ 5T</option>
+												<option value="blackreach_hellcarriage_v10">Blackreach Hellcarriage™ V10</option>
+												<option value="brickhaul_tempest_gr7">Brickhaul Tempest™ GR7</option>
+												<option value="kintari_drifthauler_6c">Kintari DriftHauler™ 6C</option>
+												<option value="peregrine_luxsilence_99">Peregrine LuxSilence™ 99</option>
+												<option value="sablecorp_rampart_mkii">SableCorp Rampart™ MkII</option>
+												<option value="veilcore_voxline_lx">Veilcore Voxline™ LX</option>
+											</optgroup>
+											<optgroup label="Ground Vehicles" data-i18n-label="vehicle_ground-u">
+												<option value="armored_personnel_carrier">Armored Personnel Carrier</option>
+												<option value="cargo_van">Cargo Van</option>
+												<option value="compact_sedan">Compact Sedan</option>
+												<option value="executive_transport">Executive Transport</option>
+												<option value="security_suv">Security SUV</option>
+											</optgroup>
+											<optgroup label="Aerial (VTOLs)" data-i18n-label="vehicles-u">
+												<option value="asuka_thunderdrift_t90">Asuka ThunderDrift™ T90</option>
+												<option value="blackreach_ghosthook_v22">Blackreach Ghosthook™ V22</option>
+												<option value="brickhaul_skycage_m5">Brickhaul SkyCage™ M5</option>
+												<option value="kintari_strider_44g">Kintari Strider™ 44G</option>
+												<option value="lifeline_harklight_12r">Lifeline Harklight™ 12R</option>
+												<option value="peregrine_nimbus_executive_arclifter">Peregrine Nimbus™ Executive ArcLifter</option>
+												<option value="sablecorp_watchwing_vt9">SableCorp Watchwing™ VT-9</option>
+												<option value="talon_skiff7_light_vtol">Talon Skiff-7 Light VTOL</option>
+												<option value="vaultum_cloudback_heavy_transport">Vaultum Cloudback Heavy Transport</option>
+												<option value="volkov_strikewing_gunship">Volkov Strikewing Gunship</option>
+											</optgroup>
+											<optgroup label="Water Vehicles" data-i18n-label="vehicle_water-u">
+												<option value="patrol_skimmer">Patrol Skimmer</option>
+												<option value="speedboat">Speedboat</option>
+											</optgroup>
+											<optgroup label="Walker / Sentinel" data-i18n-label="vehicles-u">
+												<option value="security_sentinel">Security Sentinel</option>
+											</optgroup>
+										</select>
+									</div>
+									<div class="flex-cell vehicle-rarity">
+										<span name="attr_vehicle_rarity_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-hp">
+										<input type="text" class="sheet-vehicle-hp-input" name="attr_vehicle_hp_current" value="0"/>
+										<span class="sheet-vehicle-hp-sep">/</span>
+										<span name="attr_vehicle_hp_max_display_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-dr">
+										<span name="attr_vehicle_dr_display_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-defense">
+										<span name="attr_vehicle_defense_display_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-speed">
+										<span name="attr_vehicle_speed_display_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-handling">
+										<span name="attr_vehicle_handling_display_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-crew">
+										<span name="attr_vehicle_crew_display_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-hardpoints">
+										<span name="attr_vehicle_hardpoints_display_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-modslots">
+										<span name="attr_vehicle_modslots_display_mdr"></span>
+									</div>
+									<div class="flex-cell vehicle-condition">
+										<span class="sheet-vcond-label"><span name="attr_vehicle_condition_mdr"></span></span>
+									</div>
+									<div class="flex-cell vehicle-skillval">
+										<div class="sheet-val-roll-static">
+											<input type="text" name="attr_vehicle_skill_val_mdr" readonly/>
+											<button type="roll" name="roll_vehicle_skill_check"
+												value="&{template:coc-1} {{name=@{vehicle_name_display_mdr}}} {{modifier=[[0]]}} {{success=[[@{vehicle_skill_val_mdr}]]}} {{hard=[[floor(@{vehicle_skill_val_mdr}/2)]]}} {{extreme=[[floor(@{vehicle_skill_val_mdr}/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}">
+											</button>
+										</div>
+									</div>
+									<div class="flex-cell vehicle-gunneryval">
+										<div class="sheet-val-roll-static">
+											<input type="text" name="attr_vehicle_gunnery_val_mdr" readonly/>
+											<button type="roll" name="roll_vehicle_gunnery_check"
+												value="&{template:coc-1} {{name=@{vehicle_name_display_mdr} — Gunnery}} {{modifier=[[0]]}} {{success=[[@{vehicle_gunnery_val_mdr}]]}} {{hard=[[floor(@{vehicle_gunnery_val_mdr}/2)]]}} {{extreme=[[floor(@{vehicle_gunnery_val_mdr}/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}">
+											</button>
+										</div>
+									</div>
+								</div><!-- /flex-row -->
+
+								<!-- Expandable stat panel -->
+								<input type="checkbox" class="sheet-vehicle-expand sheet-top-collapse"
+									name="attr_vehicle_expand" value="1"/>
+								<div class="sheet-vehicle-statpanel">
+									<div class="sheet-vehicle-stat-group">
+										<span class="sheet-label" data-i18n="vehicle_vs-u">VS</span>
+										<span name="attr_vehicle_vs_display_mdr"></span>
+									</div>
+									<div class="sheet-vehicle-stat-group">
+										<span class="sheet-label" data-i18n="vehicle_skill-u">Skill</span>
+										<span name="attr_vehicle_skill_display_mdr"></span>
+									</div>
+									<div class="sheet-vehicle-stat-group">
+										<span class="sheet-label" data-i18n="vehicle_impact_attack-u">Impact Attack</span>
+										<button class="smallbutton-roll" type="roll"
+											name="roll_vehicle_impact_attack"
+											value="&{template:coc-vehicleattack} {{name=@{vehicle_name_display_mdr} Impact Attack}} {{modifier=[[0]]}} {{success=[[@{vehicle_skill_val_mdr}]]}} {{hard=[[floor(@{vehicle_skill_val_mdr}/2)]]}} {{extreme=[[floor(@{vehicle_skill_val_mdr}/5)]]}} {{roll1=[[1d100]]}} {{builddam=[[@{vehicle_hp_max_mdr}d10/10]]}}">
+										</button>
+									</div>
+									<div class="sheet-vehicle-stat-group sheet-vehicle-notes-group">
+										<span class="sheet-label" data-i18n="vehicle_notes-u">Notes</span>
+										<textarea name="attr_vehicle_notes" class="sheet-vehicle-notes-input"></textarea>
+									</div>
+								</div><!-- /sheet-vehicle-statpanel -->
+
+							</div>
+						</fieldset>
+
+						<!-- Manual entry -->
+						<hr class="sheet-vehicle-divider"/>
+						<div class="sheet-vehicle-header">
+							<div class="flex-row">
+								<div class="flex-cell vehicle-name"><span data-i18n="name-u">Name</span></div>
+								<div class="flex-cell vehicle-rarity"><span data-i18n="vehicle_rarity-u">R</span></div>
+								<div class="flex-cell vehicle-hp"><span data-i18n="vehicle_hp_tracker-u">HP</span></div>
+								<div class="flex-cell vehicle-dr"><span data-i18n="vehicle_dr-u">DR</span></div>
+								<div class="flex-cell vehicle-defense"><span data-i18n="vehicle_defense-u">Def</span></div>
+								<div class="flex-cell vehicle-speed"><span data-i18n="vehicle_speed-u">Speed</span></div>
+								<div class="flex-cell vehicle-handling"><span data-i18n="vehicle_handling-u">Hdl</span></div>
+								<div class="flex-cell vehicle-crew"><span data-i18n="vehicle_crew-u">Crew</span></div>
+								<div class="flex-cell vehicle-hardpoints"><span data-i18n="vehicle_hardpoints-u">HP↑</span></div>
+								<div class="flex-cell vehicle-modslots"><span data-i18n="vehicle_mod_slots-u">Slots</span></div>
+								<div class="flex-cell vehicle-condition"><span data-i18n="vehicle_condition-u">Cond.</span></div>
+								<div class="flex-cell vehicle-skillval"><span data-i18n="skill_value-u">Val</span></div>
+								<div class="flex-cell vehicle-gunneryval"><span data-i18n="skill_value-u">Val</span></div>
+							</div>
+						</div>
+						<fieldset class="repeating_vehiclemanual">
+							<div>
+								<div class="flex-row">
+									<div class="flex-cell vehicle-name">
+										<input type="text" name="attr_vehicle_name_mdr" placeholder="Vehicle name"/>
+									</div>
+									<div class="flex-cell vehicle-rarity">
+										<select name="attr_vehicle_rarity_manual" class="sheet-armor-rarity-select">
+											<option value="C">C</option>
+											<option value="I">I</option>
+											<option value="P">P</option>
+											<option value="R">R</option>
+										</select>
+									</div>
+									<div class="flex-cell vehicle-hp">
+										<input type="text" class="sheet-vehicle-hp-input" name="attr_vehicle_hp_current_manual" value="0"/>
+										<span class="sheet-vehicle-hp-sep">/</span>
+										<input type="text" class="sheet-vehicle-hp-input" name="attr_vehicle_hp_max_manual" value="0"/>
+									</div>
+									<div class="flex-cell vehicle-dr">
+										<input type="text" class="sheet-wide-input" name="attr_vehicle_dr_manual" value="0"/>
+									</div>
+									<div class="flex-cell vehicle-defense">
+										<input type="text" class="sheet-wide-input" name="attr_vehicle_defense_manual" value="0"/>
+									</div>
+									<div class="flex-cell vehicle-speed">
+										<input type="text" class="sheet-wide-input" name="attr_vehicle_speed_manual"/>
+									</div>
+									<div class="flex-cell vehicle-handling">
+										<input type="text" class="sheet-wide-input" name="attr_vehicle_handling_manual" value="0"/>
+									</div>
+									<div class="flex-cell vehicle-crew">
+										<input type="text" class="sheet-wide-input" name="attr_vehicle_crew_manual"/>
+									</div>
+									<div class="flex-cell vehicle-hardpoints">
+										<input type="text" class="sheet-wide-input" name="attr_vehicle_hardpoints_manual" value="0"/>
+									</div>
+									<div class="flex-cell vehicle-modslots">
+										<input type="text" class="sheet-wide-input" name="attr_vehicle_modslots_manual" value="0"/>
+									</div>
+									<div class="flex-cell vehicle-condition">
+										<span class="sheet-vcond-label"><span name="attr_vehicle_condition_manual_mdr"></span></span>
+									</div>
+									<div class="flex-cell vehicle-skillval">
+										<div class="sheet-val-roll-static">
+											<input type="text" name="attr_drive_auto_mdr" readonly/>
+											<button type="roll" name="roll_vehicle_manual_skill"
+												value="&{template:coc-1} {{name=@{vehicle_name_mdr}}} {{modifier=[[0]]}} {{success=[[@{drive_auto_mdr}]]}} {{hard=[[floor(@{drive_auto_mdr}/2)]]}} {{extreme=[[floor(@{drive_auto_mdr}/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}">
+											</button>
+										</div>
+									</div>
+									<div class="flex-cell vehicle-gunneryval">
+										<div class="sheet-val-roll-static">
+											<input type="text" name="attr_gunnery_mdr" readonly/>
+											<button type="roll" name="roll_vehicle_manual_gunnery"
+												value="&{template:coc-1} {{name=@{vehicle_name_mdr} — Gunnery}} {{modifier=[[0]]}} {{success=[[@{gunnery_mdr}]]}} {{hard=[[floor(@{gunnery_mdr}/2)]]}} {{extreme=[[floor(@{gunnery_mdr}/5)]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}">
+											</button>
+										</div>
+									</div>
+								</div><!-- /flex-row -->
+							</div>
+						</fieldset>
+
+					</div>
 				</div>
 			</div>
-		</div>
+			<!-- /VEHICLES -->
 
-	</div>
+			<!-- ═══════════════════ SECTION: VEHICLE-MOUNTED WEAPONS ═══════════════════ -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_vweapon_collapse"
+					name="attr_gear_vweapon_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="vehicle_weapons-u">Vehicle-Mounted Weapons</span>
+					<label class="sheet-top-collapse-hit" for="gear_vweapon_collapse"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+						<div class="sheet-vweapon-header">
+							<div class="flex-row">
+								<div class="flex-cell vweapon-name"><span data-i18n="vweapon_name_col-u">Weapon</span></div>
+								<div class="flex-cell vweapon-rarity"><span data-i18n="vweapon_rarity-u">R</span></div>
+								<div class="flex-cell vweapon-damage"><span data-i18n="vweapon_damage_col-u">Dam</span></div>
+								<div class="flex-cell vweapon-mode"><span data-i18n="vweapon_mode_col-u">Mode</span></div>
+								<div class="flex-cell vweapon-mount"><span data-i18n="vweapon_mount_col-u">Mount</span></div>
+								<div class="flex-cell vweapon-shots"><span data-i18n="vweapon_shots_col-u">Shots</span></div>
+								<div class="flex-cell vweapon-target"><span data-i18n="vweapon_target_col-u">Target</span></div>
+								<div class="flex-cell vweapon-traits"><span data-i18n="vweapon_traits_col-u">Traits / Effect</span></div>
+								<div class="flex-cell vweapon-btn"></div>
+							</div>
+						</div>
+						<fieldset class="repeating_vehicleweapongear">
+							<div>
+								<input type="hidden" name="attr_vweapon_damage_mdr" value=""/>
+								<input type="hidden" name="attr_vweapon_mode_mdr" value=""/>
+								<input type="hidden" name="attr_vweapon_mount_mdr" value=""/>
+								<input type="hidden" name="attr_vweapon_shots_mdr" value=""/>
+								<input type="hidden" name="attr_vweapon_target_mdr" value=""/>
+								<input type="hidden" name="attr_vweapon_traits_mdr" value=""/>
+								<input type="hidden" name="attr_vweapon_effect_mdr" value=""/>
+								<input type="hidden" name="attr_vweapon_cost_mdr" value="0"/>
+								<div class="flex-row">
+									<div class="flex-cell vweapon-name">
+										<select name="attr_vweapon_preset">
+											<option value="" data-i18n="vweapon_select_placeholder-u">--- select weapon ---</option>
+											<option value="apex_aa_scattercannon">Apex AA Scattercannon</option>
+											<option value="co_axial_light_autocannon">Co-Axial Light Autocannon</option>
+											<option value="emberfield_suppression_lance">Emberfield Suppression Lance</option>
+											<option value="ghostrail_precision_cannon">Ghostrail Precision Cannon</option>
+											<option value="mounted_rotary_cannon">Mounted Rotary Cannon</option>
+											<option value="nightstar_arcbeam_array">Nightstar Arcbeam Array</option>
+											<option value="palisade_intercept_turret">Palisade Intercept Turret</option>
+											<option value="raptor_talon_minigun">Raptor Talon Minigun</option>
+											<option value="rocket_pod_array">Rocket Pod Array</option>
+											<option value="sovereign_hellfire_rack">Sovereign Hellfire Rack</option>
+											<option value="veil_disruptor_cannon">Veil Disruptor Cannon</option>
+										</select>
+									</div>
+									<div class="flex-cell vweapon-rarity"><span name="attr_vweapon_rarity_mdr"></span></div>
+									<div class="flex-cell vweapon-damage"><span name="attr_vweapon_damage_display_mdr"></span></div>
+									<div class="flex-cell vweapon-mode"><span name="attr_vweapon_mode_display_mdr"></span></div>
+									<div class="flex-cell vweapon-mount"><span name="attr_vweapon_mount_display_mdr"></span></div>
+									<div class="flex-cell vweapon-shots"><span name="attr_vweapon_shots_display_mdr"></span></div>
+									<div class="flex-cell vweapon-target"><span name="attr_vweapon_target_display_mdr"></span></div>
+									<div class="flex-cell vweapon-traits">
+										<div class="sheet-skill-tooltip has-notes">
+											<div class="sheet-skill-tooltip-preview"><span name="attr_vweapon_traits_display_mdr"></span></div>
+											<div class="sheet-skill-tooltip-bubble"><span name="attr_vweapon_effect_mdr"></span></div>
+										</div>
+									</div>
+									<div class="flex-cell vweapon-btn">
+										<button class="smallbutton-roll" type="roll"
+											name="roll_vweapon_attack"
+											value="&{template:coc-minionattack} {{name=@{vweapon_preset} (Gunnery)}} {{success=[[@{gunnery_mdr}]]}} {{hard=[[floor(@{gunnery_mdr}/2)]]}} {{extreme=[[floor(@{gunnery_mdr}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vweapon_damage_mdr}]]}}">
+										</button>
+									</div>
+								</div><!-- /flex-row -->
+							</div>
+						</fieldset>
+						<hr class="sheet-vehicle-divider"/>
+						<div class="sheet-vweapon-header">
+							<div class="flex-row">
+								<div class="flex-cell vweapon-name"><span data-i18n="name-u">Weapon</span></div>
+								<div class="flex-cell vweapon-rarity"><span data-i18n="vweapon_rarity-u">R</span></div>
+								<div class="flex-cell vweapon-damage"><span data-i18n="vweapon_damage_col-u">Dam</span></div>
+								<div class="flex-cell vweapon-mode"><span data-i18n="vweapon_mode_col-u">Mode</span></div>
+								<div class="flex-cell vweapon-mount"><span data-i18n="vweapon_mount_col-u">Mount</span></div>
+								<div class="flex-cell vweapon-shots"><span data-i18n="vweapon_shots_col-u">Shots</span></div>
+								<div class="flex-cell vweapon-target"><span data-i18n="vweapon_target_col-u">Target</span></div>
+								<div class="flex-cell vweapon-traits"><span data-i18n="vweapon_traits_col-u">Traits / Effect</span></div>
+								<div class="flex-cell vweapon-btn"></div>
+							</div>
+						</div>
+						<fieldset class="repeating_vehicleweaponmanual">
+							<div>
+								<div class="flex-row">
+									<div class="flex-cell vweapon-name"><input type="text" name="attr_vweapon_name_mdr" placeholder="Weapon name"/></div>
+									<div class="flex-cell vweapon-rarity">
+										<select name="attr_vweapon_rarity_manual" class="sheet-armor-rarity-select">
+											<option value="C">C</option>
+											<option value="I">I</option>
+											<option value="P">P</option>
+											<option value="R">R</option>
+										</select>
+									</div>
+									<div class="flex-cell vweapon-damage"><input type="text" class="sheet-wide-input" name="attr_vweapon_damage_manual"/></div>
+									<div class="flex-cell vweapon-mode"><input type="text" class="sheet-wide-input" name="attr_vweapon_mode_manual"/></div>
+									<div class="flex-cell vweapon-mount"><input type="text" class="sheet-wide-input" name="attr_vweapon_mount_manual"/></div>
+									<div class="flex-cell vweapon-shots"><input type="text" class="sheet-wide-input" name="attr_vweapon_shots_manual"/></div>
+									<div class="flex-cell vweapon-target"><input type="text" class="sheet-wide-input" name="attr_vweapon_target_manual"/></div>
+									<div class="flex-cell vweapon-traits"><input type="text" class="sheet-wide-input" name="attr_vweapon_traits_manual"/></div>
+									<div class="flex-cell vweapon-btn">
+										<button class="smallbutton-roll" type="roll"
+											name="roll_vweapon_manual_attack"
+											value="&{template:coc-minionattack} {{name=@{vweapon_name_mdr} (Gunnery)}} {{success=[[@{gunnery_mdr}]]}} {{hard=[[floor(@{gunnery_mdr}/2)]]}} {{extreme=[[floor(@{gunnery_mdr}/5)]]}} {{roll1=[[1d100]]}} {{damage=[[@{vweapon_damage_manual}]]}}">
+										</button>
+									</div>
+								</div><!-- /flex-row -->
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+			<!-- /VEHICLE WEAPONS -->
+
+			<!-- ═══════════════════ SECTION: VEHICLE MODS ═══════════════════ -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_vmod_collapse"
+					name="attr_gear_vmod_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="vehicle_mods-u">Vehicle Modifications</span>
+					<label class="sheet-top-collapse-hit" for="gear_vmod_collapse"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+						<div class="sheet-vmod-header">
+							<div class="flex-row">
+								<div class="flex-cell vmod-name"><span data-i18n="vmod_name_col-u">Modification</span></div>
+								<div class="flex-cell vmod-rarity"><span data-i18n="vmod_rarity-u">R</span></div>
+								<div class="flex-cell vmod-category"><span data-i18n="vmod_category-u">Category</span></div>
+								<div class="flex-cell vmod-slots"><span data-i18n="vmod_mod_slots_col-u">Slots</span></div>
+								<div class="flex-cell vmod-effect"><span data-i18n="vmod_effect-u">Effect</span></div>
+							</div>
+						</div>
+						<fieldset class="repeating_vehiclemodgear">
+							<div>
+								<input type="hidden" name="attr_vmod_category_mdr" value=""/>
+								<input type="hidden" name="attr_vmod_slots_mdr" value="0"/>
+								<input type="hidden" name="attr_vmod_effect_mdr" value=""/>
+								<input type="hidden" name="attr_vmod_cost_mdr" value="0"/>
+								<input type="hidden" name="attr_vmod_vehicle_req_mdr" value=""/>
+								<div class="flex-row">
+									<div class="flex-cell vmod-name">
+										<select name="attr_vmod_preset">
+											<option value="" data-i18n="vmod_select_placeholder-u">--- select mod ---</option>
+											<optgroup label="Performance">
+												<option value="engine_tune">Engine Tune</option>
+												<option value="handling_upgrade">Handling Upgrade</option>
+												<option value="reinforced_suspension">Reinforced Suspension</option>
+												<option value="stealth_drive">Stealth Drive</option>
+												<option value="stormchaser_arc_wings">Stormchaser Arc-Wings</option>
+											</optgroup>
+											<optgroup label="Armor &amp; Survivability">
+												<option value="arcshield_pulse_modulator">ArcShield Pulse Modulator</option>
+												<option value="blast_shielding">Blast Shielding</option>
+												<option value="emergency_ejection_system">Emergency Ejection System</option>
+												<option value="reinforced_plating">Reinforced Plating</option>
+												<option value="run_flat_coils">Run-Flat Coils / Emergency Skids</option>
+											</optgroup>
+											<optgroup label="Weapons &amp; Tactical">
+												<option value="additional_hardpoint">Additional Hardpoint</option>
+												<option value="advanced_trauma_medbay">Advanced Trauma Medbay</option>
+												<option value="auto_turret_conversion">Auto-Turret Conversion</option>
+												<option value="drone_jack_mount">Drone Jack Mount</option>
+												<option value="internal_auto_pilot_node">Internal Auto-Pilot Node</option>
+												<option value="modular_drone_vault">Modular Drone Vault</option>
+												<option value="rapid_deployment_system">Rapid Deployment System</option>
+												<option value="smart_linked_hardpoint">Smart-Linked Hardpoint</option>
+												<option value="smoke_chaff_dispenser">Smoke / Chaff Dispenser</option>
+												<option value="tactical_sensor_array">Tactical Sensor Array</option>
+											</optgroup>
+											<optgroup label="Stealth &amp; ECM">
+												<option value="arcfield_cloaking_shroud">Arcfield Cloaking Shroud</option>
+												<option value="arcjammer_beacon">Arcjammer Beacon</option>
+												<option value="arcnet_ghost_plating">ArcNet Ghost Plating</option>
+												<option value="hardened_chassis_conversion">Hardened Chassis Conversion</option>
+												<option value="radar_absorb_coating">Radar-Absorb Coating</option>
+												<option value="signal_dampener">Signal Dampener</option>
+												<option value="thermal_suppressor">Thermal Suppressor</option>
+											</optgroup>
+											<optgroup label="Arcane Integration">
+												<option value="arcane_drive">Arcane Drive</option>
+												<option value="sigil_array">Sigil Array</option>
+												<option value="veil_flux_dampening_grid">Veil-Flux Dampening Grid</option>
+												<option value="veil_shielded_hull">Veil-Shielded Hull</option>
+												<option value="ward_anchor_point">Ward Anchor Point</option>
+											</optgroup>
+										</select>
+									</div>
+									<div class="flex-cell vmod-rarity"><span name="attr_vmod_rarity_mdr"></span></div>
+									<div class="flex-cell vmod-category"><span name="attr_vmod_category_display_mdr"></span></div>
+									<div class="flex-cell vmod-slots"><span name="attr_vmod_slots_display_mdr"></span></div>
+									<div class="flex-cell vmod-effect">
+										<div class="sheet-skill-tooltip has-notes">
+											<div class="sheet-skill-tooltip-preview"><span name="attr_vmod_effect_preview_mdr"></span></div>
+											<div class="sheet-skill-tooltip-bubble"><span name="attr_vmod_effect_mdr"></span></div>
+										</div>
+									</div>
+								</div><!-- /flex-row -->
+							</div>
+						</fieldset>
+						<hr class="sheet-vehicle-divider"/>
+						<div class="sheet-vmod-header">
+							<div class="flex-row">
+								<div class="flex-cell vmod-name"><span data-i18n="name-u">Modification</span></div>
+								<div class="flex-cell vmod-rarity"><span data-i18n="vmod_rarity-u">R</span></div>
+								<div class="flex-cell vmod-category"><span data-i18n="vmod_category-u">Category</span></div>
+								<div class="flex-cell vmod-slots"><span data-i18n="vmod_mod_slots_col-u">Slots</span></div>
+								<div class="flex-cell vmod-effect"><span data-i18n="vmod_effect-u">Effect</span></div>
+							</div>
+						</div>
+						<fieldset class="repeating_vehiclemodmanual">
+							<div>
+								<div class="flex-row">
+									<div class="flex-cell vmod-name"><input type="text" name="attr_vmod_name_mdr" placeholder="Mod name"/></div>
+									<div class="flex-cell vmod-rarity">
+										<select name="attr_vmod_rarity_manual" class="sheet-armor-rarity-select">
+											<option value="C">C</option>
+											<option value="I">I</option>
+											<option value="P">P</option>
+											<option value="R">R</option>
+										</select>
+									</div>
+									<div class="flex-cell vmod-category"><input type="text" class="sheet-wide-input" name="attr_vmod_category_manual"/></div>
+									<div class="flex-cell vmod-slots"><input type="text" class="sheet-wide-input" name="attr_vmod_slots_manual" value="0"/></div>
+									<div class="flex-cell vmod-effect"><input type="text" class="sheet-wide-input" name="attr_vmod_effect_manual"/></div>
+								</div><!-- /flex-row -->
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+			<!-- /VEHICLE MODS -->
+
+		</div>	</div>
 </div>
 
 <!----------------------------------------------------------------ROLL TEMPLATES -------------------------------------------------------------------------->
@@ -54342,13 +54766,335 @@ const entertainmentDataMap = {
      mod_slots      — available mod slots
    ══════════════════════════════════════════════════════════════════ */
 const vehiclesDataMap = {
+	/* ── ARCBIKES ───────────────────────────────────────── */
+	asuka_gravleech_330: {
+		name_key:          "vehicle_asuka_gravleech_330-u",
+		cost:              32000,
+		rarity:            "permit",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                25,
+		dr:                4,
+		vs:                0,
+		defense:           20,
+		defense_hardened:  false,
+		speed:             "standard",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          1,
+		hardpoints:        0,
+		mod_slots:         2,
+		effect_key:        "vehicle_asuka_gravleech_330_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	asuka_gravleech_440t: {
+		name_key:          "vehicle_asuka_gravleech_440t-u",
+		cost:              52000,
+		rarity:            "restricted",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                34,
+		dr:                7,
+		vs:                3,
+		defense:           30,
+		defense_hardened:  false,
+		speed:             "fast",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          1,
+		hardpoints:        0,
+		mod_slots:         2,
+		effect_key:        "vehicle_asuka_gravleech_440t_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	heliodyne_sablehorn_m3: {
+		name_key:          "vehicle_heliodyne_sablehorn_m3-u",
+		cost:              38000,
+		rarity:            "permit",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                28,
+		dr:                5,
+		vs:                1,
+		defense:           20,
+		defense_hardened:  false,
+		speed:             "standard",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          1,
+		hardpoints:        0,
+		mod_slots:         2,
+		effect_key:        "vehicle_heliodyne_sablehorn_m3_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	kintari_streetjack_205x: {
+		name_key:          "vehicle_kintari_streetjack_205x-u",
+		cost:              18000,
+		rarity:            "common",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                14,
+		dr:                1,
+		vs:                0,
+		defense:           10,
+		defense_hardened:  false,
+		speed:             "fast",
+		handling:          1,
+		crew_min:          1,
+		crew_max:          1,
+		hardpoints:        0,
+		mod_slots:         1,
+		effect_key:        "vehicle_kintari_streetjack_205x_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	kintari_streetjack_209x: {
+		name_key:          "vehicle_kintari_streetjack_209x-u",
+		cost:              28000,
+		rarity:            "permit",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                22,
+		dr:                3,
+		vs:                0,
+		defense:           15,
+		defense_hardened:  false,
+		speed:             "fast",
+		handling:          1,
+		crew_min:          1,
+		crew_max:          1,
+		hardpoints:        0,
+		mod_slots:         1,
+		effect_key:        "vehicle_kintari_streetjack_209x_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	peregrine_lancer_9x: {
+		name_key:          "vehicle_peregrine_lancer_9x-u",
+		cost:              62000,
+		rarity:            "restricted",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                36,
+		dr:                6,
+		vs:                2,
+		defense:           45,
+		defense_hardened:  true,
+		speed:             "rapid",
+		handling:          1,
+		crew_min:          1,
+		crew_max:          1,
+		hardpoints:        0,
+		mod_slots:         3,
+		effect_key:        "vehicle_peregrine_lancer_9x_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	phantom_viper_mkiv: {
+		name_key:          "vehicle_phantom_viper_mkiv-u",
+		cost:              45000,
+		rarity:            "restricted",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                30,
+		dr:                4,
+		vs:                2,
+		defense:           40,
+		defense_hardened:  true,
+		speed:             "rapid",
+		handling:          1,
+		crew_min:          1,
+		crew_max:          0,
+		hardpoints:        0,
+		mod_slots:         2,
+		effect_key:        "vehicle_phantom_viper_mkiv_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	phantom_wraith_gt: {
+		name_key:          "vehicle_phantom_wraith_gt-u",
+		cost:              75000,
+		rarity:            "restricted",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                40,
+		dr:                5,
+		vs:                4,
+		defense:           55,
+		defense_hardened:  true,
+		speed:             "rapid",
+		handling:          1,
+		crew_min:          1,
+		crew_max:          0,
+		hardpoints:        0,
+		mod_slots:         3,
+		effect_key:        "vehicle_phantom_wraith_gt_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	veilcore_driftsurge_s2: {
+		name_key:          "vehicle_veilcore_driftsurge_s2-u",
+		cost:              24000,
+		rarity:            "common",
+		category:          "arcbike",
+		skill:             "drive_auto",
+		hp:                18,
+		dr:                2,
+		vs:                0,
+		defense:           15,
+		defense_hardened:  false,
+		speed:             "standard",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          1,
+		hardpoints:        0,
+		mod_slots:         1,
+		effect_key:        "vehicle_veilcore_driftsurge_s2_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	/* ── ARCRUNNERS ─────────────────────────────────────── */
+	asuka_cloudrider_5t: {
+		name_key:          "vehicle_asuka_cloudrider_5t-u",
+		cost:              75000,
+		rarity:            "permit",
+		category:          "arcrunner",
+		skill:             "drive_auto",
+		hp:                78,
+		dr:                5,
+		vs:                2,
+		defense:           25,
+		defense_hardened:  false,
+		speed:             "standard",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          4,
+		hardpoints:        0,
+		mod_slots:         3,
+		effect_key:        "vehicle_asuka_cloudrider_5t_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	blackreach_hellcarriage_v10: {
+		name_key:          "vehicle_blackreach_hellcarriage_v10-u",
+		cost:              135000,
+		rarity:            "restricted",
+		category:          "arcrunner",
+		skill:             "drive_auto",
+		hp:                110,
+		dr:                10,
+		vs:                2,
+		defense:           55,
+		defense_hardened:  true,
+		speed:             "rapid",
+		handling:          1,
+		crew_min:          1,
+		crew_max:          4,
+		hardpoints:        1,
+		mod_slots:         4,
+		effect_key:        "vehicle_blackreach_hellcarriage_v10_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	brickhaul_tempest_gr7: {
+		name_key:          "vehicle_brickhaul_tempest_gr7-u",
+		cost:              72000,
+		rarity:            "permit",
+		category:          "arcrunner",
+		skill:             "drive_auto",
+		hp:                80,
+		dr:                6,
+		vs:                1,
+		defense:           30,
+		defense_hardened:  false,
+		speed:             "standard",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          4,
+		hardpoints:        0,
+		mod_slots:         3,
+		effect_key:        "vehicle_brickhaul_tempest_gr7_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	kintari_drifthauler_6c: {
+		name_key:          "vehicle_kintari_drifthauler_6c-u",
+		cost:              58000,
+		rarity:            "common",
+		category:          "arcrunner",
+		skill:             "drive_auto",
+		hp:                65,
+		dr:                4,
+		vs:                0,
+		defense:           15,
+		defense_hardened:  false,
+		speed:             "slow",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          4,
+		hardpoints:        0,
+		mod_slots:         2,
+		effect_key:        "vehicle_kintari_drifthauler_6c_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	peregrine_luxsilence_99: {
+		name_key:          "vehicle_peregrine_luxsilence_99-u",
+		cost:              120000,
+		rarity:            "restricted",
+		category:          "arcrunner",
+		skill:             "drive_auto",
+		hp:                85,
+		dr:                5,
+		vs:                4,
+		defense:           50,
+		defense_hardened:  true,
+		speed:             "fast",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          4,
+		hardpoints:        0,
+		mod_slots:         3,
+		effect_key:        "vehicle_peregrine_luxsilence_99_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	sablecorp_rampart_mkii: {
+		name_key:          "vehicle_sablecorp_rampart_mkii-u",
+		cost:              95000,
+		rarity:            "restricted",
+		category:          "arcrunner",
+		skill:             "drive_auto",
+		hp:                95,
+		dr:                8,
+		vs:                3,
+		defense:           45,
+		defense_hardened:  true,
+		speed:             "fast",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          4,
+		hardpoints:        1,
+		mod_slots:         4,
+		effect_key:        "vehicle_sablecorp_rampart_mkii_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
+	veilcore_voxline_lx: {
+		name_key:          "vehicle_veilcore_voxline_lx-u",
+		cost:              68000,
+		rarity:            "common",
+		category:          "arcrunner",
+		skill:             "drive_auto",
+		hp:                70,
+		dr:                3,
+		vs:                1,
+		defense:           20,
+		defense_hardened:  false,
+		speed:             "standard",
+		handling:          0,
+		crew_min:          1,
+		crew_max:          3,
+		hardpoints:        0,
+		mod_slots:         2,
+		effect_key:        "vehicle_veilcore_voxline_lx_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicles-u" },
+	},
 	/* ── GROUND VEHICLES ───────────────────────────────────── */
 	armored_personnel_carrier: {
 		name_key:          "vehicle_armored_personnel_carrier-u",
 		cost:              280000,
 		rarity:            "restricted",
 		category:          "ground",
-		skill:             "drive_ground",
+		skill:             "drive_auto",
 		hp:                120,
 		dr:                12,
 		vs:                0,
@@ -54368,7 +55114,7 @@ const vehiclesDataMap = {
 		cost:              60000,
 		rarity:            "common",
 		category:          "ground",
-		skill:             "drive_ground",
+		skill:             "drive_auto",
 		hp:                40,
 		dr:                2,
 		vs:                0,
@@ -54388,7 +55134,7 @@ const vehiclesDataMap = {
 		cost:              45000,
 		rarity:            "common",
 		category:          "ground",
-		skill:             "drive_ground",
+		skill:             "drive_auto",
 		hp:                30,
 		dr:                1,
 		vs:                0,
@@ -54408,7 +55154,7 @@ const vehiclesDataMap = {
 		cost:              150000,
 		rarity:            "restricted",
 		category:          "ground",
-		skill:             "drive_ground",
+		skill:             "drive_auto",
 		hp:                80,
 		dr:                7,
 		vs:                0,
@@ -54428,7 +55174,7 @@ const vehiclesDataMap = {
 		cost:              85000,
 		rarity:            "permit",
 		category:          "ground",
-		skill:             "drive_ground",
+		skill:             "drive_auto",
 		hp:                60,
 		dr:                5,
 		vs:                0,
@@ -54650,7 +55396,7 @@ const vehiclesDataMap = {
 		cost:              75000,
 		rarity:            "permit",
 		category:          "water",
-		skill:             "pilot_water",
+		skill:             "pilot_watercraft",
 		hp:                50,
 		dr:                5,
 		vs:                0,
@@ -54670,7 +55416,7 @@ const vehiclesDataMap = {
 		cost:              35000,
 		rarity:            "common",
 		category:          "water",
-		skill:             "pilot_water",
+		skill:             "pilot_watercraft",
 		hp:                25,
 		dr:                1,
 		vs:                0,
@@ -54766,6 +55512,7 @@ const vehicleWeaponsDataMap = {
 		mode:          ["sa", "bf"],
 		mount:         "any",
 		shots:         60,
+		shots_note:    "belt",
 		mod_slots:     0,
 		vehicle_class: ["all"],
 		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicle_weapons-u" },
@@ -54780,6 +55527,7 @@ const vehicleWeaponsDataMap = {
 		mode:          ["ss"],
 		mount:         "forward",
 		shots:         3,
+		shots_note:    "pulses",
 		mod_slots:     1,
 		vehicle_class: ["vtol"],
 		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicle_weapons-u" },
@@ -54808,6 +55556,7 @@ const vehicleWeaponsDataMap = {
 		mode:          ["fa"],
 		mount:         "turret",
 		shots:         200,
+		shots_note:    "belt",
 		mod_slots:     1,
 		vehicle_class: ["arcrunner", "vtol"],
 		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicle_weapons-u" },
@@ -54865,6 +55614,7 @@ const vehicleWeaponsDataMap = {
 		mode:          ["ss"],
 		mount:         "forward",
 		shots:         6,
+		shots_note:    "rockets",
 		mod_slots:     1,
 		vehicle_class: ["arcrunner", "vtol"],
 		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicle_weapons-u" },
@@ -54879,6 +55629,7 @@ const vehicleWeaponsDataMap = {
 		mode:          ["ss"],
 		mount:         "forward",
 		shots:         2,
+		shots_note:    "missiles",
 		mod_slots:     2,
 		vehicle_class: ["vtol"],
 		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "vehicle_weapons-u" },
@@ -58397,6 +59148,10 @@ const initializeSheetOnOpen = (eventInfo) => {
 		initWeapon1ModButtons();
 		registerGrenadeManualWatchers();
 		registerWeaponManualWatchers();
+		initVehiclePresets();
+		initVehicleWeaponPresets();
+		initVehicleModPresets();
+		registerVehicleManualWatchers();
 		applyTranslationsOnOpen(() => {
 			if (debug_on_trace) console.log("[initializeSheetOnOpen] Done");
 				sheetInitComplete = true;
@@ -59803,6 +60558,76 @@ const registerGrenadeManualWatchers = () => {
 				});
 				if (Object.keys(updates).length) setAttrs(updates);
 			});
+		});
+	});
+};
+
+/* ── Vehicle init functions ──────────────────────────────────────────── */
+const initVehiclePresets = () => {
+	getSectionIDs("repeating_vehiclegear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.flatMap(id => [
+			`repeating_vehiclegear_${id}_vehicle_preset`,
+			`repeating_vehiclegear_${id}_vehicle_hp_current`,
+		]);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p         = `repeating_vehiclegear_${id}_`;
+				const key       = rows[p + "vehicle_preset"] || "";
+				const hasHp     = (rows[p + "vehicle_hp_current"] || "") !== "";
+				if (key) applyVehiclePreset(p, key, hasHp);
+			});
+		});
+	});
+};
+
+const initVehicleWeaponPresets = () => {
+	getSectionIDs("repeating_vehicleweapongear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_vehicleweapongear_${id}_vweapon_preset`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p   = `repeating_vehicleweapongear_${id}_`;
+				const key = rows[p + "vweapon_preset"] || "";
+				if (key) applyVehicleWeaponPreset(p, key);
+			});
+		});
+	});
+};
+
+const initVehicleModPresets = () => {
+	getSectionIDs("repeating_vehiclemodgear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_vehiclemodgear_${id}_vmod_preset`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p   = `repeating_vehiclemodgear_${id}_`;
+				const key = rows[p + "vmod_preset"] || "";
+				if (key) applyVehicleModPreset(p, key);
+			});
+		});
+	});
+};
+
+const registerVehicleManualWatchers = () => {
+	const S  = "repeating_vehiclemanual";
+	const id = (src) => {
+		const m = (src || "").match(new RegExp(`^${S}_([^_]+)_`));
+		return m ? m[1] : null;
+	};
+	on(`change:${S}:vehicle_hp_current_manual change:${S}:vehicle_hp_max_manual`, (eventInfo) => {
+		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
+		const p = `${S}_${rowId}_`;
+		getAttrs([p + "vehicle_hp_current_manual", p + "vehicle_hp_max_manual"], (v) => {
+			const cur = parseInt(v[p + "vehicle_hp_current_manual"]) || 0;
+			const max = parseInt(v[p + "vehicle_hp_max_manual"]) || 1;
+			const pct = cur / max;
+			const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+			let condition = tr("vehicle_condition_operational-u");
+			if (cur <= 0)         condition = tr("vehicle_condition_wrecked-u");
+			else if (pct <= 0.25) condition = tr("vehicle_condition_critical-u");
+			else if (pct <= 0.50) condition = tr("vehicle_condition_heavily_damaged-u");
+			setAttrs({ [p + "vehicle_condition_manual_mdr"]: condition });
 		});
 	});
 };
@@ -61948,6 +62773,128 @@ function applyDronesPresetStatic(index, presetKey) {
 	});
 }
 
+/* ── Vehicle preset apply ─────────────────────────────────────────────── */
+const applyVehiclePreset = (prefix, key, preserveHp = false) => {
+	const data = key ? vehiclesDataMap[key] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	const skillEntry = (data && data.skill) ? skillDataMap[data.skill] : null;
+	const skillAttr  = skillEntry ? skillEntry.bonus : null;
+	const speedDisplay = (s) => {
+		const map = { slow: "Slow", standard: "Std", fast: "Fast", rapid: "Rapid" };
+		return map[s] || s || " ";
+	};
+	const handlingDisplay = (h) => {
+		if (h > 0)  return "+" + h;
+		if (h < 0)  return String(h);
+		return "Std";
+	};
+	const writeAttrs = (skillVal, gunVal) => {
+		setAttrs({
+			[prefix + "vehicle_name_display_mdr"]:       data ? tr(data.name_key)                                              : " ",
+			[prefix + "vehicle_hp_max_mdr"]:             data ? data.hp                                                        : 0,
+			[prefix + "vehicle_hp_max_display_mdr"]:     data ? String(data.hp)                                               : " ",
+			[prefix + "vehicle_dr_mdr"]:                 data ? data.dr                                                        : 0,
+			[prefix + "vehicle_dr_display_mdr"]:         data ? String(data.dr)                                               : " ",
+			[prefix + "vehicle_vs_mdr"]:                 data ? data.vs                                                        : 0,
+			[prefix + "vehicle_vs_display_mdr"]:         data ? String(data.vs)                                               : " ",
+			[prefix + "vehicle_defense_mdr"]:            data ? data.defense                                                   : 0,
+			[prefix + "vehicle_defense_hardened_mdr"]:   data ? (data.defense_hardened ? " (H)" : "")                          : " ",
+			[prefix + "vehicle_defense_display_mdr"]:    data ? (String(data.defense) + (data.defense_hardened ? "H" : ""))   : " ",
+			[prefix + "vehicle_speed_mdr"]:              data ? data.speed                                                     : " ",
+			[prefix + "vehicle_speed_display_mdr"]:      data ? speedDisplay(data.speed)                                      : " ",
+			[prefix + "vehicle_handling_mdr"]:           data ? data.handling                                                  : 0,
+			[prefix + "vehicle_handling_display_mdr"]:   data ? handlingDisplay(data.handling)                                : " ",
+			[prefix + "vehicle_crew_min_mdr"]:           data ? data.crew_min                                                  : 1,
+			[prefix + "vehicle_crew_max_mdr"]:           data ? data.crew_max                                                  : 1,
+			[prefix + "vehicle_crew_display_mdr"]:       data ? (data.crew_min + "/" + data.crew_max)                         : " ",
+			[prefix + "vehicle_hardpoints_mdr"]:         data ? data.hardpoints                                                : 0,
+			[prefix + "vehicle_hardpoints_display_mdr"]: data ? String(data.hardpoints)                                       : " ",
+			[prefix + "vehicle_modslots_mdr"]:           data ? data.mod_slots                                                 : 0,
+			[prefix + "vehicle_modslots_display_mdr"]:   data ? String(data.mod_slots)                                        : " ",
+			[prefix + "vehicle_skill_mdr"]:              data ? data.skill                                                     : " ",
+			[prefix + "vehicle_skill_attr_mdr"]:         skillAttr  ? skillAttr                                               : " ",
+			[prefix + "vehicle_skill_val_mdr"]:          skillVal !== null ? String(skillVal)                                  : " ",
+			[prefix + "vehicle_skill_display_mdr"]:      skillEntry ? tr(skillEntry.label)                                    : " ",
+			[prefix + "vehicle_category_mdr"]:           data ? data.category                                                  : " ",
+			[prefix + "vehicle_cost_mdr"]:               data ? data.cost                                                      : 0,
+			[prefix + "vehicle_rarity_mdr"]:             data ? tr(rarityAbbrevKey[data.rarity] || " ")                       : " ",
+			[prefix + "vehicle_effect_mdr"]:             data ? tr(data.effect_key)                                           : " ",
+			[prefix + "vehicle_gunnery_val_mdr"]:        gunVal !== null ? String(gunVal)                                      : " ",
+			[prefix + "vehicle_condition_mdr"]:          data ? tr("vehicle_condition_operational-u")                          : " ",
+		});
+	};
+	const attrsToFetch = skillAttr ? [skillAttr, "gunnery_mdr"] : ["gunnery_mdr"];
+	getAttrs(attrsToFetch, (v) => {
+		const skillVal = skillAttr ? (parseInt(v[skillAttr]) || 0) : null;
+		const gunVal   = parseInt(v["gunnery_mdr"]) || 0;
+		writeAttrs(skillVal, gunVal);
+		if (!preserveHp && data) {
+			setAttrs({ [prefix + "vehicle_hp_current"]: data.hp });
+		}
+	});
+};
+
+/* ── Vehicle weapon preset apply ──────────────────────────────────────── */
+const applyVehicleWeaponPreset = (prefix, key) => {
+	const data = key ? vehicleWeaponsDataMap[key] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	const shotsDisplay = (d) => {
+		if (!d) return " ";
+		if (d.shots === null) return "Unlimited";
+		const note = d.shots_note ? " (" + d.shots_note + ")" : "";
+		return d.shots + note;
+	};
+	const listDisplay = (arr) => arr && arr.length ? arr.map(t => t.replace(/_/g, " ")).join(", ") : " ";
+	const modesDisplay = (arr) => arr && arr.length ? arr.map(m => m.toUpperCase()).join("/") : " ";
+	const effectFull = data ? tr(data.name_key) : " ";
+	setAttrs({
+		[prefix + "vweapon_damage_mdr"]:          data ? data.damage                                                           : " ",
+		[prefix + "vweapon_damage_display_mdr"]:  data ? (data.damage + (data.damage_type === "veil" ? " [V]" : ""))           : " ",
+		[prefix + "vweapon_mode_mdr"]:            data ? (data.mode || []).join("/")                                           : " ",
+		[prefix + "vweapon_mode_display_mdr"]:    data ? modesDisplay(data.mode)                                               : " ",
+		[prefix + "vweapon_mount_mdr"]:           data ? data.mount                                                            : " ",
+		[prefix + "vweapon_mount_display_mdr"]:   data ? data.mount.replace(/_/g, " ")                                        : " ",
+		[prefix + "vweapon_shots_mdr"]:           data ? (data.shots !== null ? String(data.shots) : "∞")                     : " ",
+		[prefix + "vweapon_shots_display_mdr"]:   data ? shotsDisplay(data)                                                    : " ",
+		[prefix + "vweapon_target_mdr"]:          data ? (data.target_class || []).join(",")                                   : " ",
+		[prefix + "vweapon_target_display_mdr"]:  data ? listDisplay(data.target_class)                                        : " ",
+		[prefix + "vweapon_traits_mdr"]:          data ? (data.traits || []).join(",")                                         : " ",
+		[prefix + "vweapon_traits_display_mdr"]:  data ? listDisplay(data.traits)                                              : " ",
+		[prefix + "vweapon_effect_mdr"]:          effectFull,
+		[prefix + "vweapon_cost_mdr"]:            data ? data.cost                                                             : 0,
+		[prefix + "vweapon_rarity_mdr"]:          data ? tr(rarityAbbrevKey[data.rarity] || " ")                              : " ",
+	});
+};
+
+/* ── Vehicle mod preset apply ─────────────────────────────────────────── */
+const applyVehicleModPreset = (prefix, key) => {
+	const data = key ? vehicleModsDataMap[key] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	const categoryDisplay = (c) => {
+		const map = {
+			performance:      "Performance",
+			armor:            "Armor",
+			weapons_tactical: "Weapons",
+			stealth_ecm:      "Stealth/ECM",
+			arcane:           "Arcane",
+		};
+		return map[c] || c || " ";
+	};
+	const effectFull    = data ? tr(data.effect_key) : " ";
+	const effectPreview = effectFull.length > 45 ? effectFull.substring(0, 45) + "…" : effectFull;
+	setAttrs({
+		[prefix + "vmod_category_mdr"]:         data ? data.category                                                 : " ",
+		[prefix + "vmod_category_display_mdr"]: data ? categoryDisplay(data.category)                               : " ",
+		[prefix + "vmod_slots_mdr"]:            data ? data.mod_slots                                                : 0,
+		[prefix + "vmod_slots_display_mdr"]:    data ? String(data.mod_slots)                                       : " ",
+		[prefix + "vmod_effect_mdr"]:           effectFull,
+		[prefix + "vmod_effect_preview_mdr"]:   effectPreview,
+		[prefix + "vmod_cost_mdr"]:             data ? (data.cost || data.cost_min || 0)                            : 0,
+		[prefix + "vmod_rarity_mdr"]:           data ? tr(rarityAbbrevKey[data.rarity] || " ")                     : " ",
+		[prefix + "vmod_vehicle_req_mdr"]:      data ? (data.vehicle_req ? data.vehicle_req.join(", ") : "Any")    : " ",
+	});
+};
+
 /* ── Core: compute and write all display attrs for one grenade row ────── */
 function applyGrenadePreset(p, presetKey, delivery) {
 	const entry = presetKey ? explosivesDataMap[presetKey] : null;
@@ -62945,6 +63892,82 @@ on("change:drones2_preset", () => {
 	if (debug_on_trace) console.log("[change:drones2_preset]");
 	getAttrs(["drones2_preset"], (v) => {
 		applyDronesPresetStatic(2, v["drones2_preset"] || "");
+	});
+});
+
+/* ── Vehicle preset select — repeating rows ─────────────────────────── */
+on("change:repeating_vehiclegear:vehicle_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_vehiclegear:vehicle_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_vehiclegear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_vehiclegear_${m[1]}_`;
+	getAttrs([p + "vehicle_preset"], (v) => {
+		applyVehiclePreset(p, v[p + "vehicle_preset"] || "");
+	});
+});
+
+/* ── Vehicle HP current → condition compute ──────────────────────────── */
+on("change:repeating_vehiclegear:vehicle_hp_current", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_vehiclegear:vehicle_hp_current]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_vehiclegear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_vehiclegear_${m[1]}_`;
+	getAttrs([p + "vehicle_hp_current", p + "vehicle_hp_max_mdr"], (v) => {
+		const cur = parseInt(v[p + "vehicle_hp_current"]) || 0;
+		const max = parseInt(v[p + "vehicle_hp_max_mdr"]) || 1;
+		const pct = cur / max;
+		const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+		let condition = tr("vehicle_condition_operational-u");
+		if (cur <= 0)         condition = tr("vehicle_condition_wrecked-u");
+		else if (pct <= 0.25) condition = tr("vehicle_condition_critical-u");
+		else if (pct <= 0.50) condition = tr("vehicle_condition_heavily_damaged-u");
+		setAttrs({ [p + "vehicle_condition_mdr"]: condition });
+	});
+});
+
+/* ── Vehicle skill value sync — keep in sync when drive/pilot skills change ── */
+on("change:drive_auto_mdr change:pilot_aircraft_mdr change:pilot_watercraft_mdr change:pilot_mech_walker_mdr", () => {
+	if (debug_on_trace) console.log("[change:drive/pilot_mdr] vehicle skill val sync");
+	getSectionIDs("repeating_vehiclegear", (ids) => {
+		if (!ids.length) return;
+		const attrKeys = ids.map(id => `repeating_vehiclegear_${id}_vehicle_skill_attr_mdr`);
+		getAttrs(attrKeys, (v) => {
+			const skillAttrs = new Set(Object.values(v).filter(Boolean));
+			const toFetch    = [...skillAttrs, "gunnery_mdr"];
+			getAttrs(toFetch, (skillVals) => {
+				const updates = {};
+				ids.forEach(id => {
+					const p         = `repeating_vehiclegear_${id}_`;
+					const skillAttr = v[p + "vehicle_skill_attr_mdr"];
+					if (skillAttr && skillVals[skillAttr] !== undefined)
+						updates[p + "vehicle_skill_val_mdr"]   = String(parseInt(skillVals[skillAttr]) || 0);
+					updates[p + "vehicle_gunnery_val_mdr"] = String(parseInt(skillVals["gunnery_mdr"]) || 0);
+				});
+				if (Object.keys(updates).length) setAttrs(updates);
+			});
+		});
+	});
+});
+
+/* ── Vehicle weapon preset select — repeating rows ───────────────────── */
+on("change:repeating_vehicleweapongear:vweapon_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_vehicleweapongear:vweapon_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_vehicleweapongear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_vehicleweapongear_${m[1]}_`;
+	getAttrs([p + "vweapon_preset"], (v) => {
+		applyVehicleWeaponPreset(p, v[p + "vweapon_preset"] || "");
+	});
+});
+
+/* ── Vehicle mod preset select — repeating rows ──────────────────────── */
+on("change:repeating_vehiclemodgear:vmod_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_vehiclemodgear:vmod_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_vehiclemodgear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_vehiclemodgear_${m[1]}_`;
+	getAttrs([p + "vmod_preset"], (v) => {
+		applyVehicleModPreset(p, v[p + "vmod_preset"] || "");
 	});
 });
 

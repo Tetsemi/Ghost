@@ -470,6 +470,7 @@ Credits (Cr) — primary economy unit.
 - **Every new feature needs its translation keys added first**, before the HTML is written, to avoid forgetting them.
 - **No duplicate keys.** Roll20 may silently use whichever duplicate it encounters first, leading to subtle display bugs.
 - **Multi-key insertions must sort the whole affected range**, not append after an anchor. Use Python to extract the range, merge, sort, and write back.
+- **Never round-trip `translation.json` values through `json.loads` + manual write.** `json.loads` decodes `\n` escape sequences into literal newline characters. A manual write loop that only re-escapes `\` and `"` will silently corrupt all multi-line values (rule text, talent descriptions, etc.), producing invalid JSON. The only safe pattern for inserting new keys is to work on the **raw string**: find the correct alphabetical insertion point by scanning raw key lines with regex, then splice the new raw JSON line in directly. Never deserialize values — only deserialize keys for position lookup.
 
 ### HTML / Sheet Workers
 - **Manual section watcher functions must be `const` arrow functions, not IIFEs.**
@@ -483,6 +484,9 @@ Credits (Cr) — primary economy unit.
 - **`vweapon_effect_mdr` must hold effect/traits text, not the weapon name.** In `applyVehicleWeaponPreset`, `effectFull` should be built from traits/effect data, not from `tr(data.name_key)`.
 - **Init functions must preserve player state.** Never unconditionally overwrite current HP or other player-editable values on `sheet:opened`. Fetch existing values and use a `preserveState` flag.
 - **`@{attr}` in spans inside repeating fieldsets won't resolve top-level attrs.** If a repeating row needs to display a top-level character attribute (e.g. `gunnery_mdr`), write a per-row copy of that value as a hidden attr via the apply function and a sync watcher on `change:gunnery_mdr`.
+- **Never use `<optgroup>` inside repeating section fieldsets.** Roll20 strips or ignores `<optgroup>` elements inside `<fieldset class="repeating_*">`, rendering the select as a flat list with no group headers. Use `<option value="" disabled data-i18n="select_sep_KEY-u">── Label ──</option>` separator options instead.
+- **All `<option>` elements in preset selects must have `data-i18n`.** This applies to both preset item options and separator options. The inline text is a fallback only — the displayed text comes from the i18n key. Follow the ancestry select pattern: `<option data-i18n="key-u" value="value">Fallback Text</option>`.
+- **All separator options use `select_sep_*` keys** with the `── Label ──` format. Do not reuse existing keys (e.g. `armor_group_underlayer-u`, `vehicle_arcbikes-u`) for separators — those keys resolve to plain label text without the `──` decoration. The canonical separator key prefix is `select_sep_` and all values follow the `── Label ──` pattern exactly.
 
 ### CSS
 - **Respect section boundaries.** Always read the surrounding section start/end markers before inserting CSS. The Combat section fieldset reset block is Combat-only. Vehicle fieldset resets go in the Vehicle section. New gear sections get their own resets in the Gear section.

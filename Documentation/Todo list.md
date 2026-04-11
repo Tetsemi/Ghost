@@ -1,44 +1,36 @@
 BUGS:
 
-
 To-do:
 	
 ## Pending — Next Revision Pass
 
-1. **"special" economy value** — standardize to `special_immediate` or keep as a distinct value
+1. **brawler, tactician**  - Waiting on docs
 
-2. **brawler, tactician** — populate stubs when ready
+2. **Full type/tag audit across all DataMaps** - Waiting on docs
 
-3. **Full type/tag audit across all DataMaps**
+3. **Add Ancestry Traits to Summary Text** - Waiting on docs
 
-4. **~~ancestryTalentDataMap tag normalization — 115 of 160 talents use display-name tags instead of snake_case (e.g. `"Observation"` instead of `"observation"`, `"Behavioral Echo"` instead of `"behavioral_echo"`)~~ ✓ DONE**
-
-5. **Add Ancestry Traits to Summary Text**
-
-6. **Merge ancestryTalentDataMap into ancestryDataMap**
-
-
-7. ~~**Gear - DRONES & DEPLOYABLES~~ ✓ DONE Section added**
-
-8. ~~**Gear - BOTS & AUTONOMOUS UNITS~~ ✓ DONE Section added**
+4. **Merge ancestryTalentDataMap into ancestryDataMap**
  
-9. **Inventory - MEDTECH EQUIPMENT & Strain Compounds redo**
+5. **Inventory - MEDTECH EQUIPMENT & Strain Compounds redo**
 
-10. **Inventory - PHARMACEUTICALS & STREET NARCOTICS redo**
+6. **Inventory - PHARMACEUTICALS & STREET NARCOTICS redo**
 
+7. **Cyberware section**
 
-11. **Cyberware section**
-
-
-12. ~**Vehicle section including weapons (Gunnery)~~ ✓ DONE**
-
-13. ~~**NPC - Add MOV penalty~~ ✓ DONE**
-
-14. ~~**NPC - Cap Condition Penalty to -20~~ ✓ DONE Cap Condition Penalty to -20**
+8. **Spells Section - Add spells like weapon section, via skill select then spell select**
+		**~~Alteration~~**
+		**~~Elemental~~**
+		**~~Enchantment~~**
+		**Illusion**
+		**Necromancy**
+		**Restoration**
+		**Summoning**
+		**Technomancy**
+		**Warding**
+		**Universal**
 
 Clean-up:
-
-	Move Skill rolls to sheet worker on click so one place to edit the roll value.
 
 Questions:
 

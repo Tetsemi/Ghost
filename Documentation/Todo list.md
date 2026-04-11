@@ -22,8 +22,8 @@ To-do:
 		**~~Alteration~~**
 		**~~Elemental~~**
 		**~~Enchantment~~**
-		**Illusion**
-		**Necromancy**
+		**~~Illusion~~**
+		**~~Necromancy~~**
 		**Restoration**
 		**Summoning**
 		**Technomancy**

@@ -24,7 +24,7 @@ To-do:
 		**~~Enchantment~~**
 		**~~Illusion~~**
 		**~~Necromancy~~**
-		**Restoration**
+		**~~Restoration~~**
 		**Summoning**
 		**Technomancy**
 		**Warding**

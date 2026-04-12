@@ -8025,7 +8025,11 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 .ui-dialog .tab-content .charsheet .grenade-primary      { flex: 1 1 8%; }
 .ui-dialog .tab-content .charsheet .grenade-secondary    { flex: 1 1 8%; }
 .ui-dialog .tab-content .charsheet .grenade-qty          { flex: 0 0 72px; }
-.ui-dialog .tab-content .charsheet .grenade-effect       { flex: 2 1 20%; }
+.ui-dialog .tab-content .charsheet .grenade-effect       { flex: 2 1 20%; position: relative; }
+.ui-dialog .tab-content .charsheet .grenade-effect .sheet-skill-tooltip { display: flex; width: 100%; min-width: 0; min-height: var(--cs_row_height); align-items: center; }
+.ui-dialog .tab-content .charsheet .grenade-effect .sheet-skill-tooltip-preview { font-size: x-small; flex: 1 1 0; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ui-dialog .tab-content .charsheet .grenade-effect .sheet-skill-tooltip-preview span { display: block; width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ui-dialog .tab-content .charsheet .grenade-effect .sheet-tooltip-bubble { min-width: 280px; max-width: 420px; left: auto; right: 0; color: var(--cs_txt_primary); white-space: normal; }
 
 /* Advanced panel — identical to sheet-weaponblock-advanced */
 .ui-dialog .tab-content .charsheet .sheet-grenadeblock-advanced {
@@ -8330,8 +8334,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	text-align: center;
 	padding: 0;
 	line-height: 1;
-	margin-top: 1px;
-	margin-bottom: 5px;
+	margin-bottom: 2px;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-spellblock-row.concentration input[type="checkbox"],
@@ -8471,6 +8474,45 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	z-index: 1;
 	pointer-events: auto;
 }
+
+
+	/* === Spell Preset Repeating Section === */
+	.ui-dialog .tab-content .charsheet fieldset.repeating_spellpreset {
+		margin: 0; padding: 0; border: none;
+	}
+
+	/* spell-name row: fit the name select to fill the same space as the manual text input */
+	.ui-dialog .tab-content .charsheet .repeating_spellpreset .sheet-spellblock-row.spell-name {
+		flex-basis: 175px;
+	}
+	.ui-dialog .tab-content .charsheet .repeating_spellpreset .spellpreset-name {
+		width: auto;
+		max-width: 100%;
+	}
+	.ui-dialog .tab-content .charsheet .sheet-spellpreset-spell-select {
+		display: none;
+		width: 100%;
+	}
+
+	/* School mirror drives which spell select is visible */
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_alteration"]  ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_alteration"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_elemental"]   ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_elemental"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_enchantment"] ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_enchantment"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_illusion"]    ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_illusion"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_necromancy"]  ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_necromancy"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_restoration"] ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_restoration"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_summoning"]   ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_summoning"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_technomancy"] ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_technomancy"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_universal"]   ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_universal"],
+	.ui-dialog .tab-content .charsheet .sheet-spellschool-mirror[value="magic_warding"]     ~ .sheet-spellblock-row .spellpreset-name select[name="attr_spellpreset_spell_warding"] {
+		display: block;
+	}
+
+	/* Toggle: reuses existing .sheet-spellblock-advanced show/hide CSS from manual section */
+	.ui-dialog .tab-content .charsheet .repitem input[name="attr_show_spellpreset_advanced"][value="1"] ~ .sheet-spellblock-advanced {
+		display: flex;
+	}
+
 
 /* ------------------------------------ Spells - End ------------------------------------ */
 
@@ -8662,6 +8704,8 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-button-row .sheet-tracker-button-wrapper {
 	grid-column: 1 / -1;
+	margin: 0 auto;
+	width: fit-content;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-tracker-button-row .sheet-tracker-button-row-left,

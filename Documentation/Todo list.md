@@ -1,5 +1,7 @@
 BUGS:
 
+NPC Impale roll isn't working properly (No regular damage, only max dam)
+
 To-do:
 	
 ## Pending — Next Revision Pass

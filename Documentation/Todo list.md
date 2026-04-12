@@ -19,12 +19,12 @@ To-do:
 7. **Cyberware section**
 
 8. **Spells Section - Add spells like weapon section, via skill select then spell select**
-		**~~Alteration~~**
-		**~~Elemental~~**
-		**~~Enchantment~~**
-		**~~Illusion~~**
-		**~~Necromancy~~**
-		**~~Restoration~~**
+		**Alteration**
+		**Elemental**
+		**Enchantment**
+		**Illusion**
+		**Necromancy**
+		**Restoration**
 		**Summoning**
 		**Technomancy**
 		**Warding**

@@ -18,8 +18,6 @@ To-do:
 
 7. **Cyberware section**
 
-8. **Spells Section - Add Damage and Damage Type to spellDataMap**
-
 Clean-up:
 
 Questions:

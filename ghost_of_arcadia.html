@@ -71259,32 +71259,34 @@ on(
     });
 });
 
-on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr", function () {
+on("change:primary_career_spell_xp_total change:secondary_career_spell_xp_total change:xpledger_spells_cost change:repeating_spellsmdr:xp_cost_mdr remove:repeating_spellsmdr change:repeating_spellpreset:spellpreset_xp_mdr remove:repeating_spellpreset", function () {
     if (debug_on_trace) console.log("[XP Calc] Triggered");
 
-    getSectionIDs("repeating_spellsmdr", function (ids) {
-        const fields = ids.map(id => `repeating_spellsmdr_${id}_xp_cost_mdr`);
-        getAttrs([
-            "primary_career_spell_xp_total",
-            "secondary_career_spell_xp_total",
-            "xpledger_spells_cost",
-            ...fields
-        ], function (values) {
-            const primary = parseInt(values["primary_career_spell_xp_total"], 10) || 0;
-            const secondary = parseInt(values["secondary_career_spell_xp_total"], 10) || 0;
-            const gained = parseInt(values["xpledger_spells_cost"], 10) || 0;
+    getSectionIDs("repeating_spellsmdr", function (manualIds) {
+        getSectionIDs("repeating_spellpreset", function (presetIds) {
+            const manualFields = manualIds.map(id => `repeating_spellsmdr_${id}_xp_cost_mdr`);
+            const presetFields = presetIds.map(id => `repeating_spellpreset_${id}_spellpreset_xp_mdr`);
+            getAttrs([
+                "primary_career_spell_xp_total",
+                "secondary_career_spell_xp_total",
+                "xpledger_spells_cost",
+                ...manualFields,
+                ...presetFields,
+            ], function (values) {
+                const primary   = parseInt(values["primary_career_spell_xp_total"], 10) || 0;
+                const secondary = parseInt(values["secondary_career_spell_xp_total"], 10) || 0;
+                const gained    = parseInt(values["xpledger_spells_cost"], 10) || 0;
 
-            // Sum XP costs from all repeating spells
-            let spent = 0;
-            fields.forEach(field => {
-                spent += parseInt(values[field], 10) || 0;
-            });
+                let spent = 0;
+                manualFields.forEach(field => { spent += parseInt(values[field], 10) || 0; });
+                presetFields.forEach(field => { spent += parseInt(values[field], 10) || 0; });
 
-            const remaining = primary + secondary + gained - spent;
+                const remaining = primary + secondary + gained - spent;
 
-            setAttrs({
-                spell_xp_spent: spent,
-                spell_xp_remaining: remaining
+                setAttrs({
+                    spell_xp_spent: spent,
+                    spell_xp_remaining: remaining,
+                });
             });
         });
     });

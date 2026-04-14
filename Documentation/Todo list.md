@@ -1,7 +1,5 @@
 BUGS:
 
-NPC Impale roll isn't working properly (No regular damage, only max dam)
-
 To-do:
 	
 ## Pending — Next Revision Pass
@@ -20,17 +18,7 @@ To-do:
 
 7. **Cyberware section**
 
-8. **Spells Section - Add spells like weapon section, via skill select then spell select**
-		**Alteration**
-		**Elemental**
-		**Enchantment**
-		**Illusion**
-		**Necromancy**
-		**Restoration**
-		**Summoning**
-		**Technomancy**
-		**Warding**
-		**Universal**
+8. **Spells Section - Add Damage and Damage Type to spellDataMap**
 
 Clean-up:
 

@@ -67082,52 +67082,83 @@ const recalcArmorTotals = () => {
 };
 
 const recalcCtVitalityTotal = () => {
-  getSectionIDs("repeating_ct", (ids) => {
-    const computeAndSet = (load, neuralwareSlots) => {
-      getAttrs(["pow"], (vals) => {
-        const ipow = parseInt(vals.pow, 10) || 0;
-        setAttrs({
-          ct_neuralware_slots_used: neuralwareSlots,
-          ct_neuralware_slots_max:  5,
-          ct_vitality_total:        load,
-          vitality:                 Math.max(0, ipow - load)
-        });
-      });
-    };
+	/* Collects vitality from all cyberware sources:
+	   - repeating_ct       (legacy manual entries — category field determines neuralware)
+	   - repeating_neuralware (new preset section — always neuralware)
+	   - cyberoptics_vitality / cyberaudio_vitality (static attrs)
+	   Uses a completion counter: only calls computeAndSet once all three
+	   async getSectionIDs calls have reported. */
 
-    if (!ids.length) {
-      computeAndSet(0, 0);
-      return;
-    }
+	let vitalityLoad    = 0;
+	let neuralwareSlots = 0;
+	let hasNeuralware   = false;
+	let pending         = 2; // two getSectionIDs calls; static attrs read inline
 
-    const repKeys = ids.flatMap(id => ([
-      `repeating_ct_${id}_ct_vitality`,
-      `repeating_ct_${id}_ct_category`,
-      `repeating_ct_${id}_ct_neuralware_slots`
-    ]));
+	const computeAndSet = () => {
+		getAttrs(["pow", "cyberoptics_vitality", "cyberaudio_vitality"], (vals) => {
+			const ipow     = parseInt(vals.pow,                  10) || 0;
+			const opticsV  = parseInt(vals.cyberoptics_vitality, 10) || 0;
+			const audioV   = parseInt(vals.cyberaudio_vitality,  10) || 0;
+			const total    = vitalityLoad + opticsV + audioV;
+			/* Neural Link is required for all Neuralware and is not counted against
+			   the 5-slot limit. If any neuralware is present we assume Neural Link
+			   is installed and subtract 1 from the slot count. */
+			const slots    = hasNeuralware ? Math.max(0, neuralwareSlots - 1) : 0;
+			setAttrs({
+				ct_neuralware_slots_used: slots,
+				ct_neuralware_slots_max:  5,
+				ct_vitality_total:        total,
+				vitality:                 Math.max(0, ipow - total),
+			});
+		});
+	};
 
-    getAttrs(repKeys, (rows) => {
-      let vitalityLoad    = 0;
-      let neuralwareSlots = 0;
-      let hasNeuralware   = false;
+	const done = () => {
+		pending -= 1;
+		if (pending === 0) computeAndSet();
+	};
 
-      ids.forEach(id => {
-        vitalityLoad += parseInt(rows[`repeating_ct_${id}_ct_vitality`], 10) || 0;
+	/* ── 1. Legacy repeating_ct (manual entries) ─────────────────────── */
+	getSectionIDs("repeating_ct", (ids) => {
+		if (!ids.length) { done(); return; }
+		const repKeys = ids.flatMap(id => ([
+			`repeating_ct_${id}_ct_vitality`,
+			`repeating_ct_${id}_ct_category`,
+			`repeating_ct_${id}_ct_neuralware_slots`,
+		]));
+		getAttrs(repKeys, (rows) => {
+			ids.forEach(id => {
+				vitalityLoad += parseInt(rows[`repeating_ct_${id}_ct_vitality`], 10) || 0;
+				const category = rows[`repeating_ct_${id}_ct_category`] || "";
+				if (category === "neuralware") {
+					hasNeuralware    = true;
+					neuralwareSlots += parseInt(rows[`repeating_ct_${id}_ct_neuralware_slots`], 10) || 1;
+				}
+			});
+			done();
+		});
+	});
 
-        const category = rows[`repeating_ct_${id}_ct_category`] || "";
-        if (category === "neuralware") {
-          hasNeuralware    = true;
-          neuralwareSlots += parseInt(rows[`repeating_ct_${id}_ct_neuralware_slots`], 10) || 1;
-        }
-      });
-
-      /* Neural Link is required for all Neuralware and is not counted against the 5-slot limit.
-         If any Neuralware is installed we assume Neural Link is present and subtract 1. */
-      if (hasNeuralware) neuralwareSlots = Math.max(0, neuralwareSlots - 1);
-
-      computeAndSet(vitalityLoad, neuralwareSlots);
-    });
-  });
+	/* ── 2. repeating_neuralware (new preset section) ────────────────── */
+	getSectionIDs("repeating_neuralware", (ids) => {
+		if (!ids.length) { done(); return; }
+		const repKeys = ids.flatMap(id => ([
+			`repeating_neuralware_${id}_neu_vitality`,
+			`repeating_neuralware_${id}_neu_neuralware_slots`,
+		]));
+		getAttrs(repKeys, (rows) => {
+			ids.forEach(id => {
+				const v = parseInt(rows[`repeating_neuralware_${id}_neu_vitality`],         10) || 0;
+				const s = parseInt(rows[`repeating_neuralware_${id}_neu_neuralware_slots`], 10) || 0;
+				vitalityLoad += v;
+				if (s > 0) {
+					hasNeuralware    = true;
+					neuralwareSlots += s;
+				}
+			});
+			done();
+		});
+	});
 };
 
 /* Initialise computed weapon attrs for all existing repeating rows on sheet open.
@@ -67620,6 +67651,10 @@ const initializeSheetOnOpen = (eventInfo) => {
 		recalcArmorTotals();
 		recalcCtVitalityTotal();
 		initArmorPresets();
+		initCosmeticwarePresets();
+		initCyberAudioPresets();
+		initCyberOpticsPresets();
+		initNeuralwarePresets();
 		initClothingPresets();
 		initDisguisePresets();
 		initBypassPresets();
@@ -69127,6 +69162,363 @@ const initSpellPresets = () => {
 		});
 	});
 };
+
+/* ── Cyberware Apply & Init Functions ───────────────────────────────── */
+
+/* ── tr helper (local scope — safe for all top-level functions) ─────── */
+const cwTr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+
+/* ── Rarity display helper ──────────────────────────────────────────── */
+const cwRarityDisplay = (r) => {
+	const tr = cwTr;
+	const map = {
+		common:     tr("cw_rarity_common-u"),
+		permit:     tr("cw_rarity_permit-u"),
+		restricted: tr("cw_rarity_restricted-u"),
+		illegal:    tr("cw_rarity_illegal-u"),
+	};
+	return map[r] || r || " ";
+};
+
+/* ══════════════════════════════════════════════════════════════════════
+   COSMETICWARE
+   ══════════════════════════════════════════════════════════════════════ */
+
+const applyCosmeticwarePreset = (prefix, key) => {
+	const tr = cwTr;
+	const data = cosmeticwareDataMap[key];
+	if (!data) return;
+	setAttrs({
+		[prefix + "cos_cost_mdr"]:           data.cost || " ",
+		[prefix + "cos_rarity_mdr"]:         cwRarityDisplay(data.rarity),
+		[prefix + "cos_effect_preview_mdr"]: tr(data.name_key),
+		[prefix + "cos_effect_mdr"]:         tr(data.effect_key),
+	});
+};
+
+const initCosmeticwarePresets = () => {
+	getSectionIDs("repeating_cosmeticware", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_cosmeticware_${id}_cos_preset`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p   = `repeating_cosmeticware_${id}_`;
+				const key = rows[p + "cos_preset"] || "";
+				if (key) applyCosmeticwarePreset(p, key);
+			});
+		});
+	});
+};
+
+on("change:repeating_cosmeticware:cos_preset", (eventInfo) => {
+	const id  = eventInfo.sourceAttribute.match(/repeating_cosmeticware_([^_]+)_cos_preset/)?.[1];
+	if (!id) return;
+	const p   = `repeating_cosmeticware_${id}_`;
+	getAttrs([p + "cos_preset"], (vals) => {
+		const key = vals[p + "cos_preset"] || "";
+		if (key) {
+			applyCosmeticwarePreset(p, key);
+		} else {
+			setAttrs({
+				[p + "cos_cost_mdr"]:           " ",
+				[p + "cos_rarity_mdr"]:         " ",
+				[p + "cos_effect_preview_mdr"]: " ",
+				[p + "cos_effect_mdr"]:         " ",
+			});
+		}
+	});
+});
+
+/* ══════════════════════════════════════════════════════════════════════
+   NEURALWARE
+   ══════════════════════════════════════════════════════════════════════ */
+
+const applyNeuralwarePreset = (prefix, key) => {
+	const tr = cwTr;
+	const data = neuralwareDataMap[key];
+	if (!data) return;
+
+	const vitality = data.vitality !== undefined ? String(data.vitality) : "0";
+	const slots    = data.neuralware_slots !== undefined ? String(data.neuralware_slots) : "1";
+
+	setAttrs({
+		[prefix + "neu_vitality"]:            vitality,
+		[prefix + "neu_vitality_mdr"]:        vitality,
+		[prefix + "neu_neuralware_slots"]:    slots,
+		[prefix + "neu_slots_mdr"]:           slots,
+		[prefix + "neu_rarity_mdr"]:          cwRarityDisplay(data.rarity),
+		[prefix + "neu_cost_mdr"]:            data.cost || " ",
+		[prefix + "neu_prerequisites_mdr"]:   data.prerequisites_key ? tr(data.prerequisites_key) : " ",
+		[prefix + "neu_stat_bonus_mdr"]:      data.stat_bonus_key    ? tr(data.stat_bonus_key)    : " ",
+		[prefix + "neu_effect_preview_mdr"]:  tr(data.effect_short_key),
+		[prefix + "neu_effect_mdr"]:          tr(data.effect_key),
+	});
+};
+
+const initNeuralwarePresets = () => {
+	getSectionIDs("repeating_neuralware", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_neuralware_${id}_neu_preset`);
+		getAttrs(fetchKeys, (rows) => {
+			ids.forEach(id => {
+				const p   = `repeating_neuralware_${id}_`;
+				const key = rows[p + "neu_preset"] || "";
+				if (key) applyNeuralwarePreset(p, key);
+			});
+		});
+	});
+};
+
+on("change:repeating_neuralware:neu_preset", (eventInfo) => {
+	const id = eventInfo.sourceAttribute.match(/repeating_neuralware_([^_]+)_neu_preset/)?.[1];
+	if (!id) return;
+	const p  = `repeating_neuralware_${id}_`;
+	getAttrs([p + "neu_preset"], (vals) => {
+		const key = vals[p + "neu_preset"] || "";
+		if (key) {
+			applyNeuralwarePreset(p, key);
+		} else {
+			setAttrs({
+				[p + "neu_vitality"]:            "0",
+				[p + "neu_vitality_mdr"]:        " ",
+				[p + "neu_neuralware_slots"]:    "0",
+				[p + "neu_slots_mdr"]:           " ",
+				[p + "neu_rarity_mdr"]:          " ",
+				[p + "neu_cost_mdr"]:            " ",
+				[p + "neu_prerequisites_mdr"]:   " ",
+				[p + "neu_stat_bonus_mdr"]:      " ",
+				[p + "neu_effect_preview_mdr"]:  " ",
+				[p + "neu_effect_mdr"]:          " ",
+			});
+		}
+	});
+});
+
+/* ══════════════════════════════════════════════════════════════════════
+   CYBER OPTICS — static block, no repeating section
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Apply optics mod preset for slot N (1–8) */
+const applyOpticsModPreset = (n, key) => {
+	const tr = cwTr;
+	const data = cyberOpticsModDataMap[key];
+	if (!data) return;
+
+	const capreq = data.capacity_req !== undefined ? String(data.capacity_req) : "0";
+
+	setAttrs({
+		[`cyberoptics_mod${n}_capreq`]:           capreq,
+		[`cyberoptics_mod${n}_capreq_mdr`]:       capreq,
+		[`cyberoptics_mod${n}_rarity_mdr`]:       cwRarityDisplay(data.rarity),
+		[`cyberoptics_mod${n}_cost_mdr`]:         data.cost || " ",
+		[`cyberoptics_mod${n}_stat_bonus_mdr`]:   data.stat_bonus_key    ? tr(data.stat_bonus_key)    : " ",
+		[`cyberoptics_mod${n}_requirements_mdr`]: data.requirements_key  ? tr(data.requirements_key)  : " ",
+		[`cyberoptics_mod${n}_effect_preview_mdr`]: tr(data.effect_short_key),
+		[`cyberoptics_mod${n}_effect_mdr`]:       tr(data.effect_key),
+	}, () => recalcOpticsCapacityUsed());
+};
+
+/* Recalculate total capacity used by installed optics mods */
+const recalcOpticsCapacityUsed = () => {
+	const keys = [1,2,3,4,5,6,7,8].map(n => `cyberoptics_mod${n}_capreq`);
+	getAttrs(keys, (vals) => {
+		const used = [1,2,3,4,5,6,7,8].reduce((sum, n) => {
+			return sum + (parseInt(vals[`cyberoptics_mod${n}_capreq`], 10) || 0);
+		}, 0);
+		setAttrs({ cyberoptics_capacity_used_mdr: String(used) });
+	});
+};
+
+const applyCyberOpticsPreset = (key) => {
+	const tr = cwTr;
+	const data = cyberOpticsDataMap[key];
+	if (!data) return;
+
+	const vitality = data.vitality !== undefined ? String(data.vitality) : "0";
+	const capacity = data.capacity !== undefined ? String(data.capacity)  : "0";
+
+	setAttrs({
+		cyberoptics_vitality:          vitality,
+		cyberoptics_vitality_mdr:      vitality,
+		cyberoptics_capacity:          capacity,
+		cyberoptics_capacity_mdr:      capacity,
+		cyberoptics_rarity_mdr:        cwRarityDisplay(data.rarity),
+		cyberoptics_cost_mdr:          data.cost || " ",
+		cyberoptics_effect_preview_mdr: tr(data.effect_short_key),
+		cyberoptics_effect_mdr:        tr(data.effect_key),
+	});
+};
+
+const initCyberOpticsPresets = () => {
+	const modKeys = [1,2,3,4,5,6,7,8].flatMap(n => [
+		`cyberoptics_mod${n}_preset`,
+		`cyberoptics_mod${n}_capreq`,
+	]);
+	getAttrs(["cyberoptics_preset", ...modKeys], (vals) => {
+		const suite = vals["cyberoptics_preset"] || "";
+		if (suite) applyCyberOpticsPreset(suite);
+		[1,2,3,4,5,6,7,8].forEach(n => {
+			const key = vals[`cyberoptics_mod${n}_preset`] || "";
+			if (key) applyOpticsModPreset(n, key);
+		});
+		recalcOpticsCapacityUsed();
+	});
+};
+
+on("change:cyberoptics_preset", () => {
+	getAttrs(["cyberoptics_preset"], (vals) => {
+		const key = vals["cyberoptics_preset"] || "";
+		if (key) {
+			applyCyberOpticsPreset(key);
+		} else {
+			setAttrs({
+				cyberoptics_vitality:           "0",
+				cyberoptics_vitality_mdr:       " ",
+				cyberoptics_capacity:           "0",
+				cyberoptics_capacity_mdr:       " ",
+				cyberoptics_rarity_mdr:         " ",
+				cyberoptics_cost_mdr:           " ",
+				cyberoptics_effect_preview_mdr: " ",
+				cyberoptics_effect_mdr:         " ",
+			});
+		}
+	});
+});
+
+/* Watchers for each optics mod slot */
+[1,2,3,4,5,6,7,8].forEach(n => {
+	on(`change:cyberoptics_mod${n}_preset`, () => {
+		getAttrs([`cyberoptics_mod${n}_preset`], (vals) => {
+			const key = vals[`cyberoptics_mod${n}_preset`] || "";
+			if (key) {
+				applyOpticsModPreset(n, key);
+			} else {
+				setAttrs({
+					[`cyberoptics_mod${n}_capreq`]:            "0",
+					[`cyberoptics_mod${n}_capreq_mdr`]:        " ",
+					[`cyberoptics_mod${n}_rarity_mdr`]:        " ",
+					[`cyberoptics_mod${n}_cost_mdr`]:          " ",
+					[`cyberoptics_mod${n}_stat_bonus_mdr`]:    " ",
+					[`cyberoptics_mod${n}_requirements_mdr`]:  " ",
+					[`cyberoptics_mod${n}_effect_preview_mdr`]:" ",
+					[`cyberoptics_mod${n}_effect_mdr`]:        " ",
+				}, () => recalcOpticsCapacityUsed());
+			}
+		});
+	});
+});
+
+/* ══════════════════════════════════════════════════════════════════════
+   CYBER AUDIO — static block, no repeating section
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Apply audio mod preset for slot N (1–8) */
+const applyAudioModPreset = (n, key) => {
+	const tr = cwTr;
+	const data = cyberAudioModDataMap[key];
+	if (!data) return;
+
+	const capreq = data.capacity_req !== undefined ? String(data.capacity_req) : "0";
+
+	setAttrs({
+		[`cyberaudio_mod${n}_capreq`]:           capreq,
+		[`cyberaudio_mod${n}_capreq_mdr`]:       capreq,
+		[`cyberaudio_mod${n}_rarity_mdr`]:       cwRarityDisplay(data.rarity),
+		[`cyberaudio_mod${n}_cost_mdr`]:         data.cost || " ",
+		[`cyberaudio_mod${n}_stat_bonus_mdr`]:   data.stat_bonus_key ? tr(data.stat_bonus_key) : " ",
+		[`cyberaudio_mod${n}_effect_preview_mdr`]: tr(data.effect_short_key),
+		[`cyberaudio_mod${n}_effect_mdr`]:       tr(data.effect_key),
+	}, () => recalcAudioCapacityUsed());
+};
+
+/* Recalculate total capacity used by installed audio mods */
+const recalcAudioCapacityUsed = () => {
+	const keys = [1,2,3,4,5,6,7,8].map(n => `cyberaudio_mod${n}_capreq`);
+	getAttrs(keys, (vals) => {
+		const used = [1,2,3,4,5,6,7,8].reduce((sum, n) => {
+			return sum + (parseInt(vals[`cyberaudio_mod${n}_capreq`], 10) || 0);
+		}, 0);
+		setAttrs({ cyberaudio_capacity_used_mdr: String(used) });
+	});
+};
+
+const applyCyberAudioPreset = (key) => {
+	const tr = cwTr;
+	const data = cyberAudioDataMap[key];
+	if (!data) return;
+
+	const vitality = data.vitality !== undefined ? String(data.vitality) : "0";
+	const capacity = data.capacity !== undefined ? String(data.capacity)  : "0";
+
+	setAttrs({
+		cyberaudio_vitality:           vitality,
+		cyberaudio_vitality_mdr:       vitality,
+		cyberaudio_capacity:           capacity,
+		cyberaudio_capacity_mdr:       capacity,
+		cyberaudio_rarity_mdr:         cwRarityDisplay(data.rarity),
+		cyberaudio_cost_mdr:           data.cost || " ",
+		cyberaudio_effect_preview_mdr: tr(data.effect_short_key),
+		cyberaudio_effect_mdr:         tr(data.effect_key),
+	});
+};
+
+const initCyberAudioPresets = () => {
+	const modKeys = [1,2,3,4,5,6,7,8].flatMap(n => [
+		`cyberaudio_mod${n}_preset`,
+		`cyberaudio_mod${n}_capreq`,
+	]);
+	getAttrs(["cyberaudio_preset", ...modKeys], (vals) => {
+		const suite = vals["cyberaudio_preset"] || "";
+		if (suite) applyCyberAudioPreset(suite);
+		[1,2,3,4,5,6,7,8].forEach(n => {
+			const key = vals[`cyberaudio_mod${n}_preset`] || "";
+			if (key) applyAudioModPreset(n, key);
+		});
+		recalcAudioCapacityUsed();
+	});
+};
+
+on("change:cyberaudio_preset", () => {
+	getAttrs(["cyberaudio_preset"], (vals) => {
+		const key = vals["cyberaudio_preset"] || "";
+		if (key) {
+			applyCyberAudioPreset(key);
+		} else {
+			setAttrs({
+				cyberaudio_vitality:           "0",
+				cyberaudio_vitality_mdr:       " ",
+				cyberaudio_capacity:           "0",
+				cyberaudio_capacity_mdr:       " ",
+				cyberaudio_rarity_mdr:         " ",
+				cyberaudio_cost_mdr:           " ",
+				cyberaudio_effect_preview_mdr: " ",
+				cyberaudio_effect_mdr:         " ",
+			});
+		}
+	});
+});
+
+/* Watchers for each audio mod slot */
+[1,2,3,4,5,6,7,8].forEach(n => {
+	on(`change:cyberaudio_mod${n}_preset`, () => {
+		getAttrs([`cyberaudio_mod${n}_preset`], (vals) => {
+			const key = vals[`cyberaudio_mod${n}_preset`] || "";
+			if (key) {
+				applyAudioModPreset(n, key);
+			} else {
+				setAttrs({
+					[`cyberaudio_mod${n}_capreq`]:            "0",
+					[`cyberaudio_mod${n}_capreq_mdr`]:        " ",
+					[`cyberaudio_mod${n}_rarity_mdr`]:        " ",
+					[`cyberaudio_mod${n}_cost_mdr`]:          " ",
+					[`cyberaudio_mod${n}_stat_bonus_mdr`]:    " ",
+					[`cyberaudio_mod${n}_effect_preview_mdr`]:" ",
+					[`cyberaudio_mod${n}_effect_mdr`]:        " ",
+				}, () => recalcAudioCapacityUsed());
+			}
+		});
+	});
+});
 
 const initVehiclePresets = () => {
 	getSectionIDs("repeating_vehiclegear", (ids) => {
@@ -72918,7 +73310,7 @@ on("change:repeating_vehiclemodgear:vmod_preset", (eventInfo) => {
 	});
 });
 
-on("change:repeating_ct:ct_vitality change:repeating_ct:ct_category change:repeating_ct:ct_neuralware_slots change:pow remove:repeating_ct",
+on("change:repeating_ct:ct_vitality change:repeating_ct:ct_category change:repeating_ct:ct_neuralware_slots change:pow remove:repeating_ct change:repeating_neuralware:neu_vitality change:repeating_neuralware:neu_neuralware_slots remove:repeating_neuralware change:cyberoptics_vitality change:cyberaudio_vitality",
   recalcCtVitalityTotal
 );
 

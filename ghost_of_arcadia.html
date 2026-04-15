@@ -29699,7 +29699,562 @@
 
 			</div>
 
-			<div class="sheet-colrow sheet-tech sheet-cybertech-collapsible">
+			<!-- -------------------------- Cosmeticware -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-cybertech-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="ct_cosmeticware_collapse" name="attr_ct_cosmeticware_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="cw_category_cosmeticware-u">Cosmeticware</span>
+					<label class="sheet-top-collapse-hit" for="ct_cosmeticware_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<!-- Header -->
+						<div class="sheet-cw-cos-header">
+							<div class="flex-row">
+								<div class="flex-cell cw-name"><span data-i18n="cw_name-u">Name</span></div>
+								<div class="flex-cell cw-cost"><span data-i18n="cw_cost-u">Cost</span></div>
+								<div class="flex-cell cw-rarity"><span data-i18n="cw_rarity-u">Rarity</span></div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_cosmeticware">
+
+							<!-- Preset row -->
+							<div class="cw-preset-row">
+								<div class="flex-row">
+									<div class="flex-cell cw-name">
+										<select name="attr_cos_preset" data-i18n-title="cw_name-u">
+											<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+											<option value="chromastrand" data-i18n="cw_cos_chromastrand-u">Chromastrand™</option>
+											<option value="chromatic_iris_mesh" data-i18n="cw_cos_chromatic_iris_mesh-u">Chromatic Iris Mesh</option>
+											<option value="neolocks" data-i18n="cw_cos_neolocks-u">NeoLocks™</option>
+											<option value="pulseline_nails" data-i18n="cw_cos_pulseline_nails-u">PulseLine Nails</option>
+											<option value="reactive_ink_lattice" data-i18n="cw_cos_reactive_ink_lattice-u">Reactive Ink Lattice</option>
+											<option value="realskinn_signature_weave" data-i18n="cw_cos_realskinn_signature_weave-u">Realskinn™ Signature Weave</option>
+											<option value="staticweave_hair_grid" data-i18n="cw_cos_staticweave_hair_grid-u">StaticWeave™ Hair Grid</option>
+											<option value="subdermal_veinlights" data-i18n="cw_cos_subdermal_veinlights-u">Subdermal Veinlights</option>
+										</select>
+									</div>
+									<div class="flex-cell cw-cost"><span name="attr_cos_cost_mdr"></span></div>
+									<div class="flex-cell cw-rarity"><span name="attr_cos_rarity_mdr"></span></div>
+								</div>
+							</div>
+
+							<!-- Effect tooltip row -->
+							<div class="cw-effect-row">
+								<div class="flex-row">
+									<div class="flex-cell cw-effect-cell">
+										<div class="sheet-skill-tooltip has-notes">
+											<div class="sheet-skill-tooltip-preview"><span name="attr_cos_effect_preview_mdr"></span></div>
+											<div class="sheet-tooltip-bubble"><span name="attr_cos_effect_mdr"></span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Manual override row -->
+							<div class="cw-manual-row">
+								<div class="flex-row">
+									<input class="flex-cell cw-name" type="text" name="attr_cos_name_manual" data-i18n-placeholder="cw_name-u" placeholder="Name"/>
+									<input class="flex-cell cw-cost" type="text" name="attr_cos_cost_manual" data-i18n-placeholder="cw_cost-u" placeholder="Cost"/>
+									<select class="flex-cell cw-rarity" name="attr_cos_rarity_manual">
+										<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+										<option value="common" data-i18n="cw_rarity_common-u">Common</option>
+										<option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option>
+										<option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option>
+										<option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option>
+									</select>
+								</div>
+							</div>
+							<div class="cw-manual-row">
+								<textarea class="cw-effect-manual" name="attr_cos_effect_manual" data-i18n-placeholder="cw_effect-u" placeholder="Effect / Description"></textarea>
+							</div>
+
+						</fieldset>
+					</div>
+				</div>
+			</div>
+
+			<!-- -------------------------- Neuralware -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-cybertech-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="ct_neuralware_collapse" name="attr_ct_neuralware_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="cw_category_neuralware-u">Neuralware</span>
+					<label class="sheet-top-collapse-hit" for="ct_neuralware_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<!-- Header -->
+						<div class="sheet-cw-neu-header">
+							<div class="flex-row">
+								<div class="flex-cell cw-name"><span data-i18n="cw_name-u">Name</span></div>
+								<div class="flex-cell cw-vitality"><span data-i18n="cw_vitality-u">Vitality</span></div>
+								<div class="flex-cell cw-neu-slots"><span data-i18n="ct_neuralware_slots_totals-u">Slots</span></div>
+								<div class="flex-cell cw-rarity"><span data-i18n="cw_rarity-u">Rarity</span></div>
+								<div class="flex-cell cw-cost"><span data-i18n="cw_cost-u">Cost</span></div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_neuralware">
+
+							<!-- Hidden attrs Roll20 needs for watchers -->
+							<input type="hidden" name="attr_neu_vitality" value="0"/>
+							<input type="hidden" name="attr_neu_neuralware_slots" value="1"/>
+
+							<!-- Preset row -->
+							<div class="cw-preset-row">
+								<div class="flex-row">
+									<div class="flex-cell cw-name">
+										<select name="attr_neu_preset" data-i18n-title="cw_name-u">
+											<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+											<option value="chip_socket_level_1" data-i18n="cw_neu_chip_socket_level_1-u">Chip Socket Level 1</option>
+											<option value="chip_socket_level_2" data-i18n="cw_neu_chip_socket_level_2-u">Chip Socket Level 2</option>
+											<option value="chip_socket_level_3" data-i18n="cw_neu_chip_socket_level_3-u">Chip Socket Level 3</option>
+											<option value="cortex_buffer" data-i18n="cw_neu_cortex_buffer-u">Cortex Buffer</option>
+											<option value="cortexnode_mk1" data-i18n="cw_neu_cortexnode_mk1-u">CortexNode Mk1</option>
+											<option value="cortexnode_mk2" data-i18n="cw_neu_cortexnode_mk2-u">CortexNode Mk2</option>
+											<option value="cortexnode_mk3" data-i18n="cw_neu_cortexnode_mk3-u">CortexNode Mk3</option>
+											<option value="dreamfeed_interface_port" data-i18n="cw_neu_dreamfeed_interface_port-u">DreamFeed Interface Port</option>
+											<option value="dreamfeed_recorder" data-i18n="cw_neu_dreamfeed_recorder-u">DreamFeed Recorder</option>
+											<option value="integrated_commlink_suite" data-i18n="cw_neu_integrated_commlink_suite-u">Integrated Commlink Suite</option>
+											<option value="mnemonic_enhancer" data-i18n="cw_neu_mnemonic_enhancer-u">Mnemonic Enhancer</option>
+											<option value="neural_link" data-i18n="cw_neu_neural_link-u">Neural Link</option>
+											<option value="paincut" data-i18n="cw_neu_paincut-u">PainCut</option>
+											<option value="reactive_threat_system_level_1" data-i18n="cw_neu_reactive_threat_system_level_1-u">Reactive Threat System Level 1</option>
+											<option value="reactive_threat_system_level_2" data-i18n="cw_neu_reactive_threat_system_level_2-u">Reactive Threat System Level 2</option>
+											<option value="sata_combat_system" data-i18n="cw_neu_sata_combat_system-u">SATA Combat System</option>
+											<option value="skill_rig_level_1" data-i18n="cw_neu_skill_rig_level_1-u">Skill Rig Level 1</option>
+											<option value="skill_rig_level_2" data-i18n="cw_neu_skill_rig_level_2-u">Skill Rig Level 2</option>
+											<option value="vehicle_neural_interface" data-i18n="cw_neu_vehicle_neural_interface-u">Vehicle Neural Interface</option>
+											<option value="voice_modulator_level_1" data-i18n="cw_neu_voice_modulator_level_1-u">Voice Modulator Level 1</option>
+											<option value="voice_modulator_level_2" data-i18n="cw_neu_voice_modulator_level_2-u">Voice Modulator Level 2</option>
+										</select>
+									</div>
+									<div class="flex-cell cw-vitality"><span name="attr_neu_vitality_mdr"></span></div>
+									<div class="flex-cell cw-neu-slots"><span name="attr_neu_slots_mdr"></span></div>
+									<div class="flex-cell cw-rarity"><span name="attr_neu_rarity_mdr"></span></div>
+									<div class="flex-cell cw-cost"><span name="attr_neu_cost_mdr"></span></div>
+								</div>
+							</div>
+
+							<!-- Prerequisites + stat bonus row -->
+							<div class="cw-detail-row">
+								<div class="flex-row">
+									<div class="flex-cell cw-prerequisites-label"><span data-i18n="cw_prerequisites-u">Prerequisites</span></div>
+									<div class="flex-cell cw-prerequisites"><span name="attr_neu_prerequisites_mdr"></span></div>
+									<div class="flex-cell cw-stat-bonus-label"><span data-i18n="cw_stat_bonus-u">Stat Bonus</span></div>
+									<div class="flex-cell cw-stat-bonus"><span name="attr_neu_stat_bonus_mdr"></span></div>
+								</div>
+							</div>
+
+							<!-- Effect tooltip row -->
+							<div class="cw-effect-row">
+								<div class="flex-row">
+									<div class="flex-cell cw-effect-cell">
+										<div class="sheet-skill-tooltip has-notes">
+											<div class="sheet-skill-tooltip-preview"><span name="attr_neu_effect_preview_mdr"></span></div>
+											<div class="sheet-tooltip-bubble"><span name="attr_neu_effect_mdr"></span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Manual override rows -->
+							<div class="cw-manual-row">
+								<div class="flex-row">
+									<input class="flex-cell cw-name" type="text" name="attr_neu_name_manual" data-i18n-placeholder="cw_name-u" placeholder="Name"/>
+									<input class="flex-cell cw-vitality" type="number" name="attr_neu_vitality_manual" placeholder="0" min="0"/>
+									<input class="flex-cell cw-neu-slots" type="number" name="attr_neu_slots_manual" placeholder="1" min="0"/>
+									<select class="flex-cell cw-rarity" name="attr_neu_rarity_manual">
+										<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+										<option value="common" data-i18n="cw_rarity_common-u">Common</option>
+										<option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option>
+										<option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option>
+										<option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option>
+									</select>
+									<input class="flex-cell cw-cost" type="text" name="attr_neu_cost_manual" data-i18n-placeholder="cw_cost-u" placeholder="Cost"/>
+								</div>
+							</div>
+							<div class="cw-manual-row">
+								<div class="flex-row">
+									<input class="flex-cell cw-prerequisites" type="text" name="attr_neu_prerequisites_manual" data-i18n-placeholder="cw_prerequisites-u" placeholder="Prerequisites"/>
+									<input class="flex-cell cw-stat-bonus" type="text" name="attr_neu_stat_bonus_manual" data-i18n-placeholder="cw_stat_bonus-u" placeholder="Stat Bonus"/>
+								</div>
+							</div>
+							<div class="cw-manual-row">
+								<textarea class="cw-effect-manual" name="attr_neu_effect_manual" data-i18n-placeholder="cw_effect-u" placeholder="Effect / Description"></textarea>
+							</div>
+
+						</fieldset>
+					</div>
+				</div>
+			</div>
+
+			<!-- -------------------------- Cyber Optics -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-cybertech-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="ct_optics_collapse" name="attr_ct_optics_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="cw_category_optics-u">Cyber Optics</span>
+					<label class="sheet-top-collapse-hit" for="ct_optics_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section sheet-cw-optics">
+
+						<!-- Suite header -->
+						<div class="sheet-cw-opt-header">
+							<div class="flex-row">
+								<div class="flex-cell cw-name"><span data-i18n="cw_name-u">Name</span></div>
+								<div class="flex-cell cw-vitality"><span data-i18n="cw_vitality-u">Vitality</span></div>
+								<div class="flex-cell cw-capacity"><span data-i18n="ct_capacity-u">Capacity</span></div>
+								<div class="flex-cell cw-capacity-used"><span data-i18n="cw_capacity_used-u">Used</span></div>
+								<div class="flex-cell cw-rarity"><span data-i18n="cw_rarity-u">Rarity</span></div>
+								<div class="flex-cell cw-cost"><span data-i18n="cw_cost-u">Cost</span></div>
+							</div>
+						</div>
+
+						<!-- Static suite preset row -->
+						<div class="cw-preset-row">
+							<div class="flex-row">
+								<div class="flex-cell cw-name">
+									<select name="attr_cyberoptics_preset" data-i18n-title="cw_name-u">
+										<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+										<option value="cybereyes_level_1" data-i18n="cw_opt_cybereyes_level_1-u">CyberEyes Level 1 — Zenith Standard</option>
+										<option value="cybereyes_level_2" data-i18n="cw_opt_cybereyes_level_2-u">CyberEyes Level 2 — Kronovision Hawk-Eye</option>
+										<option value="cybereyes_level_3" data-i18n="cw_opt_cybereyes_level_3-u">CyberEyes Level 3 — Stratos Ghost-Eyes</option>
+										<option value="cybereyes_level_4" data-i18n="cw_opt_cybereyes_level_4-u">CyberEyes Level 4 — Darkstar Specter</option>
+										<option value="hyperion_etheric_vision" data-i18n="cw_opt_hyperion_etheric_vision-u">Hyperion Etheric Vision Arcanotech Eyes</option>
+									</select>
+								</div>
+								<div class="flex-cell cw-vitality"><span name="attr_cyberoptics_vitality_mdr"></span></div>
+								<div class="flex-cell cw-capacity"><span name="attr_cyberoptics_capacity_mdr"></span></div>
+								<div class="flex-cell cw-capacity-used"><span name="attr_cyberoptics_capacity_used_mdr"></span></div>
+								<div class="flex-cell cw-rarity"><span name="attr_cyberoptics_rarity_mdr"></span></div>
+								<div class="flex-cell cw-cost"><span name="attr_cyberoptics_cost_mdr"></span></div>
+							</div>
+						</div>
+
+						<!-- Suite effect tooltip -->
+						<div class="cw-effect-row">
+							<div class="flex-row">
+								<div class="flex-cell cw-effect-cell">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_effect_preview_mdr"></span></div>
+										<div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_effect_mdr"></span></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Suite manual override -->
+						<div class="cw-manual-row">
+							<div class="flex-row">
+								<input class="flex-cell cw-name" type="text" name="attr_cyberoptics_name_manual" data-i18n-placeholder="cw_name-u" placeholder="Name"/>
+								<input class="flex-cell cw-vitality" type="number" name="attr_cyberoptics_vitality_manual" placeholder="0" min="0"/>
+								<input class="flex-cell cw-capacity" type="number" name="attr_cyberoptics_capacity_manual" placeholder="0" min="0"/>
+								<select class="flex-cell cw-rarity" name="attr_cyberoptics_rarity_manual">
+									<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+									<option value="common" data-i18n="cw_rarity_common-u">Common</option>
+									<option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option>
+									<option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option>
+									<option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option>
+								</select>
+								<input class="flex-cell cw-cost" type="text" name="attr_cyberoptics_cost_manual" data-i18n-placeholder="cw_cost-u" placeholder="Cost"/>
+							</div>
+						</div>
+						<div class="cw-manual-row">
+							<textarea class="cw-effect-manual" name="attr_cyberoptics_effect_manual" data-i18n-placeholder="cw_effect-u" placeholder="Effect / Description"></textarea>
+						</div>
+
+						<!-- Hidden attrs for vitality recalc -->
+						<input type="hidden" name="attr_cyberoptics_vitality" value="0"/>
+						<input type="hidden" name="attr_cyberoptics_capacity" value="0"/>
+
+						<!-- Optics Enhancements sub-header -->
+						<div class="sheet-cw-mod-header">
+							<div class="flex-row">
+								<div class="flex-cell cw-mod-toggle"></div>
+								<div class="flex-cell cw-name"><span data-i18n="cw_mod_name-u">Mod Name</span></div>
+								<div class="flex-cell cw-capacity-req"><span data-i18n="cw_mod_capacity_req-u">Cap. Req.</span></div>
+								<div class="flex-cell cw-mod-rarity"><span data-i18n="cw_mod_rarity-u">Rarity</span></div>
+								<div class="flex-cell cw-mod-cost"><span data-i18n="cw_mod_cost-u">Cost</span></div>
+							</div>
+						</div>
+
+						<!-- Optics Mod 1 -->
+						<div class="cw-mod-row">
+							<div class="flex-row">
+								<input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberoptics_show_mod1" value="1"/>
+								<div class="flex-cell cw-name">
+									<select name="attr_cyberoptics_mod1_preset" data-i18n-title="cw_mod_name-u">
+										<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+										<option value="adaptive_aesthetics" data-i18n="cw_opt_mod_adaptive_aesthetics-u">Adaptive Aesthetics</option>
+										<option value="chameleon_mode" data-i18n="cw_opt_mod_chameleon_mode-u">Chameleon Mode</option>
+										<option value="flash_compensation" data-i18n="cw_opt_mod_flash_compensation-u">Flash Compensation</option>
+										<option value="motion_tracker_overlay" data-i18n="cw_opt_mod_motion_tracker_overlay-u">Motion Tracker Overlay</option>
+										<option value="multi_spectrum_optics" data-i18n="cw_opt_mod_multi_spectrum_optics-u">Multi-Spectrum Optics</option>
+										<option value="night_vision" data-i18n="cw_opt_mod_night_vision-u">Night Vision</option>
+										<option value="retinal_zoom" data-i18n="cw_opt_mod_retinal_zoom-u">Retinal Zoom</option>
+										<option value="sata_interface" data-i18n="cw_opt_mod_sata_interface-u">SATA Interface</option>
+										<option value="tactical_feed" data-i18n="cw_opt_mod_tactical_feed-u">Tactical Feed</option>
+										<option value="target_recognition_system" data-i18n="cw_opt_mod_target_recognition_system-u">Target Recognition System</option>
+										<option value="thermal_vision" data-i18n="cw_opt_mod_thermal_vision-u">Thermal Vision</option>
+										<option value="veil_sight" data-i18n="cw_opt_mod_veil_sight-u">Veil Sight</option>
+									</select>
+								</div>
+								<div class="flex-cell cw-capacity-req"><span name="attr_cyberoptics_mod1_capreq_mdr"></span><input type="hidden" name="attr_cyberoptics_mod1_capreq" value="0"/></div>
+								<div class="flex-cell cw-mod-rarity"><span name="attr_cyberoptics_mod1_rarity_mdr"></span></div>
+								<div class="flex-cell cw-mod-cost"><span name="attr_cyberoptics_mod1_cost_mdr"></span></div>
+							</div>
+						</div>
+						<div class="cw-mod-detail-row cw-opt-mod1-detail">
+							<div class="flex-row">
+								<div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div>
+								<div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberoptics_mod1_stat_bonus_mdr"></span></div>
+							</div>
+							<div class="flex-row">
+								<div class="flex-cell cw-mod-requirements-label"><span data-i18n="cw_mod_requirements-u">Requirements</span></div>
+								<div class="flex-cell cw-mod-requirements"><span name="attr_cyberoptics_mod1_requirements_mdr"></span></div>
+							</div>
+							<div class="flex-row">
+								<div class="flex-cell cw-effect-cell">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_mod1_effect_preview_mdr"></span></div>
+										<div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_mod1_effect_mdr"></span></div>
+									</div>
+								</div>
+							</div>
+							<div class="flex-row cw-mod-manual-row">
+								<input class="flex-cell cw-name" type="text" name="attr_cyberoptics_mod1_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/>
+								<input class="flex-cell cw-capacity-req" type="number" name="attr_cyberoptics_mod1_capreq_manual" placeholder="0" min="0"/>
+								<select class="flex-cell cw-mod-rarity" name="attr_cyberoptics_mod1_rarity_manual">
+									<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+									<option value="common" data-i18n="cw_rarity_common-u">Common</option>
+									<option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option>
+									<option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option>
+									<option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option>
+								</select>
+								<input class="flex-cell cw-mod-cost" type="text" name="attr_cyberoptics_mod1_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/>
+							</div>
+							<div class="flex-row cw-mod-manual-row">
+								<input class="flex-cell" type="text" name="attr_cyberoptics_mod1_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/>
+								<input class="flex-cell" type="text" name="attr_cyberoptics_mod1_requirements_manual" data-i18n-placeholder="cw_mod_requirements-u" placeholder="Requirements"/>
+							</div>
+							<div class="flex-row cw-mod-manual-row">
+								<textarea class="cw-effect-manual" name="attr_cyberoptics_mod1_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea>
+							</div>
+						</div>
+
+						<!-- Optics Mod 2 -->
+						<div class="cw-mod-row cw-opt-mod2-row">
+							<div class="flex-row">
+								<input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberoptics_show_mod2" value="1"/>
+								<div class="flex-cell cw-name">
+									<select name="attr_cyberoptics_mod2_preset" data-i18n-title="cw_mod_name-u">
+										<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+										<option value="adaptive_aesthetics" data-i18n="cw_opt_mod_adaptive_aesthetics-u">Adaptive Aesthetics</option>
+										<option value="chameleon_mode" data-i18n="cw_opt_mod_chameleon_mode-u">Chameleon Mode</option>
+										<option value="flash_compensation" data-i18n="cw_opt_mod_flash_compensation-u">Flash Compensation</option>
+										<option value="motion_tracker_overlay" data-i18n="cw_opt_mod_motion_tracker_overlay-u">Motion Tracker Overlay</option>
+										<option value="multi_spectrum_optics" data-i18n="cw_opt_mod_multi_spectrum_optics-u">Multi-Spectrum Optics</option>
+										<option value="night_vision" data-i18n="cw_opt_mod_night_vision-u">Night Vision</option>
+										<option value="retinal_zoom" data-i18n="cw_opt_mod_retinal_zoom-u">Retinal Zoom</option>
+										<option value="sata_interface" data-i18n="cw_opt_mod_sata_interface-u">SATA Interface</option>
+										<option value="tactical_feed" data-i18n="cw_opt_mod_tactical_feed-u">Tactical Feed</option>
+										<option value="target_recognition_system" data-i18n="cw_opt_mod_target_recognition_system-u">Target Recognition System</option>
+										<option value="thermal_vision" data-i18n="cw_opt_mod_thermal_vision-u">Thermal Vision</option>
+										<option value="veil_sight" data-i18n="cw_opt_mod_veil_sight-u">Veil Sight</option>
+									</select>
+								</div>
+								<div class="flex-cell cw-capacity-req"><span name="attr_cyberoptics_mod2_capreq_mdr"></span><input type="hidden" name="attr_cyberoptics_mod2_capreq" value="0"/></div>
+								<div class="flex-cell cw-mod-rarity"><span name="attr_cyberoptics_mod2_rarity_mdr"></span></div>
+								<div class="flex-cell cw-mod-cost"><span name="attr_cyberoptics_mod2_cost_mdr"></span></div>
+							</div>
+						</div>
+						<div class="cw-mod-detail-row cw-opt-mod2-detail">
+							<div class="flex-row">
+								<div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div>
+								<div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberoptics_mod2_stat_bonus_mdr"></span></div>
+							</div>
+							<div class="flex-row">
+								<div class="flex-cell cw-mod-requirements-label"><span data-i18n="cw_mod_requirements-u">Requirements</span></div>
+								<div class="flex-cell cw-mod-requirements"><span name="attr_cyberoptics_mod2_requirements_mdr"></span></div>
+							</div>
+							<div class="flex-row">
+								<div class="flex-cell cw-effect-cell">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_mod2_effect_preview_mdr"></span></div>
+										<div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_mod2_effect_mdr"></span></div>
+									</div>
+								</div>
+							</div>
+							<div class="flex-row cw-mod-manual-row">
+								<input class="flex-cell cw-name" type="text" name="attr_cyberoptics_mod2_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/>
+								<input class="flex-cell cw-capacity-req" type="number" name="attr_cyberoptics_mod2_capreq_manual" placeholder="0" min="0"/>
+								<select class="flex-cell cw-mod-rarity" name="attr_cyberoptics_mod2_rarity_manual">
+									<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+									<option value="common" data-i18n="cw_rarity_common-u">Common</option>
+									<option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option>
+									<option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option>
+									<option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option>
+								</select>
+								<input class="flex-cell cw-mod-cost" type="text" name="attr_cyberoptics_mod2_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/>
+							</div>
+							<div class="flex-row cw-mod-manual-row">
+								<input class="flex-cell" type="text" name="attr_cyberoptics_mod2_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/>
+								<input class="flex-cell" type="text" name="attr_cyberoptics_mod2_requirements_manual" data-i18n-placeholder="cw_mod_requirements-u" placeholder="Requirements"/>
+							</div>
+							<div class="flex-row cw-mod-manual-row">
+								<textarea class="cw-effect-manual" name="attr_cyberoptics_mod2_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea>
+							</div>
+						</div>
+
+						<!-- Optics Mods 3–8: same structure, abbreviated pattern -->
+						<!-- Mod 3 -->
+						<div class="cw-mod-row cw-opt-mod3-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberoptics_show_mod3" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberoptics_mod3_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="adaptive_aesthetics" data-i18n="cw_opt_mod_adaptive_aesthetics-u">Adaptive Aesthetics</option><option value="chameleon_mode" data-i18n="cw_opt_mod_chameleon_mode-u">Chameleon Mode</option><option value="flash_compensation" data-i18n="cw_opt_mod_flash_compensation-u">Flash Compensation</option><option value="motion_tracker_overlay" data-i18n="cw_opt_mod_motion_tracker_overlay-u">Motion Tracker Overlay</option><option value="multi_spectrum_optics" data-i18n="cw_opt_mod_multi_spectrum_optics-u">Multi-Spectrum Optics</option><option value="night_vision" data-i18n="cw_opt_mod_night_vision-u">Night Vision</option><option value="retinal_zoom" data-i18n="cw_opt_mod_retinal_zoom-u">Retinal Zoom</option><option value="sata_interface" data-i18n="cw_opt_mod_sata_interface-u">SATA Interface</option><option value="tactical_feed" data-i18n="cw_opt_mod_tactical_feed-u">Tactical Feed</option><option value="target_recognition_system" data-i18n="cw_opt_mod_target_recognition_system-u">Target Recognition System</option><option value="thermal_vision" data-i18n="cw_opt_mod_thermal_vision-u">Thermal Vision</option><option value="veil_sight" data-i18n="cw_opt_mod_veil_sight-u">Veil Sight</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberoptics_mod3_capreq_mdr"></span><input type="hidden" name="attr_cyberoptics_mod3_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberoptics_mod3_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberoptics_mod3_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-opt-mod3-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberoptics_mod3_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-mod-requirements-label"><span data-i18n="cw_mod_requirements-u">Requirements</span></div><div class="flex-cell cw-mod-requirements"><span name="attr_cyberoptics_mod3_requirements_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_mod3_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_mod3_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberoptics_mod3_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberoptics_mod3_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberoptics_mod3_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberoptics_mod3_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberoptics_mod3_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/><input class="flex-cell" type="text" name="attr_cyberoptics_mod3_requirements_manual" data-i18n-placeholder="cw_mod_requirements-u" placeholder="Requirements"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberoptics_mod3_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 4 -->
+						<div class="cw-mod-row cw-opt-mod4-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberoptics_show_mod4" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberoptics_mod4_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="adaptive_aesthetics" data-i18n="cw_opt_mod_adaptive_aesthetics-u">Adaptive Aesthetics</option><option value="chameleon_mode" data-i18n="cw_opt_mod_chameleon_mode-u">Chameleon Mode</option><option value="flash_compensation" data-i18n="cw_opt_mod_flash_compensation-u">Flash Compensation</option><option value="motion_tracker_overlay" data-i18n="cw_opt_mod_motion_tracker_overlay-u">Motion Tracker Overlay</option><option value="multi_spectrum_optics" data-i18n="cw_opt_mod_multi_spectrum_optics-u">Multi-Spectrum Optics</option><option value="night_vision" data-i18n="cw_opt_mod_night_vision-u">Night Vision</option><option value="retinal_zoom" data-i18n="cw_opt_mod_retinal_zoom-u">Retinal Zoom</option><option value="sata_interface" data-i18n="cw_opt_mod_sata_interface-u">SATA Interface</option><option value="tactical_feed" data-i18n="cw_opt_mod_tactical_feed-u">Tactical Feed</option><option value="target_recognition_system" data-i18n="cw_opt_mod_target_recognition_system-u">Target Recognition System</option><option value="thermal_vision" data-i18n="cw_opt_mod_thermal_vision-u">Thermal Vision</option><option value="veil_sight" data-i18n="cw_opt_mod_veil_sight-u">Veil Sight</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberoptics_mod4_capreq_mdr"></span><input type="hidden" name="attr_cyberoptics_mod4_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberoptics_mod4_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberoptics_mod4_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-opt-mod4-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberoptics_mod4_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-mod-requirements-label"><span data-i18n="cw_mod_requirements-u">Requirements</span></div><div class="flex-cell cw-mod-requirements"><span name="attr_cyberoptics_mod4_requirements_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_mod4_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_mod4_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberoptics_mod4_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberoptics_mod4_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberoptics_mod4_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberoptics_mod4_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberoptics_mod4_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/><input class="flex-cell" type="text" name="attr_cyberoptics_mod4_requirements_manual" data-i18n-placeholder="cw_mod_requirements-u" placeholder="Requirements"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberoptics_mod4_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 5 -->
+						<div class="cw-mod-row cw-opt-mod5-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberoptics_show_mod5" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberoptics_mod5_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="adaptive_aesthetics" data-i18n="cw_opt_mod_adaptive_aesthetics-u">Adaptive Aesthetics</option><option value="chameleon_mode" data-i18n="cw_opt_mod_chameleon_mode-u">Chameleon Mode</option><option value="flash_compensation" data-i18n="cw_opt_mod_flash_compensation-u">Flash Compensation</option><option value="motion_tracker_overlay" data-i18n="cw_opt_mod_motion_tracker_overlay-u">Motion Tracker Overlay</option><option value="multi_spectrum_optics" data-i18n="cw_opt_mod_multi_spectrum_optics-u">Multi-Spectrum Optics</option><option value="night_vision" data-i18n="cw_opt_mod_night_vision-u">Night Vision</option><option value="retinal_zoom" data-i18n="cw_opt_mod_retinal_zoom-u">Retinal Zoom</option><option value="sata_interface" data-i18n="cw_opt_mod_sata_interface-u">SATA Interface</option><option value="tactical_feed" data-i18n="cw_opt_mod_tactical_feed-u">Tactical Feed</option><option value="target_recognition_system" data-i18n="cw_opt_mod_target_recognition_system-u">Target Recognition System</option><option value="thermal_vision" data-i18n="cw_opt_mod_thermal_vision-u">Thermal Vision</option><option value="veil_sight" data-i18n="cw_opt_mod_veil_sight-u">Veil Sight</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberoptics_mod5_capreq_mdr"></span><input type="hidden" name="attr_cyberoptics_mod5_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberoptics_mod5_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberoptics_mod5_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-opt-mod5-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberoptics_mod5_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-mod-requirements-label"><span data-i18n="cw_mod_requirements-u">Requirements</span></div><div class="flex-cell cw-mod-requirements"><span name="attr_cyberoptics_mod5_requirements_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_mod5_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_mod5_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberoptics_mod5_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberoptics_mod5_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberoptics_mod5_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberoptics_mod5_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberoptics_mod5_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/><input class="flex-cell" type="text" name="attr_cyberoptics_mod5_requirements_manual" data-i18n-placeholder="cw_mod_requirements-u" placeholder="Requirements"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberoptics_mod5_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 6 -->
+						<div class="cw-mod-row cw-opt-mod6-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberoptics_show_mod6" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberoptics_mod6_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="adaptive_aesthetics" data-i18n="cw_opt_mod_adaptive_aesthetics-u">Adaptive Aesthetics</option><option value="chameleon_mode" data-i18n="cw_opt_mod_chameleon_mode-u">Chameleon Mode</option><option value="flash_compensation" data-i18n="cw_opt_mod_flash_compensation-u">Flash Compensation</option><option value="motion_tracker_overlay" data-i18n="cw_opt_mod_motion_tracker_overlay-u">Motion Tracker Overlay</option><option value="multi_spectrum_optics" data-i18n="cw_opt_mod_multi_spectrum_optics-u">Multi-Spectrum Optics</option><option value="night_vision" data-i18n="cw_opt_mod_night_vision-u">Night Vision</option><option value="retinal_zoom" data-i18n="cw_opt_mod_retinal_zoom-u">Retinal Zoom</option><option value="sata_interface" data-i18n="cw_opt_mod_sata_interface-u">SATA Interface</option><option value="tactical_feed" data-i18n="cw_opt_mod_tactical_feed-u">Tactical Feed</option><option value="target_recognition_system" data-i18n="cw_opt_mod_target_recognition_system-u">Target Recognition System</option><option value="thermal_vision" data-i18n="cw_opt_mod_thermal_vision-u">Thermal Vision</option><option value="veil_sight" data-i18n="cw_opt_mod_veil_sight-u">Veil Sight</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberoptics_mod6_capreq_mdr"></span><input type="hidden" name="attr_cyberoptics_mod6_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberoptics_mod6_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberoptics_mod6_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-opt-mod6-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberoptics_mod6_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-mod-requirements-label"><span data-i18n="cw_mod_requirements-u">Requirements</span></div><div class="flex-cell cw-mod-requirements"><span name="attr_cyberoptics_mod6_requirements_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_mod6_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_mod6_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberoptics_mod6_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberoptics_mod6_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberoptics_mod6_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberoptics_mod6_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberoptics_mod6_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/><input class="flex-cell" type="text" name="attr_cyberoptics_mod6_requirements_manual" data-i18n-placeholder="cw_mod_requirements-u" placeholder="Requirements"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberoptics_mod6_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 7 -->
+						<div class="cw-mod-row cw-opt-mod7-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberoptics_show_mod7" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberoptics_mod7_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="adaptive_aesthetics" data-i18n="cw_opt_mod_adaptive_aesthetics-u">Adaptive Aesthetics</option><option value="chameleon_mode" data-i18n="cw_opt_mod_chameleon_mode-u">Chameleon Mode</option><option value="flash_compensation" data-i18n="cw_opt_mod_flash_compensation-u">Flash Compensation</option><option value="motion_tracker_overlay" data-i18n="cw_opt_mod_motion_tracker_overlay-u">Motion Tracker Overlay</option><option value="multi_spectrum_optics" data-i18n="cw_opt_mod_multi_spectrum_optics-u">Multi-Spectrum Optics</option><option value="night_vision" data-i18n="cw_opt_mod_night_vision-u">Night Vision</option><option value="retinal_zoom" data-i18n="cw_opt_mod_retinal_zoom-u">Retinal Zoom</option><option value="sata_interface" data-i18n="cw_opt_mod_sata_interface-u">SATA Interface</option><option value="tactical_feed" data-i18n="cw_opt_mod_tactical_feed-u">Tactical Feed</option><option value="target_recognition_system" data-i18n="cw_opt_mod_target_recognition_system-u">Target Recognition System</option><option value="thermal_vision" data-i18n="cw_opt_mod_thermal_vision-u">Thermal Vision</option><option value="veil_sight" data-i18n="cw_opt_mod_veil_sight-u">Veil Sight</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberoptics_mod7_capreq_mdr"></span><input type="hidden" name="attr_cyberoptics_mod7_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberoptics_mod7_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberoptics_mod7_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-opt-mod7-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberoptics_mod7_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-mod-requirements-label"><span data-i18n="cw_mod_requirements-u">Requirements</span></div><div class="flex-cell cw-mod-requirements"><span name="attr_cyberoptics_mod7_requirements_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_mod7_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_mod7_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberoptics_mod7_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberoptics_mod7_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberoptics_mod7_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberoptics_mod7_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberoptics_mod7_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/><input class="flex-cell" type="text" name="attr_cyberoptics_mod7_requirements_manual" data-i18n-placeholder="cw_mod_requirements-u" placeholder="Requirements"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberoptics_mod7_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 8 -->
+						<div class="cw-mod-row cw-opt-mod8-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberoptics_show_mod8" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberoptics_mod8_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="adaptive_aesthetics" data-i18n="cw_opt_mod_adaptive_aesthetics-u">Adaptive Aesthetics</option><option value="chameleon_mode" data-i18n="cw_opt_mod_chameleon_mode-u">Chameleon Mode</option><option value="flash_compensation" data-i18n="cw_opt_mod_flash_compensation-u">Flash Compensation</option><option value="motion_tracker_overlay" data-i18n="cw_opt_mod_motion_tracker_overlay-u">Motion Tracker Overlay</option><option value="multi_spectrum_optics" data-i18n="cw_opt_mod_multi_spectrum_optics-u">Multi-Spectrum Optics</option><option value="night_vision" data-i18n="cw_opt_mod_night_vision-u">Night Vision</option><option value="retinal_zoom" data-i18n="cw_opt_mod_retinal_zoom-u">Retinal Zoom</option><option value="sata_interface" data-i18n="cw_opt_mod_sata_interface-u">SATA Interface</option><option value="tactical_feed" data-i18n="cw_opt_mod_tactical_feed-u">Tactical Feed</option><option value="target_recognition_system" data-i18n="cw_opt_mod_target_recognition_system-u">Target Recognition System</option><option value="thermal_vision" data-i18n="cw_opt_mod_thermal_vision-u">Thermal Vision</option><option value="veil_sight" data-i18n="cw_opt_mod_veil_sight-u">Veil Sight</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberoptics_mod8_capreq_mdr"></span><input type="hidden" name="attr_cyberoptics_mod8_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberoptics_mod8_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberoptics_mod8_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-opt-mod8-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberoptics_mod8_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-mod-requirements-label"><span data-i18n="cw_mod_requirements-u">Requirements</span></div><div class="flex-cell cw-mod-requirements"><span name="attr_cyberoptics_mod8_requirements_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberoptics_mod8_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberoptics_mod8_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberoptics_mod8_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberoptics_mod8_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberoptics_mod8_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberoptics_mod8_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberoptics_mod8_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/><input class="flex-cell" type="text" name="attr_cyberoptics_mod8_requirements_manual" data-i18n-placeholder="cw_mod_requirements-u" placeholder="Requirements"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberoptics_mod8_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- -------------------------- Cyber Audio -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-cybertech-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="ct_audio_collapse" name="attr_ct_audio_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="cw_category_audio-u">Cyber Audio</span>
+					<label class="sheet-top-collapse-hit" for="ct_audio_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section sheet-cw-audio">
+
+						<!-- Suite header -->
+						<div class="sheet-cw-aud-header">
+							<div class="flex-row">
+								<div class="flex-cell cw-name"><span data-i18n="cw_name-u">Name</span></div>
+								<div class="flex-cell cw-vitality"><span data-i18n="cw_vitality-u">Vitality</span></div>
+								<div class="flex-cell cw-capacity"><span data-i18n="ct_capacity-u">Capacity</span></div>
+								<div class="flex-cell cw-capacity-used"><span data-i18n="cw_capacity_used-u">Used</span></div>
+								<div class="flex-cell cw-rarity"><span data-i18n="cw_rarity-u">Rarity</span></div>
+								<div class="flex-cell cw-cost"><span data-i18n="cw_cost-u">Cost</span></div>
+							</div>
+						</div>
+
+						<!-- Static suite preset row -->
+						<div class="cw-preset-row">
+							<div class="flex-row">
+								<div class="flex-cell cw-name">
+									<select name="attr_cyberaudio_preset" data-i18n-title="cw_name-u">
+										<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+										<option value="clarity_systems_enhanced_suite" data-i18n="cw_aud_clarity_systems_enhanced_suite-u">Clarity Systems Enhanced Suite (Level 2)</option>
+										<option value="echotech_basic_suite" data-i18n="cw_aud_echotech_basic_suite-u">EchoTech Basic Suite (Level 1)</option>
+										<option value="voxcore_tactical_suite" data-i18n="cw_aud_voxcore_tactical_suite-u">VoxCore Tactical Suite (Level 3)</option>
+									</select>
+								</div>
+								<div class="flex-cell cw-vitality"><span name="attr_cyberaudio_vitality_mdr"></span></div>
+								<div class="flex-cell cw-capacity"><span name="attr_cyberaudio_capacity_mdr"></span></div>
+								<div class="flex-cell cw-capacity-used"><span name="attr_cyberaudio_capacity_used_mdr"></span></div>
+								<div class="flex-cell cw-rarity"><span name="attr_cyberaudio_rarity_mdr"></span></div>
+								<div class="flex-cell cw-cost"><span name="attr_cyberaudio_cost_mdr"></span></div>
+							</div>
+						</div>
+
+						<!-- Suite effect tooltip -->
+						<div class="cw-effect-row">
+							<div class="flex-row">
+								<div class="flex-cell cw-effect-cell">
+									<div class="sheet-skill-tooltip has-notes">
+										<div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_effect_preview_mdr"></span></div>
+										<div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_effect_mdr"></span></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Suite manual override -->
+						<div class="cw-manual-row">
+							<div class="flex-row">
+								<input class="flex-cell cw-name" type="text" name="attr_cyberaudio_name_manual" data-i18n-placeholder="cw_name-u" placeholder="Name"/>
+								<input class="flex-cell cw-vitality" type="number" name="attr_cyberaudio_vitality_manual" placeholder="0" min="0"/>
+								<input class="flex-cell cw-capacity" type="number" name="attr_cyberaudio_capacity_manual" placeholder="0" min="0"/>
+								<select class="flex-cell cw-rarity" name="attr_cyberaudio_rarity_manual">
+									<option value="" data-i18n="cw_rarity_none-u">— Select —</option>
+									<option value="common" data-i18n="cw_rarity_common-u">Common</option>
+									<option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option>
+									<option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option>
+									<option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option>
+								</select>
+								<input class="flex-cell cw-cost" type="text" name="attr_cyberaudio_cost_manual" data-i18n-placeholder="cw_cost-u" placeholder="Cost"/>
+							</div>
+						</div>
+						<div class="cw-manual-row">
+							<textarea class="cw-effect-manual" name="attr_cyberaudio_effect_manual" data-i18n-placeholder="cw_effect-u" placeholder="Effect / Description"></textarea>
+						</div>
+
+						<!-- Hidden attrs for vitality recalc -->
+						<input type="hidden" name="attr_cyberaudio_vitality" value="0"/>
+						<input type="hidden" name="attr_cyberaudio_capacity" value="0"/>
+
+						<!-- Audio Enhancements sub-header -->
+						<div class="sheet-cw-mod-header">
+							<div class="flex-row">
+								<div class="flex-cell cw-mod-toggle"></div>
+								<div class="flex-cell cw-name"><span data-i18n="cw_mod_name-u">Mod Name</span></div>
+								<div class="flex-cell cw-capacity-req"><span data-i18n="cw_mod_capacity_req-u">Cap. Req.</span></div>
+								<div class="flex-cell cw-mod-rarity"><span data-i18n="cw_mod_rarity-u">Rarity</span></div>
+								<div class="flex-cell cw-mod-cost"><span data-i18n="cw_mod_cost-u">Cost</span></div>
+							</div>
+						</div>
+
+						<!-- Audio Mods 1–8: same structure as Optics mods with cyberaudio_ prefix and aud mod options -->
+						<!-- Mod 1 -->
+						<div class="cw-mod-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberaudio_show_mod1" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberaudio_mod1_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="bug_detector" data-i18n="cw_aud_mod_bug_detector-u">Bug Detector</option><option value="enhanced_balance_module" data-i18n="cw_aud_mod_enhanced_balance_module-u">Enhanced Balance Module</option><option value="enhanced_hearing_1" data-i18n="cw_aud_mod_enhanced_hearing_1-u">Enhanced Hearing I</option><option value="enhanced_hearing_2" data-i18n="cw_aud_mod_enhanced_hearing_2-u">Enhanced Hearing II</option><option value="level_dampener" data-i18n="cw_aud_mod_level_dampener-u">Level Dampener</option><option value="selective_filter" data-i18n="cw_aud_mod_selective_filter-u">Selective Filter</option><option value="targeted_eavesdropper" data-i18n="cw_aud_mod_targeted_eavesdropper-u">Targeted Eavesdropper</option><option value="ultrasonic_detection" data-i18n="cw_aud_mod_ultrasonic_detection-u">Ultrasonic Detection</option><option value="voice_stress_analyzer" data-i18n="cw_aud_mod_voice_stress_analyzer-u">Voice Stress Analyzer</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberaudio_mod1_capreq_mdr"></span><input type="hidden" name="attr_cyberaudio_mod1_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberaudio_mod1_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberaudio_mod1_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-aud-mod1-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberaudio_mod1_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_mod1_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_mod1_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberaudio_mod1_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberaudio_mod1_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberaudio_mod1_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberaudio_mod1_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberaudio_mod1_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberaudio_mod1_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 2 -->
+						<div class="cw-mod-row cw-aud-mod2-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberaudio_show_mod2" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberaudio_mod2_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="bug_detector" data-i18n="cw_aud_mod_bug_detector-u">Bug Detector</option><option value="enhanced_balance_module" data-i18n="cw_aud_mod_enhanced_balance_module-u">Enhanced Balance Module</option><option value="enhanced_hearing_1" data-i18n="cw_aud_mod_enhanced_hearing_1-u">Enhanced Hearing I</option><option value="enhanced_hearing_2" data-i18n="cw_aud_mod_enhanced_hearing_2-u">Enhanced Hearing II</option><option value="level_dampener" data-i18n="cw_aud_mod_level_dampener-u">Level Dampener</option><option value="selective_filter" data-i18n="cw_aud_mod_selective_filter-u">Selective Filter</option><option value="targeted_eavesdropper" data-i18n="cw_aud_mod_targeted_eavesdropper-u">Targeted Eavesdropper</option><option value="ultrasonic_detection" data-i18n="cw_aud_mod_ultrasonic_detection-u">Ultrasonic Detection</option><option value="voice_stress_analyzer" data-i18n="cw_aud_mod_voice_stress_analyzer-u">Voice Stress Analyzer</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberaudio_mod2_capreq_mdr"></span><input type="hidden" name="attr_cyberaudio_mod2_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberaudio_mod2_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberaudio_mod2_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-aud-mod2-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberaudio_mod2_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_mod2_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_mod2_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberaudio_mod2_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberaudio_mod2_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberaudio_mod2_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberaudio_mod2_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberaudio_mod2_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberaudio_mod2_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mods 3–8 follow identical pattern with cyberaudio_modN_ prefix -->
+						<!-- Mod 3 -->
+						<div class="cw-mod-row cw-aud-mod3-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberaudio_show_mod3" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberaudio_mod3_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="bug_detector" data-i18n="cw_aud_mod_bug_detector-u">Bug Detector</option><option value="enhanced_balance_module" data-i18n="cw_aud_mod_enhanced_balance_module-u">Enhanced Balance Module</option><option value="enhanced_hearing_1" data-i18n="cw_aud_mod_enhanced_hearing_1-u">Enhanced Hearing I</option><option value="enhanced_hearing_2" data-i18n="cw_aud_mod_enhanced_hearing_2-u">Enhanced Hearing II</option><option value="level_dampener" data-i18n="cw_aud_mod_level_dampener-u">Level Dampener</option><option value="selective_filter" data-i18n="cw_aud_mod_selective_filter-u">Selective Filter</option><option value="targeted_eavesdropper" data-i18n="cw_aud_mod_targeted_eavesdropper-u">Targeted Eavesdropper</option><option value="ultrasonic_detection" data-i18n="cw_aud_mod_ultrasonic_detection-u">Ultrasonic Detection</option><option value="voice_stress_analyzer" data-i18n="cw_aud_mod_voice_stress_analyzer-u">Voice Stress Analyzer</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberaudio_mod3_capreq_mdr"></span><input type="hidden" name="attr_cyberaudio_mod3_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberaudio_mod3_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberaudio_mod3_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-aud-mod3-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberaudio_mod3_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_mod3_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_mod3_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberaudio_mod3_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberaudio_mod3_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberaudio_mod3_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberaudio_mod3_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberaudio_mod3_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberaudio_mod3_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 4 -->
+						<div class="cw-mod-row cw-aud-mod4-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberaudio_show_mod4" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberaudio_mod4_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="bug_detector" data-i18n="cw_aud_mod_bug_detector-u">Bug Detector</option><option value="enhanced_balance_module" data-i18n="cw_aud_mod_enhanced_balance_module-u">Enhanced Balance Module</option><option value="enhanced_hearing_1" data-i18n="cw_aud_mod_enhanced_hearing_1-u">Enhanced Hearing I</option><option value="enhanced_hearing_2" data-i18n="cw_aud_mod_enhanced_hearing_2-u">Enhanced Hearing II</option><option value="level_dampener" data-i18n="cw_aud_mod_level_dampener-u">Level Dampener</option><option value="selective_filter" data-i18n="cw_aud_mod_selective_filter-u">Selective Filter</option><option value="targeted_eavesdropper" data-i18n="cw_aud_mod_targeted_eavesdropper-u">Targeted Eavesdropper</option><option value="ultrasonic_detection" data-i18n="cw_aud_mod_ultrasonic_detection-u">Ultrasonic Detection</option><option value="voice_stress_analyzer" data-i18n="cw_aud_mod_voice_stress_analyzer-u">Voice Stress Analyzer</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberaudio_mod4_capreq_mdr"></span><input type="hidden" name="attr_cyberaudio_mod4_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberaudio_mod4_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberaudio_mod4_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-aud-mod4-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberaudio_mod4_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_mod4_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_mod4_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberaudio_mod4_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberaudio_mod4_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberaudio_mod4_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberaudio_mod4_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberaudio_mod4_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberaudio_mod4_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 5 -->
+						<div class="cw-mod-row cw-aud-mod5-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberaudio_show_mod5" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberaudio_mod5_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="bug_detector" data-i18n="cw_aud_mod_bug_detector-u">Bug Detector</option><option value="enhanced_balance_module" data-i18n="cw_aud_mod_enhanced_balance_module-u">Enhanced Balance Module</option><option value="enhanced_hearing_1" data-i18n="cw_aud_mod_enhanced_hearing_1-u">Enhanced Hearing I</option><option value="enhanced_hearing_2" data-i18n="cw_aud_mod_enhanced_hearing_2-u">Enhanced Hearing II</option><option value="level_dampener" data-i18n="cw_aud_mod_level_dampener-u">Level Dampener</option><option value="selective_filter" data-i18n="cw_aud_mod_selective_filter-u">Selective Filter</option><option value="targeted_eavesdropper" data-i18n="cw_aud_mod_targeted_eavesdropper-u">Targeted Eavesdropper</option><option value="ultrasonic_detection" data-i18n="cw_aud_mod_ultrasonic_detection-u">Ultrasonic Detection</option><option value="voice_stress_analyzer" data-i18n="cw_aud_mod_voice_stress_analyzer-u">Voice Stress Analyzer</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberaudio_mod5_capreq_mdr"></span><input type="hidden" name="attr_cyberaudio_mod5_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberaudio_mod5_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberaudio_mod5_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-aud-mod5-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberaudio_mod5_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_mod5_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_mod5_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberaudio_mod5_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberaudio_mod5_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberaudio_mod5_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberaudio_mod5_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberaudio_mod5_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberaudio_mod5_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 6 -->
+						<div class="cw-mod-row cw-aud-mod6-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberaudio_show_mod6" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberaudio_mod6_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="bug_detector" data-i18n="cw_aud_mod_bug_detector-u">Bug Detector</option><option value="enhanced_balance_module" data-i18n="cw_aud_mod_enhanced_balance_module-u">Enhanced Balance Module</option><option value="enhanced_hearing_1" data-i18n="cw_aud_mod_enhanced_hearing_1-u">Enhanced Hearing I</option><option value="enhanced_hearing_2" data-i18n="cw_aud_mod_enhanced_hearing_2-u">Enhanced Hearing II</option><option value="level_dampener" data-i18n="cw_aud_mod_level_dampener-u">Level Dampener</option><option value="selective_filter" data-i18n="cw_aud_mod_selective_filter-u">Selective Filter</option><option value="targeted_eavesdropper" data-i18n="cw_aud_mod_targeted_eavesdropper-u">Targeted Eavesdropper</option><option value="ultrasonic_detection" data-i18n="cw_aud_mod_ultrasonic_detection-u">Ultrasonic Detection</option><option value="voice_stress_analyzer" data-i18n="cw_aud_mod_voice_stress_analyzer-u">Voice Stress Analyzer</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberaudio_mod6_capreq_mdr"></span><input type="hidden" name="attr_cyberaudio_mod6_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberaudio_mod6_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberaudio_mod6_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-aud-mod6-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberaudio_mod6_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_mod6_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_mod6_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberaudio_mod6_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberaudio_mod6_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberaudio_mod6_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberaudio_mod6_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberaudio_mod6_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberaudio_mod6_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 7 -->
+						<div class="cw-mod-row cw-aud-mod7-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberaudio_show_mod7" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberaudio_mod7_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="bug_detector" data-i18n="cw_aud_mod_bug_detector-u">Bug Detector</option><option value="enhanced_balance_module" data-i18n="cw_aud_mod_enhanced_balance_module-u">Enhanced Balance Module</option><option value="enhanced_hearing_1" data-i18n="cw_aud_mod_enhanced_hearing_1-u">Enhanced Hearing I</option><option value="enhanced_hearing_2" data-i18n="cw_aud_mod_enhanced_hearing_2-u">Enhanced Hearing II</option><option value="level_dampener" data-i18n="cw_aud_mod_level_dampener-u">Level Dampener</option><option value="selective_filter" data-i18n="cw_aud_mod_selective_filter-u">Selective Filter</option><option value="targeted_eavesdropper" data-i18n="cw_aud_mod_targeted_eavesdropper-u">Targeted Eavesdropper</option><option value="ultrasonic_detection" data-i18n="cw_aud_mod_ultrasonic_detection-u">Ultrasonic Detection</option><option value="voice_stress_analyzer" data-i18n="cw_aud_mod_voice_stress_analyzer-u">Voice Stress Analyzer</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberaudio_mod7_capreq_mdr"></span><input type="hidden" name="attr_cyberaudio_mod7_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberaudio_mod7_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberaudio_mod7_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-aud-mod7-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberaudio_mod7_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_mod7_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_mod7_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberaudio_mod7_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberaudio_mod7_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberaudio_mod7_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberaudio_mod7_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberaudio_mod7_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberaudio_mod7_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+						<!-- Mod 8 -->
+						<div class="cw-mod-row cw-aud-mod8-row"><div class="flex-row"><input class="flex-cell cw-mod-toggle" type="checkbox" name="attr_cyberaudio_show_mod8" value="1"/><div class="flex-cell cw-name"><select name="attr_cyberaudio_mod8_preset" data-i18n-title="cw_mod_name-u"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="bug_detector" data-i18n="cw_aud_mod_bug_detector-u">Bug Detector</option><option value="enhanced_balance_module" data-i18n="cw_aud_mod_enhanced_balance_module-u">Enhanced Balance Module</option><option value="enhanced_hearing_1" data-i18n="cw_aud_mod_enhanced_hearing_1-u">Enhanced Hearing I</option><option value="enhanced_hearing_2" data-i18n="cw_aud_mod_enhanced_hearing_2-u">Enhanced Hearing II</option><option value="level_dampener" data-i18n="cw_aud_mod_level_dampener-u">Level Dampener</option><option value="selective_filter" data-i18n="cw_aud_mod_selective_filter-u">Selective Filter</option><option value="targeted_eavesdropper" data-i18n="cw_aud_mod_targeted_eavesdropper-u">Targeted Eavesdropper</option><option value="ultrasonic_detection" data-i18n="cw_aud_mod_ultrasonic_detection-u">Ultrasonic Detection</option><option value="voice_stress_analyzer" data-i18n="cw_aud_mod_voice_stress_analyzer-u">Voice Stress Analyzer</option></select></div><div class="flex-cell cw-capacity-req"><span name="attr_cyberaudio_mod8_capreq_mdr"></span><input type="hidden" name="attr_cyberaudio_mod8_capreq" value="0"/></div><div class="flex-cell cw-mod-rarity"><span name="attr_cyberaudio_mod8_rarity_mdr"></span></div><div class="flex-cell cw-mod-cost"><span name="attr_cyberaudio_mod8_cost_mdr"></span></div></div></div>
+						<div class="cw-mod-detail-row cw-aud-mod8-detail"><div class="flex-row"><div class="flex-cell cw-mod-stat-bonus-label"><span data-i18n="cw_mod_stat_bonus-u">Stat Bonus</span></div><div class="flex-cell cw-mod-stat-bonus"><span name="attr_cyberaudio_mod8_stat_bonus_mdr"></span></div></div><div class="flex-row"><div class="flex-cell cw-effect-cell"><div class="sheet-skill-tooltip has-notes"><div class="sheet-skill-tooltip-preview"><span name="attr_cyberaudio_mod8_effect_preview_mdr"></span></div><div class="sheet-tooltip-bubble"><span name="attr_cyberaudio_mod8_effect_mdr"></span></div></div></div></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell cw-name" type="text" name="attr_cyberaudio_mod8_name_manual" data-i18n-placeholder="cw_mod_name-u" placeholder="Mod Name"/><input class="flex-cell cw-capacity-req" type="number" name="attr_cyberaudio_mod8_capreq_manual" placeholder="0" min="0"/><select class="flex-cell cw-mod-rarity" name="attr_cyberaudio_mod8_rarity_manual"><option value="" data-i18n="cw_rarity_none-u">— Select —</option><option value="common" data-i18n="cw_rarity_common-u">Common</option><option value="permit" data-i18n="cw_rarity_permit-u">Permit Required</option><option value="restricted" data-i18n="cw_rarity_restricted-u">Restricted</option><option value="illegal" data-i18n="cw_rarity_illegal-u">Illegal</option></select><input class="flex-cell cw-mod-cost" type="text" name="attr_cyberaudio_mod8_cost_manual" data-i18n-placeholder="cw_mod_cost-u" placeholder="Cost"/></div><div class="flex-row cw-mod-manual-row"><input class="flex-cell" type="text" name="attr_cyberaudio_mod8_stat_bonus_manual" data-i18n-placeholder="cw_mod_stat_bonus-u" placeholder="Stat Bonus"/></div><div class="flex-row cw-mod-manual-row"><textarea class="cw-effect-manual" name="attr_cyberaudio_mod8_effect_manual" data-i18n-placeholder="cw_mod_effect-u" placeholder="Mod Effect"></textarea></div></div>
+
+					</div>
+				</div>
+			</div>
+
+
+						<div class="sheet-colrow sheet-tech sheet-cybertech-collapsible">
 				<input type="checkbox" class="sheet-top-collapse" id="cybertech_collapse" name="attr_cybertech_collapse" value="1"/>
 
 				<h4 class="sheet-section-head-collapsible">

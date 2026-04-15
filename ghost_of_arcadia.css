@@ -10745,6 +10745,323 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 }
 
 
+/* ── New Cyberware Sections (Cosmeticware, Neuralware, Optics, Audio) ── */
+
+/* Repeating containers for cosmeticware and neuralware */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cosmeticware"] > .repitem,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_neuralware"] > .repitem {
+	border: solid 1px var(--cs_dc_color);
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin-bottom: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cosmeticware"],
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_neuralware"] {
+	background-color: var(--cs_bg_color);
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+/* Section header rows — same identity as ct-header-row */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-cos-header,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-neu-header,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-opt-header,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-aud-header,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-mod-header {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-cos-header .flex-cell,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-neu-header .flex-cell,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-opt-header .flex-cell,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-aud-header .flex-cell {
+	background-color: var(--cs_section_head_bg_color);
+	color: var(--cs_section_head_txt);
+	font-weight: bold;
+}
+
+/* Mod sub-header — slightly indented visual identity */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-mod-header {
+	margin-top: 6px;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-mod-header .flex-cell {
+	background-color: var(--cs_btn_active_bg);
+	color: var(--cs_btn_active_text);
+	font-weight: bold;
+}
+
+/* Header flex rows */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-cos-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-neu-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-opt-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-aud-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-mod-header .flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+/* Preset row — input identity */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-preset-row {
+	background-color: var(--cs_input_bg);
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-preset-row .flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-preset-row .flex-cell {
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+}
+
+/* Detail row (prerequisites, stat bonus) */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-detail-row {
+	background-color: var(--cs_ui_element_bg);
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-detail-row .flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+/* Effect row — tooltip wrapper */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-effect-row {
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-effect-row .flex-row {
+	align-items: stretch;
+	display: flex;
+	flex-direction: row;
+	gap: 0;
+	min-height: var(--cs_row_height);
+	padding: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-effect-cell {
+	min-height: var(--cs_row_height);
+	overflow: visible;
+	position: relative;
+}
+
+/* Tooltip scoping for cw effect cells */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-effect-cell .sheet-skill-tooltip {
+	align-items: stretch;
+	display: flex;
+	min-height: var(--cs_row_height);
+	min-width: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-effect-cell .sheet-skill-tooltip-preview {
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-effect-cell .sheet-skill-tooltip-preview span {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-effect-cell .sheet-tooltip-bubble {
+	white-space: normal;
+}
+
+/* Manual override rows */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-manual-row {
+	background-color: var(--cs_ui_element_bg);
+	border-top: solid 1px var(--cs_dc_color);
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-manual-row .flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-manual-row .flex-cell {
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech textarea.cw-effect-manual {
+	background-color: var(--cs_ui_element_bg);
+	border: solid 1px var(--cs_dc_color);
+	box-sizing: border-box;
+	color: var(--cs_txt_primary);
+	font-size: 90%;
+	height: 45px;
+	padding: 6px;
+	resize: vertical;
+	width: 100%;
+}
+
+/* Mod rows — visible trigger row */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-row {
+	background-color: var(--cs_ui_element_bg);
+	border-top: solid 1px var(--cs_input_border);
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-row .flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+/* Mod detail rows — hidden by default, shown when checkbox checked */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-detail-row {
+	background-color: var(--cs_ui_element_bg);
+	border-left: solid 3px var(--cs_input_border);
+	display: none;
+	flex-direction: column;
+	gap: 0;
+	padding-left: 6px;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-detail-row .flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 0;
+	height: var(--cs_row_height);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-manual-row {
+	border-top: solid 1px var(--cs_dc_color);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-manual-row .flex-cell {
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+}
+
+/* Show mod detail when its checkbox is checked.
+   Checkbox is inside .cw-mod-row; detail is a following sibling div.
+   Using general sibling combinator scoped to the section. */
+
+/* Optics mods */
+.ui-dialog .tab-content .charsheet .sheet-cw-optics input[name="attr_cyberoptics_show_mod1"]:checked ~ .cw-opt-mod1-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-optics input[name="attr_cyberoptics_show_mod2"]:checked ~ .cw-opt-mod2-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-optics input[name="attr_cyberoptics_show_mod3"]:checked ~ .cw-opt-mod3-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-optics input[name="attr_cyberoptics_show_mod4"]:checked ~ .cw-opt-mod4-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-optics input[name="attr_cyberoptics_show_mod5"]:checked ~ .cw-opt-mod5-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-optics input[name="attr_cyberoptics_show_mod6"]:checked ~ .cw-opt-mod6-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-optics input[name="attr_cyberoptics_show_mod7"]:checked ~ .cw-opt-mod7-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-optics input[name="attr_cyberoptics_show_mod8"]:checked ~ .cw-opt-mod8-detail {
+	display: flex;
+}
+
+/* Audio mods */
+.ui-dialog .tab-content .charsheet .sheet-cw-audio input[name="attr_cyberaudio_show_mod1"]:checked ~ .cw-aud-mod1-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-audio input[name="attr_cyberaudio_show_mod2"]:checked ~ .cw-aud-mod2-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-audio input[name="attr_cyberaudio_show_mod3"]:checked ~ .cw-aud-mod3-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-audio input[name="attr_cyberaudio_show_mod4"]:checked ~ .cw-aud-mod4-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-audio input[name="attr_cyberaudio_show_mod5"]:checked ~ .cw-aud-mod5-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-audio input[name="attr_cyberaudio_show_mod6"]:checked ~ .cw-aud-mod6-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-audio input[name="attr_cyberaudio_show_mod7"]:checked ~ .cw-aud-mod7-detail,
+.ui-dialog .tab-content .charsheet .sheet-cw-audio input[name="attr_cyberaudio_show_mod8"]:checked ~ .cw-aud-mod8-detail {
+	display: flex;
+}
+
+/* ── Column widths ──────────────────────────────────────────────────── */
+/* Main item columns — used in preset, header, detail, and manual rows */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-name            { flex: 0 0 220px; font-weight: bold; text-align: left; padding: 0 4px; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-vitality         { flex: 0 0 56px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-capacity         { flex: 0 0 60px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-capacity-used    { flex: 0 0 48px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-neu-slots        { flex: 0 0 48px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-rarity           { flex: 0 0 110px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-cost             { flex: 0 0 80px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-effect-cell      { flex: 1 1 0; min-width: 0; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-prerequisites-label { flex: 0 0 90px; color: var(--cs_txt_secondary); font-size: 90%; padding: 0 4px; text-align: right; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-prerequisites    { flex: 1 1 0; min-width: 0; text-align: left; padding: 0 4px; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-stat-bonus-label { flex: 0 0 80px; color: var(--cs_txt_secondary); font-size: 90%; padding: 0 4px; text-align: right; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-stat-bonus       { flex: 1 1 0; min-width: 0; text-align: left; padding: 0 4px; }
+
+/* Mod slot columns */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-toggle       { flex: 0 0 24px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-capacity-req     { flex: 0 0 56px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-rarity       { flex: 0 0 110px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-cost         { flex: 0 0 80px; text-align: center; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-stat-bonus-label { flex: 0 0 80px; color: var(--cs_txt_secondary); font-size: 90%; padding: 0 4px; text-align: right; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-stat-bonus   { flex: 1 1 0; min-width: 0; text-align: left; padding: 0 4px; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-requirements-label { flex: 0 0 80px; color: var(--cs_txt_secondary); font-size: 90%; padding: 0 4px; text-align: right; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-requirements { flex: 1 1 0; min-width: 0; text-align: left; padding: 0 4px; }
+
+/* ── Display span identity (readonly) ───────────────────────────────── */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-preset-row span[name],
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-detail-row span[name],
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-mod-detail-row span[name] {
+	display: block;
+	overflow: hidden;
+	padding: 0 4px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+
 /* ------------------------ Cybertech - End ----------------------------------------------------- */
 
 

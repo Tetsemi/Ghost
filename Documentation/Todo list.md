@@ -11,10 +11,6 @@ To-do:
 3. **Add Ancestry Traits to Summary Text** - Waiting on docs
 
 4. **Merge ancestryTalentDataMap into ancestryDataMap**
- 
-5. **Inventory - MEDTECH EQUIPMENT & Strain Compounds redo**
-
-6. **Inventory - PHARMACEUTICALS & STREET NARCOTICS redo**
 
 7. **Cyberware section**
 

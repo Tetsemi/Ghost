@@ -30817,6 +30817,306 @@
 				</div>
 			</div>
 
+			<!-- -------------------------- Medtech Equipment -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_medtech_collapse" name="attr_gear_medtech_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="medtech_source-u">Medtech Equipment</span>
+					<label class="sheet-top-collapse-hit" for="gear_medtech_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<div class="sheet-medtech-header">
+							<div class="flex-row">
+								<div class="flex-cell medtech-name"><span data-i18n="medtech_item_name-u">Item</span></div>
+								<div class="flex-cell medtech-rarity"><span data-i18n="rarity-u">R</span></div>
+								<div class="flex-cell medtech-uses"><span data-i18n="medtech_uses-u">Uses</span></div>
+								<div class="flex-cell medtech-used"><span data-i18n="medtech_used-u">Used</span></div>
+								<div class="flex-cell medtech-roll"><span data-i18n="medtech_roll_req-u">Roll Required</span></div>
+								<div class="flex-cell medtech-bonus"><span data-i18n="medtech_bonus-u">Bonus</span></div>
+								<div class="flex-cell medtech-other"><span data-i18n="medtech_other-u">Other</span></div>
+								<div class="flex-cell medtech-use"><span data-i18n="medtech_use-u">Use</span></div>
+								<div class="flex-cell medtech-equipped"><span data-i18n="medtech_equipped-u">E</span></div>
+								<div class="flex-cell medtech-effect"><span data-i18n="medtech_effect-u">Effect</span></div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_medtechgear">
+							<div>
+								<input type="hidden" name="attr_medtech_name_display_mdr" value=""/>
+								<input type="hidden" name="attr_medtech_skill_val_mdr" value="0"/>
+								<input type="hidden" name="attr_medtech_heal_roll_mdr" value="0"/>
+								<input type="hidden" name="attr_medtech_self_note_mdr" value=""/>
+								<input type="hidden" name="attr_medtech_other_note_mdr" value=""/>
+								<input type="hidden" name="attr_medtech_roll_toggle_mdr" value="none-self"/>
+								<div class="flex-row">
+									<div class="flex-cell medtech-name">
+										<select name="attr_medtech_preset" class="sheet-armor-preset-select" data-i18n-title="medtech_preset-u">
+											<option value="" data-i18n="medtech_select_placeholder-u">--- select item ---</option>
+											<option value="combat_medkit" data-i18n="gear_combat_medkit-u">Combat Medkit</option>
+											<option value="field_surgery_kit" data-i18n="gear_field_surgery_kit-u">Field Surgery Kit</option>
+											<option value="nanoclot_injector" data-i18n="gear_nanoclot_injector-u">NanoClot Injector</option>
+											<option value="quickpatch" data-i18n="gear_quickpatch-u">QuickPatch</option>
+											<option value="sterile_field_emitter" data-i18n="gear_sterile_field_emitter-u">Sterile Field Emitter</option>
+											<option value="stimpax_advanced" data-i18n="gear_stimpax_advanced-u">StimPax (Advanced)</option>
+											<option value="stimpax_basic" data-i18n="gear_stimpax_basic-u">StimPax (Basic)</option>
+											<option value="trauma_patch" data-i18n="gear_trauma_patch-u">Trauma Patch</option>
+										</select>
+									</div>
+									<div class="flex-cell medtech-rarity"><span name="attr_medtech_rarity_mdr"></span></div>
+									<div class="flex-cell medtech-uses"><span name="attr_medtech_uses_mdr"></span></div>
+									<div class="flex-cell medtech-used"><input type="number" name="attr_medtech_used_mdr" value="0" min="0"/></div>
+									<div class="flex-cell medtech-roll"><span name="attr_medtech_roll_req_mdr"></span></div>
+									<div class="flex-cell medtech-bonus"><span name="attr_medtech_bonus_mdr"></span></div>
+									<div class="flex-cell medtech-other"><input type="checkbox" name="attr_medtech_other" value="1"/></div>
+									<div class="flex-cell-wrapper sheet-val-roll-static medtech-use">
+										<input type="text" name="attr_medtech_use_label_mdr" class="sheet-readonly" value="Use" readonly/>
+										<div class="weapon-roll">
+											<input type="hidden" name="attr_medtech_roll_toggle_mdr" class="sheet-medtech-roll-toggle" value="none-self"/>
+											<button type="roll" class="new-roll sheet-medtech-roll-skill-self" name="roll_medtech_skill_self"
+												value="&{template:coc-1} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{medtech_skill_val_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{medtech_skill_val_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{medtech_skill_val_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{result=@{medtech_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-skill-other" name="roll_medtech_skill_other"
+												value="&{template:coc-1} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{medtech_skill_val_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{medtech_skill_val_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{medtech_skill_val_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{result=@{medtech_other_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-heal-self" name="roll_medtech_heal_self"
+												value="&{template:coc-dice-roll} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[@{medtech_heal_roll_mdr}]]}} {{result=@{medtech_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-heal-other" name="roll_medtech_heal_other"
+												value="&{template:coc-dice-roll} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[@{medtech_heal_roll_mdr}]]}} {{result=@{medtech_other_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-none-self" name="roll_medtech_none_self"
+												value="&{template:coc-dice-roll} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=@{medtech_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-none-other" name="roll_medtech_none_other"
+												value="&{template:coc-dice-roll} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=@{medtech_other_note_mdr}}}">
+											</button>
+										</div>
+									</div>
+									<div class="flex-cell medtech-equipped"><input type="checkbox" name="attr_medtech_equipped_checkbox" value="1"/></div>
+									<div class="flex-cell medtech-effect">
+										<div class="sheet-skill-tooltip has-notes">
+											<div class="medtech-effect-preview"><span name="attr_medtech_effect_preview_mdr"></span></div>
+											<div class="sheet-tooltip-bubble"><span name="attr_medtech_effect_mdr"></span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<hr class="sheet-armor-divider"/>
+						<div class="sheet-medtech-header">
+							<div class="flex-row">
+								<div class="flex-cell medtech-name"><span data-i18n="medtech_item_name-u">Item</span></div>
+								<div class="flex-cell medtech-rarity"><span data-i18n="rarity-u">R</span></div>
+								<div class="flex-cell medtech-uses"><span data-i18n="medtech_uses-u">Uses</span></div>
+								<div class="flex-cell medtech-used"><span data-i18n="medtech_used-u">Used</span></div>
+								<div class="flex-cell medtech-roll"><span data-i18n="medtech_roll_req-u">Roll Required</span></div>
+								<div class="flex-cell medtech-bonus"><span data-i18n="medtech_bonus-u">Bonus</span></div>
+								<div class="flex-cell medtech-other"><span data-i18n="medtech_other-u">Other</span></div>
+								<div class="flex-cell medtech-use"><span data-i18n="medtech_use-u">Use</span></div>
+								<div class="flex-cell medtech-equipped"><span data-i18n="medtech_equipped-u">E</span></div>
+								<div class="flex-cell medtech-effect"><span data-i18n="medtech_effect-u">Effect</span></div>
+							</div>
+						</div>
+						<fieldset class="repeating_medtechmanual">
+							<div>
+								<input type="hidden" name="attr_medtech_name_display_mdr" value=""/>
+								<input type="hidden" name="attr_medtech_skill_val_mdr" value="0"/>
+								<input type="hidden" name="attr_medtech_heal_roll_mdr" value="0"/>
+								<input type="hidden" name="attr_medtech_self_note_mdr" value=""/>
+								<input type="hidden" name="attr_medtech_other_note_mdr" value=""/>
+								<input type="hidden" name="attr_medtech_roll_toggle_mdr" value="none-self"/>
+								<div class="flex-row">
+									<div class="flex-cell medtech-name"><input type="text" name="attr_medtech_name_mdr" placeholder="Item Name" data-i18n-placeholder="medtech_item_name-u"/></div>
+									<div class="flex-cell medtech-rarity">
+										<select name="attr_medtech_rarity_mdr" class="sheet-armor-rarity-select">
+											<option value="C" data-i18n="rarity_abbrev_common-u">C</option>
+											<option value="I" data-i18n="rarity_abbrev_illegal-u">I</option>
+											<option value="P" data-i18n="rarity_abbrev_permit-u">P</option>
+											<option value="R" data-i18n="rarity_abbrev_restricted-u">R</option>
+										</select>
+									</div>
+									<div class="flex-cell medtech-uses"><input type="number" name="attr_medtech_uses_mdr" value="0" min="0"/></div>
+									<div class="flex-cell medtech-used"><input type="number" name="attr_medtech_used_mdr" value="0" min="0"/></div>
+									<div class="flex-cell medtech-roll"><input type="text" name="attr_medtech_roll_req_mdr" placeholder="—" data-i18n-placeholder="medtech_no_roll-u"/></div>
+									<div class="flex-cell medtech-bonus"><input type="text" name="attr_medtech_bonus_mdr" placeholder=""/></div>
+									<div class="flex-cell medtech-other"><input type="checkbox" name="attr_medtech_other" value="1"/></div>
+									<div class="flex-cell-wrapper sheet-val-roll-static medtech-use">
+										<input type="text" name="attr_medtech_use_label_mdr" class="sheet-readonly" value="Use" readonly/>
+										<div class="weapon-roll">
+											<input type="hidden" name="attr_medtech_roll_toggle_mdr" class="sheet-medtech-roll-toggle" value="none-self"/>
+											<button type="roll" class="new-roll sheet-medtech-roll-skill-self" name="roll_medtech_skill_self"
+												value="&{template:coc-1} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{medtech_skill_val_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{medtech_skill_val_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{medtech_skill_val_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{result=@{medtech_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-skill-other" name="roll_medtech_skill_other"
+												value="&{template:coc-1} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{medtech_skill_val_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{medtech_skill_val_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{medtech_skill_val_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{result=@{medtech_other_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-heal-self" name="roll_medtech_heal_self"
+												value="&{template:coc-dice-roll} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[@{medtech_heal_roll_mdr}]]}} {{result=@{medtech_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-heal-other" name="roll_medtech_heal_other"
+												value="&{template:coc-dice-roll} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[@{medtech_heal_roll_mdr}]]}} {{result=@{medtech_other_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-none-self" name="roll_medtech_none_self"
+												value="&{template:coc-dice-roll} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=@{medtech_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-medtech-roll-none-other" name="roll_medtech_none_other"
+												value="&{template:coc-dice-roll} {{name=@{medtech_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=@{medtech_other_note_mdr}}}">
+											</button>
+										</div>
+									</div>
+									<div class="flex-cell medtech-equipped"><input type="checkbox" name="attr_medtech_equipped_checkbox" value="1"/></div>
+									<div class="flex-cell medtech-effect"><input type="text" name="attr_medtech_effect_mdr" placeholder="Effect" data-i18n-placeholder="medtech_effect-u"/></div>
+								</div>
+							</div>
+						</fieldset>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- -------------------------- Strain Compounds -------------------------- -->
+			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
+				<input type="checkbox" class="sheet-top-collapse" id="gear_strain_collapse" name="attr_gear_strain_collapse" value="1"/>
+				<h4 class="sheet-section-head-collapsible">
+					<span data-i18n="strain_source-u">Strain Compounds</span>
+					<label class="sheet-top-collapse-hit" for="gear_strain_collapse" title="Toggle section"></label>
+				</h4>
+				<div class="sheet-section-body">
+					<div class="sheet-section">
+
+						<div class="sheet-strain-header">
+							<div class="flex-row">
+								<div class="flex-cell strain-name"><span data-i18n="strain_item_name-u">Item</span></div>
+								<div class="flex-cell strain-rarity"><span data-i18n="rarity-u">R</span></div>
+								<div class="flex-cell strain-restore"><span data-i18n="strain_restore-u">Restore</span></div>
+								<div class="flex-cell strain-daily"><span data-i18n="strain_daily_limit-u">Daily Limit</span></div>
+								<div class="flex-cell strain-used"><span data-i18n="strain_used_today-u">Used Today</span></div>
+								<div class="flex-cell strain-other"><span data-i18n="strain_other-u">Other</span></div>
+								<div class="flex-cell strain-use"><span data-i18n="strain_use-u">Use</span></div>
+								<div class="flex-cell strain-equipped"><span data-i18n="strain_equipped-u">E</span></div>
+								<div class="flex-cell strain-effect"><span data-i18n="strain_effect-u">Effect</span></div>
+							</div>
+						</div>
+
+						<fieldset class="repeating_straingear">
+							<div>
+								<input type="hidden" name="attr_strain_name_display_mdr" value=""/>
+								<input type="hidden" name="attr_strain_restore_mdr" value="0"/>
+								<input type="hidden" name="attr_strain_restore_display_mdr" value=""/>
+								<input type="hidden" name="attr_strain_self_note_mdr" value=""/>
+								<input type="hidden" name="attr_strain_other_note_mdr" value=""/>
+								<input type="hidden" name="attr_strain_roll_toggle_mdr" value="restore-self"/>
+								<div class="flex-row">
+									<div class="flex-cell strain-name">
+										<select name="attr_strain_preset" class="sheet-armor-preset-select" data-i18n-title="strain_preset-u">
+											<option value="" data-i18n="strain_select_placeholder-u">--- select compound ---</option>
+											<option value="adrenapatch" data-i18n="gear_adrenapatch-u">AdrenaPatch</option>
+											<option value="cryochill_iv" data-i18n="gear_cryochill_iv-u">CryoChill IV</option>
+											<option value="ghostline" data-i18n="gear_ghostline-u">Ghostline</option>
+											<option value="psytranz" data-i18n="gear_psytranz-u">PsyTranz</option>
+											<option value="shockbright" data-i18n="gear_shockbright-u">ShockBright</option>
+											<option value="voxstim" data-i18n="gear_voxstim-u">VoxStim</option>
+										</select>
+									</div>
+									<div class="flex-cell strain-rarity"><span name="attr_strain_rarity_mdr"></span></div>
+									<div class="flex-cell strain-restore"><span name="attr_strain_restore_display_mdr"></span></div>
+									<div class="flex-cell strain-daily"><span name="attr_strain_daily_mdr"></span></div>
+									<div class="flex-cell strain-used"><input type="number" name="attr_strain_used_mdr" value="0" min="0"/></div>
+									<div class="flex-cell strain-other"><input type="checkbox" name="attr_strain_other" value="1"/></div>
+									<div class="flex-cell-wrapper sheet-val-roll-static strain-use">
+										<input type="text" name="attr_strain_use_label_mdr" class="sheet-readonly" value="Use" readonly/>
+										<div class="weapon-roll">
+											<input type="hidden" name="attr_strain_roll_toggle_mdr" class="sheet-strain-roll-toggle" value="restore-self"/>
+											<button type="roll" class="new-roll sheet-strain-roll-restore-self" name="roll_strain_restore_self"
+												value="&{template:coc-dice-roll} {{name=@{strain_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[@{strain_restore_mdr}]]}} {{result=@{strain_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-strain-roll-restore-other" name="roll_strain_restore_other"
+												value="&{template:coc-dice-roll} {{name=@{strain_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[@{strain_restore_mdr}]]}} {{result=@{strain_other_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-strain-roll-none-self" name="roll_strain_none_self"
+												value="&{template:coc-dice-roll} {{name=@{strain_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=@{strain_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-strain-roll-none-other" name="roll_strain_none_other"
+												value="&{template:coc-dice-roll} {{name=@{strain_name_display_mdr}}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=@{strain_other_note_mdr}}}">
+											</button>
+										</div>
+									</div>
+									<div class="flex-cell strain-equipped"><input type="checkbox" name="attr_strain_equipped_checkbox" value="1"/></div>
+									<div class="flex-cell strain-effect">
+										<div class="sheet-skill-tooltip has-notes">
+											<div class="strain-effect-preview"><span name="attr_strain_effect_preview_mdr"></span></div>
+											<div class="sheet-tooltip-bubble"><span name="attr_strain_effect_mdr"></span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<hr class="sheet-armor-divider"/>
+						<div class="sheet-strain-header">
+							<div class="flex-row">
+								<div class="flex-cell strain-name"><span data-i18n="strain_item_name-u">Item</span></div>
+								<div class="flex-cell strain-rarity"><span data-i18n="rarity-u">R</span></div>
+								<div class="flex-cell strain-restore"><span data-i18n="strain_restore-u">Restore</span></div>
+								<div class="flex-cell strain-daily"><span data-i18n="strain_daily_limit-u">Daily Limit</span></div>
+								<div class="flex-cell strain-used"><span data-i18n="strain_used_today-u">Used Today</span></div>
+								<div class="flex-cell strain-other"><span data-i18n="strain_other-u">Other</span></div>
+								<div class="flex-cell strain-use"><span data-i18n="strain_use-u">Use</span></div>
+								<div class="flex-cell strain-equipped"><span data-i18n="strain_equipped-u">E</span></div>
+								<div class="flex-cell strain-effect"><span data-i18n="strain_effect-u">Effect</span></div>
+							</div>
+						</div>
+						<fieldset class="repeating_strainmanual">
+							<div>
+								<input type="hidden" name="attr_strain_name_display_mdr" value=""/>
+								<input type="hidden" name="attr_strain_self_note_mdr" value=""/>
+								<input type="hidden" name="attr_strain_other_note_mdr" value=""/>
+								<input type="hidden" name="attr_strain_roll_toggle_mdr" value="restore-self"/>
+								<div class="flex-row">
+									<div class="flex-cell strain-name"><input type="text" name="attr_strain_name_mdr" placeholder="Item Name" data-i18n-placeholder="strain_item_name-u"/></div>
+									<div class="flex-cell strain-rarity">
+										<select name="attr_strain_rarity_mdr" class="sheet-armor-rarity-select">
+											<option value="C" data-i18n="rarity_abbrev_common-u">C</option>
+											<option value="I" data-i18n="rarity_abbrev_illegal-u">I</option>
+											<option value="P" data-i18n="rarity_abbrev_permit-u">P</option>
+											<option value="R" data-i18n="rarity_abbrev_restricted-u">R</option>
+										</select>
+									</div>
+									<div class="flex-cell strain-restore"><input type="text" name="attr_strain_restore_mdr" placeholder="—" data-i18n-placeholder="strain_no_restore-u"/></div>
+									<div class="flex-cell strain-daily"><input type="number" name="attr_strain_daily_mdr" value="0" min="0"/></div>
+									<div class="flex-cell strain-used"><input type="number" name="attr_strain_used_mdr" value="0" min="0"/></div>
+									<div class="flex-cell strain-other"><input type="checkbox" name="attr_strain_other" value="1"/></div>
+									<div class="flex-cell-wrapper sheet-val-roll-static strain-use">
+										<input type="text" name="attr_strain_use_label_mdr" class="sheet-readonly" value="Use" readonly/>
+										<div class="weapon-roll">
+											<input type="hidden" name="attr_strain_roll_toggle_mdr" class="sheet-strain-roll-toggle" value="restore-self"/>
+											<button type="roll" class="new-roll sheet-strain-roll-restore-self" name="roll_strain_restore_self"
+												value="&{template:coc-dice-roll} {{name=@{strain_name_mdr}}} {{modifier=[[0]]}} {{diceroll=[[@{strain_restore_mdr}]]}} {{result=@{strain_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-strain-roll-restore-other" name="roll_strain_restore_other"
+												value="&{template:coc-dice-roll} {{name=@{strain_name_mdr}}} {{modifier=[[0]]}} {{diceroll=[[@{strain_restore_mdr}]]}} {{result=@{strain_other_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-strain-roll-none-self" name="roll_strain_none_self"
+												value="&{template:coc-dice-roll} {{name=@{strain_name_mdr}}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=@{strain_self_note_mdr}}}">
+											</button>
+											<button type="roll" class="new-roll sheet-strain-roll-none-other" name="roll_strain_none_other"
+												value="&{template:coc-dice-roll} {{name=@{strain_name_mdr}}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=@{strain_other_note_mdr}}}">
+											</button>
+										</div>
+									</div>
+									<div class="flex-cell strain-equipped"><input type="checkbox" name="attr_strain_equipped_checkbox" value="1"/></div>
+									<div class="flex-cell strain-effect"><input type="text" name="attr_strain_effect_mdr" placeholder="Effect" data-i18n-placeholder="strain_effect-u"/></div>
+								</div>
+							</div>
+						</fieldset>
+
+					</div>
+				</div>
+			</div>
+
 			<!-- -------------------------- General Utility Gear -------------------------- -->
 			<div class="sheet-colrow sheet-section sheet-gear-collapsible">
 				<input type="checkbox" class="sheet-top-collapse" id="gear_utility_collapse" name="attr_gear_utility_collapse" value="1"/>
@@ -60441,17 +60741,6 @@ const arcaneSuppliesDataMap = {
      ticks_saturation — true if counts against Healing Saturation
    ══════════════════════════════════════════════════════════════════ */
 const medtechDataMap = {
-	adrenapatch: {
-		name_key:          "gear_adrenapatch-u",
-		cost:              350,
-		rarity:            "permit",
-		uses:              1,
-		skill_bonus_pct:   0,
-		roll_required:     null,
-		ticks_saturation:  true,
-		effect_key:        "gear_adrenapatch_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "medtech_equipment-u" },
-	},
 	combat_medkit: {
 		name_key:          "gear_combat_medkit-u",
 		cost:              750,
@@ -60515,6 +60804,8 @@ const medtechDataMap = {
 		skill_bonus_pct:   0,
 		roll_required:     null,
 		ticks_saturation:  true,
+		heal_roll:         "1d8",
+		heals_strain:      false,
 		effect_key:        "gear_stimpax_advanced_effect-u",
 		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "medtech_equipment-u" },
 	},
@@ -60526,6 +60817,8 @@ const medtechDataMap = {
 		skill_bonus_pct:   0,
 		roll_required:     null,
 		ticks_saturation:  true,
+		heal_roll:         "1d6",
+		heals_strain:      false,
 		effect_key:        "gear_stimpax_basic_effect-u",
 		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "medtech_equipment-u" },
 	},
@@ -60551,6 +60844,16 @@ const medtechDataMap = {
      effect_key      — i18n key for mechanical effect summary
    ══════════════════════════════════════════════════════════════════ */
 const strainCompoundsDataMap = {
+	adrenapatch: {
+		name_key:       "gear_adrenapatch-u",
+		cost:           350,
+		rarity:         "permit",
+		strain_restore: "1d6+3",
+		daily_limit:    null,
+		dose_count:     1,
+		effect_key:     "gear_adrenapatch_effect-u",
+		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "strain_compounds-u" },
+	},
 	cryochill_iv: {
 		name_key:       "gear_cryochill_iv-u",
 		cost:           1500,
@@ -65619,6 +65922,8 @@ const initializeSheetOnOpen = (eventInfo) => {
 		initOmnidevicePresets();
 		initSurveillancePresets();
 		initArcanesupplyPresets();
+		initMedtechPresets();
+		initStrainPresets();
 		initUtilityPresets();
 		initSurvivalPresets();
 		initEntertainmentPresets();
@@ -66227,6 +66532,56 @@ const initArcanesupplyPresets = () => {
 				const preset = rows[p + "arcanesupply_preset"] || "";
 				if (preset) applyArcanesupplyPreset(p, preset);
 			});
+		});
+	});
+};
+
+/* ── Init on sheet open: re-apply medtech presets for all rows ──────── */
+const initMedtechPresets = () => {
+	getSectionIDs("repeating_medtechgear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.flatMap(id => [
+			`repeating_medtechgear_${id}_medtech_preset`,
+			`repeating_medtechgear_${id}_medtech_roll_toggle_mdr`,
+		]);
+		getAttrs(fetchKeys, (rows) => {
+			const updates = {};
+			ids.forEach(id => {
+				const p      = `repeating_medtechgear_${id}_`;
+				const preset = rows[p + "medtech_preset"] || "";
+				const toggle = rows[p + "medtech_roll_toggle_mdr"];
+				if (preset) {
+					applyMedtechPreset(p, preset);
+				} else if (toggle === undefined || toggle === "") {
+					updates[p + "medtech_roll_toggle_mdr"] = "none-self";
+				}
+			});
+			if (Object.keys(updates).length) setAttrs(updates);
+		});
+	});
+};
+
+/* ── Init on sheet open: re-apply strain compound presets for all rows ─ */
+const initStrainPresets = () => {
+	getSectionIDs("repeating_straingear", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.flatMap(id => [
+			`repeating_straingear_${id}_strain_preset`,
+			`repeating_straingear_${id}_strain_roll_toggle_mdr`,
+		]);
+		getAttrs(fetchKeys, (rows) => {
+			const updates = {};
+			ids.forEach(id => {
+				const p      = `repeating_straingear_${id}_`;
+				const preset = rows[p + "strain_preset"] || "";
+				const toggle = rows[p + "strain_roll_toggle_mdr"];
+				if (preset) {
+					applyStrainPreset(p, preset);
+				} else if (toggle === undefined || toggle === "") {
+					updates[p + "strain_roll_toggle_mdr"] = "restore-self";
+				}
+			});
+			if (Object.keys(updates).length) setAttrs(updates);
 		});
 	});
 };
@@ -69206,6 +69561,75 @@ function applyArcanesupplyPresetStatic(index, presetKey) {
 	});
 }
 
+/* ── Core: fill attrs for one medtech row (repeating) ───────────────── */
+function applyMedtechPreset(p, presetKey) {
+	const entry = presetKey ? medtechDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	const usesStr    = entry ? (entry.uses === null ? tr("medtech_no_roll-u") : String(entry.uses)) : " ";
+	const rollStr    = entry ? (entry.roll_required ? tr(skillDataMap[entry.roll_required]?.label || entry.roll_required) : tr("medtech_no_roll-u")) : " ";
+	const bonusNum   = entry ? (entry.skill_bonus_pct || 0) : 0;
+	const bonusStr   = bonusNum > 0 ? "+" + bonusNum + "%" : " ";
+	const skillAttr  = entry && entry.roll_required ? (skillDataMap[entry.roll_required]?.bonus || "") : "";
+	const rollType   = entry ? (entry.roll_required ? "skill" : (entry.heal_roll ? "heal" : "none")) : "none";
+	const ticksSat   = entry ? entry.ticks_saturation : false;
+	const selfNote   = entry ? (ticksSat ? tr("medtech_applied_self-u") : " ") : " ";
+	const otherNote  = entry ? tr("medtech_applied_other-u") : " ";
+	const effectFull = entry && entry.effect_key ? tr(entry.effect_key) : " ";
+	const baseAttrs  = {
+		[p + "medtech_rarity_mdr"]:         entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+		[p + "medtech_uses_mdr"]:            usesStr,
+		[p + "medtech_roll_req_mdr"]:        rollStr,
+		[p + "medtech_bonus_mdr"]:           bonusStr,
+		[p + "medtech_bonus_num_mdr"]:       String(bonusNum),
+		[p + "medtech_name_display_mdr"]:    entry ? tr(entry.name_key) : " ",
+		[p + "medtech_skill_attr_mdr"]:      skillAttr,
+		[p + "medtech_ticks_sat_mdr"]:       entry ? (ticksSat ? "1" : "0") : "0",
+		[p + "medtech_heal_roll_mdr"]:       entry ? (entry.heal_roll || "0") : "0",
+		[p + "medtech_heals_strain_mdr"]:    entry ? (entry.heals_strain ? "1" : "0") : "0",
+		[p + "medtech_roll_type_mdr"]:       rollType,
+		[p + "medtech_self_note_mdr"]:       selfNote,
+		[p + "medtech_other_note_mdr"]:      otherNote,
+		[p + "medtech_roll_toggle_mdr"]:     rollType + "-self",
+		[p + "medtech_effect_preview_mdr"]:  effectFull,
+		[p + "medtech_effect_mdr"]:          effectFull,
+	};
+	if (skillAttr) {
+		getAttrs([skillAttr], (sv) => {
+			const skillVal = parseInt(sv[skillAttr] || "0", 10) + bonusNum;
+			baseAttrs[p + "medtech_skill_val_mdr"] = String(Math.max(1, skillVal));
+			setAttrs(baseAttrs);
+		});
+	} else {
+		baseAttrs[p + "medtech_skill_val_mdr"] = "0";
+		setAttrs(baseAttrs);
+	}
+}
+
+/* ── Core: fill attrs for one strain compound row (repeating) ────────── */
+function applyStrainPreset(p, presetKey) {
+	const entry = presetKey ? strainCompoundsDataMap[presetKey] : null;
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	const restoreVal     = entry ? (entry.strain_restore !== null ? String(entry.strain_restore) : "0") : "0";
+	const restoreDisplay = entry ? (entry.strain_restore !== null ? String(entry.strain_restore) : tr("strain_no_restore-u")) : " ";
+	const dailyStr       = entry ? (entry.daily_limit !== null ? String(entry.daily_limit) : " ") : " ";
+	const rollType       = entry ? (entry.strain_restore !== null ? "restore" : "none") : "none";
+	const effectFull     = entry && entry.effect_key ? tr(entry.effect_key) : " ";
+	setAttrs({
+		[p + "strain_rarity_mdr"]:          entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
+		[p + "strain_restore_mdr"]:         restoreVal,
+		[p + "strain_restore_display_mdr"]: restoreDisplay,
+		[p + "strain_daily_mdr"]:           dailyStr,
+		[p + "strain_name_display_mdr"]:    entry ? tr(entry.name_key) : " ",
+		[p + "strain_has_restore_mdr"]:     entry ? (entry.strain_restore !== null ? "1" : "0") : "0",
+		[p + "strain_roll_type_mdr"]:       rollType,
+		[p + "strain_self_note_mdr"]:       entry ? tr("strain_applied_self-u") : " ",
+		[p + "strain_other_note_mdr"]:      entry ? tr("strain_applied_other-u") : " ",
+		[p + "strain_roll_toggle_mdr"]:     rollType + "-self",
+		[p + "strain_effect_preview_mdr"]:  effectFull,
+		[p + "strain_effect_mdr"]:          effectFull,
+	});
+}
+
 /* ── Core: fill attrs for one utility gear row (repeating) ──────────── */
 function applyUtilityPreset(p, presetKey) {
 	const entry = presetKey ? utilityGearDataMap[presetKey] : null;
@@ -69933,11 +70357,47 @@ on("clicked:strain_full_rest", () => {
     setAttrs({ clearing_tracker: "1" }, {}, () => {
       const longRestUses = getUsageLimitedTalentNames("long_rest");
       const updates = Object.fromEntries(longRestUses.map(name => [name, "0"]));
-      setAttrs(updates, {}, () => {
-        setAttrs({ clearing_tracker: "0" });
+      // Reset strain compound daily dose counters
+      getSectionIDs("repeating_straingear", (ids) => {
+        ids.forEach(id => {
+          updates[`repeating_straingear_${id}_strain_used_mdr`] = "0";
+        });
+        setAttrs(updates, {}, () => {
+          setAttrs({ clearing_tracker: "0" });
+        });
       });
     });
   });
+});
+
+/* ── Medtech other — updates combined roll toggle (mirrors impale pattern) ── */
+on("change:repeating_medtechgear:medtech_other change:repeating_medtechmanual:medtech_other", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:medtech_other]");
+	const srcAttr = eventInfo.sourceAttribute || "";
+	const section = srcAttr.startsWith("repeating_medtechmanual") ? "repeating_medtechmanual" : "repeating_medtechgear";
+	const m = srcAttr.match(/^repeating_medtech(?:gear|manual)_([^_]+)_/);
+	if (!m) return;
+	const p = `${section}_${m[1]}_`;
+	getAttrs([p + "medtech_other", p + "medtech_roll_type_mdr"], (v) => {
+		const isOther  = v[p + "medtech_other"] === "1";
+		const rollType = v[p + "medtech_roll_type_mdr"] || "none";
+		setAttrs({ [p + "medtech_roll_toggle_mdr"]: rollType + (isOther ? "-other" : "-self") });
+	});
+});
+
+/* ── Strain other — updates combined roll toggle ─────────────────────── */
+on("change:repeating_straingear:strain_other change:repeating_strainmanual:strain_other", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:strain_other]");
+	const srcAttr = eventInfo.sourceAttribute || "";
+	const section = srcAttr.startsWith("repeating_strainmanual") ? "repeating_strainmanual" : "repeating_straingear";
+	const m = srcAttr.match(/^repeating_strain(?:gear|manual)_([^_]+)_/);
+	if (!m) return;
+	const p = `${section}_${m[1]}_`;
+	getAttrs([p + "strain_other", p + "strain_roll_type_mdr"], (v) => {
+		const isOther  = v[p + "strain_other"] === "1";
+		const rollType = v[p + "strain_roll_type_mdr"] || "restore";
+		setAttrs({ [p + "strain_roll_toggle_mdr"]: rollType + (isOther ? "-other" : "-self") });
+	});
 });
 
 on("clicked:strain_brief_catch", () => {
@@ -70517,6 +70977,28 @@ on("change:arcanesupply2_preset", () => {
 	if (debug_on_trace) console.log("[change:arcanesupply2_preset]");
 	getAttrs(["arcanesupply2_preset"], (v) => {
 		applyArcanesupplyPresetStatic(2, v["arcanesupply2_preset"] || "");
+	});
+});
+
+/* ── Medtech preset select — repeating rows ─────────────────────────── */
+on("change:repeating_medtechgear:medtech_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_medtechgear:medtech_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_medtechgear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_medtechgear_${m[1]}_`;
+	getAttrs([p + "medtech_preset"], (v) => {
+		applyMedtechPreset(p, v[p + "medtech_preset"] || "");
+	});
+});
+
+/* ── Strain compound preset select — repeating rows ─────────────────── */
+on("change:repeating_straingear:strain_preset", (eventInfo) => {
+	if (debug_on_trace) console.log("[change:repeating_straingear:strain_preset]");
+	const m = (eventInfo.sourceAttribute || "").match(/^repeating_straingear_([^_]+)_/);
+	if (!m) return;
+	const p = `repeating_straingear_${m[1]}_`;
+	getAttrs([p + "strain_preset"], (v) => {
+		applyStrainPreset(p, v[p + "strain_preset"] || "");
 	});
 });
 

@@ -12,11 +12,6 @@ To-do:
 
 4. **Merge ancestryTalentDataMap into ancestryDataMap**
 
-7. **Cyberware section**
-
-		The mod slot capacity used should only increase if the checkbox is checked, otherwise it's not applied to the cyberware.
-		The mods themselves need tooltips
-
 Clean-up:
 
 Questions:

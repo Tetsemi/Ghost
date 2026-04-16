@@ -10749,6 +10749,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 
 /* Repeating containers for cosmeticware and neuralware */
 .ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cosmeticware"] > .repitem,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] > .repitem,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_internal"] > .repitem,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_neuralware"] > .repitem {
 	border: solid 1px var(--cs_dc_color);
@@ -10759,6 +10760,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 }
 
 .ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cosmeticware"],
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"],
 .ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_internal"],
 .ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_neuralware"] {
 	background-color: var(--cs_bg_color);
@@ -10770,6 +10772,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 /* Section header rows — same identity as ct-header-row */
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-cos-header,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-int-header,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-limb-header,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-neu-header,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-opt-header,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-aud-header,
@@ -10787,6 +10790,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-cos-header .flex-cell,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-int-header .flex-cell,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-limb-header .flex-cell,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-neu-header .flex-cell,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-opt-header .flex-cell,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-aud-header .flex-cell {
@@ -10809,6 +10813,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 /* Header flex rows */
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-cos-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-int-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-limb-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-neu-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-opt-header .flex-row,
 .ui-dialog .tab-content .charsheet .sheet-cybertech .sheet-cw-aud-header .flex-row,
@@ -11030,6 +11035,18 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	display: flex;
 }
 
+/* Cyberlimb mods — inside repeating_cyberlimbs repitem, checkbox and detail are siblings */
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] input[name="attr_limb_show_mod1"]:checked ~ .cw-limb-mod1-detail,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] input[name="attr_limb_show_mod2"]:checked ~ .cw-limb-mod2-detail,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] input[name="attr_limb_show_mod3"]:checked ~ .cw-limb-mod3-detail,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] input[name="attr_limb_show_mod4"]:checked ~ .cw-limb-mod4-detail,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] input[name="attr_limb_show_mod5"]:checked ~ .cw-limb-mod5-detail,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] input[name="attr_limb_show_mod6"]:checked ~ .cw-limb-mod6-detail,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] input[name="attr_limb_show_mod7"]:checked ~ .cw-limb-mod7-detail,
+.ui-dialog .tab-content .charsheet .sheet-cybertech .repcontainer[data-groupname="repeating_cyberlimbs"] input[name="attr_limb_show_mod8"]:checked ~ .cw-limb-mod8-detail {
+	display: flex;
+}
+
 /* ── Column widths ──────────────────────────────────────────────────── */
 /* Main item columns — used in preset, header, detail, and manual rows */
 .ui-dialog .tab-content .charsheet .sheet-cybertech .cw-name            { flex: 0 0 220px; font-weight: bold; text-align: left; padding: 0 4px; }
@@ -11037,6 +11054,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 .ui-dialog .tab-content .charsheet .sheet-cybertech .cw-capacity         { flex: 0 0 60px; text-align: center; }
 .ui-dialog .tab-content .charsheet .sheet-cybertech .cw-capacity-used    { flex: 0 0 48px; text-align: center; font-size: x-small; }
 .ui-dialog .tab-content .charsheet .sheet-cybertech .cw-hp-bonus         { flex: 0 0 60px; text-align: center; font-size: x-small; }
+.ui-dialog .tab-content .charsheet .sheet-cybertech .cw-limb-side        { flex: 0 0 70px; text-align: center; }
 .ui-dialog .tab-content .charsheet .sheet-cybertech .cw-neu-slots        { flex: 0 0 48px; text-align: center; font-size: x-small; }
 .ui-dialog .tab-content .charsheet .sheet-cybertech .cw-rarity           { flex: 0 0 110px; text-align: center; }
 .ui-dialog .tab-content .charsheet .sheet-cybertech .cw-cost             { flex: 0 0 80px; text-align: center; }

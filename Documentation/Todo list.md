@@ -12,8 +12,11 @@ To-do:
 
 4. **Merge ancestryTalentDataMap into ancestryDataMap**
 
+5. **Add Lifestyle tab**
+
 Clean-up:
 
 Questions:
 
 Wishlist:
+

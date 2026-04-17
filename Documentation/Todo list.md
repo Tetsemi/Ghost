@@ -12,7 +12,7 @@ To-do:
 
 4. **Merge ancestryTalentDataMap into ancestryDataMap**
 
-5. **Add Lifestyle tab**
+5. **If Safehouse is split any ongoing cost needs to be split as well**
 
 Clean-up:
 

@@ -94,6 +94,9 @@ entertainmentDataMap
 vehiclesDataMap
 vehicleWeaponsDataMap
 vehicleModsDataMap
+districtDataMap
+lifestyleFeatureDataMap
+lifestyleTierDataMap
 ```
 
 ### DataMap Entry Structure
@@ -141,6 +144,54 @@ When any entry is added or modified, check:
 ### DataMap `skill` field
 
 When a DataMap entry references a skill (e.g. `vehiclesDataMap`), the `skill` field must hold the **exact key from `skillDataMap`** — e.g. `"drive_auto"`, `"pilot_aircraft"`. The apply function then looks up `skillDataMap[data.skill].bonus` for the sheet attribute name and `skillDataMap[data.skill].label` for the display name. Never store the sheet attribute name (e.g. `"drive_auto_mdr"`) directly in the DataMap `skill` field — that bypasses the skillDataMap and introduces a mapping layer that doesn't need to exist.
+
+### Lifestyle DataMap Schemas
+
+**`districtDataMap`** — one entry per district. Keys are snake_case district names.
+
+```javascript
+district_key: {
+	label:    "district_key-u",           // display name translation key
+	zone:     "zone_id",                  // zone group: "arcology" | "ashfall" | "bay" | "core" | "fringe" | "midline" | "periphery" | "prestige"
+	tiers:    [0, 1, 2, 0, 0, 0],        // [squatter, low, middle, high, luxury, enclave] — 0=unavailable, 1=available, 2=restricted
+	cost_mod: -15,                        // integer %; 0=Base, 25=+25%, -30=-30%
+	dt_mod:   -5,                         // integer DT modifier
+	note_key: "district_key_note-u",      // restriction note — "" if none
+	source: { doc: "lifestyles-u", version: "1.260416", date: "2026-04-16", section: "lifestyles-u" },
+},
+```
+
+`tiers` index map: `[0]`=squatter, `[1]`=low, `[2]`=middle, `[3]`=high, `[4]`=luxury, `[5]`=enclave. Value `2` = restricted (note shown, player can still select, GM adjudicates). `cost_mod` applies as `floor(base_cost × (1 + cost_mod / 100))`. Entries with no note use `note_key: ""`.
+
+**`lifestyleTierDataMap`** — one entry per tier. Keys: `high`, `low`, `luxury`, `middle`, `protected_enclave`, `squatter`, `streets`.
+
+```javascript
+tier_key: {
+	label:       "lifestyle_tier_key-u",
+	dt_modifier: 5,                       // base DT modifier for this tier
+	slots: { apartment: 3, compound: 5, residence: 4, studio: null },  // null = size unavailable at this tier
+	cost:  { apartment: 20000, compound: 50000, residence: 35000, studio: null },
+	source: { doc: "lifestyles-u", version: "1.260416", date: "2026-04-16", section: "lifestyles-u" },
+},
+```
+
+`null` in `slots` or `cost` means that size option does not exist at that tier (e.g. studio is `null` at High+). Sheet workers must guard against null combos and default size to `apartment` when tier changes to one with no studio.
+
+**`lifestyleFeatureDataMap`** — covers both Features and Amenities. Keys are snake_case feature names.
+
+```javascript
+feature_key: {
+	label:    "lifestyle_feature_key-u",
+	desc_key: "lifestyle_feature_key_desc-u",
+	type:     "feature",                  // "feature" | "amenity"
+	slots:    1,                          // feature slot cost (2 for Medical Bay, Panic Room, Advanced Training)
+	cost:     6000,                       // outright purchase cost in Cr
+	upkeep:   0,                          // monthly upkeep in Cr; 0 = no upkeep
+	source: { doc: "lifestyles-u", version: "1.260416", date: "2026-04-16", section: "lifestyles-u" },
+},
+```
+
+`upkeep: 0` means no monthly cost — do not display an upkeep field for those entries. `creature_quarters` upkeep is stored as 275 (midpoint of 150–400 Cr range); the range is documented in `_desc-u`. `automated_kitchen` upkeep (400 Cr/mo) applies at Middle tier and below only; the waiver rule is in `_desc-u` — the DataMap always stores 400.
 
 ---
 
@@ -556,3 +607,12 @@ Credits (Cr) — primary economy unit.
 - **Check the Todo_list.txt before starting any new section.** A feature may already be stubbed, partially implemented, or blocked on a dependency.
 - **Cross-reference PDFs (First_2_sections_GoA.pdf, Gear_and_Loadout.pdf) and .docx updates** before writing any new DataMap data. The docx files (especially `Weapons_2026-03-27.docx`) may contain more recent rule text than the PDF, and `source: {}` must reflect the actual document used.
 - **The sheet width is fixed at 840px** (`--cs_sheet_width`). Do not design sections that exceed this or assume a wider viewport.
+
+### Lifestyle DataMaps
+- **`districtDataMap` `tiers` array is index-ordered `[squatter, low, middle, high, luxury, enclave]`.** Value `0` = unavailable, `1` = available, `2` = restricted (GM adjudicates — do not block selection, show note text). Never reorder the array.
+- **`cost_mod` is an integer percentage point offset, not a multiplier.** Apply as `Math.floor(base_cost * (1 + cost_mod / 100))`. A `cost_mod` of `0` means Base (no change); `25` means +25%; `-30` means −30%.
+- **`lifestyleTierDataMap` `slots` and `cost` use `null` for unavailable size/tier combos** (e.g. studio at High+). Sheet workers must guard: if `tier.cost[size] === null`, reset size to `apartment` before computing cost.
+- **`lifestyleFeatureDataMap` covers both `"feature"` and `"amenity"` types.** Only `"feature"` entries contribute to the mechanical slots-used count for the DT modifier summary. Both types consume a slot from the residence's slot total.
+- **The zone → district cascading select pattern mirrors the weapon skill-class → preset pattern.** A hidden `input[type="hidden" name="attr_lifestyle_zone"]` is the CSS controller. `on("change:lifestyle_zone_select")` writes to it. Eight `input[value="ZONE"] ~ .district-zone-ZONE { display: block }` CSS rules then show the correct district `<select>`. Inside `repeating_safehouses`, scope with `.repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="ZONE"] ~ .district-zone-ZONE`.
+- **Safehouse split ÷ N:** `safehouse_cost_mdr = Math.floor(finalCost / split)`. Guard divide-by-zero — treat split ≤ 0 as 1.
+- **`districtDataMap` `note_key: ""` means no note** — the apply function must guard `data.note_key ? tr(data.note_key) : " "` and write `" "` (not `""`) to clear the display span.

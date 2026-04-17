@@ -2789,6 +2789,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="gear"] ~ .sheet-gear,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="inventory"] ~ .sheet-inventory,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="backstory"] ~ .sheet-backstory,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[value="lifestyle"] ~ .sheet-lifestyle,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="npcs"] ~ .sheet-npcs,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="vehicles"] ~ .sheet-vehicles {
 	display: block;
@@ -2836,6 +2837,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="gear"] ~ .sheet-tab-buttons button[name="act_gear"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="inventory"] ~ .sheet-tab-buttons button[name="act_inventory"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="backstory"] ~ .sheet-tab-buttons button[name="act_backstory"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[value="lifestyle"] ~ .sheet-tab-buttons button[name="act_lifestyle"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="npcs"] ~ .sheet-tab-buttons button[name="act_npcs"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="vehicles"] ~ .sheet-tab-buttons button[name="act_vehicles"] {
 	background-color: var(--cs_btn_active_bg);
@@ -11095,7 +11097,6 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 
 /* ------------------------ Cybertech - End ----------------------------------------------------- */
 
-
 /* ----------------- Gear and Inventory - Start ---------------------- */
 /* Fieldset */
 .ui-dialog .tab-content .charsheet fieldset.repeating_arcanesupplymanual,
@@ -11508,6 +11509,279 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	box-sizing: border-box;
 }
 /* ------------------------------------ Backstory - End ---------------------------- */
+
+
+/* ------------------- Lifestyle - Start ----------------------------- */
+
+/* Fieldset resets */
+.ui-dialog .tab-content .charsheet fieldset.repeating_lifestylefeatures,
+.ui-dialog .tab-content .charsheet fieldset.repeating_lifestyleamenities,
+.ui-dialog .tab-content .charsheet fieldset.repeating_safehouses {
+	margin: 0; padding: 0; border: none;
+}
+
+/* Collapsible section toggle */
+.ui-dialog .tab-content .charsheet .sheet-lifestyle .sheet-lifestyle-collapsible input.sheet-top-collapse:checked
+~ h4 .sheet-top-collapse-hit::after { content: "+"; }
+
+.ui-dialog .tab-content .charsheet .sheet-lifestyle .sheet-lifestyle-collapsible input.sheet-top-collapse:checked
+~ .sheet-section-body { display: none; }
+
+/* Primary residence grid layout */
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-primary-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	padding: 4px 0;
+}
+
+.ui-dialog .tab-content .charsheet .ls-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	min-height: var(--cs_row_height);
+	padding: 2px 0;
+	gap: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .ls-label-cell {
+	flex: 0 0 100px;
+	font-size: 0.85em;
+	color: var(--cs_txt_secondary);
+	padding: 0 4px;
+}
+
+.ui-dialog .tab-content .charsheet .ls-label-note {
+	flex: 0 0 40px;
+}
+
+.ui-dialog .tab-content .charsheet .ls-control-cell {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.ui-dialog .tab-content .charsheet .ls-control-cell select,
+.ui-dialog .tab-content .charsheet .ls-control-cell input[type="text"] {
+	width: 100%;
+	height: var(--cs_row_height);
+	box-sizing: border-box;
+	background-color: var(--cs_input_bg);
+	color: var(--cs_input_text);
+	border: 1px solid var(--cs_input_border);
+	padding: 0 4px;
+	font-size: 0.9em;
+}
+
+.ui-dialog .tab-content .charsheet .ls-district-cell {
+	position: relative;
+	min-height: var(--cs_row_height);
+}
+
+.ui-dialog .tab-content .charsheet .ls-district-cell select {
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .ls-note-cell {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.ui-dialog .tab-content .charsheet .ls-note-text {
+	font-size: 0.8em;
+	font-style: italic;
+	color: var(--cs_txt_secondary);
+	padding: 0 4px;
+}
+
+.ui-dialog .tab-content .charsheet .ls-computed-val {
+	font-size: 0.95em;
+	color: var(--cs_txt_primary);
+	padding: 0 2px;
+}
+
+.ui-dialog .tab-content .charsheet .ls-unit {
+	font-size: 0.8em;
+	color: var(--cs_txt_secondary);
+	padding: 0 2px;
+}
+
+/* District group show/hide — primary residence */
+.ui-dialog .tab-content .charsheet .lifestyle-district-group {
+	display: none;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_zone"][value="arcology"]  ~ .ls-district-cell .district-zone-arcology,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_zone"][value="ashfall"]   ~ .ls-district-cell .district-zone-ashfall,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_zone"][value="bay"]       ~ .ls-district-cell .district-zone-bay,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_zone"][value="core"]      ~ .ls-district-cell .district-zone-core,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_zone"][value="fringe"]    ~ .ls-district-cell .district-zone-fringe,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_zone"][value="midline"]   ~ .ls-district-cell .district-zone-midline,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_zone"][value="periphery"] ~ .ls-district-cell .district-zone-periphery,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_zone"][value="prestige"]  ~ .ls-district-cell .district-zone-prestige {
+	display: block;
+}
+
+/* District group show/hide — safehouses (scoped to repcontainer) */
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] .lifestyle-district-group {
+	display: none;
+	width: 100%;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="arcology"]  ~ .ls-safehouse-district-cell .district-zone-arcology,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="ashfall"]   ~ .ls-safehouse-district-cell .district-zone-ashfall,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="bay"]       ~ .ls-safehouse-district-cell .district-zone-bay,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="core"]      ~ .ls-safehouse-district-cell .district-zone-core,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="fringe"]    ~ .ls-safehouse-district-cell .district-zone-fringe,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="midline"]   ~ .ls-safehouse-district-cell .district-zone-midline,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="periphery"] ~ .ls-safehouse-district-cell .district-zone-periphery,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="prestige"]  ~ .ls-safehouse-district-cell .district-zone-prestige {
+	display: block;
+}
+
+/* Security Add-Ons column sizing */
+.ui-dialog .tab-content .charsheet .ls-sec-check  { flex: 0 0 24px; }
+.ui-dialog .tab-content .charsheet .ls-sec-cost   { flex: 0 0 80px; text-align: right; font-size: 0.85em; color: var(--cs_txt_secondary); }
+.ui-dialog .tab-content .charsheet .ls-sec-dt     { flex: 0 0 40px; text-align: center; font-size: 0.85em; }
+.ui-dialog .tab-content .charsheet .ls-sec-name   { flex: 1 1 auto; }
+
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-sec-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-sec-row .flex-row {
+	display: flex; flex-wrap: nowrap; flex-direction: row;
+	align-items: center; width: 100%; height: var(--cs_row_height);
+	padding: 0; margin: 0; gap: 0;
+}
+
+/* Safehouse column sizing */
+.ui-dialog .tab-content .charsheet .ls-cost     { flex: 0 0 72px; text-align: right; }
+.ui-dialog .tab-content .charsheet .ls-district { flex: 0 0 140px; min-width: 0; position: relative; }
+.ui-dialog .tab-content .charsheet .ls-name     { flex: 1 1 130px; min-width: 0; }
+.ui-dialog .tab-content .charsheet .ls-size     { flex: 0 0 60px; }
+.ui-dialog .tab-content .charsheet .ls-slots    { flex: 0 0 44px; text-align: center; }
+.ui-dialog .tab-content .charsheet .ls-split    { flex: 0 0 32px; text-align: center; }
+.ui-dialog .tab-content .charsheet .ls-tier     { flex: 0 0 80px; }
+.ui-dialog .tab-content .charsheet .ls-zone     { flex: 0 0 80px; }
+
+.ui-dialog .tab-content .charsheet .ls-safehouse-district-cell {
+	position: relative;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-safehouse-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-safehouse-row .flex-row,
+.ui-dialog .tab-content .charsheet .repeating_safehouses .flex-row {
+	display: flex; flex-wrap: nowrap; flex-direction: row;
+	align-items: center; width: 100%; height: var(--cs_row_height);
+	padding: 0; margin: 0; gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .ls-safehouse-note-row {
+	padding: 2px 4px 2px 12px;
+	min-height: 14px;
+}
+
+/* Features column sizing */
+.ui-dialog .tab-content .charsheet .lf-cost     { flex: 0 0 72px; text-align: right; }
+.ui-dialog .tab-content .charsheet .lf-installed { flex: 0 0 24px; text-align: center; }
+.ui-dialog .tab-content .charsheet .lf-preset   { flex: 1 1 180px; min-width: 0; }
+.ui-dialog .tab-content .charsheet .lf-skill    { flex: 0 0 160px; min-width: 0; position: relative; }
+.ui-dialog .tab-content .charsheet .lf-slots    { flex: 0 0 40px; text-align: center; }
+.ui-dialog .tab-content .charsheet .lf-upkeep   { flex: 0 0 72px; text-align: right; }
+
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-feature-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-feature-row .flex-row,
+.ui-dialog .tab-content .charsheet .repeating_lifestylefeatures .flex-row {
+	display: flex; flex-wrap: nowrap; flex-direction: row;
+	align-items: center; width: 100%; height: var(--cs_row_height);
+	padding: 0; margin: 0; gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-amenity-header .flex-row,
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-amenity-row .flex-row,
+.ui-dialog .tab-content .charsheet .repeating_lifestyleamenities .flex-row {
+	display: flex; flex-wrap: nowrap; flex-direction: row;
+	align-items: center; width: 100%; height: var(--cs_row_height);
+	padding: 0; margin: 0; gap: 0;
+}
+
+/* Training facility skill double-select — hidden by default */
+.ui-dialog .tab-content .charsheet .lf-training-select-block { display: none; }
+.ui-dialog .tab-content .charsheet .lf-skill-group-block     { display: none; }
+.ui-dialog .tab-content .charsheet .lf-skill-display         { display: none; }
+
+/* Show training block when preset is a training_facility key */
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_lifestylefeatures"] input[name="attr_lf_preset"][value="training_facility_basic"]    ~ .lf-skill .lf-training-select-block,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_lifestylefeatures"] input[name="attr_lf_preset"][value="training_facility_standard"] ~ .lf-skill .lf-training-select-block,
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_lifestylefeatures"] input[name="attr_lf_preset"][value="training_facility_advanced"] ~ .lf-skill .lf-training-select-block {
+	display: block;
+}
+
+/* Show correct skill group within the training block */
+.ui-dialog .tab-content .charsheet input[name="attr_lf_training_skill_group_ctrl"][value="combat"]    ~ .lf-training-select-block .skill-group-combat,
+.ui-dialog .tab-content .charsheet input[name="attr_lf_training_skill_group_ctrl"][value="knowledge"] ~ .lf-training-select-block .skill-group-knowledge,
+.ui-dialog .tab-content .charsheet input[name="attr_lf_training_skill_group_ctrl"][value="magic"]     ~ .lf-training-select-block .skill-group-magic,
+.ui-dialog .tab-content .charsheet input[name="attr_lf_training_skill_group_ctrl"][value="physical"]  ~ .lf-training-select-block .skill-group-physical,
+.ui-dialog .tab-content .charsheet input[name="attr_lf_training_skill_group_ctrl"][value="social"]    ~ .lf-training-select-block .skill-group-social,
+.ui-dialog .tab-content .charsheet input[name="attr_lf_training_skill_group_ctrl"][value="techcyber"] ~ .lf-training-select-block .skill-group-techcyber {
+	display: block;
+}
+
+/* Summary grid */
+.ui-dialog .tab-content .charsheet .sheet-lifestyle-summary-grid {
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+	padding: 8px;
+	flex-wrap: wrap;
+}
+
+.ui-dialog .tab-content .charsheet .ls-summary-block {
+	flex: 1 1 200px;
+	min-width: 180px;
+	border: 1px solid var(--cs_input_border);
+	border-radius: var(--cs_border_radius_md, 4px);
+	padding: 6px 8px;
+}
+
+.ui-dialog .tab-content .charsheet .ls-summary-head {
+	font-weight: bold;
+	font-size: 0.85em;
+	color: var(--cs_txt_secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: 4px;
+	padding-bottom: 4px;
+	border-bottom: 1px solid var(--cs_input_border);
+}
+
+.ui-dialog .tab-content .charsheet .ls-summary-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	min-height: 20px;
+	font-size: 0.9em;
+}
+
+.ui-dialog .tab-content .charsheet .ls-summary-label {
+	color: var(--cs_txt_secondary);
+}
+
+.ui-dialog .tab-content .charsheet .ls-summary-val {
+	font-size: 0.95em;
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet .ls-summary-total {
+	border-top: 1px solid var(--cs_input_border);
+	margin-top: 4px;
+	padding-top: 4px;
+}
+
+.ui-dialog .tab-content .charsheet .ls-total-val {
+	font-weight: bold;
+	color: var(--cs_dc_color);
+}
+
+/* ------------------- Lifestyle - End ----------------------------- */
 
 /* ----------------------- Perks and Flaws - Start ------------------------------- */
 

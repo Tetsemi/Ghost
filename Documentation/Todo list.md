@@ -11,27 +11,12 @@ To-do:
 3. **Add Ancestry Traits to Summary Text** - Waiting on docs
 
 4. **Merge ancestryTalentDataMap into ancestryDataMap**
- 
-5. **Inventory - MEDTECH EQUIPMENT & Strain Compounds redo**
 
-6. **Inventory - PHARMACEUTICALS & STREET NARCOTICS redo**
-
-7. **Cyberware section**
-
-8. **Spells Section - Add spells like weapon section, via skill select then spell select**
-		**Alteration**
-		**Elemental**
-		**Enchantment**
-		**Illusion**
-		**Necromancy**
-		**Restoration**
-		**Summoning**
-		**Technomancy**
-		**Warding**
-		**Universal**
+5. **Add Lifestyle tab**
 
 Clean-up:
 
 Questions:
 
 Wishlist:
+

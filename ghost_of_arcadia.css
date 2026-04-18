@@ -11547,28 +11547,22 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 .ui-dialog .tab-content .charsheet .ls-label-cell {
 	flex: 0 0 60px;
 	font-size: 0.85em;
+	font-weight: bold;
 	color: var(--cs_txt_primary);
 	padding: 0 4px;
 	white-space: nowrap;
 }
 
 .ui-dialog .tab-content .charsheet .ls-label-note {
-	flex: 0 0 40px;
+	flex: 0 0 60px;
+	font-weight: bold;
 }
 
 /* Tier: fixed narrow — enough for longest option "Protected Enclave" */
-.ui-dialog .tab-content .charsheet .ls-tier-cell { flex: 0 0 140px; }
-
-/* Zone: fixed mid-width */
-.ui-dialog .tab-content .charsheet .ls-zone-cell { flex: 0 0 150px; }
-
-/* District: grows to fill remaining space */
-.ui-dialog .tab-content .charsheet .ls-district-cell {
-	flex: 1 1 auto;
-	min-width: 0;
-	position: relative;
-	min-height: var(--cs_row_height);
-}
+.ui-dialog .tab-content .charsheet .ls-tier-cell,
+.ui-dialog .tab-content .charsheet .ls-size-cell, 
+.ui-dialog .tab-content .charsheet .ls-zone-cell, 
+.ui-dialog .tab-content .charsheet .ls-district-cell { flex: 0 0 140px; }
 
 .ui-dialog .tab-content .charsheet .ls-control-cell {
 	min-width: 0;
@@ -11593,26 +11587,42 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 .ui-dialog .tab-content .charsheet .ls-note-cell {
 	flex: 1 1 auto;
 	min-width: 0;
+	display: flex;
+	align-items: center;
+	background-color: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	height: var(--cs_row_height);
+	box-sizing: border-box;
 }
 
 .ui-dialog .tab-content .charsheet .ls-note-text {
 	font-size: 1em;
 	font-style: italic;
-	color: var(--cs_txt_primary);
-	opacity: 0.75;
+	color: var(--cs_input_text);
 	padding: 0 4px;
 }
 
 .ui-dialog .tab-content .charsheet .ls-computed-val {
 	font-size: 0.95em;
-	color: var(--cs_txt_primary);
-	background-color: var(--cs_input-bg);
+	color: var(--cs_input_text);
 	padding: 0 2px;
+}
+
+.ui-dialog .tab-content .charsheet .ls-display-cell {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--cs_input_bg);
+	border: 1px solid var(--cs_input_border);
+	height: var(--cs_row_height);
+	box-sizing: border-box;
+	padding: 0 4px;
+	width: 140px;
 }
 
 .ui-dialog .tab-content .charsheet .ls-unit {
 	font-size: 0.8em;
-	color: var(--cs_txt_primary);
+	color: var(--cs_input_text);
 	opacity: 0.7;
 	padding: 0 2px;
 }
@@ -11672,7 +11682,7 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 .ui-dialog .tab-content .charsheet .ls-cost     { flex: 0 0 72px;  text-align: right; }
 .ui-dialog .tab-content .charsheet .ls-district { flex: 0 0 175px; min-width: 0; position: relative; }
 .ui-dialog .tab-content .charsheet .ls-name     { flex: 0 0 200px; min-width: 0; }
-.ui-dialog .tab-content .charsheet .ls-size     { flex: 0 0 140px; }
+.ui-dialog .tab-content .charsheet .ls-size     { flex: 0 0 90px; }
 .ui-dialog .tab-content .charsheet .ls-slots    { flex: 0 0 44px;  text-align: center; }
 .ui-dialog .tab-content .charsheet .ls-split    { flex: 0 0 32px;  text-align: center; }
 .ui-dialog .tab-content .charsheet .ls-tier     { flex: 0 0 80px; }
@@ -11938,54 +11948,58 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	display: none;
 }
 
-/* Show safehouse loc-box-units based on attr_lf_loc_display / attr_la_loc_display value */
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s1"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s1"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1 { display: flex; }
+/* Show loc-box-units using the GLOBAL safehouse count attr.
+   The count input is a sibling of the Features/Amenities collapsible wrappers;
+   repcontainers are descendants of those wrappers, so we use a general descendant
+   selector (space) after ~, not a direct child combinator. */
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s1"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s1"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s1 { display: flex; }
 
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s2"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s2"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s2"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s2"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2 { display: flex; }
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s2"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s2"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s2"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s2"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s2 { display: flex; }
 
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s3"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s3"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s3"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s3"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s3"] ~ .loc-box-track-row .loc-box-unit.loc-box-s3,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s3"] ~ .loc-box-track-row .loc-box-unit.loc-box-s3 { display: flex; }
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s3"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s3"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s3"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s3"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s3"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s3,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s3"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s3 { display: flex; }
 
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s4"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s4"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s4"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s4"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s4"] ~ .loc-box-track-row .loc-box-unit.loc-box-s3,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s4"] ~ .loc-box-track-row .loc-box-unit.loc-box-s3,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s4"] ~ .loc-box-track-row .loc-box-unit.loc-box-s4,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s4"] ~ .loc-box-track-row .loc-box-unit.loc-box-s4 { display: flex; }
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s4"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s4"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s4"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s4"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s4"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s3,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s4"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s3,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s4"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s4,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s4"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s4 { display: flex; }
 
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s3,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s3,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s4,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s4,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s5,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s5"] ~ .loc-box-track-row .loc-box-unit.loc-box-s5 { display: flex; }
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s3,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s3,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s4,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s4,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s5,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s5"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s5 { display: flex; }
 
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s1,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s2,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s3,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s3,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s4,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s4,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s5,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s5,
-.ui-dialog .tab-content .charsheet input[name="attr_lf_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s6,
-.ui-dialog .tab-content .charsheet input[name="attr_la_loc_display"][value="s6"] ~ .loc-box-track-row .loc-box-unit.loc-box-s6 { display: flex; }
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s1,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s2,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s3,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s3,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s4,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s4,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s5,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s5,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestylefeatures"] .loc-box-unit.loc-box-s6,
+.ui-dialog .tab-content .charsheet input[name="attr_lifestyle_safehouse_count_mdr"][value="s6"] ~ .sheet-colrow .repcontainer[data-groupname="repeating_lifestyleamenities"] .loc-box-unit.loc-box-s6 { display: flex; }
+
 
 /* Show safehouse boxes based on attr_lf_loc_display / attr_la_loc_display value */
 /* s1 = 1 safehouse, s2 = 2, ... s6 = 6 */

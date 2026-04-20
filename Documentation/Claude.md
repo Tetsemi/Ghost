@@ -94,6 +94,9 @@ entertainmentDataMap
 vehiclesDataMap
 vehicleWeaponsDataMap
 vehicleModsDataMap
+districtDataMap
+lifestyleFeatureDataMap
+lifestyleTierDataMap
 ```
 
 ### DataMap Entry Structure
@@ -141,6 +144,54 @@ When any entry is added or modified, check:
 ### DataMap `skill` field
 
 When a DataMap entry references a skill (e.g. `vehiclesDataMap`), the `skill` field must hold the **exact key from `skillDataMap`** — e.g. `"drive_auto"`, `"pilot_aircraft"`. The apply function then looks up `skillDataMap[data.skill].bonus` for the sheet attribute name and `skillDataMap[data.skill].label` for the display name. Never store the sheet attribute name (e.g. `"drive_auto_mdr"`) directly in the DataMap `skill` field — that bypasses the skillDataMap and introduces a mapping layer that doesn't need to exist.
+
+### Lifestyle DataMap Schemas
+
+**`districtDataMap`** — one entry per district. Keys are snake_case district names.
+
+```javascript
+district_key: {
+	label:    "district_key-u",           // display name translation key
+	zone:     "zone_id",                  // zone group: "arcology" | "ashfall" | "bay" | "core" | "fringe" | "midline" | "periphery" | "prestige"
+	tiers:    [0, 1, 2, 0, 0, 0],        // [squatter, low, middle, high, luxury, enclave] — 0=unavailable, 1=available, 2=restricted
+	cost_mod: -15,                        // integer %; 0=Base, 25=+25%, -30=-30%
+	dt_mod:   -5,                         // integer DT modifier
+	note_key: "district_key_note-u",      // restriction note — "" if none
+	source: { doc: "lifestyles-u", version: "1.260416", date: "2026-04-16", section: "lifestyles-u" },
+},
+```
+
+`tiers` index map: `[0]`=squatter, `[1]`=low, `[2]`=middle, `[3]`=high, `[4]`=luxury, `[5]`=enclave. Value `2` = restricted (note shown, player can still select, GM adjudicates). `cost_mod` applies as `floor(base_cost × (1 + cost_mod / 100))`. Entries with no note use `note_key: ""`.
+
+**`lifestyleTierDataMap`** — one entry per tier. Keys: `high`, `low`, `luxury`, `middle`, `protected_enclave`, `squatter`, `streets`.
+
+```javascript
+tier_key: {
+	label:       "lifestyle_tier_key-u",
+	dt_modifier: 5,                       // base DT modifier for this tier
+	slots: { apartment: 3, compound: 5, residence: 4, studio: null },  // null = size unavailable at this tier
+	cost:  { apartment: 20000, compound: 50000, residence: 35000, studio: null },
+	source: { doc: "lifestyles-u", version: "1.260416", date: "2026-04-16", section: "lifestyles-u" },
+},
+```
+
+`null` in `slots` or `cost` means that size option does not exist at that tier (e.g. studio is `null` at High+). Sheet workers must guard against null combos and default size to `apartment` when tier changes to one with no studio.
+
+**`lifestyleFeatureDataMap`** — covers both Features and Amenities. Keys are snake_case feature names.
+
+```javascript
+feature_key: {
+	label:    "lifestyle_feature_key-u",
+	desc_key: "lifestyle_feature_key_desc-u",
+	type:     "feature",                  // "feature" | "amenity"
+	slots:    1,                          // feature slot cost (2 for Medical Bay, Panic Room, Advanced Training)
+	cost:     6000,                       // outright purchase cost in Cr
+	upkeep:   0,                          // monthly upkeep in Cr; 0 = no upkeep
+	source: { doc: "lifestyles-u", version: "1.260416", date: "2026-04-16", section: "lifestyles-u" },
+},
+```
+
+`upkeep: 0` means no monthly cost — do not display an upkeep field for those entries. `creature_quarters` upkeep is stored as 275 (midpoint of 150–400 Cr range); the range is documented in `_desc-u`. `automated_kitchen` upkeep (400 Cr/mo) applies at Middle tier and below only; the waiver rule is in `_desc-u` — the DataMap always stores 400.
 
 ---
 
@@ -556,3 +607,27 @@ Credits (Cr) — primary economy unit.
 - **Check the Todo_list.txt before starting any new section.** A feature may already be stubbed, partially implemented, or blocked on a dependency.
 - **Cross-reference PDFs (First_2_sections_GoA.pdf, Gear_and_Loadout.pdf) and .docx updates** before writing any new DataMap data. The docx files (especially `Weapons_2026-03-27.docx`) may contain more recent rule text than the PDF, and `source: {}` must reflect the actual document used.
 - **The sheet width is fixed at 840px** (`--cs_sheet_width`). Do not design sections that exceed this or assume a wider viewport.
+
+### Lifestyle DataMaps
+- **`districtDataMap` `tiers` array is index-ordered `[squatter, low, middle, high, luxury, enclave]`.** Value `0` = unavailable, `1` = available, `2` = restricted (GM adjudicates — do not block selection, show note text). Never reorder the array.
+- **`cost_mod` is an integer percentage point offset, not a multiplier.** Apply as `Math.floor(base_cost * (1 + cost_mod / 100))`. A `cost_mod` of `0` means Base (no change); `25` means +25%; `-30` means −30%.
+- **`lifestyleTierDataMap` `slots` and `cost` use `null` for unavailable size/tier combos** (e.g. studio at High+). Sheet workers must guard: if `tier.cost[size] === null`, reset size to `apartment` before computing cost.
+- **`lifestyleFeatureDataMap` covers both `"feature"` and `"amenity"` types.** Only `"feature"` entries contribute to the mechanical slots-used count for the DT modifier summary. Both types consume a slot from the residence's slot total.
+- **The zone → district cascading select pattern mirrors the weapon skill-class → preset pattern.** A hidden `input[type="hidden" name="attr_lifestyle_zone"]` is the CSS controller. `on("change:lifestyle_zone_select")` writes to it. Eight `input[value="ZONE"] ~ .district-zone-ZONE { display: block }` CSS rules then show the correct district `<select>`. Inside `repeating_safehouses`, scope with `.repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="ZONE"] ~ .district-zone-ZONE`.
+- **Safehouse split ÷ N:** `safehouse_cost_mdr = Math.floor(finalCost / split)`. Guard divide-by-zero — treat split ≤ 0 as 1.
+- **`districtDataMap` `note_key: ""` means no note** — the apply function must guard `data.note_key ? tr(data.note_key) : " "` and write `" "` (not `""`) to clear the display span.
+- **`applyDistrictPreset` must call `applyLifestyleTierPreset` (not `recalcLifestyleTotals`) for the primary residence.** `recalcLifestyleTotals` reads the already-computed `lifestyle_final_cost_mdr` to sum the monthly budget — it does not recompute the cost itself. When district changes, the district's `cost_mod` must be applied to tier+size cost, which only `applyLifestyleTierPreset` does. Calling `recalcLifestyleTotals` directly after a district change skips the cost recalculation entirely.
+- **Zone change must clear all district attrs before recomputing cost.** When zone changes, the zone watcher must write `""` to all eight zone-specific district selects, `""` to `lifestyle_district_mdr`, `" "` to the note display, and `0` to `lifestyle_dt_district_mdr` — all in a single `setAttrs` call. Only after that call's callback should `applyLifestyleTierPreset` run. Without this, the old district's `cost_mod` persists in the attr store and the cost doesn't reset.
+
+### Roll20 CSS Sibling Selector Rules
+- **CSS `~` only selects siblings with the exact same parent.** The `~` selector cannot cross a parent boundary. If `input[name="attr_X"]` is inside `div.A` and the target element is inside `div.B`, the selector fails even if both divs share a grandparent. Before writing any `~` based CSS rule, confirm in the HTML that the controller input and the target container share the **same immediate parent element**.
+- **Roll20 renders `<fieldset class="repeating_X">` as `<div class="repcontainer" data-groupname="repeating_X">` in the live DOM.** Never use `.repeating_X` as a CSS class selector — it does not exist in the rendered DOM. Always use `.repcontainer[data-groupname="repeating_X"]` to target a repeating section container. Selectors using `.repeating_X` match nothing and silently fail.
+- **A CSS controller input that must reach multiple repeating sections must be placed as a sibling of all their parent wrappers, not inside any one of them.** If Features and Amenities are each in their own `sheet-section-body` (separate collapsible sections), a hidden input inside the Features `sheet-section-body` can never reach the Amenities repcontainer via `~`. Place the controller input at the level above both collapsibles so it is a true sibling of both `sheet-colrow` wrappers. The CSS can then use `input ~ .sheet-colrow .repcontainer[data-groupname="repeating_X"] .target-class` to reach into each section as a descendant.
+- **When a CSS controller hidden input is placed outside a repeating section, use `~ .sheet-colrow .repcontainer[data-groupname="X"]` (descendant) not `~ .repcontainer[data-groupname="X"]` (direct sibling).** The repcontainer is nested inside the collapsible wrapper div, so a direct `~` sibling selector won't find it. The full path must traverse the intermediate wrapper.
+
+### Roll20 Repeating Section Row Add Behavior
+- **Roll20 does NOT fire `change:` events reliably for all attrs on new row add.** Specifically: checkboxes (`value="1"`) initialise unchecked with no stored value — no change fires. Selects with an empty first option (`value=""`) fire `change:` with value `""` but a new row with no stored value is effectively a no-op change in some Roll20 versions. **Do not rely on any per-row watcher to initialise display state for a brand new row.**
+- **Roll20 attribute attr names are always lowercase.** Roll20 normalises all attribute names to lowercase in its attr store and when firing `change:` events. Using uppercase letters in attr names (e.g. `attr_lf_loc_R`) causes silent failures: `getAttrs(["lf_loc_R"])` returns `""` because the stored key is `"lf_loc_r"`. Always use fully lowercase attr names throughout HTML, CSS, and JS.
+- **Roll20 checkboxes must use `value="1"` for reliable change event firing.** Non-standard values (e.g. `value="R"`, `value="2"`) may not fire `change:` events consistently in repeating sections. If you need a checkbox that stores a location identifier, use `value="1"` with a unique attr name per location (e.g. `attr_lf_loc_r`, `attr_lf_loc_1`) and enforce exclusivity in JS. Never rely on same-name checkboxes with different values for radio-like behaviour — Roll20's handling of this pattern is unreliable.
+- **The most reliable add-row proxy for a repeating section is `change:SECTION:ATTR` where ATTR is a select that initialises to a non-empty value, OR using a completely CSS-driven approach that requires no per-row JS write at all.** The CSS-driven approach (single global attr + CSS `~` reaching into the repcontainer) is always preferable for display state that depends on a count or state outside the row itself, because it requires no JS at row-add time and cannot race with Roll20's row initialisation sequence.
+- **`getSectionIDs` called from a `change:` watcher that fires on row add may not include the new row's ID.** Roll20 fires `change:` before the new row's ID is fully registered in the section. Any code path that calls `getSectionIDs("repeating_X")` in response to a row-add event and iterates the result to write per-row attrs will silently miss the new row. The fix is either (a) write directly to the triggering row using its prefix extracted from `eventInfo.sourceAttribute`, or (b) eliminate the per-row write entirely using a global CSS controller.

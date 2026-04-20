@@ -12,6 +12,8 @@ To-do:
 
 4. **Merge ancestryTalentDataMap into ancestryDataMap**
 
+5. Gear section - Add quantity instead of multiple adds
+
 Clean-up:
 
 Questions:

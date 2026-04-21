@@ -15,7 +15,7 @@ To-do:
 5. Gear section - Add quantity instead of multiple adds
 
 6. Lifestyle
-	Add ability to split Primary Residence including Security, Features, and Amenities
+	Add ability to split Primary Residence including Security, Features, and Amenities (Split is 75/person not 
 	Add ability to apply Security to Safehouses (non-exclusive)
 
 Clean-up:

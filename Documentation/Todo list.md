@@ -10,10 +10,6 @@ To-do:
 
 3. **Add Ancestry Traits to Summary Text** - Waiting on docs
 
-4. **Merge ancestryTalentDataMap into ancestryDataMap**
-
-5. Gear section - Add quantity instead of multiple adds
-
 Clean-up:
 
 Questions:

@@ -10,6 +10,8 @@ To-do:
 
 3. **Add Ancestry Traits to Summary Text** - Waiting on docs
 
+4. **Remove Contact levels from Backstory Level Select, only Allies should have levels. If Contract is chosen, hide select and just file in ----- for field.**
+
 Clean-up:
 
 Questions:

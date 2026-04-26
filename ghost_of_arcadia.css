@@ -1948,6 +1948,87 @@
 }
 /* -------------------------------------------------- */
 
+/* ---- Pharmaceuticals & Street Narcotics section flex-cell column sizing ---- */
+.ui-dialog .tab-content .charsheet .pharma-name     { width: 210px; flex: 0 0 210px; }
+.ui-dialog .tab-content .charsheet .pharma-rarity   { width: 24px;  flex: 0 0 24px;  text-align: center; }
+.ui-dialog .tab-content .charsheet .pharma-equipped { width: 24px;  flex: 0 0 24px;  text-align: center; }
+.ui-dialog .tab-content .charsheet .pharma-qty      { width: 40px;  flex: 0 0 40px;  text-align: center; }
+.ui-dialog .tab-content .charsheet .pharma-use      { width: 40px;  flex: 0 0 40px;  text-align: center; position: relative; }
+.ui-dialog .tab-content .charsheet .pharma-effect   { width: 475px; flex: 0 0 475px; position: relative; overflow: visible; }
+
+/* Pharma rows — standard fixed height */
+.ui-dialog .tab-content .charsheet .sheet-pharma-header .flex-row,
+.ui-dialog .tab-content .charsheet .repeating_pharmagear .flex-row,
+.ui-dialog .tab-content .charsheet .repeating_pharmamanual .flex-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: var(--cs_row_height);
+	padding: 0;
+	margin: 0;
+	gap: 0;
+}
+
+/* Fieldset reset */
+.ui-dialog .tab-content .charsheet fieldset.repeating_pharmagear,
+.ui-dialog .tab-content .charsheet fieldset.repeating_pharmamanual {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+/* val-roll-static button fills the Use cell */
+.ui-dialog .tab-content .charsheet .repeating_pharmagear .sheet-val-roll-static button[type="roll"].new-roll {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* Tooltip wrapper fills the effect cell */
+.ui-dialog .tab-content .charsheet .pharma-effect .sheet-skill-tooltip {
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	align-items: stretch;
+	min-height: var(--cs_row_height);
+}
+
+/* Preview div — single line, truncated with ellipsis */
+.ui-dialog .tab-content .charsheet .pharma-effect .pharma-effect-preview {
+	flex: 1 1 0;
+	min-width: 0;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 100%;
+	padding: 0 4px;
+	color: var(--cs_txt_primary);
+	cursor: help;
+}
+.ui-dialog .tab-content .charsheet .pharma-effect .pharma-effect-preview span {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* Full text in tooltip bubble */
+.ui-dialog .tab-content .charsheet .pharma-effect .sheet-tooltip-bubble {
+	min-width: 280px;
+	max-width: 420px;
+	left: auto;
+	right: 0;
+	white-space: normal;
+	color: var(--cs_txt_primary);
+}
+/* -------------------------------------------------- */
+
 /* ---- General Utility Gear section flex-cell column sizing ---- */
 .ui-dialog .tab-content .charsheet .utility-name     { width: 190px; }
 .ui-dialog .tab-content .charsheet .utility-rarity   { width: 24px; text-align: center; }

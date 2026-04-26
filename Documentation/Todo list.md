@@ -10,6 +10,8 @@ To-do:
 
 3. **Add Ancestry Traits to Summary Text** - Waiting on docs
 
+4. **Fix Ancestry CSS Themes**
+
 Clean-up:
 
 Questions:

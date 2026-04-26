@@ -11479,13 +11479,8 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	width: 12%;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-contact-head-progress {
-	width: 3%;
-	text-align: center;
-}
-
 .ui-dialog .tab-content .charsheet .sheet-contact-head-description {
-	width: 57%;
+	width: 60%;
 }
 
 .ui-dialog .tab-content .charsheet .sheet-section-full .repcontainer .repitem {
@@ -11534,16 +11529,19 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	appearance: none;
 }
 
-.ui-dialog .tab-content .charsheet .sheet-contact-progress {
-	width: 3%;
+.ui-dialog .tab-content .charsheet .sheet-contact-level-label {
+	width: 12%;
 	height: 25px;
-	border: solid 1px var(--cs_input_border);
 	box-sizing: border-box;
-	text-align: center;
+	display: none;
+	align-items: center;
+	padding-left: 4px;
+	font-size: var(--cs_font_size_sm);
+	color: var(--cs_txt_secondary);
 }
 
 .ui-dialog .tab-content .charsheet .sheet-contact-description {
-	width: 57%;
+	width: 60%;
 	height: 25px;
 	resize: vertical;
 	background-color: var(--cs_input_bg);
@@ -11552,6 +11550,21 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 	box-sizing: border-box;
 	text-align: start;
 	align-items: center;
+}
+
+/* Contact type controller: hide level select and show label for contact rows */
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_contacts"] input[name="attr_contact_type_ctrl"][value="contact"] ~ .sheet-contact-level-label {
+	display: flex;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_contacts"] input[name="attr_contact_type_ctrl"][value="contact"] ~ .sheet-contact-level {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_contacts"] input[name="attr_contact_type_ctrl"][value="contact"] ~ .sheet-contact-cost {
+	pointer-events: none;
+	opacity: 0.4;
+	background-color: var(--cs_input_bg);
 }
 
 /* Starting Contact Rows (Background + Career) */

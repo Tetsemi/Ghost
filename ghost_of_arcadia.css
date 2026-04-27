@@ -6,17 +6,69 @@
 */
 
 :root {
-	/* Character Sheet Theme - Active Aliases (default: dark) */
+	/* ============================================================ */
+	/* SECTION 1: Layout & Sizing Constants                         */
+	/* These never change regardless of theme.                      */
+	/* ============================================================ */
+		--cs_border_radius_sm:      4px;       /* talent rows, skill option pills, tab buttons */
+		--cs_border_radius_md:      6px;       /* tier containers, perk/flaw groups, backstory sections */
+		--cs_font_family:           "Arial", sans-serif;
+		--cs_opacity_dim:           0.6;       /* available/unchosen talent state */
+		--cs_opacity_disabled:      0.3;       /* not-enabled talent state */
+		--cs_opacity_locked:        0.4;       /* prereq-locked talent state */
+		--cs_row_height:            24px;      /* standard flex row height */
+		--cs_row_height_sm:         20px;      /* small row height -- skill inputs */
+		--cs_row_height_xs:         23px;      /* extra-small row height -- contact/vehicle fields */
+		--cs_sheet_width:           840px;
+		--cs_talent_list_gap:       0.6rem;    /* spacing between rows within a talent list container */
+		--cs_talent_padding:        0.5rem;    /* internal padding on talent row cards */
+		--cs_talent_row_gap:        0.5rem;    /* spacing between talent row cards */
+		--cs_transition_btn:        background-color 0.2s ease;
+
+	/* ============================================================ */
+	/* SECTION 2: System Color Constants                            */
+	/* Raw named palette values consumed by non-ancestry themes.    */
+	/* ============================================================ */
+
+	/* --- Theme - Light --- */
+		--cs_sys_light_bg_color:        #f8f8f8;    /* Background */            /* Off-white canvas & clean parchment */
+		--cs_sys_light_ac_color:        #ebebeb;    /* Accent - Complimentary *//* Sidebar neutral & panel gray */
+		--cs_sys_light_dc_color:        #ce0000;    /* Accent - Contrast */     /* Roll20 Die-Red & critical alert */
+		--cs_sys_light_txt_color_dark:  #333333;    /* Text - Dark */           /* Hard lead & printed manual ink */
+		--cs_sys_light_txt_color_light: #ffffff;    /* Text - Light */          /* Pure paper-white & highlight */
+
+	/* --- Theme - Dark --- */
+		--cs_sys_dark_bg:               #1f1f1f;    /* Background */            /* Matte obsidian & night-mode void */
+		--cs_sys_dark_comp:             #2b2b2b;    /* Accent - Complimentary *//* Charcoal paneling & UI layering */
+		--cs_sys_dark_contrast:         #ff3b3b;    /* Accent - Contrast */     /* Kinetic laser-red & health-bar pulse */
+		--cs_sys_dark_txt_color_dark:   #121212;    /* Text - Dark */           /* Deepest soot & shadow-text */
+		--cs_sys_dark_txt_color_light:  #e0e0e0;    /* Text - Light */          /* Cool mercury & digital readout */
+
+	/* --- Theme - Cyberpunk --- */
+		--cs_sys_cyberpunk_bg_color:        #0a0b0d;    /* Background */            /* Deep Arcade: The blackest dark of the Dust Levels */
+		--cs_sys_cyberpunk_ac_color:        #1a1f24;    /* Accent - Complimentary *//* Ferrocrete Slick: Polished corporate facades & slate */
+		--cs_sys_cyberpunk_dc_color:        #fcee0a;    /* Accent - Contrast */     /* Volatile Gold: The neon glow of alerts & ad-feeds */
+		--cs_sys_cyberpunk_txt_color_dark:  #465362;    /* Text - Dark */           /* Static Shadow: The ghost of breath & old wire data */
+		--cs_sys_cyberpunk_txt_color_light: #00f2ff;    /* Text - Light */          /* Ice-Breaker Blue: Arc-tech casing & holographic light */
+
+	/* ============================================================ */
+	/* SECTION 3: Default Theme Variable Assignments (Dark)         */
+	/* These are the fallback values before any theme controller    */
+	/* is applied. Non-ancestry theme overrides live in the         */
+	/* Theme Switcher block below.                                  */
+	/* ============================================================ */
+
+	/* Character Sheet Theme Aliases */
 		--cs_bg_color:              var(--cs_sys_dark_bg);
 		--cs_section_bg_color:      #b0b0b0;
 		--cs_section_head_bg_color: #b0b0b0;
-		--cs_section_head_txt:      var(--cs_txt_accent);      /* text on section_head_bg — dark default: light bg needs dark text */
+		--cs_section_head_txt:      var(--cs_txt_accent);      /* text on section_head_bg -- dark default: light bg needs dark text */
 		--cs_txt_primary:           var(--cs_sys_dark_txt_color_light);
 		--cs_txt_accent:            var(--cs_sys_dark_txt_color_dark);
 		--cs_dc_color:              var(--cs_sys_dark_contrast);
-		--cs_overlay_bg: 			color-mix(in srgb, var(--cs_bg_color) 60%, transparent);
+		--cs_overlay_bg:            color-mix(in srgb, var(--cs_bg_color) 60%, transparent);
 
-	/* UI Element Aliases (default: dark) */
+	/* UI Element Aliases */
 		--cs_input_bg:              #2a2a2a;
 		--cs_input_border:          #555;
 		--cs_input_text:            #e0e0e0;
@@ -26,173 +78,143 @@
 		--cs_ui_element_bg:         #333;
 		--cs_separator_bg:          #2b2b2b;
 		--cs_divider_color:         #555;
-		--cs_btn_roll_bg:			var(--cs_ui_element_bg);
-		--cs_btn_roll_text:			var(--cs_txt_primary);
-		--cs_btn_roll_hover_bg:		var(--cs_txt_primary);
-		--cs_btn_roll_hover_text:	var(--cs_ui_element_bg);
+		--cs_btn_roll_bg:           var(--cs_ui_element_bg);
+		--cs_btn_roll_text:         var(--cs_txt_primary);
+		--cs_btn_roll_hover_bg:     var(--cs_txt_primary);
+		--cs_btn_roll_hover_text:   var(--cs_ui_element_bg);
 		--cs_btn_danger_bg:         #aa3333;
 		--cs_btn_danger_text:       #ffffff;
 		--cs_btn_info_bg:           #3366aa;
-		--cs_btn_info_hover_bg:     #4477bb;   /* lighter blue — add/edit hover brightens from info_bg */
+		--cs_btn_info_hover_bg:     #4477bb;   /* lighter blue -- add/edit hover brightens from info_bg */
 		--cs_btn_info_hover_text:   #ffffff;
 		--cs_btn_info_text:         #ffffff;
-		--cs_btn_move_hover_bg:		#90ee90;   /* light green — drag/move hover */
-		--cs_btn_move_hover_text:	#1a3a1a;   /* dark green text for contrast */
+		--cs_btn_move_hover_bg:     #90ee90;   /* light green -- drag/move hover */
+		--cs_btn_move_hover_text:   #1a3a1a;   /* dark green text for contrast */
 		--cs_btn_inactive_bg:       #444;
 		--cs_btn_inactive_text:     #ffffff;
 		--cs_btn_active_bg:         #222;
 		--cs_btn_active_text:       #ffffff;
 		--cs_btn_alert_bg:          #000000;
 		--cs_btn_alert_text:        #ffff00;
-		--cs_btn_disabled_bg:       var(--cs_disabled_bg);   /* disabled roll button — maps to standard disabled bg */
-		--cs_btn_session_bg:        #2255aa;   /* blue — session cadence, mirrors state_strained identity */
+		--cs_btn_disabled_bg:       var(--cs_disabled_bg);   /* disabled roll button -- maps to standard disabled bg */
+		--cs_btn_session_bg:        #2255aa;   /* blue -- session cadence, mirrors state_strained identity */
 		--cs_btn_session_text:      #ffffff;
 		--cs_state_bloodied_bg:     #cc4444;
 		--cs_state_bloodied_text:   #ffffff;
 		--cs_state_strained_bg:     #2255aa;
 		--cs_state_strained_text:   #ffffff;
-		--cs_budget_neutral_bg:     rgba(173, 216, 230, 0.70);   /* light blue — unspent */
-		--cs_budget_ok_bg:          rgba(144, 238, 144, 0.60);   /* light green — within budget */
-		--cs_budget_over_bg:        rgba(255, 182, 193, 0.70);   /* light red — over budget */
-		--cs_budget_text:			#1a1a1a;   /* near-black — readable on all three light pastel backgrounds */
-		--cs_health_danger_color:	#cc2200;   /* red — health meter label */
-		--cs_strain_color:			#1a6abf;   /* blue — strain meter label */
+		--cs_budget_neutral_bg:     rgba(173, 216, 230, 0.70);   /* light blue -- unspent */
+		--cs_budget_ok_bg:          rgba(144, 238, 144, 0.60);   /* light green -- within budget */
+		--cs_budget_over_bg:        rgba(255, 182, 193, 0.70);   /* light red -- over budget */
+		--cs_budget_text:           #1a1a1a;   /* near-black -- readable on all three light pastel backgrounds */
+		--cs_health_danger_color:   #cc2200;   /* red -- health meter label */
+		--cs_strain_color:          #1a6abf;   /* blue -- strain meter label */
 		--cs_tooltip_bg:            var(--cs_txt_accent);    /* tooltip bubble interior fill */
 		--cs_tooltip_border:        var(--cs_dc_color);      /* tooltip border and arrow outer edge */
-		--cs_tooltip_label_text:    var(--cs_bg_color);      /* tooltip label text — light on accent bg */
+		--cs_tooltip_label_text:    var(--cs_bg_color);      /* tooltip label text -- light on accent bg */
 
-	/* Layout & Sizing Constants */
-		--cs_border_radius_sm:      4px;       /* talent rows, skill option pills, tab buttons */
-		--cs_border_radius_md:      6px;       /* tier containers, perk/flaw groups, backstory sections */
-		--cs_font_family:           "Arial", sans-serif;
-		--cs_opacity_dim:           0.6;       /* available/unchosen talent state */
-		--cs_opacity_disabled:      0.3;       /* not-enabled talent state */
-		--cs_opacity_locked:        0.4;       /* prereq-locked talent state */
-		--cs_row_height:            24px;      /* standard flex row height */
-		--cs_row_height_sm:         20px;      /* small row height — skill inputs */
-		--cs_row_height_xs:         23px;      /* extra-small row height — contact/vehicle fields */
-		--cs_sheet_width:           840px;
-		--cs_talent_list_gap:       0.6rem;    /* spacing between rows within a talent list container */
-		--cs_talent_padding:        0.5rem;    /* internal padding on talent row cards */
-		--cs_talent_row_gap:        0.5rem;    /* spacing between talent row cards */
-		--cs_transition_btn:        background-color 0.2s ease;
+	/* Fixed Palettes (theme-independent) */
+		/* Perks palette -- intentional green identity, not theme-dependent */
+		--cs_perk_bg:               #f2faf4;
+		--cs_perk_border:           #bfe2c9;
+		--cs_perk_accent:           #7fbe93;
+		--cs_perk_header_bg:        #4a9c5e;
+		--cs_perk_row_bg:           #aaf0c9;
+		--cs_perk_txt_dark:         #0f2d1f;
+		--cs_perk_border_accent:    #198450;   /* darker green border accent on talent rows */
 
-	/* --- Theme - Light --- */
-		--cs_sys_light_bg_color: #f8f8f8;			/* Background */				/* Off-white canvas & clean parchment */
-		--cs_sys_light_ac_color: #ebebeb;			/* Accent - Complimentary */	/* Sidebar neutral & panel gray */
-		--cs_sys_light_dc_color: #ce0000;			/* Accent - Contrast */			/* Roll20 'Die-Red' & critical alert */
-		--cs_sys_light_txt_color_dark: #333333;		/* Text - Dark */				/* Hard lead & printed manual ink */
-		--cs_sys_light_txt_color_light: #ffffff;	/* Text - Light */				/* Pure paper-white & highlight */
+		/* Flaws palette -- intentional red identity, not theme-dependent */
+		--cs_flaw_bg:               #fef4f4;
+		--cs_flaw_border:           #f1c9c9;
+		--cs_flaw_accent:           #e58f8f;
+		--cs_flaw_header_bg:        #f2bcbc;
+		--cs_flaw_row_bg:           #ffd6d6;
+		--cs_flaw_txt_dark:         #2d0f0f;
+		--cs_flaw_border_accent:    #b24545;   /* darker red border accent, parallel to cs_perk_accent */
 
-	/* --- Theme - Dark --- */
-		--cs_sys_dark_bg: #1f1f1f;					/* Background */				/* Matte obsidian & night-mode void */
-		--cs_sys_dark_comp: #2b2b2b;				/* Accent - Complimentary */	/* Charcoal paneling & UI layering */
-		--cs_sys_dark_contrast: #ff3b3b;			/* Accent - Contrast */			/* Kinetic laser-red & health-bar pulse */
-		--cs_sys_dark_txt_color_dark: #121212;		/* Text - Dark */				/* Deepest soot & shadow-text */
-		--cs_sys_dark_txt_color_light: #e0e0e0;		/* Text - Light */				/* Cool mercury & digital readout */	
-	
-	/* --- Theme - Cyberpunk --- */
-		--cs_sys_cyberpunk_bg_color: #0a0b0d;		/* Background */				/* Deep Arcade: The blackest dark of the Dust Levels */
-		--cs_sys_cyberpunk_ac_color: #1a1f24;		/* Accent - Complimentary */	/* Ferrocrete Slick: Polished corporate facades & slate */
-		--cs_sys_cyberpunk_dc_color: #fcee0a;		/* Accent - Contrast */			/* Volatile Gold: The neon glow of alerts & ad-feeds */
-		--cs_sys_cyberpunk_txt_color_dark: #465362;	/* Text - Dark */				/* Static Shadow: The ghost of breath & old wire data */
-		--cs_sys_cyberpunk_txt_color_light: #00f2ff;	/* Text - Light */			/* Ice-Breaker Blue: Arc-tech casing & holographic light */
+	/* ============================================================ */
+	/* SECTION 4: Ancestry & Career Palette Variables               */
+	/* TODO: Migrate each ancestry block into its controller block  */
+	/* (Theme Switcher section below). Once an ancestry is          */
+	/* migrated, remove its entry here.                             */
+	/* ============================================================ */
 
-	/* --- Theme - Alteri - The Stillness ---*/
-		--as_alteri_bg_color: #b4c5d4;				/* Background */ 				/* Ashen gray & muted silver-blue */
-		--as_alteri_ac_color: #2d3a4b;				/* Accent - Complimentary */  	/* Deep void & unmasked shadow */
-		--as_alteri_dc_color: #8a89d6;				/* Accent - Contrast */			/* Spectral violet & arcane pulse */
-		--as_alteri_txt_color_dark: #1f262e;		/* Text - Dark */				/* Cold obsidian & twilight */
-		--as_alteri_txt_color_light: #e2eaf0;		/* Text - Light */				/* Moonlit white & luminous mist */
+	/* --- Theme - Alteri - The Stillness --- */
+		--as_alteri_bg_color:           #b4c5d4;    /* Background */            /* Ashen gray & muted silver-blue */
+		--as_alteri_ac_color:           #2d3a4b;    /* Accent - Complimentary *//* Deep void & unmasked shadow */
+		--as_alteri_dc_color:           #8a89d6;    /* Accent - Contrast */     /* Spectral violet & arcane pulse */
+		--as_alteri_txt_color_dark:     #1f262e;    /* Text - Dark */           /* Cold obsidian & twilight */
+		--as_alteri_txt_color_light:    #e2eaf0;    /* Text - Light */          /* Moonlit white & luminous mist */
 
 	/* --- Theme - Draevi - The Endurance --- */
-		--as_draevi_bg_color: #e7e2d3;				/* Background */				/* Sun-faded parchment & warm sand */
-		--as_draevi_ac_color: #8c5e45;				/* Accent - Complimentary */	/* Felled tree & rich umber sinew */
-		--as_draevi_dc_color: #d4a373;				/* Accent - Contrast */			/* Burnished clay & memory-ink */
-		--as_draevi_txt_color_dark: #353b3f;		/* Text - Dark */				/* Deep tattoo ink & charcoal */
-		--as_draevi_txt_color_light: #fdfcf0;		/* Text - Light */				/* Bleached bone & desert light */
+		--as_draevi_bg_color:           #e7e2d3;    /* Background */            /* Sun-faded parchment & warm sand */
+		--as_draevi_ac_color:           #8c5e45;    /* Accent - Complimentary *//* Felled tree & rich umber sinew */
+		--as_draevi_dc_color:           #d4a373;    /* Accent - Contrast */     /* Burnished clay & memory-ink */
+		--as_draevi_txt_color_dark:     #353b3f;    /* Text - Dark */           /* Deep tattoo ink & charcoal */
+		--as_draevi_txt_color_light:    #fdfcf0;    /* Text - Light */          /* Bleached bone & desert light */
 
-	/* --- Theme - Feran - The Instinct ---*/
-		--as_feran_bg_color: #c9b183;				/* Background */				/* Ashen gold & predatory hide */
-		--as_feran_ac_color: #4a6b8a;				/* Accent - Complimentary */	/* Glacier steel & cold metal */
-		--as_feran_dc_color: #efb421;				/* Accent - Contrast */			/* Glowing citrine & vertical-slit eyes */
-		--as_feran_txt_color_dark: #1a1c1e;			/* Text - Dark */				/* Smudged ink & midnight marking */
-		--as_feran_txt_color_light: #f4ede0;		/* Text - Light */				/* Soft tawny & lowlight reflection */
+	/* --- Theme - Feran - The Instinct --- */
+		--as_feran_bg_color:            #c9b183;    /* Background */            /* Ashen gold & predatory hide */
+		--as_feran_ac_color:            #4a6b8a;    /* Accent - Complimentary *//* Glacier steel & cold metal */
+		--as_feran_dc_color:            #efb421;    /* Accent - Contrast */     /* Glowing citrine & vertical-slit eyes */
+		--as_feran_txt_color_dark:      #1a1c1e;    /* Text - Dark */           /* Smudged ink & midnight marking */
+		--as_feran_txt_color_light:     #f4ede0;    /* Text - Light */          /* Soft tawny & lowlight reflection */
 
 	/* --- Theme - Human - The Wildcard --- */
-		--as_human_bg_color: #32383e;				/* Background */				/* Corporate slate & urban shadow */
-		--as_human_ac_color: #8e98a1;				/* Accent - Complimentary */	/* Industrial silver & tech-baseline */
-		--as_human_dc_color: #ff4d29;				/* Accent - Contrast */			/* Ambition's ember & disruptive fire */
-		--as_human_txt_color_dark: #121416;			/* Text - Dark */				/* Asphalt black & boardroom deeps */
-		--as_human_txt_color_light: #f2f4f5;		/* Text - Light */				/* Pure grit & high-contrast drive */
+		--as_human_bg_color:            #32383e;    /* Background */            /* Corporate slate & urban shadow */
+		--as_human_ac_color:            #8e98a1;    /* Accent - Complimentary *//* Industrial silver & tech-baseline */
+		--as_human_dc_color:            #ff4d29;    /* Accent - Contrast */     /* Ambition's ember & disruptive fire */
+		--as_human_txt_color_dark:      #121416;    /* Text - Dark */           /* Asphalt black & boardroom deeps */
+		--as_human_txt_color_light:     #f2f4f5;    /* Text - Light */          /* Pure grit & high-contrast drive */
 
 	/* --- Theme - Khadra - The Pressure --- */
-		--as_khadra_bg_color: #a16e53;				/* Background */				/* Burnished copper & rust-red earth */
-		--as_khadra_ac_color: #424b54;				/* Accent - Complimentary */	/* Basalt black & flint-gray stone */
-		--as_khadra_dc_color: #ffd700;				/* Accent - Contrast */			/* Glinting quartz & ancestral alloy */
-		--as_khadra_txt_color_dark: #2a211b;		/* Text - Dark */				/* Burnt umber & deep-buried obsidian */
-		--as_khadra_txt_color_light: #f7ece6;		/* Text - Light */				/* Polished granite & sun-burnished dust */
+		--as_khadra_bg_color:           #a16e53;    /* Background */            /* Burnished copper & rust-red earth */
+		--as_khadra_ac_color:           #424b54;    /* Accent - Complimentary *//* Basalt black & flint-gray stone */
+		--as_khadra_dc_color:           #ffd700;    /* Accent - Contrast */     /* Glinting quartz & ancestral alloy */
+		--as_khadra_txt_color_dark:     #2a211b;    /* Text - Dark */           /* Burnt umber & deep-buried obsidian */
+		--as_khadra_txt_color_light:    #f7ece6;    /* Text - Light */          /* Polished granite & sun-burnished dust */
 
 	/* --- Theme - Kitsu - The Momentum --- */
-		--as_kitsu_bg_color: #b85c38;				/* Background */				/* Mystic russet & fox-born silhouette */
-		--as_kitsu_ac_color: #2d2e32;				/* Accent - Complimentary */	/* Slicer shadow & subterranean black */
-		--as_kitsu_dc_color: #39ff14;				/* Accent - Contrast */			/* Neon subroutine & gemstone gaze */
-		--as_kitsu_txt_color_dark: #21110a;			/* Text - Dark */				/* Dark mahogany & hidden motive */
-		--as_kitsu_txt_color_light: #f8efeb;		/* Text - Light */				/* Static silver & whispered mist */
+		--as_kitsu_bg_color:            #b85c38;    /* Background */            /* Mystic russet & fox-born silhouette */
+		--as_kitsu_ac_color:            #2d2e32;    /* Accent - Complimentary *//* Slicer shadow & subterranean black */
+		--as_kitsu_dc_color:            #39ff14;    /* Accent - Contrast */     /* Neon subroutine & gemstone gaze */
+		--as_kitsu_txt_color_dark:      #21110a;    /* Text - Dark */           /* Dark mahogany & hidden motive */
+		--as_kitsu_txt_color_light:     #f8efeb;    /* Text - Light */          /* Static silver & whispered mist */
 
 	/* --- Theme - Lyranni - The Refinement --- */
-		--as_lyranni_bg_color: #dce2e5;				/* Background */				/* Alabaster white & moon-silver */
-		--as_lyranni_ac_color: #8ea8bd;				/* Accent - Complimentary */	/* Ghost-blue & faded jade gemstone */
-		--as_lyranni_dc_color: #a786bd;				/* Accent - Contrast */			/* Dusky amethyst & arcane flicker */
-		--as_lyranni_txt_color_dark: #4a4e69;		/* Text - Dark */				/* Deep sapphire & onyx depth */
-		--as_lyranni_txt_color_light: #f8f9fa;		/* Text - Light */				/* Spectral sheen & silver-touch */
-		
+		--as_lyranni_bg_color:          #dce2e5;    /* Background */            /* Alabaster white & moon-silver */
+		--as_lyranni_ac_color:          #8ea8bd;    /* Accent - Complimentary *//* Ghost-blue & faded jade gemstone */
+		--as_lyranni_dc_color:          #a786bd;    /* Accent - Contrast */     /* Dusky amethyst & arcane flicker */
+		--as_lyranni_txt_color_dark:    #4a4e69;    /* Text - Dark */           /* Deep sapphire & onyx depth */
+		--as_lyranni_txt_color_light:   #f8f9fa;    /* Text - Light */          /* Spectral sheen & silver-touch */
+
 	/* --- Theme - Veyra - The Utility --- */
-		--as_veyra_bg_color: #4d5458;				/* Background */				/* Ferrocrete gray & urban thicket */
-		--as_veyra_ac_color: #2b2d31;				/* Accent - Complimentary */	/* Velvet-dark fur & boiler room shadow */
-		--as_veyra_dc_color: #00d4ff;				/* Accent - Contrast */			/* Neon glint & arc-tech cyan */
-		--as_veyra_txt_color_dark: #1c1e21;			/* Text - Dark */				/* Old wire & mapped memory black */
-		--as_veyra_txt_color_light: #e1e8ed;		/* Text - Light */				/* Filter-dust & ghost of breath */
+		--as_veyra_bg_color:            #4d5458;    /* Background */            /* Ferrocrete gray & urban thicket */
+		--as_veyra_ac_color:            #2b2d31;    /* Accent - Complimentary *//* Velvet-dark fur & boiler room shadow */
+		--as_veyra_dc_color:            #00d4ff;    /* Accent - Contrast */     /* Neon glint & arc-tech cyan */
+		--as_veyra_txt_color_dark:      #1c1e21;    /* Text - Dark */           /* Old wire & mapped memory black */
+		--as_veyra_txt_color_light:     #e1e8ed;    /* Text - Light */          /* Filter-dust & ghost of breath */
 
-	/* --- Theme - Arcane Careers - The Arcane ---*/
-	  --ct_arcane_bg_color: #1e1a2e;              /* Background */                /* Abyssal ink & spell-dark chamber */
-	  --ct_arcane_ac_color: #3E3A5F;              /* Accent - Complimentary */    /* Deep violet slate & runic shadow */
-	  --ct_arcane_dc_color: #4fc3d4;              /* Accent - Contrast */         /* Arc-tech cyan & holographic edge */
-	  --ct_arcane_txt_color_dark: #0d0b17;        /* Text - Dark */               /* Void-deep black & compressed ether */
-	  --ct_arcane_txt_color_light: #dff4f7;       /* Text - Light */              /* Cold resonance white & pale cast-light */
-	
+	/* --- Theme - Arcane Careers - The Arcane --- */
+		--ct_arcane_bg_color:           #1e1a2e;    /* Background */            /* Abyssal ink & spell-dark chamber */
+		--ct_arcane_ac_color:           #3E3A5F;    /* Accent - Complimentary *//* Deep violet slate & runic shadow */
+		--ct_arcane_dc_color:           #4fc3d4;    /* Accent - Contrast */     /* Arc-tech cyan & holographic edge */
+		--ct_arcane_txt_color_dark:     #0d0b17;    /* Text - Dark */           /* Void-deep black & compressed ether */
+		--ct_arcane_txt_color_light:    #dff4f7;    /* Text - Light */          /* Cold resonance white & pale cast-light */
+
 	/* --- Theme - Core Careers - The Core --- */
-	  --ct_core_bg_color: #2c2418;                /* Background */                /* Aged leather & buried-op shadow */
-	  --ct_core_ac_color: #52472F;                /* Accent - Complimentary */    /* Worn brass & contract-dusk amber */
-	  --ct_core_dc_color: #e8a94d;                /* Accent - Contrast */         /* Burnished gold & classified amber */
-	  --ct_core_txt_color_dark: #150f08;          /* Text - Dark */               /* Deep mahogany & sealed-file black */
-	  --ct_core_txt_color_light: #f5ead8;         /* Text - Light */              /* Parchment cream & invoice-white */
-	
+		--ct_core_bg_color:             #2c2418;    /* Background */            /* Aged leather & buried-op shadow */
+		--ct_core_ac_color:             #52472F;    /* Accent - Complimentary *//* Worn brass & contract-dusk amber */
+		--ct_core_dc_color:             #e8a94d;    /* Accent - Contrast */     /* Burnished gold & classified amber */
+		--ct_core_txt_color_dark:       #150f08;    /* Text - Dark */           /* Deep mahogany & sealed-file black */
+		--ct_core_txt_color_light:      #f5ead8;    /* Text - Light */          /* Parchment cream & invoice-white */
+
 	/* --- Theme - Specialist Careers - The Specialist --- */
-	  --ct_specialist_bg_color: #2a2d32;          /* Background */                /* Gunmetal slate & operational gray */
-	  --ct_specialist_ac_color: #4A4E54;          /* Accent - Complimentary */    /* Industrial iron & field-worn steel */
-	  --ct_specialist_dc_color: #c8cdd2;          /* Accent - Contrast */         /* Purer silver & high-clearance chrome */
-	  --ct_specialist_txt_color_dark: #111416;    /* Text - Dark */               /* Matte black & mission-brief ink */
-	  --ct_specialist_txt_color_light: #dde3e8;   /* Text - Light */              /* Cold field-white & brief-paper gray */
-
-	  /* Perks palette — intentional green identity, not theme-dependent */
-	  --cs_perk_bg:           #f2faf4;
-	  --cs_perk_border:       #bfe2c9;
-	  --cs_perk_accent:       #7fbe93;
-	  --cs_perk_header_bg:    #4a9c5e;   /* replaces bare "green" — more controlled */
-	  --cs_perk_row_bg:       #aaf0c9;
-	  --cs_perk_txt_dark:     #0f2d1f;
-		--cs_perk_border_accent: #198450;   /* darker green border accent on talent rows */
-
-	  /* Flaws palette — intentional red identity, not theme-dependent */
-	  --cs_flaw_bg:           #fef4f4;
-	  --cs_flaw_border:       #f1c9c9;
-	  --cs_flaw_accent:       #e58f8f;
-	  --cs_flaw_header_bg:    #f2bcbc;
-	  --cs_flaw_row_bg:       #ffd6d6;
-	  --cs_flaw_txt_dark:     #2d0f0f;
-		--cs_flaw_border_accent:	#b24545;   /* darker red border accent, parallel to cs_perk_accent */		
-
+		--ct_specialist_bg_color:           #2a2d32;    /* Background */            /* Gunmetal slate & operational gray */
+		--ct_specialist_ac_color:           #4A4E54;    /* Accent - Complimentary *//* Industrial iron & field-worn steel */
+		--ct_specialist_dc_color:           #c8cdd2;    /* Accent - Contrast */     /* Purer silver & high-clearance chrome */
+		--ct_specialist_txt_color_dark:     #111416;    /* Text - Dark */           /* Matte black & mission-brief ink */
+		--ct_specialist_txt_color_light:    #dde3e8;    /* Text - Light */          /* Cold field-white & brief-paper gray */
 }
 
 /* ------------------------------- */

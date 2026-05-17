@@ -12,8 +12,6 @@ To-do:
 
 4. **Fix Ancestry CSS Themes**
 
-5. **Smart Link bonus on weapon needs to validate user has Cyberware - Smartlink**
-
 Clean-up:
 
 Questions:

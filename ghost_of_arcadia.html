@@ -6540,14 +6540,39 @@
 									<div class="sheet-bg-skill-label"><span data-i18n="etiquette_draevi-u"></span></div>
 								</div>
 								<div class="sheet-bg-skill-row">
+									<input type="hidden" name="attr_bg_etiquette_feran_lock" value="0"/>
+									<input type="checkbox" name="attr_bg_etiquette_feran_mdr_checkbox" value="1"/>
+									<div class="sheet-bg-skill-label"><span data-i18n="etiquette_feran-u"></span></div>
+								</div>
+								<div class="sheet-bg-skill-row">
 									<input type="hidden" name="attr_bg_etiquette_high_society_lock" value="0"/>
 									<input type="checkbox" name="attr_bg_etiquette_high_society_mdr_checkbox" value="1"/>
 									<div class="sheet-bg-skill-label"><span data-i18n="etiquette_high_society-u"></span></div>
 								</div>
 								<div class="sheet-bg-skill-row">
+									<input type="hidden" name="attr_bg_etiquette_human_lock" value="0"/>
+									<input type="checkbox" name="attr_bg_etiquette_human_mdr_checkbox" value="1"/>
+									<div class="sheet-bg-skill-label"><span data-i18n="etiquette_human-u"></span></div>
+								</div>
+								<div class="sheet-bg-skill-row">
+									<input type="hidden" name="attr_bg_etiquette_khadra_lock" value="0"/>
+									<input type="checkbox" name="attr_bg_etiquette_khadra_mdr_checkbox" value="1"/>
+									<div class="sheet-bg-skill-label"><span data-i18n="etiquette_khadra-u"></span></div>
+								</div>
+								<div class="sheet-bg-skill-row">
+									<input type="hidden" name="attr_bg_etiquette_kitsu_lock" value="0"/>
+									<input type="checkbox" name="attr_bg_etiquette_kitsu_mdr_checkbox" value="1"/>
+									<div class="sheet-bg-skill-label"><span data-i18n="etiquette_kitsu-u"></span></div>
+								</div>
+								<div class="sheet-bg-skill-row">
 									<input type="hidden" name="attr_bg_etiquette_lyranni_lock" value="0"/>
 									<input type="checkbox" name="attr_bg_etiquette_lyranni_mdr_checkbox" value="1"/>
 									<div class="sheet-bg-skill-label"><span data-i18n="etiquette_lyranni-u"></span></div>
+								</div>
+								<div class="sheet-bg-skill-row">
+									<input type="hidden" name="attr_bg_etiquette_veyra_lock" value="0"/>
+									<input type="checkbox" name="attr_bg_etiquette_veyra_mdr_checkbox" value="1"/>
+									<div class="sheet-bg-skill-label"><span data-i18n="etiquette_veyra-u"></span></div>
 								</div>
 								<div class="sheet-bg-skill-row">
 									<input type="hidden" name="attr_bg_history_lock" value="0"/>
@@ -40356,6 +40381,7 @@ const debug_on_watcher = false;
 const SHEET_VERSION = "2.26.05.17";
 const SHEET_BUILD   = "2026-05-17"; // optional (date, short SHA, etc.)
 const SHEET_SCHEMA  = 2;            // bump when you do a breaking data migration
+const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 
 // === Unified guard utilities (single source of truth) ===
 let WATCHERS_BOOTSTRAPPED = false;
@@ -44334,8 +44360,13 @@ const backgroundDataMap = {
 			charm: "charm-u",
 			etiquette_alteri: "etiquette_alteri-u",
 			etiquette_draevi: "etiquette_draevi-u",
+			etiquette_feran: "etiquette_feran-u",
 			etiquette_high_society: "etiquette_high_society-u",
+			etiquette_human: "etiquette_human-u",
+			etiquette_khadra: "etiquette_khadra-u",
+			etiquette_kitsu: "etiquette_kitsu-u",
 			etiquette_lyranni: "etiquette_lyranni-u",
+			etiquette_veyra: "etiquette_veyra-u",
 			history: "history-u",
 			insight: "insight-u",
 			law: "law-u",
@@ -44350,7 +44381,7 @@ const backgroundDataMap = {
 		},
 		exclusive_skill_sets: [
 			[ "perform_acting", "perform_dance", "perform_impersonation", "perform_instrument", "perform_ritual", "perform_vocal" ],
-			[ "etiquette_alteri", "etiquette_draevi", "etiquette_high_society", "etiquette_lyranni" ]
+			[ "etiquette_alteri", "etiquette_draevi", "etiquette_feran", "etiquette_high_society", "etiquette_human", "etiquette_khadra", "etiquette_kitsu", "etiquette_lyranni", "etiquette_veyra" ]
 		],
 		feature: {
 			name_key: "social_gravity-u",
@@ -44368,7 +44399,7 @@ const backgroundDataMap = {
 			family_connection: { name: "family_connection-u", description: "family_connection_desc-u" },
 			social_fixer: { name: "social_fixer-u", description: "social_fixer_desc-u" }
 		},
-		source: { doc: "backgrounds-u", version: "2.260122", date: "2026-01-22", section: "backgrounds-u" }
+		source: { doc: "backgrounds-u", version: "2.260314", date: "2026-03-14", section: "backgrounds-u" }
 	},
 	streetborn: {
 		name: "streetborn-u",
@@ -66594,7 +66625,7 @@ const registerPerkSummaryWatcher = () => {
   if (debug_on_trace) console.log("[registerPerkSummaryWatcher] Start");
 
   // i18n helper
-  const tr = (k) => (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+																												
 
   // Normalize affected_skill -> array of canonical machine-key strings
   const normalizeAffectedSkills = (aff) => {
@@ -66729,7 +66760,7 @@ const registerPerkSummaryWatcher = () => {
 const registerFlawSummaryWatcher = () => {
   if (debug_on_trace) console.log ("[registerFlawSummaryWatcher] Start");
   /* ===== Flaws: 1 pick per cost group (5 & 10), no total cap ===== */
-  const tr = (k) => (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+																												
 
   // Normalize affected_skill -> array of canonical machine-key strings
   const normalizeAffectedSkills = (aff) => {
@@ -66988,8 +67019,8 @@ const registerBackgroundSkillLimiterV2 = () => {
 const recalcRacialTraitsSkillSummary = () => {
   if (debug_on_trace) console.log("[recalcRacialTraitsSkillSummary] Start");
 
-  const tr = (k) =>
-    (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+				   
+																								
 
   // Normalize affected_skill -> array of canonical machine-key strings
   const normalizeAffectedSkills = (aff) => {
@@ -67830,8 +67861,8 @@ const registerCareerTalentSummaryWatcher = () => {
   ];
 
   // --- helpers ---
-  const tr = (k) =>
-    (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+				   
+																								
 
   const prettify = (s) =>
     String(s || "")
@@ -71186,7 +71217,7 @@ const initSpellPresets = () => {
 /* ── Cyberware Apply & Init Functions ───────────────────────────────── */
 
 /* ── tr helper (local scope — safe for all top-level functions) ─────── */
-const cwTr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												 
 
 /* When true, recalcCyberwareBonuses is a no-op — used during init to suppress
    intermediate recalcs and fire one clean recalc at the end. */
@@ -71194,7 +71225,7 @@ let cwSuppressRecalc = false;
 
 /* ── Rarity display helper ──────────────────────────────────────────── */
 const cwRarityDisplay = (r) => {
-	const tr = cwTr;
+				 
 	const map = {
 		common:     tr("cw_rarity_common-u"),
 		permit:     tr("cw_rarity_permit-u"),
@@ -71209,7 +71240,7 @@ const cwRarityDisplay = (r) => {
    ══════════════════════════════════════════════════════════════════════ */
 
 const applyCosmeticwarePreset = (prefix, key) => {
-	const tr = cwTr;
+				 
 	const data = cosmeticwareDataMap[key];
 	if (!data) return;
 	setAttrs({
@@ -71258,7 +71289,7 @@ on("change:repeating_cosmeticware:cos_preset", (eventInfo) => {
    ══════════════════════════════════════════════════════════════════════ */
 
 const applyNeuralwarePreset = (prefix, key) => {
-	const tr = cwTr;
+				 
 	const data = neuralwareDataMap[key];
 	if (!data) return;
 
@@ -71532,7 +71563,7 @@ on("remove:repeating_neuralware", () => {
 
 /* Apply optics mod preset for slot N (1–8) */
 const applyOpticsModPreset = (n, key) => {
-	const tr = cwTr;
+				 
 	const data = cyberOpticsModDataMap[key];
 	if (!data) return;
 
@@ -71567,7 +71598,7 @@ const recalcOpticsCapacityUsed = () => {
 };
 
 const applyCyberOpticsPreset = (key) => {
-	const tr = cwTr;
+				 
 	const data = cyberOpticsDataMap[key];
 	if (!data) return;
 
@@ -71591,7 +71622,7 @@ const applyCyberOpticsPreset = (key) => {
    ══════════════════════════════════════════════════════════════════════ */
 
 const applyInternalPreset = (prefix, key) => {
-	const tr = cwTr;
+				 
 	const data = internalCyberDataMap[key];
 	if (!data) return;
 
@@ -71795,7 +71826,7 @@ on("change:str", () => {
    ══════════════════════════════════════════════════════════════════════ */
 
 const applyCyberlimbPreset = (prefix, key) => {
-	const tr = cwTr;
+				 
 	const data = cyberlimbDataMap[key];
 	if (!data) return;
 
@@ -71823,7 +71854,7 @@ const applyCyberlimbPreset = (prefix, key) => {
 };
 
 const applyLimbModPreset = (prefix, n, key) => {
-	const tr = cwTr;
+				 
 	const data = cyberlimbModDataMap[key];
 	if (!data) return;
 
@@ -72069,7 +72100,7 @@ on("change:cyberoptics_preset", () => {
 
 /* Apply audio mod preset for slot N (1–8) */
 const applyAudioModPreset = (n, key) => {
-	const tr = cwTr;
+				 
 	const data = cyberAudioModDataMap[key];
 	if (!data) return;
 
@@ -72103,7 +72134,7 @@ const recalcAudioCapacityUsed = () => {
 };
 
 const applyCyberAudioPreset = (key) => {
-	const tr = cwTr;
+				 
 	const data = cyberAudioDataMap[key];
 	if (!data) return;
 
@@ -72243,7 +72274,7 @@ const registerVehicleManualWatchers = () => {
 			const cur = parseInt(v[p + "vehicle_hp_current_manual"]) || 0;
 			const max = parseInt(v[p + "vehicle_hp_max_manual"]) || 1;
 			const pct = cur / max;
-			const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												  
 			let condition = tr("vehicle_condition_operational-u");
 			if (cur <= 0)         condition = tr("vehicle_condition_wrecked-u");
 			else if (pct <= 0.25) condition = tr("vehicle_condition_critical-u");
@@ -72420,7 +72451,7 @@ function setLanguage(race) {
   // For all others: own slot = racial language, caltheran slot = Caltheran
   const ownDescKey      = race === "human" ? "language_caltheran_desc-u" : "language_own_desc-u";
   const caltheranDescKey = race === "human" ? "language_other_desc-u"    : "language_caltheran_desc-u";
-  const tr = (typeof getTranslationByKey === "function") ? getTranslationByKey : () => "";
+																						  
 
   const updates = {
     language_own_txt:           racialLang,
@@ -72445,8 +72476,8 @@ function registerTalentSummaryWatcher(race) {
   ];
 
   // --- helpers ---
-  const tr = (k) =>
-    (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+				   
+																								
 
   const prettify = (s) =>
     String(s || "")
@@ -73608,7 +73639,7 @@ function resolveDiceExpr(expr) {
 // Main tracker strain handler
 function handleTrackerStrainDeduction(attrName) {
   if (debug_on) console.log("[handleTrackerStrainDeduction] Start:", attrName);
-  const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												 
   // Guard: skip if clear is in progress
   getAttrs(["clearing_tracker"], (flagVals) => {
     if (debug_on) console.log("[handleTrackerStrainDeduction] clearing_tracker:", flagVals.clearing_tracker);
@@ -74158,7 +74189,7 @@ function parseGrenadeDamage(damageStr) {
 function applyArmorPreset(p, presetKey) {
 	const entry = presetKey ? armorDataMap[presetKey] : null;
 	if (!entry) return;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const traitsStr = (entry.trait_keys || []).map(tr).join(", ");
 	setAttrs({
 		[p + "armor_physical_mdr"]: String(entry.physical ?? ""),
@@ -74174,7 +74205,7 @@ function applyArmorPreset(p, presetKey) {
 function applyArmorPresetStatic(index, presetKey) {
 	const entry = presetKey ? armorDataMap[presetKey] : null;
 	if (!entry) return;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const traitsStr = (entry.trait_keys || []).map(tr).join(", ");
 	setAttrs({
 		[`armor${index}_physical_mdr`]: String(entry.physical ?? ""),
@@ -74190,7 +74221,7 @@ function applyArmorPresetStatic(index, presetKey) {
 /* ── Core: fill effect for one clothing row (repeating) ─────────────── */
 function applyClothingPreset(p, presetKey) {
 	const entry = presetKey ? clothingDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "clothing_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "clothing_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74200,7 +74231,7 @@ function applyClothingPreset(p, presetKey) {
 /* ── Core: fill effect for one clothing row (static clothing1/2) ────── */
 function applyClothingPresetStatic(index, presetKey) {
 	const entry = presetKey ? clothingDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`clothing${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`clothing${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74210,7 +74241,7 @@ function applyClothingPresetStatic(index, presetKey) {
 /* ── Core: fill effect for one disguise row (repeating) ─────────────── */
 function applyDisguisePreset(p, presetKey) {
 	const entry = presetKey ? disguiseGearDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "disguise_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "disguise_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74220,7 +74251,7 @@ function applyDisguisePreset(p, presetKey) {
 /* ── Core: fill effect for one disguise row (static disguise1/2) ─────── */
 function applyDisguisePresetStatic(index, presetKey) {
 	const entry = presetKey ? disguiseGearDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`disguise${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`disguise${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74230,7 +74261,7 @@ function applyDisguisePresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one bypass row (repeating) ───────────────── */
 function applyBypassPreset(p, presetKey) {
 	const entry = presetKey ? bypassToolsDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "bypass_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "bypass_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74240,7 +74271,7 @@ function applyBypassPreset(p, presetKey) {
 /* ── Core: fill attrs for one bypass row (static bypass1/2) ─────────── */
 function applyBypassPresetStatic(index, presetKey) {
 	const entry = presetKey ? bypassToolsDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`bypass${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`bypass${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74250,7 +74281,7 @@ function applyBypassPresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one comms row (repeating) ─────────────────── */
 function applyCommsPreset(p, presetKey) {
 	const entry = presetKey ? commsDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "comms_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "comms_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74260,7 +74291,7 @@ function applyCommsPreset(p, presetKey) {
 /* ── Core: fill attrs for one comms row (static comms1/2) ───────────── */
 function applyCommsPresetStatic(index, presetKey) {
 	const entry = presetKey ? commsDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`comms${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`comms${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74270,7 +74301,7 @@ function applyCommsPresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one omni device row (repeating) ───────────── */
 function applyOmnidevicePreset(p, presetKey) {
 	const entry = presetKey ? omniDevicesDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "omnidevice_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "omnidevice_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74280,7 +74311,7 @@ function applyOmnidevicePreset(p, presetKey) {
 /* ── Core: fill attrs for one omni device row (static omnidevice1/2) ── */
 function applyOmnidevicePresetStatic(index, presetKey) {
 	const entry = presetKey ? omniDevicesDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`omnidevice${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`omnidevice${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74290,7 +74321,7 @@ function applyOmnidevicePresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one surveillance row (repeating) ──────────── */
 function applySurveillancePreset(p, presetKey) {
 	const entry = presetKey ? surveillanceDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "surveillance_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "surveillance_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74300,7 +74331,7 @@ function applySurveillancePreset(p, presetKey) {
 /* ── Core: fill attrs for one surveillance row (static surveillance1/2)  */
 function applySurveillancePresetStatic(index, presetKey) {
 	const entry = presetKey ? surveillanceDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`surveillance${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`surveillance${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74310,7 +74341,7 @@ function applySurveillancePresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one arcane supply row (repeating) ─────────── */
 function applyArcanesupplyPreset(p, presetKey) {
 	const entry = presetKey ? arcaneSuppliesDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "arcanesupply_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "arcanesupply_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74320,7 +74351,7 @@ function applyArcanesupplyPreset(p, presetKey) {
 /* ── Core: fill attrs for one arcane supply row (static arcanesupply1/2) */
 function applyArcanesupplyPresetStatic(index, presetKey) {
 	const entry = presetKey ? arcaneSuppliesDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`arcanesupply${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`arcanesupply${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74330,7 +74361,7 @@ function applyArcanesupplyPresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one medtech row (repeating) ───────────────── */
 function applyMedtechPreset(p, presetKey) {
 	const entry = presetKey ? medtechDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const usesStr    = entry ? (entry.uses === null ? tr("medtech_no_roll-u") : String(entry.uses)) : " ";
 	const rollStr    = entry ? (entry.roll_required ? tr(skillDataMap[entry.roll_required]?.label || entry.roll_required) : tr("medtech_no_roll-u")) : " ";
 	const bonusNum   = entry ? (entry.skill_bonus_pct || 0) : 0;
@@ -74374,7 +74405,7 @@ function applyMedtechPreset(p, presetKey) {
 /* ── Core: fill attrs for one strain compound row (repeating) ────────── */
 function applyStrainPreset(p, presetKey) {
 	const entry = presetKey ? strainCompoundsDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const restoreVal     = entry ? (entry.strain_restore !== null ? String(entry.strain_restore) : "0") : "0";
 	const restoreDisplay = entry ? (entry.strain_restore !== null ? String(entry.strain_restore) : tr("strain_no_restore-u")) : " ";
 	const dailyStr       = entry ? (entry.daily_limit !== null ? String(entry.daily_limit) : " ") : " ";
@@ -74399,7 +74430,7 @@ function applyStrainPreset(p, presetKey) {
 /* ── Core: fill attrs for one pharma gear row (repeating) ───────────── */
 function applyPharmaPreset(p, presetKey) {
 	const entry = presetKey ? pharmaceuticalsDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const effectFull = entry && entry.effect_key ? tr(entry.effect_key) : " ";
 	setAttrs({
 		[p + "pharma_rarity_mdr"]:        entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74413,7 +74444,7 @@ function applyPharmaPreset(p, presetKey) {
 /* ── Core: fill attrs for one utility gear row (repeating) ──────────── */
 function applyUtilityPreset(p, presetKey) {
 	const entry = presetKey ? utilityGearDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "utility_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "utility_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74423,7 +74454,7 @@ function applyUtilityPreset(p, presetKey) {
 /* ── Core: fill attrs for one utility gear row (static utility1/2) ──── */
 function applyUtilityPresetStatic(index, presetKey) {
 	const entry = presetKey ? utilityGearDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`utility${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`utility${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74433,7 +74464,7 @@ function applyUtilityPresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one survival gear row (repeating) ─────────── */
 function applySurvivalPreset(p, presetKey) {
 	const entry = presetKey ? survivalGearDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "survival_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "survival_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74443,7 +74474,7 @@ function applySurvivalPreset(p, presetKey) {
 /* ── Core: fill attrs for one survival gear row (static survival1/2) ── */
 function applySurvivalPresetStatic(index, presetKey) {
 	const entry = presetKey ? survivalGearDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`survival${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`survival${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74453,7 +74484,7 @@ function applySurvivalPresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one omnideck row (repeating) ──────────────── */
 function applyOmnideckPreset(p, presetKey) {
 	const entry = presetKey ? omnidecksDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "omnideck_name"]:       entry && entry.name_key ? tr(entry.name_key) : " ",
 		[p + "omnideck_rarity"]:     entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74466,7 +74497,7 @@ function applyOmnideckPreset(p, presetKey) {
 /* ── Core: fill attrs for one entertainment row (repeating) ─────────── */
 function applyEntertainmentPreset(p, presetKey) {
 	const entry = presetKey ? entertainmentDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "entertainment_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "entertainment_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74476,7 +74507,7 @@ function applyEntertainmentPreset(p, presetKey) {
 /* ── Core: fill attrs for one entertainment row (static entertainment1/2) */
 function applyEntertainmentPresetStatic(index, presetKey) {
 	const entry = presetKey ? entertainmentDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`entertainment${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`entertainment${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74486,7 +74517,7 @@ function applyEntertainmentPresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one bots row (repeating) ─────────────────── */
 function applyBotsPreset(p, presetKey) {
 	const entry = presetKey ? botsDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "bots_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "bots_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74496,7 +74527,7 @@ function applyBotsPreset(p, presetKey) {
 /* ── Core: fill attrs for one bots row (static bots1/2) ─────────────── */
 function applyBotsPresetStatic(index, presetKey) {
 	const entry = presetKey ? botsDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`bots${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`bots${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74506,7 +74537,7 @@ function applyBotsPresetStatic(index, presetKey) {
 /* ── Core: fill attrs for one drones row (repeating) ────────────────── */
 function applyDronesPreset(p, presetKey) {
 	const entry = presetKey ? dronesDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[p + "drones_effect"]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[p + "drones_rarity"]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74516,7 +74547,7 @@ function applyDronesPreset(p, presetKey) {
 /* ── Core: fill attrs for one drones row (static drones1/2) ─────────── */
 function applyDronesPresetStatic(index, presetKey) {
 	const entry = presetKey ? dronesDataMap[presetKey] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	setAttrs({
 		[`drones${index}_effect`]: entry && entry.effect_key ? tr(entry.effect_key) : " ",
 		[`drones${index}_rarity`]: entry ? tr(rarityAbbrevKey[entry.rarity] || "") : " ",
@@ -74525,7 +74556,7 @@ function applyDronesPresetStatic(index, presetKey) {
 
 /* ── Spell preset apply ─────────────────────────────────────────────── */
 const applySpellPreset = (prefix, schoolKey, spellKey) => {
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const school = spellDataMap[schoolKey];
 	const data = school ? school[spellKey] : null;
 	if (!data) return;
@@ -74698,7 +74729,7 @@ on([
 /* ── Vehicle preset apply ─────────────────────────────────────────────── */
 const applyVehiclePreset = (prefix, key, preserveHp = false) => {
 	const data = key ? vehiclesDataMap[key] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const skillEntry = (data && data.skill) ? skillDataMap[data.skill] : null;
 	const skillAttr  = skillEntry ? skillEntry.bonus : null;
 	const speedDisplay = (s) => {
@@ -74764,7 +74795,7 @@ const applyVehiclePreset = (prefix, key, preserveHp = false) => {
 /* ── Vehicle weapon preset apply ──────────────────────────────────────── */
 const applyVehicleWeaponPreset = (prefix, key) => {
 	const data = key ? vehicleWeaponsDataMap[key] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const shotsDisplay = (d) => {
 		if (!d) return " ";
 		if (d.shots === null) return "Unlimited";
@@ -74796,7 +74827,7 @@ const applyVehicleWeaponPreset = (prefix, key) => {
 /* ── Vehicle mod preset apply ─────────────────────────────────────────── */
 const applyVehicleModPreset = (prefix, key) => {
 	const data = key ? vehicleModsDataMap[key] : null;
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const categoryDisplay = (c) => {
 		const map = {
 			performance:      tr("vmod_category_performance-u"),
@@ -74826,7 +74857,7 @@ const applyVehicleModPreset = (prefix, key) => {
    ══════════════════════════════════════════════════════════════════════ */
 
 /* ── Shared tr helper (module-level safe copy) ──────────────────────── */
-const lsTr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												 
 
 /* ── Format a credit amount: "5,000 Cr" or "—" when falsy ──────────── */
 const lsFmtCr = (n) => {
@@ -74839,7 +74870,7 @@ const lsFmtCr = (n) => {
 const applyDistrictPreset = (prefix, districtKey) => {
 	const data = districtKey ? districtDataMap[districtKey] : null;
 	const dtMod = data ? data.dt_mod : 0;
-	const note  = (data && data.note_key) ? lsTr(data.note_key) : " ";
+	const note  = (data && data.note_key) ? tr(data.note_key) : " ";
 	const updates = {
 		[prefix + "district_mdr"]:      districtKey || "",
 		[prefix + "dt_district_mdr"]:   dtMod,
@@ -75190,7 +75221,7 @@ function applyGrenadePreset(p, presetKey, delivery) {
 	const m32Eligible   = (entry && entry.m32_compatible) ? "1" : "0";
 	const blastPrimary  = (entry && entry.blast_primary)   ? entry.blast_primary   : "";
 	const blastSecondary= (entry && entry.blast_secondary) ? entry.blast_secondary : "";
-	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												
 	const updates = {
 		[p + "grenade_name_mdr"]:               name,
 		[p + "grenade_rarity_mdr"]:             tr(rarityAbbrevKey[entry ? entry.rarity : ""] || ""),
@@ -76289,7 +76320,7 @@ on("change:repeating_vehiclegear:vehicle_hp_current", (eventInfo) => {
 		const cur = parseInt(v[p + "vehicle_hp_current"]) || 0;
 		const max = parseInt(v[p + "vehicle_hp_max_mdr"]) || 1;
 		const pct = cur / max;
-		const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																												 
 		let condition = tr("vehicle_condition_operational-u");
 		if (cur <= 0)         condition = tr("vehicle_condition_wrecked-u");
 		else if (pct <= 0.25) condition = tr("vehicle_condition_critical-u");
@@ -77034,7 +77065,7 @@ on("change:background_contact_choice change:background_choice", function() {
 
 		if (!entry) return;
 
-		const tr = (k) => (k ? (typeof getTranslationByKey === "function" ? getTranslationByKey(k) : null) || k : "");
+																												
 
 		const nameText    = tr(entry.name);
 		const descText    = tr(entry.description);
@@ -77144,7 +77175,7 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 		const rangeStr   = (entry.range || []).join("/") || "—";
 		const nameKey    = entry.name_key || "";
 		const name       = (typeof getTranslationByKey === "function" && getTranslationByKey(nameKey)) || nameKey;
-		const tr         = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																														 
 		/* Determine which preset select fired so we can clear the others */
 		const skillPresets = ["melee","throw","handgun","shotgun","rifle","smg","heavy"];
 		const activePreset = skillPresets.find(s => v[p + "weapon_preset_" + s + "_mdr"] === presetKey) || "";
@@ -77304,7 +77335,7 @@ on("change:weapon1_mdr_weapon_preset_melee change:weapon1_mdr_weapon_preset_thro
 		const rangeStr   = (entry.range || []).join("/") || "—";
 		const nameKey    = entry.name_key || "";
 		const name       = (typeof getTranslationByKey === "function" && getTranslationByKey(nameKey)) || nameKey;
-		const tr         = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+																														 
 		/* Parse damage immediately — change: events don't fire from worker setAttrs */
 		const damageStr = entry.damage || "";
 		const baseDmg   = parseDamageString(damageStr, "weapon1_mdr");
@@ -78370,7 +78401,7 @@ on("change:repeating_lifestylefeatures:lf_training_skill_combat change:repeating
 	getAttrs([attr], (v) => {
 		const skillKey = v[attr] || "";
 		const entry    = skillKey ? skillDataMap[skillKey] : null;
-		const label    = entry ? lsTr(entry.label) : " ";
+		const label    = entry ? tr(entry.label) : " ";
 		setAttrs({ [p + "lf_training_skill_mdr"]: label });
 	});
 });

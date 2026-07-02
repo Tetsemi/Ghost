@@ -1,7 +1,5 @@
 BUGS:
 
-Compromised Success needs a strain cost.
-
 To-do:
 	
 ## Pending — Next Revision Pass

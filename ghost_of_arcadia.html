@@ -69439,19 +69439,21 @@ const updateBackgroundReadyStates = () => {
 const registerBackgroundLockDropdownWatcher = () => {
 	if (debug_on_trace) console.log("[registerBackgroundLockDropdownWatcher] Start");
 
-	on("sheet:opened change:background_locked_choice change:background_choice", () => {
+	on("change:background_locked_choice change:background_choice", () => {
 		updateBackgroundReadyStates();
 	});
 };
 
+const applyAwakenedModeDisplay = () => {
+	getAttrs(["awakened"], (v) => {
+		setAttrs({
+			show_awakened_mode: v.awakened === "1" ? "1" : "0"
+		}, { silent: true });
+	});
+};
+
 const registerAwakenedModeDisplayWatcher = () => {
-  on("sheet:opened change:awakened", () => {
-    getAttrs(["awakened"], (v) => {
-      setAttrs({
-        show_awakened_mode: v.awakened === "1" ? "1" : "0"
-      }, { silent: true });
-    });
-  });
+	on("change:awakened", applyAwakenedModeDisplay);
 };
 
 const bootstrapGlobalWatchersOnce = () => {
@@ -69657,6 +69659,8 @@ const initializeSheetOnOpen = (eventInfo) => {
 
     const afterAllSets = () => {
 		applyRaceState();
+		updateBackgroundReadyStates();		/* on-open refresh — replaces dead sheet:opened registration */
+		applyAwakenedModeDisplay();			/* on-open refresh — replaces dead sheet:opened registration */
 		recalcArmorTotals();
 		recalcCtVitalityTotal();
 		initArmorPresets();
@@ -69665,13 +69669,7 @@ const initializeSheetOnOpen = (eventInfo) => {
 		initCyberOpticsPresets();
 		initCyberlimbPresets();
 		initInternalPresets();
-		/* Initialise str_base on first open — if unset, derive from current str minus any active bonus */
-		getAttrs(["str", "str_base", "ct_str_bonus_total"], (v) => {
-			if (!parseInt(v.str_base, 10)) {
-				const bonus = parseInt(v.ct_str_bonus_total, 10) || 0;
-				setAttrs({ str_base: Math.max(0, (parseInt(v.str, 10) || 0) - bonus) });
-			}
-		});
+		initStrBase();
 		initNeuralwarePresets();
 		recalcSmartlinkInstalled();
 		initClothingPresets();
@@ -71659,10 +71657,12 @@ const applyInternalPreset = (prefix, key) => {
    Called only via setAttrs callbacks — never via change: watchers — to guarantee
    committed values are read.
 
-   STR averaging rule:
+   STR averaging rule (two-arm-slot model):
+   - A character has two arm slots. Each cybernetic slot contributes its limb STR;
+     each remaining natural slot contributes str_base. Effective STR = floor(average of the two slots).
+   - limb_side "both" fills 2 slots; "left"/"right"/unselected fill 1. Max 2 slots count (first rows win).
    - No full cyberarms: effective STR bonus = sum of internal str_bonus (Muscle Enhancement)
-   - One or more full cyberarms: effective STR = average(str_base, each arm's STR)
-     Arms with a Strength Enhancer use limb_str; arms without use str_base (net zero delta).
+   - Arms with a Strength Enhancer use limb_str; arms without use str_base (net zero delta).
      Muscle Enhancement is excluded when cyberarms are present. */
 const recalcCyberwareBonuses = () => {
 	if (cwSuppressRecalc) return;
@@ -71670,8 +71670,8 @@ const recalcCyberwareBonuses = () => {
 	let internalStrSum = 0;  // from Muscle Enhancement
 	let unarmedFlat    = 0;
 	let unarmedDice    = "";
-	let armCount       = 0;  // full cyberarms present
-	let armStrSum      = 0;  // sum of each arm's effective limb_str
+	let armSlots       = 0;  // arm slots filled by full cyberarms (max 2; "both" = 2)
+	let armStrSum      = 0;  // sum of effective limb_str across filled slots
 	let pending        = 2;
 
 	const accumulateUnarmed = (raw) => {
@@ -71684,13 +71684,15 @@ const recalcCyberwareBonuses = () => {
 	};
 
 	const commit = (strBase) => {
-		/* Determine effective STR bonus.
-		   With cyberarms: average str_base with each arm's STR (unenhanced arms use str_base).
+		/* Determine effective STR bonus (two-arm-slot model).
+		   Cyber slots contribute limb STR, remaining natural slots contribute str_base;
+		   effective STR = floor(average of the two slots).
 		   Muscle Enhancement is excluded when any full cyberarms are present. */
 		let strTotal;
-		if (armCount > 0) {
-			const avg = (strBase + armStrSum) / (1 + armCount);
-			strTotal  = Math.round(avg) - strBase;
+		if (armSlots > 0) {
+			const natural = (2 - armSlots) * strBase;
+			const avg     = (armStrSum + natural) / 2;
+			strTotal      = Math.floor(avg) - strBase;
 		} else {
 			strTotal = internalStrSum;
 		}
@@ -71746,6 +71748,7 @@ const recalcCyberwareBonuses = () => {
 				`repeating_cyberlimbs_${id}_limb_unarmed_bonus`,
 				`repeating_cyberlimbs_${id}_limb_is_arm`,
 				`repeating_cyberlimbs_${id}_limb_str`,
+				`repeating_cyberlimbs_${id}_limb_side`,
 			]));
 			getAttrs(keys, (rows) => {
 				ids.forEach(id => {
@@ -71753,9 +71756,14 @@ const recalcCyberwareBonuses = () => {
 					const isArm  = parseInt(rows[`repeating_cyberlimbs_${id}_limb_is_arm`],  10) || 0;
 					const limbSt = parseInt(rows[`repeating_cyberlimbs_${id}_limb_str`],     10) || 0;
 					if (isArm) {
-						armCount++;
-						/* 0 means no enhancer installed — arm contributes str_base to average */
-						armStrSum += limbSt > 0 ? limbSt : strBase;
+						const side  = rows[`repeating_cyberlimbs_${id}_limb_side`] || "";
+						const slots = side === "both" ? 2 : 1;        /* left/right/unselected = 1 slot */
+						const take  = Math.min(slots, 2 - armSlots);  /* only 2 arm slots exist */
+						if (take > 0) {
+							armSlots  += take;
+							/* limb_str 0 means no enhancer installed — slot contributes str_base */
+							armStrSum += (limbSt > 0 ? limbSt : strBase) * take;
+						}
 					}
 				});
 				done(strBase);
@@ -71812,6 +71820,19 @@ on("change:repeating_internal:int_preset", (eventInfo) => {
 
 on("remove:repeating_internal", recalcCyberwareBonuses);
 on("remove:repeating_cyberlimbs", recalcCyberwareBonuses);
+on("change:repeating_cyberlimbs:limb_side", recalcCyberwareBonuses);
+
+/* Initialise str_base on first open — if unset, derive from current str minus any active bonus.
+   Seeding counterpart to the change:str back-calculation below (cyberware base+bonus pattern).
+   Called from afterAllSets in initializeSheetOnOpen. */
+const initStrBase = () => {
+	getAttrs(["str", "str_base", "ct_str_bonus_total"], (v) => {
+		if (!parseInt(v.str_base, 10)) {
+			const bonus = parseInt(v.ct_str_bonus_total, 10) || 0;
+			setAttrs({ str_base: Math.max(0, (parseInt(v.str, 10) || 0) - bonus) });
+		}
+	});
+};
 
 /* When player manually edits STR, store the raw value as str_base.
    recalcCyberwareBonuses will then write str = str_base + cyberware bonus. */

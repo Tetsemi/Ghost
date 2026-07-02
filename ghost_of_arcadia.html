@@ -42123,6 +42123,7 @@ const ancestryDataMap = {
 				strain: "",
 				usage_limit: "",
 				affected_skill: [],
+				skill_bonus: 0,
 				skills: [ "spirit_lore", "survival_wilderness", "track" ],
 				prerequisite: ""
 			},
@@ -72746,18 +72747,17 @@ function setDefaultTalentBonuses(race, callback, options) {
     return {};
   }
 
-  const skillSet = new Set();
   Object.values(raceTalents).forEach(talent => {
     const skills = talent && talent.skills;
-    if (!skills) return;
+    const skillBonus = talent && typeof talent.skill_bonus === "number" ? talent.skill_bonus : 0;
+    if (!skills || skillBonus <= 0) return;
 
-    if (Array.isArray(skills)) skills.forEach(s => s && skillSet.add(s));
-    else if (typeof skills === "object") Object.keys(skills).forEach(s => s && skillSet.add(s));
-  });
-
-  skillSet.forEach(skill => {
-    const attr = `${race}_talent_${skill}_bonus_mdr`;
-    if (!(attr in talent_updates_local)) talent_updates_local[attr] = 10;
+    const skillList = Array.isArray(skills) ? skills : Object.keys(skills);
+    skillList.forEach(s => {
+      if (!s) return;
+      const attr = `${race}_talent_${s}_bonus_mdr`;
+      if (!(attr in talent_updates_local)) talent_updates_local[attr] = skillBonus;
+    });
   });
 
   const hasSetOptions = Object.keys(setOptions).length > 0;

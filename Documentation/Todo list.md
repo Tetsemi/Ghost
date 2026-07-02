@@ -1,5 +1,7 @@
 BUGS:
 
+Compromised Success needs a strain cost.
+
 To-do:
 	
 ## Pending — Next Revision Pass
@@ -11,6 +13,8 @@ To-do:
 3. **Add Ancestry Traits to Summary Text** - Waiting on docs
 
 4. **Fix Ancestry CSS Themes**
+
+5. ** Add Dodge roll to Combat Tab**
 
 Clean-up:
 

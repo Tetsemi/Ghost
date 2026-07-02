@@ -44500,12 +44500,15 @@ const backgroundDataMap = {
 	}
 };
 
+/* Career type display: no per-entry name field — derive at render time via
+   tr("career_type_" + entry.career_type + "-u")  (keys: career_type_arcane-u / _core-u / _specialist-u).
+   career_type also appears inside prerequisite descriptor objects ({ type: "capstone", career_type: "..." })
+   — same field name, different role; never bulk-edit career_type lines without checking nesting depth. */
 const careerDataMap = {
 	/* Arcane Career */
 	codeweaver: {
 		name: "Codeweaver",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -44845,7 +44848,6 @@ const careerDataMap = {
 	dreamshaper: {
 		name: "Dreamshaper",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -45189,7 +45191,6 @@ const careerDataMap = {
 	gravesinger: {
 		name: "Gravesinger",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -45526,7 +45527,6 @@ const careerDataMap = {
 	mindbender: {
 		name: "Mindbender",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -45879,7 +45879,6 @@ const careerDataMap = {
 	sigilbound: {
 		name: "Sigilbound",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -46230,7 +46229,6 @@ const careerDataMap = {
 	soulmender: {
 		name: "Soulmender",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -46567,7 +46565,6 @@ const careerDataMap = {
 	spirit_warden: {
 		name: "Spirit Warden",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -46910,7 +46907,6 @@ const careerDataMap = {
 	stormweaver: {
 		name: "Stormweaver",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -47256,7 +47252,6 @@ const careerDataMap = {
 	veil_dancer: {
 		name: "Veil Dancer",
 		career_type: "arcane",
-		career_type_name: "Arcane",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -47595,7 +47590,6 @@ const careerDataMap = {
 	brawler: {
 		name: "Brawler",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -47615,7 +47609,6 @@ const careerDataMap = {
 	combat_engineer: {
 		name: "Combat Engineer",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -47948,7 +47941,6 @@ const careerDataMap = {
 	combat_medic: {
 		name: "Combat Medic",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -48288,7 +48280,6 @@ const careerDataMap = {
 	faceman: {
 		name: "Faceman",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -48630,7 +48621,6 @@ const careerDataMap = {
 	icon: {
 		name: "Icon",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -48980,7 +48970,6 @@ const careerDataMap = {
 	investigator: {
 		name: "Investigator",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -49313,7 +49302,6 @@ const careerDataMap = {
 	marksman: {
 		name: "Marksman",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -49650,7 +49638,6 @@ const careerDataMap = {
 	operator: {
 		name: "Operator",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -49986,7 +49973,6 @@ const careerDataMap = {
 	pathfinder: {
 		name: "Pathfinder",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -50321,7 +50307,6 @@ const careerDataMap = {
 	pilot: {
 		name: "Pilot",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -50667,7 +50652,6 @@ const careerDataMap = {
 	shadowblade: {
 		name: "Shadowblade",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -51013,7 +50997,6 @@ const careerDataMap = {
 	slicer: {
 		name: "Slicer",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -51346,7 +51329,6 @@ const careerDataMap = {
 	street_ronin: {
 		name: "Street Ronin",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -51690,7 +51672,6 @@ const careerDataMap = {
 	tactician: {
 		name: "Tactician",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -51710,7 +51691,6 @@ const careerDataMap = {
 	vanguard: {
 		name: "Vanguard",
 		career_type: "core",
-		career_type_name: "Core",
 		base_skill_points: 180,
 		skill_points_primary_formula: {
 			attributes: ["EDU"],
@@ -52045,7 +52025,6 @@ const careerDataMap = {
 	arcane_gunslinger: {
 		name: "Arcane Gunslinger",
 		career_type: "specialist",
-		career_type_name: "Specialist",
 		career_cost: 0,
 		skill_points_primary_display: "—",
 		skill_points_secondary: 0,
@@ -52324,7 +52303,6 @@ const careerDataMap = {
 	bioforged: {
 		name: "Bioforged",
 		career_type: "specialist",
-		career_type_name: "Specialist",
 		career_cost: 0,
 		skill_points_primary_display: "—",
 		skill_points_secondary: 0,
@@ -52600,7 +52578,6 @@ const careerDataMap = {
 	hexbreaker: {
 		name: "Hexbreaker",
 		career_type: "specialist",
-		career_type_name: "Specialist",
 		career_cost: 0,
 		skill_points_primary_display: "—",
 		skill_points_secondary: 0,
@@ -52878,7 +52855,6 @@ const careerDataMap = {
 	soul_forger: {
 		name: "Soul Forger",
 		career_type: "specialist",
-		career_type_name: "Specialist",
 		career_cost: 0,
 		skill_points_primary_display: "—",
 		skill_points_secondary: 0,

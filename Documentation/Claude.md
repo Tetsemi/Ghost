@@ -20,7 +20,7 @@
 | `GoA_Rules_Update_Weapons_v2.docx` | Weapons rules update |
 | `Weapons_2026-03-27.docx` | Latest weapons data |
 | `GoA_Gear_Section_Template.docx` | Gear section template |
-| `Todo_list.txt` | Active bugs and pending tasks |
+| `Todo_list.md` | Active bugs and pending tasks |
 
 ---
 
@@ -131,6 +131,8 @@ talent_key: {
 },
 ```
 
+Nested talent/racial entries carry no `source: {}` of their own — the parent ancestry entry's top-level `source` covers everything nested inside it.
+
 ### `source: {}` Validation Checklist
 
 When any entry is added or modified, check:
@@ -139,6 +141,7 @@ When any entry is added or modified, check:
 3. Is `date` the correct ISO date string (`"YYYY-MM-DD"`)?
 4. Is `section` the correct section translation key?
 5. If data came from a **new rules update** (e.g., `Weapons_2026-03-27.docx`), update the version and date accordingly.
+6. If the edit was to a **nested object** (`talents`, `racials`), the check applies to the **parent entry's** `source` — see the nested-edit rule under DataMap Integrity.
 
 ### DataMap `skill` field
 
@@ -293,7 +296,7 @@ Pattern:
 
 Any ancestry talent **add, rename, or removal** touches all of the following. Missing any one produces a silent partial failure:
 
-1. **DataMap** — the entry under `ancestryDataMap[race].talents` (tier-then-alphabetical position), plus every `prerequisite` array that references the key.
+1. **DataMap** — the entry under `ancestryDataMap[race].talents` (tier-then-alphabetical position), plus every `prerequisite` array that references the key, plus the parent ancestry entry's `source` version/date.
 2. **HTML** — the main talent row in the ancestry tab (plus tier index comment and any `sheet-talent-prereq` spans naming the key), and, for `usage_limit: "session"` talents, the tracker row (`attr_show_{race}_{key}` hidden input + `sheet-tracker-item` div + tracker index comment).
 3. **translation.json** — `talent_{race}_{key}-u` and `talent_{race}_{key}_rules-u`.
 4. **CSS** — the per-talent visibility selector in the `/* Racial Talent Tracker - {Race} - Session */` block: `input[name="attr_show_{race}_{key}"][value="1"] ~ .sheet-{race}-{key-with-dashes}`. **The tracker row will never display without this rule**, no matter how correctly the JS writes the `show_` attr.
@@ -519,24 +522,19 @@ Credits (Cr) — primary economy unit.
 
 ---
 
-## Known Issues & Pending Work (from Todo_list.txt)
+## Known Issues & Pending Work (from Todo_list.md)
 
-1. **Unhide buttons** in the manual section (bug).
-2. **"special" economy value** — standardize to `special_immediate` or keep distinct.
-3. **brawler, tactician careers** — populate stubs when ready.
-4. **Full type/tag audit** across all DataMaps.
-5. **Ancestry talent tag normalization** — legacy talents use display-name tags instead of snake_case (e.g. `"Observation"` → `"observation"`). Do not add new mis-cased tags.
-6. **Add Ancestry Traits to Summary Text**.
-7. **Merge `ancestryTalentDataMap` into `ancestryDataMap`** ✓ done — talents are nested under `ancestryDataMap[race].talents`; `ancestryTalentDataMap` no longer exists.
-8. **Combat — Drones & Deployables** (not yet implemented).
-9. **Combat — Bots & Autonomous Units** (not yet implemented).
-10. **Inventory — MedTech Equipment & Strain Compounds** (redo).
-11. **Inventory — Pharmaceuticals & Street Narcotics** (redo).
-12. **Cyberware section** (not yet implemented).
-13. **Vehicle section** ✓ implemented.
-14. **NPC — Add MOV penalty**.
-15. **NPC — Cap Condition Penalty to −20**.
-16. **Clean-up** — Move skill rolls to sheet worker on click (single place to edit roll value).
+### Bugs
+- None currently tracked.
+
+### Pending — Next Revision Pass
+1. **brawler, tactician careers** — waiting on docs.
+2. **Full type/tag audit across all DataMaps** — waiting on docs. (Includes the legacy ancestry talent tag normalization: display-name tags → snake_case.)
+3. **Add Ancestry Traits to Summary Text** — waiting on docs.
+4. **Fix Ancestry CSS Themes** — includes the Lyranni high-contrast theme application blocks, which still contain stale light-theme values after the `:root` reorganization.
+
+### Clean-up / Questions / Wishlist
+- Empty.
 
 ---
 
@@ -549,8 +547,9 @@ Credits (Cr) — primary economy unit.
 
 ### DataMap Integrity
 - **Always check `source: {}` when editing a DataMap entry.** If the rules text changed in a newer document version, the `version` and `date` fields must be updated too. Stale source metadata has caused confusion about which rulebook version the sheet reflects.
+- **Nested DataMap edits bump the parent entry's `source`.** Entries with nested objects (`ancestryDataMap[race].talents`, `.racials`, `careerDataMap[career].talents`) carry their `source: {}` at the top level of the parent entry, not per nested item. Any add/rename/remove/rules-text change inside the nested objects requires updating the parent's `version` and `date` in the same change — the absence of a `source` field at the layer being edited is not an exemption. When the change comes as a direct ruling from the rules author rather than a document, use the ruling date (`X.YYMMDD` with the major version unchanged) and confirm the number if a formal doc revision follows.
 - **DataMaps are the source of truth.** Do not patch values directly into HTML option lists, roll formulas, or sheet worker logic without updating the DataMap first. Discrepancies between the DataMap and the HTML have caused bugs that were hard to trace.
-- **Ancestry talent tags** (in `ancestryDataMap[race].talents`) — new entries must use snake_case tags (e.g. `"observation"`, not `"Observation"`). The normalization of the legacy entries is a tracked to-do; do not add new mis-cased tags.
+- **Ancestry talent tags** (in `ancestryDataMap[race].talents`) — new entries must use snake_case tags (e.g. `"observation"`, not `"Observation"`). The normalization of the legacy entries is part of the tracked type/tag audit; do not add new mis-cased tags.
 - **DataMap `skill` field must hold the skillDataMap key**, not the sheet attribute name. Use `skillDataMap[data.skill].bonus` in the apply function to get the attr name. Never store `"drive_auto_mdr"` directly — store `"drive_auto"` and look it up.
 
 ### translation.json
@@ -648,7 +647,7 @@ Credits (Cr) — primary economy unit.
 - **`on('ready', ...)` is required** as the entry point for all API scripts. Code outside this handler runs before the sandbox is initialized and will fail silently.
 
 ### General
-- **Check the Todo_list.txt before starting any new section.** A feature may already be stubbed, partially implemented, or blocked on a dependency.
+- **Check the Todo_list.md before starting any new section.** A feature may already be stubbed, partially implemented, or blocked on a dependency.
 - **Cross-reference PDFs (First_2_sections_GoA.pdf, Gear_and_Loadout.pdf) and .docx updates** before writing any new DataMap data. The docx files (especially `Weapons_2026-03-27.docx`) may contain more recent rule text than the PDF, and `source: {}` must reflect the actual document used.
 - **The sheet width is fixed at 840px** (`--cs_sheet_width`). Do not design sections that exceed this or assume a wider viewport.
 - **CRLF line endings.** `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, and `translation.json` use `\r\n`. For multi-line targeted edits, use Python byte-level replacement with `\r\n` normalization and an `assert count == 1` uniqueness check per replacement — the equivalent of `str_replace` but CRLF-safe.

@@ -12,8 +12,6 @@ To-do:
 
 4. **Fix Ancestry CSS Themes**
 
-5. ** Add Dodge roll to Combat Tab**
-
 Clean-up:
 
 Questions:

@@ -48,7 +48,7 @@
 - All sections within a file must be ordered alphabetically where applicable.
 - All entries within each section must be ordered alphabetically by key.
 - **`translation.json`** is strictly alphabetical by key — always insert new keys in the correct alphabetical position. Never append to the end.
-- DataMap entries within each DataMap object must be alphabetical by key.
+- DataMap entries within each DataMap object must be alphabetical by key. Ancestry talent entries are ordered **by tier, then alphabetically within each tier** — the tracker index comments, tracker rows, main talent rows, and CSS visibility selector lists are all alphabetical within their groupings.
 - CSS variables within a block should be alphabetical where feasible.
 - HTML `<option>` lists within a `<select>` should be alphabetical.
 
@@ -65,8 +65,7 @@ skillDataMap
 conditionsDataMap
 perkDataMap
 flawDataMap
-ancestryDataMap
-ancestryTalentDataMap
+ancestryDataMap        (contains nested per-ancestry `racials` and `talents` objects — the former ancestryTalentDataMap is merged in)
 backgroundDataMap
 careerDataMap
 weaponDataMap
@@ -115,7 +114,7 @@ skill_name: {
 },
 ```
 
-For talent DataMaps:
+For ancestry talent entries (nested under `ancestryDataMap[race].talents`):
 
 ```javascript
 talent_key: {
@@ -219,6 +218,16 @@ feature_key: {
 | `talent_ancestry_talent_key-u` | Ancestry talent name |
 | `talent_ancestry_talent_key_rules-u` | Ancestry talent rules |
 
+### Talent Rules Text Format
+
+All `talent_*_rules-u` values follow one canonical format:
+
+```
+Type: {Economy} ({Tag Display Name}) • Cost: {— | 1d6 Strain | ...} • Usage: {At-will | 1/Scene | 1/Session} — {rules body}
+```
+
+Use the bullet `•` between segments and an em dash `—` before the body. Use typographic apostrophes (`'`) in rules bodies to match existing entries.
+
 ---
 
 ## HTML Architecture
@@ -279,6 +288,17 @@ Pattern:
     <!-- content -->
 </div>
 ```
+
+### Ancestry Talents Are a Four-Layer Feature
+
+Any ancestry talent **add, rename, or removal** touches all of the following. Missing any one produces a silent partial failure:
+
+1. **DataMap** — the entry under `ancestryDataMap[race].talents` (tier-then-alphabetical position), plus every `prerequisite` array that references the key.
+2. **HTML** — the main talent row in the ancestry tab (plus tier index comment and any `sheet-talent-prereq` spans naming the key), and, for `usage_limit: "session"` talents, the tracker row (`attr_show_{race}_{key}` hidden input + `sheet-tracker-item` div + tracker index comment).
+3. **translation.json** — `talent_{race}_{key}-u` and `talent_{race}_{key}_rules-u`.
+4. **CSS** — the per-talent visibility selector in the `/* Racial Talent Tracker - {Race} - Session */` block: `input[name="attr_show_{race}_{key}"][value="1"] ~ .sheet-{race}-{key-with-dashes}`. **The tracker row will never display without this rule**, no matter how correctly the JS writes the `show_` attr.
+
+All sheet worker logic (watchers, XP, enables/locks, tracker mirror) is generic over DataMap keys — no per-talent JS exists or should be added.
 
 ---
 
@@ -355,6 +375,7 @@ For the preview to fill its container width, the tooltip and its container need:
 - Helper/apply functions follow DataMaps.
 - `on()` event watchers follow helpers.
 - `on('sheet:opened', ...)` init calls go at the very end.
+- **On-open behavior belongs in `afterAllSets()` as explicit named-function calls** — never register `sheet:opened` handlers inside `bootstrapGlobalWatchersOnce` (that function itself runs during `sheet:opened` dispatch, so handlers registered there never fire).
 
 ### i18n in Sheet Workers
 
@@ -429,21 +450,34 @@ const initVehiclePresets = () => {
 
 The apply function accepts `preserveHp = false` and only sets HP when `!preserveHp`.
 
-### Repeating Section Pattern
+### Attr Migration Pattern (renamed/removed DataMap keys)
+
+When a DataMap key that players may have **checked or filled** is renamed or removed, ship a one-time migration in the same change:
 
 ```javascript
-getSectionIDs("repeating_sectionname", (ids) => {
-	if (!ids.length) return;
-	const fetchKeys = ids.map(id => `repeating_sectionname_${id}_attr_key`);
-	getAttrs(fetchKeys, (rows) => {
-		ids.forEach(id => {
-			const p = `repeating_sectionname_${id}_`;
-			const val = rows[p + "attr_key"] || "";
-			// process...
+/* One-time attr migration for X renamed YYYY-MM-DD. Idempotent — old attrs
+   are zeroed after transfer, so it never re-fires.
+   Called from afterAllSets in initializeSheetOnOpen. */
+const migrateRetiredX = () => {
+	getAttrs([oldAttr, newAttr, ...trackerAttrs], (values) => {
+		const updates = {};
+		if (values[oldAttr] !== "1") return;
+		updates[oldAttr] = "0";
+		if (values[newAttr] !== "1") updates[newAttr] = "1";
+		// transfer show_/used_session_ tracker state where applicable
+		if (!Object.keys(updates).length) return;
+		setAttrs(updates, () => {
+			// recompute enables/locks against COMMITTED values — callback, not watcher
+			updateTalentEnables(race);
 		});
 	});
-});
+};
 ```
+
+- Idempotent by construction — no migration flag attr needed.
+- Non-silent `setAttrs` so the existing `change:` watchers (XP, tracker mirror) fire their normal paths.
+- The final recompute goes in the `setAttrs` **callback** per the committed-values rule.
+- Reference implementation: `migrateRetiredAncestryTalents` (2026-07-04 talent renames).
 
 ---
 
@@ -491,9 +525,9 @@ Credits (Cr) — primary economy unit.
 2. **"special" economy value** — standardize to `special_immediate` or keep distinct.
 3. **brawler, tactician careers** — populate stubs when ready.
 4. **Full type/tag audit** across all DataMaps.
-5. **ancestryTalentDataMap tag normalization** — 115/160 talents use display-name tags instead of snake_case (e.g. `"Observation"` → `"observation"`).
+5. **Ancestry talent tag normalization** — legacy talents use display-name tags instead of snake_case (e.g. `"Observation"` → `"observation"`). Do not add new mis-cased tags.
 6. **Add Ancestry Traits to Summary Text**.
-7. **Merge `ancestryTalentDataMap` into `ancestryDataMap`** (pending).
+7. **Merge `ancestryTalentDataMap` into `ancestryDataMap`** ✓ done — talents are nested under `ancestryDataMap[race].talents`; `ancestryTalentDataMap` no longer exists.
 8. **Combat — Drones & Deployables** (not yet implemented).
 9. **Combat — Bots & Autonomous Units** (not yet implemented).
 10. **Inventory — MedTech Equipment & Strain Compounds** (redo).
@@ -516,7 +550,7 @@ Credits (Cr) — primary economy unit.
 ### DataMap Integrity
 - **Always check `source: {}` when editing a DataMap entry.** If the rules text changed in a newer document version, the `version` and `date` fields must be updated too. Stale source metadata has caused confusion about which rulebook version the sheet reflects.
 - **DataMaps are the source of truth.** Do not patch values directly into HTML option lists, roll formulas, or sheet worker logic without updating the DataMap first. Discrepancies between the DataMap and the HTML have caused bugs that were hard to trace.
-- **`ancestryTalentDataMap` tags** — new entries must use snake_case tags (e.g. `"observation"`, not `"Observation"`). The normalization of the 115 legacy entries is a tracked to-do; do not add new mis-cased tags.
+- **Ancestry talent tags** (in `ancestryDataMap[race].talents`) — new entries must use snake_case tags (e.g. `"observation"`, not `"Observation"`). The normalization of the legacy entries is a tracked to-do; do not add new mis-cased tags.
 - **DataMap `skill` field must hold the skillDataMap key**, not the sheet attribute name. Use `skillDataMap[data.skill].bonus` in the apply function to get the attr name. Never store `"drive_auto_mdr"` directly — store `"drive_auto"` and look it up.
 
 ### translation.json
@@ -567,6 +601,8 @@ Credits (Cr) — primary economy unit.
 
 - **Mod slot checkboxes must gate both capacity and stat bonuses.** When a mod slot has a checkbox that marks it as "installed", the capacity recalc and any stat bonus recalc must both check that checkbox before counting the mod's contribution. Read `show_modN` alongside `modN_capreq` and `modN_limb_str` in the same `getAttrs` call, and only accumulate when checked. Add `change:show_modN` watchers that fire both the capacity recalc and the bonus recalc. On init, gate `applyLimbModPreset` on the checkbox and explicitly write `limb_str: "0"` for unchecked mods even when the preset is set.
 
+- **Cyberware mod slot debugging: always verify the mod slot equipped checkbox is checked first.** `cyberoptics_show_modN` must equal `"1"` or the slot is invisible to all JS logic regardless of preset. Check this before any code investigation.
+
 - **Init with multiple async apply calls needs a barrier before the final recalc.** When `initXxxPresets` calls `applyXxxPreset` and `applyLimbModPreset` for multiple rows and slots in a loop, all those `setAttrs` calls are queued. The final `recalcCywerwareBonuses` must not fire until all writes are committed. Pattern: set `cwSuppressRecalc = true` before the loop, set it `false` after, then use a `getAttrs(barrier_keys, () => recalcXxx())` call — Roll20 processes `setAttrs` and `getAttrs` sequentially, so the `getAttrs` callback fires only after all prior `setAttrs` have committed.
 
 - **STR watcher loop: `registerStatHandler` must not write back to `attr_str`.** If `attr_str` is in the watched array and `registerStatHandler` also writes `update["str"]`, every write triggers the watcher again — infinite loop. The fix: write `attr_str` outside `registerStatHandler` entirely (from `recalcCywareBonuses` using `str_base + bonus`), and keep `attr_str` in the watched array only so `registerStatHandler` fires when the player edits it manually to update damage bonus thresholds. `registerStatHandler` reads `attr_str` but never writes it.
@@ -584,6 +620,14 @@ Credits (Cr) — primary economy unit.
 - **Effect preview text shows from the end instead of the start when the container has no hard width constraint.** `text-overflow: ellipsis` only clips from the right when the element has a definite width to overflow against. If the parent `flex` container can grow, the span has no wall to clip against and renders all text (effectively right-aligned). Fix: set `overflow: hidden` on the **preview span** (not the cell), and ensure the cell has `flex: 1 1 0; min-width: 0` so flex constrains it. Do not set `overflow: hidden` on the cell itself — that clips the bubble.
 
 - **Adding an Effect column to mod rows (optics, audio, cyberlimbs) follows the same pattern as the cyberlimb suite row.** Add a `cw-mod-effect-cell` flex cell after the Cost column in every mod row and the mod sub-header. Set `flex: 1 1 0` so it fills remaining space. Place the `sheet-skill-tooltip has-notes` inside it with preview and bubble spans. Scope CSS to `.cw-mod-effect-cell` — do not add tooltip markup inside the Name cell's select wrapper.
+
+### Ancestry Talents & Session Tracker
+
+- **Renaming or removing a DataMap talent key that players may have checked requires an attr migration shipped in the same change.** The enable/lock system assumes states that are only reachable through the UI. Orphaned attrs can create a checked-dependent / unchecked-prereq combination that deadlocks **both** checkboxes with no UI escape: the dependent's `_enabled` goes `"0"` (prereq unsatisfied, so it can't be unchecked), and the new prereq's `_lockflag` goes `"1"` (`isLocked()` sees the checked dependent, so it can't be checked). Toggling any other talent cannot break the cycle. Use the Attr Migration Pattern (see Sheet Workers section); reference implementation: `migrateRetiredAncestryTalents`.
+- **`isLocked()` locks a prereq regardless of the prereq's own checked state.** It only asks whether a checked dependent relies on it. This is invisible in normal play (a checked dependent implies the prereq was checked) but is exactly what turns orphaned migration state into a deadlock. Any future attr write path (migration, API script, import) must never produce checked-dependent/unchecked-prereq states.
+- **The tracker row visibility is CSS-enumerated per talent** — `input[name="attr_show_{race}_{key}"][value="1"] ~ .sheet-{race}-{key}` in the per-race `/* Racial Talent Tracker */` blocks. The JS writing `show_{race}_{key} = "1"` is **not** evidence the tracker works; a console log can show the attr correctly set while the row silently never renders because no CSS rule exists for that attr name. Only `usage_limit: "session"` talents get tracker rows and CSS rules; at-will passives get neither.
+- **Never declare a file/layer out of scope based on the *kind* of change — grep every renamed or removed identifier across ALL project files.** "This is a data/HTML change, CSS isn't implicated" was exactly wrong for a talent rename: the tracker CSS enumerates attr names. The cheap safeguard after any rename/removal: `grep` for every old key, old attr name, and old CSS class (both snake_case and dash-case forms) across `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, and `translation.json`, and confirm zero residual occurrences.
+- **When a test console log shows no trace output from a newly added function, first check whether the log predates the build.** Trace logging (`debug_on_trace`) prints Start lines for every named function; a missing Start line with trace on means either the function isn't in the loaded sheet or the log is from an older sheet version. Compare the log export timestamp against the output file timestamp before debugging the code.
 
 ### CSS
 - **Respect section boundaries.** Always read the surrounding section start/end markers before inserting CSS. The Combat section fieldset reset block is Combat-only. Vehicle fieldset resets go in the Vehicle section. New gear sections get their own resets in the Gear section.
@@ -607,6 +651,7 @@ Credits (Cr) — primary economy unit.
 - **Check the Todo_list.txt before starting any new section.** A feature may already be stubbed, partially implemented, or blocked on a dependency.
 - **Cross-reference PDFs (First_2_sections_GoA.pdf, Gear_and_Loadout.pdf) and .docx updates** before writing any new DataMap data. The docx files (especially `Weapons_2026-03-27.docx`) may contain more recent rule text than the PDF, and `source: {}` must reflect the actual document used.
 - **The sheet width is fixed at 840px** (`--cs_sheet_width`). Do not design sections that exceed this or assume a wider viewport.
+- **CRLF line endings.** `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, and `translation.json` use `\r\n`. For multi-line targeted edits, use Python byte-level replacement with `\r\n` normalization and an `assert count == 1` uniqueness check per replacement — the equivalent of `str_replace` but CRLF-safe.
 
 ### Lifestyle DataMaps
 - **`districtDataMap` `tiers` array is index-ordered `[squatter, low, middle, high, luxury, enclave]`.** Value `0` = unavailable, `1` = available, `2` = restricted (GM adjudicates — do not block selection, show note text). Never reorder the array.

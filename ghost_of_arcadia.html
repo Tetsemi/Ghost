@@ -23696,6 +23696,7 @@
 							<!-- - talent_lyranni_true_veilsight (30 XP) -->
 							<!-- - talent_lyranni_veil_literate (10 XP) -->
 							<!-- - talent_lyranni_veil_touch (10 XP) -->
+							<!-- - talent_lyranni_veilsight (10 XP) -->
 							<!-- ============================================================================================================== -->
 
 							<!-- Tracker Ancestry Talent: Arcane Composure | key: arcane_composure | cost: 30 XP | cadence: scene | attrs: attr_show_lyranni_arcane_composure, attr_used_scene_lyranni_arcane_composure | i18n: talent_lyranni_arcane_composure-u -->
@@ -23745,6 +23746,13 @@
 							<div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-veil-touch">
 								<input type="checkbox" name="attr_used_scene_lyranni_veil_touch" class="sheet-tracker-checkbox"/>
 								<span class="sheet-tracker-label" data-i18n="talent_lyranni_veil_touch-u"></span>
+							</div>
+
+							<!-- Tracker Ancestry Talent: Veilsight (Scene) | key: veilsight | cost: 10 XP | cadence: scene | attrs: attr_show_lyranni_veilsight, attr_used_scene_lyranni_veilsight | i18n: talent_lyranni_veilsight_scene-u -->
+							<input type="hidden" name="attr_show_lyranni_veilsight"/>
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-lyranni-veilsight">
+								<input type="checkbox" name="attr_used_scene_lyranni_veilsight" class="sheet-tracker-checkbox"/>
+								<span class="sheet-tracker-label" data-i18n="talent_lyranni_veilsight_scene-u"></span>
 							</div>
 
 							<!-- Tracker Ancestry Talent: True Veilsight (Scene) | key: true_veilsight | cost: 30 XP | cadence: scene | attrs: attr_show_lyranni_true_veilsight, attr_used_scene_lyranni_true_veilsight | i18n: talent_lyranni_true_veilsight_scene-u -->
@@ -43567,8 +43575,8 @@ const ancestryDataMap = {
 				name_key: "talent_lyranni_veilsight-u",
 				rule_text_key: "talent_lyranni_veilsight_rules-u",
 				type: { economy: "action", tag: "sense" },
-				strain: "1,1d4",
-				usage_limit: "",
+				strain: "1d4",
+				usage_limit: "scene",
 				affected_skill: [ "veil_lore" ],
 				prerequisite: ""
 			},

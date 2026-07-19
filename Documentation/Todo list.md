@@ -12,6 +12,8 @@ To-do:
 
 4. **Fix Ancestry CSS Themes**
 
+5. **Review Born Adjacent for per/Scene usage**
+
 Clean-up:
 
 1. **Still Standing** - Exists as both Human and Khadra Tier 1 Talents

@@ -34869,6 +34869,7 @@
 													<input type="text" name="attr_minionbuild" class="sheet-narrow-input" placeholder="Build" data-i18n-placeholder="build-u"/>
 													<span data-i18n="slash-z">/</span>
 													<input type="text" name="attr_miniondb" class="sheet-narrow-input" placeholder="DB" data-i18n-placeholder="db-z"/>
+													<input type="hidden" name="attr_miniondb_roll" value=""/>
 												</div>
 											</div>
 										</div>
@@ -35045,12 +35046,12 @@
 											<option data-i18n="skill8" value="@{minionskillval8}"></option>
 										</select>
 										<input type="text" class="sheet-attr-input-small" name="attr_npc_weapon_skill1_display"/>
-										<input type="text" name="attr_miniondamage1" class="sheet-narrow-input" placeholder="Dam+DB" data-i18n-placeholder="damage&db-z"/>
-										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage1" class="sheet-narrow-input" placeholder="Max Dam" data-i18n-placeholder="damage&db-z"/></div>
+										<input type="text" name="attr_miniondamage1" class="sheet-narrow-input" placeholder="Dmg" data-i18n-placeholder="dmg-abbrev-u"/>
+										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage1" class="sheet-narrow-input" placeholder="Max Dam" data-i18n-placeholder="max_dmg-u"/></div>
 										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf1" class="sheet-narrow-input" placeholder="Malf" data-i18n-placeholder="malf-u"/></div>
 										<div class="sheet-col"><input type="text" name="attr_minionstrain1" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u"/></div>
-										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage1-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon1}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf1}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage1}]]}} {{extremedamage=[[@{minionmaxdamage1}]]}} {{strain=[[0 + @{minionstrain1}]]}}"></button></div>
-										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage1-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon1}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf1}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage1}]]}} {{basedamage=[[@{miniondamage1}]]}} {{extremedamage=[[@{minionmaxdamage1}]]}} {{strain=[[0 + @{minionstrain1}]]}}"></button></div>
+										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage1-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon1}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf1}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage1}@{miniondb_roll}]]}} {{extremedamage=[[@{minionmaxdamage1}@{miniondb_roll}]]}} {{strain=[[0 + @{minionstrain1}]]}}"></button></div>
+										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage1-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon1}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill1_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf1}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage1}@{miniondb_roll}]]}} {{basedamage=[[@{miniondamage1}@{miniondb_roll}]]}} {{extremedamage=[[@{minionmaxdamage1}]]}} {{strain=[[0 + @{minionstrain1}]]}}"></button></div>
 									</div>
 									<div class="sheet-npc-row">
 										<input type="text" name="attr_minionweapon2" class="sheet-wide-input" placeholder="Weapon 2 (Skill 7)" data-i18n-placeholder="weapon2_skill7-u"/>
@@ -35060,12 +35061,12 @@
 											<option data-i18n="skill8" value="@{minionskillval8}"></option>
 										</select>
 										<input type="text" class="sheet-attr-input-small" name="attr_npc_weapon_skill2_display"/>
-										<input type="text" name="attr_miniondamage2" class="sheet-narrow-input" placeholder="Dam+DB" data-i18n-placeholder="damage&db-z"/>
+										<input type="text" name="attr_miniondamage2" class="sheet-narrow-input" placeholder="Dmg" data-i18n-placeholder="dmg-abbrev-u"/>
 										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage2" class="sheet-narrow-input" placeholder="Max Dam" data-i18n-placeholder="max_dmg-u"/></div>
 										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf2" class="sheet-narrow-input" placeholder="Malf" data-i18n-placeholder="malf-u"/></div>
 										<div class="sheet-col"><input type="text" name="attr_minionstrain2" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u"/></div>
-										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage2-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon2}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf2}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage2}]]}} {{extremedamage=[[@{minionmaxdamage2}]]}} {{strain=[[0 + @{minionstrain2}]]}}"></button></div>
-										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage2-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon2}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf2}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage2}]]}} {{basedamage=[[@{miniondamage2}]]}} {{extremedamage=[[@{minionmaxdamage2}]]}} {{strain=[[0 + @{minionstrain2}]]}}"></button></div>
+										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage2-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon2}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf2}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage2}@{miniondb_roll}]]}} {{extremedamage=[[@{minionmaxdamage2}@{miniondb_roll}]]}} {{strain=[[0 + @{minionstrain2}]]}}"></button></div>
+										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage2-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon2}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill2_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf2}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage2}@{miniondb_roll}]]}} {{basedamage=[[@{miniondamage2}@{miniondb_roll}]]}} {{extremedamage=[[@{minionmaxdamage2}]]}} {{strain=[[0 + @{minionstrain2}]]}}"></button></div>
 									</div>
 									<div class="sheet-npc-row">
 										<input type="text" name="attr_minionweapon3" class="sheet-wide-input" placeholder="Weapon 3 (Skill 8)" data-i18n-placeholder="weapon3_skill8-u"/>
@@ -35075,12 +35076,12 @@
 											<option data-i18n="skill8" value="@{minionskillval8}" selected></option>
 										</select>
 										<input type="text" class="sheet-attr-input-small" name="attr_npc_weapon_skill3_display"/>
-										<input type="text" name="attr_miniondamage3" class="sheet-narrow-input" placeholder="Dam+DB" data-i18n-placeholder="damage&db-z"/>
+										<input type="text" name="attr_miniondamage3" class="sheet-narrow-input" placeholder="Dmg" data-i18n-placeholder="dmg-abbrev-u"/>
 										<div class="sheet-col"><input type="text" name="attr_minionmaxdamage3" class="sheet-narrow-input" placeholder="Max Dam" data-i18n-placeholder="max_dmg-u"/></div>
 										<div class="sheet-col"><input type="text" name="attr_minionweaponmalf3" class="sheet-narrow-input" placeholder="Malf" data-i18n-placeholder="malf-u"/></div>
 										<div class="sheet-col"><input type="text" name="attr_minionstrain3" class="sheet-narrow-input" placeholder="Strain" data-i18n-placeholder="strain-u"/></div>
-										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage3-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon3}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf3}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage3}]]}} {{extremedamage=[[@{minionmaxdamage3}]]}} {{strain=[[0 + @{minionstrain3}]]}}"></button></div>
-										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage3-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon3}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf3}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage3}]]}} {{basedamage=[[@{miniondamage3}]]}} {{extremedamage=[[@{minionmaxdamage3}]]}} {{strain=[[0 + @{minionstrain3}]]}}"></button></div>
+										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage3-no-impale" value="&{template:coc-attack-1-noimpale} {{name=@{minion_name} attacking with @{minionweapon3}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf3}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage3}@{miniondb_roll}]]}} {{extremedamage=[[@{minionmaxdamage3}@{miniondb_roll}]]}} {{strain=[[0 + @{minionstrain3}]]}}"></button></div>
+										<div class="sheet-col"><button type="roll" class="smallbutton-roll" name="roll_miniondamage3-impale" value="&{template:coc-attack-1-impale} {{name=@{minion_name} attacking with @{minionweapon3}}}  {{modifier=[[0 + @{minion_dice_modifier_checkbox}]]}} {{success=[[{1, @{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{npc_weapon_skill3_display}+@{minion_dice_modifier_checkbox})/5)}kh1]]}} {{malf=@{minionweaponmalf3}}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{miniondamage3}@{miniondb_roll}]]}} {{basedamage=[[@{miniondamage3}@{miniondb_roll}]]}} {{extremedamage=[[@{minionmaxdamage3}]]}} {{strain=[[0 + @{minionstrain3}]]}}"></button></div>
 									</div>
 								</div>
 							</div>
@@ -69764,6 +69765,7 @@ const initializeSheetOnOpen = (eventInfo) => {
 		registerVehicleManualWatchers();
 		initLifestylePresets();
 		initContactTypeCtrl();
+		initNpcDbRoll();
 		applyTranslationsOnOpen(() => {
 			if (debug_on_trace) console.log("[initializeSheetOnOpen] Done");
 				sheetInitComplete = true;
@@ -75336,6 +75338,37 @@ function applyGrenadePreset(p, presetKey, delivery) {
 /*  Function Section - End  */
 
 /*	Watchers Section - Start  */
+
+/* NPC damage bonus (miniondb) → dice-safe roll attr (miniondb_roll).
+   miniondb is free text; normalize to a signed expression ("+1d4", "-2")
+   or "" so roll buttons can concatenate it safely after miniondamageN. */
+const normalizeMinionDb = (raw) => {
+	const v = (raw || "").trim();
+	if (!v || v === "0" || v === "+0" || v === "-0") return "";
+	return (v[0] === "+" || v[0] === "-") ? v : "+" + v;
+};
+
+const initNpcDbRoll = () => {
+	getSectionIDs("repeating_minion", (ids) => {
+		if (!ids.length) return;
+		const fetchKeys = ids.map(id => `repeating_minion_${id}_miniondb`);
+		getAttrs(fetchKeys, (v) => {
+			const updates = {};
+			ids.forEach(id => {
+				updates[`repeating_minion_${id}_miniondb_roll`] = normalizeMinionDb(v[`repeating_minion_${id}_miniondb`]);
+			});
+			setAttrs(updates, { silent: true });
+		});
+	});
+};
+
+on("change:repeating_minion:miniondb", function(eventInfo) {
+	if (debug_on_trace) console.log("[NPC] miniondb change:", eventInfo.sourceAttribute);
+	const src = eventInfo.sourceAttribute || "";
+	const rowMatch = src.match(/^(repeating_minion_[^_]+_)miniondb$/);
+	if (!rowMatch) return;
+	setAttrs({ [rowMatch[1] + "miniondb_roll"]: normalizeMinionDb(eventInfo.newValue) });
+});
 
 on("sheet:opened", initializeSheetOnOpen);
 

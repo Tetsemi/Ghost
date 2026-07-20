@@ -22525,6 +22525,28 @@
 				</div>
 			</div>
 
+			<h4 class="sheet-section-head" data-i18n="spell_reactions-u">Spell Reactions</h4>
+			<div class="sheet-section">
+				<div class="sheet-spell-reactions-grid">
+					<div class="sheet-spell-reactions-col sheet-spell-reactions-name">
+						<div class="sheet-spell-reactions-hdr" data-i18n="spell_name-u">Spell Name</div>
+						<span name="attr_spell_reactions_names_mdr"></span>
+					</div>
+					<div class="sheet-spell-reactions-col sheet-spell-reactions-r">
+						<div class="sheet-spell-reactions-hdr" data-i18n="spell_reflexive-u">R</div>
+						<span name="attr_spell_reactions_reflexive_mdr"></span>
+					</div>
+					<div class="sheet-spell-reactions-col sheet-spell-reactions-dam">
+						<div class="sheet-spell-reactions-hdr" data-i18n="spell_reactions_dam_hdr-u">Dam</div>
+						<span name="attr_spell_reactions_damage_mdr"></span>
+					</div>
+					<div class="sheet-spell-reactions-col sheet-spell-reactions-strain">
+						<div class="sheet-spell-reactions-hdr" data-i18n="strain-u">Strain</div>
+						<span name="attr_spell_reactions_strain_mdr"></span>
+					</div>
+				</div>
+			</div>
+
 			<div class="sheet-colrow">
 				<h4 class="sheet-section-head" data-i18n="spells-u">Spells</h4>
 				<div class="sheet-spells-section">
@@ -70060,6 +70082,7 @@ const initializeSheetOnOpen = (eventInfo) => {
 		registerGrenadeManualWatchers();
 		registerWeaponManualWatchers();
 		initSpellPresets();
+		rebuildSpellReactions();
 		initVehiclePresets();
 		initVehicleWeaponPresets();
 		initVehicleModPresets();
@@ -75012,7 +75035,7 @@ const applySpellPreset = (prefix, schoolKey, spellKey) => {
 			})(),
 			[prefix + "spellpreset_vs_mdr"]:            data.resistance || "",
 			[prefix + "spellpreset_xp_mdr"]:            String(data.xp   || ""),
-		});
+		}, () => { rebuildSpellReactions(); });
 	};
 	if (skillAttr) {
 		getAttrs([skillAttr], (vals) => applyAttrs(vals[skillAttr] || "0"));
@@ -75021,6 +75044,55 @@ const applySpellPreset = (prefix, schoolKey, spellKey) => {
 	}
 };
 
+/* ── Spell Reactions summary: prepared preset spells cast as Reactions ── */
+const rebuildSpellReactions = () => {
+	if (debug_on_trace) console.log("[rebuildSpellReactions] Start");
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	const blank = {
+		spell_reactions_names_mdr:     " ",
+		spell_reactions_reflexive_mdr: " ",
+		spell_reactions_damage_mdr:    " ",
+		spell_reactions_strain_mdr:    " ",
+	};
+	getSectionIDs("repeating_spellpreset", (ids) => {
+		if (!ids.length) { setAttrs(blank); return; }
+		const fetchKeys = ids.flatMap(id => [
+			`repeating_spellpreset_${id}_spellpreset_prepared_mdr`,
+			`repeating_spellpreset_${id}_spellpreset_school_key`,
+			`repeating_spellpreset_${id}_spellpreset_spell_key`,
+		]);
+		getAttrs(fetchKeys, (v) => {
+			const rows = [];
+			ids.forEach(id => {
+				const p = `repeating_spellpreset_${id}_`;
+				if (v[p + "spellpreset_prepared_mdr"] !== "1") return;
+				const schoolKey = v[p + "spellpreset_school_key"] || "";
+				const spellKey  = v[p + "spellpreset_spell_key"] || "";
+				const spell = (spellDataMap[schoolKey] || {})[spellKey];
+				if (!spell || spell.cast !== "reaction") return;
+				rows.push({
+					name:   tr(spell.name_key) || spellKey,
+					r:      spell.reflexive ? (tr("spell_reflexive-u") || "R") : " ",
+					dam:    String(spell.damage || "") || " ",
+					strain: String(spell.strain || "") || " ",
+				});
+			});
+			if (!rows.length) { setAttrs(blank); return; }
+			rows.sort((a, b) => a.name.localeCompare(b.name));
+			setAttrs({
+				spell_reactions_names_mdr:     rows.map(r => r.name).join("\n"),
+				spell_reactions_reflexive_mdr: rows.map(r => r.r).join("\n"),
+				spell_reactions_damage_mdr:    rows.map(r => r.dam).join("\n"),
+				spell_reactions_strain_mdr:    rows.map(r => r.strain).join("\n"),
+			});
+		});
+	});
+};
+
+on("change:repeating_spellpreset:spellpreset_prepared_mdr remove:repeating_spellpreset", () => {
+	if (debug_on_trace) console.log("[change:spellpreset_prepared_mdr / remove:repeating_spellpreset] Start");
+	rebuildSpellReactions();
+});
 
 on("clicked:repeating_spellpreset:spellpresetadvanced", (eventInfo) => {
 	if (debug_on_trace) console.log("[clicked:repeating_spellpreset:spellpresetadvanced]");

@@ -40426,12 +40426,12 @@ Body Hit Location---------------------------------------------------------------
 
 <!-- WORKERS -->
 <script type="text/worker">
-const debug_on = false;
-const debug_on_trace = false;
-const debug_on_watcher = false;
+const debug_on = true;
+const debug_on_trace = true;
+const debug_on_watcher = true;
 
-const SHEET_VERSION = "2.26.07.05";
-const SHEET_BUILD   = "2026-07-05"; // optional (date, short SHA, etc.)
+const SHEET_VERSION = "2.26.07.26";
+const SHEET_BUILD   = "2026-07-26"; // optional (date, short SHA, etc.)
 const SHEET_SCHEMA  = 2;            // bump when you do a breaking data migration
 const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 
@@ -66828,6 +66828,49 @@ const weaponSkillClassMap = {
 	"@{heavy_weapons_mdr}":    "skill-heavy",
 };
 
+/* ── Weapon preset slot maps ─────────────────────────────────────────────
+   A weapon's preset value is stored in an attr named after the <select> it
+   appears in, so moving a key between preset selects moves it between attr
+   names. These maps are the authoritative link between weaponDataMap[key].skill
+   and the attr that holds the key, and drive reconcileWeaponPresetSlots.
+   Use `skill`, never `category` — all four thrown weapons carry
+   category: "melee" and would be mis-slotted by a category lookup. */
+
+/* Order matches the historical presetKey resolution order — do not reorder. */
+const weaponPresetSlots = ["melee", "throw", "handgun", "shotgun", "rifle", "smg", "heavy"];
+
+const weaponPresetSlotBySkill = {
+	firearms_handgun: "handgun",
+	firearms_rifle:   "rifle",
+	firearms_shotgun: "shotgun",
+	firearms_smg:     "smg",
+	heavy_weapons:    "heavy",
+	melee_weapons:    "melee",
+	throw:            "throw",
+};
+
+const weaponPresetSkillRefBySlot = {
+	handgun: "@{firearms_handgun_mdr}",
+	heavy:   "@{heavy_weapons_mdr}",
+	melee:   "@{melee_weapons_mdr}",
+	rifle:   "@{firearms_rifle_mdr}",
+	shotgun: "@{firearms_shotgun_mdr}",
+	smg:     "@{firearms_smg_mdr}",
+	throw:   "@{throw_mdr}",
+};
+
+/* Declare a renamed weaponDataMap key here as old_key: "new_key". The
+   reconciler translates stored values through this map before lookup and never
+   clears a value it cannot resolve. Append-only; entries are permanent. */
+const retiredWeaponKeyMap = {
+};
+
+/* When true the reconciler also realigns the row's skill <select> and CSS
+   controller to the weapon's new slot. Without it a relocated value lands in
+   the correct attr but the visible <select> is still the old one, so the row
+   still reads as empty. Set false to relocate the preset value only. */
+const reconcileWeaponSkillSelect = true;
+
 const barrelMap = {
 	sl: "Silencer", co: "Compensator", su: "Suppressor",
 	pc: "Precision Choke", sb: "Slug Barrel"
@@ -69547,10 +69590,59 @@ const recalcCtVitalityTotal = () => {
 	});
 };
 
+/* ── Weapon preset slot reconciler ──────────────────────────────────────
+   Moving a key between preset <select>s moves its stored value between attr
+   names, and the old value then silently stops resolving. This repairs that
+   on open: for every non-empty preset value it recomputes the correct slot
+   from weaponDataMap[key].skill and relocates the value if it is parked in
+   the wrong attr.
+
+   Safe to run on open because Roll20 does NOT write back an unmatched <select>
+   value on render — a stale value is still readable here and can be repaired
+   before the player touches the row and Roll20 blanks it.
+
+   Idempotent by construction: a value already in its correct slot is a no-op,
+   so no migration flag attr is needed. Unknown keys are LEFT IN PLACE and
+   logged, never cleared — declare renames in retiredWeaponKeyMap instead.
+
+   `current` is { slot: storedValue }. Returns { fixed, moves } where `fixed`
+   is the corrected { slot: value } view the caller should resolve presetKey
+   from, and `moves` is empty when nothing needed relocating. */
+const reconcileWeaponPresetSlots = (current, ctx) => {
+	const fixed = {};
+	const moves = [];
+	weaponPresetSlots.forEach(s => { fixed[s] = current[s] || ""; });
+	weaponPresetSlots.forEach(slot => {
+		const stored = current[slot] || "";
+		if (!stored) return;
+		const key    = retiredWeaponKeyMap[stored] || stored;
+		const entry  = weaponDataMap[key];
+		const target = entry ? weaponPresetSlotBySkill[entry.skill] : "";
+		if (!target) {
+			if (debug_on_trace) console.log("[reconcileWeaponPresetSlots] unresolved key left in place", ctx, { slot, stored });
+			return;
+		}
+		if (target === slot && key === stored) return;
+		fixed[slot]   = "";
+		fixed[target] = key;
+		moves.push({ from: slot, to: target, stored, key });
+	});
+	if (moves.length && debug_on_trace) console.log("[reconcileWeaponPresetSlots] relocated", ctx, moves);
+	return { fixed, moves };
+};
+
+/* Skill attrs read alongside the reconciler so a realigned skill <select> can
+   have its _display value written in the same batch. */
+const weaponSkillValueAttrs = [
+	"archery_mdr", "firearms_handgun_mdr", "firearms_rifle_mdr", "firearms_shotgun_mdr",
+	"firearms_smg_mdr", "heavy_weapons_mdr", "melee_weapons_mdr", "throw_mdr", "unarmed_mdr",
+];
+
 /* Initialise computed weapon attrs for all existing repeating rows on sheet open.
    Prevents "No attribute found" errors for mode_num, mode_label, mode_penalty,
    ammo_type_label, and effective damage attrs. */
 const initWeaponComputedAttrs = () => {
+  if (debug_on_trace) console.log("[initWeaponComputedAttrs] Start");
   const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
   const numMap      = { ss: "10", sa: "10", bf: "21", fa: "32" };
   const labelMap    = { ss: "SS", sa: "SA", bf: "BF x2", fa: "FA x3" };
@@ -69590,10 +69682,13 @@ const initWeaponComputedAttrs = () => {
       `repeating_weaponsmdr_${id}_weapon_trait_ap_mdr`,
       `repeating_weaponsmdr_${id}_weapon_ap_total_mdr`,
       `repeating_weaponsmdr_${id}_weapon_trait_concealable_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_loadout_mdr`
+      `repeating_weaponsmdr_${id}_weapon_loadout_mdr`,
+      /* diagnostic only — CSS controller + skill ref for preset-render tracing */
+      `repeating_weaponsmdr_${id}_weapon_skill_class_mdr`,
+      `repeating_weaponsmdr_${id}_weaponskill_mdr`
     ]));
 
-    getAttrs([...fetchKeys, "cw_smartlink_installed"], (rows) => {
+    getAttrs([...fetchKeys, ...weaponSkillValueAttrs, "cw_smartlink_installed"], (rows) => {
       const updates = {};
 
       ids.forEach(id => {
@@ -69612,15 +69707,45 @@ const initWeaponComputedAttrs = () => {
         /* Initialise modes_available and category from weaponDataMap if not yet set */
         const modesAvail = rows[`repeating_weaponsmdr_${id}_weapon_modes_available_mdr`];
         const catVal     = rows[`repeating_weaponsmdr_${id}_weapon_category_mdr`];
-        const presetKey = rows[`repeating_weaponsmdr_${id}_weapon_preset_melee_mdr`]
-            || rows[`repeating_weaponsmdr_${id}_weapon_preset_throw_mdr`]
-            || rows[`repeating_weaponsmdr_${id}_weapon_preset_handgun_mdr`]
-            || rows[`repeating_weaponsmdr_${id}_weapon_preset_shotgun_mdr`]
-            || rows[`repeating_weaponsmdr_${id}_weapon_preset_rifle_mdr`]
-            || rows[`repeating_weaponsmdr_${id}_weapon_preset_smg_mdr`]
-            || rows[`repeating_weaponsmdr_${id}_weapon_preset_heavy_mdr`]
-            || "";
+        /* Repair any preset value parked in the wrong slot before resolving it.
+           All writes below go out in the enclosing { silent: true } batch —
+           that is required, not incidental: a non-silent write to
+           weaponskill_mdr would fire the skill watcher, which blanks every
+           preset attr and would immediately undo the relocation. */
+        const presetNow = {};
+        weaponPresetSlots.forEach(s => {
+          presetNow[s] = rows[`repeating_weaponsmdr_${id}_weapon_preset_${s}_mdr`] || "";
+        });
+        const reconciled = reconcileWeaponPresetSlots(presetNow, `repeating_weaponsmdr_${id}`);
+        if (reconciled.moves.length) {
+          weaponPresetSlots.forEach(s => {
+            updates[`repeating_weaponsmdr_${id}_weapon_preset_${s}_mdr`] = reconciled.fixed[s];
+          });
+          if (reconcileWeaponSkillSelect) {
+            const slot     = reconciled.moves[reconciled.moves.length - 1].to;
+            const skillRef = weaponPresetSkillRefBySlot[slot] || "";
+            const skillKey = skillRef.replace(/^@{|}$/g, "");
+            updates[`repeating_weaponsmdr_${id}_weaponskill_mdr`]         = skillRef;
+            updates[`repeating_weaponsmdr_${id}_weaponskill_mdr_display`] = rows[skillKey] || "0";
+            updates[`repeating_weaponsmdr_${id}_weapon_skill_class_mdr`]  = "skill-" + slot;
+          }
+        }
+        const presetKey = weaponPresetSlots.map(s => reconciled.fixed[s]).find(Boolean) || "";
         const entry = presetKey ? weaponDataMap[presetKey] : null;
+        if (debug_on_trace) {
+          const presetDump = {};
+          ["melee", "throw", "handgun", "shotgun", "rifle", "smg", "heavy"].forEach(s => {
+            presetDump[s] = reconciled.fixed[s] || "";
+          });
+          console.log("[initWeaponComputedAttrs] row", id, {
+            presets:     presetDump,
+            resolvedKey: presetKey || "(none)",
+            entryFound:  !!entry,
+            skillClass:  rows[`repeating_weaponsmdr_${id}_weapon_skill_class_mdr`] || "(empty)",
+            skillRef:    rows[`repeating_weaponsmdr_${id}_weaponskill_mdr`]        || "(empty)",
+            damage:      rows[`repeating_weaponsmdr_${id}_weapondamage_mdr`]       || "(empty)",
+          });
+        }
         if (entry) {
           if (!modesAvail && entry.mode && entry.mode.length) {
             updates[`repeating_weaponsmdr_${id}_weapon_modes_available_mdr`] =
@@ -69737,17 +69862,50 @@ const initWeapon1ModButtons = () => {
 		"weapon1_mdr_weapon_preset_smg",
 		"weapon1_mdr_weapon_preset_heavy",
 	];
-	getAttrs(presetKeys, (v) => {
-		const presetKey = presetKeys.map(k => v[k] || "").find(Boolean) || "";
-		if (!presetKey) return;
-		const entry = weaponDataMap[presetKey];
-		if (!entry) return;
-		const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
-		setAttrs(Object.assign(computeModButtons(entry, "weapon1_"), {
-			/* Self-heal: "tranq" retired as a category 2026-07-19; note attr added same date */
-			weapon1_mdr_category:   entry.category || "",
-			weapon1_mdr_tranq_note: (entry.traits || []).includes("tranquilizing") ? tr("weapon_tranq_roll_note-u") : "",
-		}), { silent: true });
+	getAttrs([...presetKeys, ...weaponSkillValueAttrs, "weapon1_skill_class", "weapon1_skill_mdr"], (v) => {
+		/* Repair any preset value parked in the wrong slot before resolving it.
+		   Written silently below — a non-silent weapon1_skill_mdr write would fire
+		   the skill watcher, which blanks every preset and undoes the relocation. */
+		const updates   = {};
+		const presetNow = {};
+		weaponPresetSlots.forEach(s => { presetNow[s] = v[`weapon1_mdr_weapon_preset_${s}`] || ""; });
+		const reconciled = reconcileWeaponPresetSlots(presetNow, "weapon1");
+		if (reconciled.moves.length) {
+			weaponPresetSlots.forEach(s => { updates[`weapon1_mdr_weapon_preset_${s}`] = reconciled.fixed[s]; });
+			if (reconcileWeaponSkillSelect) {
+				const slot     = reconciled.moves[reconciled.moves.length - 1].to;
+				const skillRef = weaponPresetSkillRefBySlot[slot] || "";
+				const skillKey = skillRef.replace(/^@{|}$/g, "");
+				updates["weapon1_skill_mdr"]         = skillRef;
+				updates["weapon1_skill_mdr_display"] = v[skillKey] || "0";
+				updates["weapon1_skill_class"]       = "skill-" + slot;
+			}
+		}
+		const presetKey = weaponPresetSlots.map(s => reconciled.fixed[s]).find(Boolean) || "";
+		if (debug_on_trace) {
+			const presetDump = {};
+			weaponPresetSlots.forEach(s => { presetDump[s] = reconciled.fixed[s] || ""; });
+			console.log("[initWeapon1ModButtons] static row", {
+				presets:     presetDump,
+				resolvedKey: presetKey || "(none)",
+				entryFound:  !!weaponDataMap[presetKey],
+				skillClass:  v["weapon1_skill_class"] || "(empty)",
+				skillRef:    v["weapon1_skill_mdr"]   || "(empty)",
+			});
+		}
+						 
+		const entry = presetKey ? weaponDataMap[presetKey] : null;
+		if (entry) {
+			const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+			Object.assign(updates, computeModButtons(entry, "weapon1_"), {
+				/* Self-heal: "tranq" retired as a category 2026-07-19; note attr added same date */
+				weapon1_mdr_category:   entry.category || "",
+				weapon1_mdr_tranq_note: (entry.traits || []).includes("tranquilizing") ? tr("weapon_tranq_roll_note-u") : "",
+						
+			});
+		}
+		/* Single batch so a relocation still commits even when no entry resolves. */
+		if (Object.keys(updates).length) setAttrs(updates, { silent: true });
 	});
 };
 

@@ -567,6 +567,14 @@ Use `eventInfo.sourceAttribute` for the element and `eventInfo.newValue` for the
 
 Seed player-owned attrs on **both** the init path and the path that populates the row (usually the preset apply watcher), guarded on empty so a typed value is never overwritten.
 
+### Parallel Section Functions Must Be Parameterised, Not Duplicated
+
+`recalcWeaponManualSmartlink` and `recalcWeaponSmdrSmartlink` were two ~83-line functions whose bodies were byte-identical once the section name was normalised — one hardcoded `"repeating_weaponmanual"`, the other `"repeating_weaponsmdr"`. Two copies of a 20-key attr-fetch list is the same drift hazard that produced the 50/15/0 preset-attr gap, and they had already begun to diverge cosmetically.
+
+Merge to `recalcWeaponSmartlink(section)` and keep the original names as one-line wrappers, so no call site moves and the blast radius stays inside the two bodies.
+
+**Prove textual identity before merging**: canonicalise the section name in both bodies and diff. Zero residual lines means the merge is lossless. Then assert at runtime that each wrapper still calls `getSectionIDs` with *its own* section — a parameterisation bug that collapses both onto one section produces no error, just silently wrong rows.
+
 ### Positional Argument Lists Over ~6 Parameters
 
 `buildTagsStr` reached 19 positional parameters fed from 7 independently maintained `getAttrs` lists and 7 duplicated derivation blocks — **22 edits to add one trait**. Nine of the parameters were interchangeable `"1"`/`""` flags, so a transposition produced wrong output with no error, and an omitted argument arrived as `undefined` (falsy) and silently dropped the tag.

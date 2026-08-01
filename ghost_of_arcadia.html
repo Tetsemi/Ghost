@@ -72070,13 +72070,16 @@ const recalcWeaponSummariesForSmartlink = () => {
 	recalcWeaponSmdrSmartlink();
 };
 
-/* Recalc all repeating_weaponmanual rows for smartlink change */
-const recalcWeaponManualSmartlink = () => {
-	const S = "repeating_weaponmanual";
-	getSectionIDs(S, (ids) => {
+/* Shared by both weapon repeating sections. Previously two ~83-line copies
+   that differed only in the section name — proven byte-identical after
+   normalising it, so the merge is lossless. Two copies of an attr-fetch
+   list is the same drift hazard that produced the 50/15/0 preset-attr gap;
+   the named wrappers below keep every existing call site working. */
+const recalcWeaponSmartlink = (section) => {
+	getSectionIDs(section, (ids) => {
 		if (!ids.length) return;
 		const fetchKeys = ids.flatMap(id => {
-			const p = `${S}_${id}_`;
+			const p = `${section}_${id}_`;
 			return [
 				p+"weapon_mode_mdr", p+"weapon_mod_penalty_reduce_mdr",
 				p+"weapon_optics_mdr", p+"weapon_mod_internal_mdr", p+"weapon_range_band_mdr",
@@ -72091,7 +72094,7 @@ const recalcWeaponManualSmartlink = () => {
 		getAttrs([...fetchKeys, "cw_smartlink_installed"], (v) => {
 			const updates = {};
 			ids.forEach(id => {
-				const p = `${S}_${id}_`;
+				const p = `${section}_${id}_`;
 				const mode     = v[p+"weapon_mode_mdr"] || "ss";
 				const reduce   = parseInt(v[p+"weapon_mod_penalty_reduce_mdr"], 10) || 0;
 				const optics   = v[p+"weapon_optics_mdr"] || (v[p+"weapon_trait_scoped_mdr"] === "1" ? "magnification" : "");
@@ -72154,88 +72157,8 @@ const recalcWeaponManualSmartlink = () => {
 	});
 };
 
-/* Recalc all repeating_weaponsmdr rows for smartlink change */
-const recalcWeaponSmdrSmartlink = () => {
-	getSectionIDs("repeating_weaponsmdr", (ids) => {
-		if (!ids.length) return;
-		const fetchKeys = ids.flatMap(id => {
-			const p = `repeating_weaponsmdr_${id}_`;
-			return [
-				p+"weapon_mode_mdr", p+"weapon_mod_penalty_reduce_mdr",
-				p+"weapon_optics_mdr", p+"weapon_mod_internal_mdr", p+"weapon_range_band_mdr",
-				p+"weapon_barrel_mdr", p+"weapon_category_mdr", p+"weapon_max_range_mdr",
-				p+"weapon_trait_smartlink_mdr", p+"weapon_trait_scoped_mdr", p+"weapon_trait_cq_mdr",
-				p+"weapon_aim_mdr", p+"weapon_target_prone_mdr", p+"weapon_target_cover_mdr",
-				p+"weapon_trait_ap_mdr", p+"weapon_ap_total_mdr",
-				p+"weapon_ammo_type_mdr", p+"weapon_ammo_active_mdr",
-				p+"weapon_trait_concealable_mdr", p + "weapon_trait_silent_mdr", p+"weapon_loadout_mdr",
-			];
-		});
-		getAttrs([...fetchKeys, "cw_smartlink_installed"], (v) => {
-			const updates = {};
-			ids.forEach(id => {
-				const p = `repeating_weaponsmdr_${id}_`;
-				const mode     = v[p+"weapon_mode_mdr"] || "ss";
-				const reduce   = parseInt(v[p+"weapon_mod_penalty_reduce_mdr"], 10) || 0;
-				const optics   = v[p+"weapon_optics_mdr"] || (v[p+"weapon_trait_scoped_mdr"] === "1" ? "magnification" : "");
-				const internal = v[p+"weapon_mod_internal_mdr"] || "";
-				const traitSL  = v[p+"weapon_trait_smartlink_mdr"] === "1";
-				const sl       = ((internal === "smartlink" || traitSL) && v["cw_smartlink_installed"] === "1") ? "1" : undefined;
-				const irs      = internal === "irs"      ? "1" : undefined;
-				const qst      = internal === "qst"      ? "1" : undefined;
-				const qls      = internal === "qls"      ? "1" : undefined;
-				const biocoded = internal === "biocoded" ? "1" : undefined;
-				const range    = v[p+"weapon_range_band_mdr"] || "short";
-				const category = v[p+"weapon_category_mdr"]   || "";
-				const maxRange = v[p+"weapon_max_range_mdr"]  || "";
-				const barrel   = v[p+"weapon_barrel_mdr"]     || "";
-				const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
-				const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
-				const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
-				const irsBonus = irs === "1" ? 1 : 0;
-				const redEff   = reduce + irsBonus;
-				const cq         = v[p+"weapon_trait_cq_mdr"] === "1";
-				const aim        = v[p+"weapon_aim_mdr"] || "";
-				const prone      = v[p+"weapon_target_prone_mdr"] || "";
-				const cover      = v[p+"weapon_target_cover_mdr"] || "";
-				const ammoType   = v[p+"weapon_ammo_type_mdr"]   || "standard";
-				const ammoActive = v[p+"weapon_ammo_active_mdr"] || "0";
-				const ap         = v[p+"weapon_trait_ap_mdr"] === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
-				const concealable = v[p+"weapon_trait_concealable_mdr"] || "";
-					const silent      = v[p+"weapon_trait_silent_mdr"] || "";
-				const loadout    = v[p+"weapon_loadout_mdr"] || "";
-				const nativeAP   = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
-				const ammoAP     = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
-				const apTotal    = nativeAP + ammoAP;
-				const rollAmmo   = buildRollAmmoLabel(apTotal, ammoType, ammoActive);
-				const hitObj     = computeWeaponHit(optics, sl, range, aim);
-				const bonus      = hitObj.bonus;
-				const sitMod     = hitObj.sitMod;
-				const netRoll    = bonus + sitMod;
-				const netRollStr = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
-				const diceObj    = computeWeaponDice(deriveWeaponTags(v, "repeating", p, v));
-				const netDiceVal = diceObj.bonusDice - diceObj.penaltyDice;
-				updates[p+"weapon_computed_hit_mdr"]          = hitObj.total;
-				updates[p+"weapon_mod_penalty_reduce_eff_mdr"]= redEff;
-				updates[p+"weapon_mode_num_mdr"]              = numMap[mode] || "10";
-				updates[p+"weapon_mode_label_mdr"]            = labelMap[mode] || "SS";
-				updates[p+"weapon_mode_penalty_mdr"]          = 0;
-				updates[p+"weapon_tags_display_mdr"]          = buildTagsStr(deriveWeaponTags(v, "repeating", p, v));
-				updates[p+"weapon_net_hit_display_mdr"]       = bonus === 0 ? "—" : "+" + bonus + "%";
-				updates[p+"weapon_net_penalty_display_mdr"]   = sitMod === 0 ? "—" : sitMod + "%";
-				updates[p+"weapon_net_roll_display_mdr"]      = netRollStr;
-				updates[p+"weapon_net_roll_sign_mdr"]         = netRoll > 0 ? "pos" : netRoll < 0 ? "neg" : "zero";
-				updates[p+"weapon_cover_effective_mdr"]       = cover;
-				updates[p+"weapon_net_dice_sign_mdr"]         = netDiceVal > 0 ? "pos" : netDiceVal < 0 ? "neg" : "zero";
-				updates[p+"weapon_bonus_dice_display_mdr"]    = diceObj.bonusDice > 0 ? "+" + diceObj.bonusDice : "0";
-				updates[p+"weapon_penalty_dice_display_mdr"]  = diceObj.penaltyDice > 0 ? "−" + diceObj.penaltyDice : "0";
-				updates[p+"weapon_net_dice_display_mdr"]      = netDiceVal === 0 ? "0" : (netDiceVal > 0 ? "+" : "") + netDiceVal;
-				updates[p+"weapon_roll_ammo_label_mdr"]       = rollAmmo;
-			});
-			if (Object.keys(updates).length) setAttrs(updates);
-		});
-	});
-};
+const recalcWeaponManualSmartlink = () => recalcWeaponSmartlink("repeating_weaponmanual");
+const recalcWeaponSmdrSmartlink   = () => recalcWeaponSmartlink("repeating_weaponsmdr");
 
 const initNeuralwarePresets = () => {
 	getSectionIDs("repeating_neuralware", (ids) => {

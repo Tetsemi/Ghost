@@ -70762,13 +70762,71 @@ const DIE_STEPS = [2, 4, 6, 8, 10, 12];
 /* ── Barrel button handlers ─────────────────────────────────────────── */
 /* Mode restrictions: Silencer→ss only, Compensator→sa only, Suppressor→sa only */
 /* Precision Choke / Slug Barrel → no mode restriction */
-const barrelModeRestrict = {
-	Silencer:      ["ss"],
-	Compensator:   ["ss", "sa"],
-	Suppressor:    ["ss", "sa"],
-	"Precision Choke": null,
-	"Slug Barrel":     null,
+/* ── Weapon mod key maps ─────────────────────────────────────────────────
+   weaponModDataMap is the source of truth for mod compatibility and effects.
+   These two tables are the only hand-maintained link between a map entry and
+   the sheet: the button attr it drives, and (for barrel mods) the display
+   label the barrel attr stores. Everything else is read from the map.
+
+   Proven equivalent to the previous hardcoded logic across all 74 weapons
+   x 13 mods by difftest_modbuttons.js, and on the mechanical fields by
+   difftest_modeffects.js. Re-run both after any change to either side. */
+const weaponModBtnAttr = {
+	bio_coded:                   "btn_internal_biocoded_mdr",
+	compensator:                 "btn_barrel_compensator_mdr",
+	internal_recoil_system:      "btn_internal_irs_mdr",
+	magnification_scope:         "btn_optics_mag_mdr",
+	precision_choke:             "btn_barrel_prec_choke_mdr",
+	quick_load_system:           "btn_internal_qls_mdr",
+	quick_select_trigger_module: "btn_internal_qst_mdr",
+	reflex_sight:                "btn_optics_reflex_mdr",
+	silencer:                    "btn_barrel_silencer_mdr",
+	slug_barrel:                 "btn_barrel_slug_mdr",
+	smartlink:                   "btn_internal_smartlink_mdr",
+	suppressor:                  "btn_barrel_suppressor_mdr",
+	thermal_scope:               "btn_optics_thermal_mdr",
 };
+
+/* Display label stored in weapon_barrel_mdr, per barrel-slot mod. */
+const weaponModBarrelLabel = {
+	compensator:     "Compensator",
+	precision_choke: "Precision Choke",
+	silencer:        "Silencer",
+	slug_barrel:     "Slug Barrel",
+	suppressor:      "Suppressor",
+};
+
+/* Is this mod fittable to this weapon? Reads the map, never a literal.
+   compatible_subcategories is only applied when the weapon declares one —
+   an empty list on the mod means "no subcategory restriction". */
+const weaponModFits = (entry, modKey) => {
+	const mod = weaponModDataMap[modKey];
+	if (!mod) return false;
+	if (!(entry.mod_slots || []).includes(mod.slot)) return false;
+	if (!(mod.compatible_categories || []).includes(entry.category || "")) return false;
+	const traits = entry.traits || [];
+	if ((mod.incompatible_traits || []).some(t => traits.includes(t))) return false;
+	const subs = mod.compatible_subcategories || [];
+	if (subs.length && entry.subcategory && !subs.includes(entry.subcategory)) return false;
+	return true;
+};
+
+/* Derived from weaponModDataMap.mode_restriction.
+   NOTE the two encodings differ: the map names the HIGHEST permitted mode
+   (Compensator: ["SA"]) while this table lists EVERY permitted mode
+   (["ss","sa"]). Passing the map value straight through would restrict a
+   Compensator to SA only and break single-shot — so expand along the
+   ss < sa < bf < fa ordering. An empty list means no restriction (null). */
+const weaponModeOrder = ["ss", "sa", "bf", "fa"];
+const barrelModeRestrict = Object.keys(weaponModBarrelLabel).reduce((acc, modKey) => {
+	const declared = (weaponModDataMap[modKey] || {}).mode_restriction || [];
+	const label    = weaponModBarrelLabel[modKey];
+	if (!declared.length) { acc[label] = null; return acc; }
+	const top = String(declared[declared.length - 1]).toLowerCase();
+	const idx = weaponModeOrder.indexOf(top);
+	acc[label] = idx < 0 ? null : weaponModeOrder.slice(0, idx + 1);
+	return acc;
+}, {});
 
 /* ── Core: fill effect for one clothing row (repeating) ─────────────── */
 /* ── Rarity abbreviation lookup — shared by all gear preset applies ── */
@@ -72962,10 +73020,20 @@ const registerVehicleManualWatchers = () => {
 	 Call computeModButtons(entry) to get a flat object of btn attr values.
 	 Each value is "1" (slot exists + category compatible) or "0".
 	 ─────────────────────────────────────────────────────────────────────── */
+
 function computeModButtons(entry, prefix) {
+	const out = {};
+	Object.keys(weaponModBtnAttr).forEach(modKey => {
+		out[prefix + weaponModBtnAttr[modKey]] = weaponModFits(entry, modKey) ? "1" : "0";
+	});
+	return out;
+}
+
+/* Retired — superseded by the generated table above. Kept only as a record
+   of what the literals were, in case a rules question arises.
+function computeModButtonsLegacy(entry, prefix) {
 	const slots    = entry.mod_slots || [];
 	const cat      = entry.category  || "";
-	/* Tranq platforms (subcategory "tranq") are Silent by design — no silencer/suppressor */
 	const notTranq = entry.subcategory !== "tranq";
 	const hasOpticsSlot   = slots.includes("optics");
 	const hasBarrelSlot   = slots.includes("barrel_muzzle");
@@ -72987,6 +73055,7 @@ function computeModButtons(entry, prefix) {
 		[prefix + "btn_internal_qst_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
 	};
 }
+*/
 
 function traitsDisplayStr(traits) {
 	return (traits || []).map(t => traitLabelMap[t] || t).join(", ");
@@ -74438,9 +74507,13 @@ function computeWeaponDice(t) {
 
   /* Bonus dice */
   const focusedBonus = (aim === "focused" || aim === "both") ? 1 : 0;
-  /* Mag Scope — one penalty die at Engaged/Short, one bonus die at Long/Extreme (per weaponModDataMap) */
-  const magPenDice   = (optics === "magnification" && ["engaged", "short"].includes(range)) ? 1 : 0;
-  const magBonusDice = (optics === "magnification" && ["long", "extreme"].includes(range)) ? 1 : 0;
+  /* Mag Scope die ranges read from weaponModDataMap, not duplicated here.
+     The map stores band CODES (E/S/L/X); maxRangeMap expands them to the
+     band names the sheet uses. */
+  const magScope     = weaponModDataMap.magnification_scope || {};
+  const magBands     = (codes) => (codes || []).map(c => maxRangeMap[c] || String(c).toLowerCase());
+  const magPenDice   = (optics === "magnification" && magBands(magScope.penalty_die_range).includes(range)) ? 1 : 0;
+  const magBonusDice = (optics === "magnification" && magBands(magScope.bonus_die_range).includes(range)) ? 1 : 0;
   /* Penalty dice — mode (after IRS reduction) */
   const rawModeDice  = penDiceMap[mode] || 0;
   const netModeDice  = Math.max(0, rawModeDice - Math.min(reduceEff, rawModeDice));
@@ -74458,7 +74531,8 @@ function computeWeaponDice(t) {
     const maxBand   = maxRangeMap[maxRange] || maxRange;
     const maxIdx    = bandOrder.indexOf(maxBand);
     const curIdx    = bandOrder.indexOf(range);
-    const slugExt   = (barrel === "Slug Barrel") ? 1 : 0;
+    const slugExt   = (barrel === weaponModBarrelLabel.slug_barrel)
+                        ? ((weaponModDataMap.slug_barrel || {}).range_band_extension || 0) : 0;
     const bandsOver = curIdx - maxIdx - slugExt;
     if (bandsOver > 0) oorPenDice = bandsOver;
   }

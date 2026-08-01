@@ -46,6 +46,8 @@
 | `validate_presets.py` | Preset select ↔ DataMap invariants (W1–W5), spell schools (S1–S2), i18n (T1–T3), tag-layer lockstep (T4–T6), duplicate declarations (D1) | Before every delivery |
 | `difftest_tags.js` | 12,096-combination differential test of `deriveWeaponTags` against the canonical derivation | After any tag-layer change |
 | `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
+| `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
+| `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
 
 Both validators exit non-zero on violation, so they drop into a pre-delivery gate.
 
@@ -56,6 +58,16 @@ Both validators exit non-zero on violation, so they drop into a pre-delivery gat
 **Any change touching variable references requires execution, not parsing.** Load the worker block into node with stubbed Roll20 globals (`on`, `getAttrs`, `setAttrs`, `getSectionIDs`, `getTranslationByKey`, `generateRowID`), then invoke the changed functions and assert no error. This also enables behavioural tests — firing a `change:` handler with a seeded store and asserting on the resulting writes.
 
 **Corollary: confirm the test exercises the path you think it does.** A seeded-store test that accidentally hits the deselect branch returns "no error" while proving nothing about the apply branch.
+
+### Derived `const`s Must Be Declared After Their Source
+
+The sheet worker is one long top-level scope evaluated top to bottom at load. A `const` derived from another `const` placed *above* its source throws `ReferenceError: Cannot access 'X' before initialization` (the temporal dead zone) and **takes the entire worker down** — not one broken feature, every watcher and init.
+
+Shipped 2026-08-01: `barrelModeRestrict` (line ~30335) was rewritten to derive from `weaponModBarrelLabel`, which sat at ~32535 alongside `computeModButtons`. Verifying that the *source data map* (`weaponModDataMap`) preceded its consumers was not sufficient — the check applies to every new binding in the chain, including the ones just written.
+
+Nothing static caught it: `node --check` passed (it parses, it does not evaluate), and all three difftests passed because they extract functions individually and run them in isolation, so declaration order never arises. Only executing the whole module reproduced the load sequence.
+
+**After adding any derived `const`, assert declaration order programmatically** — locate each identifier's declaration line and assert source < consumer for every pair.
 
 ### Static Analysis of JS Scope Is Unreliable
 
@@ -70,6 +82,18 @@ A check that fires on hundreds of pre-existing instances is **worse than no chec
 **Negative-test every new check against the actual bug that motivated it**, and reconstruct the true pre-fix state to do so. A first attempt at negative-testing D1 reinstated the duplicate declaration but not the missing seed; the check correctly did not fire, which proved nothing. Only with both conditions restored did it catch the original defect.
 
 **Verify the mutation actually happened.** A later negative test of T4/T5 reported PASS on both mutated files — because the harness read the CRLF source without `newline=""`, so Python translated the line endings and the `\r\n` patterns matched nothing, leaving the files byte-identical to the original. Always assert the mutation took effect (key count, substring presence) before interpreting the check's verdict.
+
+### Hand-Maintained Link Tables Need a Lockstep Check
+
+`weaponModBtnAttr` is the only hand-maintained link between `weaponModDataMap` and the sheet, and `computeModButtons` iterates the **link table**, not the map. Every way of breaking it is silent:
+
+- a map entry with no link is never consulted — the mod simply does not exist
+- a link whose attr has no HTML element writes to nothing
+- a renamed attr leaves the worker writing the old name while CSS keys off the new one
+
+Checks `M1`-`M4` in `validate_presets.py` cover all four layers: link key exists in the map (M1), map entry has a link (M2), both `attr_weapon_*` and `attr_weapon1_*` elements exist (M3), and a CSS `[value=]` rule targets the attr (M4).
+
+Note the scope prefixes: the apply path writes `prefix + attr`, so the elements are `attr_weapon_btn_*` and `attr_weapon1_btn_*`, never the bare attr name. A first version of M3 checked for the bare name and fired on all 13 entries — the "fires on everything" antipattern, and a signal that the checker's assumption was wrong, not the code.
 
 ### Byte-Level Edits
 

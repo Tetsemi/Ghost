@@ -16,7 +16,7 @@ To-do:
 
 Clean-up:
 
-1. **Still Standing** - Exists as both Human and Khadra Tier 1 Talents
+1. **Still Standing** - Exists as both Human and Khadra Tier 1 Talents - Waiting on docs
 
 Questions:
 

@@ -36,8 +36,29 @@ function extract(name) {
   throw new Error("unterminated: " + name);
 }
 
+/* Statement-level extractor: scans to the terminating ";" at depth 0, so it
+   handles expression forms (e.g. a .reduce(...) chain) that the brace matcher
+   would truncate at the first balanced block. */
+function extractStmt(name) {
+  const start = js.indexOf("const " + name);
+  if (start < 0) throw new Error("not found: " + name);
+  let depth = 0, quote = null;
+  for (let i = start; i < js.length; i++) {
+    const c = js[i], prev = js[i - 1];
+    if (quote) { if (c === quote && prev !== "\\") quote = null; continue; }
+    if (c === '"' || c === "'" || c === "`") { quote = c; continue; }
+    if ("{[(".includes(c)) depth++;
+    else if ("}])".includes(c)) depth--;
+    else if (c === ";" && depth === 0) return js.slice(start, i + 1);
+  }
+  throw new Error("unterminated: " + name);
+}
+
 const box = new Function(
-  extract("weaponModDataMap") + "\n" + extract("barrelModeRestrict") +
+  extract("weaponModDataMap") + "\n" +
+  extractStmt("weaponModBarrelLabel") + "\n" +
+  extractStmt("weaponModeOrder") + "\n" +
+  extractStmt("barrelModeRestrict") +
   "\nreturn { weaponModDataMap, barrelModeRestrict };"
 )();
 const M = box.weaponModDataMap;
@@ -61,8 +82,12 @@ const check = (mod, field, mapVal, codeVal, ok, note) =>
   results.push({ mod, field, mapVal: JSON.stringify(mapVal), codeVal: JSON.stringify(codeVal), ok, note: note || "" });
 
 /* ── 1. magnification_scope die ranges ───────────────────────────────── */
-const magPen = codeArray(/magPenDice\s*=\s*\(optics === "magnification" && \[([^\]]*)\]\.includes\(range\)\)/);
-const magBon = codeArray(/magBonusDice\s*=\s*\(optics === "magnification" && \[([^\]]*)\]\.includes\(range\)\)/);
+let magPen = codeArray(/magPenDice\s*=\s*\(optics === "magnification" && \[([^\]]*)\]\.includes\(range\)\)/);
+let magWired = /magPenDice\s*=\s*\(optics === "magnification" && magBands\(magScope\.penalty_die_range\)/.test(js);
+if (!magPen && magWired) magPen = expand(M.magnification_scope.penalty_die_range);
+let magBon = codeArray(/magBonusDice\s*=\s*\(optics === "magnification" && \[([^\]]*)\]\.includes\(range\)\)/);
+if (!magBon && /magBonusDice\s*=\s*\(optics === "magnification" && magBands\(magScope\.bonus_die_range\)/.test(js))
+  magBon = expand(M.magnification_scope.bonus_die_range);
 check("magnification_scope", "penalty_die_range",
       expand(M.magnification_scope.penalty_die_range), magPen,
       eq(expand(M.magnification_scope.penalty_die_range), magPen));
@@ -118,22 +143,52 @@ for (const key of Object.keys(LABEL)) {
 }
 
 /* ── 6. slug_barrel range-band extension ─────────────────────────────── */
-const slugExt = js.match(/slugExt\s*=\s*\(barrel === "Slug Barrel"\)\s*\?\s*(\d+)/);
+let slugNum = null;
+const slugLit = js.match(/slugExt\s*=\s*\(barrel === "Slug Barrel"\)\s*\?\s*(\d+)/);
+if (slugLit) slugNum = Number(slugLit[1]);
+else if (/slugExt[\s\S]{0,160}weaponModDataMap\.slug_barrel[\s\S]{0,40}range_band_extension/.test(js))
+  slugNum = M.slug_barrel.range_band_extension;
 check("slug_barrel", "range_band_extension", M.slug_barrel.range_band_extension,
-      slugExt ? Number(slugExt[1]) : null,
-      !!slugExt && Number(slugExt[1]) === M.slug_barrel.range_band_extension);
+      slugNum, slugNum === M.slug_barrel.range_band_extension,
+      slugLit ? "" : "read from map (wired)");
 
-/* ── 7. effects declared in the map with NO implementation ───────────── */
-const UNIMPLEMENTED = {
-  quick_load_system: "reload_as_free_action",
-  compensator: "sa_follow_up_reduction",
-  thermal_scope: "ignores_low_light_penalty",
+/* ── 7. effects deliberately deferred, but whose DATA must stay valid ──
+   These are rules the sheet does not mechanise. That is a deliberate scoping
+   decision, not an oversight — see the rationale on each entry. The data is
+   still authoritative and must survive weapon changes, so each field is
+   asserted to be PRESENT with its expected value. An earlier version skipped
+   the check when the field was absent (`if (!declared) continue`), which meant
+   deleting the field or flipping it to false passed silently — exactly the rot
+   this is meant to prevent. */
+const DEFERRED = {
+  compensator: {
+    field: "sa_follow_up_reduction", expected: true,
+    why: "automation would need to recognise a follow-up shot as immediately " +
+         "following the initial shot — requires an API script with access to " +
+         "logs, initiative order and action history. Out of scope for the sheet.",
+  },
+  quick_load_system: {
+    field: "reload_as_free_action", expected: true,
+    why: "reload economy is GM-adjudicated; the sheet tracks no action economy.",
+  },
+  thermal_scope: {
+    field: "ignores_low_light_penalty", expected: true,
+    why: "lighting conditions are GM-adjudicated; the sheet models no ambient state.",
+  },
 };
-for (const [mod, field] of Object.entries(UNIMPLEMENTED)) {
-  const declared = M[mod][field];
-  if (!declared) continue;
-  results.push({ mod, field, mapVal: JSON.stringify(declared), codeVal: '"(none)"',
-                 ok: null, note: "declared in map, no mechanical implementation found" });
+for (const [mod, spec] of Object.entries(DEFERRED)) {
+  const declared = M[mod] ? M[mod][spec.field] : undefined;
+  const intact = declared === spec.expected;
+  results.push({
+    mod, field: spec.field,
+    mapVal: JSON.stringify(declared === undefined ? "(field missing)" : declared),
+    codeVal: '"(deferred)"',
+    ok: intact ? null : false,
+    note: intact
+      ? "deferred by design — " + spec.why
+      : `DATA LOST: expected ${JSON.stringify(spec.expected)}. This rule is ` +
+        "unimplemented but authoritative; do not drop it from the map.",
+  });
 }
 
 /* ── report ──────────────────────────────────────────────────────────── */
@@ -141,9 +196,9 @@ const pass = results.filter((r) => r.ok === true).length;
 const fail = results.filter((r) => r.ok === false);
 const gaps = results.filter((r) => r.ok === null);
 
-console.log(`checks: ${results.length}   agree: ${pass}   disagree: ${fail.length}   gaps: ${gaps.length}\n`);
+console.log(`checks: ${results.length}   agree: ${pass}   disagree: ${fail.length}   deferred: ${gaps.length}\n`);
 for (const r of results) {
-  const mark = r.ok === true ? "OK  " : r.ok === false ? "DIFF" : "GAP ";
+  const mark = r.ok === true ? "OK  " : r.ok === false ? "DIFF" : "DEFER";
   console.log(`${mark} ${r.mod.padEnd(26)} ${r.field.padEnd(23)} map=${r.mapVal.padEnd(30)} code=${r.codeVal}`);
   if (r.note) console.log(`       ${r.note}`);
 }
@@ -153,9 +208,10 @@ if (fail.length) {
   process.exit(1);
 }
 if (gaps.length) {
-  console.log("\nAGREE on everything implemented, but the map declares effects the");
-  console.log("sheet does not implement. Wiring is safe for the implemented set;");
-  console.log("the gaps are unbuilt features, not defects.");
+  console.log("\nAGREE — every implemented effect matches its declaration, and every");
+  console.log("deliberately deferred rule is still intact in the map.");
+  console.log("Deferred entries are scoping decisions, not defects. Keep the data");
+  console.log("valid: a future API script could mechanise them.");
   process.exit(0);
 }
 console.log("\nAGREE — every declared effect matches its implementation.");

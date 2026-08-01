@@ -49,6 +49,20 @@
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
 | `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
 
+### Deferred Rules Are Data, Not Gaps
+
+Three `weaponModDataMap` fields declare rules the sheet deliberately does not mechanise:
+
+| mod | field | why deferred |
+|---|---|---|
+| `compensator` | `sa_follow_up_reduction` | needs to recognise a follow-up shot as *immediately* following the initial one — requires an API script with access to logs, initiative order and action history |
+| `quick_load_system` | `reload_as_free_action` | reload economy is GM-adjudicated; the sheet models no action economy |
+| `thermal_scope` | `ignores_low_light_penalty` | lighting is GM-adjudicated; the sheet models no ambient state |
+
+These are scoping decisions, not defects, and the data stays authoritative — a future API script could mechanise any of them. `difftest_modeffects.js` reports them as `DEFER` with the rationale inline, so a later reader does not mistake them for a defect list and "fix" them by deleting the fields.
+
+**Assert deferred data is present, do not skip it.** The first version used `if (!declared) continue`, so deleting the field or flipping it to `false` passed silently. Deferred fields are now asserted to hold their expected value and report `DATA LOST` otherwise — verified by flipping `sa_follow_up_reduction` to `false` and confirming the check fires.
+
 Both validators exit non-zero on violation, so they drop into a pre-delivery gate.
 
 ### `node --check` Is Not Sufficient

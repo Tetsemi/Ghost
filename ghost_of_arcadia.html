@@ -22109,7 +22109,6 @@
 								<!-- show_grenade_advanced: first child of grid-row, sibling of flex-row and sheet-grenadeblock-advanced -->
 								<input type="hidden" name="attr_show_grenade_advanced" value="0"/>
 								<!-- Persistent and roll-referenced attrs at grid-row level -->
-								<input type="hidden" name="attr_grenade_preset_mdr" value=""/>
 								<input type="hidden" name="attr_grenade_name_mdr" value=""/>
 								<input type="hidden" name="attr_grenade_rarity_mdr" value=""/>
 								<input type="hidden" name="attr_grenade_skill_mdr" value="@{throw_mdr}"/>
@@ -66963,8 +66962,7 @@ const weaponPresetAttrW1  = (core) =>
    never disagree with it. */
 
 /* ── Weapon tag inputs ───────────────────────────────────────────────────
-   Single source for every value buildTagsStr (and, later, computeWeaponDice)
-   consumes. Before this, all 19 values were derived independently at each of
+   Single source for every value buildTagsStr and computeWeaponDice consume. Before this, all 19 values were derived independently at each of
    7 call sites — 22 edits to add one trait, with a missing positional argument
    failing silently as undefined.
 
@@ -66995,6 +66993,10 @@ const weaponTagInputs = {
 	qls:         { attrs: ["mod_internal"],                       derive: g => g("mod_internal") === "qls" ? "1" : "" },
 	qst:         { attrs: ["mod_internal"],                       derive: g => g("mod_internal") === "qst" ? "1" : "" },
 	range:       { attrs: ["range_band"],                         derive: g => g("range_band") || "short" },
+	/* Consumed by computeWeaponDice, not buildTagsStr — the table is shared
+	   by both, so an entry need only be read by one of them. */
+	reduceEff:   { attrs: ["mod_penalty_reduce", "mod_internal"],
+	               derive: g => (parseInt(g("mod_penalty_reduce"), 10) || 0) + (g("mod_internal") === "irs" ? 1 : 0) },
 	silent:      { attrs: ["trait_silent"],                       derive: g => g("trait_silent") || "" },
 	/* The only input that reaches outside the row — hence the globals bag. */
 	sl:          { attrs: ["mod_internal", "trait_smartlink"],
@@ -69985,23 +69987,10 @@ const initWeaponComputedAttrs = () => {
         const traitSLI = rows[`repeating_weaponsmdr_${id}_weapon_trait_smartlink_mdr`] === "1";
         const slI     = ((intI === "smartlink" || traitSLI) && rows["cw_smartlink_installed"] === "1") ? "1" : undefined;
         const irsI    = intI === "irs"        ? "1" : undefined;
-        const qstI    = intI === "qst"        ? "1" : undefined;
-        const qlsI    = intI === "qls"        ? "1" : undefined;
-        const bioI    = intI === "biocoded"   ? "1" : undefined;
         const rangeI  = rows[`repeating_weaponsmdr_${id}_weapon_range_band_mdr`]    || "short";
         const reduceI = parseInt(rows[`repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`], 10) || 0;
-        const cqI       = rows[`repeating_weaponsmdr_${id}_weapon_trait_cq_mdr`] === "1";
-        const catI      = rows[`repeating_weaponsmdr_${id}_weapon_category_mdr`] || "";
-        const maxRangeI = rows[`repeating_weaponsmdr_${id}_weapon_max_range_mdr`] || "";
         const aimI      = rows[`repeating_weaponsmdr_${id}_weapon_aim_mdr`] || "";
-        const proneI    = rows[`repeating_weaponsmdr_${id}_weapon_target_prone_mdr`] || "";
         const coverI    = rows[`repeating_weaponsmdr_${id}_weapon_target_cover_mdr`] || "";
-        const concealableI = rows[`repeating_weaponsmdr_${id}_weapon_trait_concealable_mdr`] || "";
-        const silentI      = rows[`repeating_weaponsmdr_${id}_weapon_trait_silent_mdr`] || "";
-        const loadoutI     = rows[`repeating_weaponsmdr_${id}_weapon_loadout_mdr`] || "";
-        const apI       = rows[`repeating_weaponsmdr_${id}_weapon_trait_ap_mdr`] === "1" || (rows[`repeating_weaponsmdr_${id}_weapon_ammo_active_mdr`] === "1" && rows[`repeating_weaponsmdr_${id}_weapon_ammo_type_mdr`] === "ap_rounds") ? "1" : "";
-        const modeI    = rows[`repeating_weaponsmdr_${id}_weapon_mode_mdr`] || "ss";
-        const barrelI  = rows[`repeating_weaponsmdr_${id}_weapon_barrel_mdr`] || "";
         const hitObjI  = computeWeaponHit(optics, slI, rangeI, aimI);
         updates[`repeating_weaponsmdr_${id}_weapon_computed_hit_mdr`]           = hitObjI.total;
         const reduceEffI = reduceI + (irsI === "1" ? 1 : 0);
@@ -70011,7 +70000,7 @@ const initWeaponComputedAttrs = () => {
         const sitModI     = hitObjI.sitMod;
         const penTotalI   = sitModI;
         const netRollI    = bonusI + penTotalI;
-        const diceObjI    = computeWeaponDice(optics, aimI, modeI, reduceEffI, rangeI, catI, maxRangeI, barrelI, cqI, proneI, coverI, apI);
+        const diceObjI    = computeWeaponDice(deriveWeaponTags(rows, "repeating", `repeating_weaponsmdr_${id}_`, rows));
         const netDiceValI = diceObjI.bonusDice - diceObjI.penaltyDice;
         updates[`repeating_weaponsmdr_${id}_weapon_tags_display_mdr`]        = buildTagsStr(deriveWeaponTags(rows, "repeating", `repeating_weaponsmdr_${id}_`, rows));
         updates[`repeating_weaponsmdr_${id}_weapon_net_hit_display_mdr`]     = bonusI === 0 ? "—" : "+" + bonusI + "%";
@@ -71557,16 +71546,14 @@ const registerWeaponManualWatchers = () => {
 					const sitMod     = hitObj.sitMod;
 					const netRoll    = bonus + sitMod;
 					const netRollStr = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
-					const diceObj    = computeWeaponDice(optics, aim, mode, redEff, range, category, maxRange, barrel, cq, prone, cover, ap);
+					const diceObj    = computeWeaponDice(deriveWeaponTags(v, "repeating", p, v));
 					const netDiceVal = diceObj.bonusDice - diceObj.penaltyDice;
 					updates[p+"weapon_computed_hit_mdr"]          = hitObj.total;
 					updates[p+"weapon_mod_penalty_reduce_eff_mdr"]= redEff;
 					updates[p+"weapon_mode_num_mdr"]              = numMap[mode]   || "10";
 					updates[p+"weapon_mode_label_mdr"]            = labelMap[mode] || "SS";
 					updates[p+"weapon_mode_penalty_mdr"]          = 0;
-					/* Post-click barrel and its knock-on mode restriction are supplied as
-					   overrides — the stored values are still pre-click at this point. */
-					updates[p+"weapon_tags_display_mdr"]          = buildTagsStr(deriveWeaponTags(v, "repeating", p, v, { barrel: barrel, mode: mode }));
+					updates[p+"weapon_tags_display_mdr"]          = buildTagsStr(deriveWeaponTags(v, "repeating", p, v));
 					updates[p+"weapon_net_hit_display_mdr"]       = bonus === 0 ? "—" : "+" + bonus + "%";
 					updates[p+"weapon_net_penalty_display_mdr"]   = sitMod === 0 ? "—" : sitMod + "%";
 					updates[p+"weapon_net_roll_display_mdr"]      = netRollStr;
@@ -72143,7 +72130,7 @@ const recalcWeaponManualSmartlink = () => {
 				const sitMod     = hitObj.sitMod;
 				const netRoll    = bonus + sitMod;
 				const netRollStr = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
-				const diceObj    = computeWeaponDice(optics, aim, mode, redEff, range, category, maxRange, barrel, cq, prone, cover, ap);
+				const diceObj    = computeWeaponDice(deriveWeaponTags(v, "repeating", p, v));
 				const netDiceVal = diceObj.bonusDice - diceObj.penaltyDice;
 				updates[p+"weapon_computed_hit_mdr"]          = hitObj.total;
 				updates[p+"weapon_mod_penalty_reduce_eff_mdr"]= redEff;
@@ -72226,7 +72213,7 @@ const recalcWeaponSmdrSmartlink = () => {
 				const sitMod     = hitObj.sitMod;
 				const netRoll    = bonus + sitMod;
 				const netRollStr = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
-				const diceObj    = computeWeaponDice(optics, aim, mode, redEff, range, category, maxRange, barrel, cq, prone, cover, ap);
+				const diceObj    = computeWeaponDice(deriveWeaponTags(v, "repeating", p, v));
 				const netDiceVal = diceObj.bonusDice - diceObj.penaltyDice;
 				updates[p+"weapon_computed_hit_mdr"]          = hitObj.total;
 				updates[p+"weapon_mod_penalty_reduce_eff_mdr"]= redEff;
@@ -74516,7 +74503,11 @@ function computeWeaponHit(optics, smartlink, range, aim) {
    Penalty: mode dice (after IRS reduction), engaged, out-of-range, prone, cover; Mag Scope +1 at Engaged/Short.
    Mag Scope dice per weaponModDataMap.magnification_scope (penalty_die_range E/S, bonus_die_range L/X).
    Returns { bonusDice, penaltyDice } as non-negative integers. */
-function computeWeaponDice(optics, aim, mode, reduceEff, range, category, maxRange, barrel, cq, prone, cover, ap) {
+function computeWeaponDice(t) {
+	/* Consumes the deriveWeaponTags bag. Previously 12 positional args drawn
+	   from the same 7 derivation blocks as buildTagsStr; proved equivalent at
+	   all sites by verify_tag_derivations.py before collapsing. */
+	const { optics, aim, mode, reduceEff, range, category, maxRange, barrel, cq, prone, cover, ap } = t;
   const bandOrder   = ["engaged", "short", "medium", "long", "extreme"];
   const maxRangeMap = { E: "engaged", S: "short", M: "medium", L: "long", X: "extreme" };
   const longArms    = ["rifle", "shotgun", "heavy"];
@@ -74732,7 +74723,7 @@ function refreshWeapon1Summary() {
 		const penTotal    = sitMod;
 		const netRoll     = bonus + penTotal;
 		const netRollStr  = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
-		const diceObj     = computeWeaponDice(optics, aim, mode, redEff, range, category, maxRange, barrel, cq, prone, cover, ap);
+		const diceObj     = computeWeaponDice(deriveWeaponTags(v, "weapon1", "", v));
 		const netDiceVal  = diceObj.bonusDice - diceObj.penaltyDice;
 		setAttrs({
 			weapon1_mdr_computed_hit:             hitObj.total,
@@ -77378,7 +77369,7 @@ on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weap
         const penTotal    = sitMod;
         const netRoll     = bonus + penTotal;
         const netRollStr  = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
-        const diceObj     = computeWeaponDice(optics, aim, mode, redEff, range, category, maxRange, barrel, cq, prone, cover, ap);
+        const diceObj     = computeWeaponDice(deriveWeaponTags(v, "repeating", p, v));
         const netDiceVal  = diceObj.bonusDice - diceObj.penaltyDice;
         updates[p + "weapon_computed_hit_mdr"]             = hitObj.total;
         updates[p + "weapon_mod_penalty_reduce_eff_mdr"]   = redEff;
@@ -78092,23 +78083,11 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 				const sInt     = sv[p + "weapon_mod_internal_mdr"] || "";
 				const sSL      = ((sInt === "smartlink" || sv[p + "weapon_trait_smartlink_mdr"] === "1") && sv["cw_smartlink_installed"] === "1") ? "1" : undefined;
 				const sIRS     = sInt === "irs"      ? "1" : undefined;
-				const sQST     = sInt === "qst"      ? "1" : undefined;
-				const sQLS     = sInt === "qls"      ? "1" : undefined;
-				const sBIO     = sInt === "biocoded" ? "1" : undefined;
 				const sRange   = sv[p + "weapon_range_band_mdr"]  || "short";
-				const sCat     = sv[p + "weapon_category_mdr"]    || "";
-				const sMax     = sv[p + "weapon_max_range_mdr"]   || "";
-				const sBarrel  = sv[p + "weapon_barrel_mdr"]      || "";
-				const sCQ      = sv[p + "weapon_trait_cq_mdr"] === "1";
 				const sAim     = sv[p + "weapon_aim_mdr"] || "";
-				const sProne   = sv[p + "weapon_target_prone_mdr"] || "";
 				const sCover   = sv[p + "weapon_target_cover_mdr"] || "";
-				const sConcealable = sv[p + "weapon_trait_concealable_mdr"] || "";
-				const sSilent      = sv[p + "weapon_trait_silent_mdr"] || "";
-				const sLoadout     = sv[p + "weapon_loadout_mdr"] || "";
 				const sAmmoType    = sv[p + "weapon_ammo_type_mdr"]   || "standard";
 				const sAmmoActive  = sv[p + "weapon_ammo_active_mdr"] || "0";
-				const sAP      = sv[p + "weapon_trait_ap_mdr"] === "1" || (sAmmoActive === "1" && sAmmoType === "ap_rounds") ? "1" : "";
 				const sNativeAP = parseInt(sv[p + "weapon_ap_total_mdr"], 10) || 0;
 				const sAmmoAP   = (sAmmoActive === "1" && sAmmoType === "ap_rounds") ? 2 : 0;
 				const sApTotal  = sNativeAP + sAmmoAP;
@@ -78124,7 +78103,7 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 				const sPenTotal   = sSitMod;
 				const netRoll     = sBonus + sPenTotal;
 				const netRollStr  = netRoll === 0 ? "—" : (netRoll > 0 ? "+" : "") + netRoll + "%";
-				const diceObj     = computeWeaponDice(sOptics, sAim, sMode, redEff, sRange, sCat, sMax, sBarrel, sCQ, sProne, sCover, sAP);
+				const diceObj     = computeWeaponDice(deriveWeaponTags(sv, "repeating", p, sv));
 				const netDiceVal  = diceObj.bonusDice - diceObj.penaltyDice;
 				setAttrs({
 					[p + "weapon_computed_hit_mdr"]:             hitObj.total,

@@ -37,6 +37,48 @@
 
 ---
 
+## Verification Tooling
+
+### Scripts
+
+| Script | Purpose | Run when |
+|---|---|---|
+| `validate_presets.py` | Preset select ↔ DataMap invariants (W1–W5), spell schools (S1–S2), i18n (T1–T3), tag-layer lockstep (T4–T6), duplicate declarations (D1) | Before every delivery |
+| `difftest_tags.js` | 12,096-combination differential test of `deriveWeaponTags` against the canonical derivation | After any tag-layer change |
+| `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
+
+Both validators exit non-zero on violation, so they drop into a pre-delivery gate.
+
+### `node --check` Is Not Sufficient
+
+`node --check` parses; it does **not** resolve identifiers. An undefined variable passes cleanly and throws at runtime. On 2026-08-01 a converted call site used `vals` where the callback parameter was `v`; `node --check` passed, the isolated unit test passed (it did not exercise call sites), and `refreshWeapon1Summary` threw on every sheet open.
+
+**Any change touching variable references requires execution, not parsing.** Load the worker block into node with stubbed Roll20 globals (`on`, `getAttrs`, `setAttrs`, `getSectionIDs`, `getTranslationByKey`, `generateRowID`), then invoke the changed functions and assert no error. This also enables behavioural tests — firing a `change:` handler with a seeded store and asserting on the resulting writes.
+
+**Corollary: confirm the test exercises the path you think it does.** A seeded-store test that accidentally hits the deselect branch returns "no error" while proving nothing about the apply branch.
+
+### Static Analysis of JS Scope Is Unreliable
+
+A script that walks upward for the nearest `getAttrs(..., (var) =>` will happily match a *different* enclosing function and report a confident wrong answer. The same lookback produced a **false negative** (wrong variable) and a **false positive** (prefix bound outside the lookback window) in a single run — and separately, a forward-scanning binding collector returned the *earliest* rather than the nearest binding, manufacturing a divergence that did not exist and leading to a redundant `overrides` argument being shipped.
+
+Two rules follow. Resolve bindings by scanning **backward** from the use site, stopping at the enclosing function boundary. And confirm every result against the actual line before acting on it — a prover that has been wrong once must be re-verified, not trusted because it agrees with the previous run.
+
+### Designing a Validator Check
+
+A check that fires on hundreds of pre-existing instances is **worse than no check** — it trains everyone to ignore the output. The first duplicate-declaration rule flagged 197 instances; narrowing to the precise failure signature (hidden + visible + disagreeing defaults + never written) reduced it to 2, both real bugs.
+
+**Negative-test every new check against the actual bug that motivated it**, and reconstruct the true pre-fix state to do so. A first attempt at negative-testing D1 reinstated the duplicate declaration but not the missing seed; the check correctly did not fire, which proved nothing. Only with both conditions restored did it catch the original defect.
+
+**Verify the mutation actually happened.** A later negative test of T4/T5 reported PASS on both mutated files — because the harness read the CRLF source without `newline=""`, so Python translated the line endings and the `\r\n` patterns matched nothing, leaving the files byte-identical to the original. Always assert the mutation took effect (key count, substring presence) before interpreting the check's verdict.
+
+### Byte-Level Edits
+
+`assert count == exp` on every replacement caught three wrong-target edits in one session, including a 4-tab pattern that matched as a **substring** inside a 5-tab line — which happened to be the one call site needing different handling. Anchor on the preceding newline or a following distinctive line when a pattern could match at multiple indent depths.
+
+Regex replacement across a CRLF file needs the same line-ending discipline as `str_replace`: a `\n` in a replacement string silently introduces a bare LF. Always re-check `bare LF == 0` after any regex-based edit. Note `Claude.md` itself uses **LF**, while the three sheet files use **CRLF**.
+
+---
+
 ## Mandatory Formatting Rules
 
 ### Indentation
@@ -481,6 +523,59 @@ const migrateRetiredX = () => {
 - Non-silent `setAttrs` so the existing `change:` watchers (XP, tracker mirror) fire their normal paths.
 - The final recompute goes in the `setAttrs` **callback** per the committed-values rule.
 - Reference implementation: `migrateRetiredAncestryTalents` (2026-07-04 talent renames).
+- **Moving an `<option>` between preset `<select>`s is equally attr-affecting**, even when the DataMap key itself is unchanged. The stored value lives in an attr named after the select, so relocating the option relocates the value between attribute names and the old value silently stops resolving. Ship a reconciler pass or an attr migration with any such move, and run `validate_presets.py` before delivery. Reference implementation: `reconcileWeaponPresetSlots` (2026-08-01).
+
+---
+
+### Roll20 Render Behaviour — Unmatched `<select>` Values
+
+**Roll20 does NOT write back an unmatched `<select>` value on render.** If a stored value matches no `<option>` in the rendered select, the browser displays the placeholder but the attribute retains its original value and **no `change:` event fires**. Verified 2026-08-01 across two full sheet-open logs with zero change events and intact attrs.
+
+This is what makes an on-open reconciler viable: a stale or misplaced value is still readable and repairable *before* the player touches the row. The value is only destroyed once the player interacts with the select, at which point Roll20 commits the browser's index-0 fallback (empty).
+
+Practical consequence: after any change to preset select membership, the repair window is "until the player next touches that row." Ship the reconciler in the same change, not the next one.
+
+### Owned-Attr Sets Must Be Generated, Not Hand-Maintained
+
+When a preset apply path writes N attrs, every reset path (deselect, filter change, migration) must cover the same N. Hand-maintained subsets drift: as of 2026-08-01 the weapon apply path wrote 50 attrs while the skill-change clear covered 15 and the deselect path covered 0, leaving rows half-populated and still rolling a discarded weapon.
+
+The fix is a single declarative map consumed by all paths — `weaponPresetAttrDefaults` is the reference implementation. Each entry carries its own zero-state default, because a blanket `""` breaks any attr feeding a dice expression.
+
+| Default | Use |
+|---|---|
+| `"0"` | anything inside `[[ ]]` or read via `parseInt` |
+| `"10"` | `mode_num` (SS, the ×1 multiplier); `"0"` would zero the fire-mode term |
+| `" "` | display spans (Roll20 may not re-render a span set to `""`) |
+| `"zero"` / `"—"` | CSS sign controllers and display placeholders |
+| `""` | text inputs, selects, CSS flags |
+
+Derived attrs (e.g. the seven damage fields) are **not** listed; the blank builder calls the same helpers the apply path uses, so they cannot disagree.
+
+Enforce with a round-trip assertion: rebuilding the attr names from the map must equal the apply path's key set exactly, **in both directions**.
+
+Player-owned attrs (e.g. `weaponstrain_mdr`) stay out of the map — they are seeded, never reset by deselect.
+
+### Resolve the Firing Element From `eventInfo`
+
+Never infer which control fired by comparing stored values. The weapon preset watcher resolved its key through a fixed `||` precedence chain and identified the active slot by value comparison, so a stale value in an earlier slot could hijack resolution and clear the select the user had just used.
+
+Use `eventInfo.sourceAttribute` for the element and `eventInfo.newValue` for the value, with a stored-value fallback for init-driven calls. This also removes the stale-read hazard, since `getAttrs` inside a `change:` watcher may not see the triggering write.
+
+### Init-Only Seeding Misses Rows Added Mid-Session
+
+`initXxx` functions run on `sheet:opened`. A repeating row added during the session never passes through them, so any attr seeded only at init stays unset until the next reload — the symptom is a field that is blank when you add the row and correct after close/open.
+
+Seed player-owned attrs on **both** the init path and the path that populates the row (usually the preset apply watcher), guarded on empty so a typed value is never overwritten.
+
+### Positional Argument Lists Over ~6 Parameters
+
+`buildTagsStr` reached 19 positional parameters fed from 7 independently maintained `getAttrs` lists and 7 duplicated derivation blocks — **22 edits to add one trait**. Nine of the parameters were interchangeable `"1"`/`""` flags, so a transposition produced wrong output with no error, and an omitted argument arrived as `undefined` (falsy) and silently dropped the tag.
+
+Collapse to a single declarative input table plus a generated bag (`weaponTagInputs` / `deriveWeaponTags`). The bag is complete by construction, so no consumer can read `undefined`. Cost of adding a trait drops from ~22 edits to 3, two of which are mechanically enforced.
+
+**Prove equivalence before collapsing** — but verify the prover before trusting it. All 19 `buildTagsStr` positions and all 12 `computeWeaponDice` positions proved identical across all 7 sites. An earlier run reported `barrel` and `mode` as divergent at the barrel-toggle handler; that was **a false positive**. `collect_bindings` scanned its lookback window forward and kept the first hit, returning the *earliest* binding rather than the nearest preceding one, so `const barrel = cur === barrelVal ? "" : barrelVal` from a different function was attributed to a call site whose in-scope binding was the plain `v[p+"weapon_barrel_mdr"] || ""`. Fix: scan backward and stop at the enclosing function boundary.
+
+An `overrides` argument was shipped on the strength of that false reading. It was harmless — it passed the same values the table derives — but it has been removed. `deriveWeaponTags` keeps the `overrides` parameter as a tested escape hatch with no current callers.
 
 ---
 
@@ -571,7 +666,7 @@ Credits (Cr) — primary economy unit.
 - **`vweapon_effect_mdr` must hold effect/traits text, not the weapon name.** In `applyVehicleWeaponPreset`, `effectFull` should be built from traits/effect data, not from `tr(data.name_key)`.
 - **Init functions must preserve player state.** Never unconditionally overwrite current HP or other player-editable values on `sheet:opened`. Fetch existing values and use a `preserveState` flag.
 - **`@{attr}` in spans inside repeating fieldsets won't resolve top-level attrs.** If a repeating row needs to display a top-level character attribute (e.g. `gunnery_mdr`), write a per-row copy of that value as a hidden attr via the apply function and a sync watcher on `change:gunnery_mdr`.
-- **Never use `<optgroup>` inside repeating section fieldsets.** Roll20 strips or ignores `<optgroup>` elements inside `<fieldset class="repeating_*">`, rendering the select as a flat list with no group headers. Use `<option value="" disabled data-i18n="select_sep_KEY-u">── Label ──</option>` separator options instead.
+- **Prefer `select_sep_*` options over `<optgroup>` inside repeating fieldsets.** Roll20 drops the group *headers*, but the child `<option>` values still resolve and persist correctly — verified 2026-08-01: `talon_s10_apex` is stored in `weapon_preset_smg_mdr`, whose select uses `<optgroup>`, and it renders and reloads correctly. The consequence is cosmetic (no visual grouping), not functional. Use `<option value="" disabled data-i18n="select_sep_KEY-u">── Label ──</option>` separators for consistency, but **do not treat an existing `<optgroup>` as the cause of a data-loss bug** — an earlier version of this rule claimed options were stripped entirely and sent an investigation down a false path.
 - **All `<option>` elements in preset selects must have `data-i18n`.** This applies to both preset item options and separator options. The inline text is a fallback only — the displayed text comes from the i18n key. Follow the ancestry select pattern: `<option data-i18n="key-u" value="value">Fallback Text</option>`.
 - **All separator options use `select_sep_*` keys** with the `── Label ──` format. Do not reuse existing keys (e.g. `armor_group_underlayer-u`, `vehicle_arcbikes-u`) for separators — those keys resolve to plain label text without the `──` decoration. The canonical separator key prefix is `select_sep_` and all values follow the `── Label ──` pattern exactly.
 - **`tr` is function-scoped, not module-level.** Every top-level or standalone function that calls `tr()` must declare it locally: `const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");`. Functions declared as `function foo()` have no access to a `tr` defined in a sibling arrow function. The recurring failure mode is adding `tr()` calls inside an existing function without checking whether that function already has `tr` in scope. Always check before using it. The definitive long-term fix is to promote `tr` to a true module-level `const` at the top of the script block, above all DataMaps.
@@ -582,7 +677,8 @@ Credits (Cr) — primary economy unit.
 - **`buildXxxEffectStr` helper functions may return `""` for valid presets.** For example, `buildGrenadeEffectStr` returns an empty string for presets whose damage type is `"structural"` with no save condition. If this empty string is written to the bubble attr, the bubble appears but is invisible. Always use `tr(data.effect_summary_key)` for the bubble when the DataMap entry has one. The short helper output is appropriate only for the inline preview.
 - **Tooltip hover area collapses when preview text is empty.** If the preview span has no text content, the `display: inline-flex` tooltip wrapper collapses to zero height and there is nothing to hover over even though the `has-notes` class is present. Add `min-height: var(--cs_row_height)` to the scoped `.SECTION-effect .sheet-skill-tooltip` rule so the hover target always fills the row.
 - **Absolutely-positioned buttons fill their `position: relative` ancestor, not just the visible label.** When a wrapper div spans `grid-column: 1 / -1` (full grid width) and has `position: relative`, an `opacity: 0; position: absolute; width: 100%; height: 100%` button inside it makes the entire row clickable. Fix: add `width: fit-content` (and `margin: 0 auto` if centering is needed) to the wrapper so the absolute button only covers the label element.
-- **`@{attr}` in roll button `value=` strings inside repeating sections requires a `name="attr_X"` input in the same row.** Roll20 resolves `@{attr}` in roll formulas by looking for a named input within the repeating row's DOM scope. Attrs that only exist as `<span>` display elements or are only written via `setAttrs` without a corresponding `name="attr_X"` input will produce "No attribute found" errors at roll time. Every attr referenced in a `type="roll"` button `value=` string must have a `<input type="hidden" name="attr_X" value="..."/>` declared inside the same fieldset row `<div>`.
+- **`@{attr}` in roll button `value=` strings inside repeating sections requires a `name="attr_X"` input in the same row.** Roll20 resolves `@{attr}` in roll formulas by looking for a named input within the repeating row's DOM scope. Attrs that only exist as `<span>` display elements or are only written via `setAttrs` without a corresponding `name="attr_X"` input will produce "No attribute found" errors at roll time. Every attr referenced in a `type="roll"` button `value=` string must have **exactly one** named element inside the same fieldset row `<div>`. If a visible input or `<select>` already declares the attr, do **not** add a hidden twin — the attr needs *initialising*, not a second declaration. See "Duplicate attr declarations" below.
+- **Duplicate attr declarations: hidden + visible with disagreeing defaults and no worker write is a distinct bug class.** All three conditions are required. Roll20 never commits the hidden input's default, so the attr does not exist and the visible twin renders blank; a repeating row's re-render can then propagate the hidden default, so the value appears — and vanishes on reload. In a non-repeating block (e.g. `weapon1`) there is no row re-render, so the same defect presents differently, which masks the shared cause. Two instances found 2026-08-01: `weaponstrain_mdr` (hidden `"0"` + visible text) and `grenade_preset_mdr` (hidden `""` + select); both fixed by deleting the hidden twin. Plain duplication is common (197 instances sheet-wide) and usually harmless because a watcher keeps both in sync — check `D1` in `validate_presets.py` flags only the dangerous combination.
 - **Roll20 does NOT initialise `type="hidden"` input `value=""` defaults into the attribute store.** The HTML `value="X"` on a hidden input is just a DOM default — Roll20 only persists attrs that have been explicitly written via `setAttrs`. If an attr has never been set, `getAttrs` returns `""` and the DOM attribute may be inconsistent. Always explicitly write initial values from `applyXxxPreset` or from `initXxxPresets` on `sheet:opened`. Never rely on HTML defaults for attrs that are read by roll formulas or CSS `[value=]` selectors.
 - **An attr used in both a dice formula and a display span must hold a valid dice expression, not a display string.** If the same attr feeds into `{{diceroll=[[@{attr}]]}}` AND is shown in a `<span name="attr_X">`, setting it to a human-readable string like `"—"` or a translation key will cause a Roll20 dice parse error (`Expected "(", "f" or [0-9]`). Split into two attrs: one holding the dice-safe value (e.g. `"1d6+3"` or `"0"`), another holding the display string. Use the dice attr in roll formulas and the display attr in the span.
 - **`setAttrs` with `""` (empty string) may not visually clear a `<span>` in Roll20.** The rest of this sheet consistently uses `" "` (a single space) when clearing display attrs, not `""`. Roll20 may not re-render a span when the attr is set to empty string vs a previous truthy value. Use `" "` for all display fields that should appear blank, matching the pattern used throughout the codebase.
@@ -647,6 +743,7 @@ Credits (Cr) — primary economy unit.
 - **`on('ready', ...)` is required** as the entry point for all API scripts. Code outside this handler runs before the sandbox is initialized and will fail silently.
 
 ### General
+- **Suspect the change you just made, but verify before blaming it.** Three separate defects in the 2026-08-01 session were assumed to originate in the recent Combat commits (`216c9ae`, `a7c7d5f`, 2026-07-19) and none did: the half-cleared weapon row (the deselect path has always behaved this way), the strain duplicate (introduced `81e3534`, 2026-02-17), and the 19-parameter tag function (grew `0d5bcc2` 2026-04-05 through `25d0302` 2026-05-07). Recent work draws attention to an area; the inspection then surfaces older issues. Use `git log -S '<identifier>'` to date a construct before attributing it. The one genuine regression from the tranq reclassification was **ammo gating** — `category: "rifle"`/`"handgun"` newly enabled five special ammo types on tranq platforms, which the rules forbid.
 - **Check the Todo_list.md before starting any new section.** A feature may already be stubbed, partially implemented, or blocked on a dependency.
 - **Cross-reference PDFs (First_2_sections_GoA.pdf, Gear_and_Loadout.pdf) and .docx updates** before writing any new DataMap data. The docx files (especially `Weapons_2026-03-27.docx`) may contain more recent rule text than the PDF, and `source: {}` must reflect the actual document used.
 - **The sheet width is fixed at 840px** (`--cs_sheet_width`). Do not design sections that exceed this or assume a wider viewport.

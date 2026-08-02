@@ -70047,7 +70047,7 @@ const initWeaponComputedAttrs = () => {
 /* Initialise mod button attrs for static weapon1 on sheet open.
    Mirrors initWeaponComputedAttrs but for the non-repeating weapon1 block. */
 const initWeapon1ModButtons = () => {
-	if (debug_on_trace) console.log("[initWeapon1ModButtons]");
+	if (debug_on_trace) console.log("[initWeapon1ModButtons] Start");
 	const presetKeys = [
 		"weapon1_mdr_weapon_preset_melee",
 		"weapon1_mdr_weapon_preset_throw",
@@ -70058,7 +70058,7 @@ const initWeapon1ModButtons = () => {
 		"weapon1_mdr_weapon_preset_heavy",
 	];
 	getAttrs([...presetKeys, ...weaponSkillValueAttrs, "weapon1_skill_class", "weapon1_skill_mdr",
-		"weapon1_mdr_strain"], (v) => {
+		"weapon1_mdr_strain", "weapon1_mdr_damage", "weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active"], (v) => {
 		/* Repair any preset value parked in the wrong slot before resolving it.
 		   Written silently below — a non-silent weapon1_skill_mdr write would fire
 		   the skill watcher, which blanks every preset and undoes the relocation. */
@@ -70087,6 +70087,7 @@ const initWeapon1ModButtons = () => {
 				entryFound:  !!weaponDataMap[presetKey],
 				skillClass:  v["weapon1_skill_class"] || "(empty)",
 				skillRef:    v["weapon1_skill_mdr"]   || "(empty)",
+				damage:      v["weapon1_mdr_damage"]  || "(empty)",
 			});
 		}
 		const entry = presetKey ? weaponDataMap[presetKey] : null;
@@ -70098,6 +70099,19 @@ const initWeapon1ModButtons = () => {
 				weapon1_mdr_tranq_note: (entry.traits || []).includes("tranquilizing") ? tr("weapon_tranq_roll_note-u") : "",
 			});
 		}
+		/* Parse damage string fresh — the pre-parsed sub-attrs may still be 0 on
+		   first open. initWeaponComputedAttrs does this per repeating row; weapon1
+		   had no equivalent, so its damage_numdice / _dicesize / _bonus and the
+		   effective-damage attrs never self-healed on open. */
+		const dmgStr = v["weapon1_mdr_damage"] || "";
+		const dmgBase = parseDamageString(dmgStr, "weapon1_mdr");
+		Object.assign(updates, dmgBase);
+		Object.assign(updates, computeEffectiveDamage(
+			dmgBase["weapon1_mdr_damage_numdice"]  || 0,
+			dmgBase["weapon1_mdr_damage_dicesize"] || 0,
+			dmgBase["weapon1_mdr_damage_bonus"]    || 0,
+			v["weapon1_mdr_ammo_type"] || "standard", v["weapon1_mdr_ammo_active"] || "0",
+			"weapon1_mdr", "weapon1_mdr_effective"));
 		/* Strain is player-owned, not preset-owned, so it is deliberately NOT in
 		   weaponPresetAttrDefaults — seed it only when it has never been set.
 		   Roll20 does not commit an input's HTML value= default to the attribute
@@ -74757,7 +74771,7 @@ function buildRollAmmoLabel(apNumeric, ammoType, ammoActive) {
 }
 
 function refreshWeapon1Summary() {
-	if (debug_on_trace) console.log("[refreshWeapon1Summary]");
+	if (debug_on_trace) console.log("[refreshWeapon1Summary] Start");
 	getAttrs(["weapon1_mdr_optics", "weapon1_mdr_mod_internal", "weapon1_mdr_range_band",
 	          "weapon1_mdr_mod_penalty_reduce", "weapon1_mdr_mode", "weapon1_mdr_barrel",
 	          "weapon1_mdr_category", "weapon1_mdr_max_range", "weapon1_mdr_trait_smartlink", "weapon1_mdr_trait_scoped", "weapon1_mdr_trait_cq", "weapon1_mdr_aim", "weapon1_mdr_target_prone", "weapon1_mdr_target_cover", "weapon1_mdr_trait_ap", "weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active", "weapon1_mdr_ap_total", "weapon1_mdr_trait_concealable", "weapon1_mdr_trait_silent", "weapon1_mdr_loadout", "cw_smartlink_installed"], (v) => {

@@ -70022,7 +70022,24 @@ const initWeaponComputedAttrs = () => {
         updates[`repeating_weaponsmdr_${id}_weapon_net_dice_display_mdr`]    = netDiceValI === 0 ? "0" : (netDiceValI > 0 ? "+" : "") + netDiceValI;
       });
 
-      if (Object.keys(updates).length) setAttrs(updates, { silent: true });
+      /* Heal stale modes_available. It carries both the barrel cap and the
+         rounds gate, and until 2026-08-02 each writer rebuilt it from
+         modes_base alone, so stored rows can hold a value that ignores the
+         fitted barrel. The init above only seeds it when unset, so those rows
+         never self-corrected until the player happened to touch a control.
+         updateCapCounter now composes both restrictions, so calling it per row
+         recomputes the correct value. Idempotent: a correct row is unchanged.
+         Runs in the setAttrs callback so it reads committed values. */
+      const healModes = () => {
+        const pad = (n) => n < 10 ? "0" + n : "" + n;
+        ids.forEach(id => {
+          const p = `repeating_weaponsmdr_${id}_`;
+          updateCapCounter(p + "weapon_cap_rating_mdr", (n) => p + "weapon_cap_box_mdr_" + pad(n),
+            p + "weapon_cap_counter_mdr", 15, p + "weapon_mode_mdr", p + "weapon_modes_available_mdr");
+        });
+      };
+      if (Object.keys(updates).length) setAttrs(updates, { silent: true }, healModes);
+      else healModes();
     });
   });
 };
@@ -70087,8 +70104,16 @@ const initWeapon1ModButtons = () => {
 		   store, so without this the roll formula's `0 + @{...}` has nothing to
 		   add and the box renders blank. */
 		if ((v["weapon1_mdr_strain"] || "") === "") updates["weapon1_mdr_strain"] = "0";
+		/* See initWeaponComputedAttrs — recompute modes_available so a stored row
+		   with a stale value (barrel cap discarded) self-corrects on open. */
+		const healModes = () => {
+			const pad = (n) => n < 10 ? "0" + n : "" + n;
+			updateCapCounter("weapon1_mdr_cap_rating", (n) => "weapon1_mdr_cap_box_" + pad(n),
+				"weapon1_mdr_cap_counter", 15, "weapon1_mdr_mode", "weapon1_mdr_modes_available");
+		};
 		/* Single batch so a relocation still commits even when no entry resolves. */
-		if (Object.keys(updates).length) setAttrs(updates, { silent: true });
+		if (Object.keys(updates).length) setAttrs(updates, { silent: true }, healModes);
+		else healModes();
 	});
 };
 
@@ -74867,14 +74892,14 @@ function updateCapCounter(capRatingAttr, boxAttrFn, counterAttr, total, modeAttr
 			const usable    = capped.length ? capped : ["ss"];
 			/* Restrict available modes to those that have enough rounds remaining */
 			const allowed   = usable.filter(m => remaining >= (minRounds[m] || 1));
-			const availStr  = allowed.length ? allowed.join(" ") : "ss";
-			updates[modesAvailAttr] = availStr;
-			/* If current mode is now blocked, fall back to best available */
-			const modeBlocked = remaining < (minRounds[mode] || 1);
-			if (modeBlocked) {
+			const availList = allowed.length ? allowed : ["ss"];
+			updates[modesAvailAttr] = availList.join(" ");
+			/* Clamp the selected mode to what is actually available. Testing only
+			   rounds remaining missed the barrel case, so a Silencer could leave the
+			   row showing SS available while SA stayed selected. */
+			if (!availList.includes(mode)) {
 				const priority = ["ss","sa","bf","fa"];
-				const fallback = priority.find(m => allowed.includes(m) && remaining >= (minRounds[m] || 1)) || "";
-				updates[modeAttr] = fallback;
+				updates[modeAttr] = priority.find(m => availList.includes(m)) || availList[0] || "";
 			}
 		}
 		setAttrs(updates);

@@ -214,6 +214,14 @@ if (typeof updateCapCounter === "function") {
     { label: "both restrictions",     barrel: "Silencer",    base: "sa bf",    spent: 11, want: "ss" },
     { label: "unrestricting barrel",  barrel: "Slug Barrel", base: "ss sa",    spent: 0,  want: "ss sa" },
   ];
+  /* The selected mode must be clamped to the available list, whether it was
+     excluded by the barrel cap or by rounds remaining. */
+  const CLAMP = [
+    { label: "clamp: silencer vs SA", barrel: "Silencer",   base: "sa",       spent: 0,  mode: "sa", want: "ss" },
+    { label: "clamp: suppressor vs BF", barrel: "Suppressor", base: "sa bf",  spent: 0,  mode: "bf", want: "sa" },
+    { label: "clamp: rounds vs FA",   barrel: "",           base: "sa bf fa", spent: 11, mode: "fa", want: "sa" },
+    { label: "clamp: valid mode kept", barrel: "",          base: "sa bf",    spent: 0,  mode: "sa", want: "sa" },
+  ];
   for (const c of CAP) {
     _err = null; _writes = {};
     _store = { weapon1_mdr_cap_rating: "cap_12", weapon1_mdr_mode: "sa",
@@ -227,6 +235,21 @@ if (typeof updateCapCounter === "function") {
     results.push({ scope: "capCounter", btn: c.label, state: "want " + c.want,
                    err: _err ? String(_err).slice(0, 60) : null,
                    writes: { modes_available: _store.weapon1_mdr_modes_available } });
+  }
+  for (const c of CLAMP) {
+    _err = null; _writes = {};
+    _store = { weapon1_mdr_cap_rating: "cap_12", weapon1_mdr_mode: c.mode,
+               weapon1_mdr_modes_available: c.base, weapon1_mdr_modes_base: c.base,
+               weapon1_mdr_barrel: c.barrel };
+    for (let n = 1; n <= c.spent; n++) _store["weapon1_mdr_cap_box_" + pad(n)] = "1";
+    try {
+      updateCapCounter("weapon1_mdr_cap_rating", (n) => "weapon1_mdr_cap_box_" + pad(n),
+        "weapon1_mdr_cap_counter", 15, "weapon1_mdr_mode", "weapon1_mdr_modes_available");
+    } catch (e) { _err = e; }
+    results.push({ scope: "capCounter", btn: c.label, state: "mode want " + c.want,
+                   err: _err ? String(_err).slice(0, 60) : null,
+                   writes: { mode: _store.weapon1_mdr_mode,
+                             modes_available: _store.weapon1_mdr_modes_available } });
   }
 }
 console.log("###JSON###" + JSON.stringify(results));

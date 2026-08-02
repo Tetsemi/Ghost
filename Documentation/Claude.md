@@ -48,7 +48,7 @@
 | `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
 | `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
-| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases, plus 6 cap-counter cases covering the barrel cap / rounds gate interaction |
+| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases, plus 10 cap-counter cases covering the barrel cap / rounds gate interaction and mode clamping |
 
 ### Deferred Rules Are Data, Not Gaps
 
@@ -623,6 +623,11 @@ Merge to `recalcWeaponSmartlink(section)` and keep the original names as one-lin
 Symptom: fitting a Silencer to an SA-only pistol correctly showed SS, then clicking Ext Mag restored SA. Not specific to the magazine button — any cap change (firing, reloading, ticking a cap box) did the same. Latent since barrel restrictions were introduced.
 
 Fix: `updateCapCounter` applies the barrel cap before the rounds gate, with the same empty-intersection fallback the barrel watcher uses. The barrel attr is derived by name substitution on `modesAvailAttr` (as `modesBaseAttr` already was), so none of the 13 call sites changed.
+
+Two follow-ons the first fix missed:
+
+- **Stored rows do not self-heal unless something recomputes them.** `initWeaponComputedAttrs` only seeded `modes_available` when it was *unset*, so rows carrying a stale value stayed wrong until the player touched a control. Both init paths now call `updateCapCounter` per row on open — idempotent, and it composes both restrictions.
+- **Clamp the selection, not just the option list.** `updateCapCounter` reassigned `mode` only when *rounds* blocked it, so a Silencer left the row showing SS available with SA still selected. The test is now `!availList.includes(mode)`, which covers every reason a mode became unavailable.
 
 **When one attr encodes several independent rules, every writer must compose them, not recompute from the raw source.** The general alternative is to store each restriction separately and intersect on read; that is cleaner but a larger change.
 

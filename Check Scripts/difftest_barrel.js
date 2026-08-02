@@ -34,6 +34,8 @@ const TOGGLE_FAMILIES = {
   optics:   { btns: { mag: "magnification", ref: "reflex", thm: "thermal" },
               rep: "weapon_optics_mdr", w1: "weapon1_mdr_optics" },
 };
+/* aim is a two-button cycle over "" / quick / focused / both, not a toggle. */
+const AIM_STATES = ["", "quick", "focused", "both"];
 /* Weapon states chosen to exercise both branches and the empty-avail fallback. */
 const STATES = [
   { label: "SA only",        modes_base: "sa",       mode: "sa", barrel: "" },
@@ -250,6 +252,28 @@ if (typeof updateCapCounter === "function") {
                    err: _err ? String(_err).slice(0, 60) : null,
                    writes: { mode: _store.weapon1_mdr_mode,
                              modes_available: _store.weapon1_mdr_modes_available } });
+  }
+}
+const AIM_STATES = ${JSON.stringify(AIM_STATES)};
+for (const sc of SCOPES) {
+  const attr = sc.scope === "weapon1" ? "weapon1_mdr_aim" : "weapon_aim_mdr";
+  for (const btn of ["quick", "focused"]) {
+    for (const cur of AIM_STATES) {
+      const ev = (sc.scope === "weapon1")
+        ? "clicked:weapon1-aim-" + btn
+        : "clicked:" + sc.section + ":weapon-aim-" + btn;
+      const h = _handlers[ev];
+      const P = sc.prefix;
+      const label = (sc.section || "weapon1") + " [aim]";
+      if (!h) { results.push({ scope: label, btn, state: cur || "(empty)", missing: true }); continue; }
+      _err = null; _writes = {}; _store = { [P + attr]: cur };
+      try { h({ sourceAttribute: P + "weapon-aim-" + btn, triggerName: ev }); }
+      catch (e) { _err = e; }
+      const out = {};
+      Object.keys(_writes).sort().forEach(k => { out[k.replace(P, "")] = _writes[k]; });
+      results.push({ scope: label, btn, state: cur || "(empty)",
+                     err: _err ? String(_err).slice(0, 60) : null, writes: out });
+    }
   }
 }
 console.log("###JSON###" + JSON.stringify(results));

@@ -70920,6 +70920,14 @@ const weaponToggleFamilies = {
 		gateDefault: "ss",
 		btns: { ss: "ss", sa: "sa", bf: "bf", fa: "fa" },
 	},
+	/* kind "cycle": two buttons sharing one attr with four states.
+	   Symmetric — for button X with partner Y: X -> "", Y -> "both",
+	   "both" -> Y, anything else -> X. */
+	aim: {
+		kind: "cycle",
+		core: "aim",
+		btns: { quick: "quick", focused: "focused" },
+	},
 	/* kind "ammo": two attrs (type + active flag) toggled together, and
 	   rejected outright on tranq platforms, which fire fixed sedative
 	   cartridges and take no special ammo. */
@@ -70957,6 +70965,14 @@ const registerWeaponToggleWatchers = (scope, section) => {
 				   refresh from BOTH, a pre-existing double-fire retired 2026-08-02. */
 				const commit = (updates) => setAttrs(updates);
 				if (spec.kind === "set") { commit({ [attr]: val }); return; }
+				if (spec.kind === "cycle") {
+					const other = Object.values(spec.btns).find(x => x !== val);
+					getAttrs([attr], (v) => {
+						const cur = v[attr] || "";
+						commit({ [attr]: cur === val ? "" : cur === other ? "both" : cur === "both" ? other : val });
+					});
+					return;
+				}
 				if (spec.kind === "gated_set") {
 					const gate = A(spec.gateCore);
 					getAttrs([gate], (v) => {
@@ -71538,24 +71554,6 @@ const registerWeaponManualWatchers = () => {
 	});
 
 	/* Aim */
-	on(`clicked:${S}:weapon-aim-quick`, (eventInfo) => {
-		if (debug_on_trace) console.log(`[clicked:${S}:weapon-aim-quick]`);
-		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-		const p = `${S}_${rowId}_`;
-		getAttrs([p + "weapon_aim_mdr"], (v) => {
-			const cur = v[p + "weapon_aim_mdr"] || "";
-			setAttrs({ [p + "weapon_aim_mdr"]: cur === "quick" ? "" : cur === "focused" ? "both" : cur === "both" ? "focused" : "quick" });
-		});
-	});
-	on(`clicked:${S}:weapon-aim-focused`, (eventInfo) => {
-		if (debug_on_trace) console.log(`[clicked:${S}:weapon-aim-focused]`);
-		const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-		const p = `${S}_${rowId}_`;
-		getAttrs([p + "weapon_aim_mdr"], (v) => {
-			const cur = v[p + "weapon_aim_mdr"] || "";
-			setAttrs({ [p + "weapon_aim_mdr"]: cur === "focused" ? "" : cur === "quick" ? "both" : cur === "both" ? "quick" : "focused" });
-		});
-	});
 
 	/* Target */
 	on(`clicked:${S}:weapon-target-prone`, (eventInfo) => {
@@ -76516,7 +76514,9 @@ on("change:roll_weapon1_mdr_attack_impale_checkbox", function () {
 });
 
 on("change:repeating_weaponsmdr:attack_impale_checkbox", function(eventInfo) {
-  const rowId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
+  /* Guarded: an unmatched sourceAttribute made this throw a TypeError. */
+  const rowId = (eventInfo.sourceAttribute || "").match(/repeating_weaponsmdr_([^_]+)_/)?.[1];
+  if (!rowId) return;
   const impaleAttr = `repeating_weaponsmdr_${rowId}_attack_impale_checkbox`;
   const toggleAttr = `repeating_weaponsmdr_${rowId}_attack_mode_toggle`;
 
@@ -77528,7 +77528,9 @@ on("change:weapon1_skill_mdr", function () {
     if (debug_on_trace) console.log ("[change:weapon1_skill_mdr] Start");
   getAttrs(["weapon1_skill_mdr"], function (v) {
     const referenceString = v.weapon1_skill_mdr; // e.g., "@{melee_weapons_mdr}"
-    const actualAttrName = referenceString.match(/@{([^}]+)}/)[1]; // "melee_weapons_mdr"
+    /* Guarded: an unset or non-@{} value made this throw a TypeError. */
+    const actualAttrName = (referenceString || "").match(/@{([^}]+)}/)?.[1];
+    if (!actualAttrName) return; // "melee_weapons_mdr"
 
     getAttrs([actualAttrName], function (values) {
       setAttrs({ weapon1_skill_mdr_display: values[actualAttrName] || "0" });
@@ -77538,12 +77540,16 @@ on("change:weapon1_skill_mdr", function () {
 
 on("change:repeating_weaponsmdr:weaponskill_mdr", function(eventInfo) {
     if (debug_on_trace) console.log ("[change:repeating_weaponsmdr:weaponskill_mdr] Start");
-  const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
+  /* Guarded: an unmatched sourceAttribute made this throw a TypeError. */
+  const repeatingId = (eventInfo.sourceAttribute || "").match(/repeating_weaponsmdr_([^_]+)_/)?.[1];
+  if (!repeatingId) return;
   const skillAttr = `repeating_weaponsmdr_${repeatingId}_weaponskill_mdr`;
 
   getAttrs([skillAttr], function(v) {
     const referenceString = v[skillAttr]; // e.g., "@{melee_weapons_mdr}"
-    const actualAttrName = referenceString.match(/@{([^}]+)}/)[1]; // Extract "melee_weapons_mdr"
+    /* Guarded: an unset or non-@{} value made this throw a TypeError. */
+    const actualAttrName = (referenceString || "").match(/@{([^}]+)}/)?.[1];
+    if (!actualAttrName) return; // Extract "melee_weapons_mdr"
 
     getAttrs([actualAttrName], function(values) {
       const skillValue = values[actualAttrName] || "0";
@@ -77556,7 +77562,9 @@ on("change:repeating_weaponsmdr:weaponskill_mdr", function(eventInfo) {
 
 on("change:repeating_weaponsmdr:weapondamage_mdr", (eventInfo) => {
   if (debug_on_trace) console.log("[change:repeating_weaponsmdr:weapondamage_mdr]");
-  const repeatingId = eventInfo.sourceAttribute.match(/repeating_weaponsmdr_([^_]+)_/)[1];
+  /* Guarded: an unmatched sourceAttribute made this throw a TypeError. */
+  const repeatingId = (eventInfo.sourceAttribute || "").match(/repeating_weaponsmdr_([^_]+)_/)?.[1];
+  if (!repeatingId) return;
   getAttrs([
     `repeating_weaponsmdr_${repeatingId}_weapondamage_mdr`,
     `repeating_weaponsmdr_${repeatingId}_weapon_ammo_type_mdr`,
@@ -77576,17 +77584,23 @@ on("change:repeating_weaponsmdr:weapondamage_mdr", (eventInfo) => {
 
 on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
   if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spell_skill_mdr] Start");
-  const repeatingId = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/)[1];
+  /* Guarded: an unmatched sourceAttribute made this throw a TypeError. */
+  const repeatingId = (eventInfo.sourceAttribute || "").match(/repeating_spellsmdr_([^_]+)_/)?.[1];
+  if (!repeatingId) return;
   const skillAttr = `repeating_spellsmdr_${repeatingId}_spell_skill_mdr`;
 
   getAttrs([skillAttr], function(v) {
     const referenceString = v[skillAttr];
-    const actualAttrName = referenceString.match(/@{([^}]+)}/)[1];
+    /* Guarded: an unset or non-@{} value made this throw a TypeError. */
+    const actualAttrName = (referenceString || "").match(/@{([^}]+)}/)?.[1];
+    if (!actualAttrName) return;
 	const checkboxAttr = `${actualAttrName}_checkbox`;
 	const primaryArcaneCareer = "primary_arcane_career"
 
 	getAttrs ( [actualAttrName, checkboxAttr, primaryArcaneCareer ], function(values) {
-		const actualPrimaryArcaneCareerAttrName = values[primaryArcaneCareer].match(/@{([^}]+)}/)[1];
+		/* Guarded: an unset or non-@{} value made this throw a TypeError. */
+		const actualPrimaryArcaneCareerAttrName = (values[primaryArcaneCareer] || "").match(/@{([^}]+)}/)?.[1];
+		if (!actualPrimaryArcaneCareerAttrName) return;
 		if (debug_on) console.log ("[primary_arcane_career]:", actualPrimaryArcaneCareerAttrName);
 
 		const strainPenalty = ( actualAttrName === "magic_universal_mdr" || actualAttrName === actualPrimaryArcaneCareerAttrName ) ? 0 : 1;
@@ -77604,7 +77618,9 @@ on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
 
 on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
     if (debug_on_trace) console.log ("[change:repeating_spellsmdr:spell_damage_mdr] Start");
-  const repeatingId = eventInfo.sourceAttribute.match(/repeating_spellsmdr_([^_]+)_/)[1];
+  /* Guarded: an unmatched sourceAttribute made this throw a TypeError. */
+  const repeatingId = (eventInfo.sourceAttribute || "").match(/repeating_spellsmdr_([^_]+)_/)?.[1];
+  if (!repeatingId) return;
   getAttrs([`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`], function(values) {
     const damageString = values[`repeating_spellsmdr_${repeatingId}_spell_damage_mdr`] || "";
     const updates = parseDamageString(damageString, `repeating_spellsmdr_${repeatingId}`);
@@ -77614,7 +77630,9 @@ on("change:repeating_spellsmdr:spell_damage_mdr", function(eventInfo) {
 
 on("change:repeating_omnidecksmdr:omnideck_skill_mdr", function(eventInfo) {
 	if (debug_on_trace) console.log("[change:repeating_omnidecksmdr:omnideck_skill_mdr] Start");
-	const repeatingId = eventInfo.sourceAttribute.match(/repeating_omnidecksmdr_([^_]+)_/)[1];
+	/* Guarded: an unmatched sourceAttribute made this throw a TypeError. */
+	const repeatingId = (eventInfo.sourceAttribute || "").match(/repeating_omnidecksmdr_([^_]+)_/)?.[1];
+	if (!repeatingId) return;
 	const skillAttr = `repeating_omnidecksmdr_${repeatingId}_omnideck_skill_mdr`;
 	getAttrs([skillAttr], function(v) {
 		const referenceString = v[skillAttr];
@@ -77662,7 +77680,9 @@ on("change:slicing_mdr change:computer_use_mdr change:security_mdr change:arcano
 
 on("change:repeating_programsmdr:program_damage_mdr", function(eventInfo) {
     if (debug_on_trace) console.log ("[change:repeating_programsmdr:program_damage_mdr] Start");
-  const repeatingId = eventInfo.sourceAttribute.match(/repeating_programsmdr_([^_]+)_/)[1];
+  /* Guarded: an unmatched sourceAttribute made this throw a TypeError. */
+  const repeatingId = (eventInfo.sourceAttribute || "").match(/repeating_programsmdr_([^_]+)_/)?.[1];
+  if (!repeatingId) return;
   getAttrs([`repeating_programsmdr_${repeatingId}_program_damage_mdr`], function(values) {
     const damageString = values[`repeating_programsmdr_${repeatingId}_program_damage_mdr`] || "";
     const updates = parseDamageString(damageString, `repeating_programsmdr_${repeatingId}`);
@@ -78353,46 +78373,8 @@ on("change:weapon1_skill_mdr", () => {
 });
 
 /* ── Aim action buttons — repeating row ────────────────────────────── */
-on("clicked:repeating_weaponsmdr:weapon-aim-quick", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-aim-quick]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const p = `repeating_weaponsmdr_${m[1]}_`;
-	getAttrs([p + "weapon_aim_mdr"], (v) => {
-		const cur = v[p + "weapon_aim_mdr"] || "";
-		const next = cur === "quick" ? "" : cur === "focused" ? "both" : cur === "both" ? "focused" : "quick";
-		setAttrs({ [p + "weapon_aim_mdr"]: next });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-aim-focused", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-aim-focused]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const p = `repeating_weaponsmdr_${m[1]}_`;
-	getAttrs([p + "weapon_aim_mdr"], (v) => {
-		const cur = v[p + "weapon_aim_mdr"] || "";
-		const next = cur === "focused" ? "" : cur === "quick" ? "both" : cur === "both" ? "quick" : "focused";
-		setAttrs({ [p + "weapon_aim_mdr"]: next });
-	});
-});
 
 /* ── Aim action buttons — static weapon1 ───────────────────────────── */
-on("clicked:weapon1-aim-quick", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-aim-quick]");
-	getAttrs(["weapon1_mdr_aim"], (v) => {
-		const cur = v.weapon1_mdr_aim || "";
-		const next = cur === "quick" ? "" : cur === "focused" ? "both" : cur === "both" ? "focused" : "quick";
-		setAttrs({ weapon1_mdr_aim: next }, () => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-aim-focused", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-aim-focused]");
-	getAttrs(["weapon1_mdr_aim"], (v) => {
-		const cur = v.weapon1_mdr_aim || "";
-		const next = cur === "focused" ? "" : cur === "quick" ? "both" : cur === "both" ? "quick" : "focused";
-		setAttrs({ weapon1_mdr_aim: next }, () => { refreshWeapon1Summary(); });
-	});
-});
 
 /* ── Target condition buttons — repeating row ──────────────────────── */
 on("clicked:repeating_weaponsmdr:weapon-target-prone", (eventInfo) => {

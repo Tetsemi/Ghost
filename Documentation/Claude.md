@@ -48,7 +48,7 @@
 | `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
 | `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
-| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases, plus 10 cap-counter cases covering the barrel cap / rounds gate interaction and mode clamping |
+| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases, plus cap-counter and aim-cycle cases: 421 total |
 
 ### Deferred Rules Are Data, Not Gaps
 
@@ -641,7 +641,7 @@ Merged to `registerWeaponBarrelWatchers(scope, section)`, 143 lines to 55. `weap
 
 The internal-mod buttons (`bc`/`ir`/`ql`/`qt`/`sl`) and the optics buttons (`mag`/`ref`/`thm`) had the identical three-scope split. Both are the same mechanic — several buttons toggling one attr, where selecting a second clears the first — so rather than write a second near-copy they were generalised into `registerWeaponToggleWatchers`, driven by a `weaponToggleFamilies` table. Adding a family, or a button to one, is now a single table entry.
 
-All five click-button families (barrel, internal, optics, range, mode, ammo) now run through two functions. The `weaponToggleFamilies` table gained a `kind` discriminator — `toggle` (one attr, click again to clear), `set` (plain assignment), `gated_set` (assign only if the mode is currently available), `ammo` (two attrs plus the tranq guard) — so families with genuinely different mechanics still share one registrar.
+All click-button families (barrel, internal, optics, range, mode, ammo, aim) now run through two functions. The `weaponToggleFamilies` table gained a `kind` discriminator — `toggle` (one attr, click again to clear), `set` (plain assignment), `gated_set` (assign only if the mode is currently available), `ammo` (two attrs plus the tranq guard), `cycle` (two buttons over four states) — so families with genuinely different mechanics still share one registrar.
 
 **Preserve incidental behaviour during the merge, then fix it as its own change.** The merge initially made every weapon1 family refresh the summary from the `setAttrs` callback. But `change:` watchers already cover `range_band`, `mode`, `ammo_type` and `ammo_active`, so that double-fired; only `optics` and `mod_internal` refreshed from the callback originally. A per-family `w1Refresh` flag preserved the original split exactly, keeping the consolidation purely structural.
 
@@ -652,6 +652,8 @@ The pre-existing double-fire (`optics`, `mod_internal` and `barrel` refreshed fr
 **When the second copy appears, generalise instead of duplicating the fix.** The optics merge could have been a third `registerWeaponXxxWatchers`; noticing it was structurally identical to the internal-mod case collapsed both into one function. Combined, the consolidations took **31 handlers and 277 lines down to 2 functions and ~90 lines**.
 
 **Prove it with captured behaviour, not by reading.** `difftest_barrel.js` fires every button in every scope against seeded stores covering both branches and the empty-`avail` fallback, and records the resulting `setAttrs` writes. Capture a baseline with `--save` before the change and `--check` after: 135 cases, byte-identical output. This is the general recipe for consolidating watcher copies, and it is stronger than textual diffing because it covers the case where two copies *look* different but behave identically.
+
+**Guard every `.match(...)[1]`, on values as well as `sourceAttribute`.** An unmatched pattern makes `[1]` throw a `TypeError` that kills the handler. Two distinct sites: `eventInfo.sourceAttribute.match(...)` (7 fixed) and attribute *values* such as `referenceString.match(/@{([^}]+)}/)` where the attr is unset or not an `@{}` reference (4 fixed). A scan for only the first form misses the second — grep for `.match(` followed by `[1]` regardless of receiver. All now use `?.[1]` with an early return, verified against malformed, missing and empty-store input.
 
 **Copies drift in robustness, not just logic.** The retired internal-mod literals indexed `eventInfo.sourceAttribute.match(...)[1]` with no null check and would throw a `TypeError` on any non-matching attribute; the generated manual version had `if (!rowId) return;`. Merging adopted the guarded form. 13 unguarded `.match(...)[1]` dereferences remain elsewhere in the worker (cyberware and weapon summary handlers) — most use `?.[1]`, but a few do not.
 

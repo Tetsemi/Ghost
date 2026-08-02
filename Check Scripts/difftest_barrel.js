@@ -153,6 +153,56 @@ for (const sc of SCOPES) {
     }
   }
 }
+/* range: plain set. mode: gated set. ammo: two-attr toggle + tranq guard. */
+const OTHER = {
+  range: { btns: { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" },
+           seed: (P, sc) => ({}) },
+  mode:  { btns: { ss: "ss", sa: "sa", bf: "bf", fa: "fa" },
+           seed: (P, sc, avail) => ({ [P + (sc.scope === "weapon1" ? "weapon1_mdr_modes_available" : "weapon_modes_available_mdr")]: avail }) },
+  ammo:  { btns: { ap: "ap_rounds", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" },
+           seed: () => ({}) },
+};
+const AMMO_ATTR = (sc) => sc.scope === "weapon1"
+  ? { type: "weapon1_mdr_ammo_type", act: "weapon1_mdr_ammo_active", sub: "weapon1_mdr_subcategory" }
+  : { type: "weapon_ammo_type_mdr", act: "weapon_ammo_active_mdr", sub: "weapon_subcategory_mdr" };
+const OTHER_STATES = [
+  { label: "default" }, { label: "self active" }, { label: "tranq" },
+  { label: "avail ss only" }, { label: "avail all" },
+];
+for (const sc of SCOPES) {
+  for (const [family, spec] of Object.entries(OTHER)) {
+    for (const btn of Object.keys(spec.btns)) {
+      for (const st of OTHER_STATES) {
+        /* weapon1 mode buttons use underscores where every other weapon1
+           family uses hyphens: act_weapon1_mode_ss, not act_weapon1-mode-ss. */
+        const ev = (sc.scope === "weapon1")
+          ? (family === "mode" ? "clicked:weapon1_mode_" + btn
+                               : "clicked:weapon1-" + family + "-" + btn)
+          : "clicked:" + sc.section + ":weapon-" + family + "-" + btn;
+        const h = _handlers[ev];
+        const P = sc.prefix;
+        const label = (sc.section || "weapon1") + " [" + family + "]";
+        if (!h) { results.push({ scope: label, btn, state: st.label, missing: true }); continue; }
+        _err = null; _writes = {}; _store = {};
+        if (family === "mode") {
+          const avail = st.label === "avail ss only" ? "ss" : st.label === "avail all" ? "ss sa bf fa" : "ss sa";
+          Object.assign(_store, spec.seed(P, sc, avail));
+        }
+        if (family === "ammo") {
+          const A = AMMO_ATTR(sc);
+          if (st.label === "self active") { _store[P + A.type] = spec.btns[btn]; _store[P + A.act] = "1"; }
+          if (st.label === "tranq") { _store[P + A.sub] = "tranq"; }
+        }
+        try { h({ sourceAttribute: P + "weapon-" + family + "-" + btn, triggerName: ev }); }
+        catch (e) { _err = e; }
+        const out = {};
+        Object.keys(_writes).sort().forEach(k => { out[k.replace(P, "")] = _writes[k]; });
+        results.push({ scope: label, btn, state: st.label,
+                       err: _err ? String(_err).slice(0, 60) : null, writes: out });
+      }
+    }
+  }
+}
 console.log("###JSON###" + JSON.stringify(results));
 `;
 

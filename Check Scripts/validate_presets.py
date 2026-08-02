@@ -260,10 +260,34 @@ def main():
     # (197 instances sheet-wide, nearly all kept in sync by a watcher), so a
     # check that flagged all of them would just be noise.
     html_only = raw[:raw.find('<script type="text/worker">')]
+    css_raw = ""
+    try:
+        css_raw = open("ghost_of_arcadia.css", "rb").read().decode("utf-8", "replace")
+    except OSError:
+        pass
     js_all = re.search(r'<script type="text/worker">(.*?)</script>', raw, re.S)
     js_all = js_all.group(1) if js_all else ""
 
+    # Attrs written through a computed name — e.g. `[attr]: val` where attr comes
+    # from weaponPresetAttrRep/W1 — are invisible to a textual search. Collect the
+    # CORE names the generated writers cover so they are not reported as unwritten.
+    dynamic_cores = set()
+    for m in re.finditer(r'\bcore:\s*"([a-z0-9_]+)"', js_all):
+        dynamic_cores.add(m.group(1))
+    defaults = re.search(r'const weaponPresetAttrDefaults = \{(.*?)\n\};', js_all, re.S)
+    if defaults:
+        dynamic_cores |= set(re.findall(r'\n\t([a-z0-9_]+):\s*\{', defaults.group(1)))
+
+    def core_of(a):
+        c = a[:-4] if a.endswith("_mdr") else a
+        for pre in ("weapon1_mdr_", "weapon1_", "weapon_"):
+            if c.startswith(pre):
+                return c[len(pre):]
+        return c
+
     def attr_is_written(a):
+        if core_of(a) in dynamic_cores:
+            return True
         return (bool(re.search(r'["\'`\[]\s*(?:\w+\s*\+\s*)?["\'`]?%s["\'`]?\s*\]?\s*:' % re.escape(a), js_all))
                 or bool(re.search(r'\b%s\s*:' % re.escape(a), js_all))
                 or bool(re.search(r'%s`\]' % re.escape(a), js_all)))
@@ -333,6 +357,39 @@ def main():
                 if not re.search(r'name="attr_(?:weapon_%s_mdr|weapon%s_mdr)"' % (core, core), raw) \
                    and not re.search(r'weapon_%s_mdr' % core, js):
                     fail("T6", f"weaponTagInputs references core '{core}' with no matching attr")
+
+    # ---------------- weapon mod wiring ----------------
+    # M1-M3: weaponModBtnAttr is the only hand-maintained link between
+    # weaponModDataMap and the sheet. computeModButtons iterates the LINK table,
+    # not the map, so a map entry with no link is silently never consulted, and
+    # a link whose attr has no HTML element writes to nothing. Both are silent
+    # partial failures of exactly the kind the four-layer talent rule describes.
+    link = re.search(r'const weaponModBtnAttr = \{(.*?)\n\};', js_all, re.S)
+    modmap = re.search(r'const weaponModDataMap = \{(.*?)\n\};', js_all, re.S)
+    if not link:
+        fail("M1", "weaponModBtnAttr table not found")
+    elif not modmap:
+        fail("M1", "weaponModDataMap not found")
+    else:
+        links = dict(re.findall(r'\n\t([a-z0-9_]+):\s*"([a-z0-9_]+)"', link.group(1)))
+        mods = set(re.findall(r'\n\t([a-z0-9_]+):\s*\{', modmap.group(1)))
+        for k in sorted(set(links) - mods):
+            fail("M1", f"weaponModBtnAttr links '{k}' but weaponModDataMap has no such entry")
+        for k in sorted(mods - set(links)):
+            fail("M2", f"weaponModDataMap declares '{k}' but weaponModBtnAttr has no link — "
+                       f"computeModButtons will never consult it")
+        # The apply path writes `prefix + attr`, where prefix is "weapon_" for
+        # repeating rows and "weapon1_" for the static block — so the element
+        # names are attr_weapon_btn_* and attr_weapon1_btn_*, not the bare attr.
+        for k, attr in sorted(links.items()):
+            for scope_prefix in ("weapon_", "weapon1_"):
+                if not re.search(r'name="attr_%s%s"' % (scope_prefix, re.escape(attr)), html_only):
+                    fail("M3", f"'{k}' links to '{attr}' but no element declares "
+                               f"attr_{scope_prefix}{attr}")
+            # CSS drives button visibility off [value="1"]; without a rule the
+            # button never appears no matter what the worker writes.
+            if not re.search(r'attr_weapon1?_%s"\]\[value=' % re.escape(attr), css_raw):
+                fail("M4", f"'{k}' links to '{attr}' but no CSS [value=] rule targets it")
 
     # ---------------- report ----------------
     print(f"weaponDataMap keys : {len(weapons)}")

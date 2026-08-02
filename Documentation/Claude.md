@@ -48,7 +48,7 @@
 | `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
 | `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
-| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod and optics buttons: 162 cases |
+| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases |
 
 ### Deferred Rules Are Data, Not Gaps
 
@@ -95,6 +95,8 @@ Two rules follow. Resolve bindings by scanning **backward** from the use site, s
 A check that fires on hundreds of pre-existing instances is **worse than no check** — it trains everyone to ignore the output. The first duplicate-declaration rule flagged 197 instances; narrowing to the precise failure signature (hidden + visible + disagreeing defaults + never written) reduced it to 2, both real bugs.
 
 **Negative-test every new check against the actual bug that motivated it**, and reconstruct the true pre-fix state to do so. A first attempt at negative-testing D1 reinstated the duplicate declaration but not the missing seed; the check correctly did not fire, which proved nothing. Only with both conditions restored did it catch the original defect.
+
+**Attrs written through a computed name are invisible to a textual search.** After the button consolidation, `D1` reported `weapon1_mdr_range_band` as never written — a false positive, because the generated writer emits `[attr]: val` where `attr` comes from `weaponPresetAttrRep`/`W1`. The check now also treats any CORE name appearing in `weaponToggleFamilies` or `weaponPresetAttrDefaults` as written. When a static check fires on code you know is correct, fix the check.
 
 **Verify the mutation actually happened.** A later negative test of T4/T5 reported PASS on both mutated files — because the harness read the CRLF source without `newline=""`, so Python translated the line endings and the `\r\n` patterns matched nothing, leaving the files byte-identical to the original. Always assert the mutation took effect (key count, substring presence) before interpreting the check's verdict.
 
@@ -623,6 +625,10 @@ That is a rule expressed as code shape rather than data. A mod that newly gained
 Merged to `registerWeaponBarrelWatchers(scope, section)`, 143 lines to 55. `weapon1` is not a repeating section (no rowId, different event name, different attr names, plus a `refreshWeapon1Summary` callback), so it takes a scope parameter and reuses `weaponPresetAttrRep` / `weaponPresetAttrW1` — the same adapter pattern as `buildWeaponPresetBlank`.
 
 The internal-mod buttons (`bc`/`ir`/`ql`/`qt`/`sl`) and the optics buttons (`mag`/`ref`/`thm`) had the identical three-scope split. Both are the same mechanic — several buttons toggling one attr, where selecting a second clears the first — so rather than write a second near-copy they were generalised into `registerWeaponToggleWatchers`, driven by a `weaponToggleFamilies` table. Adding a family, or a button to one, is now a single table entry.
+
+All five click-button families (barrel, internal, optics, range, mode, ammo) now run through two functions. The `weaponToggleFamilies` table gained a `kind` discriminator — `toggle` (one attr, click again to clear), `set` (plain assignment), `gated_set` (assign only if the mode is currently available), `ammo` (two attrs plus the tranq guard) — so families with genuinely different mechanics still share one registrar.
+
+**Preserve incidental behaviour, or prove the change is wanted.** The merge initially made every weapon1 family refresh the summary from the `setAttrs` callback. But `change:` watchers already cover `range_band`, `mode`, `ammo_type` and `ammo_active`, so that double-fired; only `optics` and `mod_internal` refreshed from the callback originally. A per-family `w1Refresh` flag preserves the original split exactly. Note `optics` and `mod_internal` are covered by BOTH the watcher and the callback — a pre-existing double-fire, left as-is so the consolidation stays purely structural.
 
 **When the second copy appears, generalise instead of duplicating the fix.** The optics merge could have been a third `registerWeaponXxxWatchers`; noticing it was structurally identical to the internal-mod case collapsed both into one function. Combined, the consolidations took **31 handlers and 277 lines down to 2 functions and ~90 lines**.
 

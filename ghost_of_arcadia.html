@@ -70870,13 +70870,44 @@ const weaponBarrelBtnKeys = ["sl", "co", "su", "pc", "sb"];
 
    Adding a family (or a button to one) is now a single table entry. */
 const weaponToggleFamilies = {
+	/* kind "toggle": one attr, clicking the active button clears it. */
 	internal: {
+		kind: "toggle",
 		core: "mod_internal",
+		w1Refresh: true,
 		btns: { bc: "biocoded", ir: "irs", ql: "qls", qt: "qst", sl: "smartlink" },
 	},
 	optics: {
+		kind: "toggle",
 		core: "optics",
+		w1Refresh: true,
 		btns: { mag: "magnification", ref: "reflex", thm: "thermal" },
+	},
+	/* kind "set": plain assignment, no toggle-off. */
+	range: {
+		kind: "set",
+		core: "range_band",
+		btns: { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" },
+	},
+	/* kind "gated_set": assign only if the mode is currently available.
+	   weapon1 mode buttons are named with underscores (weapon1_mode_ss) where
+	   every other weapon1 family uses hyphens — hence evW1. */
+	mode: {
+		kind: "gated_set",
+		core: "mode",
+		gateCore: "modes_available",
+		gateDefault: "ss",
+		evW1: (btn) => `clicked:weapon1_mode_${btn}`,
+		btns: { ss: "ss", sa: "sa", bf: "bf", fa: "fa" },
+	},
+	/* kind "ammo": two attrs (type + active flag) toggled together, and
+	   rejected outright on tranq platforms, which fire fixed sedative
+	   cartridges and take no special ammo. */
+	ammo: {
+		kind: "ammo",
+		core: "ammo_type",
+		activeCore: "ammo_active",
+		btns: { ap: "ap_rounds", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" },
 	},
 };
 
@@ -70886,7 +70917,7 @@ const registerWeaponToggleWatchers = (scope, section) => {
 		const spec = weaponToggleFamilies[family];
 		Object.keys(spec.btns).forEach(btn => {
 			const val = spec.btns[btn];
-			const ev  = w1 ? `clicked:weapon1-${family}-${btn}`
+			const ev  = w1 ? (spec.evW1 ? spec.evW1(btn) : `clicked:weapon1-${family}-${btn}`)
 			               : `clicked:${section}:weapon-${family}-${btn}`;
 			on(ev, (eventInfo = {}) => {
 				if (debug_on_trace) console.log(`[${ev}]`);
@@ -70898,11 +70929,37 @@ const registerWeaponToggleWatchers = (scope, section) => {
 					if (!m) return;
 					prefix = `${section}_${m[1]}_`;
 				}
-				const attr = prefix + (w1 ? weaponPresetAttrW1(spec.core) : weaponPresetAttrRep(spec.core));
+				const A = (core) => prefix + (w1 ? weaponPresetAttrW1(core) : weaponPresetAttrRep(core));
+				const attr = A(spec.core);
+				/* Only the families whose literals did so refresh the summary from the
+				   callback. range/mode/ammo are already covered by the change: watchers
+				   on weapon1_mdr_range_band / _mode / _ammo_type / _ammo_active, so a
+				   callback refresh there would double-fire. */
+				const commit = (updates) => {
+					if (w1 && spec.w1Refresh) setAttrs(updates, () => { refreshWeapon1Summary(); });
+					else                      setAttrs(updates);
+				};
+				if (spec.kind === "set") { commit({ [attr]: val }); return; }
+				if (spec.kind === "gated_set") {
+					const gate = A(spec.gateCore);
+					getAttrs([gate], (v) => {
+						const avail = (v[gate] || spec.gateDefault).split(" ");
+						if (avail.includes(val)) commit({ [attr]: val });
+					});
+					return;
+				}
+				if (spec.kind === "ammo") {
+					const act = A(spec.activeCore);
+					const sub = A("subcategory");
+					getAttrs([attr, act, sub], (v) => {
+						if ((v[sub] || "") === "tranq") return;
+						const on_ = (v[attr] || "standard") === val && (v[act] || "0") === "1";
+						commit(on_ ? { [attr]: "standard", [act]: "0" } : { [attr]: val, [act]: "1" });
+					});
+					return;
+				}
 				getAttrs([attr], (v) => {
-					const updates = { [attr]: (v[attr] || "") === val ? "" : val };
-					if (w1) setAttrs(updates, () => { refreshWeapon1Summary(); });
-					else    setAttrs(updates);
+					commit({ [attr]: (v[attr] || "") === val ? "" : val });
 				});
 			});
 		});
@@ -71561,47 +71618,8 @@ const registerWeaponManualWatchers = () => {
 		getAttrs([attr], (v) => { setAttrs({ [attr]: v[attr] === "1" ? "0" : "1" }); });
 	});
 
-	/* Mode buttons */
-	["ss","sa","bf","fa"].forEach(mode => {
-		on(`clicked:${S}:weapon-mode-${mode}`, (eventInfo) => {
-			if (debug_on_trace) console.log(`[clicked:${S}:weapon-mode-${mode}]`);
-			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-			const p = `${S}_${rowId}_`;
-			getAttrs([p + "weapon_modes_available_mdr"], (v) => {
-				const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
-				if (avail.includes(mode)) setAttrs({ [p + "weapon_mode_mdr"]: mode });
-			});
-		});
-	});
 
-	/* Ammo buttons */
-	const ammoMap = { ap: "ap_rounds", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" };
-	Object.entries(ammoMap).forEach(([btn, val]) => {
-		on(`clicked:${S}:weapon-ammo-${btn}`, (eventInfo) => {
-			if (debug_on_trace) console.log(`[clicked:${S}:weapon-ammo-${btn}]`);
-			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-			const p = `${S}_${rowId}_`;
-			getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr"], (v) => {
-				const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
-				const act = v[p + "weapon_ammo_active_mdr"] || "0";
-				if (cur === val && act === "1") {
-					setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
-				} else {
-					setAttrs({ [p + "weapon_ammo_type_mdr"]: val, [p + "weapon_ammo_active_mdr"]: "1" });
-				}
-			});
-		});
-	});
 
-	/* Range buttons */
-	const rangeMap = { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" };
-	Object.entries(rangeMap).forEach(([btn, val]) => {
-		on(`clicked:${S}:weapon-range-${btn}`, (eventInfo) => {
-			if (debug_on_trace) console.log(`[clicked:${S}:weapon-range-${btn}]`);
-			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-			setAttrs({ [`${S}_${rowId}_weapon_range_band_mdr`]: val });
-		});
-	});
 
 
 	/* Barrel buttons — shared implementation, see registerWeaponBarrelWatchers */
@@ -78506,321 +78524,17 @@ on("clicked:weapon1_mods_toggle", () => {
 
 
 /* ── Mode button handlers — repeating row ───────────────────────────── */
-on("clicked:repeating_weaponsmdr:weapon-mode-ss", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-ss]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_modes_available_mdr"], (v) => {
-		const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
-		if (avail.includes("ss")) setAttrs({ [p + "weapon_mode_mdr"]: "ss" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-mode-sa", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-sa]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_modes_available_mdr"], (v) => {
-		const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
-		if (avail.includes("sa")) setAttrs({ [p + "weapon_mode_mdr"]: "sa" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-mode-bf", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-bf]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_modes_available_mdr"], (v) => {
-		const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
-		if (avail.includes("bf")) setAttrs({ [p + "weapon_mode_mdr"]: "bf" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-mode-fa", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-mode-fa]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_modes_available_mdr"], (v) => {
-		const avail = (v[p + "weapon_modes_available_mdr"] || "ss").split(" ");
-		if (avail.includes("fa")) setAttrs({ [p + "weapon_mode_mdr"]: "fa" });
-	});
-});
 
 /* ── Mode button handlers — static weapon1 ──────────────────────────── */
-on("clicked:weapon1_mode_ss", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1_mode_ss]");
-	getAttrs(["weapon1_mdr_modes_available"], (v) => {
-		const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
-		if (avail.includes("ss")) setAttrs({ weapon1_mdr_mode: "ss" });
-	});
-});
-on("clicked:weapon1_mode_sa", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1_mode_sa]");
-	getAttrs(["weapon1_mdr_modes_available"], (v) => {
-		const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
-		if (avail.includes("sa")) setAttrs({ weapon1_mdr_mode: "sa" });
-	});
-});
-on("clicked:weapon1_mode_bf", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1_mode_bf]");
-	getAttrs(["weapon1_mdr_modes_available"], (v) => {
-		const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
-		if (avail.includes("bf")) setAttrs({ weapon1_mdr_mode: "bf" });
-	});
-});
-on("clicked:weapon1_mode_fa", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1_mode_fa]");
-	getAttrs(["weapon1_mdr_modes_available"], (v) => {
-		const avail = (v["weapon1_mdr_modes_available"] || "ss").split(" ");
-		if (avail.includes("fa")) setAttrs({ weapon1_mdr_mode: "fa" });
-	});
-});
 
 
 /* ── Ammo button handlers — repeating row ───────────────────────────── */
-on("clicked:repeating_weaponsmdr:weapon-ammo-ap", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-ap]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr", p + "weapon_subcategory_mdr"], (v) => {
-		/* Tranq platforms fire fixed sedative cartridges — reject special ammo
-		   here as well as in CSS, so no other path can set the attr. */
-		if ((v[p + "weapon_subcategory_mdr"] || "") === "tranq") return;
-		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
-		const act = v[p + "weapon_ammo_active_mdr"] || "0";
-		if (cur === "ap_rounds" && act === "1") {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
-		} else {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "ap_rounds", [p + "weapon_ammo_active_mdr"]: "1" });
-		}
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-ammo-br", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-br]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr", p + "weapon_subcategory_mdr"], (v) => {
-		/* Tranq platforms fire fixed sedative cartridges — reject special ammo
-		   here as well as in CSS, so no other path can set the attr. */
-		if ((v[p + "weapon_subcategory_mdr"] || "") === "tranq") return;
-		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
-		const act = v[p + "weapon_ammo_active_mdr"] || "0";
-		if (cur === "breacher" && act === "1") {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
-		} else {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "breacher", [p + "weapon_ammo_active_mdr"]: "1" });
-		}
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-ammo-hp", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-hp]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr", p + "weapon_subcategory_mdr"], (v) => {
-		/* Tranq platforms fire fixed sedative cartridges — reject special ammo
-		   here as well as in CSS, so no other path can set the attr. */
-		if ((v[p + "weapon_subcategory_mdr"] || "") === "tranq") return;
-		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
-		const act = v[p + "weapon_ammo_active_mdr"] || "0";
-		if (cur === "hollow_point" && act === "1") {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
-		} else {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "hollow_point", [p + "weapon_ammo_active_mdr"]: "1" });
-		}
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-ammo-sh", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-sh]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr", p + "weapon_subcategory_mdr"], (v) => {
-		/* Tranq platforms fire fixed sedative cartridges — reject special ammo
-		   here as well as in CSS, so no other path can set the attr. */
-		if ((v[p + "weapon_subcategory_mdr"] || "") === "tranq") return;
-		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
-		const act = v[p + "weapon_ammo_active_mdr"] || "0";
-		if (cur === "shock" && act === "1") {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
-		} else {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "shock", [p + "weapon_ammo_active_mdr"]: "1" });
-		}
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-ammo-su", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-su]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr", p + "weapon_subcategory_mdr"], (v) => {
-		/* Tranq platforms fire fixed sedative cartridges — reject special ammo
-		   here as well as in CSS, so no other path can set the attr. */
-		if ((v[p + "weapon_subcategory_mdr"] || "") === "tranq") return;
-		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
-		const act = v[p + "weapon_ammo_active_mdr"] || "0";
-		if (cur === "subsonic" && act === "1") {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
-		} else {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "subsonic", [p + "weapon_ammo_active_mdr"]: "1" });
-		}
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-ammo-vc", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-ammo-vc]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_ammo_type_mdr", p + "weapon_ammo_active_mdr", p + "weapon_subcategory_mdr"], (v) => {
-		/* Tranq platforms fire fixed sedative cartridges — reject special ammo
-		   here as well as in CSS, so no other path can set the attr. */
-		if ((v[p + "weapon_subcategory_mdr"] || "") === "tranq") return;
-		const cur = v[p + "weapon_ammo_type_mdr"] || "standard";
-		const act = v[p + "weapon_ammo_active_mdr"] || "0";
-		if (cur === "veil_charged" && act === "1") {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "standard", [p + "weapon_ammo_active_mdr"]: "0" });
-		} else {
-			setAttrs({ [p + "weapon_ammo_type_mdr"]: "veil_charged", [p + "weapon_ammo_active_mdr"]: "1" });
-		}
-	});
-});
 
 /* ── Ammo button handlers — static weapon1 ──────────────────────────── */
-on("clicked:weapon1-ammo-ap", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-ammo-ap]");
-	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active", "weapon1_mdr_trait_concealable", "weapon1_mdr_trait_silent", "weapon1_mdr_loadout", "weapon1_mdr_subcategory"], (v) => {
-		if ((v["weapon1_mdr_subcategory"] || "") === "tranq") return;
-		const cur = v["weapon1_mdr_ammo_type"] || "standard";
-		const act = v["weapon1_mdr_ammo_active"] || "0";
-		if (cur === "ap_rounds" && act === "1") {
-			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
-		} else {
-			setAttrs({ weapon1_mdr_ammo_type: "ap_rounds", weapon1_mdr_ammo_active: "1" });
-		}
-	});
-});
-on("clicked:weapon1-ammo-br", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-ammo-br]");
-	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active", "weapon1_mdr_trait_concealable", "weapon1_mdr_trait_silent", "weapon1_mdr_loadout", "weapon1_mdr_subcategory"], (v) => {
-		if ((v["weapon1_mdr_subcategory"] || "") === "tranq") return;
-		const cur = v["weapon1_mdr_ammo_type"] || "standard";
-		const act = v["weapon1_mdr_ammo_active"] || "0";
-		if (cur === "breacher" && act === "1") {
-			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
-		} else {
-			setAttrs({ weapon1_mdr_ammo_type: "breacher", weapon1_mdr_ammo_active: "1" });
-		}
-	});
-});
-on("clicked:weapon1-ammo-hp", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-ammo-hp]");
-	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active", "weapon1_mdr_trait_concealable", "weapon1_mdr_trait_silent", "weapon1_mdr_loadout", "weapon1_mdr_subcategory"], (v) => {
-		if ((v["weapon1_mdr_subcategory"] || "") === "tranq") return;
-		const cur = v["weapon1_mdr_ammo_type"] || "standard";
-		const act = v["weapon1_mdr_ammo_active"] || "0";
-		if (cur === "hollow_point" && act === "1") {
-			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
-		} else {
-			setAttrs({ weapon1_mdr_ammo_type: "hollow_point", weapon1_mdr_ammo_active: "1" });
-		}
-	});
-});
-on("clicked:weapon1-ammo-sh", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-ammo-sh]");
-	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active", "weapon1_mdr_trait_concealable", "weapon1_mdr_trait_silent", "weapon1_mdr_loadout", "weapon1_mdr_subcategory"], (v) => {
-		if ((v["weapon1_mdr_subcategory"] || "") === "tranq") return;
-		const cur = v["weapon1_mdr_ammo_type"] || "standard";
-		const act = v["weapon1_mdr_ammo_active"] || "0";
-		if (cur === "shock" && act === "1") {
-			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
-		} else {
-			setAttrs({ weapon1_mdr_ammo_type: "shock", weapon1_mdr_ammo_active: "1" });
-		}
-	});
-});
-on("clicked:weapon1-ammo-su", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-ammo-su]");
-	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active", "weapon1_mdr_trait_concealable", "weapon1_mdr_trait_silent", "weapon1_mdr_loadout", "weapon1_mdr_subcategory"], (v) => {
-		if ((v["weapon1_mdr_subcategory"] || "") === "tranq") return;
-		const cur = v["weapon1_mdr_ammo_type"] || "standard";
-		const act = v["weapon1_mdr_ammo_active"] || "0";
-		if (cur === "subsonic" && act === "1") {
-			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
-		} else {
-			setAttrs({ weapon1_mdr_ammo_type: "subsonic", weapon1_mdr_ammo_active: "1" });
-		}
-	});
-});
-on("clicked:weapon1-ammo-vc", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-ammo-vc]");
-	getAttrs(["weapon1_mdr_ammo_type", "weapon1_mdr_ammo_active", "weapon1_mdr_trait_concealable", "weapon1_mdr_trait_silent", "weapon1_mdr_loadout", "weapon1_mdr_subcategory"], (v) => {
-		if ((v["weapon1_mdr_subcategory"] || "") === "tranq") return;
-		const cur = v["weapon1_mdr_ammo_type"] || "standard";
-		const act = v["weapon1_mdr_ammo_active"] || "0";
-		if (cur === "veil_charged" && act === "1") {
-			setAttrs({ weapon1_mdr_ammo_type: "standard", weapon1_mdr_ammo_active: "0" });
-		} else {
-			setAttrs({ weapon1_mdr_ammo_type: "veil_charged", weapon1_mdr_ammo_active: "1" });
-		}
-	});
-});
 
 /* ── Range button handlers — repeating row ──────────────────────────── */
-on("clicked:repeating_weaponsmdr:weapon-range-en", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-en]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "engaged" });
-});
-on("clicked:repeating_weaponsmdr:weapon-range-sh", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-sh]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "short" });
-});
-on("clicked:repeating_weaponsmdr:weapon-range-md", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-md]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "medium" });
-});
-on("clicked:repeating_weaponsmdr:weapon-range-ln", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-ln]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "long" });
-});
-on("clicked:repeating_weaponsmdr:weapon-range-ex", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-range-ex]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	setAttrs({ [`repeating_weaponsmdr_${m[1]}_weapon_range_band_mdr`]: "extreme" });
-});
 
 /* ── Range button handlers — static weapon1 ─────────────────────────── */
-on("clicked:weapon1-range-en", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-range-en]");
-	setAttrs({ weapon1_mdr_range_band: "engaged" });
-});
-on("clicked:weapon1-range-sh", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-range-sh]");
-	setAttrs({ weapon1_mdr_range_band: "short" });
-});
-on("clicked:weapon1-range-md", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-range-md]");
-	setAttrs({ weapon1_mdr_range_band: "medium" });
-});
-on("clicked:weapon1-range-ln", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-range-ln]");
-	setAttrs({ weapon1_mdr_range_band: "long" });
-});
-on("clicked:weapon1-range-ex", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-range-ex]");
-	setAttrs({ weapon1_mdr_range_band: "extreme" });
-});
 
 
 /* ── Optics button handlers — repeating row ─────────────────────────── */

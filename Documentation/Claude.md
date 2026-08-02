@@ -84,6 +84,8 @@ Nothing static caught it: `node --check` passed (it parses, it does not evaluate
 
 **After adding any derived `const`, assert declaration order programmatically** — locate each identifier's declaration line and assert source < consumer for every pair.
 
+The same trap catches ordinary locals, not just module-level derived constants. Adding `damage: dmgStr` to the `initWeapon1ModButtons` diagnostic dump put a reference *above* the `const dmgStr` declaration inside the same callback — `ReferenceError` on every sheet open, `node --check` clean. Three TDZ faults occurred in one session and all three were caught by executing the module, none by parsing it. When inserting a reference into an existing block, check where the identifier is declared relative to the insertion point.
+
 ### Static Analysis of JS Scope Is Unreliable
 
 A script that walks upward for the nearest `getAttrs(..., (var) =>` will happily match a *different* enclosing function and report a confident wrong answer. The same lookback produced a **false negative** (wrong variable) and a **false positive** (prefix bound outside the lookback window) in a single run — and separately, a forward-scanning binding collector returned the *earliest* rather than the nearest binding, manufacturing a divergence that did not exist and leading to a redundant `overrides` argument being shipped.
@@ -607,6 +609,19 @@ Use `eventInfo.sourceAttribute` for the element and `eventInfo.newValue` for the
 `initXxx` functions run on `sheet:opened`. A repeating row added during the session never passes through them, so any attr seeded only at init stays unset until the next reload — the symptom is a field that is blank when you add the row and correct after close/open.
 
 Seed player-owned attrs on **both** the init path and the path that populates the row (usually the preset apply watcher), guarded on empty so a typed value is never overwritten.
+
+### Init Parity Between Parallel Scopes
+
+`weapon1` and `repeating_weaponsmdr` hold the same data under different attr names, and each has its own `init` function. Twice in one session a self-heal existed in one and not the other, and neither failure was visible until someone happened to look:
+
+| attr | repeating | weapon1 (before) |
+|---|---|---|
+| `modes_available` | recomputed via `updateCapCounter` | never — kept a stale barrel cap |
+| `damage_numdice` / `_dicesize` / `_bonus` | `parseDamageString` per row on open | never — stayed 0 until the field was edited |
+
+The damage gap was spotted from a **console log asymmetry**: four `[parseDamageString] prefix:` lines for the four repeating rows and none for the static row. A missing trace line is worth chasing — it can indicate a missing *call*, not just missing logging.
+
+**When two scopes hold the same data, diff what each `init` actually recomputes**, not just what it writes once. A rough check: list the functions each init calls and compare the sets. Anything present in one and absent in the other is either a deliberate delegation (weapon1 leaves 16 summary attrs to `refreshWeapon1Summary`) or a gap — and it should be obvious which.
 
 ### Parallel Section Functions Must Be Parameterised, Not Duplicated
 

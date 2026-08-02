@@ -61800,6 +61800,14 @@ const weaponModDataMap = {
 		compatible_subcategories: [],
 		incompatible_traits: ["loud"],
 		requires_trait: [],
+		/* Fittability, distinct from mode_restriction. mode_restriction caps the
+		   firing mode once fitted ("not compatible with BF or FA"), which a
+		   SS-only weapon satisfies harmlessly. But the only benefit a Compensator
+		   gives is the follow-up shot reduction, which requires actually firing
+		   SA — so a weapon with no SA mode cannot take one. Silencer and
+		   Suppressor deliberately have no requires_mode: their benefits (Loud
+		   removal, stealth) are mode-independent. */
+		requires_mode: ["SA"],
 		requires_cyberware: null,
 		removes_trait: [],
 		adds_trait: [],
@@ -61823,7 +61831,7 @@ const weaponModDataMap = {
 		ignores_low_light_range_limit: null,
 		special_rule: null,
 		effect_summary_key: "mod_compensator_effect-u",
-		source: { doc: "gear_loadout-u", version: "2.260327", date: "2026-03-27", section: "weapon_mods-u" }
+		source: { doc: "gear_loadout-u", version: "2.260801", date: "2026-08-01", section: "weapon_mods-u" }
 	},
 	internal_recoil_system: {
 		name_key: "mod_irs-u",
@@ -70808,6 +70816,14 @@ const weaponModFits = (entry, modKey) => {
 	if ((mod.incompatible_traits || []).some(t => traits.includes(t))) return false;
 	const subs = mod.compatible_subcategories || [];
 	if (subs.length && entry.subcategory && !subs.includes(entry.subcategory)) return false;
+	/* requires_mode is a fittability test — the weapon must actually offer one
+	   of these modes. Distinct from mode_restriction, which only caps what may
+	   be fired once the mod is fitted. */
+	const reqMode = (mod.requires_mode || []).map(m => String(m).toLowerCase());
+	if (reqMode.length) {
+		const weaponModes = (entry.mode || []).map(m => String(m).toLowerCase());
+		if (!weaponModes.some(m => reqMode.includes(m))) return false;
+	}
 	return true;
 };
 
@@ -73029,33 +73045,6 @@ function computeModButtons(entry, prefix) {
 	return out;
 }
 
-/* Retired — superseded by the generated table above. Kept only as a record
-   of what the literals were, in case a rules question arises.
-function computeModButtonsLegacy(entry, prefix) {
-	const slots    = entry.mod_slots || [];
-	const cat      = entry.category  || "";
-	const notTranq = entry.subcategory !== "tranq";
-	const hasOpticsSlot   = slots.includes("optics");
-	const hasBarrelSlot   = slots.includes("barrel_muzzle");
-	const hasInternalSlot = slots.includes("internal");
-	const btn = (slotOk, cats) => (slotOk && cats.includes(cat)) ? "1" : "0";
-	return {
-		[prefix + "btn_optics_mag_mdr"]:          btn(hasOpticsSlot,   ["rifle"]),
-		[prefix + "btn_optics_reflex_mdr"]:        btn(hasOpticsSlot,   ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_optics_thermal_mdr"]:       btn(hasOpticsSlot,   ["smg", "rifle"]),
-		[prefix + "btn_barrel_silencer_mdr"]:      btn(hasBarrelSlot && notTranq,   ["handgun"]),
-		[prefix + "btn_barrel_compensator_mdr"]:   btn(hasBarrelSlot && !(entry.traits || []).includes("loud"), ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_barrel_suppressor_mdr"]:    btn(hasBarrelSlot && notTranq,   ["smg", "rifle"]),
-		[prefix + "btn_barrel_prec_choke_mdr"]:    btn(hasBarrelSlot,   ["shotgun"]),
-		[prefix + "btn_barrel_slug_mdr"]:          btn(hasBarrelSlot,   ["shotgun"]),
-		[prefix + "btn_internal_smartlink_mdr"]:   btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_internal_biocoded_mdr"]:    btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_internal_irs_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_internal_qls_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-		[prefix + "btn_internal_qst_mdr"]:         btn(hasInternalSlot, ["handgun", "smg", "shotgun", "rifle", "heavy"]),
-	};
-}
-*/
 
 function traitsDisplayStr(traits) {
 	return (traits || []).map(t => traitLabelMap[t] || t).join(", ");

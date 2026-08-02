@@ -48,6 +48,7 @@
 | `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
 | `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
+| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod and optics buttons: 162 cases |
 
 ### Deferred Rules Are Data, Not Gaps
 
@@ -612,6 +613,22 @@ Seed player-owned attrs on **both** the init path and the path that populates th
 Merge to `recalcWeaponSmartlink(section)` and keep the original names as one-line wrappers, so no call site moves and the blast radius stays inside the two bodies.
 
 **Prove textual identity before merging**: canonicalise the section name in both bodies and diff. Zero residual lines means the merge is lossless. Then assert at runtime that each wrapper still calls `getSectionIDs` with *its own* section — a parameterisation bug that collapses both onto one section produces no error, just silently wrong rows.
+
+### Branch on Data, Not on Code Shape
+
+The barrel buttons existed as 15 hand-copied handlers across three scopes (143 lines): a `forEach` in `registerWeaponManualWatchers`, plus literal blocks for `repeating_weaponsmdr` and `weapon1`. The literals encoded the mode-restriction rule **structurally** — `sl`/`co`/`su` were written with the mode-restricting body, `pc`/`sb` with a plain toggle.
+
+That is a rule expressed as code shape rather than data. A mod that newly gained a `mode_restriction` would need someone to notice and rewrite its handler by hand; nothing would fail loudly. The generated version branches at runtime on `barrelModeRestrict[barrelVal]`, which derives from `weaponModDataMap` — so the data drives the behaviour and no handler needs touching.
+
+Merged to `registerWeaponBarrelWatchers(scope, section)`, 143 lines to 55. `weapon1` is not a repeating section (no rowId, different event name, different attr names, plus a `refreshWeapon1Summary` callback), so it takes a scope parameter and reuses `weaponPresetAttrRep` / `weaponPresetAttrW1` — the same adapter pattern as `buildWeaponPresetBlank`.
+
+The internal-mod buttons (`bc`/`ir`/`ql`/`qt`/`sl`) and the optics buttons (`mag`/`ref`/`thm`) had the identical three-scope split. Both are the same mechanic — several buttons toggling one attr, where selecting a second clears the first — so rather than write a second near-copy they were generalised into `registerWeaponToggleWatchers`, driven by a `weaponToggleFamilies` table. Adding a family, or a button to one, is now a single table entry.
+
+**When the second copy appears, generalise instead of duplicating the fix.** The optics merge could have been a third `registerWeaponXxxWatchers`; noticing it was structurally identical to the internal-mod case collapsed both into one function. Combined, the consolidations took **31 handlers and 277 lines down to 2 functions and ~90 lines**.
+
+**Prove it with captured behaviour, not by reading.** `difftest_barrel.js` fires every button in every scope against seeded stores covering both branches and the empty-`avail` fallback, and records the resulting `setAttrs` writes. Capture a baseline with `--save` before the change and `--check` after: 135 cases, byte-identical output. This is the general recipe for consolidating watcher copies, and it is stronger than textual diffing because it covers the case where two copies *look* different but behave identically.
+
+**Copies drift in robustness, not just logic.** The retired internal-mod literals indexed `eventInfo.sourceAttribute.match(...)[1]` with no null check and would throw a `TypeError` on any non-matching attribute; the generated manual version had `if (!rowId) return;`. Merging adopted the guarded form. 13 unguarded `.match(...)[1]` dereferences remain elsewhere in the worker (cyberware and weapon summary handlers) — most use `?.[1]`, but a few do not.
 
 ### Positional Argument Lists Over ~6 Parameters
 

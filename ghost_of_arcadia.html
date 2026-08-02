@@ -70844,6 +70844,108 @@ const barrelModeRestrict = Object.keys(weaponModBarrelLabel).reduce((acc, modKey
 	return acc;
 }, {});
 
+/* ── Barrel button watchers, all three scopes ────────────────────────────
+   One implementation for what used to be 15 hand-copied handlers: a forEach
+   in registerWeaponManualWatchers plus two blocks of literals for
+   repeating_weaponsmdr and weapon1 (143 lines total).
+
+   The literals encoded the mode-restriction branch STRUCTURALLY — sl/co/su
+   were written with the restricting body, pc/sb with a plain toggle. That is
+   a rule expressed as code shape, so a mod newly gaining a mode_restriction
+   needed someone to notice and rewrite its handler by hand. Here the branch
+   is taken at runtime from barrelModeRestrict, which derives from
+   weaponModDataMap — so the data drives it and no handler needs touching.
+
+   scope "weapon1" is not a repeating section: no rowId, a different event
+   name, different attr names (handled by weaponPresetAttrRep/W1), and a
+   refreshWeapon1Summary callback the repeating scopes do not use. */
+const weaponBarrelBtnKeys = ["sl", "co", "su", "pc", "sb"];
+
+
+/* ── Single-attr toggle button watchers, all families and scopes ─────────
+   Internal mods and optics are the same mechanic: several buttons toggling
+   one attr, where selecting a second clears the first. They existed as a
+   generated forEach in registerWeaponManualWatchers plus 16 hand-written
+   literals across repeating_weaponsmdr and weapon1.
+
+   Adding a family (or a button to one) is now a single table entry. */
+const weaponToggleFamilies = {
+	internal: {
+		core: "mod_internal",
+		btns: { bc: "biocoded", ir: "irs", ql: "qls", qt: "qst", sl: "smartlink" },
+	},
+	optics: {
+		core: "optics",
+		btns: { mag: "magnification", ref: "reflex", thm: "thermal" },
+	},
+};
+
+const registerWeaponToggleWatchers = (scope, section) => {
+	const w1 = scope === "weapon1";
+	Object.keys(weaponToggleFamilies).forEach(family => {
+		const spec = weaponToggleFamilies[family];
+		Object.keys(spec.btns).forEach(btn => {
+			const val = spec.btns[btn];
+			const ev  = w1 ? `clicked:weapon1-${family}-${btn}`
+			               : `clicked:${section}:weapon-${family}-${btn}`;
+			on(ev, (eventInfo = {}) => {
+				if (debug_on_trace) console.log(`[${ev}]`);
+				let prefix = "";
+				if (!w1) {
+					/* Guarded: the retired literals indexed .match(...)[1] directly
+					   and would throw on a non-matching sourceAttribute. */
+					const m = (eventInfo.sourceAttribute || "").match(new RegExp(`^${section}_([^_]+)_`));
+					if (!m) return;
+					prefix = `${section}_${m[1]}_`;
+				}
+				const attr = prefix + (w1 ? weaponPresetAttrW1(spec.core) : weaponPresetAttrRep(spec.core));
+				getAttrs([attr], (v) => {
+					const updates = { [attr]: (v[attr] || "") === val ? "" : val };
+					if (w1) setAttrs(updates, () => { refreshWeapon1Summary(); });
+					else    setAttrs(updates);
+				});
+			});
+		});
+	});
+};
+
+const registerWeaponBarrelWatchers = (scope, section) => {
+	const w1 = scope === "weapon1";
+	weaponBarrelBtnKeys.forEach(btn => {
+		const ev = w1 ? `clicked:weapon1-barrel-${btn}` : `clicked:${section}:weapon-barrel-${btn}`;
+		on(ev, (eventInfo = {}) => {
+			if (debug_on_trace) console.log(`[${ev}]`);
+			let prefix = "";
+			if (!w1) {
+				const m = (eventInfo.sourceAttribute || "").match(new RegExp(`^${section}_([^_]+)_`));
+				if (!m) return;
+				prefix = `${section}_${m[1]}_`;
+			}
+			const A = (core) => prefix + (w1 ? weaponPresetAttrW1(core) : weaponPresetAttrRep(core));
+			const done = w1 ? () => { refreshWeapon1Summary(); } : null;
+			const commit = (updates) => { if (done) setAttrs(updates, done); else setAttrs(updates); };
+			const barrelVal = barrelMap[btn];
+			if (barrelModeRestrict[barrelVal]) {
+				getAttrs([A("barrel"), A("modes_base"), A("mode"), A("modes_available")], (v) => {
+					const cur    = v[A("barrel")] || "";
+					const barrel = cur === barrelVal ? "" : barrelVal;
+					const base   = (v[A("modes_base")] || v[A("modes_available")] || "ss").split(" ").filter(Boolean);
+					const avail  = barrel ? applyBarrelModeRestriction(base, barrel) : base;
+					/* An empty intersection means the cap left nothing — fall back to SS.
+					   This is what makes a Silencer on an SA-only pistol read as SS. */
+					const modes  = avail.length ? avail : ["ss"];
+					const mode   = modes.includes(v[A("mode")]) ? v[A("mode")] : modes[0];
+					commit({ [A("barrel")]: barrel, [A("modes_available")]: modes.join(" "), [A("mode")]: mode });
+				});
+			} else {
+				getAttrs([A("barrel")], (v) => {
+					commit({ [A("barrel")]: v[A("barrel")] === barrelVal ? "" : barrelVal });
+				});
+			}
+		});
+	});
+};
+
 /* ── Core: fill effect for one clothing row (repeating) ─────────────── */
 /* ── Rarity abbreviation lookup — shared by all gear preset applies ── */
 const rarityAbbrevKey = {
@@ -71501,56 +71603,12 @@ const registerWeaponManualWatchers = () => {
 		});
 	});
 
-	/* Optics buttons */
-	const opticsMap = { mag: "magnification", ref: "reflex", thm: "thermal" };
-	Object.entries(opticsMap).forEach(([btn, val]) => {
-		on(`clicked:${S}:weapon-optics-${btn}`, (eventInfo) => {
-			if (debug_on_trace) console.log(`[clicked:${S}:weapon-optics-${btn}]`);
-			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-			const p = `${S}_${rowId}_`;
-			getAttrs([p + "weapon_optics_mdr"], (v) => {
-				setAttrs({ [p + "weapon_optics_mdr"]: v[p + "weapon_optics_mdr"] === val ? "" : val });
-			});
-		});
-	});
 
-	/* Barrel buttons (with mode restriction) */
-	["sl","co","su","pc","sb"].forEach(btn => {
-		on(`clicked:${S}:weapon-barrel-${btn}`, (eventInfo) => {
-			if (debug_on_trace) console.log(`[clicked:${S}:weapon-barrel-${btn}]`);
-			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-			const p = `${S}_${rowId}_`;
-			const barrelVal = barrelMap[btn];
-			if (barrelModeRestrict[barrelVal]) {
-				getAttrs([p + "weapon_barrel_mdr", p + "weapon_modes_base_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
-					const cur = v[p + "weapon_barrel_mdr"] || "";
-					const barrel = cur === barrelVal ? "" : barrelVal;
-					const base = (v[p + "weapon_modes_base_mdr"] || v[p + "weapon_modes_available_mdr"] || "ss").split(" ").filter(Boolean);
-					const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
-					const modes = avail.length ? avail : ["ss"];
-					const mode = modes.includes(v[p + "weapon_mode_mdr"]) ? v[p + "weapon_mode_mdr"] : modes[0];
-					setAttrs({ [p + "weapon_barrel_mdr"]: barrel, [p + "weapon_modes_available_mdr"]: modes.join(" "), [p + "weapon_mode_mdr"]: mode });
-				});
-			} else {
-				getAttrs([p + "weapon_barrel_mdr"], (v) => {
-					setAttrs({ [p + "weapon_barrel_mdr"]: v[p + "weapon_barrel_mdr"] === barrelVal ? "" : barrelVal });
-				});
-			}
-		});
-	});
+	/* Barrel buttons — shared implementation, see registerWeaponBarrelWatchers */
+	registerWeaponBarrelWatchers("repeating", S);
 
-	/* Internal mod buttons */
-	const internalMap = { bc: "biocoded", ir: "irs", ql: "qls", qt: "qst", sl: "smartlink" };
-	Object.entries(internalMap).forEach(([btn, val]) => {
-		on(`clicked:${S}:weapon-internal-${btn}`, (eventInfo) => {
-			if (debug_on_trace) console.log(`[clicked:${S}:weapon-internal-${btn}]`);
-			const rowId = id(eventInfo.sourceAttribute); if (!rowId) return;
-			const p = `${S}_${rowId}_`;
-			getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
-				setAttrs({ [p + "weapon_mod_internal_mdr"]: v[p + "weapon_mod_internal_mdr"] === val ? "" : val });
-			});
-		});
-	});
+	/* Internal mod + optics buttons — shared implementation */
+	registerWeaponToggleWatchers("repeating", S);
 
 	/* Summary recalc — fires on any state-change attr */
 	on([
@@ -78766,268 +78824,20 @@ on("clicked:weapon1-range-ex", () => {
 
 
 /* ── Optics button handlers — repeating row ─────────────────────────── */
-on("clicked:repeating_weaponsmdr:weapon-optics-mag", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-optics-mag]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_optics_mdr"], (v) => {
-		const cur = v[p + "weapon_optics_mdr"] || "";
-		setAttrs({ [p + "weapon_optics_mdr"]: cur === "magnification" ? "" : "magnification" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-optics-ref", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-optics-ref]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_optics_mdr"], (v) => {
-		const cur = v[p + "weapon_optics_mdr"] || "";
-		setAttrs({ [p + "weapon_optics_mdr"]: cur === "reflex" ? "" : "reflex" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-optics-thm", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-optics-thm]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_optics_mdr"], (v) => {
-		const cur = v[p + "weapon_optics_mdr"] || "";
-		setAttrs({ [p + "weapon_optics_mdr"]: cur === "thermal" ? "" : "thermal" });
-	});
-});
 
 /* ── Optics button handlers — static weapon1 ────────────────────────── */
-on("clicked:weapon1-optics-mag", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-optics-mag]");
-	getAttrs(["weapon1_mdr_optics"], (v) => {
-		const cur = v["weapon1_mdr_optics"] || "";
-		setAttrs({ weapon1_mdr_optics: cur === "magnification" ? "" : "magnification" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-optics-ref", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-optics-ref]");
-	getAttrs(["weapon1_mdr_optics"], (v) => {
-		const cur = v["weapon1_mdr_optics"] || "";
-		setAttrs({ weapon1_mdr_optics: cur === "reflex" ? "" : "reflex" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-optics-thm", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-optics-thm]");
-	getAttrs(["weapon1_mdr_optics"], (v) => {
-		const cur = v["weapon1_mdr_optics"] || "";
-		setAttrs({ weapon1_mdr_optics: cur === "thermal" ? "" : "thermal" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
 
 /* ── Barrel button handlers — repeating row ─────────────────────────── */
-on("clicked:repeating_weaponsmdr:weapon-barrel-sl", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-sl]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_barrel_mdr", p + "weapon_modes_base_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
-		const cur = v[p + "weapon_barrel_mdr"] || "";
-		const barrel = cur === "Silencer" ? "" : "Silencer";
-		const base = (v[p + "weapon_modes_base_mdr"] || v[p + "weapon_modes_available_mdr"] || "ss").split(" ").filter(Boolean);
-		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
-		const modes = avail.length ? avail : ["ss"];
-		const mode = modes.includes(v[p + "weapon_mode_mdr"]) ? v[p + "weapon_mode_mdr"] : modes[0];
-		setAttrs({ [p + "weapon_barrel_mdr"]: barrel, [p + "weapon_modes_available_mdr"]: modes.join(" "), [p + "weapon_mode_mdr"]: mode });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-barrel-co", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-co]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_barrel_mdr", p + "weapon_modes_base_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
-		const cur = v[p + "weapon_barrel_mdr"] || "";
-		const barrel = cur === "Compensator" ? "" : "Compensator";
-		const base = (v[p + "weapon_modes_base_mdr"] || v[p + "weapon_modes_available_mdr"] || "ss").split(" ").filter(Boolean);
-		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
-		const modes = avail.length ? avail : ["ss"];
-		const mode = modes.includes(v[p + "weapon_mode_mdr"]) ? v[p + "weapon_mode_mdr"] : modes[0];
-		setAttrs({ [p + "weapon_barrel_mdr"]: barrel, [p + "weapon_modes_available_mdr"]: modes.join(" "), [p + "weapon_mode_mdr"]: mode });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-barrel-su", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-su]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_barrel_mdr", p + "weapon_modes_base_mdr", p + "weapon_mode_mdr", p + "weapon_modes_available_mdr"], (v) => {
-		const cur = v[p + "weapon_barrel_mdr"] || "";
-		const barrel = cur === "Suppressor" ? "" : "Suppressor";
-		const base = (v[p + "weapon_modes_base_mdr"] || v[p + "weapon_modes_available_mdr"] || "ss").split(" ").filter(Boolean);
-		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
-		const modes = avail.length ? avail : ["ss"];
-		const mode = modes.includes(v[p + "weapon_mode_mdr"]) ? v[p + "weapon_mode_mdr"] : modes[0];
-		setAttrs({ [p + "weapon_barrel_mdr"]: barrel, [p + "weapon_modes_available_mdr"]: modes.join(" "), [p + "weapon_mode_mdr"]: mode });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-barrel-pc", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-pc]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_barrel_mdr"], (v) => {
-		const cur = v[p + "weapon_barrel_mdr"] || "";
-		setAttrs({ [p + "weapon_barrel_mdr"]: cur === "Precision Choke" ? "" : "Precision Choke" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-barrel-sb", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-barrel-sb]");
-	const m = (eventInfo.sourceAttribute || "").match(/^repeating_weaponsmdr_([^_]+)_/);
-	if (!m) return;
-	const id = m[1]; const p = `repeating_weaponsmdr_${id}_`;
-	getAttrs([p + "weapon_barrel_mdr"], (v) => {
-		const cur = v[p + "weapon_barrel_mdr"] || "";
-		setAttrs({ [p + "weapon_barrel_mdr"]: cur === "Slug Barrel" ? "" : "Slug Barrel" });
-	});
-});
+/* Barrel buttons — shared implementation */
+registerWeaponBarrelWatchers("repeating", "repeating_weaponsmdr");
 
 /* ── Barrel button handlers — static weapon1 ────────────────────────── */
-on("clicked:weapon1-barrel-sl", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-barrel-sl]");
-	getAttrs(["weapon1_mdr_barrel", "weapon1_mdr_modes_base", "weapon1_mdr_mode", "weapon1_mdr_modes_available"], (v) => {
-		const cur = v["weapon1_mdr_barrel"] || "";
-		const barrel = cur === "Silencer" ? "" : "Silencer";
-		const base = (v["weapon1_mdr_modes_base"] || v["weapon1_mdr_modes_available"] || "ss").split(" ").filter(Boolean);
-		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
-		const modes = avail.length ? avail : ["ss"];
-		const mode = modes.includes(v["weapon1_mdr_mode"]) ? v["weapon1_mdr_mode"] : modes[0];
-		setAttrs({ weapon1_mdr_barrel: barrel, weapon1_mdr_modes_available: modes.join(" "), weapon1_mdr_mode: mode },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-barrel-co", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-barrel-co]");
-	getAttrs(["weapon1_mdr_barrel", "weapon1_mdr_modes_base", "weapon1_mdr_mode", "weapon1_mdr_modes_available"], (v) => {
-		const cur = v["weapon1_mdr_barrel"] || "";
-		const barrel = cur === "Compensator" ? "" : "Compensator";
-		const base = (v["weapon1_mdr_modes_base"] || v["weapon1_mdr_modes_available"] || "ss").split(" ").filter(Boolean);
-		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
-		const modes = avail.length ? avail : ["ss"];
-		const mode = modes.includes(v["weapon1_mdr_mode"]) ? v["weapon1_mdr_mode"] : modes[0];
-		setAttrs({ weapon1_mdr_barrel: barrel, weapon1_mdr_modes_available: modes.join(" "), weapon1_mdr_mode: mode },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-barrel-su", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-barrel-su]");
-	getAttrs(["weapon1_mdr_barrel", "weapon1_mdr_modes_base", "weapon1_mdr_mode", "weapon1_mdr_modes_available"], (v) => {
-		const cur = v["weapon1_mdr_barrel"] || "";
-		const barrel = cur === "Suppressor" ? "" : "Suppressor";
-		const base = (v["weapon1_mdr_modes_base"] || v["weapon1_mdr_modes_available"] || "ss").split(" ").filter(Boolean);
-		const avail = barrel ? applyBarrelModeRestriction(base, barrel) : base;
-		const modes = avail.length ? avail : ["ss"];
-		const mode = modes.includes(v["weapon1_mdr_mode"]) ? v["weapon1_mdr_mode"] : modes[0];
-		setAttrs({ weapon1_mdr_barrel: barrel, weapon1_mdr_modes_available: modes.join(" "), weapon1_mdr_mode: mode },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-barrel-pc", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-barrel-pc]");
-	getAttrs(["weapon1_mdr_barrel"], (v) => {
-		const cur = v["weapon1_mdr_barrel"] || "";
-		setAttrs({ weapon1_mdr_barrel: cur === "Precision Choke" ? "" : "Precision Choke" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-barrel-sb", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-barrel-sb]");
-	getAttrs(["weapon1_mdr_barrel"], (v) => {
-		const cur = v["weapon1_mdr_barrel"] || "";
-		setAttrs({ weapon1_mdr_barrel: cur === "Slug Barrel" ? "" : "Slug Barrel" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
+registerWeaponBarrelWatchers("weapon1", "");
 
 /* ── Internal mod buttons — repeating row ───────────────────────────── */
-on("clicked:repeating_weaponsmdr:weapon-internal-bc", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-bc]");
-	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
-	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
-		const cur = v[p + "weapon_mod_internal_mdr"] || "";
-		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "biocoded" ? "" : "biocoded" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-internal-ir", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-ir]");
-	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
-	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
-		const cur = v[p + "weapon_mod_internal_mdr"] || "";
-		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "irs" ? "" : "irs" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-internal-ql", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-ql]");
-	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
-	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
-		const cur = v[p + "weapon_mod_internal_mdr"] || "";
-		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "qls" ? "" : "qls" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-internal-qt", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-qt]");
-	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
-	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
-		const cur = v[p + "weapon_mod_internal_mdr"] || "";
-		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "qst" ? "" : "qst" });
-	});
-});
-on("clicked:repeating_weaponsmdr:weapon-internal-sl", (eventInfo) => {
-	if (debug_on_trace) console.log("[clicked:repeating_weaponsmdr:weapon-internal-sl]");
-	const p = `repeating_weaponsmdr_${eventInfo.sourceAttribute.match(/^repeating_weaponsmdr_([^_]+)_/)[1]}_`;
-	getAttrs([p + "weapon_mod_internal_mdr"], (v) => {
-		const cur = v[p + "weapon_mod_internal_mdr"] || "";
-		setAttrs({ [p + "weapon_mod_internal_mdr"]: cur === "smartlink" ? "" : "smartlink" });
-	});
-});
-on("clicked:weapon1-internal-bc", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-internal-bc]");
-	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
-		const cur = v["weapon1_mdr_mod_internal"] || "";
-		setAttrs({ weapon1_mdr_mod_internal: cur === "biocoded" ? "" : "biocoded" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-internal-ir", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-internal-ir]");
-	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
-		const cur = v["weapon1_mdr_mod_internal"] || "";
-		setAttrs({ weapon1_mdr_mod_internal: cur === "irs" ? "" : "irs" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-internal-ql", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-internal-ql]");
-	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
-		const cur = v["weapon1_mdr_mod_internal"] || "";
-		setAttrs({ weapon1_mdr_mod_internal: cur === "qls" ? "" : "qls" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-internal-qt", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-internal-qt]");
-	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
-		const cur = v["weapon1_mdr_mod_internal"] || "";
-		setAttrs({ weapon1_mdr_mod_internal: cur === "qst" ? "" : "qst" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
-on("clicked:weapon1-internal-sl", () => {
-	if (debug_on_trace) console.log("[clicked:weapon1-internal-sl]");
-	getAttrs(["weapon1_mdr_mod_internal"], (v) => {
-		const cur = v["weapon1_mdr_mod_internal"] || "";
-		setAttrs({ weapon1_mdr_mod_internal: cur === "smartlink" ? "" : "smartlink" },
-			() => { refreshWeapon1Summary(); });
-	});
-});
+/* Internal mod + optics buttons — shared implementation */
+registerWeaponToggleWatchers("repeating", "repeating_weaponsmdr");
+registerWeaponToggleWatchers("weapon1", "");
 /* ── Preset change watcher ───────────────────────────────────────────── */
 on("change:repeating_grenadesmdr:grenade_preset_mdr", (eventInfo) => {
 	if (debug_on_trace) console.log("[change:repeating_grenadesmdr:grenade_preset_mdr]");

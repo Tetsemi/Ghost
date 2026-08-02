@@ -21238,10 +21238,10 @@
 										<input type="hidden" name="attr_weapon1_mdr_modes_available" value=""/>
 								<input type="hidden" name="attr_weapon1_mdr_modes_base" value=""/>
 										<div class="sheet-weapon-mode-grid">
-											<button type="action" class="sheet-weapon-mode-btn mode-ss" name="act_weapon1_mode_ss">SS</button>
-											<button type="action" class="sheet-weapon-mode-btn mode-sa" name="act_weapon1_mode_sa">SA</button>
-											<button type="action" class="sheet-weapon-mode-btn mode-bf" name="act_weapon1_mode_bf">BF</button>
-											<button type="action" class="sheet-weapon-mode-btn mode-fa" name="act_weapon1_mode_fa">FA</button>
+											<button type="action" class="sheet-weapon-mode-btn mode-ss" name="act_weapon1-mode-ss">SS</button>
+											<button type="action" class="sheet-weapon-mode-btn mode-sa" name="act_weapon1-mode-sa">SA</button>
+											<button type="action" class="sheet-weapon-mode-btn mode-bf" name="act_weapon1-mode-bf">BF</button>
+											<button type="action" class="sheet-weapon-mode-btn mode-fa" name="act_weapon1-mode-fa">FA</button>
 										</div>
 										<select class="sheet-weapon-adv-select-hidden" name="attr_weapon1_mdr_mode_num">
 											<option value="10">SS</option>
@@ -70874,13 +70874,11 @@ const weaponToggleFamilies = {
 	internal: {
 		kind: "toggle",
 		core: "mod_internal",
-		w1Refresh: true,
 		btns: { bc: "biocoded", ir: "irs", ql: "qls", qt: "qst", sl: "smartlink" },
 	},
 	optics: {
 		kind: "toggle",
 		core: "optics",
-		w1Refresh: true,
 		btns: { mag: "magnification", ref: "reflex", thm: "thermal" },
 	},
 	/* kind "set": plain assignment, no toggle-off. */
@@ -70889,15 +70887,12 @@ const weaponToggleFamilies = {
 		core: "range_band",
 		btns: { en: "engaged", sh: "short", md: "medium", ln: "long", ex: "extreme" },
 	},
-	/* kind "gated_set": assign only if the mode is currently available.
-	   weapon1 mode buttons are named with underscores (weapon1_mode_ss) where
-	   every other weapon1 family uses hyphens — hence evW1. */
+	/* kind "gated_set": assign only if the mode is currently available. */
 	mode: {
 		kind: "gated_set",
 		core: "mode",
 		gateCore: "modes_available",
 		gateDefault: "ss",
-		evW1: (btn) => `clicked:weapon1_mode_${btn}`,
 		btns: { ss: "ss", sa: "sa", bf: "bf", fa: "fa" },
 	},
 	/* kind "ammo": two attrs (type + active flag) toggled together, and
@@ -70917,7 +70912,7 @@ const registerWeaponToggleWatchers = (scope, section) => {
 		const spec = weaponToggleFamilies[family];
 		Object.keys(spec.btns).forEach(btn => {
 			const val = spec.btns[btn];
-			const ev  = w1 ? (spec.evW1 ? spec.evW1(btn) : `clicked:weapon1-${family}-${btn}`)
+			const ev  = w1 ? `clicked:weapon1-${family}-${btn}`
 			               : `clicked:${section}:weapon-${family}-${btn}`;
 			on(ev, (eventInfo = {}) => {
 				if (debug_on_trace) console.log(`[${ev}]`);
@@ -70931,14 +70926,11 @@ const registerWeaponToggleWatchers = (scope, section) => {
 				}
 				const A = (core) => prefix + (w1 ? weaponPresetAttrW1(core) : weaponPresetAttrRep(core));
 				const attr = A(spec.core);
-				/* Only the families whose literals did so refresh the summary from the
-				   callback. range/mode/ammo are already covered by the change: watchers
-				   on weapon1_mdr_range_band / _mode / _ammo_type / _ammo_active, so a
-				   callback refresh there would double-fire. */
-				const commit = (updates) => {
-					if (w1 && spec.w1Refresh) setAttrs(updates, () => { refreshWeapon1Summary(); });
-					else                      setAttrs(updates);
-				};
+				/* No callback refresh: the change: watcher on weapon1_mdr_optics /
+				   _mod_internal / _range_band / _mode / _ammo_type / _ammo_active
+				   already calls refreshWeapon1Summary. optics and mod_internal used to
+				   refresh from BOTH, a pre-existing double-fire retired 2026-08-02. */
+				const commit = (updates) => setAttrs(updates);
 				if (spec.kind === "set") { commit({ [attr]: val }); return; }
 				if (spec.kind === "gated_set") {
 					const gate = A(spec.gateCore);
@@ -70979,8 +70971,10 @@ const registerWeaponBarrelWatchers = (scope, section) => {
 				prefix = `${section}_${m[1]}_`;
 			}
 			const A = (core) => prefix + (w1 ? weaponPresetAttrW1(core) : weaponPresetAttrRep(core));
-			const done = w1 ? () => { refreshWeapon1Summary(); } : null;
-			const commit = (updates) => { if (done) setAttrs(updates, done); else setAttrs(updates); };
+			/* No callback refresh — see registerWeaponToggleWatchers. A barrel click
+			   always changes weapon1_mdr_barrel, which the summary watcher covers,
+			   so the refresh still fires exactly once (it fired 3x before). */
+			const commit = (updates) => setAttrs(updates);
 			const barrelVal = barrelMap[btn];
 			if (barrelModeRestrict[barrelVal]) {
 				getAttrs([A("barrel"), A("modes_base"), A("mode"), A("modes_available")], (v) => {
@@ -74846,6 +74840,13 @@ function updateCapCounter(capRatingAttr, boxAttrFn, counterAttr, total, modeAttr
 	/* Also fetch the base modes so we can restore them when rounds recover */
 	const modesBaseAttr = modesAvailAttr ? modesAvailAttr.replace("modes_available", "modes_base") : null;
 	if (modesBaseAttr) attrs.push(modesBaseAttr);
+	/* ...and the fitted barrel. modes_available carries TWO independent
+	   restrictions — the barrel cap (Silencer: SS only) and the rounds-remaining
+	   gate below. Rebuilding from modes_base alone discarded the barrel cap, so
+	   any cap change (magazine swap, firing, reload) silently restored modes the
+	   barrel forbids. Derived by name substitution so no call site changes. */
+	const barrelAttr = modesAvailAttr ? modesAvailAttr.replace("modes_available", "barrel") : null;
+	if (barrelAttr) attrs.push(barrelAttr);
 	getAttrs(attrs, (v) => {
 		const { capCount } = parseCapRating(v[capRatingAttr] || "");
 		if (capCount === 0) { setAttrs({ [counterAttr]: "—" }); return; }
@@ -74858,8 +74859,14 @@ function updateCapCounter(capRatingAttr, boxAttrFn, counterAttr, total, modeAttr
 			const mode      = v[modeAttr]       || "ss";
 			const base      = (v[modesBaseAttr] || v[modesAvailAttr] || "ss").split(" ").filter(Boolean);
 			const minRounds = { fa: 3, bf: 2, sa: 1, ss: 1 };
+			/* Apply the barrel cap first — a magazine change must not restore a mode
+			   the fitted barrel forbids. Same fallback as the barrel watcher: an
+			   empty intersection means the cap left nothing, so drop to SS. */
+			const barrelCap = barrelAttr ? barrelModeRestrict[v[barrelAttr] || ""] : null;
+			const capped    = barrelCap ? base.filter(m => barrelCap.includes(m)) : base;
+			const usable    = capped.length ? capped : ["ss"];
 			/* Restrict available modes to those that have enough rounds remaining */
-			const allowed   = base.filter(m => remaining >= (minRounds[m] || 1));
+			const allowed   = usable.filter(m => remaining >= (minRounds[m] || 1));
 			const availStr  = allowed.length ? allowed.join(" ") : "ss";
 			updates[modesAvailAttr] = availStr;
 			/* If current mode is now blocked, fall back to best available */

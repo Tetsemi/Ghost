@@ -173,11 +173,8 @@ for (const sc of SCOPES) {
   for (const [family, spec] of Object.entries(OTHER)) {
     for (const btn of Object.keys(spec.btns)) {
       for (const st of OTHER_STATES) {
-        /* weapon1 mode buttons use underscores where every other weapon1
-           family uses hyphens: act_weapon1_mode_ss, not act_weapon1-mode-ss. */
         const ev = (sc.scope === "weapon1")
-          ? (family === "mode" ? "clicked:weapon1_mode_" + btn
-                               : "clicked:weapon1-" + family + "-" + btn)
+          ? "clicked:weapon1-" + family + "-" + btn
           : "clicked:" + sc.section + ":weapon-" + family + "-" + btn;
         const h = _handlers[ev];
         const P = sc.prefix;
@@ -201,6 +198,35 @@ for (const sc of SCOPES) {
                        err: _err ? String(_err).slice(0, 60) : null, writes: out });
       }
     }
+  }
+}
+/* Cap-change cases: modes_available carries BOTH the barrel cap and the
+   rounds-remaining gate. updateCapCounter used to rebuild it from modes_base
+   alone, silently restoring modes the barrel forbids on any magazine change,
+   shot or reload. */
+if (typeof updateCapCounter === "function") {
+  const pad = (n) => (n < 10 ? "0" + n : "" + n);
+  const CAP = [
+    { label: "silencer + full mag",   barrel: "Silencer",    base: "sa",       spent: 0,  want: "ss" },
+    { label: "no barrel + full mag",  barrel: "",            base: "sa",       spent: 0,  want: "sa" },
+    { label: "suppressor caps bf",    barrel: "Suppressor",  base: "sa bf",    spent: 0,  want: "sa" },
+    { label: "rounds gate only",      barrel: "",            base: "sa bf fa", spent: 11, want: "sa" },
+    { label: "both restrictions",     barrel: "Silencer",    base: "sa bf",    spent: 11, want: "ss" },
+    { label: "unrestricting barrel",  barrel: "Slug Barrel", base: "ss sa",    spent: 0,  want: "ss sa" },
+  ];
+  for (const c of CAP) {
+    _err = null; _writes = {};
+    _store = { weapon1_mdr_cap_rating: "cap_12", weapon1_mdr_mode: "sa",
+               weapon1_mdr_modes_available: c.base, weapon1_mdr_modes_base: c.base,
+               weapon1_mdr_barrel: c.barrel };
+    for (let n = 1; n <= c.spent; n++) _store["weapon1_mdr_cap_box_" + pad(n)] = "1";
+    try {
+      updateCapCounter("weapon1_mdr_cap_rating", (n) => "weapon1_mdr_cap_box_" + pad(n),
+        "weapon1_mdr_cap_counter", 15, "weapon1_mdr_mode", "weapon1_mdr_modes_available");
+    } catch (e) { _err = e; }
+    results.push({ scope: "capCounter", btn: c.label, state: "want " + c.want,
+                   err: _err ? String(_err).slice(0, 60) : null,
+                   writes: { modes_available: _store.weapon1_mdr_modes_available } });
   }
 }
 console.log("###JSON###" + JSON.stringify(results));

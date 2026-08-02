@@ -48,7 +48,7 @@
 | `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
 | `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
-| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases |
+| `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases, plus 6 cap-counter cases covering the barrel cap / rounds gate interaction |
 
 ### Deferred Rules Are Data, Not Gaps
 
@@ -616,6 +616,16 @@ Merge to `recalcWeaponSmartlink(section)` and keep the original names as one-lin
 
 **Prove textual identity before merging**: canonicalise the section name in both bodies and diff. Zero residual lines means the merge is lossless. Then assert at runtime that each wrapper still calls `getSectionIDs` with *its own* section — a parameterisation bug that collapses both onto one section produces no error, just silently wrong rows.
 
+### One Attr, Two Independent Restrictions
+
+`weapon_modes_available_mdr` carries **two** restrictions that are computed in different places: the barrel cap (Silencer → SS only, from `barrelModeRestrict`) and the rounds-remaining gate in `updateCapCounter` (FA needs ≥3, BF ≥2). Each was written by rebuilding the attr from `modes_base`, which holds the weapon's *unrestricted* list — so whichever ran last silently discarded the other.
+
+Symptom: fitting a Silencer to an SA-only pistol correctly showed SS, then clicking Ext Mag restored SA. Not specific to the magazine button — any cap change (firing, reloading, ticking a cap box) did the same. Latent since barrel restrictions were introduced.
+
+Fix: `updateCapCounter` applies the barrel cap before the rounds gate, with the same empty-intersection fallback the barrel watcher uses. The barrel attr is derived by name substitution on `modesAvailAttr` (as `modesBaseAttr` already was), so none of the 13 call sites changed.
+
+**When one attr encodes several independent rules, every writer must compose them, not recompute from the raw source.** The general alternative is to store each restriction separately and intersect on read; that is cleaner but a larger change.
+
 ### Branch on Data, Not on Code Shape
 
 The barrel buttons existed as 15 hand-copied handlers across three scopes (143 lines): a `forEach` in `registerWeaponManualWatchers`, plus literal blocks for `repeating_weaponsmdr` and `weapon1`. The literals encoded the mode-restriction rule **structurally** — `sl`/`co`/`su` were written with the mode-restricting body, `pc`/`sb` with a plain toggle.
@@ -628,7 +638,11 @@ The internal-mod buttons (`bc`/`ir`/`ql`/`qt`/`sl`) and the optics buttons (`mag
 
 All five click-button families (barrel, internal, optics, range, mode, ammo) now run through two functions. The `weaponToggleFamilies` table gained a `kind` discriminator — `toggle` (one attr, click again to clear), `set` (plain assignment), `gated_set` (assign only if the mode is currently available), `ammo` (two attrs plus the tranq guard) — so families with genuinely different mechanics still share one registrar.
 
-**Preserve incidental behaviour, or prove the change is wanted.** The merge initially made every weapon1 family refresh the summary from the `setAttrs` callback. But `change:` watchers already cover `range_band`, `mode`, `ammo_type` and `ammo_active`, so that double-fired; only `optics` and `mod_internal` refreshed from the callback originally. A per-family `w1Refresh` flag preserves the original split exactly. Note `optics` and `mod_internal` are covered by BOTH the watcher and the callback — a pre-existing double-fire, left as-is so the consolidation stays purely structural.
+**Preserve incidental behaviour during the merge, then fix it as its own change.** The merge initially made every weapon1 family refresh the summary from the `setAttrs` callback. But `change:` watchers already cover `range_band`, `mode`, `ammo_type` and `ammo_active`, so that double-fired; only `optics` and `mod_internal` refreshed from the callback originally. A per-family `w1Refresh` flag preserved the original split exactly, keeping the consolidation purely structural.
+
+The pre-existing double-fire (`optics`, `mod_internal` and `barrel` refreshed from BOTH the watcher and the callback — barrel three times, since it writes three watched attrs) was then removed as a separate commit: 54 cases changed, all weapon1, each click now writing only its own attr. Before the consolidation that would have been 13 edits; after, it was one line plus two flags. Verify the watcher actually covers the written attr first — `weapon1_mdr_modes_available` is NOT watched, but every barrel click also changes `weapon1_mdr_barrel`, which is.
+
+**Normalise event names rather than special-casing them.** weapon1 mode buttons were `act_weapon1_mode_ss` (underscores) where every other weapon1 family uses hyphens, which needed an `evW1` override in the family table. CSS targets those buttons by class, not name, so renaming them to `act_weapon1-mode-ss` was HTML+JS only and let the override mechanism be deleted. Assert both directions afterwards: every registered event has a button, and every button has a registered event.
 
 **When the second copy appears, generalise instead of duplicating the fix.** The optics merge could have been a third `registerWeaponXxxWatchers`; noticing it was structurally identical to the internal-mod case collapsed both into one function. Combined, the consolidations took **31 handlers and 277 lines down to 2 functions and ~90 lines**.
 

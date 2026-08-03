@@ -174,6 +174,27 @@ Regex replacement across a CRLF file needs the same line-ending discipline as `s
 - CSS variables within a block should be alphabetical where feasible.
 - HTML `<option>` lists within a `<select>` should be alphabetical.
 
+### Weapon Terminology — Handgun, not Pistol
+
+- **The canonical term is Handgun.** The skill key is `firearms_handgun`,
+  `firearms_handgun-u` resolves to "Handgun", and `weaponDataMap` /
+  `weaponModDataMap` use `category: "handgun"`. Any standalone "Pistol" or
+  "Pistols" in a user-facing string, DataMap value, or `<option>` label is a
+  defect and must be replaced with "Handgun" / "Handguns".
+- **"Machine Pistol" is a legitimate compound and must be preserved.** A machine
+  pistol is a *subcategory* of handgun — a handgun capable of fully automatic
+  fire, including stockless handgun-style submachine guns. The subcategory key
+  is `machine`, and `machine-u` / `select_sep_machine_pistols-u` are correct as
+  written. Never rewrite these to "Machine Handgun".
+- **Detect with a negative lookbehind, never a bare substring match.** A plain
+  search for "Pistol" flags the compounds and trains you to ignore the output:
+  `(?<!machine )(?<!Machine )\b[Pp]istols?\b`
+- **This applies when source documents disagree.** GoA rulebook text still uses
+  "Pistol" in places (e.g. the Arcane Gunslinger prerequisites and Close Orbit).
+  The sheet is authoritative on terminology; transcribe rules text faithfully in
+  substance but normalise Pistol → Handgun. Flag the divergence so the doc can be
+  corrected, and do not "fix" the sheet to match the doc.
+  
 ---
 
 ## DataMaps — Source of Truth

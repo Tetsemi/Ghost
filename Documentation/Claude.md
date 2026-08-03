@@ -35,8 +35,45 @@
 - **If no files are uploaded, always continue from `/mnt/user-data/outputs/`.** Never re-copy from uploads mid-session when the user simply continues without new files.
 - **Verify the working base has key fixes before editing.** After copying the base file, spot-check one or two known-good markers (e.g. `grep -n "MedTech roll toggle" ghost_of_arcadia.css`) to confirm the correct version before making any changes.
 
----
+### Commit Messages
 
+- **Every delivery includes a commit message, unprompted.** Any change to
+  `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, `translation.json`, or the API
+  scripts ships with its message in the same response as the files. Do not wait
+  to be asked. If the session produced no file changes, there is no message.
+- **One message per logical change group, not per file and not per session.** A
+  change spanning DataMap + HTML + translation.json + CSS is one commit when it
+  is one feature. Two unrelated fixes in one session are two messages even if
+  they touch the same file.
+- **Behavioural changes and cleanup stay separate.** Renames, dead-code removal,
+  formatting, and orphan deletion go in their own commit from the change that
+  alters what the sheet does. This keeps `git log -S '<identifier>'` able to date
+  a construct precisely — which is the tool used to attribute defects, so
+  polluting it costs real debugging time later.
+- **Format:** imperative subject line under ~72 characters, blank line, then a
+  body of wrapped prose. No bullet lists in the body. No trailing period on the
+  subject.
+- **The body explains why, not what.** The diff already shows what changed.
+  State the defect or rules change that motivated it, and the reasoning that is
+  not recoverable from reading the code.
+- **The body must disclose, where applicable:**
+  - which `source: {}` version/date was bumped and what document drove it
+  - whether an attr migration or reconciler was shipped, and if not, the explicit
+    reason it is safe to omit (see Attr Migration Pattern)
+  - the evidence used to date a defect, when the commit corrects something older
+    than the work that surfaced it
+  - any layer deliberately left untouched, and why — silence reads as an
+    oversight
+- **Never claim a validator ran when it did not.** State which of
+  `validate_presets.py` and the difftests were run and what they reported. If a
+  script was not available in the session, say the gate is partial and name what
+  is unverified. An unqualified message implies a full pre-delivery gate.
+- **Claude does not run `git`.** There is no repository in the working
+  environment. Messages are handed over for Kameron to apply; do not write as
+  though the commit has been made.
+ 
+---
+ 
 ## Verification Tooling
 
 ### Scripts

@@ -4,15 +4,13 @@ To-do:
 	
 ## Pending — Next Revision Pass
 
-1. **brawler, tactician**  - Waiting on docs
+1. **Full type/tag audit across all DataMaps** - Waiting on docs
 
-2. **Full type/tag audit across all DataMaps** - Waiting on docs
+2. **Add Ancestry Traits to Summary Text** - Waiting on docs
 
-3. **Add Ancestry Traits to Summary Text** - Waiting on docs
+3. **Fix Ancestry CSS Themes**
 
-4. **Fix Ancestry CSS Themes**
-
-5. **Review Born Adjacent for per/Scene usage**
+4. **Review Born Adjacent for per/Scene usage**
 
 Clean-up:
 

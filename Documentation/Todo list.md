@@ -16,6 +16,8 @@ Clean-up:
 
 1. **Still Standing** - Exists as both Human and Khadra Tier 1 Talents - Waiting on docs
 
+2. **Combat Tab - Weapon Drop Down** - Not alphabetized
+
 Questions:
 
 Wishlist:

@@ -34228,6 +34228,7 @@
 							<div class="flex-row">
 								<div class="flex-cell vweapon-name"><span data-i18n="vweapon_name_col-u">Weapon</span></div>
 								<div class="flex-cell vweapon-rarity"><span data-i18n="vweapon_rarity-u">R</span></div>
+								<div class="flex-cell vweapon-skill"><span data-i18n="vweapon_skill_col-u">Skill</span></div>
 								<div class="flex-cell vweapon-damage"><span data-i18n="vweapon_damage_col-u">Dam</span></div>
 								<div class="flex-cell vweapon-mode"><span data-i18n="vweapon_mode_col-u">Mode</span></div>
 								<div class="flex-cell vweapon-mount"><span data-i18n="vweapon_mount_col-u">Mount</span></div>
@@ -34265,14 +34266,15 @@
 										</select>
 									</div>
 									<div class="flex-cell vweapon-rarity"><span name="attr_vweapon_rarity_mdr"></span></div>
-									<div class="flex-cell vweapon-damage">
+									<div class="flex-cell vweapon-skill">
 										<div class="sheet-val-roll-static">
-											<input type="text" class="sheet-skill-input" name="attr_vweapon_damage_display_mdr" readonly/>
+											<input type="text" class="sheet-skill-input" name="attr_vweapon_skill_val_mdr" readonly/>
 											<button type="roll" name="roll_vweapon_attack"
 												value="&{template:coc-attack-1-noimpale} {{name=@{vweapon_name_display_mdr} (Gunnery)}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{gunnery_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{gunnery_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{gunnery_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{vweapon_damage_mdr}]]}} {{extremedamage=[[@{vweapon_damage_mdr}]]}}">
 											</button>
 										</div>
 									</div>
+									<div class="flex-cell vweapon-damage"><input type="text" class="sheet-skill-input" name="attr_vweapon_damage_display_mdr" readonly/></div>
 									<div class="flex-cell vweapon-mode"><span name="attr_vweapon_mode_display_mdr"></span></div>
 									<div class="flex-cell vweapon-mount"><span name="attr_vweapon_mount_display_mdr"></span></div>
 									<div class="flex-cell vweapon-shots"><span name="attr_vweapon_shots_display_mdr"></span></div>
@@ -34291,6 +34293,7 @@
 							<div class="flex-row">
 								<div class="flex-cell vweapon-name"><span data-i18n="name-u">Weapon</span></div>
 								<div class="flex-cell vweapon-rarity"><span data-i18n="vweapon_rarity-u">R</span></div>
+								<div class="flex-cell vweapon-skill"><span data-i18n="vweapon_skill_col-u">Skill</span></div>
 								<div class="flex-cell vweapon-damage"><span data-i18n="vweapon_damage_col-u">Dam</span></div>
 								<div class="flex-cell vweapon-mode"><span data-i18n="vweapon_mode_col-u">Mode</span></div>
 								<div class="flex-cell vweapon-mount"><span data-i18n="vweapon_mount_col-u">Mount</span></div>
@@ -34311,14 +34314,15 @@
 											<option value="R">R</option>
 										</select>
 									</div>
-									<div class="flex-cell vweapon-damage">
+									<div class="flex-cell vweapon-skill">
 										<div class="sheet-val-roll-static">
-											<input type="text" class="sheet-wide-input" name="attr_vweapon_damage_manual"/>
+											<input type="text" class="sheet-skill-input" name="attr_vweapon_skill_val_mdr" readonly/>
 											<button type="roll" name="roll_vweapon_manual_attack"
 												value="&{template:coc-attack-1-noimpale} {{name=@{vweapon_name_mdr} (Gunnery)}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{gunnery_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{gunnery_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{gunnery_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[@{vweapon_damage_manual}]]}} {{extremedamage=[[@{vweapon_damage_manual}]]}}">
 											</button>
 										</div>
 									</div>
+									<div class="flex-cell vweapon-damage"><input type="text" class="sheet-wide-input" name="attr_vweapon_damage_manual"/></div>
 									<div class="flex-cell vweapon-mode"><input type="text" class="sheet-wide-input" name="attr_vweapon_mode_manual"/></div>
 									<div class="flex-cell vweapon-mount"><input type="text" class="sheet-wide-input" name="attr_vweapon_mount_manual"/></div>
 									<div class="flex-cell vweapon-shots"><input type="text" class="sheet-wide-input" name="attr_vweapon_shots_manual"/></div>
@@ -70465,6 +70469,7 @@ const initializeSheetOnOpen = (eventInfo) => {
 		rebuildSpellReactions();
 		initVehiclePresets();
 		initVehicleWeaponPresets();
+		syncVehicleWeaponSkillVals();
 		initVehicleModPresets();
 		registerVehicleManualWatchers();
 		initLifestylePresets();
@@ -73078,6 +73083,25 @@ const initVehiclePresets = () => {
 				const key       = rows[p + "vehicle_preset"] || "";
 				const hasHp     = (rows[p + "vehicle_hp_current"] || "") !== "";
 				if (key) applyVehiclePreset(p, key, hasHp);
+			});
+		});
+	});
+};
+
+/* ── Vehicle weapon Gunnery mirror ────────────────────── */
+/* A repeating row cannot resolve a top-level attr in a display element,
+   so every vehicle weapon row keeps its own copy of Gunnery for the
+   Skill column. Covers the preset and the manual section alike.      */
+const syncVehicleWeaponSkillVals = () => {
+	if (debug_on_trace) console.log("[syncVehicleWeaponSkillVals] Start");
+	getAttrs(["gunnery_mdr"], (g) => {
+		const val = String(parseInt(g["gunnery_mdr"]) || 0);
+		["repeating_vehicleweapongear", "repeating_vehicleweaponmanual"].forEach((section) => {
+			getSectionIDs(section, (ids) => {
+				if (!ids.length) return;
+				const updates = {};
+				ids.forEach((id) => { updates[`${section}_${id}_vweapon_skill_val_mdr`] = val; });
+				setAttrs(updates);
 			});
 		});
 	});
@@ -77281,6 +77305,19 @@ on("change:drive_auto_mdr change:pilot_aircraft_mdr change:pilot_watercraft_mdr 
 	});
 });
 
+/* ── Vehicle weapon Skill column — mirror Gunnery into every row ── */
+on("change:gunnery_mdr", () => {
+	if (debug_on_trace) console.log("[change:gunnery_mdr] vehicle weapon skill mirror");
+	syncVehicleWeaponSkillVals();
+});
+
+/* A manual row added mid-session never passes through init, so seed it
+   as soon as the player names the weapon.                            */
+on("change:repeating_vehicleweaponmanual:vweapon_name_mdr", () => {
+	if (debug_on_trace) console.log("[change:repeating_vehicleweaponmanual:vweapon_name_mdr]");
+	syncVehicleWeaponSkillVals();
+});
+
 /* ── Vehicle weapon preset select — repeating rows ───────────────────── */
 on("change:repeating_vehicleweapongear:vweapon_preset", (eventInfo) => {
 	if (debug_on_trace) console.log("[change:repeating_vehicleweapongear:vweapon_preset]");
@@ -77289,6 +77326,7 @@ on("change:repeating_vehicleweapongear:vweapon_preset", (eventInfo) => {
 	const p = `repeating_vehicleweapongear_${m[1]}_`;
 	getAttrs([p + "vweapon_preset"], (v) => {
 		applyVehicleWeaponPreset(p, v[p + "vweapon_preset"] || "");
+		syncVehicleWeaponSkillVals();
 	});
 });
 

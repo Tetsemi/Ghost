@@ -77281,9 +77281,9 @@ on("change:repeating_vehiclegear:vehicle_hp_current", (eventInfo) => {
 	});
 });
 
-/* ── Vehicle skill value sync — keep in sync when drive/pilot skills change ── */
-on("change:drive_auto_mdr change:pilot_aircraft_mdr change:pilot_watercraft_mdr change:pilot_mech_walker_mdr", () => {
-	if (debug_on_trace) console.log("[change:drive/pilot_mdr] vehicle skill val sync");
+/* ── Vehicle skill value sync — keep in sync when drive/pilot/gunnery change ── */
+on("change:drive_auto_mdr change:pilot_aircraft_mdr change:pilot_watercraft_mdr change:pilot_mech_walker_mdr change:gunnery_mdr", () => {
+	if (debug_on_trace) console.log("[change:drive/pilot/gunnery_mdr] vehicle skill val sync");
 	getSectionIDs("repeating_vehiclegear", (ids) => {
 		if (!ids.length) return;
 		const attrKeys = ids.map(id => `repeating_vehiclegear_${id}_vehicle_skill_attr_mdr`);

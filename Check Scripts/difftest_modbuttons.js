@@ -49,11 +49,17 @@ function extractFn(name) {
   throw new Error("unterminated: " + name);
 }
 
+/* computeModButtons no longer hardcodes the 13 rows — since weaponModDataMap
+   was wired it iterates weaponModBtnAttr and delegates to weaponModFits (a const arrow,
+   so extract not extractFn), and both must be in the sandbox or the call
+   both must be in the sandbox or the call throws ReferenceError. */
 const sandbox = new Function(
   extract("weaponDataMap") + "\n" +
   extract("weaponModDataMap") + "\n" +
+  extract("weaponModBtnAttr") + "\n" +
+  extract("weaponModFits") + "\n" +
   extractFn("computeModButtons") + "\n" +
-  "return { weaponDataMap, weaponModDataMap, computeModButtons };"
+  "return { weaponDataMap, weaponModDataMap, weaponModBtnAttr, computeModButtons };"
 )();
 const { weaponDataMap, weaponModDataMap, computeModButtons } = sandbox;
 
@@ -85,6 +91,16 @@ function fromMap(entry, modKey) {
   if ((mod.incompatible_traits || []).some((t) => traits.includes(t))) return "0";
   const subs = mod.compatible_subcategories || [];
   if (subs.length && entry.subcategory && !subs.includes(entry.subcategory)) return "0";
+  /* requires_mode is a FITTABILITY test, distinct from mode_restriction: the
+     weapon must actually offer one of these modes for the mod to be fitted at
+     all. A Compensator's only benefit is the SA follow-up reduction, so an
+     SS-only shotgun or sniper cannot take one. Omitting this reported 10 false
+     divergences against weaponModFits. */
+  const reqMode = (mod.requires_mode || []).map((m) => String(m).toLowerCase());
+  if (reqMode.length) {
+    const modes = (entry.mode || []).map((m) => String(m).toLowerCase());
+    if (!modes.some((m) => reqMode.includes(m))) return "0";
+  }
   return "1";
 }
 

@@ -22565,6 +22565,7 @@
 								<input type="hidden" name="attr_spellpreset_damage_dicesize_mdr" value="0"/>
 								<input type="hidden" name="attr_spellpreset_damage_numdice_mdr" value="0"/>
 								<input type="hidden" name="attr_spellpreset_soak_ignore_mdr" value=""/>
+								<input type="hidden" name="attr_spellpreset_strain_penalty_mdr" value="0"/>
 								<input type="hidden" name="attr_show_spellpreset_advanced" value="0"/>
 								<!-- School mirror drives CSS spell-select visibility -->
 								<input type="hidden" name="attr_spellpreset_school_mirror" class="sheet-spellschool-mirror" value=""/>
@@ -22949,11 +22950,11 @@
 									<label data-i18n="skill_display-u">Val</label>
 									<input type="text" name="attr_spellpreset_skill_val_mdr" class="sheet-readonly" readonly/>
 									<!-- Uncontested -->
-									<button type="roll" name="roll_spellpreset_uncontested" class="sheet-roll-uncontested" value="&{template:coc-dice-roll} {{name=@{spellpreset_name_display_mdr} - Strain}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{diceroll=[[0 + @{spellpreset_strain_mdr}]]}}"></button>
+									<button type="roll" name="roll_spellpreset_uncontested" class="sheet-roll-uncontested" value="&{template:coc-dice-roll} {{name=@{spellpreset_name_display_mdr} - Strain}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{diceroll=[[0 + @{spellpreset_strain_mdr} + @{spellpreset_strain_penalty_mdr}]]}}"></button>
 									<!-- Targeted -->
-									<button type="roll" name="roll_spellpreset_targeted" class="sheet-roll-targeted" value="&{template:coc-attack-1-noimpale} {{name=@{spellpreset_name_display_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[0 + @{spellpreset_damage_mdr}]]}} {{extremedamage=[[(@{spellpreset_damage_numdice_mdr}*@{spellpreset_damage_dicesize_mdr})+@{spellpreset_damage_bonus_mdr}]]}} {{strain=[[0 + @{spellpreset_strain_mdr}]]}}"></button>
+									<button type="roll" name="roll_spellpreset_targeted" class="sheet-roll-targeted" value="&{template:coc-attack-1-noimpale} {{name=@{spellpreset_name_display_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[0 + @{spellpreset_damage_mdr}]]}} {{extremedamage=[[(@{spellpreset_damage_numdice_mdr}*@{spellpreset_damage_dicesize_mdr})+@{spellpreset_damage_bonus_mdr}]]}} {{strain=[[0 + @{spellpreset_strain_mdr} + @{spellpreset_strain_penalty_mdr}]]}}"></button>
 									<!-- Contested -->
-									<button type="roll" name="roll_spellpreset_contested" class="sheet-roll-contested" value="&{template:coc-attack-1-noimpale} {{name=@{spellpreset_name_display_mdr} vs. @{spellpreset_vs_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[0 + @{spellpreset_damage_mdr}]]}} {{extremedamage=[[(@{spellpreset_damage_numdice_mdr}*@{spellpreset_damage_dicesize_mdr})+@{spellpreset_damage_bonus_mdr}]]}} {{strain=[[0 + @{spellpreset_strain_mdr}]]}}"></button>
+									<button type="roll" name="roll_spellpreset_contested" class="sheet-roll-contested" value="&{template:coc-attack-1-noimpale} {{name=@{spellpreset_name_display_mdr} vs. @{spellpreset_vs_mdr}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{spellpreset_skill_val_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}} {{damage=[[0 + @{spellpreset_damage_mdr}]]}} {{extremedamage=[[(@{spellpreset_damage_numdice_mdr}*@{spellpreset_damage_dicesize_mdr})+@{spellpreset_damage_bonus_mdr}]]}} {{strain=[[0 + @{spellpreset_strain_mdr} + @{spellpreset_strain_penalty_mdr}]]}}"></button>
 								</div>
 
 								<!-- Type -->
@@ -70466,6 +70467,7 @@ const initializeSheetOnOpen = (eventInfo) => {
 		registerGrenadeManualWatchers();
 		registerWeaponManualWatchers();
 		initSpellPresets();
+		recalcSpellStrainPenalties();
 		rebuildSpellReactions();
 		initVehiclePresets();
 		initVehicleWeaponPresets();
@@ -75446,6 +75448,27 @@ function applyDronesPresetStatic(index, presetKey) {
 	});
 }
 
+/* ── Off-school Strain surcharge ──────────────────────────────────
+   Ghost Guide to the Arcane p.37: a spell cast outside your primary school
+   costs +1 Strain on top of its listed cost. Universal spells belong to no
+   school and are exempt.
+
+   `primary_arcane_career` stores an "@{magic_X_mdr}" reference rather than a
+   bare school key, so both sides are compared as resolved attr names.
+
+   No primary arcane career selected is treated as unaligned (0), not as
+   "every school is off-school" (1). A part-built character should not be
+   silently surcharged; flip the `return 0` below if the ruling goes the
+   other way. */
+const OFF_SCHOOL_STRAIN = 1;
+const spellOffSchoolPenalty = (skillAttrName, primaryCareerRaw) => {
+	if (!skillAttrName) return 0;
+	if (skillAttrName === "magic_universal_mdr") return 0;
+	const primaryAttr = (primaryCareerRaw || "").match(/@{([^}]+)}/)?.[1];
+	if (!primaryAttr || primaryAttr === "none") return 0;
+	return skillAttrName === primaryAttr ? 0 : OFF_SCHOOL_STRAIN;
+};
+
 /* ── Spell preset apply ─────────────────────────────────────────────── */
 const applySpellPreset = (prefix, schoolKey, spellKey) => {
 																												
@@ -75466,7 +75489,7 @@ const applySpellPreset = (prefix, schoolKey, spellKey) => {
 	};
 	const rarityKey  = rarityAbbrevMap[data.rarity] || "";
 	const skillAttr  = skillEntry ? skillEntry.bonus : "";
-	const applyAttrs = (skillVal) => {
+	const applyAttrs = (skillVal, strainPenalty) => {
 		setAttrs({
 			[prefix + "spellpreset_ac_mdr"]:           String(data.ac  || ""),
 			[prefix + "spellpreset_cast_mdr"]:          tr(castKey)  || data.cast     || "",
@@ -75482,6 +75505,7 @@ const applySpellPreset = (prefix, schoolKey, spellKey) => {
 			[prefix + "spellpreset_skill_val_mdr"]:     skillVal,
 			[prefix + "spellpreset_spell_key"]:         spellKey,
 			[prefix + "spellpreset_strain_mdr"]:        String(data.strain || ""),
+			[prefix + "spellpreset_strain_penalty_mdr"]: String(strainPenalty),
 			[prefix + "spellpreset_type_mdr"]:          tr(typeKey)  || data.type     || "",
 			[prefix + "spellpreset_type_mirror"]:        (() => {
 				if (data.type === "uncontested" || data.type === "control") return "spell_type_uncontested";
@@ -75523,9 +75547,12 @@ const applySpellPreset = (prefix, schoolKey, spellKey) => {
 		}, () => { rebuildSpellReactions(); });
 	};
 	if (skillAttr) {
-		getAttrs([skillAttr], (vals) => applyAttrs(vals[skillAttr] || "0"));
+		getAttrs([skillAttr, "primary_arcane_career"], (vals) => applyAttrs(
+			vals[skillAttr] || "0",
+			spellOffSchoolPenalty(skillAttr, vals["primary_arcane_career"])
+		));
 	} else {
-		applyAttrs("0");
+		applyAttrs("0", 0);
 	}
 };
 
@@ -75665,6 +75692,49 @@ on([
 			if (Object.keys(updates).length) setAttrs(updates);
 		});
 	});
+});
+
+/* Recompute the off-school surcharge for every stored spell row across BOTH
+   sections. Needed because the per-row derivation only ran on a skill/preset
+   change, so changing the Primary Arcane Career left every existing row
+   holding a penalty derived against the OLD career until it was re-touched.
+   Also runs on open so rows stored before this change self-heal. */
+const recalcSpellStrainPenalties = () => {
+	if (debug_on_trace) console.log("[recalcSpellStrainPenalties] Start");
+	getAttrs(["primary_arcane_career"], (pv) => {
+		const primaryRaw = pv["primary_arcane_career"] || "";
+		getSectionIDs("repeating_spellsmdr", (manualIds) => {
+			getSectionIDs("repeating_spellpreset", (presetIds) => {
+				const fetchKeys = [
+					...manualIds.map(id => `repeating_spellsmdr_${id}_spell_skill_mdr`),
+					...presetIds.map(id => `repeating_spellpreset_${id}_spellpreset_school_key`),
+				];
+				if (!fetchKeys.length) return;
+				getAttrs(fetchKeys, (v) => {
+					const updates = {};
+					manualIds.forEach(id => {
+						const p = `repeating_spellsmdr_${id}_`;
+						/* Guarded: an unset or non-@{} value would throw on [1]. */
+						const attrName = (v[p + "spell_skill_mdr"] || "").match(/@{([^}]+)}/)?.[1] || "";
+						updates[p + "strain_penalty"] = String(spellOffSchoolPenalty(attrName, primaryRaw));
+					});
+					presetIds.forEach(id => {
+						const p          = `repeating_spellpreset_${id}_`;
+						const schoolKey  = v[p + "spellpreset_school_key"] || "";
+						const skillEntry = schoolKey ? skillDataMap[schoolKey] : null;
+						const skillAttr  = skillEntry ? skillEntry.bonus : "";
+						updates[p + "spellpreset_strain_penalty_mdr"] = String(spellOffSchoolPenalty(skillAttr, primaryRaw));
+					});
+					if (Object.keys(updates).length) setAttrs(updates);
+				});
+			});
+		});
+	});
+};
+
+on("change:primary_arcane_career", () => {
+	if (debug_on_trace) console.log("[change:primary_arcane_career] Start");
+	recalcSpellStrainPenalties();
 });
 
 /* ── Vehicle preset apply ─────────────────────────────────────────────── */
@@ -77641,30 +77711,30 @@ on("change:repeating_spellsmdr:spell_skill_mdr", function(eventInfo) {
   if (!repeatingId) return;
   const skillAttr = `repeating_spellsmdr_${repeatingId}_spell_skill_mdr`;
 
-  getAttrs([skillAttr], function(v) {
-    const referenceString = v[skillAttr];
-    /* Guarded: an unset or non-@{} value made this throw a TypeError. */
-    const actualAttrName = (referenceString || "").match(/@{([^}]+)}/)?.[1];
-    if (!actualAttrName) return;
-	const checkboxAttr = `${actualAttrName}_checkbox`;
-	const primaryArcaneCareer = "primary_arcane_career"
-
-	getAttrs ( [actualAttrName, checkboxAttr, primaryArcaneCareer ], function(values) {
+	getAttrs([skillAttr], function(v) {
+		const referenceString = v[skillAttr];
 		/* Guarded: an unset or non-@{} value made this throw a TypeError. */
-		const actualPrimaryArcaneCareerAttrName = (values[primaryArcaneCareer] || "").match(/@{([^}]+)}/)?.[1];
-		if (!actualPrimaryArcaneCareerAttrName) return;
-		if (debug_on) console.log ("[primary_arcane_career]:", actualPrimaryArcaneCareerAttrName);
+		const actualAttrName = (referenceString || "").match(/@{([^}]+)}/)?.[1];
+		if (!actualAttrName) return;
+		const checkboxAttr = `${actualAttrName}_checkbox`;
+		const primaryArcaneCareer = "primary_arcane_career";
 
-		const strainPenalty = ( actualAttrName === "magic_universal_mdr" || actualAttrName === actualPrimaryArcaneCareerAttrName ) ? 0 : 1;
-		const strainAttr = `repeating_spellsmdr_${repeatingId}_strain_penalty`;
+		getAttrs([actualAttrName, checkboxAttr, primaryArcaneCareer], function(values) {
+			if (debug_on) console.log("[primary_arcane_career]:", values[primaryArcaneCareer]);
 
-		const skillValue = values[actualAttrName] || "0";
-        const displayAttr = `repeating_spellsmdr_${repeatingId}_spell_skill_mdr_display`;
+			/* Was an inline ternary that returned early when no primary arcane
+			   career was set, leaving both strain_penalty AND the skill display
+			   unwritten. Both are now always written. */
+			const strainPenalty = spellOffSchoolPenalty(actualAttrName, values[primaryArcaneCareer]);
+			const strainAttr    = `repeating_spellsmdr_${repeatingId}_strain_penalty`;
+			const skillValue    = values[actualAttrName] || "0";
+			const displayAttr   = `repeating_spellsmdr_${repeatingId}_spell_skill_mdr_display`;
 
-		setAttrs({ [displayAttr]: skillValue,
-			[strainAttr]: strainPenalty
-		}, { silent: true });
-	});
+			setAttrs({
+				[displayAttr]: skillValue,
+				[strainAttr]:  String(strainPenalty)
+			}, { silent: true });
+		});
   });
 });
 

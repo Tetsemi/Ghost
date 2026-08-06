@@ -75139,8 +75139,14 @@ function buildGrenadeConditionStr(entry) {
 function buildGrenadeSaveFailStr(entry) {
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!entry || !entry.save_stat) return "—";
-	if (entry.save_halves_damage)   return tr("grenade_half_dmg-u");
-	return entry.condition_on_fail || "—";
+	/* Reports the FAILURE outcome. The save_halves_damage check used to come
+	   first and returned "half dmg", which is what happens on a PASS — so the
+	   two cells read identically, and incendiary’s condition_on_fail ("burning")
+	   was swallowed by the early return. Both outcomes are now reported. */
+	const parts = [];
+	if (entry.condition_on_fail)  parts.push(entry.condition_on_fail);
+	if (entry.save_halves_damage) parts.push(tr("grenade_full_dmg-u"));
+	return parts.length ? parts.join(" + ") : "—";
 }
 function buildGrenadeSavePassStr(entry) {
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");

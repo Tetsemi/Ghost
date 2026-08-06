@@ -75056,95 +75056,106 @@ function applyBarrelModeRestriction(baseModes, barrelVal) {
 
 /* Format a damage+zone pair for the primary/secondary columns */
 function grenadeZoneDisplay(damage, zone) {
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!zone) return "";
-	const label = { engaged: "Eng", short: "Short", medium: "Med" };
+	const label = { engaged: tr("grenade_zone_engaged_abbrev-u"), short: tr("short-u"), medium: tr("grenade_zone_medium_abbrev-u") };
 	return (damage || "—") + " " + (label[zone] || zone);
 }
 
 /* Build ACTIVE tags string shown in the summary bar */
 function buildGrenadeTagsStr(entry, delivery) {
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!entry) return "";
 	const tags = [];
-	const skillLabel = delivery === "m32" ? "Rifles" : (entry.skill === "demolitions" ? "Demolitions" : "Throw");
+	/* Skill names come from skillDataMap, not from new keys — the label field
+	   is already a translation key and duplicating it would let the two drift. */
+	const skillKey   = delivery === "m32" ? "firearms_rifle" : (entry.skill === "demolitions" ? "demolitions" : "throw");
+	const skillLabel = tr((skillDataMap[skillKey] || {}).label);
 	tags.push(skillLabel);
-	const zoneLabel = { engaged: "Engaged", short: "Short", medium: "Medium" };
-	if (entry.blast_primary)   tags.push("Blast: " + (zoneLabel[entry.blast_primary] || entry.blast_primary));
+	const zoneLabel = { engaged: tr("grenade_zone_engaged-u"), short: tr("short-u"), medium: tr("grenade_zone_medium-u") };
+	if (entry.blast_primary)   tags.push(tr("grenade_blast-u") + " " + (zoneLabel[entry.blast_primary] || entry.blast_primary));
 	if (entry.blast_secondary) tags.push("+ " + (zoneLabel[entry.blast_secondary] || entry.blast_secondary));
 	if (entry.save_stat) {
 		const s = entry.save_halves_damage
-			? entry.save_stat.toUpperCase() + " save halves"
-			: entry.save_stat.toUpperCase() + " save";
+			? entry.save_stat.toUpperCase() + " " + tr("grenade_save_halves-u")
+			: entry.save_stat.toUpperCase() + " " + tr("grenade_save-u");
 		tags.push(s);
 	}
-	if (entry.silent)              tags.push("Silent");
-	if (entry.arcanotech)          tags.push("Arcanotech");
-	if (entry.requires_detonator)  tags.push("Needs detonator");
-	if (entry.linkable)            tags.push("Linkable");
-	if (entry.targets_surfaces_only) tags.push("Structural only");
-	if (delivery === "m32")        tags.push("M-32 — Medium range");
-	const rarityLabel = { common: "Common", permit: "Permit Required", restricted: "Restricted" };
+	if (entry.silent)              tags.push(tr("grenade_silent-u"));
+	if (entry.arcanotech)          tags.push(tr("arcanotech-u"));
+	if (entry.requires_detonator)  tags.push(tr("grenade_needs_detonator-u"));
+	if (entry.linkable)            tags.push(tr("grenade_linkable-u"));
+	if (entry.targets_surfaces_only) tags.push(tr("grenade_structural_only-u"));
+	if (delivery === "m32")        tags.push(tr("grenade_m32_medium-u"));
+	const rarityLabel = { common: tr("rarity_common-u"), permit: tr("rarity_permit-u"), restricted: tr("rarity_restricted-u") };
 	if (entry.rarity) tags.push(rarityLabel[entry.rarity] || entry.rarity);
 	return tags.join("  •  ");
 }
 
 /* Build the short effect summary for the Effect column */
 function buildGrenadeEffectStr(entry) {
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!entry) return "";
 	if (!entry.damage_primary || entry.damage_type === "none") {
-		if (entry.obscurement)      return "Obscure " + entry.condition_duration + " rds — pen die through";
-		if (entry.suppresses_magic) return "Magic suppressed " + entry.suppresses_duration + " rd";
+		if (entry.obscurement)      return tr("grenade_obscure-u") + " " + entry.condition_duration + " " + tr("grenade_rounds_abbrev-u") + " — " + tr("grenade_pen_die_through-u");
+		if (entry.suppresses_magic) return tr("grenade_magic_suppressed-u") + " " + entry.suppresses_duration + " " + tr("grenade_rounds_abbrev-u");
 		if (entry.save_stat && entry.condition_on_fail) {
 			const pass = entry.condition_on_success ? " / " + entry.condition_on_success : "";
-			return entry.save_stat.toUpperCase() + " save — " + entry.condition_on_fail + pass;
+			return entry.save_stat.toUpperCase() + " " + tr("grenade_save-u") + " — " + entry.condition_on_fail + pass;
 		}
 		return "";
 	}
 	if (entry.save_halves_damage) {
-		const cond = entry.condition_on_fail ? " — " + entry.condition_on_fail + " on fail" : " — halves";
-		return entry.save_stat.toUpperCase() + " save" + cond;
+		const cond = entry.condition_on_fail ? " — " + entry.condition_on_fail + " " + tr("grenade_on_fail-u") : " — " + tr("grenade_halves-u");
+		return entry.save_stat.toUpperCase() + " " + tr("grenade_save-u") + cond;
 	}
-	if (entry.save_stat) return entry.save_stat.toUpperCase() + " save — " + (entry.condition_on_fail || "effect");
-	return entry.damage_type === "structural" ? "Structural dmg" : "";
+	if (entry.save_stat) return entry.save_stat.toUpperCase() + " " + tr("grenade_save-u") + " — " + (entry.condition_on_fail || tr("grenade_effect_generic-u"));
+	return entry.damage_type === "structural" ? tr("grenade_structural_dmg-u") : "";
 }
 
 /* Build the Condition panel text for the advanced panel */
 function buildGrenadeConditionStr(entry) {
-	if (!entry || !entry.save_stat) return "No save required";
-	const parts = ["Roll " + entry.save_stat.toUpperCase()];
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	if (!entry || !entry.save_stat) return tr("grenade_no_save-u");
+	const parts = [tr("grenade_roll-u") + " " + entry.save_stat.toUpperCase()];
 	if (entry.condition_on_fail) {
-		let s = "Fail: " + entry.condition_on_fail;
-		if (entry.condition_duration) s += " " + entry.condition_duration + " rd";
+		let s = tr("grenade_fail-u") + " " + entry.condition_on_fail;
+		if (entry.condition_duration) s += " " + entry.condition_duration + " " + tr("grenade_rounds_abbrev-u");
 		parts.push(s);
 	}
 	if (entry.save_halves_damage) {
-		parts.push("Pass: half damage");
+		parts.push(tr("grenade_pass_half_damage-u"));
 	} else if (entry.condition_on_success) {
-		let s = "Pass: " + entry.condition_on_success;
-		if (entry.condition_duration_success) s += " " + entry.condition_duration_success + " rd";
+		let s = tr("grenade_pass-u") + " " + entry.condition_on_success;
+		if (entry.condition_duration_success) s += " " + entry.condition_duration_success + " " + tr("grenade_rounds_abbrev-u");
 		parts.push(s);
 	}
-	if (entry.immunity_notes) parts.push("Immune: " + entry.immunity_notes);
+	/* immunity_notes is English prose in the DataMap, not a key — see Todo. */
+	if (entry.immunity_notes) parts.push(tr("grenade_immune-u") + " " + entry.immunity_notes);
 	return parts.join(" — ");
 }
 
 /* Save fail / pass one-line display */
 function buildGrenadeSaveFailStr(entry) {
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!entry || !entry.save_stat) return "—";
-	if (entry.save_halves_damage)   return "half dmg";
+	if (entry.save_halves_damage)   return tr("grenade_half_dmg-u");
 	return entry.condition_on_fail || "—";
 }
 function buildGrenadeSavePassStr(entry) {
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!entry || !entry.save_stat) return "—";
-	if (entry.save_halves_damage)   return "half dmg";
-	return entry.condition_on_success || "no effect";
+	if (entry.save_halves_damage)   return tr("grenade_half_dmg-u");
+	return entry.condition_on_success || tr("grenade_no_effect-u");
 }
 
 /* Delivery note below Throw/M-32 buttons */
 function buildGrenadeDeliveryNote(entry, delivery) {
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!entry) return "";
-	if (delivery === "m32") return "Rifles skill — Medium range";
-	if (entry.category === "placed_charge" || entry.category === "mine") return "Place: Maneuver + Demolitions";
-	return "Throw — Short range max";
+	if (delivery === "m32") return tr("grenade_delivery_note_m32-u");
+	if (entry.category === "placed_charge" || entry.category === "mine") return tr("grenade_delivery_note_place-u");
+	return tr("grenade_delivery_note_throw-u");
 }
 
 /* Resolve the correct Roll20 attr reference for skill */

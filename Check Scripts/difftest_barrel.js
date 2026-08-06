@@ -28,6 +28,18 @@ const js = raw.match(/<script type="text\/worker">([\s\S]*?)<\/script>/)[1];
 const BTNS = ["sl", "co", "su", "pc", "sb"];
 /* Internal-mod buttons share the same three-scope duplication as the barrel
    buttons, so the same save/check recipe covers them. */
+/* Ammo button values are extracted from the sheet, not copied. A hardcoded
+   copy went stale the moment the stored values were renamed to the ammoDataMap
+   keys (2026-08-06): the "self active" seed then planted a value the handler no
+   longer recognised, so every toggle-off case reported as a behaviour change
+   when only the fixture was wrong. Interpolated into the driver below, the same
+   way TOGGLE_FAMILIES is. */
+const AMMO_BTNS = (() => {
+  const m = js.match(/ammo:\s*\{[\s\S]{0,400}?btns:\s*(\{[^}]*\})/);
+  if (!m) throw new Error("ammo btns not found in weaponToggleFamilies");
+  return new Function("return " + m[1])();
+})();
+
 const TOGGLE_FAMILIES = {
   internal: { btns: { bc: "biocoded", ir: "irs", ql: "qls", qt: "qst", sl: "smartlink" },
               rep: "weapon_mod_internal_mdr", w1: "weapon1_mdr_mod_internal" },
@@ -161,7 +173,7 @@ const OTHER = {
            seed: (P, sc) => ({}) },
   mode:  { btns: { ss: "ss", sa: "sa", bf: "bf", fa: "fa" },
            seed: (P, sc, avail) => ({ [P + (sc.scope === "weapon1" ? "weapon1_mdr_modes_available" : "weapon_modes_available_mdr")]: avail }) },
-  ammo:  { btns: { ap: "ap_rounds", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" },
+  ammo:  { btns: ${JSON.stringify(AMMO_BTNS)},
            seed: () => ({}) },
 };
 const AMMO_ATTR = (sc) => sc.scope === "weapon1"

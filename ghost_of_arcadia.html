@@ -66887,6 +66887,68 @@ const retiredWeaponKeyMap = {
    still reads as empty. Set false to relocate the preset value only. */
 const reconcileWeaponSkillSelect = true;
 
+/* ── Retired ammo stored values ──────────────────────────────────
+   ammo_type stored short names ("subsonic") while ammoDataMap is keyed on the
+   full ones ("subsonic_rounds"), so ammoDataMap[stored] was undefined for four
+   of six types. That fails OPEN rather than loud — an ap_modifier lookup would
+   return 0 and look correct — so the values are renamed to the map keys BEFORE
+   any code reads the map.
+
+   Declare a renamed stored value as old: "new". Append-only; entries are
+   permanent. Mirrors retiredWeaponKeyMap. */
+const retiredAmmoKeyMap = {
+	breacher:     "breacher_slugs",
+	shock:        "shock_rounds",
+	subsonic:     "subsonic_rounds",
+	veil_charged: "veil_charged_rounds",
+};
+
+/* weapon1 is not a repeating section, so it is reconciled separately. */
+const ammoTypeSections = ["repeating_weaponsmdr", "repeating_weaponmanual"];
+
+/* Rewrite stored ammo_type values through retiredAmmoKeyMap.
+
+   Unlike the weapon preset case there is no <select>: ammo is button driven,
+   so Roll20 never overwrites the stored string and the repair window does not
+   close. The only interim symptom is cosmetic — the CSS [value=] rules key off
+   the new names, so an unmigrated row renders its button unselected while the
+   attr still holds the old value.
+
+   Idempotent by construction: a value already in the new key space is not a
+   key of retiredAmmoKeyMap, so it is left alone. Never clears an unresolvable
+   value. Called from afterAllSets. */
+const reconcileAmmoTypes = () => {
+	if (debug_on_trace) console.log("[reconcileAmmoTypes] Start");
+	const fix = (stored) => retiredAmmoKeyMap[stored] || "";
+
+	getAttrs(["weapon1_mdr_ammo_type"], (v) => {
+		const moved = fix(v["weapon1_mdr_ammo_type"] || "");
+		if (!moved) return;
+		if (debug_on) console.log("[reconcileAmmoTypes] weapon1", v["weapon1_mdr_ammo_type"], "->", moved);
+		setAttrs({ weapon1_mdr_ammo_type: moved });
+	});
+
+	ammoTypeSections.forEach((section) => {
+		getSectionIDs(section, (ids) => {
+			if (!ids.length) return;
+			const keys = ids.map(id => `${section}_${id}_weapon_ammo_type_mdr`);
+			getAttrs(keys, (v) => {
+				const updates = {};
+				ids.forEach(id => {
+					const attr  = `${section}_${id}_weapon_ammo_type_mdr`;
+					const moved = fix(v[attr] || "");
+					if (moved) updates[attr] = moved;
+				});
+				if (!Object.keys(updates).length) return;
+				if (debug_on) console.log("[reconcileAmmoTypes]", section, updates);
+				/* Non-silent: the existing change:*_ammo_type_mdr watchers must fire
+				   so label, AP total and effective damage all recompute. */
+				setAttrs(updates);
+			});
+		});
+	});
+};
+
 /* ── Weapon preset owned-attr defaults ───────────────────────────────────
    The single authoritative list of every attr a weapon preset owns. Three
    paths consume it and must never drift apart:
@@ -70459,6 +70521,7 @@ const initializeSheetOnOpen = (eventInfo) => {
 		initBotsPresets();
 		initDronesPresets();
 		initOmnideckPresets();
+		reconcileAmmoTypes();			/* migrate short ammo values before anything reads them */
 		initWeaponComputedAttrs();
 		initWeaponManualAttrs();
 		initGrenadeComputedAttrs();
@@ -70956,7 +71019,7 @@ const weaponToggleFamilies = {
 		kind: "ammo",
 		core: "ammo_type",
 		activeCore: "ammo_active",
-		btns: { ap: "ap_rounds", br: "breacher", hp: "hollow_point", sh: "shock", su: "subsonic", vc: "veil_charged" },
+		btns: { ap: "ap_rounds", br: "breacher_slugs", hp: "hollow_point", sh: "shock_rounds", su: "subsonic_rounds", vc: "veil_charged_rounds" },
 	},
 };
 
@@ -71702,29 +71765,15 @@ const registerWeaponManualWatchers = () => {
 					const traitSL  = v[p+"weapon_trait_smartlink_mdr"] === "1";
 					const sl       = ((internal === "smartlink" || traitSL) && v["cw_smartlink_installed"] === "1") ? "1" : undefined;
 					const irs      = internal === "irs"      ? "1" : undefined;
-					const qst      = internal === "qst"      ? "1" : undefined;
-					const qls      = internal === "qls"      ? "1" : undefined;
-					const biocoded = internal === "biocoded" ? "1" : undefined;
 					const range    = v[p+"weapon_range_band_mdr"]        || "short";
-					const category = v[p+"weapon_category_mdr"]          || "";
-					const maxRange = v[p+"weapon_max_range_mdr"]         || "";
-					const barrel   = v[p+"weapon_barrel_mdr"]            || "";
 					const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
 					const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
-					const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
 					const irsBonus = irs === "1" ? 1 : 0;
 					const redEff   = reduce + irsBonus;
-					const dice     = penDice[mode] || 0;
-					const cq         = v[p+"weapon_trait_cq_mdr"] === "1";
 					const aim        = v[p+"weapon_aim_mdr"] || "";
-					const prone      = v[p+"weapon_target_prone_mdr"] || "";
 					const cover      = v[p+"weapon_target_cover_mdr"] || "";
 					const ammoType   = v[p+"weapon_ammo_type_mdr"]   || "standard";
 					const ammoActive = v[p+"weapon_ammo_active_mdr"] || "0";
-					const ap         = v[p+"weapon_trait_ap_mdr"] === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
-					const concealable = v[p+"weapon_trait_concealable_mdr"] || "";
-					const silent      = v[p+"weapon_trait_silent_mdr"] || "";
-					const loadout    = v[p+"weapon_loadout_mdr"] || "";
 					const nativeAP   = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
 					const ammoAP     = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
 					const apTotal    = nativeAP + ammoAP;
@@ -72290,28 +72339,15 @@ const recalcWeaponSmartlink = (section) => {
 				const traitSL  = v[p+"weapon_trait_smartlink_mdr"] === "1";
 				const sl       = ((internal === "smartlink" || traitSL) && v["cw_smartlink_installed"] === "1") ? "1" : undefined;
 				const irs      = internal === "irs"      ? "1" : undefined;
-				const qst      = internal === "qst"      ? "1" : undefined;
-				const qls      = internal === "qls"      ? "1" : undefined;
-				const biocoded = internal === "biocoded" ? "1" : undefined;
 				const range    = v[p+"weapon_range_band_mdr"] || "short";
-				const category = v[p+"weapon_category_mdr"]   || "";
-				const maxRange = v[p+"weapon_max_range_mdr"]  || "";
-				const barrel   = v[p+"weapon_barrel_mdr"]     || "";
 				const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
 				const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
-				const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
 				const irsBonus = irs === "1" ? 1 : 0;
 				const redEff   = reduce + irsBonus;
-				const cq         = v[p+"weapon_trait_cq_mdr"] === "1";
 				const aim        = v[p+"weapon_aim_mdr"] || "";
-				const prone      = v[p+"weapon_target_prone_mdr"] || "";
 				const cover      = v[p+"weapon_target_cover_mdr"] || "";
 				const ammoType   = v[p+"weapon_ammo_type_mdr"]   || "standard";
 				const ammoActive = v[p+"weapon_ammo_active_mdr"] || "0";
-				const ap         = v[p+"weapon_trait_ap_mdr"] === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
-				const concealable = v[p+"weapon_trait_concealable_mdr"] || "";
-					const silent      = v[p+"weapon_trait_silent_mdr"] || "";
-				const loadout    = v[p+"weapon_loadout_mdr"] || "";
 				const nativeAP   = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
 				const ammoAP     = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
 				const apTotal    = nativeAP + ammoAP;
@@ -73969,7 +74005,7 @@ function stepDownDie(diceSize) {
 
 function computeEffectiveDamage(numdice, dicesize, bonus, ammoType, ammoActive, prefix, outPrefix) {
   const out         = outPrefix || prefix;
-  const reducingAmmo = ["ap_rounds", "subsonic"];
+  const reducingAmmo = ["ap_rounds", "subsonic_rounds"];
   const doReduce    = (ammoActive === "1") && reducingAmmo.includes(ammoType);
   const effDicesize = doReduce ? stepDownDie(dicesize) : dicesize;
   const bonusStr    = bonus > 0 ? "+" + bonus : bonus < 0 ? String(bonus) : "";
@@ -74621,7 +74657,7 @@ function computeWeaponDice(t) {
 	/* Consumes the deriveWeaponTags bag. Previously 12 positional args drawn
 	   from the same 7 derivation blocks as buildTagsStr; proved equivalent at
 	   all sites by verify_tag_derivations.py before collapsing. */
-	const { optics, aim, mode, reduceEff, range, category, maxRange, barrel, cq, prone, cover, ap } = t;
+	const { optics, aim, mode, reduceEff, range, category, maxRange, barrel, cq, prone, cover } = t;
   const bandOrder   = ["engaged", "short", "medium", "long", "extreme"];
   const maxRangeMap = { E: "engaged", S: "short", M: "medium", L: "long", X: "extreme" };
   const longArms    = ["rifle", "shotgun", "heavy"];
@@ -74806,31 +74842,17 @@ function refreshWeapon1Summary() {
 		const traitSL  = v.weapon1_mdr_trait_smartlink === "1";
 		const sl       = ((internal === "smartlink" || traitSL) && v["cw_smartlink_installed"] === "1") ? "1" : undefined;
 		const irs      = internal === "irs"        ? "1" : undefined;
-		const qst      = internal === "qst"        ? "1" : undefined;
-		const qls      = internal === "qls"        ? "1" : undefined;
-		const biocoded = internal === "biocoded"   ? "1" : undefined;
 		const range    = v.weapon1_mdr_range_band         || "short";
-		const category = v.weapon1_mdr_category           || "";
-		const maxRange = v.weapon1_mdr_max_range          || "";
 		const reduce   = parseInt(v.weapon1_mdr_mod_penalty_reduce, 10) || 0;
 		const mode     = v.weapon1_mdr_mode               || "ss";
-		const barrel   = v.weapon1_mdr_barrel             || "";
 		const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
 		const labelMap = { ss: "SS", sa: "SA", bf: "BF × 2", fa: "FA × 3" };
-		const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
 		const irsBonus = irs === "1" ? 1 : 0;
 		const redEff   = reduce + irsBonus;
-		const dice     = penDice[mode] || 0;
-		const cq          = v.weapon1_mdr_trait_cq === "1";
 		const aim         = v.weapon1_mdr_aim || "";
-		const prone       = v.weapon1_mdr_target_prone || "";
 		const cover       = v.weapon1_mdr_target_cover || "";
 		const ammoType    = v.weapon1_mdr_ammo_type   || "standard";
 		const ammoActive  = v.weapon1_mdr_ammo_active || "0";
-		const ap          = v.weapon1_mdr_trait_ap === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
-		const concealable = v.weapon1_mdr_trait_concealable || "";
-		const silent      = v.weapon1_mdr_trait_silent || "";
-		const loadout     = v.weapon1_mdr_loadout || "";
 		/* AP total: native weapon AP (stored by preset) + live ammo AP */
 		const nativeAP   = parseInt(v.weapon1_mdr_ap_total, 10) || 0;
 		const ammoAP     = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
@@ -77551,29 +77573,15 @@ on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weap
         const traitSL  = v[p + "weapon_trait_smartlink_mdr"] === "1";
         const sl       = ((internal === "smartlink" || traitSL) && v["cw_smartlink_installed"] === "1") ? "1" : undefined;
         const irs      = internal === "irs"        ? "1" : undefined;
-        const qst      = internal === "qst"        ? "1" : undefined;
-        const qls      = internal === "qls"        ? "1" : undefined;
-        const biocoded = internal === "biocoded"   ? "1" : undefined;
         const range    = v[p + "weapon_range_band_mdr"]        || "short";
-        const category = v[p + "weapon_category_mdr"]          || "";
-        const maxRange = v[p + "weapon_max_range_mdr"]         || "";
-        const barrel   = v[p + "weapon_barrel_mdr"]            || "";
         const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
         const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
-        const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
     const irsBonus = irs === "1" ? 1 : 0;
     const redEff   = reduce + irsBonus;
-        const dice     = penDice[mode] || 0;
-        const cq          = v[p + "weapon_trait_cq_mdr"] === "1";
         const aim         = v[p + "weapon_aim_mdr"] || "";
-        const prone       = v[p + "weapon_target_prone_mdr"] || "";
         const cover       = v[p + "weapon_target_cover_mdr"] || "";
         const ammoType    = v[p + "weapon_ammo_type_mdr"]    || "standard";
         const ammoActive  = v[p + "weapon_ammo_active_mdr"]  || "0";
-        const ap          = v[p + "weapon_trait_ap_mdr"] === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
-        const concealable = v[p + "weapon_trait_concealable_mdr"] || "";
-        const silent      = v[p + "weapon_trait_silent_mdr"] || "";
-        const loadout     = v[p + "weapon_loadout_mdr"] || "";
         /* AP total: native weapon AP (stored by preset) + live ammo AP */
         const nativeAP    = parseInt(v[p + "weapon_ap_total_mdr"], 10) || 0;
         const ammoAP      = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
@@ -78329,10 +78337,8 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 				const sApTotal  = sNativeAP + sAmmoAP;
 				const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
 				const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };
-				const penDice  = { ss: 0, sa: 0, bf: 1, fa: 2 };
 				const irsBonus = sIRS === "1" ? 1 : 0;
 				const redEff   = sReduce + irsBonus;
-				const dice     = penDice[sMode] || 0;
 				const hitObj      = computeWeaponHit(sOptics, sSL, sRange, sAim);
 				const sBonus      = hitObj.bonus;
 				const sSitMod     = hitObj.sitMod;

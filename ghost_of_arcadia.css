@@ -6374,8 +6374,20 @@ width: 62px;
 	margin-right: 4px;
 }
 
+/* The three save cells hold very different content, so a shared width either
+   wastes space or clips. SAVE never exceeds three characters; PASS holds one
+   short phrase; FAIL can hold a compound ("burning + full dmg") and is the
+   only one that grows. Inputs do not honour text-overflow: ellipsis, so an
+   undersized FAIL clips silently with no cue that text is missing.
+   Net change is -12px, so the tags block beside this gains space. */
 .ui-dialog .tab-content .charsheet .sheet-grenade-adv-save .sheet-attr-input-small {
 	width: 100px;
+}
+.ui-dialog .tab-content .charsheet .sheet-grenade-adv-save input[name="attr_grenade_save_stat_mdr"] {
+	width: 56px;
+}
+.ui-dialog .tab-content .charsheet .sheet-grenade-adv-save input[name="attr_grenade_save_fail_mdr"] {
+	width: 132px;
 }
 
 /* Disabled roll button */

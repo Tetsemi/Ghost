@@ -71820,6 +71820,7 @@ const registerWeaponManualWatchers = () => {
 					const cover      = v[p+"weapon_target_cover_mdr"] || "";
 					const ammoType   = v[p+"weapon_ammo_type_mdr"]   || "standard";
 					const ammoActive = v[p+"weapon_ammo_active_mdr"] || "0";
+					const ap         = v[p+"weapon_trait_ap_mdr"] === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
 					const nativeAP   = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
 					const ammoAP     = ammoEffects(ammoType, ammoActive).ap;
 					const apTotal    = nativeAP + ammoAP;
@@ -72396,6 +72397,7 @@ const recalcWeaponSmartlink = (section) => {
 				const cover      = v[p+"weapon_target_cover_mdr"] || "";
 				const ammoType   = v[p+"weapon_ammo_type_mdr"]   || "standard";
 				const ammoActive = v[p+"weapon_ammo_active_mdr"] || "0";
+				const ap         = v[p+"weapon_trait_ap_mdr"] === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
 				const nativeAP   = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
 				const ammoAP     = ammoEffects(ammoType, ammoActive).ap;
 				const apTotal    = nativeAP + ammoAP;
@@ -74708,7 +74710,7 @@ function computeWeaponDice(t) {
 	/* Consumes the deriveWeaponTags bag. Previously 12 positional args drawn
 	   from the same 7 derivation blocks as buildTagsStr; proved equivalent at
 	   all sites by verify_tag_derivations.py before collapsing. */
-	const { optics, aim, mode, reduceEff, range, category, maxRange, barrel, cq, prone, cover } = t;
+	const { optics, aim, mode, reduceEff, range, category, maxRange, barrel, cq, prone, cover, ap } = t;
   const bandOrder   = ["engaged", "short", "medium", "long", "extreme"];
   const maxRangeMap = { E: "engaged", S: "short", M: "medium", L: "long", X: "extreme" };
   const longArms    = ["rifle", "shotgun", "heavy"];
@@ -74905,6 +74907,7 @@ function refreshWeapon1Summary() {
 		const cover       = v.weapon1_mdr_target_cover || "";
 		const ammoType    = v.weapon1_mdr_ammo_type   || "standard";
 		const ammoActive  = v.weapon1_mdr_ammo_active || "0";
+		const ap          = v.weapon1_mdr_trait_ap === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
 		/* AP total: native weapon AP (stored by preset) + live ammo AP */
 		const nativeAP   = parseInt(v.weapon1_mdr_ap_total, 10) || 0;
 		const ammoAP     = ammoEffects(ammoType, ammoActive).ap;
@@ -77636,6 +77639,7 @@ on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weap
         const cover       = v[p + "weapon_target_cover_mdr"] || "";
         const ammoType    = v[p + "weapon_ammo_type_mdr"]    || "standard";
         const ammoActive  = v[p + "weapon_ammo_active_mdr"]  || "0";
+        const ap          = v[p + "weapon_trait_ap_mdr"] === "1" || (ammoActive === "1" && ammoType === "ap_rounds") ? "1" : "";
         /* AP total: native weapon AP (stored by preset) + live ammo AP */
         const nativeAP    = parseInt(v[p + "weapon_ap_total_mdr"], 10) || 0;
         const ammoAP      = ammoEffects(ammoType, ammoActive).ap;

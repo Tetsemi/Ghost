@@ -61326,7 +61326,7 @@ const explosivesDataMap = {
 		cover_bonus_die:       true,
 		silent:                false,
 		arcanotech:            false,
-		immunity_notes:        "Solid cover or flash-shielded optics grant bonus die on save",
+		immunity_notes:        "explosive_flashbang_grenade_immunity-u",
 		requires_detonator:    false,
 		skill:                 "throw",
 		use_action:            "throw",
@@ -61414,7 +61414,7 @@ const explosivesDataMap = {
 		save_note_key:         "explosive_knockout_gas_save_note-u",
 		silent:                true,
 		arcanotech:            false,
-		immunity_notes:        "Sealed respirators or breathing cyberware grant full immunity",
+		immunity_notes:        "explosive_knockout_gas_grenade_immunity-u",
 		requires_detonator:    false,
 		skill:                 "throw",
 		use_action:            "throw",
@@ -61474,7 +61474,7 @@ const explosivesDataMap = {
 		save_note_key:         "explosive_riot_gas_save_note-u",
 		silent:                false,
 		arcanotech:            false,
-		immunity_notes:        "Sealed gear grants bonus die on save",
+		immunity_notes:        "explosive_riot_gas_grenade_immunity-u",
 		requires_detonator:    false,
 		skill:                 "throw",
 		use_action:            "throw",
@@ -61498,7 +61498,7 @@ const explosivesDataMap = {
 		save_halves_damage:    false,
 		save_success:          "escape",
 		save_fail:             "immobilized",
-		condition_on_fail:     "immobilized",
+		condition_on_fail:     "entangled",
 		condition_on_success:  null,
 		condition_duration:    "dissolves_3min",
 		save_note_key:         "explosive_scatterfoam_save_note-u",
@@ -61536,7 +61536,7 @@ const explosivesDataMap = {
 		bypassed_by:           ["thermal_vision", "arcane_sight"],
 		silent:                false,
 		arcanotech:            false,
-		immunity_notes:        "Thermal vision or arcane sight bypasses obscurement",
+		immunity_notes:        "explosive_smoke_grenade_immunity-u",
 		requires_detonator:    false,
 		skill:                 "throw",
 		use_action:            "throw",
@@ -61571,7 +61571,7 @@ const explosivesDataMap = {
 		placement_time:        "full_round",
 		silent:                false,
 		arcanotech:            false,
-		immunity_notes:        "Not for use against living targets",
+		immunity_notes:        "explosive_breaching_charge_immunity-u",
 		requires_detonator:    true,
 		skill:                 "demolitions",
 		use_action:            "maneuver_place",
@@ -75100,38 +75100,48 @@ function buildGrenadeEffectStr(entry) {
 		if (entry.obscurement)      return tr("grenade_obscure-u") + " " + entry.condition_duration + " " + tr("grenade_rounds_abbrev-u") + " — " + tr("grenade_pen_die_through-u");
 		if (entry.suppresses_magic) return tr("grenade_magic_suppressed-u") + " " + entry.suppresses_duration + " " + tr("grenade_rounds_abbrev-u");
 		if (entry.save_stat && entry.condition_on_fail) {
-			const pass = entry.condition_on_success ? " / " + entry.condition_on_success : "";
-			return entry.save_stat.toUpperCase() + " " + tr("grenade_save-u") + " — " + entry.condition_on_fail + pass;
+			const pass = entry.condition_on_success ? " / " + grenadeConditionLabel(entry.condition_on_success) : "";
+			return entry.save_stat.toUpperCase() + " " + tr("grenade_save-u") + " — " + grenadeConditionLabel(entry.condition_on_fail) + pass;
 		}
 		return "";
 	}
 	if (entry.save_halves_damage) {
-		const cond = entry.condition_on_fail ? " — " + entry.condition_on_fail + " " + tr("grenade_on_fail-u") : " — " + tr("grenade_halves-u");
+		const cond = entry.condition_on_fail ? " — " + grenadeConditionLabel(entry.condition_on_fail) + " " + tr("grenade_on_fail-u") : " — " + tr("grenade_halves-u");
 		return entry.save_stat.toUpperCase() + " " + tr("grenade_save-u") + cond;
 	}
-	if (entry.save_stat) return entry.save_stat.toUpperCase() + " " + tr("grenade_save-u") + " — " + (entry.condition_on_fail || tr("grenade_effect_generic-u"));
+	if (entry.save_stat) return entry.save_stat.toUpperCase() + " " + tr("grenade_save-u") + " — " + (grenadeConditionLabel(entry.condition_on_fail) || tr("grenade_effect_generic-u"));
 	return entry.damage_type === "structural" ? tr("grenade_structural_dmg-u") : "";
 }
 
 /* Build the Condition panel text for the advanced panel */
+/* Resolve a stored condition key to its display name. The DataMap stores
+   conditionsDataMap keys, which were being rendered raw ("Fail: disoriented").
+   Falls back to the raw key so an unresolvable value is visible rather than
+   blank — see the C1 exception list in validate_presets.py. */
+function grenadeConditionLabel(key) {
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	if (!key) return "";
+	const c = conditionsDataMap[key];
+	return c && c.name_key ? tr(c.name_key) : key;
+}
+
 function buildGrenadeConditionStr(entry) {
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!entry || !entry.save_stat) return tr("grenade_no_save-u");
 	const parts = [tr("grenade_roll-u") + " " + entry.save_stat.toUpperCase()];
 	if (entry.condition_on_fail) {
-		let s = tr("grenade_fail-u") + " " + entry.condition_on_fail;
+		let s = tr("grenade_fail-u") + " " + grenadeConditionLabel(entry.condition_on_fail);
 		if (entry.condition_duration) s += " " + entry.condition_duration + " " + tr("grenade_rounds_abbrev-u");
 		parts.push(s);
 	}
 	if (entry.save_halves_damage) {
 		parts.push(tr("grenade_pass_half_damage-u"));
 	} else if (entry.condition_on_success) {
-		let s = tr("grenade_pass-u") + " " + entry.condition_on_success;
+		let s = tr("grenade_pass-u") + " " + grenadeConditionLabel(entry.condition_on_success);
 		if (entry.condition_duration_success) s += " " + entry.condition_duration_success + " " + tr("grenade_rounds_abbrev-u");
 		parts.push(s);
 	}
-	/* immunity_notes is English prose in the DataMap, not a key — see Todo. */
-	if (entry.immunity_notes) parts.push(tr("grenade_immune-u") + " " + entry.immunity_notes);
+	if (entry.immunity_notes) parts.push(tr("grenade_immune-u") + " " + tr(entry.immunity_notes));
 	return parts.join(" — ");
 }
 
@@ -75144,7 +75154,7 @@ function buildGrenadeSaveFailStr(entry) {
 	   two cells read identically, and incendiary’s condition_on_fail ("burning")
 	   was swallowed by the early return. Both outcomes are now reported. */
 	const parts = [];
-	if (entry.condition_on_fail)  parts.push(entry.condition_on_fail);
+	if (entry.condition_on_fail)  parts.push(grenadeConditionLabel(entry.condition_on_fail));
 	if (entry.save_halves_damage) parts.push(tr("grenade_full_dmg-u"));
 	return parts.length ? parts.join(" + ") : "—";
 }
@@ -75152,7 +75162,7 @@ function buildGrenadeSavePassStr(entry) {
 	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
 	if (!entry || !entry.save_stat) return "—";
 	if (entry.save_halves_damage)   return tr("grenade_half_dmg-u");
-	return entry.condition_on_success || tr("grenade_no_effect-u");
+	return grenadeConditionLabel(entry.condition_on_success) || tr("grenade_no_effect-u");
 }
 
 /* Delivery note below Throw/M-32 buttons */

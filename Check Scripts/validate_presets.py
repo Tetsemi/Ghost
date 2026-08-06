@@ -386,6 +386,51 @@ def main():
         for t in sorted(labelled - used):
             fail("T7", f"traitLabelMap declares '{t}' but no weapon carries it")
 
+    # ---- C1: every condition an explosive references must be a real
+    # conditionsDataMap key. Three were not, and all three rendered raw
+    # snake_case to the player before the display fix. The exception list is
+    # explicit so an unresolved value is a recorded decision, not a silent gap;
+    # do not add to it without a ruling.
+    C1_EXCEPTIONS = {
+        # entry: (value, why it is not yet a conditionsDataMap key)
+        "knockout_gas_grenade": ("unconscious",
+            "unconsciousness may be a state (HP 0) rather than a condition; the "
+            "tranq weapons reference it too. Needs an author ruling before an "
+            "entry with rules text can be added."),
+        "nullburst_disruption_grenade": ("magic_suppressed",
+            "no such condition, and `suppressed` is a different mechanic (Full "
+            "Auto suppressive fire). The value is never displayed — the entry "
+            "has save_stat: null and the effect is carried by suppresses_magic "
+            "— so it is dead data pending a delete-or-define ruling."),
+    }
+    cseg = datamap_segment(raw, "conditionsDataMap", "const perkDataMap")
+    cond_keys = set(top_level_entries(cseg))
+    eseg = datamap_segment(raw, "explosivesDataMap", "const detonatorDataMap")
+    for name, ebody in top_level_entries(eseg).items():
+        for f in ("condition_on_fail", "condition_on_success"):
+            val = field(ebody, f)
+            if not val:
+                continue
+            if val in cond_keys:
+                continue
+            exc = C1_EXCEPTIONS.get(name)
+            if exc and exc[0] == val:
+                continue
+            fail("C1", f"{name}.{f} = '{val}' is not a conditionsDataMap key "
+                       f"(it would render as raw snake_case)")
+    for name, (val, _why) in C1_EXCEPTIONS.items():
+        if val in cond_keys:
+            fail("C1", f"{name}: '{val}' is now a real condition — remove it "
+                       f"from C1_EXCEPTIONS and let the check cover it")
+
+    # ---- C2: immunity_notes must be a translation key, not prose.
+    for name, ebody in top_level_entries(eseg).items():
+        note = field(ebody, "immunity_notes")
+        if note and not note.endswith("-u"):
+            fail("C2", f"{name}.immunity_notes is prose, not a key: {note!r}")
+        elif note and note not in i18n_keys:
+            fail("C2", f"{name}.immunity_notes references missing key '{note}'")
+
     # ---- W6/W7/W8: AP is a DATA field, not a trait-name pattern.
     # Before 2026-08-06 the numeric AP came from matching /^ap_\d+$/ against the
     # trait string, so naming a trait `ap_2` silently made it unconditional and

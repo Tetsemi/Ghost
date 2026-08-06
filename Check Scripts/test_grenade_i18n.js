@@ -55,7 +55,7 @@ for(const f of FNS){
     getSectionIDs:(s,c)=>c([]),generateRowID:()=>"-n",removeRepeatingRow:()=>{},
     getTranslationByKey:k=>TRs[k]!==undefined?TRs[k]:k});
   let mod;
-  try { mod=new Function(js+"\nreturn {explosivesDataMap,buildGrenadeSaveFailStr,buildGrenadeSavePassStr};")(); }
+  try { mod=new Function(js+"\nreturn {explosivesDataMap,conditionsDataMap,buildGrenadeSaveFailStr,buildGrenadeSavePassStr};")(); }
   catch(e){ bad("worker threw at load: "+e.message); }
   if(mod) for(const k of Object.keys(mod.explosivesDataMap)){
     const e=mod.explosivesDataMap[k]; if(!e.save_stat) continue;
@@ -63,8 +63,16 @@ for(const f of FNS){
     if(f===pa) bad(`${k}: FAIL and PASS cells are identical ("${f}")`);
     if(e.save_halves_damage && !/full/.test(f)) bad(`${k}: halves-damage FAIL must report full damage, got "${f}"`);
     if(e.save_halves_damage && !/half/.test(pa)) bad(`${k}: halves-damage PASS must report half damage, got "${pa}"`);
-    if(e.condition_on_fail && !f.includes(e.condition_on_fail))
-      bad(`${k}: condition_on_fail "${e.condition_on_fail}" missing from the FAIL cell ("${f}")`);
+    /* The cell shows the RESOLVED condition name, not the stored key, so
+       resolve the expectation the same way rather than matching raw snake_case. */
+    if(e.condition_on_fail){
+      const c=mod.conditionsDataMap[e.condition_on_fail];
+      const want=c&&c.name_key?(TRs[c.name_key]||c.name_key):e.condition_on_fail;
+      if(!f.includes(want))
+        bad(`${k}: condition_on_fail "${e.condition_on_fail}" (resolves to "${want}") missing from the FAIL cell ("${f}")`);
+      if(c&&c.name_key&&f.includes(e.condition_on_fail)&&want!==e.condition_on_fail)
+        bad(`${k}: FAIL cell shows the raw key "${e.condition_on_fail}" instead of "${want}"`);
+    }
   }
 }
 

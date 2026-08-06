@@ -81,7 +81,7 @@
 
 | Script | Purpose | Run when |
 |---|---|---|
-| `validate_presets.py` | Preset select ↔ DataMap invariants (W1–W5), spell schools (S1–S2), i18n (T1–T3), tag-layer lockstep (T4–T6), duplicate declarations (D1) | Before every delivery |
+| `validate_presets.py` | Preset select ↔ DataMap invariants (W1–W8), spell schools (S1–S2), i18n (T1–T3), tag-layer lockstep (T4–T7), explosives conditions and immunity notes (C1–C2), duplicate declarations (D1) | Before every delivery |
 | `difftest_tags.js` | 12,096-combination differential test of `deriveWeaponTags` against the canonical derivation | After any tag-layer change |
 | `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
@@ -119,6 +119,8 @@ Proposed tool: `difftest_weapontraits.js`, asserting every trait in `weaponDataM
 
 **Assert deferred data is present, do not skip it.** The first version used `if (!declared) continue`, so deleting the field or flipping it to `false` passed silently. Deferred fields are now asserted to hold their expected value and report `DATA LOST` otherwise — verified by flipping `sa_follow_up_reduction` to `false` and confirming the check fires.
 
+**Strip comments in every scanner from the outset.** This trap recurred a *third* time in one session: a literal scanner matched the string quoted inside the comment explaining what it had replaced. Worse, the `strip` helper added to fix it was declared *below* its first use and threw a TDZ `ReferenceError` — in the very file whose job is catching that class of fault. Declare the stripper above its consumers.
+
 **Run regex census checks against comment-stripped source.** A check banning `ammoType.replace(/_/g` fired on the comment explaining what it had replaced. Any "this pattern must no longer appear" check needs `js.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "")` first. The same applies to "is the map read" metrics: prose mentioning `ammoDataMap[stored]` inflated a reads counter to 2 when the true count was 0.
 
 **A test that calls a function directly does not prove the function runs.** Deleting `reconcileAmmoTypes()` from `afterAllSets` left the reconciler test fully green, because the test invoked it itself. Assert the call site exists: `/afterAllSets[\s\S]{0,4000}?fnName\s*\(\s*\)\s*;/`.
@@ -126,6 +128,10 @@ Proposed tool: `difftest_weapontraits.js`, asserting every trait in `weaponDataM
 **Coverage checks must be per-scope, not "exists somewhere."** A CSS check asking whether *a* `[value="X"]` rule existed passed when one of two scopes had been missed during a rename. Check `ammo_type` and `ammo_type_mdr` independently.
 
 **A negative test must fail cleanly, not crash.** Removing the unknown-key guard from `ammoEffects` made the sweep throw; the run exited non-zero but printed a stack trace instead of naming the offending input. Wrap per-case invocation in try/catch and report `threw on <input>`.
+
+**A test fixture's sidecar files must travel with the mutant.** A negative test put a mutated sheet in `/tmp` and ran a checker that resolves `translation.json` as a sibling of the file under test. It picked up a stale copy and failed on missing keys — a real non-zero exit, for a reason unrelated to the mutation, which was never exercised. Copy every sidecar the checker reads into the same directory, and read what the failure actually *says* before accepting it as proof.
+
+**When behaviour changes, assertions encoding the old behaviour become false failures.** `test_grenade_i18n.js` asserted the raw condition key appeared in the FAIL cell. Once condition names resolved to display labels it failed six times on correct output. Update the assertion to resolve its expectation the same way the code does — and add the inverse check (the cell must *not* show the raw key where a resolution exists) so the fix cannot silently regress.
 
 **A non-zero exit is not proof the check fired.** A six-way negative test of T7/W6/W8 reported all six caught. In fact the mutation script had thrown on its first anchor and written no files at all, so `validate_presets.py` was exiting 1 on *file-not-found* six times. A missing file and a caught defect are indistinguishable from the exit code alone. Assert each mutated file exists and that the reported failure names the expected check, not just that the run failed.
 
@@ -368,6 +374,17 @@ When any entry is added or modified, check:
 ### DataMap `skill` field
 
 When a DataMap entry references a skill (e.g. `vehiclesDataMap`), the `skill` field must hold the **exact key from `skillDataMap`** — e.g. `"drive_auto"`, `"pilot_aircraft"`. The apply function then looks up `skillDataMap[data.skill].bonus` for the sheet attribute name and `skillDataMap[data.skill].label` for the display name. Never store the sheet attribute name (e.g. `"drive_auto_mdr"`) directly in the DataMap `skill` field — that bypasses the skillDataMap and introduces a mapping layer that doesn't need to exist.
+
+### DataMap Values That Reach the Player
+
+A DataMap value is not automatically safe to display. Three distinct failure
+modes, all found in `explosivesDataMap` on 2026-08-06:
+
+- **Prose where a key belongs.** `immunity_notes` held English sentences concatenated straight into the Condition panel, so the section could not be translated. Five entries, five strings, now `-u` keys. `C2` asserts the value ends in `-u` and that the key exists.
+- **A key rendered raw.** `condition_on_fail` / `condition_on_success` hold `conditionsDataMap` keys, printed verbatim — the player saw `Fail: disoriented`. They now resolve through `conditionsDataMap[key].name_key` via `grenadeConditionLabel()`, with the raw key as a visible fallback.
+- **A key that does not exist.** Three of fifteen condition references named nothing: `immobilized` (meant `entangled`), `unconscious` (not a condition at all), and `magic_suppressed` (not a condition either — and `suppressed` is a *different mechanic*, Full Auto suppressive fire, so mapping them together would be a rules error). `C1` catches these.
+
+**Declare unresolved values, do not silently tolerate them.** `C1_EXCEPTIONS` lists the two open cases with their rationale and **self-clears**: if an exception becomes a real condition, the check fails and tells you to remove it. Copy that pattern whenever a defect cannot be fixed without an author ruling — it keeps the gap visible and bounded instead of letting it multiply.
 
 ### `weaponDataMap` — AP fields
 
@@ -871,6 +888,21 @@ The pre-existing double-fire (`optics`, `mod_internal` and `barrel` refreshed fr
 
 **Copies drift in robustness, not just logic.** The retired internal-mod literals indexed `eventInfo.sourceAttribute.match(...)[1]` with no null check and would throw a `TypeError` on any non-matching attribute; the generated manual version had `if (!rowId) return;`. Merging adopted the guarded form. 13 unguarded `.match(...)[1]` dereferences remain elsewhere in the worker (cyberware and weapon summary handlers) — most use `?.[1]`, but a few do not.
 
+### A Flag Describes One Branch, Not Both
+
+`buildGrenadeSaveFailStr` tested `save_halves_damage` first and returned "half
+dmg". That flag describes what a **successful** save does, so the FAIL and PASS
+cells rendered identically and the failure outcome was never shown. Worse, the
+early return swallowed `condition_on_fail` entirely — an incendiary grenade set
+a failing target on fire and the sheet never said so.
+
+When a boolean names the outcome of one branch, test it only in that branch and
+build the other from the conditions that actually apply. Both outcomes are now
+reported (`Burning + full dmg`).
+
+Only two of thirteen entries set the flag, so the bug was invisible in the
+common case — a rarely-taken branch deserves a test rather than an eyeball.
+
 ### Positional Argument Lists Over ~6 Parameters
 
 `buildTagsStr` reached 19 positional parameters fed from 7 independently maintained `getAttrs` lists and 7 duplicated derivation blocks — **22 edits to add one trait**. Nine of the parameters were interchangeable `"1"`/`""` flags, so a transposition produced wrong output with no error, and an omitted argument arrived as `undefined` (falsy) and silently dropped the tag.
@@ -944,11 +976,19 @@ Credits (Cr) — primary economy unit.
 6. **`weaponTagInputs` rename** — deferred with the weapon rework. The table now feeds `computeWeaponDice` as well as `buildTagsStr` and carries the dice-only `reduceEff`, so the "Tag" in the name no longer describes it. Renaming pollutes `git log -S 'weaponTagInputs'`, so it should be one deliberate commit rather than drift.
 7. **`setup` field is orphaned** — six weapons declare a value (`full_round_tripod`, `full_round`, `maneuver_bipod` ×2, `maneuver_brace` ×2) and no code reads it. Same defect class `ammoDataMap` was in. Wiring it would mechanise the Torchwall's "firing without full setup imposes two penalty dice" across all six at once. Enforceable sheet-side: setup is the character's own state, not the target's. Needs a per-row deployed control.
 8. **Detonators are an unbuilt feature, not dead data.** `detonatorDataMap` has 5 entries with a full schema (`trigger_type`, `max_charges`, `simultaneous_trigger`, `emp_immune`, `jamming_vulnerable`, `traceable`, `disarm_skill`/`_difficulty`/`_fumble`, `spot_skill`, `trigger_weight_kg`) and **13 translation keys already written** — but zero HTML elements, zero CSS, zero code reads. Unlike `ammoDataMap`, which was orphaned *behind a working UI*, this is two of four layers finished and two never started. It is not speculative: `plastic_explosives`, `breaching_charge` and `arcshock_pulse_mine` all declare `requires_detonator: true`, and the sheet currently says a detonator is needed while giving nowhere to record which. **Do not delete it** — build the UI (a preset select in the explosives section, mirroring the grenade preset pattern) when the feature is wanted.
-9. **Grenade DataMap strings that are prose, not keys.** `immunity_notes` holds English sentences in `explosivesDataMap` and is concatenated straight into the Condition panel; it needs its own `-u` keys. Separately, `condition_on_fail` / `condition_on_success` hold snake_case condition names rendered raw to the player (`Fail: disoriented`), so they should resolve through `conditionsDataMap[...].label`. Two of those values — `immobilized` and `magic_suppressed` — **are not `conditionsDataMap` keys at all** and are probably meant to be `entangled` and `suppressed`. And `condition_duration: "dissolves_3min"` renders as `dissolves_3min rd`.
+9. **Grenade condition rulings.** Two `explosivesDataMap` values are not `conditionsDataMap` keys and are declared in `C1_EXCEPTIONS`. `knockout_gas_grenade.condition_on_fail = "unconscious"` still renders lowercase; unconsciousness may be a state (HP 0) rather than a condition, and the tranq weapons reference it too, so adding an entry needs rules text. `nullburst_disruption_grenade.condition_on_fail = "magic_suppressed"` is never displayed — that entry has `save_stat: null` and its effect is carried by `suppresses_magic` — so it is dead data pending a delete-or-define ruling. Separately, `condition_duration: "dissolves_3min"` on the Scatterfoam puck renders as `dissolves_3min rd`.
 10. **Twelve unused bindings remain** after the collapse sweep — `weaponTagAttrKeys`, `bgLimiterRegistered`, `flaw5Keys`, `flaw10Keys`, `talentSkills` (two scopes), `skillToXP`, `slots`, `iage`, `iedu`, `iwound`, `reflexRanges`. Reported by `find_orphans.js`, none attributable to the positional collapse, each needs reading before removal.
 11. **Off-school Strain with no Primary Arcane Career selected** — ruled 2026-08-06 to stay unaligned (0). Keeping the entry because p.37 arguably implies off-school-everywhere (1) and the ruling may revisit; it is one ternary in `spellOffSchoolPenalty`.
 12. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription per *Equivalence Proofs After the Collapse Has Shipped*. Note a `difftest_dice.js` of unknown provenance appeared in the container on 2026-08-06 and was deleted unread; do not adopt it without review.
 13. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.
+
+#### Shipped 2026-08-06 — grenades
+Grenade display layer routed through `tr()` (7 helpers, 44 keys, skill names via
+`skillDataMap`); the FAIL-cell branch bug fixed so failure and pass outcomes
+differ; save-row widths reallocated 56/132/100; `immunity_notes` converted to
+five `-u` keys; condition names resolved through `conditionsDataMap[key].name_key`;
+`immobilized` corrected to `entangled`; checks `C1`/`C2` added. All
+sandbox-validated.
 
 #### Shipped 2026-08-06
 Off-school Strain surcharge in both spell sections; ammo key-space rename plus
@@ -1066,6 +1106,7 @@ field with `W6`/`W7`/`W8`; `T7` traitLabelMap lockstep. All sandbox-validated.
 - **Roll20 CSS toggle buttons for repeating sections: use the exact impale/noimpale pattern.** The working pattern is: one `input[type="hidden"]` with a combined value (e.g. `"restore-self"`, `"restore-other"`, `"none-self"`, `"none-other"`), updated by `setAttrs` from both the apply function and the `other` checkbox watcher, with buttons as immediate DOM siblings. CSS uses `[value="X"] + button.class` adjacent sibling selectors. Do not use two separate toggle inputs — one combined input matching the impale pattern is the only approach confirmed to work.
 - **Roll toggle CSS hide rules must be placed AFTER the global `button[type="roll"].new-roll { display: flex }` rule and must include `button[type="roll"]` in the selector.** The global rule has specificity (0,5,1). Hide rules using only `.sheet-X-roll-Y` have specificity (0,4,0) and lose regardless of order. Hide rules using `button[type="roll"].sheet-X-roll-Y` have specificity (0,5,1) — a tie — and win only when declared later in the file. Show rules use `.sheet-X-roll-toggle[value="Z"] + button[type="roll"].sheet-X-roll-Y` at (0,6,1) and beat both. Always place the entire toggle block (hide + show rules) immediately after the `button[type="roll"]:hover.new-roll` rule, not near the top of the CSS file with the section column widths.
 - **All flex-cell columns in a repeating section must have explicit `flex: 0 0 Xpx` to prevent alignment drift.** `flex-cell` defaults to `flex: 0 1 auto` and `flex-cell-wrapper` defaults to `flex: 1 1 6%` — both can cause columns to grow or shrink unpredictably based on content. Setting `flex: 0 0 Xpx` on every column class (not just the val-roll-static wrapper) locks each column to its declared pixel width in both header and data rows. Without this, headers and rows appear misaligned even when pixel widths sum correctly.
+- **Inputs do not honour `text-overflow: ellipsis` — they clip silently.** A `readonly` input at a fixed width truncates with no visual cue that text is missing, which is worse than a visible ellipsis. When several inputs in one block hold very different content, a shared width is wrong in both directions: the grenade save row had SAVE (never more than three characters), PASS (one short phrase) and FAIL (able to hold a compound like `Burning + full dmg`) all fixed at 100px. Reallocate per cell — 56 / 132 / 100 here, a net −12px — rather than widening all three. Past roughly 22 characters, switch to the preview + `sheet-tooltip-bubble` pattern instead of a wider box. Per-cell overrides can key off `input[name=]` with no markup change; four classes plus an attribute plus an element beats a five-class base rule.
 - **Verify column pixel totals sum to 813px (the sheet width minus borders) after any column change.** A single column width drift (e.g. `strain-used` changing from 50px to 60px) shifts the entire row right by the excess, misaligning every column that follows. Always run a total check: `python3 -c "print(sum([185,24,75,55,50,36,40,24,324]))"` after any column width edit.
 
 ### Roll20 API Scripts

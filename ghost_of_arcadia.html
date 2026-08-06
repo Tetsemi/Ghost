@@ -66887,6 +66887,33 @@ const retiredWeaponKeyMap = {
    still reads as empty. Set false to relocate the preset value only. */
 const reconcileWeaponSkillSelect = true;
 
+/* ── Ammunition effects ───────────────────────────────────────
+   ammoDataMap was authoritative but entirely unread — the identifier appeared
+   exactly once, its own declaration. The AP magnitude was hardcoded at ten
+   separate sites and the die shift at one, so giving another ammo type an
+   ap_modifier did nothing. This is the single consumer.
+
+   Stored ammo_type values ARE ammoDataMap keys as of 2026-08-06 (see
+   retiredAmmoKeyMap), so the lookup is direct with no translation layer.
+
+   Returns zeroed effects when ammo is inactive, "standard", or an unknown key.
+   Unknown must not throw: a stored value can outlive a map entry, and every
+   caller feeds a dice expression or a display attr. */
+const ammoEffects = (ammoType, ammoActive) => {
+	const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+	const none = { ap: 0, dieShift: 0, label: "", note: "" };
+	if (ammoActive !== "1") return none;
+	if (!ammoType || ammoType === "standard") return none;
+	const data = ammoDataMap[ammoType];
+	if (!data) return none;
+	return {
+		ap:       data.ap_modifier      || 0,
+		dieShift: data.damage_die_shift || 0,
+		label:    tr(data.name_key),
+		note:     tr(data.effect_summary_key),
+	};
+};
+
 /* ── Retired ammo stored values ──────────────────────────────────
    ammo_type stored short names ("subsonic") while ammoDataMap is keyed on the
    full ones ("subsonic_rounds"), so ammoDataMap[stored] was undefined for four
@@ -70037,13 +70064,13 @@ const initWeaponComputedAttrs = () => {
 
         if (!labelSet) {
           updates[`repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`] =
-            (ammoAct === "1" && ammoType !== "standard") ? ammoType.replace(/_/g, " ") : "";
+            ammoEffects(ammoType, ammoAct).label;
         }
         /* Always recompute roll_ammo_label — combines native AP + live ammo AP */
         const initNativeAP = parseInt(updates[`repeating_weaponsmdr_${id}_weapon_ap_total_mdr`] !== undefined
           ? updates[`repeating_weaponsmdr_${id}_weapon_ap_total_mdr`]
           : rows[`repeating_weaponsmdr_${id}_weapon_ap_total_mdr`], 10) || 0;
-        const initAmmoAP   = (ammoAct === "1" && ammoType === "ap_rounds") ? 2 : 0;
+        const initAmmoAP   = ammoEffects(ammoType, ammoAct).ap;
         updates[`repeating_weaponsmdr_${id}_weapon_roll_ammo_label_mdr`] =
           buildRollAmmoLabel(initNativeAP + initAmmoAP, ammoType, ammoAct);
 
@@ -71775,7 +71802,7 @@ const registerWeaponManualWatchers = () => {
 					const ammoType   = v[p+"weapon_ammo_type_mdr"]   || "standard";
 					const ammoActive = v[p+"weapon_ammo_active_mdr"] || "0";
 					const nativeAP   = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
-					const ammoAP     = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
+					const ammoAP     = ammoEffects(ammoType, ammoActive).ap;
 					const apTotal    = nativeAP + ammoAP;
 					const rollAmmo   = buildRollAmmoLabel(apTotal, ammoType, ammoActive);
 					const hitObj     = computeWeaponHit(optics, sl, range, aim);
@@ -71824,9 +71851,9 @@ const registerWeaponManualWatchers = () => {
 		], (v) => {
 			const type     = v[p+"weapon_ammo_type_mdr"]   || "standard";
 			const active   = v[p+"weapon_ammo_active_mdr"];
-			const label    = (active === "1" && type !== "standard") ? type.replace(/_/g, " ") : "";
+			const label    = ammoEffects(type, active).label;
 			const nativeAP = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
-			const ammoAP   = (active === "1" && type === "ap_rounds") ? 2 : 0;
+			const ammoAP   = ammoEffects(type, active).ap;
 			const apTotal  = nativeAP + ammoAP;
 			const numdice  = parseInt(v[p+"damage_numdice"],  10) || 0;
 			const dicesize = parseInt(v[p+"damage_dicesize"], 10) || 0;
@@ -72349,7 +72376,7 @@ const recalcWeaponSmartlink = (section) => {
 				const ammoType   = v[p+"weapon_ammo_type_mdr"]   || "standard";
 				const ammoActive = v[p+"weapon_ammo_active_mdr"] || "0";
 				const nativeAP   = parseInt(v[p+"weapon_ap_total_mdr"], 10) || 0;
-				const ammoAP     = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
+				const ammoAP     = ammoEffects(ammoType, ammoActive).ap;
 				const apTotal    = nativeAP + ammoAP;
 				const rollAmmo   = buildRollAmmoLabel(apTotal, ammoType, ammoActive);
 				const hitObj     = computeWeaponHit(optics, sl, range, aim);
@@ -74005,9 +74032,10 @@ function stepDownDie(diceSize) {
 
 function computeEffectiveDamage(numdice, dicesize, bonus, ammoType, ammoActive, prefix, outPrefix) {
   const out         = outPrefix || prefix;
-  const reducingAmmo = ["ap_rounds", "subsonic_rounds"];
-  const doReduce    = (ammoActive === "1") && reducingAmmo.includes(ammoType);
-  const effDicesize = doReduce ? stepDownDie(dicesize) : dicesize;
+  /* stepDownDie applies exactly one step; difftest_ammo.js rejects any
+     damage_die_shift the map declares outside {0, -1} as unrepresentable. */
+  const dieShift    = ammoEffects(ammoType, ammoActive).dieShift;
+  const effDicesize = dieShift < 0 ? stepDownDie(dicesize) : dicesize;
   const bonusStr    = bonus > 0 ? "+" + bonus : bonus < 0 ? String(bonus) : "";
   const effExpr     = (numdice > 0 && effDicesize > 0) ? `${numdice}d${effDicesize}${bonusStr}` : "0";
   return {
@@ -74813,7 +74841,7 @@ function computeWeaponAPTotal(traitApFlag, ammoType, ammoActive, traits) {
 		const apTrait = traits.find(t => /^ap_\d+$/.test(t));
 		if (apTrait) nativeAP = parseInt(apTrait.replace("ap_", ""), 10) || 0;
 	}
-	const ammoAP = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
+	const ammoAP = ammoEffects(ammoType, ammoActive).ap;
 	return nativeAP + ammoAP;
 }
 
@@ -74823,8 +74851,9 @@ function computeWeaponAPTotal(traitApFlag, ammoType, ammoActive, traits) {
    ammoType: current ammo type string
    ammoActive: "1" or "0"/"" */
 function buildRollAmmoLabel(apNumeric, ammoType, ammoActive) {
-	const hasAmmo = ammoActive === "1" && ammoType && ammoType !== "standard";
-	const ammoLabel = hasAmmo ? ammoType.replace(/_/g, " ") : "";
+	/* Was ammoType.replace(/_/g, " "), which rendered the KEY ("veil charged
+	   rounds"). name_key gives the authored name ("Veil-Charged Rounds"). */
+	const ammoLabel = ammoEffects(ammoType, ammoActive).label;
 	const apLabel   = apNumeric > 0 ? "AP (" + apNumeric + ")" : "";
 	if (ammoLabel && apLabel) return ammoLabel + " \u00b7 " + apLabel;
 	if (ammoLabel) return ammoLabel;
@@ -74855,7 +74884,7 @@ function refreshWeapon1Summary() {
 		const ammoActive  = v.weapon1_mdr_ammo_active || "0";
 		/* AP total: native weapon AP (stored by preset) + live ammo AP */
 		const nativeAP   = parseInt(v.weapon1_mdr_ap_total, 10) || 0;
-		const ammoAP     = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
+		const ammoAP     = ammoEffects(ammoType, ammoActive).ap;
 		const apTotal    = nativeAP + ammoAP;
 		const rollAmmo   = buildRollAmmoLabel(apTotal, ammoType, ammoActive);
 		const hitObj      = computeWeaponHit(optics, sl, range, aim);
@@ -77525,9 +77554,9 @@ on("change:weapon1_mdr_ammo_type change:weapon1_mdr_ammo_active", () => {
   ], (v) => {
     const type     = v.weapon1_mdr_ammo_type || "standard";
     const active   = v.weapon1_mdr_ammo_active;
-    const label    = (active === "1" && type !== "standard") ? type.replace(/_/g, " ") : "";
+    const label    = ammoEffects(type, active).label;
     const nativeAP = parseInt(v.weapon1_mdr_ap_total, 10) || 0;
-    const ammoAP   = (active === "1" && type === "ap_rounds") ? 2 : 0;
+    const ammoAP   = ammoEffects(type, active).ap;
     const apTotal  = nativeAP + ammoAP;
     const numdice  = parseInt(v.weapon1_mdr_damage_numdice,  10) || 0;
     const dicesize = parseInt(v.weapon1_mdr_damage_dicesize, 10) || 0;
@@ -77584,7 +77613,7 @@ on("change:repeating_weaponsmdr:weapon_mode_mdr change:repeating_weaponsmdr:weap
         const ammoActive  = v[p + "weapon_ammo_active_mdr"]  || "0";
         /* AP total: native weapon AP (stored by preset) + live ammo AP */
         const nativeAP    = parseInt(v[p + "weapon_ap_total_mdr"], 10) || 0;
-        const ammoAP      = (ammoActive === "1" && ammoType === "ap_rounds") ? 2 : 0;
+        const ammoAP      = ammoEffects(ammoType, ammoActive).ap;
         const apTotal     = nativeAP + ammoAP;
         const rollAmmo    = buildRollAmmoLabel(apTotal, ammoType, ammoActive);
         const hitObj      = computeWeaponHit(optics, sl, range, aim);
@@ -77638,9 +77667,9 @@ on("change:repeating_weaponsmdr:weapon_ammo_type_mdr change:repeating_weaponsmdr
   ], (v) => {
     const type     = v[`repeating_weaponsmdr_${id}_weapon_ammo_type_mdr`]   || "standard";
     const active   = v[`repeating_weaponsmdr_${id}_weapon_ammo_active_mdr`];
-    const label    = (active === "1" && type !== "standard") ? type.replace(/_/g, " ") : "";
+    const label    = ammoEffects(type, active).label;
     const nativeAP = parseInt(v[`repeating_weaponsmdr_${id}_weapon_ap_total_mdr`], 10) || 0;
-    const ammoAP   = (active === "1" && type === "ap_rounds") ? 2 : 0;
+    const ammoAP   = ammoEffects(type, active).ap;
     const apTotal  = nativeAP + ammoAP;
     const numdice  = parseInt(v[`repeating_weaponsmdr_${id}_damage_numdice`],  10) || 0;
     const dicesize = parseInt(v[`repeating_weaponsmdr_${id}_damage_dicesize`], 10) || 0;
@@ -78333,7 +78362,7 @@ on("change:repeating_weaponsmdr:weapon_preset_melee_mdr change:repeating_weapons
 				const sAmmoType    = sv[p + "weapon_ammo_type_mdr"]   || "standard";
 				const sAmmoActive  = sv[p + "weapon_ammo_active_mdr"] || "0";
 				const sNativeAP = parseInt(sv[p + "weapon_ap_total_mdr"], 10) || 0;
-				const sAmmoAP   = (sAmmoActive === "1" && sAmmoType === "ap_rounds") ? 2 : 0;
+				const sAmmoAP   = ammoEffects(sAmmoType, sAmmoActive).ap;
 				const sApTotal  = sNativeAP + sAmmoAP;
 				const numMap   = { ss: "10", sa: "10", bf: "21", fa: "32" };
 				const labelMap = { ss: "SS", sa: "SA", bf: "BF ×2", fa: "FA ×3" };

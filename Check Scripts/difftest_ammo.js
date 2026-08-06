@@ -107,69 +107,99 @@ if (css === null) {
   });
 }
 
-/* ── 1. ap_modifier vs the hardcoded AP literals ─────────────────────── */
-const AP_SITE = /(\w*[Aa]mmoAP)\s*=\s*\(\s*(\w+)\s*===\s*"1"\s*&&\s*(\w+)\s*===\s*"([a-z_]+)"\s*\)\s*\?\s*(\d+)\s*:\s*0/g;
-const apSites = [];
-let m;
-while ((m = AP_SITE.exec(js)) !== null) {
-  apSites.push({ varName: m[1], stored: m[4], value: Number(m[5]) });
+/* ── 1. Equivalence: pre-wiring behaviour vs ammoEffects ──────────────
+   ammoDataMap is now READ rather than duplicated, so scraping literals no
+   longer proves anything. Comparing ammoEffects' output back to the map it
+   reads would be tautological, so the pre-wiring logic is transcribed here
+   verbatim as the canonical reference — the same approach difftest_tags.js
+   uses. This is an independent restatement, not a second read of the source.
+
+     ammoAP      = (active === "1" && type === "ap_rounds") ? 2 : 0;
+     reducingAmmo = ["ap_rounds", "subsonic_rounds"];
+     doReduce    = (active === "1") && reducingAmmo.includes(type);
+     label       = (active === "1" && type !== "standard")
+                     ? type.replace(/_/g, " ") : "";                        */
+const canonical = (type, active) => ({
+  ap:       (active === "1" && type === "ap_rounds") ? 2 : 0,
+  dieShift: (active === "1" && ["ap_rounds", "subsonic_rounds"].includes(type)) ? -1 : 0,
+  label:    (active === "1" && type && type !== "standard") ? type.replace(/_/g, " ") : "",
+});
+
+/* Execute the worker: node --check cannot see an undefined identifier or a TDZ
+   fault, and ammoEffects is only reachable by running the module. */
+let ammoEffects = null;
+{
+  const TR = (() => {
+    try { return JSON.parse(fs.readFileSync(path.replace(/[^/]*$/, "translation.json"), "utf8")); }
+    catch (e) { return null; }
+  })();
+  if (!TR) notes.push("translation.json not found — label text UNVERIFIED");
+  Object.assign(globalThis, {
+    on: () => {}, getAttrs: (k, cb) => cb({}), setAttrs: () => {},
+    getSectionIDs: (s, cb) => cb([]), generateRowID: () => "-n", removeRepeatingRow: () => {},
+    getTranslationByKey: (k) => (TR && TR[k] !== undefined) ? TR[k] : k,
+  });
+  try { ammoEffects = new Function(js + "\nreturn ammoEffects;")(); }
+  catch (e) { bad("worker threw at load: " + e.message); }
 }
-if (!apSites.length) bad("no hardcoded ammoAP sites located — has the shape changed?");
 
-/* Every site must agree with every other site. */
-const apByStored = {};
-apSites.forEach((s) => {
-  if (apByStored[s.stored] === undefined) apByStored[s.stored] = s.value;
-  else if (apByStored[s.stored] !== s.value)
-    bad(`AP literals disagree for "${s.stored}": ${apByStored[s.stored]} vs ${s.value}`);
-});
+const TYPES = Object.keys(STORED_TO_MAP).concat(["standard", "", "mystery_ammo"]);
+const rows = [];
+if (ammoEffects) {
+  TYPES.forEach((t) => ["1", "0", ""].forEach((a) => {
+    /* Wrapped: a missing unknown-key guard makes this throw, and an uncaught
+       throw here crashes the run instead of reporting which input broke it. */
+    let got;
+    try { got = ammoEffects(t, a); }
+    catch (e) { bad(`ammoEffects threw on ${JSON.stringify(t)}/${JSON.stringify(a)}: ${e.message}`); return; }
+    const want = canonical(t, a);
+    if (got.ap !== want.ap)
+      bad(`ap ${t}/${a}: pre-wiring=${want.ap} ammoEffects=${got.ap}`);
+    if (got.dieShift !== want.dieShift)
+      bad(`dieShift ${t}/${a}: pre-wiring=${want.dieShift} ammoEffects=${got.dieShift}`);
+    if (STORED_TO_MAP[t] && a === "1") rows.push({ t, got, want });
+  }));
 
-/* Code's view -> map's view, for all six types. */
-Object.keys(STORED_TO_MAP).forEach((stored) => {
-  const key = toMap(stored);
-  const declared = M[key].ap_modifier;
-  const implemented = apByStored[stored] !== undefined ? apByStored[stored] : 0;
-  if (declared !== implemented)
-    bad(`ap_modifier ${key}: map=${declared} code=${implemented}`);
-});
-/* And no literal names a type the map does not know. */
-Object.keys(apByStored).forEach((stored) => {
-  if (!STORED_TO_MAP[stored]) bad(`AP literal names unknown ammo type "${stored}"`);
-});
+  /* ── 2. Label: an INTENDED divergence, asserted precisely ──────────
+     The old label rendered the KEY with underscores stripped ("veil charged
+     rounds"). It now resolves name_key. Assert the new value equals the
+     authored name rather than merely "differs", so a broken key that falls
+     back to the raw key string is caught. */
+  Object.keys(STORED_TO_MAP).forEach((t) => {
+    const key = M[t].name_key;
+    const got = ammoEffects(t, "1").label;
+    if (!key) { bad(`${t}: no name_key`); return; }
+    if (got === key) bad(`${t}: name_key "${key}" is missing from translation.json (label fell back to the key)`);
+    if (!got) bad(`${t}: label resolved empty`);
+  });
+  /* Inactive and standard must still yield no label. */
+  if (ammoEffects("ap_rounds", "0").label !== "") bad("inactive ammo must yield no label");
+  if (ammoEffects("standard", "1").label !== "") bad("standard ammo must yield no label");
+  /* An unknown key must degrade quietly, never throw. */
+  try {
+    const u = ammoEffects("mystery_ammo", "1");
+    if (u.ap !== 0 || u.dieShift !== 0 || u.label !== "") bad("unknown ammo key must yield zeroed effects");
+  } catch (e) { bad("unknown ammo key threw: " + e.message); }
+}
 
-/* ── 2. damage_die_shift vs reducingAmmo ─────────────────────────────── */
-const red = js.match(/const\s+reducingAmmo\s*=\s*\[([^\]]*)\]/);
-if (!red) bad("reducingAmmo literal not located");
-const reducing = red
-  ? red[1].split(",").map((s) => s.trim().replace(/^"|"$/g, "")).filter(Boolean)
-  : [];
-const reducingMapped = reducing.map(toMap).sort();
-const declaredShift = Object.keys(M).filter((k) => M[k].damage_die_shift !== 0).sort();
-if (JSON.stringify(reducingMapped) !== JSON.stringify(declaredShift))
-  bad(`die shift: code reduces ${JSON.stringify(reducingMapped)} but map declares ${JSON.stringify(declaredShift)}`);
-
-/* stepDownDie applies exactly ONE step. A map entry declaring -2 would be
-   silently under-applied, so pin the magnitude too. */
-Object.keys(M).forEach((k) => {
-  const s = M[k].damage_die_shift;
-  if (s !== 0 && s !== -1)
-    bad(`damage_die_shift ${k}=${s}: code applies one step only (stepDownDie), magnitude unrepresentable`);
-});
-
-/* ── 3. Duplication census ───────────────────────────────────────────── */
-/* Pinned so the count cannot creep upward unnoticed, and so wiring the map up
-   is visible as this number falling to zero. */
-const EXPECTED_AP_SITES = 10;
-if (apSites.length !== EXPECTED_AP_SITES)
-  bad(`hardcoded AP sites: ${apSites.length}, expected ${EXPECTED_AP_SITES} — update the count deliberately`);
-/* Count real property accesses, not mentions. Comments referencing
-   ammoDataMap[stored] in prose would otherwise inflate this and make the map
-   look wired when nothing reads it — strip comments before measuring. */
+/* ── 3. Duplication census, inverted now that the map is wired ────────── */
+const AP_SITE = /(\w*[Aa]mmoAP)\s*=\s*\(\s*(\w+)\s*===\s*"1"\s*&&\s*(\w+)\s*===\s*"([a-z_]+)"\s*\)\s*\?\s*(\d+)\s*:\s*0/g;
+const apSites = (js.match(AP_SITE) || []).length;
+if (apSites !== 0)
+  bad(`${apSites} hardcoded ammoAP literal(s) remain — every site must read ammoDataMap`);
+if (/reducingAmmo/.test(js))
+  bad("reducingAmmo still present — die shift must come from damage_die_shift");
+/* Count real property accesses, not mentions: comments referencing
+   ammoDataMap[stored] in prose would otherwise make the map look wired. */
 const codeOnly = js.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+/* Checked against codeOnly, not js: the comment explaining what this replaced
+   contains the very pattern being banned, and matched itself. */
+if (/ammoType\.replace\(\/_\/g/.test(codeOnly))
+  bad("ammo label still derived from the key — must resolve name_key");
+
 const ammoDataMapReads = (codeOnly.match(/ammoDataMap\s*[\[.]/g) || []).length;
-notes.push(`ammoDataMap reads: ${ammoDataMapReads} (target after wiring: > 0)`);
-notes.push(`hardcoded AP sites: ${apSites.length} (target after wiring: 0)`);
-notes.push(`stored values needing rename: ${JSON.stringify(mismatched)}`);
+if (ammoDataMapReads < 1) bad("ammoDataMap is still not read by any code");
+notes.push(`ammoDataMap reads: ${ammoDataMapReads}   hardcoded AP sites: ${apSites}`);
 
 /* ── 4. Declared but NOT implemented ──────────────────────────────────
    These are live combat effects the map declares and the sheet ignores.
@@ -210,17 +240,13 @@ else gaps.push({ key: "hollow_point", field: "soak_modifier", expected: "(nested
                  why: "soak-threshold branching is never applied" });
 
 /* ── report ──────────────────────────────────────────────────────────── */
-console.log(`ammo types: ${Object.keys(M).length}   AP sites: ${apSites.length}   ammoDataMap reads: ${ammoDataMapReads}\n`);
+console.log(`ammo types: ${Object.keys(M).length}   hardcoded AP sites: ${apSites}   ammoDataMap reads: ${ammoDataMapReads}\n`);
 
-console.log("IMPLEMENTED — map vs code");
-Object.keys(STORED_TO_MAP).forEach((stored) => {
-  const key = toMap(stored);
-  const ap = apByStored[stored] !== undefined ? apByStored[stored] : 0;
-  const shift = reducing.includes(stored) ? -1 : 0;
-  const okAp = ap === M[key].ap_modifier;
-  const okSh = shift === M[key].damage_die_shift;
-  console.log(`  ${okAp && okSh ? "OK  " : "DIFF"} ${key.padEnd(22)} ap map=${M[key].ap_modifier} code=${ap}   ` +
-              `die_shift map=${M[key].damage_die_shift} code=${shift}`);
+console.log("EQUIVALENCE — pre-wiring behaviour vs ammoEffects (ammo active)");
+rows.forEach((r) => {
+  const ok = r.got.ap === r.want.ap && r.got.dieShift === r.want.dieShift;
+  console.log(`  ${ok ? "OK  " : "DIFF"} ${r.t.padEnd(22)} ap ${r.want.ap}->${r.got.ap}   ` +
+              `die_shift ${r.want.dieShift}->${r.got.dieShift}   label "${r.want.label}" -> "${r.got.label}"`);
 });
 
 console.log("\nKEY SPACE — stored value -> map key");

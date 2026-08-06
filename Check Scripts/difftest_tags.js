@@ -9,6 +9,10 @@
  * deriveWeaponTags and through the canonical derivation the prover extracted,
  * and asserts the outputs are identical.
  *
+ * The `ap` field was removed on 2026-08-06: it was derived, threaded through the
+ * bag and destructured by both consumers, and read by neither. Its absence is
+ * asserted by the completeness check below, which iterates weaponTagInputs.
+ *
  * Reference expressions below are transcribed verbatim from the prover output
  * (17 positions, variants=1 across all 7 sites). barrel and mode are excluded
  * from the shared set because site 2 legitimately overrides them; they are
@@ -63,7 +67,6 @@ const { deriveWeaponTags, weaponPresetAttrRep, weaponPresetAttrW1 } = sandbox;
 /* Canonical derivation, transcribed from the prover's variants=1 output. */
 const canonical = (g, x) => ({
   aim:         g("aim") || "",
-  ap:          (g("trait_ap") === "1" || (g("ammo_active") === "1" && g("ammo_type") === "ap_rounds")) ? "1" : "",
   biocoded:    g("mod_internal") === "biocoded" ? "1" : "",
   category:    g("category") || "",
   concealable: g("trait_concealable") || "",
@@ -91,7 +94,6 @@ const DOMAIN = {
   trait_smartlink:  ["", "1"],
   trait_scoped:     ["", "1"],
   optics:           ["", "reflex"],
-  trait_ap:         ["", "1"],
   ammo_active:      ["", "0", "1"],
   ammo_type:        ["", "standard", "ap_rounds"],
   trait_cq:         ["", "1"],
@@ -131,7 +133,7 @@ function compare(vals, globals, scope) {
 /* Exhaustive over the interacting attrs; the independent ones are swept
    pairwise since they cannot influence each other's branches. */
 const INTERACTING = ["mod_internal", "trait_smartlink", "trait_scoped", "optics",
-                     "trait_ap", "ammo_active", "ammo_type", "mod_penalty_reduce"];
+                     "ammo_active", "ammo_type", "mod_penalty_reduce"];
 function sweep(scope) {
   const idx = cores.map(() => 0);
   const interIdx = INTERACTING.map((c) => cores.indexOf(c));
@@ -170,7 +172,7 @@ Object.keys(sandbox.weaponTagInputs).forEach((k) => {
 });
 
 console.log(`combinations checked : ${checked}`);
-console.log(`assertions           : ${checked * 18 + 4 + Object.keys(sandbox.weaponTagInputs).length}`);
+console.log(`assertions           : ${checked * 17 + 4 + Object.keys(sandbox.weaponTagInputs).length}`);
 if (failures.length) {
   console.log(`\nFAIL — ${failures.length} mismatch(es):\n`);
   failures.slice(0, 20).forEach((f) => console.log("   ", JSON.stringify(f)));

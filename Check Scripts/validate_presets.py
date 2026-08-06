@@ -80,6 +80,13 @@ def field(body, name):
     return m.group(1) if m else None
 
 
+def bare_field(body, name):
+    """Field value as written, for numeric / object values that `field()`
+    (which only matches quoted strings) cannot read."""
+    m = re.search(r'(?:^|[\s{,])%s:\s*([^,\r\n]+)' % name, body)
+    return m.group(1).strip() if m else None
+
+
 def datamap_segment(raw, name, *end_markers):
     i = raw.find(name + " = {")
     if i < 0:
@@ -357,6 +364,62 @@ def main():
                 if not re.search(r'name="attr_(?:weapon_%s_mdr|weapon%s_mdr)"' % (core, core), raw) \
                    and not re.search(r'weapon_%s_mdr' % core, js):
                     fail("T6", f"weaponTagInputs references core '{core}' with no matching attr")
+
+    # ---- T7: traitLabelMap must be in lockstep with the traits actually used.
+    # It is the only hand-maintained link between a weapon's traits and what the
+    # player sees. A renamed trait falls through `traitLabelMap[t] || t` and
+    # renders the raw key in the traits list — silent, and exactly the failure a
+    # vocabulary rework invites.
+    wseg = datamap_segment(raw, "weaponDataMap", "const ammoDataMap")
+    used = set()
+    for m in re.finditer(r'traits:\s*\[([^\]]*)\]', wseg):
+        used |= set(re.findall(r'"([^"]+)"', m.group(1)))
+    lbl_m = re.search(r'const traitLabelMap\s*=\s*\{', js)
+    if not lbl_m:
+        fail("T7", "traitLabelMap not found")
+    else:
+        lbl_seg = brace_match(js, lbl_m.end() - 1)
+        labelled = set(re.findall(r'(\w+):\s*"', lbl_seg))
+        for t in sorted(used - labelled):
+            fail("T7", f"trait '{t}' is used by a weapon but has no traitLabelMap entry "
+                       f"(the traits list would render the raw key)")
+        for t in sorted(labelled - used):
+            fail("T7", f"traitLabelMap declares '{t}' but no weapon carries it")
+
+    # ---- W6/W7/W8: AP is a DATA field, not a trait-name pattern.
+    # Before 2026-08-06 the numeric AP came from matching /^ap_\d+$/ against the
+    # trait string, so naming a trait `ap_2` silently made it unconditional and
+    # `ap_2_anything` made it invisible. These keep the field and the trait in
+    # agreement so a rename cannot change mechanics.
+    for name, body in top_level_entries(wseg).items():
+        traits = set()
+        tm = re.search(r'traits:\s*\[([^\]]*)\]', body)
+        if tm:
+            traits = set(re.findall(r'"([^"]+)"', tm.group(1)))
+        ap_traits = sorted(t for t in traits if t.startswith("ap_"))
+        ap_field  = bare_field(body, "ap")
+        cond      = bare_field(body, "ap_conditional")
+        if len(ap_traits) > 1:
+            fail("W6", f"{name}: multiple ap_* traits {ap_traits}")
+        if ap_traits and ap_field is None:
+            fail("W6", f"{name}: carries trait '{ap_traits[0]}' but declares no `ap` field")
+        if ap_field is not None and not ap_traits:
+            fail("W7", f"{name}: declares ap={ap_field} but carries no ap_* trait to display it")
+        if ap_traits:
+            t = ap_traits[0]
+            exact = re.fullmatch(r'ap_(\d+)', t)
+            if exact:
+                if cond is not None:
+                    fail("W8", f"{name}: trait '{t}' is unconditional but ap_conditional is declared")
+                if ap_field is not None and str(ap_field).strip() != exact.group(1):
+                    fail("W6", f"{name}: trait '{t}' disagrees with ap={ap_field}")
+            else:
+                if cond is None:
+                    fail("W8", f"{name}: trait '{t}' is not of the form ap_<n>, so its AP is "
+                               f"conditional and must declare ap_conditional")
+                if ap_field is not None and str(ap_field).strip() != "0":
+                    fail("W8", f"{name}: conditional AP must declare ap: 0 "
+                               f"(the unconditional value), got {ap_field}")
 
     # ---------------- weapon mod wiring ----------------
     # M1-M3: weaponModBtnAttr is the only hand-maintained link between

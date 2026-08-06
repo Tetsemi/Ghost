@@ -31,6 +31,7 @@
 - **Never overwrite mid-session.** Once working files are copied at session start, do not re-copy from uploads or project again during the same session.
 - **Deliver changes as outputs** from the working copies. The user merges outputs back into the project.
 - **Use `str_replace` for targeted edits** — never use large Python block replacements that reproduce entire file sections verbatim. Large replacements require matching the exact current file content and silently overwrite any user edits in that block if the match is stale.
+- **Verify by content, never by mtime, and audit `/mnt/user-data/outputs/` before merging.** On 2026-08-06 the working container held files created by no action in the session — `find_orphans.js`, `edit2.py`, `edit3.py`, and a `difftest_dice.js` that also appeared in the outputs directory. `ghost_of_arcadia.html` carried a matching mtime while its md5 still matched the last delivery, so md5 was the only trustworthy signal. One of those artifacts (`edit3.py`) wired the ammo AP lookup *before* the key-space rename — the exact silently-failing order that session's work was sequenced to avoid.
 - **Always verify which file is newer before working.** At session start, compare timestamps and sizes of uploads vs outputs: `ls -lt /mnt/user-data/uploads/ghost_of_arcadia.* /mnt/user-data/outputs/ghost_of_arcadia.*`. If outputs are newer or larger than uploads, the user has not merged the last session's output — use outputs as the base, not uploads. Blindly copying from uploads when outputs are ahead discards all intermediate fixes and recreates bugs already solved.
 - **If no files are uploaded, always continue from `/mnt/user-data/outputs/`.** Never re-copy from uploads mid-session when the user simply continues without new files.
 - **Verify the working base has key fixes before editing.** After copying the base file, spot-check one or two known-good markers (e.g. `grep -n "MedTech roll toggle" ghost_of_arcadia.css`) to confirm the correct version before making any changes.
@@ -86,6 +87,12 @@
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
 | `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
 | `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases, plus cap-counter and aim-cycle cases: 421 total |
+| `difftest_ammo.js` | Transcribed pre-wiring ammo logic vs `ammoEffects` across 9 types × 3 active states; key-space bijection; per-scope CSS `[value=]` coverage; asserts the 8 unimplemented fields are present with their expected values. Takes `<html> [css]` | After any ammo change |
+| `test_ammo_reconcile.js` | Executes the worker; `reconcileAmmoTypes` across all three ammo scopes, idempotency, non-destruction of unresolvable values, and that it is actually called from `afterAllSets` | After any ammo key-space change |
+| `test_ammo_note.js` | Six roll buttons, both attack templates, `effect_summary_key` resolution, `translation.json` alphabetical position, and note-write ≥ label-write parity | After any ammo note or roll-template change |
+| `difftest_offschool.js` | Executes the worker; full 10×10 school matrix, all three write paths, career-change recompute, declaration order | After any spell Strain or arcane career change |
+
+`difftest_barrel.js` extracts its ammo button fixture from the sheet under test — do not reintroduce a literal copy (see *Test Fixtures That Copy Sheet Data Go Stale*).
 
 ### Deferred Rules Are Data, Not Gaps
 
@@ -99,7 +106,26 @@ Three `weaponModDataMap` fields declare rules the sheet deliberately does not me
 
 These are scoping decisions, not defects, and the data stays authoritative — a future API script could mechanise any of them. `difftest_modeffects.js` reports them as `DEFER` with the rationale inline, so a later reader does not mistake them for a defect list and "fix" them by deleting the fields.
 
+**`weaponDataMap` traits are undocumented defer, not declared defer.** Unlike `weaponModDataMap`, its traits are consumed only by `traitLabelMap` (display strings) and nothing mechanises them. Worked example, `vaultline_torchwall_hmg`:
+
+- `ap_2_heavy_targets` — the key names the *target-class* condition but encodes the *Physical Soak ≥ 4* one. Those are two different bullets in the rules text; `ap_2_soak_4` would name the actual condition.
+- It matches `trait_ap` (`startsWith("ap_")`) but not `ap_total` (`/^ap_\d+$/`), so it shows "AP (2) Heavy" in the traits list and no AP in the numeric label. Defensible, but decide whether that split is intended.
+- The "one die type higher against light vehicles, drones and walkers" rule is **absent from the DataMap entirely** — not deferred, just missing.
+- The source text contradicts itself: "one die type higher (2d10 → 3d10)". A die *type* step from d10 is d12, the example adds a die instead, and the weapon's base damage is 3d10 so the example does not match its own weapon. Needs an author ruling before encoding.
+
+Proposed tool: `difftest_weapontraits.js`, asserting every trait in `weaponDataMap` either has a code consumer or a declared defer with rationale.
+
 **Assert deferred data is present, do not skip it.** The first version used `if (!declared) continue`, so deleting the field or flipping it to `false` passed silently. Deferred fields are now asserted to hold their expected value and report `DATA LOST` otherwise — verified by flipping `sa_follow_up_reduction` to `false` and confirming the check fires.
+
+**Run regex census checks against comment-stripped source.** A check banning `ammoType.replace(/_/g` fired on the comment explaining what it had replaced. Any "this pattern must no longer appear" check needs `js.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "")` first. The same applies to "is the map read" metrics: prose mentioning `ammoDataMap[stored]` inflated a reads counter to 2 when the true count was 0.
+
+**A test that calls a function directly does not prove the function runs.** Deleting `reconcileAmmoTypes()` from `afterAllSets` left the reconciler test fully green, because the test invoked it itself. Assert the call site exists: `/afterAllSets[\s\S]{0,4000}?fnName\s*\(\s*\)\s*;/`.
+
+**Coverage checks must be per-scope, not "exists somewhere."** A CSS check asking whether *a* `[value="X"]` rule existed passed when one of two scopes had been missed during a rename. Check `ammo_type` and `ammo_type_mdr` independently.
+
+**A negative test must fail cleanly, not crash.** Removing the unknown-key guard from `ammoEffects` made the sweep throw; the run exited non-zero but printed a stack trace instead of naming the offending input. Wrap per-case invocation in try/catch and report `threw on <input>`.
+
+**When adding an attr that parallels an existing one, assert write-site parity by count.** Asserting note-writes ≥ label-writes caught two paths on the first run — the `sAmmoType` summary variant and the `weapon1` reset. Reading the code had not found either.
 
 Both validators exit non-zero on violation, so they drop into a pre-delivery gate.
 
@@ -122,6 +148,15 @@ Nothing static caught it: `node --check` passed (it parses, it does not evaluate
 **After adding any derived `const`, assert declaration order programmatically** — locate each identifier's declaration line and assert source < consumer for every pair.
 
 The same trap catches ordinary locals, not just module-level derived constants. Adding `damage: dmgStr` to the `initWeapon1ModButtons` diagnostic dump put a reference *above* the `const dmgStr` declaration inside the same callback — `ReferenceError` on every sheet open, `node --check` clean. Three TDZ faults occurred in one session and all three were caught by executing the module, none by parsing it. When inserting a reference into an existing block, check where the identifier is declared relative to the insertion point.
+
+### Proving a Thing Is Absent
+
+Three false absence claims were made in one session (2026-08-06). Each came from a search that could not have found the thing it was looking for, and each nearly redirected the session toward building something that already existed.
+
+- **An "X is never written" claim must cover every assignment form.** A search for `x:` and `["x"]` missed `update.ac = ...` and produced a confident, wrong "Arcane Capacity is never computed". Cover `x:`, `["x"]`, `.x =`, `x =`, and computed keys — and exclude DataMap literals that merely share the name, since `ap:` matched 250+ spell AC costs and buried the real writer.
+- **A `readonly` input is evidence FOR a writer existing, not against it.** It was read as confirmation of the absence claim. Computed fields are readonly *because* something writes them.
+- **Search for the encoding, not the concept.** Searching `affinity`, `alignment`, `natural_school`, `primary_school` returned nothing and produced "the sheet has no school alignment". The sheet encodes it as `primary_arcane_career` — the career IS the alignment. When a concept search comes back empty, search for the control (`<select`, `data-i18n`) and the surrounding domain nouns before concluding anything.
+- **Scope every count to the thing being counted.** A file-wide count of a common field name (`compatible_categories`, `damage`) says nothing about whether a specific DataMap is read. To find real reads of a map, match property access — `mapName\s*[\[.]` — against comment-stripped source.
 
 ### Static Analysis of JS Scope Is Unreliable
 
@@ -151,11 +186,36 @@ Checks `M1`-`M4` in `validate_presets.py` cover all four layers: link key exists
 
 Note the scope prefixes: the apply path writes `prefix + attr`, so the elements are `attr_weapon_btn_*` and `attr_weapon1_btn_*`, never the bare attr name. A first version of M3 checked for the bare name and fired on all 13 entries — the "fires on everything" antipattern, and a signal that the checker's assumption was wrong, not the code.
 
+### Test Fixtures That Copy Sheet Data Go Stale
+
+`difftest_barrel.js` held its own literal copy of the ammo button values. When the stored values were renamed, its `self active` seed planted a value the handler no longer recognised, so every toggle-off case reported as a behaviour change when only the fixture was wrong — 12 false diffs that looked exactly like a real regression.
+
+**Extract fixture data from the file under test.** Where the fixture object is serialised into a generated runner (as `OTHER` is), extraction cannot live inside the object literal — an embedded IIFE ends up in the runner with its escapes mangled. Extract in the main process and interpolate: `btns: ${JSON.stringify(AMMO_BTNS)}`, exactly as `TOGGLE_FAMILIES` already does.
+
+This is the duplication-drift rule applied to the test suite. The suite is not exempt from it.
+
+### Equivalence Proofs After the Collapse Has Shipped
+
+Once a collapse has shipped, the original code is gone, and a differential written against the current file compares the new code to the source it now reads. That is tautological, and it looks like a passing proof.
+
+Two legitimate options:
+
+1. **Recover the pre-change revision** (`git show <rev>:ghost_of_arcadia.html`) and run old-vs-new over a swept input matrix.
+2. **Transcribe the pre-change logic verbatim into the test** as the canonical reference, the way `difftest_tags.js` does. This is an independent restatement, not a second read of the source. `difftest_ammo.js` uses this form.
+
+`difftest_ammo.js` was originally written to scrape the hardcoded literals and compare them to the map. That is the correct shape *before* wiring. The moment the literals were replaced the test had to be rewritten — expect this, and budget for it, whenever a difftest's job is to prove a duplication is safe to remove.
+
+**Assert intended divergence precisely, not as "differs".** The ammo display name changed from a key-derived string to `tr(name_key)`. The test asserts the new value *equals the resolved translation*, with `getTranslationByKey` stubbed from the real `translation.json`, so a missing key falling back to the raw key string fails. "It changed" would have passed.
+
 ### Byte-Level Edits
 
 `assert count == exp` on every replacement caught three wrong-target edits in one session, including a 4-tab pattern that matched as a **substring** inside a 5-tab line — which happened to be the one call site needing different handling. Anchor on the preceding newline or a following distinctive line when a pattern could match at multiple indent depths.
 
 Regex replacement across a CRLF file needs the same line-ending discipline as `str_replace`: a `\n` in a replacement string silently introduces a bare LF. Always re-check `bare LF == 0` after any regex-based edit. Note `Claude.md` itself uses **LF**, while the three sheet files use **CRLF**.
+
+The substring trap **recurred on 2026-08-06 in a new form**: an edit added a line to a 5-tab site, and the *next* replacement's 4-tab pattern then matched twice — once as a genuine site, once as a substring of the line just edited. The count was 1 before the earlier edit ran and 2 after. **Anchor indent-sensitive replacements on the preceding newline** (`CR + '\t\t\t\t...'`) by default, not after the assert fires.
+
+Do not use `sed -i` to edit an edit script. A complex `sed` pattern mangled two lines mid-session; anything containing quotes or backslashes needs `str_replace` or a Python rewrite.
 
 ---
 
@@ -194,6 +254,17 @@ Regex replacement across a CRLF file needs the same line-ending discipline as `s
   The sheet is authoritative on terminology; transcribe rules text faithfully in
   substance but normalise Pistol → Handgun. Flag the divergence so the doc can be
   corrected, and do not "fix" the sheet to match the doc.
+
+### Ancestry Terminology — Draevi, not Dravi
+
+- **The canonical ancestry is Draevi.** DataMap key `draevi`, attrs such as
+  `attr_ancestry_draevi_traits_open`, the CSS classes, and
+  `"draevi-u": "Draevi"`. GoA Core Rules Chapter One (2026-07-01) says "Dravi".
+- The sheet is authoritative; flag the divergence rather than changing the
+  sheet. **Unlike Pistol → Handgun this is a proper noun**, so confirm with the
+  author before correcting the doc.
+- The eight ancestries are: alteri, draevi, feran, human, khadra, kitsu,
+  lyranni, veyra.
   
 ---
 
@@ -289,6 +360,29 @@ When any entry is added or modified, check:
 ### DataMap `skill` field
 
 When a DataMap entry references a skill (e.g. `vehiclesDataMap`), the `skill` field must hold the **exact key from `skillDataMap`** — e.g. `"drive_auto"`, `"pilot_aircraft"`. The apply function then looks up `skillDataMap[data.skill].bonus` for the sheet attribute name and `skillDataMap[data.skill].label` for the display name. Never store the sheet attribute name (e.g. `"drive_auto_mdr"`) directly in the DataMap `skill` field — that bypasses the skillDataMap and introduces a mapping layer that doesn't need to exist.
+
+### `ammoDataMap`
+
+`ammoDataMap` was **entirely orphaned** until 2026-08-06 — the identifier appeared exactly once, its own declaration. Every ammo rule was hardcoded: the AP magnitude at ten sites, the die shift in a `reducingAmmo` array, the display name derived by stripping underscores from the key.
+
+It is now wired through a single consumer, `ammoEffects(ammoType, ammoActive)`, returning `{ ap, dieShift, label, note }`. It returns zeroed effects for inactive ammo, `"standard"`, and unknown keys — **unknown must not throw**, since a stored value can outlive a map entry and every caller feeds either a dice expression or a display attr.
+
+**Stored `ammo_type` values ARE `ammoDataMap` keys** as of 2026-08-06. They previously were not (`subsonic` vs `subsonic_rounds`), which made `ammoDataMap[stored]` undefined for four of six types. That fails **open**, not loud: an `ap_modifier` lookup returns 0 and looks correct, while subsonic would have silently lost its die step-down. `retiredAmmoKeyMap` + `reconcileAmmoTypes` repair stored rows; the map is append-only and permanent.
+
+**`damage_die_shift` is constrained to `{0, -1}`.** `stepDownDie` applies exactly one step, so a `-2` would be silently under-applied. `difftest_ammo.js` rejects it as unrepresentable.
+
+**Validate display strings before wiring them to output.** Two `name_key` values carried authoring annotations — `"AP Rounds (+AP2, −1 die)"` and `"Hollow Point (cond)"` — which would have rendered as `AP Rounds (+AP2, −1 die) · AP (2)`. Neither key was referenced from the HTML. A DataMap string being present does not mean it was written for the surface you are about to put it on.
+
+#### Deferred vs enforceable ammo rules
+
+Eight declared fields have no implementation. Six are **correctly** text-only — they depend on the target, which Roll20 cannot supply — and are surfaced in the roll output via `effect_summary_key` → `{{ammonote}}`, the same treatment as the tranq note: `veil_charged_rounds.damage_type_override`, `.on_fumble`, `shock_rounds.bonus_damage_condition`, `hollow_point.soak_modifier`, `breacher_slugs.structural_damage_multiplier`, `.forces_single_target`.
+
+Two are **enforceable sheet-side** and remain open:
+
+| field | why it is enforceable |
+|---|---|
+| `subsonic_rounds.requires_suppressor` | the barrel state is in the same row; subsonic is currently selectable with no suppressor fitted |
+| `breacher_slugs.removes_trait: ["scatter_spray"]` | the weapon's traits are known to the sheet |
 
 ### Lifestyle DataMap Schemas
 
@@ -636,6 +730,10 @@ This is what makes an on-open reconciler viable: a stale or misplaced value is s
 
 Practical consequence: after any change to preset select membership, the repair window is "until the player next touches that row." Ship the reconciler in the same change, not the next one.
 
+**That rule is specific to `<select>`s. Button-driven attrs are more forgiving.** Roll20 never overwrites the stored string, so a stale value persists indefinitely and an on-open reconciler can repair it at any later date — there is no deadline. The only interim symptom is cosmetic: CSS `[value=]` rules keyed to the new name leave the button rendering unselected while the attr still holds the old value. Rename the CSS in the same commit and even that does not appear. Reference implementation: `retiredAmmoKeyMap` / `reconcileAmmoTypes` (2026-08-06).
+
+**Two-attr toggles move in lockstep.** The ammo handler writes `{type: val, active: "1"}` or `{type: "standard", active: "0"}` — there is no reachable "selected but switched off" state. Do not design logic that distinguishes them; do still gate consistently on `active === "1"`, so that attrs written outside the UI cannot make two displays disagree.
+
 ### Owned-Attr Sets Must Be Generated, Not Hand-Maintained
 
 When a preset apply path writes N attrs, every reset path (deselect, filter change, migration) must cover the same N. Hand-maintained subsets drift: as of 2026-08-01 the weapon apply path wrote 50 attrs while the skill-change clear covered 15 and the deselect path covered 0, leaving rows half-populated and still rolling a discarded weapon.
@@ -655,6 +753,13 @@ Derived attrs (e.g. the seven damage fields) are **not** listed; the blank build
 Enforce with a round-trip assertion: rebuilding the attr names from the map must equal the apply path's key set exactly, **in both directions**.
 
 Player-owned attrs (e.g. `weaponstrain_mdr`) stay out of the map — they are seeded, never reset by deselect.
+
+**`weaponPresetAttrDefaults` does not universally reach the preset apply path.** There are two shapes in the file:
+
+- `setAttrs(Object.assign(buildWeaponPresetBlank(scope, prefix), {...}))` — defaults flow through automatically.
+- `setAttrs(Object.assign(clearOthers, strainSeed, baseDmg, effective, {...}))` — never touches the blank builder, so a new entry in the defaults map is never written here and an **explicit clear is required**.
+
+Adding an owned attr means checking which shape each apply site uses, and asserting the explicit clear exists rather than assuming the map covers it.
 
 ### Resolve the Firing Element From `eventInfo`
 
@@ -771,9 +876,18 @@ Roll 2d10, keep the tens die that is most favorable (bonus) or least favorable (
 
 ### Derived Stats
 - HP = (CON + SIZ) / 10 (rounded down) × 2
-- Sanity (MP) = POW × 5
 - Luck = POW × 5
 - Movement (MOV) = derived from STR/DEX/SIZ
+- Arcane Capacity (AC) = Vitality = POW − Cyberware Load, for Awakened characters only (Mundane get 0). Computed in `registerStatHandler` as `update.ac = ((iawakened === 1) ? ivit : 0)`. `attr_vitality` is written by `recalcCtVitalityTotal` as `Math.max(0, ipow - total)`; both `vitality` and `awakened` are in the handler's watched array, so installing cyberware retriggers the AC write. `attr_ac` is `readonly` because it is computed. Ghost Guide to the Arcane p.37.
+
+**There is no Sanity system.** Zero occurrences of `sanity` in any of the three files. An earlier version of this file listed `Sanity (MP) = POW × 5`, inherited from the Call of Cthulhu base sheet; it was never true of GoA.
+
+### Magic — School Alignment and Off-School Strain
+Each Awakened character has one Primary Arcane Career, chosen on the Careers tab (`attr_primary_arcane_career`), which stores an `@{magic_X_mdr}` reference — **the career IS the school alignment**. Nine arcane careers map to nine schools; Universal has no career.
+
+Casting outside the primary school costs a **flat +1 Strain** on top of the spell's listed cost. It is not graded by "distance" between schools — no such metric exists anywhere. Universal spells are exempt. Ghost Guide to the Arcane, PDF p.43 / printed p.37. Learning off-school also costs +2 XP (Common) or +5 XP (Rare), same page.
+
+Doc defects to raise with the author: the Casting Quick Reference (printed p.240) states "additional Strain cost on cast" without the +1, and its Universal row says "use best Magic skill" where the p.37 body says Universal is cast using the school you trained in. Those diverge whenever a secondary school is rated above the primary. The sheet follows p.37.
 
 ### Currencies
 Credits (Cr) — primary economy unit.
@@ -790,9 +904,17 @@ Credits (Cr) — primary economy unit.
 2. **Full type/tag audit across all DataMaps** — waiting on docs. (Includes the legacy ancestry talent tag normalization: display-name tags → snake_case.)
 3. **Add Ancestry Traits to Summary Text** — waiting on docs.
 4. **Fix Ancestry CSS Themes** — includes the Lyranni high-contrast theme application blocks, which still contain stale light-theme values after the `:root` reorganization.
+5. **Ammo: `subsonic_rounds.requires_suppressor`** — implement or declare deferred. Currently selectable with no suppressor fitted.
+6. **Ammo: `breacher_slugs.removes_trait ["scatter_spray"]` / `forces_single_target`** — implement or declare deferred.
+7. **Off-school Strain with no Primary Arcane Career selected** — currently treated as unaligned (0). p.37 arguably implies off-school-everywhere (1). One ternary in `spellOffSchoolPenalty`.
+8. **Torchwall `ap_2_heavy_targets`** — rename to name the real condition, add the missing damage step-up trait, and rule on the "one die type higher" contradiction.
+9. **`computeWeaponDice` orphan cleanup** — the bag collapse has **shipped** (0 positional call sites). Outstanding: drop or keep the dead `ap` binding (destructured, never read — and also dead in `buildTagsStr`); rule on renaming `weaponTagInputs` now that it also feeds the dice path and carries the dice-only `reduceEff`; sweep the orphaned locals at 4 of 6 call sites. **Build the orphan list by reading each scope** — a use-counting heuristic gave a false negative on names that also appear as string literals on their own declaration line (`internal === "qst"`).
+10. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription per *Equivalence Proofs After the Collapse Has Shipped*.
+11. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.
 
 ### Clean-up / Questions / Wishlist
-- Empty.
+- **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi".
+- **Two `translation.json` display strings were cleaned on 2026-08-06** — `"AP Rounds (+AP2, −1 die)"` → `"AP Rounds"` and `"Hollow Point (cond)"` → `"Hollow Point"`. Neither key is referenced from the HTML. Revert if the annotations were intended for a control not yet built.
 
 ---
 

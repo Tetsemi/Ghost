@@ -15,11 +15,8 @@
 | `dexInitiative.js` | Roll20 API script — DEX-based initiative for PCs |
 | `dexInitiativeNPC.js` | Roll20 API script — DEX-based initiative for NPCs |
 | `moveNPC.js` | Roll20 API script — NPC movement helper |
-| `First_2_sections_GoA.pdf` | Core rulebook reference (world, skills, careers) |
-| `Gear_and_Loadout.pdf` | Gear reference (cyberware, weapons, equipment) |
-| `GoA_Rules_Update_Weapons_v2.docx` | Weapons rules update |
-| `Weapons_2026-03-27.docx` | Latest weapons data |
-| `GoA_Gear_Section_Template.docx` | Gear section template |
+| `GoA Core Rules 2026-07-01.pdf` | Core rulebook reference (world, skills, careers) |
+| `Ghost Guide to the Arcane.pdf` | Spell reference (casting, schools, spells) |
 | `Todo_list.md` | Active bugs and pending tasks |
 
 ---

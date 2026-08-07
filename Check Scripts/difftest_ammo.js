@@ -182,6 +182,23 @@ if (ammoEffects) {
   } catch (e) { bad("unknown ammo key threw: " + e.message); }
 }
 
+/* ── 2b. Short label vs full name ────────────────────────────────────
+   The on-sheet AMMO LOADED box is 80px (~11 chars) and inputs clip with no
+   ellipsis; "Veil-Charged Rounds" is 19. shortLabel feeds the sheet, label
+   feeds chat where width is free. */
+if (ammoEffects) {
+  Object.keys(STORED_TO_MAP).forEach((t) => {
+    const e = ammoEffects(t, "1");
+    const shortKey = M[t].short_name_key;
+    if (!shortKey) { bad(`${t}: no short_name_key`); return; }
+    if (e.shortLabel === shortKey) bad(`${t}: short_name_key "${shortKey}" missing from translation.json`);
+    if (e.shortLabel.length > 11)
+      bad(`${t}: shortLabel "${e.shortLabel}" is ${e.shortLabel.length} chars and will clip in the 80px field`);
+    if (!e.label) bad(`${t}: full label empty`);
+  });
+  if (ammoEffects("ap_rounds", "0").shortLabel !== "") bad("inactive ammo must yield no shortLabel");
+}
+
 /* ── 3. Duplication census, inverted now that the map is wired ────────── */
 const AP_SITE = /(\w*[Aa]mmoAP)\s*=\s*\(\s*(\w+)\s*===\s*"1"\s*&&\s*(\w+)\s*===\s*"([a-z_]+)"\s*\)\s*\?\s*(\d+)\s*:\s*0/g;
 const apSites = (js.match(AP_SITE) || []).length;

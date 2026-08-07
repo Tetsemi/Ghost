@@ -36,6 +36,32 @@
 - **If no files are uploaded, always continue from `/mnt/user-data/outputs/`.** Never re-copy from uploads mid-session when the user simply continues without new files.
 - **Verify the working base has key fixes before editing.** After copying the base file, spot-check one or two known-good markers (e.g. `grep -n "MedTech roll toggle" ghost_of_arcadia.css`) to confirm the correct version before making any changes.
 
+### Sandbox Tests
+
+- **Every delivery names an explicit sandbox test**, in the same response as the
+  files, alongside the commit message. The validation gate proves the code does
+  what the code says; only Roll20 proves the sheet does what the *player* needs.
+  Several defects this project has shipped passed the full gate — a missing
+  `Silent` tag on open, a FAIL cell duplicating the PASS cell, an input clipping
+  its own text — because no automated check looks at the rendered sheet.
+- **Name the specific thing to look at, not "check it works."** The test should
+  be one or two concrete actions with a stated expected result, chosen to
+  exercise *the change*, not the feature around it. "Fit AP rounds to the
+  Linecutter and confirm `AP (5)` and a 2d8 damage die" is a test. "Check the
+  weapons tab" is not.
+- **Target the failure mode the gate cannot see.** Prefer a test that would fail
+  if the change were subtly wrong over one that merely shows the feature exists:
+  on-open state (which no `change:` handler has recomputed), CSS visibility and
+  clipping, roll-template output, and any value the player types that the sheet
+  then rewrites.
+- **Include the negative half where state can go stale.** Switching *away* from
+  a state is where hidden attrs keep contributing — "switch the row to a
+  Specialist and confirm the Ledger total returns to its previous value", not
+  just "confirm N/A appears".
+- **Wait for the result before stacking the next change.** Four commits went
+  onto one file unvalidated on 2026-08-06; when a rebuild became necessary, none
+  of them could be individually cleared.
+
 ### Commit Messages
 
 - **Every delivery includes a commit message, unprompted.** Any change to
@@ -91,6 +117,8 @@
 | `test_ammo_reconcile.js` | Executes the worker; `reconcileAmmoTypes` across all three ammo scopes, idempotency, non-destruction of unresolvable values, and that it is actually called from `afterAllSets` | After any ammo key-space change |
 | `test_ammo_note.js` | Six roll buttons, both attack templates, `effect_summary_key` resolution, `translation.json` alphabetical position, and note-write ≥ label-write parity | After any ammo note or roll-template change |
 | `test_grenade_i18n.js` | Asserts every grenade display string resolves through `tr()`, that each key exists in `translation.json`, and that each function declares its own local `tr` | After any grenade/explosives display change |
+| `test_career_bundle.js` | Asserts `career_type` and `skill_points_secondary` agree with the rules, that no primary-career conversion survives, that the N/A controller precedes its targets, the CSS swap rules exist, and that over-cap entries are deliberately NOT clamped | After any career XP or skill-bundle change |
+| `test_tagfetch.js` | Records the keys actually passed to `getAttrs` at runtime and asserts every `deriveWeaponTags` consumer fetches every attr `weaponTagInputs` declares; also cross-checks each entry's `attrs` against the keys its `derive` closure reads | After any tag-layer or fetch-list change |
 | `find_orphans.js` | AST walk (acorn) reporting `const` bindings with zero resolved references. Regex use-counting gives false negatives on names that also appear as string literals on their own declaration line (`internal === "qst"`) | Before any orphan sweep |
 | `difftest_offschool.js` | Executes the worker; full 10×10 school matrix, all three write paths, career-change recompute, declaration order | After any spell Strain or arcane career change |
 
@@ -128,6 +156,10 @@ Proposed tool: `difftest_weapontraits.js`, asserting every trait in `weaponDataM
 **Coverage checks must be per-scope, not "exists somewhere."** A CSS check asking whether *a* `[value="X"]` rule existed passed when one of two scopes had been missed during a rename. Check `ammo_type` and `ammo_type_mdr` independently.
 
 **A negative test must fail cleanly, not crash.** Removing the unknown-key guard from `ammoEffects` made the sweep throw; the run exited non-zero but printed a stack trace instead of naming the offending input. Wrap per-case invocation in try/catch and report `threw on <input>`.
+
+**Line-anchored source scanning breaks under any edit.** A checker that read fetch lists by line number reported three handlers as missing every tag attr — the preceding edit had shifted the offsets and it was reading unrelated regions. Verify coverage by executing the code and recording what it asks for, not by scanning text at remembered positions. That also survives a list becoming generated, at which point the literals it searched for no longer exist.
+
+**Two checks reading the same source cannot cross-validate each other.** Emptying a `weaponTagInputs.attrs` list passed both `test_tagfetch.js` (which compares handlers against the generator — both derive from that table) and `difftest_tags.js` (whose harness seeds the store directly rather than through a fetch list). Neither could see it. The gap closed only by cross-checking each entry's declared `attrs` against the keys its `derive` closure actually reads, in both directions. When a negative test passes, ask whether the two sides share an input.
 
 **A test fixture's sidecar files must travel with the mutant.** A negative test put a mutated sheet in `/tmp` and ran a checker that resolves `translation.json` as a sibling of the file under test. It picked up a stale copy and failed on missing keys — a real non-zero exit, for a reason unrelated to the mutation, which was never exercised. Copy every sidecar the checker reads into the same directory, and read what the failure actually *says* before accepting it as proof.
 
@@ -194,11 +226,68 @@ A check that fires on hundreds of pre-existing instances is **worse than no chec
 - a link whose attr has no HTML element writes to nothing
 - a renamed attr leaves the worker writing the old name while CSS keys off the new one
 
+**A generator nobody calls provides no protection.** `weaponTagAttrKeys` is built from `weaponTagInputs` and its own comment says it is "generated, so it cannot fall behind the table". It had zero callers — every handler kept a hand-written `getAttrs` list instead — and one of those lists had already fallen behind by one attr. `initWeaponComputedAttrs` did not fetch `weapon_trait_silent_mdr` while writing the tags display, so on every sheet open a silenced weapon lost its Silent tag until a control was touched. When a helper exists to prevent drift, check that something actually calls it; the comment is not the mechanism.
+
 `traitLabelMap` is the second such table: it is the only link between a weapon's traits and what the player sees, and a renamed trait falls through `traitLabelMap[t] || t` to render the raw key in the traits list. Silent, and exactly what a vocabulary rework invites. `T7` asserts bidirectional coverage — 48 traits, 48 entries at the time of writing.
 
 Checks `M1`-`M4` in `validate_presets.py` cover all four layers: link key exists in the map (M1), map entry has a link (M2), both `attr_weapon_*` and `attr_weapon1_*` elements exist (M3), and a CSS `[value=]` rule targets the attr (M4).
 
 Note the scope prefixes: the apply path writes `prefix + attr`, so the elements are `attr_weapon_btn_*` and `attr_weapon1_btn_*`, never the bare attr name. A first version of M3 checked for the bare name and fired on all 13 entries — the "fires on everything" antipattern, and a signal that the checker's assumption was wrong, not the code.
+
+### Read Every Orphan Before Removing It
+
+`find_orphans.js` reports bindings with no resolved references; it does not
+tell you *why*. Two of eleven in the 2026-08-06 sweep were nearly
+misdiagnosed:
+
+- `bgLimiterRegistered` sits beside `registeredSkillHandlers` and `talentSummaryRegistered`, both of which are consulted, so it read as "the background limiter has lost its re-entry guard" — a real defect. It has not: `registerBackgroundSkillLimiterV2` guards with the boolean `BG_LIMITER_V2_REGISTERED` twelve lines above, and the `Set` is a superseded earlier form.
+- `slots` is declared six times across the worker and a file-wide count reports 52 uses. Only the declaration inside `initWeaponComputedAttrs` is unused, because `computeModButtons` takes the entry rather than the slot list.
+
+**Unreferenced is not the same as dead — check the rules text.** A binding can
+be unreferenced because a feature is unfinished, or because it is a copy-paste
+of a mechanic that does not apply where it was pasted. `skillToXP` in the
+primary-career XP watcher read `primary_career_skill_to_xp` and discarded it,
+while the secondary-career version subtracts its equivalent. That looked first
+like dead code, then like a live accounting bug, and was in fact neither: the
+rules grant the 20-point skill bundle and its 1:1 Talent XP conversion only when
+a career is taken as **secondary or later**, so no primary control was ever
+built and the attr is never written. The correct fix was to remove the watcher,
+the fetch entry and the local *together*, justified by the rule — not to sweep
+one unused variable and leave the other two behind with nothing to explain them.
+Before removing an orphan, ask what feature it belonged to and whether the rules
+say that feature should exist there.
+
+**Delete the local, not the watcher.** `iage`, `iedu` and `iwound` were parsed
+and never read, but `age`, `edu` and `major_wounds` stay in
+`registerStatHandler`'s watched array — the handler must still re-fire when
+they change even though it does not read those parsed values.
+
+**A multi-line declaration needs statement-level deletion.** One `talentSkills`
+was a fourteen-line `.filter().map().filter()` chain; a line-at-a-time sweep
+that asserts single-line `const` will refuse it. Scan to the terminating
+semicolon at depth zero.
+
+### Check What the Existing Aggregates Already Express
+
+Before adding tracking, find out what is already tracked. The Skill→XP
+conversion looked like it needed a separate "unspent bundle points" counter to
+stop a player spending the same twenty points twice. It does not:
+`total_skill_points_remain` is
+
+```
+primary + personal + secondary + ledgerGain + ledgerGainRoll
+  − ledgerLost − spent + perk_linguist_sp
+```
+
+where `ledgerLost` sums every row's `secondary_career_skill_to_xp`. The
+conversion already debits the same pool the skills are bought from, so a double
+spend surfaces as a negative remainder. The only case the aggregate cannot
+express is a career with **no** bundle at all, which is why the fix narrowed to
+enforcing the Specialist zero and left over-cap entries alone.
+
+**A deliberate absence needs an assertion too.** `test_career_bundle.js` asserts
+that no clamp exists on the over-cap case, so the decision is recorded in the
+suite rather than in a commit message nobody re-reads.
 
 ### Test Fixtures That Copy Sheet Data Go Stale
 
@@ -374,6 +463,29 @@ When any entry is added or modified, check:
 ### DataMap `skill` field
 
 When a DataMap entry references a skill (e.g. `vehiclesDataMap`), the `skill` field must hold the **exact key from `skillDataMap`** — e.g. `"drive_auto"`, `"pilot_aircraft"`. The apply function then looks up `skillDataMap[data.skill].bonus` for the sheet attribute name and `skillDataMap[data.skill].label` for the display name. Never store the sheet attribute name (e.g. `"drive_auto_mdr"`) directly in the DataMap `skill` field — that bypasses the skillDataMap and introduces a mapping layer that doesn't need to exist.
+
+### `careerDataMap` — bundles and career type
+
+```javascript
+career_type: "core",              // "core" | "arcane" | "specialist"
+skill_points_secondary: 20,       // the secondary-or-later skill bundle; 0 for specialist
+```
+
+Rules: a Core or Arcane career taken as a **secondary or later** career grants a
+20-point skill bundle allocatable only to that career's Primary Skills and one
+chosen Secondary Skill, no skill raised past 50%, and any unspent points convert
+to Talent XP at 1:1 locked to that career's Talent Tree. Specialist careers get
+no bundle. Primary careers have no conversion at all.
+
+`skill_points_secondary` drives the per-row `secondary_career_bundle` CSS
+controller: at `"0"` the Skill→XP input is replaced by the readonly `na-u`
+placeholder, the same spacer the primary career row uses. The row update also
+clears a stale `secondary_career_skill_to_xp`, because the Ledger sums it across
+rows regardless of what is visible.
+
+Two rules are **not** mechanised: the 50% ceiling on bundle-raised skills, and
+the conversion being locked to that career's Talent Tree. Both are
+GM-adjudicated.
 
 ### DataMap Values That Reach the Player
 
@@ -977,10 +1089,26 @@ Credits (Cr) — primary economy unit.
 7. **`setup` field is orphaned** — six weapons declare a value (`full_round_tripod`, `full_round`, `maneuver_bipod` ×2, `maneuver_brace` ×2) and no code reads it. Same defect class `ammoDataMap` was in. Wiring it would mechanise the Torchwall's "firing without full setup imposes two penalty dice" across all six at once. Enforceable sheet-side: setup is the character's own state, not the target's. Needs a per-row deployed control.
 8. **Detonators are an unbuilt feature, not dead data.** `detonatorDataMap` has 5 entries with a full schema (`trigger_type`, `max_charges`, `simultaneous_trigger`, `emp_immune`, `jamming_vulnerable`, `traceable`, `disarm_skill`/`_difficulty`/`_fumble`, `spot_skill`, `trigger_weight_kg`) and **13 translation keys already written** — but zero HTML elements, zero CSS, zero code reads. Unlike `ammoDataMap`, which was orphaned *behind a working UI*, this is two of four layers finished and two never started. It is not speculative: `plastic_explosives`, `breaching_charge` and `arcshock_pulse_mine` all declare `requires_detonator: true`, and the sheet currently says a detonator is needed while giving nowhere to record which. **Do not delete it** — build the UI (a preset select in the explosives section, mirroring the grenade preset pattern) when the feature is wanted.
 9. **Grenade condition rulings.** Two `explosivesDataMap` values are not `conditionsDataMap` keys and are declared in `C1_EXCEPTIONS`. `knockout_gas_grenade.condition_on_fail = "unconscious"` still renders lowercase; unconsciousness may be a state (HP 0) rather than a condition, and the tranq weapons reference it too, so adding an entry needs rules text. `nullburst_disruption_grenade.condition_on_fail = "magic_suppressed"` is never displayed — that entry has `save_stat: null` and its effect is carried by `suppresses_magic` — so it is dead data pending a delete-or-define ruling. Separately, `condition_duration: "dissolves_3min"` on the Scatterfoam puck renders as `dissolves_3min rd`.
-10. **Twelve unused bindings remain** after the collapse sweep — `weaponTagAttrKeys`, `bgLimiterRegistered`, `flaw5Keys`, `flaw10Keys`, `talentSkills` (two scopes), `skillToXP`, `slots`, `iage`, `iedu`, `iwound`, `reflexRanges`. Reported by `find_orphans.js`, none attributable to the positional collapse, each needs reading before removal.
+10. **Orphan sweep REVERTED — eleven bindings still to adjudicate.** The sweep was reverted on 2026-08-07 after `skillToXP` turned out not to be dead code but a rules artefact (see *Unreferenced is not the same as dead*). `weaponTagAttrKeys` was wired up rather than deleted and stays. Remaining, each needing the same rules check before removal:
+    - `flaw5Keys` / `flaw10Keys` in `registerFlawSummaryWatcher` — partition `flawDataMap` by 5- and 10-point cost. Does the flaw summary owe a per-tier point total?
+    - `talentSkills` in `calculateAndUpdateSkillValues` (a 14-line chain) and in `applyAllSkillBonuses` — both compute talent-granted skill lists inside functions that apply skill bonuses. Is another path already applying them?
+    - `iage` / `iedu` / `iwound` in `registerStatHandler` — plausibly Call of Cthulhu leftovers where age and EDU drove derived stats, but confirm GoA has no age or wound modifier before removing.
+    - `bgLimiterRegistered` (superseded by the `BG_LIMITER_V2_REGISTERED` boolean), `slots` in `initWeaponComputedAttrs` (`computeModButtons` takes the entry), and `reflexRanges` in `buildTagsStr` (superseded by `weaponModDataMap.reflex_sight.hit_bonus_range_limit`) are the three I am confident are genuinely dead.
 11. **Off-school Strain with no Primary Arcane Career selected** — ruled 2026-08-06 to stay unaligned (0). Keeping the entry because p.37 arguably implies off-school-everywhere (1) and the ruling may revisit; it is one ternary in `spellOffSchoolPenalty`.
 12. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription per *Equivalence Proofs After the Collapse Has Shipped*. Note a `difftest_dice.js` of unknown provenance appeared in the container on 2026-08-06 and was deleted unread; do not adopt it without review.
 13. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.
+
+#### Shipped 2026-08-07 — careers
+Primary-career Skill→XP vestiges removed (watcher, fetch entry, local) on the
+rule that the conversion is secondary-or-later; Specialist secondary careers now
+show N/A via the `secondary_career_bundle` controller, with the stale
+conversion cleared so the Ledger stops debiting; duplicate `placeholder`
+attribute dropped; `test_career_bundle.js` added.
+
+#### Shipped 2026-08-06 — tag fetch list
+`weaponTagAttrKeys` wired into `initWeaponComputedAttrs`, fixing a silenced
+weapon losing its Silent tag on every sheet open; `test_tagfetch.js` added. The
+orphan sweep delivered alongside it was reverted the next day — see Todo 10.
 
 #### Shipped 2026-08-06 — grenades
 Grenade display layer routed through `tr()` (7 helpers, 44 keys, skill names via
@@ -1106,6 +1234,7 @@ field with `W6`/`W7`/`W8`; `T7` traitLabelMap lockstep. All sandbox-validated.
 - **Roll20 CSS toggle buttons for repeating sections: use the exact impale/noimpale pattern.** The working pattern is: one `input[type="hidden"]` with a combined value (e.g. `"restore-self"`, `"restore-other"`, `"none-self"`, `"none-other"`), updated by `setAttrs` from both the apply function and the `other` checkbox watcher, with buttons as immediate DOM siblings. CSS uses `[value="X"] + button.class` adjacent sibling selectors. Do not use two separate toggle inputs — one combined input matching the impale pattern is the only approach confirmed to work.
 - **Roll toggle CSS hide rules must be placed AFTER the global `button[type="roll"].new-roll { display: flex }` rule and must include `button[type="roll"]` in the selector.** The global rule has specificity (0,5,1). Hide rules using only `.sheet-X-roll-Y` have specificity (0,4,0) and lose regardless of order. Hide rules using `button[type="roll"].sheet-X-roll-Y` have specificity (0,5,1) — a tie — and win only when declared later in the file. Show rules use `.sheet-X-roll-toggle[value="Z"] + button[type="roll"].sheet-X-roll-Y` at (0,6,1) and beat both. Always place the entire toggle block (hide + show rules) immediately after the `button[type="roll"]:hover.new-roll` rule, not near the top of the CSS file with the section column widths.
 - **All flex-cell columns in a repeating section must have explicit `flex: 0 0 Xpx` to prevent alignment drift.** `flex-cell` defaults to `flex: 0 1 auto` and `flex-cell-wrapper` defaults to `flex: 1 1 6%` — both can cause columns to grow or shrink unpredictably based on content. Setting `flex: 0 0 Xpx` on every column class (not just the val-roll-static wrapper) locks each column to its declared pixel width in both header and data rows. Without this, headers and rows appear misaligned even when pixel widths sum correctly.
+- **An insert anchored on a preceding rule must not repeat that rule's text.** Anchoring a CSS insert on `\twidth: 100%;\r\n}\r\n\r\n<selector>` and then beginning the replacement with the same prefix duplicates it, leaving a stray declaration and close brace after the new block. Count braces before and after every CSS edit — 1790/1791 is what caught this one — and re-read the neighbouring rule to confirm it is intact.
 - **Inputs do not honour `text-overflow: ellipsis` — they clip silently.** A `readonly` input at a fixed width truncates with no visual cue that text is missing, which is worse than a visible ellipsis. When several inputs in one block hold very different content, a shared width is wrong in both directions: the grenade save row had SAVE (never more than three characters), PASS (one short phrase) and FAIL (able to hold a compound like `Burning + full dmg`) all fixed at 100px. Reallocate per cell — 56 / 132 / 100 here, a net −12px — rather than widening all three. Past roughly 22 characters, switch to the preview + `sheet-tooltip-bubble` pattern instead of a wider box. Per-cell overrides can key off `input[name=]` with no markup change; four classes plus an attribute plus an element beats a five-class base rule.
 - **Verify column pixel totals sum to 813px (the sheet width minus borders) after any column change.** A single column width drift (e.g. `strain-used` changing from 50px to 60px) shifts the entire row right by the excess, misaligning every column that follows. Always run a total check: `python3 -c "print(sum([185,24,75,55,50,36,40,24,324]))"` after any column width edit.
 

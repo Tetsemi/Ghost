@@ -7123,7 +7123,7 @@
 							<option value="vanguard" data-i18n="career_vanguard-u">Vanguard</option>
 						</select>
 						<input class="sheet-readonly" type="text" name="attr_primary_career_skill_points"/>
-						<input class="sheet-readonly" type="text" name="placeholder" placeholder="N/A" placeholder="N/A" data-i18n-placeholder="na-u"/>
+						<input class="sheet-readonly" type="text" name="placeholder" placeholder="N/A" data-i18n-placeholder="na-u"/>
 						<input class="sheet-readonly" type="text" name="attr_primary_career_xp_spent"/>
 						<input class="sheet-readonly" type="text" name="attr_primary_career_xp_total"/>
 						<input class="sheet-readonly" type="text" name="attr_primary_career_spell_xp_total"/>
@@ -7177,8 +7177,11 @@
 								<option value="hexbreaker" data-i18n="career_hexbreaker-u">Hexbreaker</option>
 								<option value="soul_forger" data-i18n="career_soul_forger-u">Soul Forger</option>
 							</select>
+							<!-- CSS controller: careerDataMap[career].skill_points_secondary. "0" = Specialist, which has no 20-point bundle, so Skill->XP shows N/A instead of an input. -->
+							<input type="hidden" name="attr_secondary_career_bundle" value=""/>
 							<input class="sheet-readonly" type="text" name="attr_secondary_career_skill_points"/>
 							<input type="text" name="attr_secondary_career_skill_to_xp"/>
+							<input class="sheet-readonly sheet-career-na" type="text" name="placeholder" placeholder="N/A" data-i18n-placeholder="na-u"/>
 							<input class="sheet-readonly" type="text" name="attr_secondary_career_xp_spent"/>
 							<input class="sheet-readonly" type="text" name="attr_secondary_career_xp_total"/>
 							<input class="sheet-readonly" type="text" name="attr_secondary_career_spell_xp_total"/>
@@ -68346,7 +68349,6 @@ const registerPrimaryCareerXPWatcher = () => {
 
     const otherTriggers = [
         "change:primary_career",
-        "change:primary_career_skill_to_xp",
         "change:primary_career_spell_xp_total",
         "change:str", "change:dex", "change:pow", "change:con",
         "change:app", "change:edu", "change:siz", "change:int", "change:mag",
@@ -68376,7 +68378,6 @@ const registerPrimaryCareerXPWatcher = () => {
             const allKeysToGet = [
                 ...statKeys,
                 ...talentKeys.map(k => `${selectedCareer}_${k}`),
-                "primary_career_skill_to_xp",
                 "primary_career_spell_xp_total",
                 "secondary_career_xp_total",
 				"char_creation_lock",
@@ -68412,7 +68413,6 @@ const registerPrimaryCareerXPWatcher = () => {
 						if (debug_on) console.log("[Primary Career] +20 Kitsu racial bonus applied to skill points");
 					}
 
-                const skillToXP = parseInt(values["primary_career_skill_to_xp"], 10) || 0;
                 const spellXpTotal = parseInt(values["primary_career_spell_xp_total"], 10) || career.spell_xp_primary;
 
                 let talentXpSpent = -5;
@@ -68526,12 +68526,20 @@ const registerSecondaryCareerXPWatcher = () => {
                     totalSecondaryXP += rowXP;
 					totalSecondaryXPAdjusted += xpTotal;
 
+                    /* Specialist careers declare skill_points_secondary: 0 — no bundle, so
+                       nothing to convert. Hiding the input is not enough: the Ledger sums
+                       secondary_career_skill_to_xp across every row regardless of what is
+                       visible, so a value typed under a Core career would keep debiting the
+                       skill-point pool after the row was switched to a Specialist. Clear it. */
+                    const bundle = parseInt(career.skill_points_secondary, 10) || 0;
                     const rowUpdates = {
-                        [`${prefix}secondary_career_skill_points`]: career.skill_points_secondary || 0,
+                        [`${prefix}secondary_career_bundle`]: String(bundle),
+                        [`${prefix}secondary_career_skill_points`]: bundle,
                         [`${prefix}secondary_career_spell_xp_total`]: spellXpTotal,
                         [`${prefix}secondary_career_xp_spent`]: rowXP,
                         [`${prefix}secondary_career_xp_total`]: xpTotal
                     };
+                    if (bundle === 0 && skillToXP !== 0) rowUpdates[`${prefix}secondary_career_skill_to_xp`] = "";
 
                     setAttrs(rowUpdates);
                     if (debug_on) console.log(`[Row ${rowId}] XP Spent: ${rowXP} | XP Total: ${xpTotal}`);
@@ -69958,21 +69966,18 @@ const initWeaponComputedAttrs = () => {
   getSectionIDs("repeating_weaponsmdr", (ids) => {
     if (!ids.length) return;
 
+    /* Tag-layer attrs come from weaponTagAttrKeys, which is generated from
+       weaponTagInputs and therefore cannot fall behind it. This list is the
+       remainder: presets, damage, AP and the diagnostics. Before wiring,
+       weapon_trait_silent_mdr was missing here, so on every sheet open a
+       silenced weapon lost its Silent tag until a control was touched. */
     const fetchKeys = ids.flatMap(id => ([
-      `repeating_weaponsmdr_${id}_weapon_mode_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`,
+      ...weaponTagAttrKeys("repeating", `repeating_weaponsmdr_${id}_`),
       `repeating_weaponsmdr_${id}_weapon_ammo_type_mdr`,
       `repeating_weaponsmdr_${id}_weapon_ammo_active_mdr`,
       `repeating_weaponsmdr_${id}_weapon_ammo_type_label_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_optics_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_mod_internal_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_range_band_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_mod_penalty_reduce_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_barrel_mdr`,
       `repeating_weaponsmdr_${id}_weapondamage_mdr`,
       `repeating_weaponsmdr_${id}_weapon_modes_available_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_category_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_max_range_mdr`,
       `repeating_weaponsmdr_${id}_weapon_preset_melee_mdr`,
       `repeating_weaponsmdr_${id}_weapon_preset_throw_mdr`,
       `repeating_weaponsmdr_${id}_weapon_preset_handgun_mdr`,
@@ -69980,15 +69985,7 @@ const initWeaponComputedAttrs = () => {
       `repeating_weaponsmdr_${id}_weapon_preset_rifle_mdr`,
       `repeating_weaponsmdr_${id}_weapon_preset_smg_mdr`,
       `repeating_weaponsmdr_${id}_weapon_preset_heavy_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_trait_smartlink_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_trait_scoped_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_trait_cq_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_aim_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_target_prone_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_target_cover_mdr`,
       `repeating_weaponsmdr_${id}_weapon_ap_total_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_trait_concealable_mdr`,
-      `repeating_weaponsmdr_${id}_weapon_loadout_mdr`,
       /* diagnostic only — CSS controller + skill ref for preset-render tracing */
       `repeating_weaponsmdr_${id}_weapon_skill_class_mdr`,
       `repeating_weaponsmdr_${id}_weaponskill_mdr`,

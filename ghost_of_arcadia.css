@@ -4435,6 +4435,23 @@ select[name="attr_damage_bonus"] {
 	width: 100%;
 }
 
+/* Skill->XP is a secondary-or-later career mechanic and Specialist careers have
+   no 20-point bundle (skill_points_secondary: 0), so their Skill->XP cell shows
+   N/A — matching the primary career row, which never has one. The controller is
+   attr_secondary_career_bundle, written from the DataMap; it precedes both
+   targets so `~` can reach them. Over-cap entries on Core/Arcane rows are left
+   alone deliberately: the Ledger subtracts them from the skill-point pool, so an
+   overspend already shows as a negative remainder. */
+.ui-dialog .tab-content .charsheet .sheet-career-grid .sheet-career-na {
+	display: none;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_secondary_career_bundle"][value="0"] ~ input[name="attr_secondary_career_skill_to_xp"] {
+	display: none;
+}
+.ui-dialog .tab-content .charsheet input[name="attr_secondary_career_bundle"][value="0"] ~ .sheet-career-na {
+	display: block;
+}
+
 .ui-dialog .tab-content .charsheet .sheet-career-grid select {
 	height: 100%;
 	margin: 0;

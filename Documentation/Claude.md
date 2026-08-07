@@ -117,6 +117,7 @@
 | `test_ammo_reconcile.js` | Executes the worker; `reconcileAmmoTypes` across all three ammo scopes, idempotency, non-destruction of unresolvable values, and that it is actually called from `afterAllSets` | After any ammo key-space change |
 | `test_ammo_note.js` | Six roll buttons, both attack templates, `effect_summary_key` resolution, `translation.json` alphabetical position, and note-write ≥ label-write parity | After any ammo note or roll-template change |
 | `test_grenade_i18n.js` | Asserts every grenade display string resolves through `tr()`, that each key exists in `translation.json`, and that each function declares its own local `tr` | After any grenade/explosives display change |
+| `test_subsonic_bf.js` | Fires the real barrel and ammo click handlers in both orders; asserts subsonic lifts the Suppressor's BF cap and that Compensator, Silencer and other ammo do not. Harness dispatches `change:` events | After any mode-availability or ammo change |
 | `test_career_bundle.js` | Asserts `career_type` and `skill_points_secondary` agree with the rules, that no primary-career conversion survives, that the N/A controller precedes its targets, the CSS swap rules exist, and that over-cap entries are deliberately NOT clamped | After any career XP or skill-bundle change |
 | `test_tagfetch.js` | Records the keys actually passed to `getAttrs` at runtime and asserts every `deriveWeaponTags` consumer fetches every attr `weaponTagInputs` declares; also cross-checks each entry's `attrs` against the keys its `derive` closure reads | After any tag-layer or fetch-list change |
 | `find_orphans.js` | AST walk (acorn) reporting `const` bindings with zero resolved references. Regex use-counting gives false negatives on names that also appear as string literals on their own declaration line (`internal === "qst"`) | Before any orphan sweep |
@@ -178,6 +179,14 @@ Both validators exit non-zero on violation, so they drop into a pre-delivery gat
 `node --check` parses; it does **not** resolve identifiers. An undefined variable passes cleanly and throws at runtime. On 2026-08-01 a converted call site used `vals` where the callback parameter was `v`; `node --check` passed, the isolated unit test passed (it did not exercise call sites), and `refreshWeapon1Summary` threw on every sheet open.
 
 **Any change touching variable references requires execution, not parsing.** Load the worker block into node with stubbed Roll20 globals (`on`, `getAttrs`, `setAttrs`, `getSectionIDs`, `getTranslationByKey`, `generateRowID`), then invoke the changed functions and assert no error. This also enables behavioural tests — firing a `change:` handler with a seeded store and asserting on the resulting writes.
+
+**A harness that does not dispatch `change:` events cannot test watcher-driven
+behaviour.** A stubbed `setAttrs` that only mutates the store means every
+`change:` handler is dead code during the test, so a fix that depends on one
+appears to fail — or worse, an existing bug appears to pass. Have `setAttrs`
+compare against the previous value and fire the handlers registered for each
+changed attr, honouring `{ silent: true }`. Without this, the subsonic mode
+recompute tested as broken after it had been correctly written.
 
 **Corollary: confirm the test exercises the path you think it does.** A seeded-store test that accidentally hits the deselect branch returns "no error" while proving nothing about the apply branch.
 
@@ -533,6 +542,8 @@ It is now wired through a single consumer, `ammoEffects(ammoType, ammoActive)`, 
 #### Deferred vs enforceable ammo rules
 
 Eight declared fields have no implementation. Six are **correctly** text-only — they depend on the target, which Roll20 cannot supply — and are surfaced in the roll output via `effect_summary_key` → `{{ammonote}}`, the same treatment as the tranq note: `veil_charged_rounds.damage_type_override`, `.on_fumble`, `shock_rounds.bonus_damage_condition`, `hollow_point.soak_modifier`, `breacher_slugs.structural_damage_multiplier`, `.forces_single_target`.
+
+`subsonic_rounds.suppressed_bf_enabled` was **implemented** on 2026-08-07 (Suppressor only), leaving seven unimplemented fields rather than eight.
 
 Two more are **enforceable sheet-side** but **deferred by author ruling
 (2026-08-06)**. Unlike the six above, the sheet has the state it would need —
@@ -924,6 +935,34 @@ Player-owned attrs (e.g. `weaponstrain_mdr`) stay out of the map — they are se
 
 Adding an owned attr means checking which shape each apply site uses, and asserting the explicit clear exists rather than assuming the map covers it.
 
+### Check for an Existing Watcher Before Registering a New One
+
+Before adding `on("change:...")`, search for the event string. If a handler is
+already registered on those events, **fold the new work into it** rather than
+registering a second one.
+
+```
+grep -n 'change:repeating_weaponsmdr:weapon_ammo_type_mdr' file
+```
+
+Two handlers on the same event both fire, in registration order, each with its
+own `getAttrs`. That is not merely untidy: they cannot see each other's writes,
+so any ordering assumption between them is silent and fragile, and a later
+reader has no way to tell which one owns the attr. On 2026-08-07 a mode
+recompute was registered on
+`change:weapon_ammo_type_mdr change:weapon_ammo_active_mdr`, which already had
+a handler doing the label, note, AP and effective-damage writes; folding it into
+that handler's `setAttrs` callback both removed the duplicate and guaranteed it
+reads committed values.
+
+Assert the count after the edit — `registrations on those events: 1` — because
+a duplicate is invisible at runtime until two handlers disagree.
+
+**A harness that stores one handler per event name silently drops duplicate
+`on()` registrations.** If the test harness does `HANDLERS[ev] = fn` rather than
+pushing to an array, the second registration overwrites the first and the
+duplication the sheet actually has cannot be observed.
+
 ### Resolve the Firing Element From `eventInfo`
 
 Never infer which control fired by comparing stored values. The weapon preset watcher resolved its key through a fixed `||` precedence chain and identified the active slot by value comparison, so a stale value in an earlier slot could hijack resolution and clear the select the user had just used.
@@ -969,6 +1008,15 @@ Two follow-ons the first fix missed:
 
 - **Stored rows do not self-heal unless something recomputes them.** `initWeaponComputedAttrs` only seeded `modes_available` when it was *unset*, so rows carrying a stale value stayed wrong until the player touched a control. Both init paths now call `updateCapCounter` per row on open — idempotent, and it composes both restrictions.
 - **Clamp the selection, not just the option list.** `updateCapCounter` reassigned `mode` only when *rounds* blocked it, so a Silencer left the row showing SS available with SA still selected. The test is now `!availList.includes(mode)`, which covers every reason a mode became unavailable.
+
+**Enumerate the writers before patching one — the principle above is not self-executing.** On 2026-08-07 subsonic's suppressed-BF allowance was added to `updateCapCounter` and shipped, and the reported bug did not move: `modes_available` has **three** writers, not two. The barrel button handler computes the restriction independently through `applyBarrelModeRestriction`, and an ammo change recomputed nothing at all. Knowing the rule was not enough; the writers have to be listed.
+
+```
+grep -n 'modes_available' file          # every mention
+grep -n 'updates\[.*modes_available\]' # assignments specifically
+```
+
+Then read each hit and classify it: writer, reader, or attr-name derivation. The fix is to put the composition in **one** function every writer calls — here `applyBarrelModeRestriction` gained the ammo parameters and `updateCapCounter` now delegates to it instead of duplicating the logic — rather than to patch each writer to match.
 
 **When one attr encodes several independent rules, every writer must compose them, not recompute from the raw source.** The general alternative is to store each restriction separately and intersect on read; that is cleaner but a larger change.
 
@@ -1097,6 +1145,13 @@ Credits (Cr) — primary economy unit.
 11. **Off-school Strain with no Primary Arcane Career selected** — ruled 2026-08-06 to stay unaligned (0). Keeping the entry because p.37 arguably implies off-school-everywhere (1) and the ruling may revisit; it is one ternary in `spellOffSchoolPenalty`.
 12. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription per *Equivalence Proofs After the Collapse Has Shipped*. Note a `difftest_dice.js` of unknown provenance appeared in the container on 2026-08-06 and was deleted unread; do not adopt it without review.
 13. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.
+
+#### Shipped 2026-08-07 — ammo labels and suppressed BF
+`short_name_key` added to `ammoDataMap` so the 80px AMMO LOADED field stops
+clipping (`Subsonic Ro`), with full names retained in chat; the six ammo buttons
+i18n'd. `subsonic_rounds.suppressed_bf_enabled` implemented — Suppressor only,
+by author ruling — composed inside `applyBarrelModeRestriction` so all three
+writers of `modes_available` agree. `test_subsonic_bf.js` added.
 
 #### Shipped 2026-08-07 — careers
 Primary-career Skill→XP vestiges removed (watcher, fetch entry, local) on the

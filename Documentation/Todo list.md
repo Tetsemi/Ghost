@@ -68,6 +68,12 @@
 - **Foundational XP scope clarified 2026-08-07:** the 30 XP is for Career and Ancestry Talents. Skill points come from the two pools above and are a separate currency.
 - Still to read: Step 9 (Perks, Flaws, Foundational XP), Step 10 (Final Touches), Perks, Flaws, Contacts, Allies, Debts.
 
+**Attribute minimums — SHIPPED 2026-08-07.** SIZ values corrected to the Core Rules (six of eight; lyranni had been below the default floor). Emptying a stat now restores it to `stats[x].base` inside `registerStatHandler`, following the skill pattern rather than clamping; a value typed below the minimum is left alone and flagged red on white, matching bloodied and over-capacity. `test_ancestry_minimums.js` and `test_stat_minimums.js` added.
+
+- **STILL OPEN — `applyRacialBaseStats` still clamps on sheet open.** A flagged below-minimum value is silently forced up to the minimum on the next reload, which contradicts the flag-don't-clamp policy. Leave it, remove it, or restrict it to genuinely empty values?
+- **STILL OPEN — EDU minimum.** Doc: hard floor EDU 40. `edu.base` is 15 on several ancestries. Same one-line-per-entry correction as SIZ; `int.base` is already 40 and is asserted by the test.
+- **STILL OPEN — `stats[x].max` has zero consumers.** Stored and never enforced. Doc gives a universal creation cap of 80 and advancement cap of 90; the sheet carries per-ancestry maxima. Resolve against Chapter 5, and decide whether exceeding a maximum should be flagged the same way.
+
 ### Clean-up / Questions / Wishlist
 - **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi".
 - **Two `translation.json` display strings were cleaned on 2026-08-06** — `"AP Rounds (+AP2, −1 die)"` → `"AP Rounds"` and `"Hollow Point (cond)"` → `"Hollow Point"`. Neither key is referenced from the HTML. Revert if the annotations were intended for a control not yet built.

@@ -115,6 +115,8 @@
 | `test_ammo_note.js` | Six roll buttons, both attack templates, `effect_summary_key` resolution, `translation.json` alphabetical position, and note-write ≥ label-write parity | After any ammo note or roll-template change |
 | `test_grenade_i18n.js` | Asserts every grenade display string resolves through `tr()`, that each key exists in `translation.json`, and that each function declares its own local `tr` | After any grenade/explosives display change |
 | `test_subsonic_bf.js` | Fires the real barrel and ammo click handlers in both orders; asserts subsonic lifts the Suppressor's BF cap and that Compensator, Silencer and other ammo do not. Harness dispatches `change:` events | After any mode-availability or ammo change |
+| `test_stat_minimums.js` | Emptied stat restores to `stats[x].base`; a below-base value is flagged not clamped; asserts each below-min CSS rule **outranks** the per-stat edit-mode rule | After any stat-minimum or edit-mode CSS change |
+| `test_ancestry_minimums.js` | The eight SIZ minimums and the INT 40 floor against the Core Rules, and that `applyRacialBaseStats` still clamps to `stats[x].base` | After any ancestry stat change |
 | `test_career_bundle.js` | Asserts `career_type` and `skill_points_secondary` agree with the rules, that no primary-career conversion survives, that the N/A controller precedes its targets, the CSS swap rules exist, and that over-cap entries are deliberately NOT clamped | After any career XP or skill-bundle change |
 | `test_tagfetch.js` | Records the keys actually passed to `getAttrs` at runtime and asserts every `deriveWeaponTags` consumer fetches every attr `weaponTagInputs` declares; also cross-checks each entry's `attrs` against the keys its `derive` closure reads | After any tag-layer or fetch-list change |
 | `find_orphans.js` | AST walk (acorn) reporting `const` bindings with zero resolved references. Regex use-counting gives false negatives on names that also appear as string literals on their own declaration line (`internal === "qst"`) | Before any orphan sweep |
@@ -1287,6 +1289,44 @@ field with `W6`/`W7`/`W8`; `T7` traitLabelMap lockstep. All sandbox-validated.
 - **Roll toggle CSS hide rules must be placed AFTER the global `button[type="roll"].new-roll { display: flex }` rule and must include `button[type="roll"]` in the selector.** The global rule has specificity (0,5,1). Hide rules using only `.sheet-X-roll-Y` have specificity (0,4,0) and lose regardless of order. Hide rules using `button[type="roll"].sheet-X-roll-Y` have specificity (0,5,1) — a tie — and win only when declared later in the file. Show rules use `.sheet-X-roll-toggle[value="Z"] + button[type="roll"].sheet-X-roll-Y` at (0,6,1) and beat both. Always place the entire toggle block (hide + show rules) immediately after the `button[type="roll"]:hover.new-roll` rule, not near the top of the CSS file with the section column widths.
 - **All flex-cell columns in a repeating section must have explicit `flex: 0 0 Xpx` to prevent alignment drift.** `flex-cell` defaults to `flex: 0 1 auto` and `flex-cell-wrapper` defaults to `flex: 1 1 6%` — both can cause columns to grow or shrink unpredictably based on content. Setting `flex: 0 0 Xpx` on every column class (not just the val-roll-static wrapper) locks each column to its declared pixel width in both header and data rows. Without this, headers and rows appear misaligned even when pixel widths sum correctly.
 - **An insert anchored on a preceding rule must not repeat that rule's text.** Anchoring a CSS insert on `\twidth: 100%;\r\n}\r\n\r\n<selector>` and then beginning the replacement with the same prefix duplicates it, leaving a stray declaration and close brace after the new block. Count braces before and after every CSS edit — 1790/1791 is what caught this one — and re-read the neighbouring rule to confirm it is intact.
+### Roll20 CSS: Per-Attribute Edit-Mode Rules Outrank State Colouring
+
+The eight core attributes each have their **own** edit-mode rule —
+`.sheet-layout .sheet-edit-controller[value="on"] ~ * input.sheet-edit-toggle-field[name="attr_siz"]`
+— in both edit-on and edit-off variants, and both set `background-color` and
+`color`. They sit at specificity **(0,8,1)**.
+
+So any state colouring on those inputs must be written **against that selector
+shape**, not in the usual controller-sibling form. The below-minimum flag first
+shipped as
+`.sheet-siz-wrapper input[name="attr_siz_below_min_css"][value="1"] ~ .sheet-siz-input`
+at (0,7,1) and never rendered, in any theme, at any file position.
+
+`attr_bloodied_css ~ .sheet-hp-input` works only because `attr_hp` is **not**
+one of the eight and has no per-stat edit-mode rule. Copying its shape onto a
+stat input does not work, and the reason is invisible unless you go looking for
+the competing rule.
+
+The working form adds the wrapper and the controller's two attribute selectors
+to the edit-mode shape, reaching (0,11,2):
+
+```css
+.ui-dialog .tab-content .charsheet .sheet-layout
+  .sheet-edit-controller[value="off"] ~ * .sheet-siz-wrapper
+  input[name="attr_siz_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_siz"]
+```
+
+**Three diagnostic lessons from getting this wrong twice:**
+
+- **A search that excludes the syntax you are looking for returns a confident zero.** The first hunt for competing rules used a pattern ending `[^{\[]*`, which excludes any selector containing `[` — that is, all twenty-two of them. "No competitors found" meant "broken search", and it was read as evidence.
+- **Recount specificity after every selector change.** Dropping an element+class compound to match a known-working rule took the below-min rule from (0,7,2) to (0,7,1) — the "fix" made it strictly worse.
+- **When a CSS change does not render, prove which layer is at fault before touching either.** A one-line `debug_on` log of the flag attr settled it in a single round: `siz=35/min45->1` showed the worker was correct and the fault was entirely in the cascade. Two speculative CSS rewrites preceded that log and both were wasted.
+
+**Assert the relationship, not the existence.** `test_stat_minimums.js` computes
+the specificity of both the state rule and the competing edit-mode rule and
+fails if the former does not outrank the latter. A check that merely asserts a
+rule exists passes on a rule that never renders.
+
 - **Inputs do not honour `text-overflow: ellipsis` — they clip silently.** A `readonly` input at a fixed width truncates with no visual cue that text is missing, which is worse than a visible ellipsis. When several inputs in one block hold very different content, a shared width is wrong in both directions: the grenade save row had SAVE (never more than three characters), PASS (one short phrase) and FAIL (able to hold a compound like `Burning + full dmg`) all fixed at 100px. Reallocate per cell — 56 / 132 / 100 here, a net −12px — rather than widening all three. Past roughly 22 characters, switch to the preview + `sheet-tooltip-bubble` pattern instead of a wider box. Per-cell overrides can key off `input[name=]` with no markup change; four classes plus an attribute plus an element beats a five-class base rule.
 - **Verify column pixel totals sum to 813px (the sheet width minus borders) after any column change.** A single column width drift (e.g. `strain-used` changing from 50px to 60px) shifts the entire row right by the excess, misaligning every column that follows. Always run a total check: `python3 -c "print(sum([185,24,75,55,50,36,40,24,324]))"` after any column width edit.
 

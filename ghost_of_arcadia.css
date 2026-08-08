@@ -2479,6 +2479,36 @@ select[name="attr_damage_bonus"] {
 	border: 1px solid var(--cs_disabled_border);
 }
 
+/* Attribute below its ancestry minimum: red background, white text — the same
+   treatment as bloodied HP and over-capacity spell preparation.
+
+   These MUST be written against the edit-mode selector shape. Each of the
+   eight attributes has its own edit-mode rule at (0,8,1) setting
+   background-color for both edit-on and edit-off, so a plain
+   `controller[value="1"] ~ .sheet-siz-input` rule at (0,7,1) loses outright no
+   matter where it sits in the file. Adding the wrapper and the controller’s
+   two attribute selectors brings this to (0,10,2). Both edit modes are
+   enumerated because both set the colour. */
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-str-wrapper input[name="attr_str_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_str"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-str-wrapper input[name="attr_str_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_str"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-dex-wrapper input[name="attr_dex_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_dex"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-dex-wrapper input[name="attr_dex_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_dex"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-pow-wrapper input[name="attr_pow_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_pow"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-pow-wrapper input[name="attr_pow_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_pow"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-con-wrapper input[name="attr_con_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_con"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-con-wrapper input[name="attr_con_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_con"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-app-wrapper input[name="attr_app_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_app"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-app-wrapper input[name="attr_app_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_app"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-edu-wrapper input[name="attr_edu_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_edu"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-edu-wrapper input[name="attr_edu_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_edu"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-siz-wrapper input[name="attr_siz_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_siz"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-siz-wrapper input[name="attr_siz_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_siz"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-int-wrapper input[name="attr_int_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_int"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-int-wrapper input[name="attr_int_below_min_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_int"] {
+	background-color: var(--cs_state_bloodied_bg);
+	color: var(--cs_state_bloodied_text);
+}
+
 /* Show roll button overlays */
 .ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-luck-roll,
 .ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-str-roll,
@@ -2590,6 +2620,11 @@ select[name="attr_damage_bonus"] {
 }
 
 /* Bloodied: HP input turns light red with white text at or below 50% */
+/* Attribute below its ancestry minimum: same red/white treatment as bloodied
+   and over-capacity. The controller is a grid child so `~` reaches the stat
+   wrapper; the colour lands on the input inside it. One rule per stat because
+   each wrapper carries its own class. */
+
 .ui-dialog .tab-content .charsheet .sheet-grid-characteristics input[name="attr_bloodied_css"][value="1"] ~ .sheet-hp-input {
 	background-color: var(--cs_state_bloodied_bg);
 	color: var(--cs_state_bloodied_text);

@@ -1,24 +1,90 @@
-BUGS:
+### Bugs
+- None currently tracked.
 
-To-do:
-	
-## Pending — Next Revision Pass
+### Pending — Next Revision Pass
+1. **brawler, tactician careers** — waiting on docs.
+2. **Full type/tag audit across all DataMaps** — waiting on docs. (Includes the legacy ancestry talent tag normalization: display-name tags → snake_case.)
+3. **Add Ancestry Traits to Summary Text** — waiting on docs.
+4. **Fix Ancestry CSS Themes** — includes the Lyranni high-contrast theme application blocks, which still contain stale light-theme values after the `:root` reorganization.
+5. **Weapon rework** — the Torchwall items are parked until it lands: renaming `ap_2_heavy_targets` to name the real condition (Physical Soak ≥ 4, not a target class), adding the missing "one die type higher against light vehicles, drones and walkers" trait, and ruling on the source contradiction — "one die type higher (2d10 → 3d10)" steps the die *count* in the example but the die *type* in the words, and the weapon's base damage is 3d10 so the example does not match its own weapon. Readings differ by a lot: 3d10→3d12 averages 19.5, 3d10→4d10 averages 22.0, against a base of 16.5. `T7` and `W6`/`W7`/`W8` exist to make the rename safe.
+6. **`weaponTagInputs` rename** — deferred with the weapon rework. The table now feeds `computeWeaponDice` as well as `buildTagsStr` and carries the dice-only `reduceEff`, so the "Tag" in the name no longer describes it. Renaming pollutes `git log -S 'weaponTagInputs'`, so it should be one deliberate commit rather than drift.
+7. **`setup` field is orphaned** — six weapons declare a value (`full_round_tripod`, `full_round`, `maneuver_bipod` ×2, `maneuver_brace` ×2) and no code reads it. Same defect class `ammoDataMap` was in. Wiring it would mechanise the Torchwall's "firing without full setup imposes two penalty dice" across all six at once. Enforceable sheet-side: setup is the character's own state, not the target's. Needs a per-row deployed control.
+8. **Detonators are an unbuilt feature, not dead data.** `detonatorDataMap` has 5 entries with a full schema (`trigger_type`, `max_charges`, `simultaneous_trigger`, `emp_immune`, `jamming_vulnerable`, `traceable`, `disarm_skill`/`_difficulty`/`_fumble`, `spot_skill`, `trigger_weight_kg`) and **13 translation keys already written** — but zero HTML elements, zero CSS, zero code reads. Unlike `ammoDataMap`, which was orphaned *behind a working UI*, this is two of four layers finished and two never started. It is not speculative: `plastic_explosives`, `breaching_charge` and `arcshock_pulse_mine` all declare `requires_detonator: true`, and the sheet currently says a detonator is needed while giving nowhere to record which. **Do not delete it** — build the UI (a preset select in the explosives section, mirroring the grenade preset pattern) when the feature is wanted.
+9. **Grenade condition rulings.** Two `explosivesDataMap` values are not `conditionsDataMap` keys and are declared in `C1_EXCEPTIONS`. `knockout_gas_grenade.condition_on_fail = "unconscious"` still renders lowercase; unconsciousness may be a state (HP 0) rather than a condition, and the tranq weapons reference it too, so adding an entry needs rules text. `nullburst_disruption_grenade.condition_on_fail = "magic_suppressed"` is never displayed — that entry has `save_stat: null` and its effect is carried by `suppresses_magic` — so it is dead data pending a delete-or-define ruling. Separately, `condition_duration: "dissolves_3min"` on the Scatterfoam puck renders as `dissolves_3min rd`.
+10. **Orphan sweep REVERTED — eleven bindings still to adjudicate.** The sweep was reverted on 2026-08-07 after `skillToXP` turned out not to be dead code but a rules artefact (see *Unreferenced is not the same as dead*). `weaponTagAttrKeys` was wired up rather than deleted and stays. Remaining, each needing the same rules check before removal:
+    - `flaw5Keys` / `flaw10Keys` in `registerFlawSummaryWatcher` — partition `flawDataMap` by 5- and 10-point cost. Does the flaw summary owe a per-tier point total?
+    - `talentSkills` in `calculateAndUpdateSkillValues` (a 14-line chain) and in `applyAllSkillBonuses` — both compute talent-granted skill lists inside functions that apply skill bonuses. Is another path already applying them?
+    - `iage` / `iedu` / `iwound` in `registerStatHandler` — plausibly Call of Cthulhu leftovers where age and EDU drove derived stats, but confirm GoA has no age or wound modifier before removing.
+    - `bgLimiterRegistered` (superseded by the `BG_LIMITER_V2_REGISTERED` boolean), `slots` in `initWeaponComputedAttrs` (`computeModButtons` takes the entry), and `reflexRanges` in `buildTagsStr` (superseded by `weaponModDataMap.reflex_sight.hit_bonus_range_limit`) are the three I am confident are genuinely dead.
+11. **Off-school Strain with no Primary Arcane Career selected** — ruled 2026-08-06 to stay unaligned (0). Keeping the entry because p.37 arguably implies off-school-everywhere (1) and the ruling may revisit; it is one ternary in `spellOffSchoolPenalty`.
+12. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription per *Equivalence Proofs After the Collapse Has Shipped*. Note a `difftest_dice.js` of unknown provenance appeared in the container on 2026-08-06 and was deleted unread; do not adopt it without review.
+13. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.
+14. **Debt (Chapter 4, Step 11) is an unbuilt feature — deferred 2026-08-09.** The book defines a structured character-creation choice: exactly one Debt, a Tier (Minor +5,000cr / Moderate +15,000cr / Major +30,000cr), and a recorded holder/leverage, never clearable via XP (p.46, doc 2026-07-01). Nothing on the sheet implements this. What exists instead: a generic `"debt"` option in the freeform Money Ledger `money_choice` select (no tier, no bonus-credit enforcement, no holder field); `debt_marker`, an unrelated Vanguard-background narrative flavor item with no mechanical effect; and `flaw_blood_debt`, a Perks/Flaws Flaw whose cost (10 XP) and text are verified correct against the book. Same defect class as `detonatorDataMap` (Todo 8) — not dead data, just never built. Do not repurpose the Money Ledger `"debt"` choice as the real feature; it has no tier or holder fields and predates this review.
+15. **Blood Debt / Debt mutual exclusivity is unenforced — deferred with Todo 14.** The book states outright: "Blood Debt cannot be taken alongside the Debt option in Step 11... do not stack" (p.42). Nothing on the sheet checks this, because there is no Debt feature yet to check it against. Revisit when Todo 14 is built — the check belongs wherever the Debt tier is selected, gated on `flaw_blood_debt` being taken (and vice versa).
 
-1. **brawler, tactician**  - Waiting on docs
+### Core Rules Review
 
-2. **Full type/tag audit across all DataMaps** - Waiting on docs
+**Chapter 1 — Welcome to New Arcadia (printed pp. 8–15): COMPLETE, no open sheet work.**
+- Covered: d100 roll-under with margin tiers, d4–d12, eight ancestries, Awakened/Mundane as a biological gate, single-school alignment via `primary_arcane_career`, off-school Strain, reputation/contacts/crew, lifestyle.
+- `Dravi` → **Draevi** is canonical; document owner notified.
+- "The further from their natural alignment" implies a graded cost; the sheet implements the flat +1 Strain per Arcane Guide p.37. Document owner notified.
+- Veil radiation corrupting organic and arcane matter has no sheet representation. Document owner notified.
+- "Coverage tier" — deferred to the Lifestyle chapter.
+- Ghost handle vs legal name — **fixed 2026-08-07**: Player moved to line 1, line 2 split into Real Name (`attr_name`, label only) and Ghost Name (`attr_ghost_name`, new).
+- Safety and Table Expectations (session zero, Lines and Veils, X-Card) is **pure documentation** — no sheet representation intended. Recorded so the absence is not later read as an oversight.
 
-3. **Add Ancestry Traits to Summary Text** - Waiting on docs
+**Chapter 2 — New Arcadia at a Glance (printed pp. 16–19): COMPLETE, no open sheet work.**
+- Covered: 36 districts across 8 zones in `districtDataMap`; every district the chapter names in passing exists (Pinnacle Ward, Hollowfield, Crossline Ward) with translation keys; Heliodyne, Blackshield Authority and Lifeline all present; eight peoples and the Lyranni Awakened rate consistent.
+- Zone model: the chapter describes three bands (Core, Midline, Periphery/Fringe) where the sheet has eight zones — `arcology`, `prestige`, `bay` and `ashfall` have no counterpart in the chapter. **Deferred to the Lifestyle chapter.**
+- `Veilburn` (contamination shaping district desirability) and `Ghostlight` are named in the chapter and absent from the sheet. Ruled 2026-08-07: **costs are already baked into `cost_mod` / `dt_mod`**; both terms are covered by the Lifestyle section. No sheet representation needed.
+- `districtDataMap` `source` cites `lifestyles-u` while the chapter points at the *New Arcadia Sourcebook* for full district detail. Deferred with the Lifestyle chapter.
+- `Arcship` appears as scenery only; no sheet presence needed.
 
-4. **Fix Ancestry CSS Themes**
+**Chapter 3 — Living in New Arcadia (printed pp. 20–25): DEFERRED.** Ruled 2026-08-07 as world building rather than technical content. Sections cover Getting Around, The Omni, The ArcNet, Work, Food & Housing, Fashion & Identity, Entertainment, and Law & Consequence. Where it touches sheet data — `omniDevicesDataMap`, `omnidecksDataMap`, `commsDataMap`, `entertainmentDataMap`, `lifestyleTierDataMap` — it is covered by the Lifestyle and Gear chapters. Named entities noted in passing and not yet cross-checked: NATS, Council Data Mandate 12.4, Omni flags, GUNK, Coreline Nutritech, arc bikes / arc runners, Veilene.
 
-5. **Review Born Adjacent for per/Scene usage**
+**Chapter 4 — Becoming a Ghost (printed pp. 27–35): IN REVIEW, Steps 1–8 read.**
+- Covered exactly: attribute pool splits (Mundane focused 260/220 auto-oriented, balanced 240/240; Awakened 230/200 and 200/230, **no balanced option**) with under/exact/over budget states; Arcane Capacity = Vitality, Awakened only; Strain = floor((POW+CON)/5) — floor is a deliberate change from the doc's "rounded up"; Luck is player-rolled and entered; thirteen Backgrounds; `career_type` data supports "Specialist never at creation"; an Arcane first Career sets the Primary Spell School with +2/+5 XP and **+1 Strain** off-school (confirms the flat reading over Chapter 1's "the further from").
+- **SIZ minimums FIXED 2026-08-07.** Core Rules: SIZ cannot be assigned below the ancestry minimum — 35 default, Veyra 25, Khadra 45. Six of eight corrected (alteri/draevi/human 40→35, khadra 50→45, veyra 30→25, **lyranni 30→35** which had been below the default floor); feran and kitsu were already correct and their `source` was deliberately not bumped. `test_ancestry_minimums.js` added.
+  - **Correction to an earlier note in this file:** `stats[x].base` **is** the enforced minimum. `applyRacialBaseStats` raises any attribute below it (`if (isNaN(current) || current < racialBase)`). No separate `min` field is needed, and the earlier claim that one was is wrong.
+- **STILL TO FIX — EDU minimum.** Doc: hard floor EDU 40. `int.base` is 40 on all eight and is now asserted by the test, but `edu.base` is 15 on several ancestries. Same one-line-per-entry correction as SIZ.
+- **QUESTION — attribute maximums are stored but never enforced.** `stats[x].max` has **zero code consumers**; only `.base` is read. Doc gives a universal creation cap of 80 and an advancement cap of 90, while the sheet carries per-ancestry per-stat maxima (lyranni str 70, alteri str 75, feran str 80). Either those are real ancestry caps Chapter 5 will define and should be enforced, or they are drift. Also open: should exceeding a maximum be flagged in the display the same way a sub-minimum value would be?
+- **FLAG — HP rounding.** Doc: `(CON+SIZ) ÷ 5 rounded up`. Sheet: `Math.floor((icon+isiz)/5)` plus perk, talent and cyberware bonuses. Measured: **0 deviations of 224** when CON and SIZ are in increments of 5 (the creation rule), but **4,012 of 5,016 (80%)** across all integer values, always by exactly 1 with the sheet lower. Only reachable if something moves CON or SIZ off a multiple of 5 in play. Likely intentional and consistent with the Strain floor ruling — confirm.
+- **QUESTION — Major Wound threshold.** Doc: a single attack dealing ≥ half **maximum** HP after Soak triggers a Major Wound and an immediate CON roll; both thresholds measure from max, not current. Sheet tracks `major_wounds_checkbox` (read at three sites, watched by `registerStatHandler`) but computes no threshold and prompts no CON roll. Consistent with GM adjudication, but `⌈pulphp_max ÷ 2⌉` is a pure function of an attr the sheet already holds. Display it, or leave the checkbox as the full extent?
+- Ancestry spelling: Chapters 1–2 say "Dravi", **Chapters 4–5 say "Draevi"** matching the sheet. Internal doc inconsistency; owner notified.
+- TOC error: `CHAPTER 5: ANCESTRY ....... 27` should be ~56 (Alteri starts at 57).
+- **FIX — lock out Flaws at +10 XP.** Doc Step 9: Flaws grant 5 or 10 XP to a **maximum of +10 XP gained from Flaws**, and up to two total selections combined across Perks and Flaws. `flawDataMap` costs are exactly 5 and 10, matching the doc, but `xpledger_flaws_gain` is summed without limit. Once 10 XP worth are checked, further Flaw checkboxes should lock out. **This is very likely what the orphaned `flaw5Keys` / `flaw10Keys` were written for** (Todo 10) — they partition `flawDataMap` by exactly those two severities. Treat them as an unfinished feature, not dead code.
+- **Foundational XP validated.** Doc: every character receives 30 Foundational XP. Sheet: `background_xp` is `readonly` and forced to 30 on open (`if (xp !== 30) normalUpdates.background_xp = 30;`), and is the first term of the Ledger's `xpRemaining`. Correct — it simply is not called "Foundational" anywhere, which is why a term search missed it.
+- **QUESTION — a second, separate 30.** All nine Arcane careers carry `spell_xp_primary: 30`; all Core and Specialist careers carry 0. That feeds `primary_career_spell_xp_total` and the `spell_xp_remaining` / `spell_xp_spent` pair. But Chapter 4 Step 9 says spells are purchased **from Foundational XP** at listed cost, with no separate pool. So the sheet may be granting Arcane characters 30 Foundational XP **plus** 30 spell XP. Resolve against Chapter X: Magic before changing either side.
+- Doc note: the Step 9 XP table says Ally cost "varies by tier (see Step 11)" — **stale cross-reference**, the costs are in the Step 10 table. Confirmed 2026-08-07. The authoritative Ally tier table sits below the Perk/Flaw section.
+- Creation caps not enforced anywhere found: max +10 XP from Flaws (above), two total Perk/Flaw selections, the 75% skill cap spanning Step 7 and Foundational XP, and 20,000 starting Credits. Confirm which of these the sheet should enforce versus leave to the player, as with the 50% bundle ceiling.
+- Build / Damage Bonus table **matches exactly** across all eight printed bands, and the sheet correctly implements one further band (445–524 → +6 / 5d6) from the "+80 points" extension rule. Above 524 it falls through and writes nothing — adversary-only edge, noted not fixed.
+- Speed Rating = (DEX + Athletics%) ÷ 10 rounded down, cap 14 — deferred to the Combat chapter.
+- **Skill pool formulas VALIDATED, doc outdated.** Ruled 2026-08-07: Career/Background pool is `180 + (EDU × 2)`, Personal pool is `INT × 2`. The doc's Step 7 `(EDU × 3) + 80` is **stale** — flag to the document owner, along with its worked examples ("At EDU 40 this pool is 200 points... At EDU 80 it is 320") and the restatement "every 5 points of EDU is worth 15 additional points here", all of which encode the old ×3 rule. Sheet verified: 24 of 24 careers carry `base_skill_points: 180` / `attributes: ["EDU"]` / `multipliers: [2]` with matching display strings, zero deviations; `personal_skill_points = iint * 2`. Specialist careers carry neither field, consistent with never being selectable at creation.
+- **FLAG — +20 Human / Kitsu skill-point bonus is hardcoded.** `registerPrimaryCareerXPWatcher` adds 20 to the career pool via two `if (race === ...)` branches. Not in Chapter 4, and not read from `ancestryDataMap`. If it is a real ancestry trait (check Chapter 5), it belongs in the DataMap as data rather than as code shape — same pattern as the AP field. If it is not a real rule, it should go.
+- **Foundational XP scope clarified 2026-08-07:** the 30 XP is for Career and Ancestry Talents. Skill points come from the two pools above and are a separate currency.
+- Still to read: Step 9 (Perks, Flaws, Foundational XP), Step 10 (Final Touches), Perks, Flaws, Contacts, Allies, Debts.
 
-Clean-up:
+**Attribute minimums and maxima — SHIPPED 2026-08-07.**
+- SIZ corrected to the Core Rules on six of eight ancestries (lyranni had been below the default floor); EDU floor raised from 15 to 40 on seven of eight (veyra already correct). `source` bumped only on entries actually edited.
+- Emptying a stat restores it to `stats[x].base` inside `registerStatHandler`, following the skill pattern rather than clamping. A value below the minimum, or above the ancestry maximum, is left alone and flagged red-on-white — the bloodied treatment.
+- Ancestry maxima confirmed as **deliberate design, not drift**: 60–85 with per-ancestry variation (veyra SIZ 60, lyranni STR/SIZ 70, khadra DEX 70, alteri POW/APP 85, kitsu INT 85). Several exceed the doc's universal creation cap of 80, so `stats[x].max` reads as the **advancement** ceiling.
+- `test_ancestry_minimums.js` and `test_stat_minimums.js` added. The latter asserts each flag rule **outranks** the per-stat edit-mode rule, which is the check that would have caught the CSS failure immediately.
 
-1. **Still Standing** - Exists as both Human and Khadra Tier 1 Talents
+- **STILL OPEN — `applyRacialBaseStats` still clamps on sheet open.** A flagged below-minimum value is silently forced up on the next reload, so the red disappears. Now sharper than before: over-maximum values are **never** clamped, so the two flags behave inconsistently. Leave it, remove it, or restrict it to genuinely empty values?
 
-Questions:
+**Doc corrections for the author — running list.**
+1. `Dravi` vs `Draevi` — Chapters 1–2 use "Dravi", Chapters 4–5 use "Draevi" (matching the sheet). Internal inconsistency; **Draevi is canonical**.
+2. Chapter 1's "the further from their natural alignment, the more costly" implies a graded off-school cost. The rule is a **flat +1 Strain** (Arcane Guide p.37, restated in Chapter 4 Step 5).
+3. Step 9's XP table says Ally cost "varies by tier (see Step 11)" — stale cross-reference; the costs are in the Step 10 table.
+4. TOC: `CHAPTER 5: ANCESTRY ....... 27` should be ~56 (Alteri starts at 57).
+5. Step 7's Career/Background skill pool `(EDU × 3) + 80` is **outdated** — the rule is `180 + (EDU × 2)`. Three places encode the old ×3: the formula, the worked examples ("At EDU 40 this pool is 200 points… At EDU 80 it is 320"), and the restatement "every 5 points of EDU is worth 15 additional points here".
 
-Wishlist:
+### Clean-up / Questions / Wishlist
+- **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi".
+- **Two `translation.json` display strings were cleaned on 2026-08-06** — `"AP Rounds (+AP2, −1 die)"` → `"AP Rounds"` and `"Hollow Point (cond)"` → `"Hollow Point"`. Neither key is referenced from the HTML. Revert if the annotations were intended for a control not yet built.
+
+
+### Clean-up
+
+- **Still Standing** - Exists as both Human and Khadra Tier 1 Talents - Waiting on docs
 

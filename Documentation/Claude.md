@@ -1175,6 +1175,8 @@ Credits (Cr) — primary economy unit.
 11. **Off-school Strain with no Primary Arcane Career selected** — ruled 2026-08-06 to stay unaligned (0). Keeping the entry because p.37 arguably implies off-school-everywhere (1) and the ruling may revisit; it is one ternary in `spellOffSchoolPenalty`.
 12. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription per *Equivalence Proofs After the Collapse Has Shipped*. Note a `difftest_dice.js` of unknown provenance appeared in the container on 2026-08-06 and was deleted unread; do not adopt it without review.
 13. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.
+14. **Debt (Chapter 4, Step 11) is an unbuilt feature — deferred 2026-08-09.** The book defines a structured character-creation choice: exactly one Debt, a Tier (Minor +5,000cr / Moderate +15,000cr / Major +30,000cr), and a recorded holder/leverage, never clearable via XP (p.46, doc 2026-07-01). Nothing on the sheet implements this. What exists instead: a generic `"debt"` option in the freeform Money Ledger `money_choice` select (no tier, no bonus-credit enforcement, no holder field); `debt_marker`, an unrelated Vanguard-background narrative flavor item with no mechanical effect; and `flaw_blood_debt`, a Perks/Flaws Flaw whose cost (10 XP) and text are verified correct against the book. Same defect class as `detonatorDataMap` (Todo 8) — not dead data, just never built. Do not repurpose the Money Ledger `"debt"` choice as the real feature; it has no tier or holder fields and predates this review.
+15. **Blood Debt / Debt mutual exclusivity is unenforced — deferred with Todo 14.** The book states outright: "Blood Debt cannot be taken alongside the Debt option in Step 11... do not stack" (p.42). Nothing on the sheet checks this, because there is no Debt feature yet to check it against. Revisit when Todo 14 is built — the check belongs wherever the Debt tier is selected, gated on `flaw_blood_debt` being taken (and vice versa).
 
 #### Shipped 2026-08-07 — ammo labels and suppressed BF
 `short_name_key` added to `ammoDataMap` so the 80px AMMO LOADED field stops
@@ -1209,6 +1211,15 @@ Off-school Strain surcharge in both spell sections; ammo key-space rename plus
 `{{ammonote}}` roll-output row; the `computeWeaponDice` orphan sweep (53
 bindings); the `trait_ap` chain removal (20 sites); AP as a `weaponDataMap`
 field with `W6`/`W7`/`W8`; `T7` traitLabelMap lockstep. All sandbox-validated.
+
+#### Reviewed 2026-08-09 — Chapter 4: Contacts, Allies, Debt
+Audited the sheet's Contacts/Allies/Debt implementation against Chapter 4
+(pp.44-46, doc 2026-07-01). Contacts and the two locked Starting Contact rows
+match the book (not XP-purchased, background+career only). Ally tier select
+and the free-text `contact_cost` field are confirmed correct as designed —
+Foundational XP purchase with cost set at time of purchase, no gating needed
+for tier upgrades. Debt surfaced as unbuilt (Todo 14) and the Blood Debt
+exclusivity as unenforced (Todo 15), both deferred. No code changed this pass.
 
 ### Clean-up / Questions / Wishlist
 - **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi".

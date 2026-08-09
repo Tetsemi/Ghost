@@ -386,6 +386,50 @@ def main():
         for t in sorted(labelled - used):
             fail("T7", f"traitLabelMap declares '{t}' but no weapon carries it")
 
+    # ---- P1/P2: Perk and Flaw costs against the Core Rules.
+    # Three perks had drifted (last_clear_thought 15 vs 10, linguist 10 vs 5,
+    # shadow_mark 10 vs 5) and nothing would have caught it: the costs drive the
+    # XP ledger and the +10 flaw cap, so a wrong figure is a silent rules error.
+    # Transcribed from Chapter 4, printed pp. 37-41 (doc 2026-07-01).
+    PERK_COSTS = {
+        "blood_born_survivor": 15, "combat_veteran": 10, "corp_groomed": 10,
+        "danger_sense": 10, "dirty_fighter": 10, "final_stand": 15,
+        "forgettable_presence": 10, "hard_preparation": 10,
+        "institutional_weight": 10, "last_clear_thought": 10, "linguist": 5,
+        "mind_leash": 15, "photographic_recall": 10, "resilient_frame": 10,
+        "scorched_soul": 10, "shadow_mark": 5, "tactical_instinct": 15,
+        "veil_anchor": 15, "veil_drenched_intuition": 10,
+    }
+    FLAW_COSTS = {
+        "addiction_major": 10, "addiction_minor": 5, "blood_debt": 10,
+        "burned_bridges": 5, "compulsive_gambler": 5, "cyber_rejection": 5,
+        "distinctive_look": 5, "hex_stained": 10, "hunted": 10,
+        "marked_by_the_black": 10, "mental_scar": 10, "obligation": 10,
+        "soul_flare": 10, "veil_touched": 5, "wanted_low_priority": 5,
+    }
+    for tag, mapname, endmark, expected in (
+            ("P1", "perkDataMap", "const flawDataMap", PERK_COSTS),
+            ("P2", "flawDataMap", "const ancestryDataMap", FLAW_COSTS)):
+        seg = datamap_segment(raw, mapname, endmark)
+        entries = top_level_entries(seg)
+        for name, body in entries.items():
+            got = bare_field(body, "cost")
+            want = expected.get(name)
+            if want is None:
+                fail(tag, f"{mapname}.{name} is not in the Core Rules list")
+            elif got is None or int(str(got).strip()) != want:
+                fail(tag, f"{mapname}.{name} cost is {got}, the Core Rules say {want}")
+        for name in expected:
+            if name not in entries:
+                fail(tag, f"{mapname} is missing '{name}' from the Core Rules list")
+    # Flaws grant 5 or 10 only; the +10 cap and the lockflag maths assume it.
+    fseg = datamap_segment(raw, "flawDataMap", "const ancestryDataMap")
+    for name, body in top_level_entries(fseg).items():
+        c = bare_field(body, "cost")
+        if c is not None and str(c).strip() not in ("5", "10"):
+            fail("P2", f"flawDataMap.{name} cost {c} is neither 5 nor 10 — "
+                       f"the +10 XP cap logic assumes those two bands")
+
     # ---- C1: every condition an explosive references must be a real
     # conditionsDataMap key. Three were not, and all three rendered raw
     # snake_case to the player before the display fix. The exception list is

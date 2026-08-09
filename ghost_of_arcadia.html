@@ -74038,19 +74038,22 @@ function registerStatHandler() {
 
 			update["vitality_max"] = ipow;
 
-			// === Perk-driven Vitality bonuses ===
-			// Resilient Frame: static +4 while perk is owned (permanent while checked)
-			let perkVitalityBonus = (values.perk_resilient_frame === "1") ? 4 : 0;
-
 			// === Talent-driven HP bonuses ===
-			// Trail Hardened: +2 HP per career copy owned (permanent while checked)
+			// Trail Hardened: +2 HP per career copy owned (permanent while checked) —
+			// verified against career_*_trail_hardened_rules-u: "Increase your maximum HP by +2."
+			// Resilient Frame (perk) intentionally does NOT contribute here: per both the Core
+			// Rules and perk_resilient_frame_description-u, it is a once-per-scene damage
+			// reduction, not a permanent HP increase. A prior version added a flat +4 to
+			// pulphp_max/major_wounds whenever the perk was checked — removed 2026-08-09,
+			// caught by the Chapter 4 worked example (Davan Rek), whose stated HP of 28 only
+			// holds if Resilient Frame contributes nothing to max HP.
 			let talentHpBonus = 0;
 			Object.keys(careerDataMap).forEach(career => {
 				if (parseInt(values[`${career}_trail_hardened`] || 0, 10) === 1) talentHpBonus += 2;
 			});
 
-			update["pulphp_max"] = Math.floor((icon + isiz)/5) + perkVitalityBonus + talentHpBonus + (parseInt(values.ct_hp_bonus_total, 10) || 0);
-			update["major_wounds"]= Math.floor(((icon + isiz)/5)/2) + perkVitalityBonus + talentHpBonus + (parseInt(values.ct_hp_bonus_total, 10) || 0);
+			update["pulphp_max"] = Math.floor((icon + isiz)/5) + talentHpBonus + (parseInt(values.ct_hp_bonus_total, 10) || 0);
+			update["major_wounds"]= Math.floor(((icon + isiz)/5)/2) + talentHpBonus + (parseInt(values.ct_hp_bonus_total, 10) || 0);
 
 			// Calculate strain max with career strain buffer
             calculateStrainMax(ipow, icon, update);

@@ -1177,6 +1177,45 @@ Credits (Cr) — primary economy unit.
 13. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.
 14. **Debt (Chapter 4, Step 11) is an unbuilt feature — deferred 2026-08-09.** The book defines a structured character-creation choice: exactly one Debt, a Tier (Minor +5,000cr / Moderate +15,000cr / Major +30,000cr), and a recorded holder/leverage, never clearable via XP (p.46, doc 2026-07-01). Nothing on the sheet implements this. What exists instead: a generic `"debt"` option in the freeform Money Ledger `money_choice` select (no tier, no bonus-credit enforcement, no holder field); `debt_marker`, an unrelated Vanguard-background narrative flavor item with no mechanical effect; and `flaw_blood_debt`, a Perks/Flaws Flaw whose cost (10 XP) and text are verified correct against the book. Same defect class as `detonatorDataMap` (Todo 8) — not dead data, just never built. Do not repurpose the Money Ledger `"debt"` choice as the real feature; it has no tier or holder fields and predates this review.
 15. **Blood Debt / Debt mutual exclusivity is unenforced — deferred with Todo 14.** The book states outright: "Blood Debt cannot be taken alongside the Debt option in Step 11... do not stack" (p.42). Nothing on the sheet checks this, because there is no Debt feature yet to check it against. Revisit when Todo 14 is built — the check belongs wherever the Debt tier is selected, gated on `flaw_blood_debt` being taken (and vice versa).
+16. **75% skill creation cap is unenforced — deferred 2026-08-09.** Chapter 4, Step 7 (p.32, doc 2026-07-01): "No single skill may exceed 75% from character creation allocation across both pools combined," with an explicit carve-out for Language (Own), which may start above 75% from EDU alone and does not count against the cap. Nothing on the sheet checks or flags this anywhere — no clamp, no CSS warning, unlike attribute over-max which is at least flagged red/white. Found during the Chapter 4 worked-example validation (Davan Rek); none of his skills approach 75% so the gap did not affect that example, but a min-maxed build could exceed it silently. When picked up, follow the flag-don't-clamp pattern already established for attribute minimums/maxima, and remember the Language (Own) exception.
+
+#### Shipped 2026-08-09 — worked-example validation (Davan Rek)
+Built the Chapter 4 worked example (pp.47-53, doc 2026-07-01) step by step
+against the sheet's DataMaps and worker logic — ancestry, origin, background,
+career, attribute pool split, skill pools, Build/Damage Bonus, Strain, Speed
+Rating, perks/flaws, contacts/allies/debt. Confirmed correct: Khadra SIZ
+minimum and four Ancestry Features, the free-Tier-1-talent `-10 XP` credit,
+Vanguard's ten skills and both Tier 1 talent costs, Laborer's feature/kit/
+contact, Resilient Frame and Obligation costs, the Focused/Balanced and
+Physical/Aptitude attribute-pool toggles (all three Mundane options and both
+Awakened options), the full Build/Damage Bonus threshold table, Strain, and
+Speed Rating (implemented correctly under the legacy "Move rate" label).
+
+One real defect found and fixed: `registerStatHandler` added a flat +4 to
+`pulphp_max`/`major_wounds` whenever `perk_resilient_frame` was checked, under
+a variable named `perkVitalityBonus`. Resilient Frame is a once-per-scene
+damage reduction in both the Core Rules and the sheet's own
+`perk_resilient_frame_description-u` — nothing in its text supports a
+permanent HP increase. Removed; `talentHpBonus` (Trail Hardened, verified
+correct at +2/copy) is unaffected. `perk_blood_born_survivor_hp_bonus` remains
+in `registerStatHandler`'s watched array, unread by any code — left in place
+per *Delete the local, not the watcher*, since the handler must still re-fire
+if that attr is ever written elsewhere.
+
+Sandbox test: executed `registerStatHandler` directly (module load + fired
+`change:con`) with Davan Rek's seeded attrs and `perk_resilient_frame: "1"`;
+asserted `pulphp_max === 28` per the book. Passed — see
+`/tmp/test_resilient_frame_fix.js`. `validate_presets.py` was not run this
+pass (no preset/DataMap/CSS surfaces touched); the gate for this change is the
+executed-worker assertion above.
+
+Two further findings deferred rather than fixed — Todo 14/15 (Debt unbuilt,
+Blood Debt exclusivity unenforced) unchanged from 2026-08-09's earlier
+Contacts/Allies/Debt review; Todo 16 (75% skill cap unenforced) added this
+pass. The Career/Background skill-point-pool formula (`180 + EDU×2`) was also
+flagged as a possible defect (book states `80 + EDU×3` with two internal check
+values) — ruled NOT a bug: `180 + EDU×2` is confirmed current, the book is the
+stale side. See the doc-correction note below; no code changed for this item.
 
 #### Shipped 2026-08-07 — ammo labels and suppressed BF
 `short_name_key` added to `ammoDataMap` so the 80px AMMO LOADED field stops
@@ -1222,7 +1261,7 @@ for tier upgrades. Debt surfaced as unbuilt (Todo 14) and the Blood Debt
 exclusivity as unenforced (Todo 15), both deferred. No code changed this pass.
 
 ### Clean-up / Questions / Wishlist
-- **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi".
+- **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi". **Career/Background Skill Point Pool formula changed — flagged 2026-08-09.** Printed Core Rules (doc 2026-07-01, p.32) still state "(EDU × 3) + 80," with internal self-checks confirming 200 pts at EDU 40 and 320 at EDU 80 — this is what the Chapter 4 worked example (Davan Rek, p.50) computes with too. The sheet's `careerDataMap` uses `base_skill_points: 180` + `EDU × 2` uniformly across all 24 careers, which author confirmed 2026-08-09 is the *current* formula — the printed doc has not caught up to the change. At EDU 40/50/80 the two formulas diverge by +60/+50/+20 points respectively, so this isn't a rounding-level discrepancy; the next doc revision should carry the updated formula and, ideally, an updated worked example, since Davan Rek's Step 7 numbers (230 pts) no longer match what a character built on the current sheet would get (280 pts).
 - **Two `translation.json` display strings were cleaned on 2026-08-06** — `"AP Rounds (+AP2, −1 die)"` → `"AP Rounds"` and `"Hollow Point (cond)"` → `"Hollow Point"`. Neither key is referenced from the HTML. Revert if the annotations were intended for a control not yet built.
 
 ---

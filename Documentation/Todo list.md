@@ -68,11 +68,20 @@
 - **Foundational XP scope clarified 2026-08-07:** the 30 XP is for Career and Ancestry Talents. Skill points come from the two pools above and are a separate currency.
 - Still to read: Step 9 (Perks, Flaws, Foundational XP), Step 10 (Final Touches), Perks, Flaws, Contacts, Allies, Debts.
 
-**Attribute minimums — SHIPPED 2026-08-07.** SIZ values corrected to the Core Rules (six of eight; lyranni had been below the default floor). Emptying a stat now restores it to `stats[x].base` inside `registerStatHandler`, following the skill pattern rather than clamping; a value typed below the minimum is left alone and flagged red on white, matching bloodied and over-capacity. `test_ancestry_minimums.js` and `test_stat_minimums.js` added.
+**Attribute minimums and maxima — SHIPPED 2026-08-07.**
+- SIZ corrected to the Core Rules on six of eight ancestries (lyranni had been below the default floor); EDU floor raised from 15 to 40 on seven of eight (veyra already correct). `source` bumped only on entries actually edited.
+- Emptying a stat restores it to `stats[x].base` inside `registerStatHandler`, following the skill pattern rather than clamping. A value below the minimum, or above the ancestry maximum, is left alone and flagged red-on-white — the bloodied treatment.
+- Ancestry maxima confirmed as **deliberate design, not drift**: 60–85 with per-ancestry variation (veyra SIZ 60, lyranni STR/SIZ 70, khadra DEX 70, alteri POW/APP 85, kitsu INT 85). Several exceed the doc's universal creation cap of 80, so `stats[x].max` reads as the **advancement** ceiling.
+- `test_ancestry_minimums.js` and `test_stat_minimums.js` added. The latter asserts each flag rule **outranks** the per-stat edit-mode rule, which is the check that would have caught the CSS failure immediately.
 
-- **STILL OPEN — `applyRacialBaseStats` still clamps on sheet open.** A flagged below-minimum value is silently forced up to the minimum on the next reload, which contradicts the flag-don't-clamp policy. Leave it, remove it, or restrict it to genuinely empty values?
-- **STILL OPEN — EDU minimum.** Doc: hard floor EDU 40. `edu.base` is 15 on several ancestries. Same one-line-per-entry correction as SIZ; `int.base` is already 40 and is asserted by the test.
-- **STILL OPEN — `stats[x].max` has zero consumers.** Stored and never enforced. Doc gives a universal creation cap of 80 and advancement cap of 90; the sheet carries per-ancestry maxima. Resolve against Chapter 5, and decide whether exceeding a maximum should be flagged the same way.
+- **STILL OPEN — `applyRacialBaseStats` still clamps on sheet open.** A flagged below-minimum value is silently forced up on the next reload, so the red disappears. Now sharper than before: over-maximum values are **never** clamped, so the two flags behave inconsistently. Leave it, remove it, or restrict it to genuinely empty values?
+
+**Doc corrections for the author — running list.**
+1. `Dravi` vs `Draevi` — Chapters 1–2 use "Dravi", Chapters 4–5 use "Draevi" (matching the sheet). Internal inconsistency; **Draevi is canonical**.
+2. Chapter 1's "the further from their natural alignment, the more costly" implies a graded off-school cost. The rule is a **flat +1 Strain** (Arcane Guide p.37, restated in Chapter 4 Step 5).
+3. Step 9's XP table says Ally cost "varies by tier (see Step 11)" — stale cross-reference; the costs are in the Step 10 table.
+4. TOC: `CHAPTER 5: ANCESTRY ....... 27` should be ~56 (Alteri starts at 57).
+5. Step 7's Career/Background skill pool `(EDU × 3) + 80` is **outdated** — the rule is `180 + (EDU × 2)`. Three places encode the old ×3: the formula, the worked examples ("At EDU 40 this pool is 200 points… At EDU 80 it is 320"), and the restatement "every 5 points of EDU is worth 15 additional points here".
 
 ### Clean-up / Questions / Wishlist
 - **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi".

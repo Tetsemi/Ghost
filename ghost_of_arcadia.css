@@ -2509,6 +2509,29 @@ select[name="attr_damage_bonus"] {
 	color: var(--cs_state_bloodied_text);
 }
 
+/* Attribute above its ancestry maximum. Same red/white treatment and the same
+   specificity requirement as the below-minimum flag: the per-stat edit-mode
+   rules sit at (0,8,1) and any weaker selector silently loses. */
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-str-wrapper input[name="attr_str_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_str"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-str-wrapper input[name="attr_str_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_str"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-dex-wrapper input[name="attr_dex_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_dex"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-dex-wrapper input[name="attr_dex_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_dex"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-pow-wrapper input[name="attr_pow_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_pow"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-pow-wrapper input[name="attr_pow_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_pow"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-con-wrapper input[name="attr_con_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_con"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-con-wrapper input[name="attr_con_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_con"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-app-wrapper input[name="attr_app_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_app"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-app-wrapper input[name="attr_app_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_app"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-edu-wrapper input[name="attr_edu_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_edu"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-edu-wrapper input[name="attr_edu_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_edu"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-siz-wrapper input[name="attr_siz_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_siz"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-siz-wrapper input[name="attr_siz_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_siz"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-int-wrapper input[name="attr_int_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_int"],
+.ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="on"] ~ * .sheet-int-wrapper input[name="attr_int_over_max_css"][value="1"] ~ input.sheet-edit-toggle-field[name="attr_int"] {
+	background-color: var(--cs_state_bloodied_bg);
+	color: var(--cs_state_bloodied_text);
+}
+
 /* Show roll button overlays */
 .ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-luck-roll,
 .ui-dialog .tab-content .charsheet .sheet-layout .sheet-edit-controller[value="off"] ~ * .sheet-str-roll,

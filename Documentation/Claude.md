@@ -472,6 +472,37 @@ When any entry is added or modified, check:
 
 When a DataMap entry references a skill (e.g. `vehiclesDataMap`), the `skill` field must hold the **exact key from `skillDataMap`** — e.g. `"drive_auto"`, `"pilot_aircraft"`. The apply function then looks up `skillDataMap[data.skill].bonus` for the sheet attribute name and `skillDataMap[data.skill].label` for the display name. Never store the sheet attribute name (e.g. `"drive_auto_mdr"`) directly in the DataMap `skill` field — that bypasses the skillDataMap and introduces a mapping layer that doesn't need to exist.
 
+### `ancestryDataMap` — attribute floors and ceilings
+
+```javascript
+stats: { siz: { base: 35, max: 80 }, edu: { base: 40, max: 80 }, ... }
+```
+
+**`base` IS the enforced minimum.** `applyRacialBaseStats` raises any attribute
+below it (`if (isNaN(current) || current < racialBase)`). No separate `min`
+field exists or is needed.
+
+Core Rules minimums: SIZ 35 default, **Veyra 25**, **Khadra 45**; EDU 40 and
+INT 40 for all.
+
+**`max` is the ANCESTRY ceiling, and it is deliberate design rather than a flat
+cap** — values run 60 to 85 with per-ancestry character (Veyra SIZ 60, Lyranni
+STR/SIZ 70, Khadra DEX 70, Alteri POW/APP 85, Kitsu INT 85). Several exceed the
+document's universal *creation* cap of 80, so `max` reads as the **advancement**
+ceiling. Do not "correct" them toward 80.
+
+Neither bound is clamped during play. `registerStatHandler` follows the **skill
+pattern**: an emptied field is restored to `base` (as
+`calculateAndUpdateSkillValues` does on `isNaN`), while a value below `base` or
+above `max` is left alone and flagged red-on-white via
+`attr_<stat>_below_min_css` / `attr_<stat>_over_max_css`. Flagging beats
+clamping here because an illegal figure the player typed should be visible, not
+silently rewritten.
+
+Caveat, unresolved: `applyRacialBaseStats` still clamps on sheet open, so a
+flagged below-minimum value is forced up on reload while an over-maximum value
+never is.
+
 ### `careerDataMap` — bundles and career type
 
 ```javascript
@@ -1321,6 +1352,8 @@ to the edit-mode shape, reaching (0,11,2):
 - **A search that excludes the syntax you are looking for returns a confident zero.** The first hunt for competing rules used a pattern ending `[^{\[]*`, which excludes any selector containing `[` — that is, all twenty-two of them. "No competitors found" meant "broken search", and it was read as evidence.
 - **Recount specificity after every selector change.** Dropping an element+class compound to match a known-working rule took the below-min rule from (0,7,2) to (0,7,1) — the "fix" made it strictly worse.
 - **When a CSS change does not render, prove which layer is at fault before touching either.** A one-line `debug_on` log of the flag attr settled it in a single round: `siz=35/min45->1` showed the worker was correct and the fault was entirely in the cascade. Two speculative CSS rewrites preceded that log and both were wasted.
+
+**Extend the guard test in the same commit as the fix it guards.** `test_ancestry_minimums.js` asserted SIZ and INT but not EDU, because it was written while EDU was still a deferred fix. When EDU was corrected the test was not extended, so a negative test that reverted `edu.base` to 15 passed. The hole was invisible on the real file — only breaking the thing the test was meant to guard exposed it. A fix and its assertion belong together.
 
 **Assert the relationship, not the existence.** `test_stat_minimums.js` computes
 the specificity of both the state rule and the competing edit-mode rule and

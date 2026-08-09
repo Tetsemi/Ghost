@@ -52,10 +52,27 @@ for(const race of ["lyranni","khadra","veyra"]){
   w=fire("khadra",{siz:String(base+20)});
   if(w.siz_below_min_css!=="0") bad("SIZ above base must not be flagged");
 }
+/* 3b. above the ancestry maximum is flagged, never clamped */
+{
+  const mx=mod.ancestryDataMap.veyra.stats.siz.max;          // 60
+  const w=fire("veyra",{siz:String(mx+10)});
+  if(w.siz!==undefined) bad(`over-max SIZ was overwritten to ${w.siz} — should be flagged, not clamped`);
+  if(w.siz_over_max_css!=="1") bad("over-max SIZ was not flagged");
+  if(w.siz_below_min_css!=="0") bad("over-max SIZ must not also read as below minimum");
+  const at=fire("veyra",{siz:String(mx)});
+  if(at.siz_over_max_css!=="0") bad("SIZ exactly at max must not be flagged");
+}
+/* 3c. an emptied field clears both flags */
+{
+  const w=fire("lyranni",{str:""});
+  if(w.str_over_max_css!=="0") bad("restored field must clear the over-max flag");
+}
+
 /* 4. all eight stats participate */
 {
   const w=fire("human",{});
-  for(const s of STATS) if(w[`${s}_below_min_css`]===undefined) bad(`${s} has no below_min flag written`);
+  for(const s of STATS){ if(w[`${s}_below_min_css`]===undefined) bad(`${s} has no below_min flag written`);
+                         if(w[`${s}_over_max_css`]===undefined) bad(`${s} has no over_max flag written`); }
 }
 /* 5. markup + CSS, per stat */
 for(const s of STATS){
@@ -72,17 +89,21 @@ for(const s of STATS){
   const spec=sel=>{const t=sel.replace(/\[[^\]]*\]/g,"\u0000");
     return [ (t.match(/\.[\w-]+/g)||[]).length + (t.match(/\u0000/g)||[]).length,
              (t.match(/(?:^|[\s>+~])(input|div|button|span)\b/g)||[]).length ];};
-  const ours=(css.match(new RegExp(`[^,{}]*attr_${s}_below_min_css[^,{}]*`,"g"))||[]);
-  if(!ours.length){ bad(`no CSS rule colouring ${s} when below minimum`); continue; }
+  for(const kind of ["below_min","over_max"]){
+  if((raw.match(new RegExp(`name="attr_${s}_${kind}_css"`,"g"))||[]).length!==1)
+    bad(`attr_${s}_${kind}_css must have exactly one element`);
+  const ours=(css.match(new RegExp(`[^,{}]*attr_${s}_${kind}_css[^,{}]*`,"g"))||[]);
+  if(!ours.length){ bad(`no CSS rule colouring ${s} when ${kind}`); continue; }
   /* Exclude our own selectors: they now end in the same
      input.sheet-edit-toggle-field[name="attr_x"] the edit-mode rules use, so an
      unfiltered match compares the rule against itself and always ties. */
   const theirs=(css.match(new RegExp(`[^,{}]*sheet-edit-toggle-field\\[name="attr_${s}"\\]`,"g"))||[])
-                 .filter(x=>!x.includes("below_min_css"));
+                 .filter(x=>!x.includes("below_min_css")&&!x.includes("over_max_css"));
   if(theirs.length){
     const o=spec(ours[0]), t=theirs.map(spec).sort((a,b)=>b[0]-a[0]||b[1]-a[1])[0];
     if(!(o[0]>t[0]||(o[0]===t[0]&&o[1]>t[1])))
-      bad(`${s}: below-min rule (0,${o[0]},${o[1]}) does not outrank the edit-mode rule (0,${t[0]},${t[1]})`);
+      bad(`${s}: ${kind} rule (0,${o[0]},${o[1]}) does not outrank the edit-mode rule (0,${t[0]},${t[1]})`);
+  }
   }
 }
 if(!/--cs_state_bloodied_bg/.test(css)) bad("bloodied colour variables missing");

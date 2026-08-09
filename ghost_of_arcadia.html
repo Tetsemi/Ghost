@@ -67392,10 +67392,10 @@ const registerPerkSummaryWatcher = () => {
   const perkKeys   = Object.keys(perkDataMap || {});
   const perkAttrs  = perkKeys.map((k) => `perk_${k}`);
   const extraPerkAttrs = ["perk_institutional_weight_institution"];
-  const perkEvents = ["clicked:perks", ...perkAttrs.map((a) => `change:${a}`), ...extraPerkAttrs.map((a) => `change:${a}`)].join(" ");
+  const perkEvents = ["clicked:perks", "change:char_creation_lock", ...perkAttrs.map((a) => `change:${a}`), ...extraPerkAttrs.map((a) => `change:${a}`)].join(" ");
 
   on(perkEvents, () => {
-    getAttrs([...perkAttrs, ...extraPerkAttrs], (v) => {
+    getAttrs([...perkAttrs, ...extraPerkAttrs, "flaw_selected_count", "char_creation_lock"], (v) => {
       const u = {};
       u["show_perk_institutional_weight_institution"] = "0";
       let xpSpent    = 0;
@@ -67452,9 +67452,24 @@ const registerPerkSummaryWatcher = () => {
         if (k === "linguist") linguistSP = 75;
       });
 
-      // One selection per cost band (10, 15)
-      u.perk10_slots_full = picked10 >= 1 ? "1" : "0";
-      u.perk15_slots_full = picked15 >= 1 ? "1" : "0";
+      /* Core Rules Step 9: "You may select up to two total Perks and Flaws
+         combined." That is a cross-section limit, so each watcher publishes its
+         own count and reads the other’s. The per-cost-band locks this replaces
+         allowed four selections and were never rendered — no CSS consumed
+         perk10_slots_full or perk15_slots_full. The per-perk _lockflag attrs
+         already exist in the markup and the generic lockflag CSS renders them. */
+      const perkPicked  = perkKeys.filter((k) => v[`perk_${k}`] === "1").length;
+      const flawPicked  = parseInt(v.flaw_selected_count, 10) || 0;
+      /* Same creation-only rule as Flaws. The Perks tab is hidden after the lock,
+         so this only matters when a GM grants one by narrative approval. */
+      const creationLocked = v.char_creation_lock === "1";
+      const selFull     = !creationLocked && (perkPicked + flawPicked) >= 2;
+      perkKeys.forEach((k) => {
+        /* never lock something already chosen, or it cannot be un-chosen */
+        u[`perk_${k}_lockflag`] = (creationLocked || v[`perk_${k}`] === "1") ? "0" : (selFull ? "1" : "0");
+      });
+      u.perk_selected_count = String(perkPicked);
+      u.perk_slots_full     = selFull ? "1" : "0";
 
       // Totals + perk summary
       u.xpledger_perks_cost = String(xpSpent);
@@ -67527,10 +67542,12 @@ const registerFlawSummaryWatcher = () => {
   const flaw5Keys  = flawKeys.filter((k) => (flawDataMap[k]?.cost | 0) === 5);
   const flaw10Keys = flawKeys.filter((k) => (flawDataMap[k]?.cost | 0) === 10);
   const flawAttrs  = flawKeys.map((k) => `flaw_${k}`);
-  const flawEvents = ["clicked:flaws", ...flawAttrs.map((a) => `change:${a}`)].join(" ");
+  /* char_creation_lock is in the event list so the flags recompute the moment
+     creation is locked, rather than staying stale until the next click. */
+  const flawEvents = ["clicked:flaws", "change:char_creation_lock", ...flawAttrs.map((a) => `change:${a}`)].join(" ");
 
   on(flawEvents, () => {
-    getAttrs(flawAttrs, (v) => {
+    getAttrs([...flawAttrs, "perk_selected_count", "char_creation_lock", "xpledger_flaws_gain"], (v) => {
       const u = {};
       let xpGain   = 0;
       let lines    = [];
@@ -67578,12 +67595,33 @@ const registerFlawSummaryWatcher = () => {
         if (cost === 10) picked10++;
       });
 
-      // group locks: 1 selection per cost band
-      u.flaw5_slots_full  = picked5  >= 1 ? "1" : "0";
-      u.flaw10_slots_full = picked10 >= 1 ? "1" : "0";
+      /* Core Rules Step 9: Flaws grant 5 or 10 XP "to a maximum of +10 XP", and
+         Perks and Flaws together are capped at two selections. Replaces a
+         per-cost-band lock that permitted one 5 AND one 10 — 15 XP — and which
+         was never rendered, since no CSS consumed flaw5_slots_full. */
+      const flawPicked = flawKeys.filter((k) => v[`flaw_${k}`] === "1").length;
+      const perkPicked = parseInt(v.perk_selected_count, 10) || 0;
+      /* Both caps are CHARACTER CREATION rules. After the lock a Flaw is
+         acquired through play — a consequence the GM applies, not a selection —
+         and it grants no XP, so neither the two-selection limit nor the +10 XP
+         ceiling may gate it. Leaving them active locked out every Flaw as soon
+         as one was taken in play. */
+      const creationLocked = v.char_creation_lock === "1";
+      const selFull    = !creationLocked && (flawPicked + perkPicked) >= 2;
+      flawKeys.forEach((k) => {
+        if (creationLocked || v[`flaw_${k}`] === "1") { u[`flaw_${k}_lockflag`] = "0"; return; }
+        const cost = Number((flawDataMap[k] || {}).cost) || 0;
+        u[`flaw_${k}_lockflag`] = (selFull || (xpGain + cost) > 10) ? "1" : "0";
+      });
+      u.flaw_selected_count = String(flawPicked);
+      u.flaw_slots_full     = selFull ? "1" : "0";
 
-      // totals + flaw summary (fully clear when nothing selected)
-      u.xpledger_flaws_gain = String(xpGain);
+      /* XP freezes at character creation lock. Before the lock the total tracks
+         selections live, so a character can be rebuilt freely. After it, a Flaw
+         acquired through play grants nothing, and removing a Flaw refunds
+         nothing — you gained the XP and you suffered the Flaw. Not writing the
+         attr is what preserves the frozen value. */
+      if (v.char_creation_lock !== "1") u.xpledger_flaws_gain = String(xpGain);
       u.flaw_summary        = lines.length ? lines.join("\n\n") : " ";
 
       // build grouped-by-skill (and group) summary for flaws

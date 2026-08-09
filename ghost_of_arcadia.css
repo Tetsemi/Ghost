@@ -3049,13 +3049,16 @@ select[name="attr_damage_bonus"] {
 	display: none;
 }
 
-/* If Character Creation is locked, hide Perks + Flaws tab buttons */
+/* If Character Creation is locked, hide the Perks tab button.
+
+   Flaws stays visible on purpose. Core Rules Step 9: Perks "cannot be purchased
+   after character creation", while Flaws "can be acquired through play —
+   consequences of choices, trauma, or the city leaving its mark", and such a
+   Flaw "does not grant retroactive XP". The worker freezes xpledger_flaws_gain
+   at the lock, so a Flaw taken after creation carries its penalty and no XP. */
 .ui-dialog .tab-content .charsheet
 .sheet-char-creation-lock-controller[name="attr_char_creation_lock"][value="1"]:checked
-~ .sheet-tab-buttons button[name="act_perks"],
-.ui-dialog .tab-content .charsheet
-.sheet-char-creation-lock-controller[name="attr_char_creation_lock"][value="1"]:checked
-~ .sheet-tab-buttons button[name="act_flaws"] {
+~ .sheet-tab-buttons button[name="act_perks"] {
 	display: none;
 }
 

@@ -67339,6 +67339,12 @@ const registerCareerTabWatchers = () => {
   });
 };
 
+/* Module-level holders. The recompute bodies live inside the registrars, but
+   afterAllSets must call them on sheet open, so the bindings cannot be scoped
+   to those functions. Assigned, not declared, inside each registrar. */
+let recalcPerkSummary = () => {};
+let recalcFlawSummary = () => {};
+
 const registerPerkSummaryWatcher = () => {
   if (debug_on_trace) console.log("[registerPerkSummaryWatcher] Start");
 
@@ -67394,7 +67400,10 @@ const registerPerkSummaryWatcher = () => {
   const extraPerkAttrs = ["perk_institutional_weight_institution"];
   const perkEvents = ["clicked:perks", "change:char_creation_lock", ...perkAttrs.map((a) => `change:${a}`), ...extraPerkAttrs.map((a) => `change:${a}`)].join(" ");
 
-  on(perkEvents, () => {
+  /* Named so afterAllSets can call it. Lockflags are stored attrs and nothing
+     else recomputes them, so a character saved under different rules kept
+     stale flags until an entry was checked and unchecked. */
+  recalcPerkSummary = () => {
     getAttrs([...perkAttrs, ...extraPerkAttrs, "flaw_selected_count", "char_creation_lock"], (v) => {
       const u = {};
       u["show_perk_institutional_weight_institution"] = "0";
@@ -67487,7 +67496,8 @@ const registerPerkSummaryWatcher = () => {
 
       setAttrs(u);
     });
-  });
+  };
+  on(perkEvents, recalcPerkSummary);
 };
 
 const registerFlawSummaryWatcher = () => {
@@ -67546,7 +67556,10 @@ const registerFlawSummaryWatcher = () => {
      creation is locked, rather than staying stale until the next click. */
   const flawEvents = ["clicked:flaws", "change:char_creation_lock", ...flawAttrs.map((a) => `change:${a}`)].join(" ");
 
-  on(flawEvents, () => {
+  /* Named so afterAllSets can call it. Lockflags are stored attrs and nothing
+     else recomputes them, so a character saved under different rules kept
+     stale flags until an entry was checked and unchecked. */
+  recalcFlawSummary = () => {
     getAttrs([...flawAttrs, "perk_selected_count", "char_creation_lock", "xpledger_flaws_gain"], (v) => {
       const u = {};
       let xpGain   = 0;
@@ -67635,7 +67648,8 @@ const registerFlawSummaryWatcher = () => {
 
       setAttrs(u);
     });
-  });
+  };
+  on(flawEvents, recalcFlawSummary);
 };
 
 const normalizeTrainedSkills = (trained) => {
@@ -70621,6 +70635,8 @@ const initializeSheetOnOpen = (eventInfo) => {
 		migrateRetiredAncestryTalents();	/* one-time attr migration for talents renamed 2026-07-04 */
 		updateBackgroundReadyStates();		/* on-open refresh — replaces dead sheet:opened registration */
 		applyAwakenedModeDisplay();			/* on-open refresh — replaces dead sheet:opened registration */
+		recalcPerkSummary();				/* on-open refresh: lockflags are stored and never self-heal */
+		recalcFlawSummary();
 		recalcArmorTotals();
 		recalcCtVitalityTotal();
 		initArmorPresets();

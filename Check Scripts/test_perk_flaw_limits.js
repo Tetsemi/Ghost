@@ -12,7 +12,7 @@ Object.assign(globalThis,{on:(e,f)=>String(e).split(/\s+/).forEach(k=>(H[k]=H[k]
  getAttrs:(ks,cb)=>{const o={};ks.forEach(k=>o[k]=STORE[k]!==undefined?STORE[k]:"");cb(o);},
  setAttrs:(o,a,b)=>{Object.assign(STORE,o);Object.assign(WRITES,o);const d=typeof a==="function"?a:b;if(d)d();},
  getSectionIDs:(s,cb)=>cb([]),getTranslationByKey:k=>k,generateRowID:()=>"-n",removeRepeatingRow:()=>{}});
-let mod; try{ mod=new Function(js+"\nregisterPerkSummaryWatcher();registerFlawSummaryWatcher();\nreturn {flawDataMap,perkDataMap};")(); }
+let mod; try{ mod=new Function(js+"\nregisterPerkSummaryWatcher();registerFlawSummaryWatcher();\nreturn {flawDataMap,perkDataMap,recalcFlawSummary};")(); }
 catch(e){ console.log("FAIL — worker threw:\n  "+e.message); process.exit(1); }
 const F=mod.flawDataMap,P=mod.perkDataMap;
 const five=Object.keys(F).filter(k=>F[k].cost===5), ten=Object.keys(F).filter(k=>F[k].cost===10);
@@ -81,6 +81,35 @@ if(!/change:char_creation_lock/.test(js)) bad("watchers do not fire on char_crea
     if(w[`perk_${pk[1]}_lockflag`]!=="1") bad("with 2 selections taken, further perks must lock");
   }
 }
+/* 5b. the flags must self-heal on sheet open, not only on a click */
+{
+  if(!/afterAllSets[\s\S]{0,6000}?recalcFlawSummary\s*\(\s*\)\s*;/.test(js))
+    bad("recalcFlawSummary is not called from afterAllSets — stored flags never self-heal");
+  if(!/afterAllSets[\s\S]{0,6000}?recalcPerkSummary\s*\(\s*\)\s*;/.test(js))
+    bad("recalcPerkSummary is not called from afterAllSets — stored flags never self-heal");
+  /* and the named form must still be wired to the events */
+  if(!/on\(flawEvents,\s*recalcFlawSummary\)/.test(js)) bad("flaw watcher no longer registered");
+  if(!/on\(perkEvents,\s*recalcPerkSummary\)/.test(js)) bad("perk watcher no longer registered");
+  /* The bodies live inside the registrars, so the bindings must be declared at
+     module level or afterAllSets throws ReferenceError on every sheet open —
+     which node --check cannot see, because it parses without evaluating. */
+  for(const fn of ["recalcPerkSummary","recalcFlawSummary"]){
+    if(!new RegExp(`^let ${fn}`,"m").test(js))
+      bad(`${fn} is not declared at module level — afterAllSets cannot reach it`);
+    if(new RegExp(`  const ${fn} =`).test(js))
+      bad(`${fn} is re-declared inside its registrar, shadowing the module binding`);
+  }
+  /* prove it by executing: a stale flag must clear on an on-open recompute */
+  {
+    const t=Object.keys(F).filter(k=>F[k].cost===10);
+    STORE={char_creation_lock:"1",[`flaw_${t[0]}`]:"1",[`flaw_${t[1]}_lockflag`]:"1",xpledger_flaws_gain:"10"};
+    WRITES={};
+    try{ mod.recalcFlawSummary(); }catch(e){ bad("recalcFlawSummary threw when called directly: "+e.message); }
+    if(STORE[`flaw_${t[1]}_lockflag`]!=="0") bad("a stale lockflag did not heal on an on-open recompute");
+    if(STORE.xpledger_flaws_gain!=="10") bad("the on-open recompute must not rewrite frozen flaw XP");
+  }
+}
+
 /* 6. markup + CSS the locks depend on */
 {
   const fl=(raw.match(/name="attr_flaw_\w+_lockflag"/g)||[]).length;

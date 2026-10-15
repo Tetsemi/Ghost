@@ -87,6 +87,7 @@
 ### Clean-up
 
 - **Still Standing** - Exists as both Human and Khadra Tier 1 Talents - Waiting on docs
+- **Damage** - Extreme/Critical additional damage should be only 1 die of weapon type, if impale.
 
 NPC add place for skills/abilities and action economy
 

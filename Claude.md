@@ -132,6 +132,8 @@
 | `test_money_ledger.js` | Executes the worker; running-total accumulation in row order, balance order-independence, blank/malformed input, empty section, single registration on the credit event, and the `afterAllSets` call site asserted against comment-stripped source | After any money ledger, ledger-relocation or credits change |
 | `find_orphans.js` | AST walk (acorn) reporting `const` bindings with zero resolved references. Regex use-counting gives false negatives on names that also appear as string literals on their own declaration line (`internal === "qst"`) | Before any orphan sweep |
 | `difftest_offschool.js` | Executes the worker; full 10×10 school matrix, all three write paths, career-change recompute, declaration order | After any spell Strain or arcane career change |
+| `apply_dead_code_removal.py` | Pin-checked, CRLF-safe deletion of the Todo 10 targets (`--phase 1` or `2`; `--pins` previews). Aborts without writing if any block count, line span or content hash differs from the file it was written against | Retired with Todo 10; keep as the worked example |
+| `test_dead_code_removal.js` | Executes the whole worker: 20 removal targets, 18 protected bindings, 16 scenarios whose ordered write logs are diffed against a saved baseline (`--save` / `--check`; `--scope phase1` for the first phase) | Before and after any dead-code removal |
 
 `difftest_barrel.js` extracts its ammo button fixture from the sheet under test — do not reintroduce a literal copy (see *Test Fixtures That Copy Sheet Data Go Stale*).
 
@@ -300,6 +302,12 @@ was a fourteen-line `.filter().map().filter()` chain; a line-at-a-time sweep
 that asserts single-line `const` will refuse it. Scan to the terminating
 semicolon at depth zero.
 
+**`find_orphans.js` scans `const` only.** Write-only `let` locals (`picked5`,
+`picked10`, `picked15`) are invisible to it; run ESLint `no-unused-vars`
+(`vars: "all"`, `sourceType: "commonjs"`) over the extracted worker as well.
+ESLint does not chase chains: a function called only by an orphan
+(`getAllTalentSkills`) appears once its parent is gone.
+
 ### Check What the Existing Aggregates Already Express
 
 Before adding tracking, find out what is already tracked. The Skill→XP
@@ -360,6 +368,13 @@ Regex replacement across a CRLF file needs the same line-ending discipline as `s
 The substring trap **recurred on 2026-08-06 in a new form**: an edit added a line to a 5-tab site, and the *next* replacement's 4-tab pattern then matched twice — once as a genuine site, once as a substring of the line just edited. The count was 1 before the earlier edit ran and 2 after. **Anchor indent-sensitive replacements on the preceding newline** (`CR + '\t\t\t\t...'`) by default, not after the assert fires.
 
 Do not use `sed -i` to edit an edit script. A complex `sed` pattern mangled two lines mid-session; anything containing quotes or backslashes needs `str_replace` or a Python rewrite.
+
+**A cleanup commit must be verified as deletions only.** `git diff --numstat
+<parent> -- ghost_of_arcadia.html` should read `0  N`. On 2026-10-15 a
+hand-applied sweep was committed as 28 insertions and 28 deletions because the
+removed lines had been replaced with blank lines: the file kept its line count
+and the pins the harness had been run against no longer fitted. Hash the working
+file before and after each phase and compare it with the hash of what was tested.
 
 ---
 
@@ -1420,11 +1435,10 @@ scroll during a chase), and renaming Possessions into a container for hardware.
 7. **`setup` field is orphaned** — six weapons declare a value and no code reads it. Wiring it would mechanise the Torchwall's "firing without full setup imposes two penalty dice" across all six at once. Enforceable sheet-side: setup is the character's own state, not the target's. Needs a per-row deployed control.
 8. **Detonators are an unbuilt feature, not dead data.** `detonatorDataMap` has 5 entries with a full schema and **13 translation keys already written** — but zero HTML elements, zero CSS, zero code reads. `plastic_explosives`, `breaching_charge` and `arcshock_pulse_mine` all declare `requires_detonator: true`, and the sheet says a detonator is needed while giving nowhere to record which. **Do not delete it** — build the UI (a preset select in the explosives section) when the feature is wanted.
 9. **Grenade condition rulings.** `knockout_gas_grenade.condition_on_fail = "unconscious"` still renders lowercase; unconsciousness may be a state (HP 0) rather than a condition. `nullburst_disruption_grenade.condition_on_fail = "magic_suppressed"` is never displayed and is dead data pending a delete-or-define ruling. Separately, `condition_duration: "dissolves_3min"` on the Scatterfoam puck renders as `dissolves_3min rd`.
-10. **Orphan sweep REVERTED — eleven bindings still to adjudicate.** Reverted 2026-08-07 after `skillToXP` turned out to be a rules artefact, not dead code. `weaponTagAttrKeys` was wired up rather than deleted and stays. Remaining:
-    - `flaw5Keys` / `flaw10Keys` in `registerFlawSummaryWatcher` — partition `flawDataMap` by 5- and 10-point cost. Very likely the start of the unenforced +10 XP Flaw lockout; treat as unfinished feature.
-    - `talentSkills` in `calculateAndUpdateSkillValues` (a 14-line chain) and in `applyAllSkillBonuses`.
-    - `iage` / `iedu` / `iwound` in `registerStatHandler` — confirm GoA has no age or wound modifier before removing.
-    - `bgLimiterRegistered`, `slots` in `initWeaponComputedAttrs`, and `reflexRanges` in `buildTagsStr` are the three genuinely dead.
+10. **Orphan sweep DONE 2026-10-15** (two cleanup commits; Roll20 sandbox S1 and S2 passed). Removed: `bgLimiterRegistered`, `flaw5Keys`/`flaw10Keys`, the write-only `picked5`/`picked10`/`picked15`, the `talentSkills` chain in `calculateAndUpdateSkillValues`, `iage`/`iedu`/`iwound`, the unused `slots` in `initWeaponComputedAttrs`, `reflexRanges`, `lastRaceHandled`, and seven unreferenced functions (`applyAllSkillBonuses`, `getAllTalentSkills`, `handleRaceChange`, `removeExhaustedStatus`, `applyTiredStatus`, `removeTiredStatus`, `computeWeaponAPTotal`). `age`, `edu` and `major_wounds` stay in `registerStatHandler`'s watched array. Carry-overs:
+    - `reflexRanges` was dead, but its earlier rationale was wrong: nothing reads `weaponModDataMap.reflex_sight.hit_bonus_range_limit`. The reflex range is still a literal in `computeWeaponHit` and `buildTagsStr` — fold into the weapon rework (Todo 5).
+    - The Core Rules were not available during the sweep, so the absence of an age or wound modifier is unconfirmed. If the book defines one, it is a missing feature, not a reason to have kept `iage`.
+    - `detonatorDataMap` was the one remaining `const` finding and is kept deliberately (Todo 8).
 11. **Off-school Strain with no Primary Arcane Career selected** — ruled 2026-08-06 to stay unaligned (0). One ternary in `spellOffSchoolPenalty`.
 12. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription. Note a `difftest_dice.js` of unknown provenance appeared in the container on 2026-08-06 and was deleted unread; do not adopt it without review.
 13. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.

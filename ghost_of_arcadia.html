@@ -2273,12 +2273,12 @@
 								<input class="sheet-skill-input" type="text" name="attr_tradecraft_media_mdr" readonly/>
 								<button type="roll" name="roll_tradecraft_media_mdr_check" value="&{template:coc-1} {{name=@{tradecraft_media_txt}}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{tradecraft_media_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{tradecraft_media_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{tradecraft_media_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
 							</div>
-							<div><input type="checkbox" name="attr_otherskill11_mdr_checkbox" value="1"/></div>
-							<div class="skill-label-wrapper"><input type="text" name="attr_otherskill11_improved_label" class="sheet-improved-indicator" readonly/><input class="sheet-skill-name-input" type="text" name="attr_otherskill11_mdr_name"/></div>
-							<div><input class="skill-input" type="text" name="attr_otherskill11_skill_mdr"/></div>
+							<div><input type="checkbox" name="attr_otherskill13_mdr_checkbox" value="1"/></div>
+							<div class="skill-label-wrapper"><input type="text" name="attr_otherskill13_improved_label" class="sheet-improved-indicator" readonly/><input class="sheet-skill-name-input" type="text" name="attr_otherskill13_mdr_name"/></div>
+							<div><input class="skill-input" type="text" name="attr_otherskill13_skill_mdr"/></div>
 							<div class="sheet-val-roll-static">
-								<input class="sheet-skill-input" type="text" name="attr_otherskill11_mdr" readonly/>
-								<button type="roll" name="roll_otherskill11_mdr_check" value="&{template:coc-1} {{name=@{otherskill11_mdr_name} Roll}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{otherskill11_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{otherskill11_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{otherskill11_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
+								<input class="sheet-skill-input" type="text" name="attr_otherskill13_mdr" readonly/>
+								<button type="roll" name="roll_otherskill13_mdr_check" value="&{template:coc-1} {{name=@{otherskill13_mdr_name} Roll}} {{modifier=[[0 + @{dice_modifier_checkbox}]]}} {{success=[[{1, @{otherskill13_mdr}+@{dice_modifier_checkbox}}kh1]]}} {{hard=[[{1, floor((@{otherskill13_mdr}+@{dice_modifier_checkbox})/2)}kh1]]}} {{extreme=[[{1, floor((@{otherskill13_mdr}+@{dice_modifier_checkbox})/5)}kh1]]}} {{roll1=[[1d100]]}} {{bonusbtn=[Bonus/Penalty](@{bonuspenalty_link})}}"></button>
 							</div>
 						</div>
 						<div class="sheet-skill-spacer"></div>
@@ -67928,8 +67928,8 @@ const calculateAndUpdateSkillValues = (racePrefix, values, options = {}) => {
 
   const allSkills = Object.keys(skillDataMap || {});
 
-  // Build 1–11 generic Other slots
-  const otherSkills = Array.from({ length: 11 }, (_, i) => `otherskill${i + 1}`);
+  // Build 1–13 generic Other slots
+  const otherSkills = Array.from({ length: 13 }, (_, i) => `otherskill${i + 1}`);
 
   // NEW: any otherskillN that appears as a key in skillDataMap is already handled in allSkills
   // (e.g., Language(Other) -> "otherskill3"), so we should NOT count it again in the "otherSkills" loop.
@@ -68379,7 +68379,7 @@ const initNewCharacterSkills = () => {
   });
 
   // Initialize generic Other slots (skip any otherskillN that is explicitly defined in skillDataMap)
-  const otherSlotCount = 12; // otherskill1..otherskill12
+  const otherSlotCount = 13; // otherskill1..otherskill13
   const usedOtherSlots = new Set(
     Object.keys(skillDataMap || {}).filter(k => typeof k === "string" && /^otherskill\d+$/.test(k))
   );
@@ -73606,8 +73606,8 @@ function registerSkillHandler(racePrefix, triggerSkillsArg = [], talentSources =
     ? triggerSkillsArg
     : allSkills; // default to all skills so we never hit undefined
 
-  // Build 1–11 generic Other slots
-  const otherSkills = Array.from({ length: 11 }, (_, i) => `otherskill${i + 1}`);
+  // Build 1–13 generic Other slots
+  const otherSkills = Array.from({ length: 13 }, (_, i) => `otherskill${i + 1}`);
 
   // Any otherskillN that exists as a skill key in skillDataMap is already handled via allSkills
   const usedOtherSlots = new Set(

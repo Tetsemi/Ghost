@@ -150,13 +150,14 @@ Paths are relative to the repository root (GitHub `Tetsemi/Ghost`, branch `Claud
 | `test_tagfetch.js` | Records the keys actually passed to `getAttrs` at runtime and asserts every `deriveWeaponTags` consumer fetches every attr `weaponTagInputs` declares; also cross-checks each entry's `attrs` against the keys its `derive` closure reads | After any tag-layer or fetch-list change |
 | `test_money_ledger.js` | Executes the worker; running-total accumulation in row order, balance order-independence, blank/malformed input, empty section, single registration on the credit event, and the `afterAllSets` call site asserted against comment-stripped source | After any money ledger, ledger-relocation or credits change |
 | `find_orphans.js` | AST walk (acorn) reporting `const` bindings with zero resolved references. Regex use-counting gives false negatives on names that also appear as string literals on their own declaration line (`internal === "qst"`) | Before any orphan sweep |
+| `test_other_skill_slots.js` | The 13 free `otherskillN` slots: each of the five attrs declared exactly once outside repeating sections, both `otherSkills` calculation loops and `otherSlotCount` cover all 13, `calculateAndUpdateSkillValues` computes every slot's `_mdr`, and `initNewCharacterSkills` seeds every slot not in `skillDataMap`. Executes the worker. Negative-tested against the pre-fix file, a rename into an occupied slot, and a fix that changed only the comment | After adding, removing or renaming a free skill slot |
 | `test_sheet_workers_doc.js` | Parses the worker (acorn) and compares it with `Documentation/Sheet Workers.md`: every named top-level function has a section 5 row and no row names a removed one, the summary's function and `on()` counts match, and section 6 holds one W### row per `on()` site numbered 1..N. Line-range drift is reported, not failed. Takes `<html> [doc] [--rows]`; needs `acorn` | After any change that adds, removes or renames a worker function or watcher |
 | `difftest_offschool.js` | Executes the worker; full 10×10 school matrix, all three write paths, career-change recompute, declaration order | After any spell Strain or arcane career change |
 | `test_perk_flaw_limits.js` | Executes the Perk and Flaw watchers: two selections combined, Flaw XP capped at +10, both caps creation-only, XP frozen at `char_creation_lock`, lock flags self-heal from `afterAllSets`, and the creation lock hides Perks but not Flaws. Takes `<html> [css]` | After any Perk, Flaw or creation-lock change |
 | `apply_dead_code_removal.py` | Pin-checked, CRLF-safe deletion of the Todo 10 targets (`<in.html> <out.html> --phase 1\|2`; `--pins` previews). Aborts without writing if any block count, line span or content hash differs from the file it was written against. Deleted in commit 7656ae9 and restored in the 2026-10-15 reorganisation commit | Retired with Todo 10; keep as the worked example. Running it on the post-sweep file aborts, by design |
 | `test_dead_code_removal.js` | Executes the whole worker: 20 removal targets, 18 protected bindings, 16 scenarios whose ordered write logs are diffed against a saved baseline (`--save` / `--check`; `--scope phase1` for the first phase). `--phase post` runs the static checks only and passes on the current file. The `baseline.json.gz` the differential half needs is deliberately not in the repository (`Claude/Dead_Code_Removal_Plan.md` §3 says to keep it out), so `--check` has nothing to compare against until a baseline is saved from a pre-change file | Before and after any dead-code removal |
 
-**Invocation.** Run from a directory holding the three sheet files, passing paths explicitly: `node "Check Scripts/<script>.js" ghost_of_arcadia.html ghost_of_arcadia.css` for the difftests and tests, `python3 "Check Scripts/validate_presets.py" ghost_of_arcadia.html`, and `node "Check Scripts/difftest_barrel.js" ghost_of_arcadia.html --check "Check Scripts/barrel_baseline.json"` (the baseline path is a required argument, not implied). Checkers that read `translation.json` resolve it as a sibling of the HTML under test. Last full run, 2026-10-15 against the post-sweep file (sha256 `2a2f25f4…`): `validate_presets.py` PASS, the fifteen difftest and test scripts above PASS, `difftest_barrel.js` 421 cases identical to the saved baseline, `test_dead_code_removal.js --phase post` PASS.
+**Invocation.** Run from a directory holding the three sheet files, passing paths explicitly: `node "Check Scripts/<script>.js" ghost_of_arcadia.html ghost_of_arcadia.css` for the difftests and tests, `python3 "Check Scripts/validate_presets.py" ghost_of_arcadia.html`, and `node "Check Scripts/difftest_barrel.js" ghost_of_arcadia.html --check "Check Scripts/barrel_baseline.json"` (the baseline path is a required argument, not implied). Checkers that read `translation.json` resolve it as a sibling of the HTML under test. Last full run, 2026-10-15 against the file with the `otherskill` and terminology fixes (sha256 `642bad44…`): `validate_presets.py` PASS, the sixteen difftest and test scripts above PASS (including `test_other_skill_slots.js`), `test_sheet_workers_doc.js` PASS, `difftest_barrel.js` 421 cases identical to the saved baseline, `test_dead_code_removal.js --phase post` PASS.
 
 `difftest_barrel.js` extracts its ammo button fixture from the sheet under test — do not reintroduce a literal copy (see *Test Fixtures That Copy Sheet Data Go Stale*).
 
@@ -274,7 +275,7 @@ A check that fires on hundreds of pre-existing instances is **worse than no chec
 
 **Verify the mutation actually happened.** A later negative test of T4/T5 reported PASS on both mutated files — because the harness read the CRLF source without `newline=""`, so Python translated the line endings and the `\r\n` patterns matched nothing, leaving the files byte-identical to the original. Always assert the mutation took effect (key count, substring presence) before interpreting the check's verdict.
 
-**D1 does not cover visible+visible duplication.** It requires a hidden twin with a disagreeing default, which is the dangerous *silent* case. Two fully visible rows sharing one attr set — found 2026-08-17, `otherskill11` declared in both the Perform and Tradecraft skill groups — is a different defect: both render, both edit the same value, and typing in one changes the other. A separate check is wanted: no attr name appears on more than one visible input outside a repeating section.
+**D1 does not cover visible+visible duplication.** It requires a hidden twin with a disagreeing default, which is the dangerous *silent* case. Two fully visible rows sharing one attr set — found 2026-08-17, `otherskill11` declared in both the Perform and Tradecraft skill groups — is a different defect: both render, both edit the same value, and typing in one changes the other. A general check is still wanted: no attr name appears on more than one visible input outside a repeating section. A one-off scan of visible text inputs on 2026-10-15 also flagged twelve other attrs (`ac`, `dex`, `dodge_mdr`, `strain`, `strain_max`, `unarmed_mdr`, `vitality_max`, `total_skill_points_spent`, `primary_career_skill_points`, `primary_career_spell_xp_total`, `xpledger_skill_point_gain`, `xpledger_spells_cost`) that have not been triaged, so it needs that triage or an allow-list to run clean. `test_other_skill_slots.js` covers the `otherskill` slots only. The first attempt at fixing `otherskill11` renamed the row to `otherskill12`, which already existed, so the duplicate merely moved; **before renaming a duplicate, check that the target name is unused** (`grep -c 'name="attr_<new>_'`).
 
 ### Hand-Maintained Link Tables Need a Lockstep Check
 
@@ -1087,6 +1088,10 @@ const applyGearPreset = (prefix, key) => {
 };
 ```
 
+### Free Skill Slots
+
+The thirteen free-text skill slots `otherskill1`..`otherskill13` are limited by **three independent literals** in the worker: the `Array.from({ length: 13 }, …)` loop in `calculateAndUpdateSkillValues`, the same loop in the skill handler registration, and `otherSlotCount` in `initNewCharacterSkills`. Add a slot and all three move, or the new row renders and never computes (this is how `otherskill12` went uncomputed). A slot whose key exists in `skillDataMap` (`otherskill3`, Language (Other)) is handled there and skipped by these loops. `test_other_skill_slots.js` asserts all of it.
+
 ### i18n in Sheet Workers
 
 **Never hardcode display strings in sheet worker logic.** All user-visible strings must go through `tr()`:
@@ -1465,16 +1470,7 @@ disagree, the Todo file wins.
 
 ### Bugs
 
-- **`otherskill11` is declared twice as two visible rows** — line ~975 (Perform
-  group) and ~2276 (Tradecraft group). Both are complete rows: checkbox, name
-  input, `_skill_mdr`, `_mdr`, roll button. Typing a custom skill into one makes
-  it appear in the other and the SP shows in both. There is no `otherskill13`,
-  so the free-slot series is 1–12 with 11 used twice, and Etiquette
-  (Ancestries) has no free slot at all. Not the `D1` class — see *Designing a
-  Validator Check*. The fix is likely a new `otherskill13` for Tradecraft plus a
-  ruling on whether the fixed free slots are still wanted now that
-  `repeating_skillsmdr` exists.
-- **Two display strings break a terminology rule** (found 2026-10-15): `mod_silencer_effect-u` reads "Pistols only." (should be "Handguns only.") and `anthropology_desc-u` spells the ancestry "Dravi" (should be "Draevi"). `translation.json` L2999 and L61. Neither needs a migration or a `source: {}` bump.
+- **Free skill slots, two rulings open.** The duplicate `otherskill11` row was fixed on 2026-10-15: the Tradecraft row is now `otherskill13`, and the two `otherSkills` loops and `otherSlotCount` all cover 1–13. That also repaired `otherskill12`, which had sat outside both calculation loops. Still open: whether the fixed free slots are wanted now that `repeating_skillsmdr` exists, and Etiquette (Ancestries) has no free slot. See *Free Skill Slots* under Sheet Workers.
 - **The Cash fields are still on the sheet** — `attr_spending_level`, `attr_cash`, `attr_assets`; see *The Money Ledger and Credits*.
 - **The Stim Tracker meters are inert.** `attr_health_meter_1..5` and
   `attr_strain_meter_1..3` have no worker logic — no reads, no writes, no

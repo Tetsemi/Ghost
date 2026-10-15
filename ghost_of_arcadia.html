@@ -67239,7 +67239,7 @@ const tabList = ["skills", "ancestry", "background", "careers", "summary_text", 
 const registeredRaces = new Set();
 const registeredSkillHandlers = new Set();
 const talentSummaryRegistered = new Set();
-const bgLimiterRegistered = new Set();
+									  
 const hasLimit = (val, limit) => Array.isArray(val) ? val.includes(limit) : val === limit;
 const isChecked = (v) => v === "1" || v === "on" || v === "true";
 const isUnselectedRace = (r) => !r || r === "unknown" || r === "0" || r === "cr";
@@ -67406,8 +67406,8 @@ const registerPerkSummaryWatcher = () => {
       u["show_perk_institutional_weight_institution"] = "0";
       let xpSpent    = 0;
       let lines      = [];
-      let picked10   = 0;
-      let picked15   = 0;
+						 
+						 
       let linguistSP = 0;
 
       // Group by DISPLAY label -> Set of perk names
@@ -67453,8 +67453,8 @@ const registerPerkSummaryWatcher = () => {
           addToSkill(display, nameTxt);
         });
 
-        if (cost === 10) picked10++;
-        if (cost === 15) picked15++;
+									
+									
         if (k === "linguist") linguistSP = 75;
       });
 
@@ -67546,8 +67546,8 @@ const registerFlawSummaryWatcher = () => {
   };
 
   const flawKeys   = Object.keys(flawDataMap || {});
-  const flaw5Keys  = flawKeys.filter((k) => (flawDataMap[k]?.cost | 0) === 5);
-  const flaw10Keys = flawKeys.filter((k) => (flawDataMap[k]?.cost | 0) === 10);
+																			  
+																			   
   const flawAttrs  = flawKeys.map((k) => `flaw_${k}`);
   /* char_creation_lock is in the event list so the flags recompute the moment
      creation is locked, rather than staying stale until the next click. */
@@ -67561,8 +67561,8 @@ const registerFlawSummaryWatcher = () => {
       const u = {};
       let xpGain   = 0;
       let lines    = [];
-      let picked5  = 0;
-      let picked10 = 0;
+					   
+					   
 
       // Group by DISPLAY label -> Set(flawName)
       const byDisplay = {};
@@ -67601,8 +67601,8 @@ const registerFlawSummaryWatcher = () => {
           addToSkill(display, nameTxt);
         });
 
-        if (cost === 5)  picked5++;
-        if (cost === 10) picked10++;
+								   
+									
       });
 
       /* Core Rules Step 9: Flaws grant 5 or 10 XP "to a maximum of +10 XP", and
@@ -67964,18 +67964,18 @@ const calculateAndUpdateSkillValues = (racePrefix, values, options = {}) => {
   let totalSkillPointsSpent = 0;
 
   const bgSkill = values[`${racePrefix}_mdr_checkbox`] || null;
-  const talentSkills = Object.entries(ancestryDataMap[racePrefix]?.talents || {})
-  .filter(([_, t]) => {
-    if (!t || t.skills == null) return false;
-    if (Array.isArray(t.skills)) return t.skills.length > 0;
-    if (typeof t.skills === "object") return Object.keys(t.skills).length > 0;
-    return false;
-  })
-  .map(([talentKey]) => {
-    const val = values[`${racePrefix}_${talentKey}_mdr_checkbox`];
-    return val && /^talent_/.test(val) ? val.replace(/^talent_/, "") : null;
-  })
-  .filter(Boolean);
+																				 
+					   
+											 
+															
+																			  
+				 
+	
+						 
+																  
+																			
+	
+				   
 
   allSkills.forEach(skill => {
     let base = parseInt(values[`${skill}_skill_mdr`], 10);
@@ -70154,7 +70154,7 @@ const initWeaponComputedAttrs = () => {
             updates[`repeating_weaponsmdr_${id}_weapon_max_range_mdr`] =
               entry.range[entry.range.length - 1];
           }
-          const slots = entry.mod_slots || [];
+											  
           Object.assign(updates, computeModButtons(entry, `repeating_weaponsmdr_${id}_weapon_`));
           updates[`repeating_weaponsmdr_${id}_weapon_trait_smartlink_mdr`]   = (entry.traits || []).includes("smartlink")  ? "1" : "";
           updates[`repeating_weaponsmdr_${id}_weapon_traits_display_mdr`]    = traitsDisplayStr(entry.traits);
@@ -73983,7 +73983,7 @@ function registerStatHandler() {
     on(watched.map(s => `change:${s}`).join(" "), () => {
 
         getAttrs(watched, values => {
-		    const iage  = parseInt(values.age, 10) || 0;
+												  
 			/* attr_str already contains str_base + ct_str_bonus_total (written by recalcInternalBonuses).
 			   Use it directly for damage bonus threshold and all downstream calculations. */
 			const istr = parseInt(values.str, 10) || 0;
@@ -73991,11 +73991,11 @@ function registerStatHandler() {
 			const ipow = parseInt(values.pow, 10) || 0;
             const icon = parseInt(values.con, 10) || 0;
 			const iapp = parseInt(values.app, 10) || 0;
-            const iedu = parseInt(values.edu, 10) || 0;
+													   
             const isiz = parseInt(values.siz, 10) || 0;
             const iint = parseInt(values.int, 10) || 0;
             const ivit = parseInt(values.vitality, 10) || 0;
-			const iwound = parseInt(values.major_wounds, 10) || 0;
+														 
 			const ichar_lock = parseInt(values.char_creation_lock, 10) || 0;
 			const iawakened = parseInt(values.awakened, 10) || 0;
 
@@ -74923,7 +74923,7 @@ function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, 
   const effectiveCover = cover || "";
   const bandOrder   = ["engaged", "short", "medium", "long", "extreme"];
   const maxRangeMap = { E: "engaged", S: "short", M: "medium", L: "long", X: "extreme" };
-  const reflexRanges = ["engaged", "short", "medium"];
+													  
   const longRanges   = ["long", "extreme"];
   const closeRanges  = ["engaged", "short"];
   const longArms     = ["rifle", "shotgun", "heavy"];

@@ -6,26 +6,43 @@
 
 ### Files
 
-| File | Purpose |
+Paths are relative to the repository root (GitHub `Tetsemi/Ghost`, branch `Claude`). They were reorganised on 2026-10-15; `Claude.md` moved from `Documentation/` to `Claude/`.
+
+**The three sheet files are not synced to the Claude Project** (excluded 2026-10-15 to stay inside the knowledge-size limit). They live in git, but must be uploaded at the start of every session. Everything else below is synced.
+
+| Path | Purpose |
 |---|---|
-| `ghost_of_arcadia.html` | Sheet HTML + all embedded `<script>` sheet workers + all DataMaps + roll templates |
-| `ghost_of_arcadia.css` | All styling, themes (Dark / Light / Cyberpunk / Ancestry), CSS variables |
-| `translation.json` | All i18n string keys used by `data-i18n` attributes |
-| `bonuspenalty.js` | Roll20 API script — seeds Bonus/Penalty ability on characters |
-| `dexInitiative.js` | Roll20 API script — DEX-based initiative for PCs |
-| `dexInitiativeNPC.js` | Roll20 API script — DEX-based initiative for NPCs |
-| `moveNPC.js` | Roll20 API script — NPC movement helper |
-| `GoA Core Rules 2026-07-01.pdf` | Core rulebook reference (world, skills, careers) |
-| `Ghost Guide to the Arcane.pdf` | Spell reference (casting, schools, spells) |
-| `Todo_list.md` | Active bugs and pending tasks |
-| `GoA_UI_Framework.md` | Structural map of every UI region and tab, with the consolidation analysis the 2026-08-17 restructure rulings came out of |
+| `ghost_of_arcadia.html` | Sheet HTML + all embedded `<script>` sheet workers + all DataMaps + roll templates. **Upload each session** |
+| `ghost_of_arcadia.css` | All styling, themes (Dark / Light / Cyberpunk / Ancestry), CSS variables. **Upload each session** |
+| `translation.json` | All i18n string keys used by `data-i18n` attributes. **Upload each session** |
+| `sheet.json` | Roll20 sheet manifest: html/css names, authors, preview image, the `theme_mode` user option |
+| `README.md` | Public description of the sheet |
+| `Ghost_Logo.png`, `GoA_Preview.png` | Repository imagery (the preview is referenced from `sheet.json`) |
+| `API Scripts/bonuspenalty.js` | Roll20 API script — seeds Bonus/Penalty ability on characters |
+| `API Scripts/dexInitiative.js` | Roll20 API script — DEX-based initiative for PCs |
+| `API Scripts/dexInitiativeNPC.js` | Roll20 API script — DEX-based initiative for NPCs |
+| `API Scripts/moveNPC.js` | Roll20 API script — NPC movement helper |
+| `Check Scripts/` | The verification suite. See *Verification Tooling* for each script; `barrel_baseline.json` is the saved baseline for `difftest_barrel.js` (pass it explicitly: `--check "Check Scripts/barrel_baseline.json"`). The folder's `.gitattributes` is only `* text=auto`, so it does not protect CRLF |
+| `Claude/Claude.md` | This file. LF line endings |
+| `Claude/Dead_Code_Removal_Plan.md` | The Todo 10 procedure, test plan and commit messages. Historical record; keep |
+| `Claude/ancestry_patch_instructions.md`, `Claude/career_patch_instructions.md` | Operational reference for the generic Ancestry Talent and Career updaters |
+| `Documentation/Todo list.md` | Active bugs, pending tasks and the Core Rules review. LF line endings |
+| `Documentation/GoA_UI_Framework.md` | Structural map of every UI region and tab, with the consolidation analysis the 2026-08-17 restructure rulings came out of. Line numbers refer to the 2026-08-17 upload and are stale |
+| `Documentation/Sheet_Workers.md` | AST and runtime analysis of every sheet worker. A snapshot taken at commit `dd3dcc9`, before the Todo 10 sweep removed 154 lines (79,254 → 79,100), so its line numbers are stale; the structure is current apart from the seven removed functions it lists |
+| `Documentation/Templates/` | `GoA_Gear_Section_Template.md` (gear-tab patterns) and `lifestyle_tab_spec.md` |
+| `Documentation/frameworks/` | Fill-in templates for adding a background, career, flaw, perk, ancestry or talent entry |
+| `Documentation/DataMaps/` | **Reference copies, not the source of truth.** Six files (`conditionsDataMap`, `flawDataMap`, `perkDataMap`, `skillDataMap`, `talentTagMap`, `talentTypeMap`). Only `flawDataMap.js` is byte-identical to the declaration in the sheet; `perkDataMap.js` still carries `shadow_mark` at cost 10 where the sheet and `validate_presets.py` say 5. Read the sheet, not these |
+| `Documentation/Saved Code/` | Retired code kept for reference: `API Scripts Retired/` (`ExtremeDamageParser.js`, `refreshRace.js`), `Removed Features.html`, `new backgrounds.html`, `removed backgrounds.html`, `sanity.html`, `skillMapTable.js`. Not loaded by anything |
+| `Documentation/main color theme.css` | Master colour palette notes for the themes |
+| `GoA Core Rules 2026-07-01.pdf` | Core rulebook reference (world, skills, careers). **Not in the repository or the project** — upload it when rules text is needed |
+| `Ghost Guide to the Arcane.pdf` | Spell reference (casting, schools, spells). **Not in the repository or the project** — upload it when rules text is needed |
 
 ---
 
 ## Workflow Rules
 
 ### File Handling
-- **Always copy from uploaded files** (`/mnt/user-data/uploads/`) at the start of every session. Never copy from `/mnt/project/` — that path may be stale and not reflect the user's latest edits.
+- **Always copy from uploaded files** (`/mnt/user-data/uploads/`) at the start of every session. Never copy from `/mnt/project/` — that path may be stale and not reflect the user's latest edits. `ghost_of_arcadia.html`, `ghost_of_arcadia.css` and `translation.json` are not in the project at all (see *Files*), so a session without those three uploads has no sheet to work on. Say so rather than reconstructing them from search snippets.
 - **Never overwrite mid-session.** Once working files are copied at session start, do not re-copy from uploads or project again during the same session. Files uploaded *later* in a session that were not previously present (validation scripts, reference docs) are additions, not overwrites, and may be copied in freely.
 - **Deliver changes as outputs** from the working copies. The user merges outputs back into the project.
 - **Use `str_replace` for targeted edits** — never use large Python block replacements that reproduce entire file sections verbatim. Large replacements require matching the exact current file content and silently overwrite any user edits in that block if the match is stale.
@@ -116,11 +133,11 @@
 |---|---|---|
 | `validate_presets.py` | Preset select ↔ DataMap invariants (W1–W8), spell schools (S1–S2), i18n (T1–T3), tag-layer lockstep (T4–T7), explosives conditions and immunity notes (C1–C2), duplicate declarations (D1) | Before every delivery |
 | `difftest_tags.js` | 12,096-combination differential test of `deriveWeaponTags` against the canonical derivation | After any tag-layer change |
-| `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>` | Before any positional collapse. Reports cleanly when a function is already converted |
+| `verify_tag_derivations.py` | Static equivalence prover; takes `<html> <functionName>`. Its position map knows only `buildTagsStr` and `computeWeaponDice`; any other name (including the already-converted `deriveWeaponTags`) ends in `KeyError`, on the pristine file as well. Unfinished, not a sheet defect | Before any positional collapse of one of those two functions |
 | `difftest_modbuttons.js` | Runs the retired literal `computeModButtonsLegacy` against the wired implementation across all 74 weapons x 13 mods | After any change to `weaponModDataMap` or the mod button logic |
 | `difftest_modeffects.js` | Checks each mod's mechanical fields (die ranges, hit bonuses, mode restrictions) against their implementation | Same |
 | `difftest_barrel.js` | Fires all barrel buttons in all scopes and diffs the resulting writes against a saved baseline (`--save` / `--check`) | Before and after any watcher consolidation. Covers barrel, internal-mod, optics, range, mode and ammo buttons: 387 cases, plus cap-counter and aim-cycle cases: 421 total |
-| `difftest_ammo.js` | Transcribed pre-wiring ammo logic vs `ammoEffects` across 9 types × 3 active states; key-space bijection; per-scope CSS `[value=]` coverage; asserts the 8 unimplemented fields are present with their expected values. Takes `<html> [css]` | After any ammo change |
+| `difftest_ammo.js` | Transcribed pre-wiring ammo logic vs `ammoEffects` across 9 types × 3 active states; key-space bijection; per-scope CSS `[value=]` coverage; asserts the declared-but-unconsumed fields are present with their expected values. It prints 8 `GAP` lines; seven are genuine, and the eighth, `subsonic_rounds.suppressed_bf_enabled`, **is** consumed (`ammoDataMap[ammoType || ""].suppressed_bf_enabled` in `applyBarrelModeRestriction`) but through a form the test's scan does not recognise. Takes `<html> [css]` | After any ammo change |
 | `test_ammo_reconcile.js` | Executes the worker; `reconcileAmmoTypes` across all three ammo scopes, idempotency, non-destruction of unresolvable values, and that it is actually called from `afterAllSets` | After any ammo key-space change |
 | `test_ammo_note.js` | Six roll buttons, both attack templates, `effect_summary_key` resolution, `translation.json` alphabetical position, and note-write ≥ label-write parity | After any ammo note or roll-template change |
 | `test_grenade_i18n.js` | Asserts every grenade display string resolves through `tr()`, that each key exists in `translation.json`, and that each function declares its own local `tr` | After any grenade/explosives display change |
@@ -132,8 +149,11 @@
 | `test_money_ledger.js` | Executes the worker; running-total accumulation in row order, balance order-independence, blank/malformed input, empty section, single registration on the credit event, and the `afterAllSets` call site asserted against comment-stripped source | After any money ledger, ledger-relocation or credits change |
 | `find_orphans.js` | AST walk (acorn) reporting `const` bindings with zero resolved references. Regex use-counting gives false negatives on names that also appear as string literals on their own declaration line (`internal === "qst"`) | Before any orphan sweep |
 | `difftest_offschool.js` | Executes the worker; full 10×10 school matrix, all three write paths, career-change recompute, declaration order | After any spell Strain or arcane career change |
-| `apply_dead_code_removal.py` | Pin-checked, CRLF-safe deletion of the Todo 10 targets (`--phase 1` or `2`; `--pins` previews). Aborts without writing if any block count, line span or content hash differs from the file it was written against | Retired with Todo 10; keep as the worked example |
-| `test_dead_code_removal.js` | Executes the whole worker: 20 removal targets, 18 protected bindings, 16 scenarios whose ordered write logs are diffed against a saved baseline (`--save` / `--check`; `--scope phase1` for the first phase) | Before and after any dead-code removal |
+| `test_perk_flaw_limits.js` | Executes the Perk and Flaw watchers: two selections combined, Flaw XP capped at +10, both caps creation-only, XP frozen at `char_creation_lock`, lock flags self-heal from `afterAllSets`, and the creation lock hides Perks but not Flaws. Takes `<html> [css]` | After any Perk, Flaw or creation-lock change |
+| `apply_dead_code_removal.py` | Pin-checked, CRLF-safe deletion of the Todo 10 targets (`<in.html> <out.html> --phase 1\|2`; `--pins` previews). Aborts without writing if any block count, line span or content hash differs from the file it was written against. Deleted in commit 7656ae9 and restored in the 2026-10-15 reorganisation commit | Retired with Todo 10; keep as the worked example. Running it on the post-sweep file aborts, by design |
+| `test_dead_code_removal.js` | Executes the whole worker: 20 removal targets, 18 protected bindings, 16 scenarios whose ordered write logs are diffed against a saved baseline (`--save` / `--check`; `--scope phase1` for the first phase). `--phase post` runs the static checks only and passes on the current file. The `baseline.json.gz` the differential half needs is deliberately not in the repository (`Claude/Dead_Code_Removal_Plan.md` §3 says to keep it out), so `--check` has nothing to compare against until a baseline is saved from a pre-change file | Before and after any dead-code removal |
+
+**Invocation.** Run from a directory holding the three sheet files, passing paths explicitly: `node "Check Scripts/<script>.js" ghost_of_arcadia.html ghost_of_arcadia.css` for the difftests and tests, `python3 "Check Scripts/validate_presets.py" ghost_of_arcadia.html`, and `node "Check Scripts/difftest_barrel.js" ghost_of_arcadia.html --check "Check Scripts/barrel_baseline.json"` (the baseline path is a required argument, not implied). Checkers that read `translation.json` resolve it as a sibling of the HTML under test. Last full run, 2026-10-15 against the post-sweep file (sha256 `2a2f25f4…`): `validate_presets.py` PASS, the fifteen difftest and test scripts above PASS, `difftest_barrel.js` 421 cases identical to the saved baseline, `test_dead_code_removal.js --phase post` PASS.
 
 `difftest_barrel.js` extracts its ammo button fixture from the sheet under test — do not reintroduce a literal copy (see *Test Fixtures That Copy Sheet Data Go Stale*).
 
@@ -326,9 +346,11 @@ spend surfaces as a negative remainder. The only case the aggregate cannot
 express is a career with **no** bundle at all, which is why the fix narrowed to
 enforcing the Specialist zero and left over-cap entries alone.
 
-The same reasoning retired the Cash field on 2026-08-18: the Money Ledger's
-running total already reports available credits, so a second hand-typed balance
-was a duplicate representation with no reconciliation between the two.
+The same reasoning ruled the Cash field redundant on 2026-08-18: the Money
+Ledger's running total already reports available credits, so a second hand-typed
+balance is a duplicate representation with no reconciliation between the two.
+The field is still on the sheet as of 2026-10-15; see *The Money Ledger and
+Credits* for its status.
 
 **A deliberate absence needs an assertion too.** `test_career_bundle.js` asserts
 that no clamp exists on the over-cap case, so the decision is recorded in the
@@ -384,6 +406,7 @@ file before and after each phase and compare it with the hash of what was tested
 - **Tab-based only.** Never use spaces for indentation.
 - This applies to HTML, CSS, JavaScript, and JSON alike.
 - When editing existing code, match the surrounding tab depth exactly.
+- **Known pre-existing exception (counted 2026-10-15).** About 9,390 lines of `ghost_of_arcadia.html` are space-indented (9,491 in the pre-sweep file), almost all inside the three `<rolltemplate>` bodies (~L35194–39892) plus roughly 41 lines in the worker, and 113 lines of `ghost_of_arcadia.css`. The rule governs new and edited code; it is not a reason to reformat those blocks inside an unrelated change. Normalising them is its own formatting-only commit (Todo 19).
 
 ### Alphabetical Ordering
 - All sections within a file must be ordered alphabetically where applicable.
@@ -455,6 +478,8 @@ DataMaps are the **single source of truth** for all game data. Do not hard-code 
 
 ### Complete List of DataMaps (in `ghost_of_arcadia.html`)
 
+Forty-four `const …DataMap` declarations, listed in the order the sheet declares them. Nine cyberware maps (`cosmeticwareDataMap` through `cyberlimbModDataMap`, between `vehicleModsDataMap` and `districtDataMap`) were missing from this list until the 2026-10-15 completeness check. The maps are not alphabetical — the alphabetical rule applies to the entries *within* each map.
+
 ```
 skillDataMap
 conditionsDataMap
@@ -488,10 +513,21 @@ entertainmentDataMap
 vehiclesDataMap
 vehicleWeaponsDataMap
 vehicleModsDataMap
+cosmeticwareDataMap
+neuralwareDataMap
+cyberOpticsDataMap
+cyberOpticsModDataMap
+cyberAudioDataMap
+cyberAudioModDataMap
+internalCyberDataMap
+cyberlimbDataMap
+cyberlimbModDataMap
 districtDataMap
 lifestyleFeatureDataMap
 lifestyleTierDataMap
 ```
+
+`Documentation/DataMaps/` holds reference copies of six maps; they are stale snapshots (see *Files*), not a place to edit.
 
 ### DataMap Entry Structure
 
@@ -712,8 +748,18 @@ feature_key: {
 
 `repeating_moneyledger` is the **sole record of credits**. There is no second
 balance field and no reconciliation to perform — the free-form `cash`,
-`spending_level` and `assets`-as-currency reading were retired on 2026-08-18 on
-the ruling that the running total already reports available credits.
+`spending_level` and `assets`-as-currency reading were **ruled retired** on
+2026-08-18 on the ruling that the running total already reports available
+credits.
+
+**Status, checked 2026-10-15: ruled but not yet shipped.** The markup still
+carries `attr_spending_level`, `attr_cash` and `attr_assets` under the
+"Cash and Assests" heading (`cashandassets-u`; HTML ~L32834–32842). Removing
+them is item 6 of *UI Restructure*, which ships with the Possessions relayout.
+Until then a player can type a second, hand-kept balance that nothing
+reconciles with the ledger. Every "retired" in this file about those fields
+means the ruling, not the markup; the commit that removes them updates this
+paragraph.
 
 ### Choice semantics
 
@@ -756,8 +802,8 @@ nothing or owes 30,000, and nothing on the sheet records the obligation.
 sheet-level `money_balance`, and is registered on `change:` for credit and
 debit, both reorder attrs, and `remove:`. It is **also called from
 `afterAllSets`** as of 2026-08-18 — without that, a character whose rows had not
-been edited since the handler shipped rendered blank Total cells, which became
-user-visible the moment `cash` retired.
+been edited since the handler shipped rendered blank Total cells, which becomes
+more visible once `cash` is removed and the Total column is the only balance.
 
 `money_balance` has no markup element. That is deliberate for now: the last
 row's running total is the balance, and a summary readout is planned for the
@@ -830,7 +876,7 @@ stuck.
 </script>
 ```
 
-`GoA_UI_Framework.md` holds the full structural map — every region, every tab,
+`Documentation/GoA_UI_Framework.md` holds the full structural map — every region, every tab,
 line ranges, column sets, and the repeating-section inventory (64 fieldsets
 across 19 tabs). Consult it before restructuring anything; it exists so that
 work does not start with a re-survey.
@@ -1111,11 +1157,12 @@ const migrateRetiredX = () => {
 - **Moving an `<option>` between preset `<select>`s is equally attr-affecting**, even when the DataMap key itself is unchanged. The stored value lives in an attr named after the select, so relocating the option relocates the value between attribute names and the old value silently stops resolving. Ship a reconciler pass or an attr migration with any such move, and run `validate_presets.py` before delivery. Reference implementation: `reconcileWeaponPresetSlots` (2026-08-01).
 
 **Omitting a migration is a decision that must be stated, not a default.**
-`cash` and `spending_level` were retired 2026-08-18 with no migration, on the
-ruling that both were free-form leftovers and all money is already in the
-ledger. The attrs orphan in the Roll20 store for existing characters — harmless
-and unreachable, but a later export showing them should not be mistaken for a
-defect, which is why the commit body names them.
+`cash` and `spending_level` were ruled retired 2026-08-18 with no migration, on
+the ruling that both are free-form leftovers and all money is already in the
+ledger. When the markup is removed (not yet — see *The Money Ledger and
+Credits*), the attrs orphan in the Roll20 store for existing characters —
+harmless and unreachable, but a later export showing them should not be
+mistaken for a defect, which is why that commit body must name them.
 
 ---
 
@@ -1304,7 +1351,7 @@ An `overrides` argument was shipped on the strength of that false reading. It wa
 
 ## Roll20 API Scripts
 
-All `.js` files in the project root are **Roll20 API (Pro)** scripts, not browser scripts.
+All `.js` files in `API Scripts/` are **Roll20 API (Pro)** scripts, not browser scripts. (`Check Scripts/*.js` are Node test tools and `Documentation/Saved Code/API Scripts Retired/` holds two retired API scripts; neither folder is uploaded to Roll20.)
 
 - They use `on('ready', ...)`, `findObjs()`, `createObj()`, `getObj()`, `setObj()`, `sendChat()` — Roll20 API globals.
 - They do **not** run in the browser and cannot be imported into the sheet HTML.
@@ -1347,15 +1394,18 @@ Doc defects to raise with the author: the Casting Quick Reference (printed p.240
 ### Currencies
 Credits (Cr) — primary economy unit. Tracked exclusively in the Money Ledger;
 see *The Money Ledger and Credits* for the choice semantics and the ruling that
-retired the free-form Cash field.
+retires the free-form Cash field (ruled, not yet removed from the markup).
 
 ---
 
 ## UI Restructure — Ruled 2026-08-17/18, Not Yet Shipped
 
 These are author decisions with no code written. They came out of
-`GoA_UI_Framework.md`. Recorded here so the sequencing survives a session
-boundary.
+`Documentation/GoA_UI_Framework.md`. Recorded here so the sequencing survives a
+session boundary. Rechecked against the 2026-10-15 sheet: Summary Text and
+Summary Type are still separate tab buttons, Perks and Flaws are still
+separate, and the Cash fields are still present, so items 1, 2 and 6 are
+confirmed unshipped.
 
 1. **Merge Summary Text + Summary Type** into one Summary tab with a
    Source/Type grouping toggle. Both are readonly spans over the same selected
@@ -1404,7 +1454,11 @@ scroll during a chase), and renaming Possessions into a container for hardware.
 
 ---
 
-## Known Issues & Pending Work (from Todo_list.md)
+## Known Issues & Pending Work (summary of `Documentation/Todo list.md`)
+
+`Documentation/Todo list.md` is the authoritative list and carries the full
+text, including the Core Rules review. This section is a digest; when the two
+disagree, the Todo file wins.
 
 ### Bugs
 
@@ -1417,6 +1471,8 @@ scroll during a chase), and renaming Possessions into a container for hardware.
   Validator Check*. The fix is likely a new `otherskill13` for Tradecraft plus a
   ruling on whether the fixed free slots are still wanted now that
   `repeating_skillsmdr` exists.
+- **Two display strings break a terminology rule** (found 2026-10-15): `mod_silencer_effect-u` reads "Pistols only." (should be "Handguns only.") and `anthropology_desc-u` spells the ancestry "Dravi" (should be "Draevi"). `translation.json` L2999 and L61. Neither needs a migration or a `source: {}` bump.
+- **The Cash fields are still on the sheet** — `attr_spending_level`, `attr_cash`, `attr_assets`; see *The Money Ledger and Credits*.
 - **The Stim Tracker meters are inert.** `attr_health_meter_1..5` and
   `attr_strain_meter_1..3` have no worker logic — no reads, no writes, no
   relationship to `attr_hp` or `attr_strain`. Their controllers
@@ -1447,12 +1503,15 @@ scroll during a chase), and renaming Possessions into a container for hardware.
 16. **Four Ledger XP destinations have no home UI.** XP→Credits, XP→Allies, XP→Reputation and XP→Factions are selectable in `repeating_ledger` and totalled in the XP Point Tracker. Credits now has an obvious fix (write a `transfer_in` money ledger row). Allies partly overlaps Backstory contacts. **Reputation and Factions exist nowhere else on the sheet.**
 17. **Gear prices exist in data and nowhere in the UI.** Every gear DataMap carries cost data; no Gear section renders it. Cybertech, Vehicles and Lifestyle all do.
 18. **Call of Cthulhu vestiges in Backstory** — Phobias & Manias, Tomes/Spells/Artifacts, Encounters with Strange Entities. No GoA mechanic corresponds to any of the three. Rename or retire.
+19. **Space indentation** — the pre-existing "tabs only" violation described under *Indentation*. A formatting-only commit.
+20. **Check Scripts upkeep** — `verify_tag_derivations.py` `KeyError` on `deriveWeaponTags`; `difftest_ammo.js` misreports `suppressed_bf_enabled`; `test_dead_code_removal.js` has no baseline; `find_orphans.js` needs `acorn`.
+21. **Reference documents have drifted** — `Documentation/DataMaps/`, `Documentation/Sheet_Workers.md` and `Documentation/GoA_UI_Framework.md` are snapshots; the Core Rules PDFs are not in the repository.
 
 #### Shipped 2026-08-18 — money ledger on-open recalc
 `recalcMoneyLedger()` added to `afterAllSets`. It was registered only on
 `change:` for credit/debit, both reorder attrs and `remove:`, so stored rows
 rendered blank `money_running_total` cells until a row was edited — which became
-user-visible with the Cash field retiring. `test_money_ledger.js` added and
+user-visible once the Cash field is removed. `test_money_ledger.js` added and
 negative-tested against a mutant with the call removed. Sandbox-validated: log
 and screenshot both confirmed on-open population, correct accumulation across
 ten rows, and screen order matching iteration order.
@@ -1624,10 +1683,10 @@ to the edit-mode shape, reaching (0,11,2):
 
 ### General
 - **Suspect the change you just made, but verify before blaming it.** Three separate defects in the 2026-08-01 session were assumed to originate in recent Combat commits and none did. Recent work draws attention to an area; the inspection then surfaces older issues. Use `git log -S '<identifier>'` to date a construct before attributing it.
-- **Check the Todo_list.md before starting any new section.**
+- **Check `Documentation/Todo list.md` before starting any new section.**
 - **Cross-reference PDFs and .docx updates** before writing any new DataMap data. `source: {}` must reflect the actual document used.
 - **The sheet width is fixed at 840px** (`--cs_sheet_width`).
-- **CRLF line endings.** `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, and `translation.json` use `\r\n`; `Claude.md` and `Todo_list.md` use LF. For multi-line targeted edits, use Python byte-level replacement with an `assert count == 1` uniqueness check per replacement.
+- **CRLF line endings.** `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, and `translation.json` use `\r\n`; `Claude/Claude.md` and `Documentation/Todo list.md` use LF. For multi-line targeted edits, use Python byte-level replacement with an `assert count == 1` uniqueness check per replacement.
 
 ### Lifestyle DataMaps
 - **`districtDataMap` `tiers` array is index-ordered `[squatter, low, middle, high, luxury, enclave]`.** Never reorder it. `2` = restricted (GM adjudicates — do not block selection, show note text).

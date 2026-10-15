@@ -88,3 +88,8 @@
 
 - **Still Standing** - Exists as both Human and Khadra Tier 1 Talents - Waiting on docs
 
+NPC add place for skills/abilities and action economy
+
+### Feature Request
+
+- **Luck Roll** - Add an additional button for rolling luck at the beginning of each session.  If you fail the roll, add 1d10 to the Luck value

@@ -18,6 +18,7 @@
 | `GoA Core Rules 2026-07-01.pdf` | Core rulebook reference (world, skills, careers) |
 | `Ghost Guide to the Arcane.pdf` | Spell reference (casting, schools, spells) |
 | `Todo_list.md` | Active bugs and pending tasks |
+| `GoA_UI_Framework.md` | Structural map of every UI region and tab, with the consolidation analysis the 2026-08-17 restructure rulings came out of |
 
 ---
 
@@ -25,10 +26,11 @@
 
 ### File Handling
 - **Always copy from uploaded files** (`/mnt/user-data/uploads/`) at the start of every session. Never copy from `/mnt/project/` — that path may be stale and not reflect the user's latest edits.
-- **Never overwrite mid-session.** Once working files are copied at session start, do not re-copy from uploads or project again during the same session.
+- **Never overwrite mid-session.** Once working files are copied at session start, do not re-copy from uploads or project again during the same session. Files uploaded *later* in a session that were not previously present (validation scripts, reference docs) are additions, not overwrites, and may be copied in freely.
 - **Deliver changes as outputs** from the working copies. The user merges outputs back into the project.
 - **Use `str_replace` for targeted edits** — never use large Python block replacements that reproduce entire file sections verbatim. Large replacements require matching the exact current file content and silently overwrite any user edits in that block if the match is stale.
 - **Verify by content, never by mtime, and audit `/mnt/user-data/outputs/` before merging.** On 2026-08-06 the working container held files created by no action in the session — `find_orphans.js`, `edit2.py`, `edit3.py`, and a `difftest_dice.js` that also appeared in the outputs directory. `ghost_of_arcadia.html` carried a matching mtime while its md5 still matched the last delivery, so md5 was the only trustworthy signal — and that comparison was itself worthless, because it compared the working copy against the delivered copy and the phantom had modified both. **The only sound reference is the pristine upload plus the edits you can show.** Diffing working-vs-pristine and attributing every changed line is the check that actually works; 55 of 115 deleted lines turned out not to be mine, and had already shipped in two deliveries. One of those artifacts (`edit3.py`) wired the ammo AP lookup *before* the key-space rename — the exact silently-failing order that session's work was sequenced to avoid.
+- **Diff working-vs-pristine before every delivery and attribute every changed line.** This is cheap and it is the check that catches both phantom edits and accidental scope creep. A four-line change should diff as four lines; anything else needs explaining before the files ship.
 - **Always verify which file is newer before working.** At session start, compare timestamps and sizes of uploads vs outputs: `ls -lt /mnt/user-data/uploads/ghost_of_arcadia.* /mnt/user-data/outputs/ghost_of_arcadia.*`. If outputs are newer or larger than uploads, the user has not merged the last session's output — use outputs as the base, not uploads. Blindly copying from uploads when outputs are ahead discards all intermediate fixes and recreates bugs already solved.
 - **If no files are uploaded, always continue from `/mnt/user-data/outputs/`.** Never re-copy from uploads mid-session when the user simply continues without new files.
 - **Verify the working base has key fixes before editing.** After copying the base file, spot-check one or two known-good markers (e.g. `grep -n "MedTech roll toggle" ghost_of_arcadia.css`) to confirm the correct version before making any changes.
@@ -58,6 +60,14 @@
 - **Wait for the result before stacking the next change.** Four commits went
   onto one file unvalidated on 2026-08-06; when a rebuild became necessary, none
   of them could be individually cleared.
+- **Ask for a screenshot before theorising about render order or layout.** On
+  2026-08-18 an ordering question about the Money Ledger produced two
+  speculative mechanisms (a `.toLowerCase()` mismatch in
+  `getSectionIDsOrdered`, a possibly-wrong `change:_reporder:` event name)
+  before anyone looked at the rendered table. The screenshot settled it in one
+  round and both theories were wrong. A console log proves what the worker
+  computed; only a screenshot proves what the player sees, and the two questions
+  are routinely confused.
 
 ### Commit Messages
 
@@ -95,9 +105,9 @@
 - **Claude does not run `git`.** There is no repository in the working
   environment. Messages are handed over for Kameron to apply; do not write as
   though the commit has been made.
- 
+
 ---
- 
+
 ## Verification Tooling
 
 ### Scripts
@@ -119,10 +129,19 @@
 | `test_ancestry_minimums.js` | The eight SIZ minimums and the INT 40 floor against the Core Rules, and that `applyRacialBaseStats` still clamps to `stats[x].base` | After any ancestry stat change |
 | `test_career_bundle.js` | Asserts `career_type` and `skill_points_secondary` agree with the rules, that no primary-career conversion survives, that the N/A controller precedes its targets, the CSS swap rules exist, and that over-cap entries are deliberately NOT clamped | After any career XP or skill-bundle change |
 | `test_tagfetch.js` | Records the keys actually passed to `getAttrs` at runtime and asserts every `deriveWeaponTags` consumer fetches every attr `weaponTagInputs` declares; also cross-checks each entry's `attrs` against the keys its `derive` closure reads | After any tag-layer or fetch-list change |
+| `test_money_ledger.js` | Executes the worker; running-total accumulation in row order, balance order-independence, blank/malformed input, empty section, single registration on the credit event, and the `afterAllSets` call site asserted against comment-stripped source | After any money ledger, ledger-relocation or credits change |
 | `find_orphans.js` | AST walk (acorn) reporting `const` bindings with zero resolved references. Regex use-counting gives false negatives on names that also appear as string literals on their own declaration line (`internal === "qst"`) | Before any orphan sweep |
 | `difftest_offschool.js` | Executes the worker; full 10×10 school matrix, all three write paths, career-change recompute, declaration order | After any spell Strain or arcane career change |
 
 `difftest_barrel.js` extracts its ammo button fixture from the sheet under test — do not reintroduce a literal copy (see *Test Fixtures That Copy Sheet Data Go Stale*).
+
+**Baseline the gate against the pristine upload before editing.** Every script
+above should be run against `/mnt/user-data/uploads/` at session start, and
+`difftest_barrel.js --save` needs its baseline captured from the *pre-edit*
+file. A green run after a change means nothing unless the same run was green
+before it — and `--check` against a baseline saved from the edited file is
+tautological in exactly the way *Equivalence Proofs After the Collapse Has
+Shipped* describes.
 
 ### Deferred Rules Are Data, Not Gaps
 
@@ -149,9 +168,9 @@ Proposed tool: `difftest_weapontraits.js`, asserting every trait in `weaponDataM
 
 **Strip comments in every scanner from the outset.** This trap recurred a *third* time in one session: a literal scanner matched the string quoted inside the comment explaining what it had replaced. Worse, the `strip` helper added to fix it was declared *below* its first use and threw a TDZ `ReferenceError` — in the very file whose job is catching that class of fault. Declare the stripper above its consumers.
 
-**Run regex census checks against comment-stripped source.** A check banning `ammoType.replace(/_/g` fired on the comment explaining what it had replaced. Any "this pattern must no longer appear" check needs `js.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "")` first. The same applies to "is the map read" metrics: prose mentioning `ammoDataMap[stored]` inflated a reads counter to 2 when the true count was 0.
+**Run regex census checks against comment-stripped source.** A check banning `ammoType.replace(/_/g` fired on the comment explaining what it had replaced. Any "this pattern must no longer appear" check needs `js.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "")` first. The same applies to "is the map read" metrics: prose mentioning `ammoDataMap[stored]` inflated a reads counter to 2 when the true count was 0. It applies equally to **call-site assertions**: a check that `recalcMoneyLedger()` appears inside `afterAllSets` would pass on a deleted call if the comment explaining the call survived.
 
-**A test that calls a function directly does not prove the function runs.** Deleting `reconcileAmmoTypes()` from `afterAllSets` left the reconciler test fully green, because the test invoked it itself. Assert the call site exists: `/afterAllSets[\s\S]{0,4000}?fnName\s*\(\s*\)\s*;/`.
+**A test that calls a function directly does not prove the function runs.** Deleting `reconcileAmmoTypes()` from `afterAllSets` left the reconciler test fully green, because the test invoked it itself. Assert the call site exists: `/afterAllSets[\s\S]{0,4000}?fnName\s*\(\s*\)\s*;/`. `test_money_ledger.js` uses the same guard and is negative-tested against a mutant with the line removed.
 
 **Coverage checks must be per-scope, not "exists somewhere."** A CSS check asking whether *a* `[value="X"]` rule existed passed when one of two scopes had been missed during a rename. Check `ammo_type` and `ammo_type_mdr` independently.
 
@@ -201,6 +220,8 @@ Nothing static caught it: `node --check` passed (it parses, it does not evaluate
 
 The same trap catches ordinary locals, not just module-level derived constants. Adding `damage: dmgStr` to the `initWeapon1ModButtons` diagnostic dump put a reference *above* the `const dmgStr` declaration inside the same callback — `ReferenceError` on every sheet open, `node --check` clean. Three TDZ faults occurred in one session and all three were caught by executing the module, none by parsing it. When inserting a reference into an existing block, check where the identifier is declared relative to the insertion point.
 
+**A call added to `afterAllSets` needs the same order check, for a different reason.** `afterAllSets` executes during `sheet:opened`, long after the module has finished evaluating, so a function it calls cannot hit a TDZ. But its *dependencies* can: `recalcMoneyLedger` reads `SECTION`, `getSectionIDsOrdered` and `toNum`, all module-level consts, and `test_money_ledger.js` asserts each precedes it. Add the pairs to the guard test rather than reasoning about them once.
+
 ### Proving a Thing Is Absent
 
 Three false absence claims were made in one session (2026-08-06). Each came from a search that could not have found the thing it was looking for, and each nearly redirected the session toward building something that already existed.
@@ -209,6 +230,8 @@ Three false absence claims were made in one session (2026-08-06). Each came from
 - **A `readonly` input is evidence FOR a writer existing, not against it.** It was read as confirmation of the absence claim. Computed fields are readonly *because* something writes them.
 - **Search for the encoding, not the concept.** Searching `affinity`, `alignment`, `natural_school`, `primary_school` returned nothing and produced "the sheet has no school alignment". The sheet encodes it as `primary_arcane_career` — the career IS the alignment. When a concept search comes back empty, search for the control (`<select`, `data-i18n`) and the surrounding domain nouns before concluding anything.
 - **Scope every count to the thing being counted.** A file-wide count of a common field name (`compatible_categories`, `damage`) says nothing about whether a specific DataMap is read. To find real reads of a map, match property access — `mapName\s*[\[.]` — against comment-stripped source.
+
+**An orphaned aggregate is not always the user-visible half.** `money_balance` was found written by `recalcMoneyLedger` with zero markup elements, and reported as "the sheet computes a balance and shows it nowhere". True, but it was the wrong headline: `money_running_total` — the per-row Total column the player actually reads — is written by the *same* function, and was equally stale. When an aggregate and its per-row siblings share one writer, check whether the siblings are displayed before deciding which absence matters. The fix was identical either way; the framing determined whether the change looked cosmetic or necessary.
 
 ### Static Analysis of JS Scope Is Unreliable
 
@@ -225,6 +248,8 @@ A check that fires on hundreds of pre-existing instances is **worse than no chec
 **Attrs written through a computed name are invisible to a textual search.** After the button consolidation, `D1` reported `weapon1_mdr_range_band` as never written — a false positive, because the generated writer emits `[attr]: val` where `attr` comes from `weaponPresetAttrRep`/`W1`. The check now also treats any CORE name appearing in `weaponToggleFamilies` or `weaponPresetAttrDefaults` as written. When a static check fires on code you know is correct, fix the check.
 
 **Verify the mutation actually happened.** A later negative test of T4/T5 reported PASS on both mutated files — because the harness read the CRLF source without `newline=""`, so Python translated the line endings and the `\r\n` patterns matched nothing, leaving the files byte-identical to the original. Always assert the mutation took effect (key count, substring presence) before interpreting the check's verdict.
+
+**D1 does not cover visible+visible duplication.** It requires a hidden twin with a disagreeing default, which is the dangerous *silent* case. Two fully visible rows sharing one attr set — found 2026-08-17, `otherskill11` declared in both the Perform and Tradecraft skill groups — is a different defect: both render, both edit the same value, and typing in one changes the other. A separate check is wanted: no attr name appears on more than one visible input outside a repeating section.
 
 ### Hand-Maintained Link Tables Need a Lockstep Check
 
@@ -293,9 +318,17 @@ spend surfaces as a negative remainder. The only case the aggregate cannot
 express is a career with **no** bundle at all, which is why the fix narrowed to
 enforcing the Specialist zero and left over-cap entries alone.
 
+The same reasoning retired the Cash field on 2026-08-18: the Money Ledger's
+running total already reports available credits, so a second hand-typed balance
+was a duplicate representation with no reconciliation between the two.
+
 **A deliberate absence needs an assertion too.** `test_career_bundle.js` asserts
 that no clamp exists on the over-cap case, so the decision is recorded in the
-suite rather than in a commit message nobody re-reads.
+suite rather than in a commit message nobody re-reads. `test_money_ledger.js`
+asserts that the balance is **order-independent**, which is the property that
+made row placement a cosmetic question rather than a correctness one — if it
+ever stops holding, the reasoning recorded in the retirement commit stops
+holding with it.
 
 ### Test Fixtures That Copy Sheet Data Go Stale
 
@@ -345,6 +378,8 @@ Do not use `sed -i` to edit an edit script. A complex `sed` pattern mangled two 
 - CSS variables within a block should be alphabetical where feasible.
 - HTML `<option>` lists within a `<select>` should be alphabetical.
 
+**`afterAllSets` is ordered by dependency, not alphabetically.** New on-open calls go beside the related recalcs, with an inline comment stating why the function cannot self-heal without them. Do not sort it.
+
 ### Weapon Terminology — Handgun, not Pistol
 
 - **The canonical term is Handgun.** The skill key is `firearms_handgun`,
@@ -376,7 +411,27 @@ Do not use `sed -i` to edit an edit script. A complex `sed` pattern mangled two 
   author before correcting the doc.
 - The eight ancestries are: alteri, draevi, feran, human, khadra, kitsu,
   lyranni, veyra.
-  
+
+### Legacy Internal Names Behind Current Labels
+
+The sheet routinely carries a legacy identifier under a renamed label, and this
+is the house pattern rather than an exception: `investigatorinfo-u` renders
+"Ghost Info", `investigatorskills-u` renders "Skills", the HP maximum is
+`pulphp_max`, and the whole roll-template family is still `coc-`.
+
+**When a tab or section is renamed, change the translation value only.** The
+`act_*` button name, the `attr_selected_tab` stored value, the
+`.sheet-<tab>` class and its CSS rules all stay. Renaming them strands every
+character whose `selected_tab` holds the old string on a blank bottom section —
+no CSS rule matches, no `change:` fires, and nothing writes the attr back (see
+*Roll20 Render Behaviour*). Reference: Inventory → **Possessions**, 2026-08-18,
+which changed one value in `translation.json` and nothing else.
+
+Where a retired *tab* value must genuinely disappear (a merge, not a rename),
+keep the old value working with an **alias CSS rule** pointing at the merged
+div rather than shipping a reconciler. It is cheaper, permanent, and cannot
+fail silently.
+
 ---
 
 ## DataMaps — Source of Truth
@@ -638,39 +693,99 @@ feature_key: {
 
 ---
 
-## translation.json Rules
+## The Money Ledger and Credits
 
-- **Strictly alphabetical** by key. No exceptions.
-- All keys use `-u` suffix for user-facing strings.
-- Roll text keys use `-r-txt` suffix.
-- Description keys use `_desc-u` suffix.
-- All strings are in English (i18n-ready format).
-- When adding a new feature, add **all** required translation keys before touching the HTML.
-- Never duplicate a key.
-- Check that every `data-i18n="key-u"` attribute in HTML has a corresponding entry in `translation.json`.
-- **When inserting many keys across a range**, extract the full affected key range, add the new entries, sort the combined set, and write it back. Never use an anchor-after insertion strategy for multi-key additions — it produces out-of-order clumps.
+`repeating_moneyledger` is the **sole record of credits**. There is no second
+balance field and no reconciliation to perform — the free-form `cash`,
+`spending_level` and `assets`-as-currency reading were retired on 2026-08-18 on
+the ruling that the running total already reports available credits.
 
-### Key Naming Conventions
+### Choice semantics
 
-| Pattern | Use |
-|---|---|
-| `feature_name-u` | Display label |
-| `feature_name_desc-u` | Tooltip / description body |
-| `feature_name-r-txt` | Roll template text |
-| `feature_name_rules-u` | Talent/ability rules text |
-| `gear_item_name-u` | Gear item display name |
-| `talent_ancestry_talent_key-u` | Ancestry talent name |
-| `talent_ancestry_talent_key_rules-u` | Ancestry talent rules |
+`money_choice` values carry meanings the sheet does not enforce. They are
+convention, and the convention matters because two queued features write rows:
 
-### Talent Rules Text Format
+| choice | meaning | side |
+|---|---|---|
+| `transfer_in` | money arriving free and clear — the 20,000 starting grant | credit |
+| `debt` | money arriving that is **owed** — taking on a loan or a Debt tier | credit |
+| `income` | earned money | credit |
+| `sale` | proceeds of selling a possession | credit |
+| `expense` | money leaving, **including repaying a debt** | debit |
+| `purchase` | money leaving for an item | debit |
+| `transfer_out` | money leaving free and clear | debit |
 
-All `talent_*_rules-u` values follow one canonical format:
+**Debt is the credit side, taking it on; repayment is an Expense.** Ruled
+2026-08-18 after an initial reading had it backwards. This means the balance is
+**cash on hand, not net worth** — it reads the same whether the character owes
+nothing or owes 30,000, and nothing on the sheet records the obligation.
 
-```
-Type: {Economy} ({Tag Display Name}) • Cost: {— | 1d6 Strain | ...} • Usage: {At-will | 1/Scene | 1/Session} — {rules body}
-```
+### Consequences for queued features
 
-Use the bullet `•` between segments and an em dash `—` before the body. Use typographic apostrophes (`'`) in rules bodies to match existing entries.
+- **Todo 14 (Debt, Core Rules Ch. 4 Step 11)** — ruled 2026-08-18: the **tier
+  lives as a field on the Debt feature**, alongside the holder and leverage, and
+  the credit grant (+5,000 / +15,000 / +30,000) is written as a `debt` ledger
+  row. The obligation gets a home; the ledger stays a pure cash book. Do not
+  invent a separate credits field for it, and do not repurpose the freeform
+  `debt` choice as the feature itself.
+- **XP→Credits** — the `xp_credits` option in `repeating_ledger` totals into
+  `xpledger_credits_cost` and the credits it buys currently land nowhere. It
+  should feed or generate a `transfer_in` money ledger row.
+- Nothing gates Credit against Debit per choice. Income filling Credit and
+  Expense filling Debit is player discipline, not enforcement. Do not assume the
+  pairing if anything downstream starts reading `money_choice`.
+
+### Recalc behaviour
+
+`recalcMoneyLedger` writes every row's `money_running_total` and the
+sheet-level `money_balance`, and is registered on `change:` for credit and
+debit, both reorder attrs, and `remove:`. It is **also called from
+`afterAllSets`** as of 2026-08-18 — without that, a character whose rows had not
+been edited since the handler shipped rendered blank Total cells, which became
+user-visible the moment `cash` retired.
+
+`money_balance` has no markup element. That is deliberate for now: the last
+row's running total is the balance, and a summary readout is planned for the
+Ledger tab when the section relocates. The attr is available for a Lifestyle
+affordability readout without further work.
+
+Row order comes from `getSectionIDsOrdered`, which honours
+`_reporder_repeating_moneyledger` and appends any unlisted IDs. Verified against
+a rendered screenshot 2026-08-18: iteration order matches screen order, and the
+bottom row's total equals `money_balance`.
+
+---
+
+## The Three Tiers of Item Entry
+
+Ruled 2026-08-18. The boundary between Gear and Possessions is decidable, and
+stating it is most of what stops it feeling arbitrary:
+
+1. **Preset** — the item is in a DataMap. Use the `…gear` table in the matching
+   Gear section.
+2. **Manual** — the category exists but the item does not. Use the `…manual`
+   table in that same Gear section.
+3. **Possessions** — no category fits at all. Use the Possessions tab.
+
+A strange piece of surveillance kit is tier 2 (`surveillancemanual`). A family
+heirloom is tier 3.
+
+The Possessions tab carries **two row shapes mirroring Gear's two shapes**:
+"Items" is the escape hatch for the plain 5-column gear row, and "Items
+w/Applications" is the escape hatch for the use-tracking shape that Medtech,
+Strain Compounds and Pharmaceuticals use. That is consistent design, not a
+redundant tracking idiom.
+
+The two free-form textareas (`gear_and_posessions`, `gear_and_posessions1`)
+exist for **roleplay description** — flavor text and detail that will not fit a
+table row. Items covers the mechanical case. Recorded because two
+identically-styled adjacent textareas with near-identical attr names otherwise
+read as an accident.
+
+**Do not correct the `posessions` misspelling.** It is baked into the attr name;
+renaming discards whatever players have written unless a migration ships with
+it. The `-u` keys can be spelled correctly regardless — only the attrs are
+stuck.
 
 ---
 
@@ -700,6 +815,11 @@ Use the bullet `•` between segments and an em dash `—` before the body. Use 
 </script>
 ```
 
+`GoA_UI_Framework.md` holds the full structural map — every region, every tab,
+line ranges, column sets, and the repeating-section inventory (64 fieldsets
+across 19 tabs). Consult it before restructuring anything; it exists so that
+work does not start with a re-survey.
+
 ### Naming Conventions
 
 - Sheet attribute inputs: `name="attr_snake_case_name"`
@@ -707,6 +827,29 @@ Use the bullet `•` between segments and an em dash `—` before the body. Use 
 - Repeating section fieldsets: `class="repeating_sectionname"`
 - Repeating attribute keys inside a fieldset: no prefix (Roll20 prepends automatically)
 - IDs: only used for checkbox `for`/`id` pairs; use descriptive snake_case
+
+### Tab Bar Geometry
+
+`.sheet-tab-buttons button` is `flex: 1 1 100px; min-width: 100px;
+max-width: 104.75px`. That maximum is `--cs_sheet_width` (840px) ÷ 8, which is
+why the rows hold eight buttons — eight exactly fills the bar, and a shorter row
+leaves ragged whitespace on the right because the container is
+`justify-content: flex-start`.
+
+**Any change to the buttons-per-row count needs that maximum changed to match**:
+7 per row → 120px, 6 per row → 140px.
+
+Two tab buttons hide at runtime, so a row can shorten without warning:
+
+- `act_perks` hides when `attr_char_creation_lock` is checked. **Flaws stays
+  visible on purpose** — Core Rules Step 9: Perks cannot be purchased after
+  creation, while Flaws can be acquired through play and grant no retroactive
+  XP. The worker freezes `xpledger_flaws_gain` at the lock.
+- `act_spells` hides when `attr_awakened_css` is `"0"`.
+
+A locked Mundane character therefore sees two fewer buttons than the markup
+declares. Where a hiding button sits in its row is a layout decision, not an
+arbitrary one.
 
 ### Theme System
 
@@ -769,6 +912,11 @@ The CSS file is divided into named sections with start/end markers, e.g.:
 
 **Always read the surrounding section markers before inserting any CSS.** Insert rules inside the correct section only. Never add vehicle CSS to the Combat section, gear CSS to the Vehicle section, etc. The Combat fieldset reset block (inside the Combat section) is Combat-only — vehicle and new gear fieldset resets belong in their own sections.
 
+**When a feature moves between tabs, its CSS moves with it.** Relocating the
+Money Ledger to the Ledger tab means its `.money-*` rules leave the
+`/* Gear and Inventory */` block; leaving them behind creates orphaned styling
+in a section that no longer contains the feature.
+
 ### Val+Roll Pattern (sheet-val-roll-static)
 
 When a row needs to display a numeric value that is also clickable to roll, use the existing `sheet-val-roll-static` wrapper — do **not** create separate value and button columns:
@@ -821,21 +969,23 @@ For the preview to fill its container width, the tooltip and its container need:
 - `on('sheet:opened', ...)` init calls go at the very end.
 - **On-open behavior belongs in `afterAllSets()` as explicit named-function calls** — never register `sheet:opened` handlers inside `bootstrapGlobalWatchersOnce` (that function itself runs during `sheet:opened` dispatch, so handlers registered there never fire).
 
-### i18n in Sheet Workers
+### A Computed Attr Whose Only Writer Is a `change:` Handler Goes Stale
 
-**Never hardcode display strings in sheet worker logic.** All user-visible strings must go through `tr()`:
+If a readonly display attr is written *only* from `change:` watchers, it is
+correct only for characters edited since the watcher shipped. Everything else
+renders whatever was last committed — or blank, if nothing ever was.
 
-```javascript
-const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
-```
+Found 2026-08-18 in the Money Ledger: `recalcMoneyLedger` writes every row's
+`money_running_total` plus `money_balance`, and was registered on
+`change:money_credit`, `change:money_debit`, both reorder attrs and `remove:`,
+with no on-open call. Stored rows showed blank Total cells until a row was
+touched.
 
-This applies to:
-- Condition labels (`tr("vehicle_condition_operational-u")` not `"Operational"`)
-- Speed/category display maps (`tr("vehicle_speed_fast-u")` not `"Fast"`)
-- Fallback strings (`tr("any-u")` not `"Any"`)
-- Any computed display string written to an attr via `setAttrs`
-
-If a translation key doesn't exist yet, **add it to `translation.json` first**, then use `tr()` in the sheet worker.
+The test is simple and worth applying to any new recalc: **open a character that
+has the data and touch nothing.** If the display is blank or wrong, the recalc
+belongs in `afterAllSets`. This is the same family as *Stored rows do not
+self-heal unless something recomputes them* (`modes_available`) and
+*Init parity between parallel scopes*.
 
 ### Repeating Section Pattern
 
@@ -853,6 +1003,11 @@ getSectionIDs("repeating_sectionname", (ids) => {
 });
 ```
 
+Where row **order** matters — anything accumulating a running total — use
+`getSectionIDsOrdered`, which reads `_reporder_repeating_<section>` and appends
+any IDs not listed in it. Plain `getSectionIDs` returns creation order, which is
+not what the player sees once a row has been dragged.
+
 ### Preset Apply Pattern
 
 When a `<select>` preset is chosen, an `applyXxxPreset(prefix, key)` function reads from the relevant DataMap and calls `setAttrs()` to populate related fields.
@@ -867,6 +1022,22 @@ const applyGearPreset = (prefix, key) => {
 	});
 };
 ```
+
+### i18n in Sheet Workers
+
+**Never hardcode display strings in sheet worker logic.** All user-visible strings must go through `tr()`:
+
+```javascript
+const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");
+```
+
+This applies to:
+- Condition labels (`tr("vehicle_condition_operational-u")` not `"Operational"`)
+- Speed/category display maps (`tr("vehicle_speed_fast-u")` not `"Fast"`)
+- Fallback strings (`tr("any-u")` not `"Any"`)
+- Any computed display string written to an attr via `setAttrs`
+
+If a translation key doesn't exist yet, **add it to `translation.json` first**, then use `tr()` in the sheet worker.
 
 ### HP / State Preservation on Init
 
@@ -924,6 +1095,13 @@ const migrateRetiredX = () => {
 - Reference implementation: `migrateRetiredAncestryTalents` (2026-07-04 talent renames).
 - **Moving an `<option>` between preset `<select>`s is equally attr-affecting**, even when the DataMap key itself is unchanged. The stored value lives in an attr named after the select, so relocating the option relocates the value between attribute names and the old value silently stops resolving. Ship a reconciler pass or an attr migration with any such move, and run `validate_presets.py` before delivery. Reference implementation: `reconcileWeaponPresetSlots` (2026-08-01).
 
+**Omitting a migration is a decision that must be stated, not a default.**
+`cash` and `spending_level` were retired 2026-08-18 with no migration, on the
+ruling that both were free-form leftovers and all money is already in the
+ledger. The attrs orphan in the Roll20 store for existing characters — harmless
+and unreachable, but a later export showing them should not be mistaken for a
+defect, which is why the commit body names them.
+
 ---
 
 ### Roll20 Render Behaviour — Unmatched `<select>` Values
@@ -935,6 +1113,8 @@ This is what makes an on-open reconciler viable: a stale or misplaced value is s
 Practical consequence: after any change to preset select membership, the repair window is "until the player next touches that row." Ship the reconciler in the same change, not the next one.
 
 **That rule is specific to `<select>`s. Button-driven attrs are more forgiving.** Roll20 never overwrites the stored string, so a stale value persists indefinitely and an on-open reconciler can repair it at any later date — there is no deadline. The only interim symptom is cosmetic: CSS `[value=]` rules keyed to the new name leave the button rendering unselected while the attr still holds the old value. Rename the CSS in the same commit and even that does not appear. Reference implementation: `retiredAmmoKeyMap` / `reconcileAmmoTypes` (2026-08-06).
+
+**The same trap applies to `attr_selected_tab` and every other CSS tab controller.** The stored value drives a `[value="x"] ~ .sheet-x` rule; retire the value and no rule matches, so the bottom section renders empty with nothing to write it back. Merging or removing a tab therefore needs either an alias rule keeping the old value working, or a reconciler. Prefer the alias — two selector lines, permanent, and it cannot fail silently.
 
 **Two-attr toggles move in lockstep.** The ammo handler writes `{type: val, active: "1"}` or `{type: "standard", active: "0"}` — there is no reachable "selected but switched off" state. Do not design logic that distinguishes them; do still gate consistently on `active === "1"`, so that attrs written outside the UI cannot make two displays disagree.
 
@@ -987,6 +1167,8 @@ reads committed values.
 
 Assert the count after the edit — `registrations on those events: 1` — because
 a duplicate is invisible at runtime until two handlers disagree.
+`test_money_ledger.js` asserts exactly one handler on the credit event for the
+same reason.
 
 **A harness that stores one handler per event name silently drops duplicate
 `on()` registrations.** If the test harness does `HANDLERS[ev] = fn` rather than
@@ -1148,81 +1330,125 @@ Casting outside the primary school costs a **flat +1 Strain** on top of the spel
 Doc defects to raise with the author: the Casting Quick Reference (printed p.240) states "additional Strain cost on cast" without the +1, and its Universal row says "use best Magic skill" where the p.37 body says Universal is cast using the school you trained in. Those diverge whenever a secondary school is rated above the primary. The sheet follows p.37.
 
 ### Currencies
-Credits (Cr) — primary economy unit.
+Credits (Cr) — primary economy unit. Tracked exclusively in the Money Ledger;
+see *The Money Ledger and Credits* for the choice semantics and the ruling that
+retired the free-form Cash field.
+
+---
+
+## UI Restructure — Ruled 2026-08-17/18, Not Yet Shipped
+
+These are author decisions with no code written. They came out of
+`GoA_UI_Framework.md`. Recorded here so the sequencing survives a session
+boundary.
+
+1. **Merge Summary Text + Summary Type** into one Summary tab with a
+   Source/Type grouping toggle. Both are readonly spans over the same selected
+   talent set; zero attr risk. Keep the `?` rules drawer from Summary Type. The
+   retired `summary_text` / `summary_type` tab values need alias CSS rules.
+2. **Merge Perks + Flaws** into one tab, **Flaws above Perks**, with the
+   creation lock hiding the `.sheet-perk-group` section rather than the tab
+   button. The section that stays live goes above the section that disappears,
+   so the tab shortens instead of gapping. The lock controller is a sibling of
+   every `.sheet-tab-content`, so the existing `~` reach works with one extra
+   descendant step. Retired tab value needs an alias rule. Displaying the
+   **joint two-selection cap** becomes natural here and is its own behavioural
+   commit — related to the unenforced +10 XP Flaw lockout and the orphaned
+   `flaw5Keys` / `flaw10Keys`.
+3. **Move Summary to row 1**, since all five of its sources are row-1 tabs.
+4. **Rebalance to 6/6/5** with `max-width: 140px`:
+   - Build — Skills, Ancestry, Background, Careers, Perks & Flaws, Summary
+   - Play — Combat, Spells, Tracker, Cybertech, Gear, Vehicles
+   - Records — Possessions, Lifestyle, Ledger, Backstory, NPCs
+   Tracker moves to Play (it is pure play); Ledger stays adjacent to the tabs
+   that spend against it.
+5. **Bots & Autonomous Units and Drones & Deployables move from Gear to
+   Vehicles**, which becomes **Vehicles & Drones**. They are deployable units
+   currently rendering the 5-column coat shape while Vehicles carries HP, DR,
+   Defense, Speed, Handling, Crew, Hardpoints and Mod Slots. Gear drops from 30
+   fieldsets to 26. Section names do not change, so no attr migration.
+6. **Possessions restructure** (next to ship) — retire `cash` and
+   `spending_level`, relayout to full-width stacked, two new collapsibles, and
+   the `inventory-u` relabel. Order: Items w/Applications, Items, Possessions
+   (2 × 200px textarea), Assets (1 × 200px textarea). `.sheet-gear-flex` flips
+   to `column`. `cashandassets-u` also has a typo ("Assests") and the header
+   becomes just Assets.
+7. **Money Ledger moves to the Ledger tab**, joining the Skill Point Tracker and
+   XP Point Tracker so all three currencies (SP, XP, Cr) share one tab. Add a
+   mirror of `lifestyle_monthly_total_mdr` — note it is written through
+   `lsFmtCr` and is a **formatted string**, so a display mirror is fine but any
+   arithmetic needs the raw number written alongside. The `.money-*` CSS moves
+   with it. **Align the two ledger headers**: `repeating_ledger` is
+   Choice · Value · SP Gain · Description and `repeating_moneyledger` is
+   Choice · Credit · Debit · Description · Total; stacked on one tab with
+   different column boundaries they will read as broken.
+
+Deliberately **not** done: folding Vehicles into Gear (vehicle-mounted weapons
+is a combat surface, and burying a live-play tab under 15 collapsibles costs a
+scroll during a chase), and renaming Possessions into a container for hardware.
 
 ---
 
 ## Known Issues & Pending Work (from Todo_list.md)
 
 ### Bugs
-- None currently tracked.
+
+- **`otherskill11` is declared twice as two visible rows** — line ~975 (Perform
+  group) and ~2276 (Tradecraft group). Both are complete rows: checkbox, name
+  input, `_skill_mdr`, `_mdr`, roll button. Typing a custom skill into one makes
+  it appear in the other and the SP shows in both. There is no `otherskill13`,
+  so the free-slot series is 1–12 with 11 used twice, and Etiquette
+  (Ancestries) has no free slot at all. Not the `D1` class — see *Designing a
+  Validator Check*. The fix is likely a new `otherskill13` for Tradecraft plus a
+  ruling on whether the fixed free slots are still wanted now that
+  `repeating_skillsmdr` exists.
+- **The Stim Tracker meters are inert.** `attr_health_meter_1..5` and
+  `attr_strain_meter_1..3` have no worker logic — no reads, no writes, no
+  relationship to `attr_hp` or `attr_strain`. Their controllers
+  `attr_show_health_meter` / `attr_show_strain_meter` are hardcoded `value="1"`
+  in HTML and never written, so the CSS rules at `ghost_of_arcadia.css`
+  ~9168–9169 always match. Their granularity (5 and 3) matches no formula on the
+  sheet. Unfinished feature or vestige — needs a ruling either way.
 
 ### Pending — Next Revision Pass
 1. **brawler, tactician careers** — waiting on docs.
 2. **Full type/tag audit across all DataMaps** — waiting on docs. (Includes the legacy ancestry talent tag normalization: display-name tags → snake_case.)
 3. **Add Ancestry Traits to Summary Text** — waiting on docs.
 4. **Fix Ancestry CSS Themes** — includes the Lyranni high-contrast theme application blocks, which still contain stale light-theme values after the `:root` reorganization.
-5. **Weapon rework** — the Torchwall items are parked until it lands: renaming `ap_2_heavy_targets` to name the real condition (Physical Soak ≥ 4, not a target class), adding the missing "one die type higher against light vehicles, drones and walkers" trait, and ruling on the source contradiction — "one die type higher (2d10 → 3d10)" steps the die *count* in the example but the die *type* in the words, and the weapon's base damage is 3d10 so the example does not match its own weapon. Readings differ by a lot: 3d10→3d12 averages 19.5, 3d10→4d10 averages 22.0, against a base of 16.5. `T7` and `W6`/`W7`/`W8` exist to make the rename safe.
+5. **Weapon rework** — the Torchwall items are parked until it lands: renaming `ap_2_heavy_targets` to name the real condition (Physical Soak ≥ 4, not a target class), adding the missing "one die type higher against light vehicles, drones and walkers" trait, and ruling on the source contradiction. `T7` and `W6`/`W7`/`W8` exist to make the rename safe.
 6. **`weaponTagInputs` rename** — deferred with the weapon rework. The table now feeds `computeWeaponDice` as well as `buildTagsStr` and carries the dice-only `reduceEff`, so the "Tag" in the name no longer describes it. Renaming pollutes `git log -S 'weaponTagInputs'`, so it should be one deliberate commit rather than drift.
-7. **`setup` field is orphaned** — six weapons declare a value (`full_round_tripod`, `full_round`, `maneuver_bipod` ×2, `maneuver_brace` ×2) and no code reads it. Same defect class `ammoDataMap` was in. Wiring it would mechanise the Torchwall's "firing without full setup imposes two penalty dice" across all six at once. Enforceable sheet-side: setup is the character's own state, not the target's. Needs a per-row deployed control.
-8. **Detonators are an unbuilt feature, not dead data.** `detonatorDataMap` has 5 entries with a full schema (`trigger_type`, `max_charges`, `simultaneous_trigger`, `emp_immune`, `jamming_vulnerable`, `traceable`, `disarm_skill`/`_difficulty`/`_fumble`, `spot_skill`, `trigger_weight_kg`) and **13 translation keys already written** — but zero HTML elements, zero CSS, zero code reads. Unlike `ammoDataMap`, which was orphaned *behind a working UI*, this is two of four layers finished and two never started. It is not speculative: `plastic_explosives`, `breaching_charge` and `arcshock_pulse_mine` all declare `requires_detonator: true`, and the sheet currently says a detonator is needed while giving nowhere to record which. **Do not delete it** — build the UI (a preset select in the explosives section, mirroring the grenade preset pattern) when the feature is wanted.
-9. **Grenade condition rulings.** Two `explosivesDataMap` values are not `conditionsDataMap` keys and are declared in `C1_EXCEPTIONS`. `knockout_gas_grenade.condition_on_fail = "unconscious"` still renders lowercase; unconsciousness may be a state (HP 0) rather than a condition, and the tranq weapons reference it too, so adding an entry needs rules text. `nullburst_disruption_grenade.condition_on_fail = "magic_suppressed"` is never displayed — that entry has `save_stat: null` and its effect is carried by `suppresses_magic` — so it is dead data pending a delete-or-define ruling. Separately, `condition_duration: "dissolves_3min"` on the Scatterfoam puck renders as `dissolves_3min rd`.
-10. **Orphan sweep REVERTED — eleven bindings still to adjudicate.** The sweep was reverted on 2026-08-07 after `skillToXP` turned out not to be dead code but a rules artefact (see *Unreferenced is not the same as dead*). `weaponTagAttrKeys` was wired up rather than deleted and stays. Remaining, each needing the same rules check before removal:
-    - `flaw5Keys` / `flaw10Keys` in `registerFlawSummaryWatcher` — partition `flawDataMap` by 5- and 10-point cost. Does the flaw summary owe a per-tier point total?
-    - `talentSkills` in `calculateAndUpdateSkillValues` (a 14-line chain) and in `applyAllSkillBonuses` — both compute talent-granted skill lists inside functions that apply skill bonuses. Is another path already applying them?
-    - `iage` / `iedu` / `iwound` in `registerStatHandler` — plausibly Call of Cthulhu leftovers where age and EDU drove derived stats, but confirm GoA has no age or wound modifier before removing.
-    - `bgLimiterRegistered` (superseded by the `BG_LIMITER_V2_REGISTERED` boolean), `slots` in `initWeaponComputedAttrs` (`computeModButtons` takes the entry), and `reflexRanges` in `buildTagsStr` (superseded by `weaponModDataMap.reflex_sight.hit_bonus_range_limit`) are the three I am confident are genuinely dead.
-11. **Off-school Strain with no Primary Arcane Career selected** — ruled 2026-08-06 to stay unaligned (0). Keeping the entry because p.37 arguably implies off-school-everywhere (1) and the ruling may revisit; it is one ternary in `spellOffSchoolPenalty`.
-12. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription per *Equivalence Proofs After the Collapse Has Shipped*. Note a `difftest_dice.js` of unknown provenance appeared in the container on 2026-08-06 and was deleted unread; do not adopt it without review.
+7. **`setup` field is orphaned** — six weapons declare a value and no code reads it. Wiring it would mechanise the Torchwall's "firing without full setup imposes two penalty dice" across all six at once. Enforceable sheet-side: setup is the character's own state, not the target's. Needs a per-row deployed control.
+8. **Detonators are an unbuilt feature, not dead data.** `detonatorDataMap` has 5 entries with a full schema and **13 translation keys already written** — but zero HTML elements, zero CSS, zero code reads. `plastic_explosives`, `breaching_charge` and `arcshock_pulse_mine` all declare `requires_detonator: true`, and the sheet says a detonator is needed while giving nowhere to record which. **Do not delete it** — build the UI (a preset select in the explosives section) when the feature is wanted.
+9. **Grenade condition rulings.** `knockout_gas_grenade.condition_on_fail = "unconscious"` still renders lowercase; unconsciousness may be a state (HP 0) rather than a condition. `nullburst_disruption_grenade.condition_on_fail = "magic_suppressed"` is never displayed and is dead data pending a delete-or-define ruling. Separately, `condition_duration: "dissolves_3min"` on the Scatterfoam puck renders as `dissolves_3min rd`.
+10. **Orphan sweep REVERTED — eleven bindings still to adjudicate.** Reverted 2026-08-07 after `skillToXP` turned out to be a rules artefact, not dead code. `weaponTagAttrKeys` was wired up rather than deleted and stays. Remaining:
+    - `flaw5Keys` / `flaw10Keys` in `registerFlawSummaryWatcher` — partition `flawDataMap` by 5- and 10-point cost. Very likely the start of the unenforced +10 XP Flaw lockout; treat as unfinished feature.
+    - `talentSkills` in `calculateAndUpdateSkillValues` (a 14-line chain) and in `applyAllSkillBonuses`.
+    - `iage` / `iedu` / `iwound` in `registerStatHandler` — confirm GoA has no age or wound modifier before removing.
+    - `bgLimiterRegistered`, `slots` in `initWeaponComputedAttrs`, and `reflexRanges` in `buildTagsStr` are the three genuinely dead.
+11. **Off-school Strain with no Primary Arcane Career selected** — ruled 2026-08-06 to stay unaligned (0). One ternary in `spellOffSchoolPenalty`.
+12. **`difftest_dice.js`** — no dice equivalence proof exists in the suite. Needs the pre-refactor revision, or a transcription. Note a `difftest_dice.js` of unknown provenance appeared in the container on 2026-08-06 and was deleted unread; do not adopt it without review.
 13. **Ammo effect tooltip on the on-sheet label** — effect strings run to 84 chars against a fixed 840px block, so this needs the preview + `sheet-tooltip-bubble` pattern and its own CSS commit.
-14. **Debt (Chapter 4, Step 11) is an unbuilt feature — deferred 2026-08-09.** The book defines a structured character-creation choice: exactly one Debt, a Tier (Minor +5,000cr / Moderate +15,000cr / Major +30,000cr), and a recorded holder/leverage, never clearable via XP (p.46, doc 2026-07-01). Nothing on the sheet implements this. What exists instead: a generic `"debt"` option in the freeform Money Ledger `money_choice` select (no tier, no bonus-credit enforcement, no holder field); `debt_marker`, an unrelated Vanguard-background narrative flavor item with no mechanical effect; and `flaw_blood_debt`, a Perks/Flaws Flaw whose cost (10 XP) and text are verified correct against the book. Same defect class as `detonatorDataMap` (Todo 8) — not dead data, just never built. Do not repurpose the Money Ledger `"debt"` choice as the real feature; it has no tier or holder fields and predates this review.
-15. **Blood Debt / Debt mutual exclusivity is unenforced — deferred with Todo 14.** The book states outright: "Blood Debt cannot be taken alongside the Debt option in Step 11... do not stack" (p.42). Nothing on the sheet checks this, because there is no Debt feature yet to check it against. Revisit when Todo 14 is built — the check belongs wherever the Debt tier is selected, gated on `flaw_blood_debt` being taken (and vice versa).
-16. **75% skill creation cap is unenforced — deferred 2026-08-09.** Chapter 4, Step 7 (p.32, doc 2026-07-01): "No single skill may exceed 75% from character creation allocation across both pools combined," with an explicit carve-out for Language (Own), which may start above 75% from EDU alone and does not count against the cap. Nothing on the sheet checks or flags this anywhere — no clamp, no CSS warning, unlike attribute over-max which is at least flagged red/white. Found during the Chapter 4 worked-example validation (Davan Rek); none of his skills approach 75% so the gap did not affect that example, but a min-maxed build could exceed it silently. When picked up, follow the flag-don't-clamp pattern already established for attribute minimums/maxima, and remember the Language (Own) exception.
+14. **Debt (Chapter 4, Step 11) is an unbuilt feature — deferred 2026-08-09.** The book defines exactly one Debt, a Tier (Minor +5,000cr / Moderate +15,000cr / Major +30,000cr), and a recorded holder/leverage, never clearable via XP (p.46). **Ruled 2026-08-18: the tier lives as a field on the Debt feature, with the credit grant written as a `debt` money ledger row** — see *The Money Ledger and Credits*. Do not repurpose the freeform `debt` money choice as the feature itself; it has no tier or holder fields.
+15. **Blood Debt / Debt mutual exclusivity is unenforced — deferred with Todo 14.** "Blood Debt cannot be taken alongside the Debt option in Step 11... do not stack" (p.42). The check belongs wherever the Debt tier is selected, gated on `flaw_blood_debt` being taken and vice versa.
+16. **Four Ledger XP destinations have no home UI.** XP→Credits, XP→Allies, XP→Reputation and XP→Factions are selectable in `repeating_ledger` and totalled in the XP Point Tracker. Credits now has an obvious fix (write a `transfer_in` money ledger row). Allies partly overlaps Backstory contacts. **Reputation and Factions exist nowhere else on the sheet.**
+17. **Gear prices exist in data and nowhere in the UI.** Every gear DataMap carries cost data; no Gear section renders it. Cybertech, Vehicles and Lifestyle all do.
+18. **Call of Cthulhu vestiges in Backstory** — Phobias & Manias, Tomes/Spells/Artifacts, Encounters with Strange Entities. No GoA mechanic corresponds to any of the three. Rename or retire.
 
-#### Shipped 2026-08-09 — worked-example validation (Davan Rek)
-Built the Chapter 4 worked example (pp.47-53, doc 2026-07-01) step by step
-against the sheet's DataMaps and worker logic — ancestry, origin, background,
-career, attribute pool split, skill pools, Build/Damage Bonus, Strain, Speed
-Rating, perks/flaws, contacts/allies/debt. Confirmed correct: Khadra SIZ
-minimum and four Ancestry Features, the free-Tier-1-talent `-10 XP` credit,
-Vanguard's ten skills and both Tier 1 talent costs, Laborer's feature/kit/
-contact, Resilient Frame and Obligation costs, the Focused/Balanced and
-Physical/Aptitude attribute-pool toggles (all three Mundane options and both
-Awakened options), the full Build/Damage Bonus threshold table, Strain, and
-Speed Rating (implemented correctly under the legacy "Move rate" label).
-
-One real defect found and fixed: `registerStatHandler` added a flat +4 to
-`pulphp_max`/`major_wounds` whenever `perk_resilient_frame` was checked, under
-a variable named `perkVitalityBonus`. Resilient Frame is a once-per-scene
-damage reduction in both the Core Rules and the sheet's own
-`perk_resilient_frame_description-u` — nothing in its text supports a
-permanent HP increase. Removed; `talentHpBonus` (Trail Hardened, verified
-correct at +2/copy) is unaffected. `perk_blood_born_survivor_hp_bonus` remains
-in `registerStatHandler`'s watched array, unread by any code — left in place
-per *Delete the local, not the watcher*, since the handler must still re-fire
-if that attr is ever written elsewhere.
-
-Sandbox test: executed `registerStatHandler` directly (module load + fired
-`change:con`) with Davan Rek's seeded attrs and `perk_resilient_frame: "1"`;
-asserted `pulphp_max === 28` per the book. Passed — see
-`/tmp/test_resilient_frame_fix.js`. `validate_presets.py` was not run this
-pass (no preset/DataMap/CSS surfaces touched); the gate for this change is the
-executed-worker assertion above.
-
-Two further findings deferred rather than fixed — Todo 14/15 (Debt unbuilt,
-Blood Debt exclusivity unenforced) unchanged from 2026-08-09's earlier
-Contacts/Allies/Debt review; Todo 16 (75% skill cap unenforced) added this
-pass. The Career/Background skill-point-pool formula (`180 + EDU×2`) was also
-flagged as a possible defect (book states `80 + EDU×3` with two internal check
-values) — ruled NOT a bug: `180 + EDU×2` is confirmed current, the book is the
-stale side. See the doc-correction note below; no code changed for this item.
+#### Shipped 2026-08-18 — money ledger on-open recalc
+`recalcMoneyLedger()` added to `afterAllSets`. It was registered only on
+`change:` for credit/debit, both reorder attrs and `remove:`, so stored rows
+rendered blank `money_running_total` cells until a row was edited — which became
+user-visible with the Cash field retiring. `test_money_ledger.js` added and
+negative-tested against a mutant with the call removed. Sandbox-validated: log
+and screenshot both confirmed on-open population, correct accumulation across
+ten rows, and screen order matching iteration order.
 
 #### Shipped 2026-08-07 — ammo labels and suppressed BF
 `short_name_key` added to `ammoDataMap` so the 80px AMMO LOADED field stops
-clipping (`Subsonic Ro`), with full names retained in chat; the six ammo buttons
-i18n'd. `subsonic_rounds.suppressed_bf_enabled` implemented — Suppressor only,
-by author ruling — composed inside `applyBarrelModeRestriction` so all three
-writers of `modes_available` agree. `test_subsonic_bf.js` added.
+clipping, with full names retained in chat; the six ammo buttons i18n'd.
+`subsonic_rounds.suppressed_bf_enabled` implemented — Suppressor only, by author
+ruling — composed inside `applyBarrelModeRestriction` so all three writers of
+`modes_available` agree. `test_subsonic_bf.js` added.
 
 #### Shipped 2026-08-07 — careers
 Primary-career Skill→XP vestiges removed (watcher, fetch entry, local) on the
@@ -1241,135 +1467,107 @@ Grenade display layer routed through `tr()` (7 helpers, 44 keys, skill names via
 `skillDataMap`); the FAIL-cell branch bug fixed so failure and pass outcomes
 differ; save-row widths reallocated 56/132/100; `immunity_notes` converted to
 five `-u` keys; condition names resolved through `conditionsDataMap[key].name_key`;
-`immobilized` corrected to `entangled`; checks `C1`/`C2` added. All
-sandbox-validated.
+`immobilized` corrected to `entangled`; checks `C1`/`C2` added.
 
 #### Shipped 2026-08-06
 Off-school Strain surcharge in both spell sections; ammo key-space rename plus
 `reconcileAmmoTypes`; `ammoDataMap` wired through `ammoEffects`; the
 `{{ammonote}}` roll-output row; the `computeWeaponDice` orphan sweep (53
 bindings); the `trait_ap` chain removal (20 sites); AP as a `weaponDataMap`
-field with `W6`/`W7`/`W8`; `T7` traitLabelMap lockstep. All sandbox-validated.
-
-#### Reviewed 2026-08-09 — Chapter 4: Contacts, Allies, Debt
-Audited the sheet's Contacts/Allies/Debt implementation against Chapter 4
-(pp.44-46, doc 2026-07-01). Contacts and the two locked Starting Contact rows
-match the book (not XP-purchased, background+career only). Ally tier select
-and the free-text `contact_cost` field are confirmed correct as designed —
-Foundational XP purchase with cost set at time of purchase, no gating needed
-for tier upgrades. Debt surfaced as unbuilt (Todo 14) and the Blood Debt
-exclusivity as unenforced (Todo 15), both deferred. No code changed this pass.
+field with `W6`/`W7`/`W8`; `T7` traitLabelMap lockstep.
 
 ### Clean-up / Questions / Wishlist
-- **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi". **Career/Background Skill Point Pool formula changed — flagged 2026-08-09.** Printed Core Rules (doc 2026-07-01, p.32) still state "(EDU × 3) + 80," with internal self-checks confirming 200 pts at EDU 40 and 320 at EDU 80 — this is what the Chapter 4 worked example (Davan Rek, p.50) computes with too. The sheet's `careerDataMap` uses `base_skill_points: 180` + `EDU × 2` uniformly across all 24 careers, which author confirmed 2026-08-09 is the *current* formula — the printed doc has not caught up to the change. At EDU 40/50/80 the two formulas diverge by +60/+50/+20 points respectively, so this isn't a rounding-level discrepancy; the next doc revision should carry the updated formula and, ideally, an updated worked example, since Davan Rek's Step 7 numbers (230 pts) no longer match what a character built on the current sheet would get (280 pts).
+- **Doc corrections for the author**: Casting Quick Reference (printed p.240) omits the +1 Strain value and its Universal row says "use best Magic skill" where p.37 says the school you trained in; "Dravi" should be "Draevi"; Step 7's skill pool formula `(EDU × 3) + 80` is stale (the rule is `180 + (EDU × 2)`); Step 9's Ally cross-reference points at Step 11 instead of Step 10; TOC entry for Chapter 5.
 - **Two `translation.json` display strings were cleaned on 2026-08-06** — `"AP Rounds (+AP2, −1 die)"` → `"AP Rounds"` and `"Hollow Point (cond)"` → `"Hollow Point"`. Neither key is referenced from the HTML. Revert if the annotations were intended for a control not yet built.
+- **`cashandassets-u` reads "Cash and Assests"** — display-string typo with no attr behind it. Free fix, folded into the Possessions restructure.
 
 ---
 
 ## Lessons Learned — Do Not Repeat These Mistakes
 
 ### Formatting
-- **Never use spaces for indentation.** The project uses tabs exclusively. Mixing causes visual inconsistency and diff noise.
-- **Never append to the end of `translation.json`.** All keys must be inserted in their correct alphabetical position. Out-of-order keys have been a recurring source of review churn.
+- **Never use spaces for indentation.** The project uses tabs exclusively.
+- **Never append to the end of `translation.json`.** All keys must be inserted in their correct alphabetical position.
 - **Never append DataMap entries at the bottom of a DataMap.** Alphabetical order is required within each DataMap section.
 
 ### DataMap Integrity
-- **Always check `source: {}` when editing a DataMap entry.** If the rules text changed in a newer document version, the `version` and `date` fields must be updated too. Stale source metadata has caused confusion about which rulebook version the sheet reflects.
-- **Nested DataMap edits bump the parent entry's `source`.** Entries with nested objects (`ancestryDataMap[race].talents`, `.racials`, `careerDataMap[career].talents`) carry their `source: {}` at the top level of the parent entry, not per nested item. Any add/rename/remove/rules-text change inside the nested objects requires updating the parent's `version` and `date` in the same change — the absence of a `source` field at the layer being edited is not an exemption. When the change comes as a direct ruling from the rules author rather than a document, use the ruling date (`X.YYMMDD` with the major version unchanged) and confirm the number if a formal doc revision follows.
-- **DataMaps are the source of truth.** Do not patch values directly into HTML option lists, roll formulas, or sheet worker logic without updating the DataMap first. Discrepancies between the DataMap and the HTML have caused bugs that were hard to trace.
-- **Ancestry talent tags** (in `ancestryDataMap[race].talents`) — new entries must use snake_case tags (e.g. `"observation"`, not `"Observation"`). The normalization of the legacy entries is part of the tracked type/tag audit; do not add new mis-cased tags.
-- **DataMap `skill` field must hold the skillDataMap key**, not the sheet attribute name. Use `skillDataMap[data.skill].bonus` in the apply function to get the attr name. Never store `"drive_auto_mdr"` directly — store `"drive_auto"` and look it up.
+- **Always check `source: {}` when editing a DataMap entry.** If the rules text changed in a newer document version, the `version` and `date` fields must be updated too.
+- **Nested DataMap edits bump the parent entry's `source`.** Entries with nested objects (`ancestryDataMap[race].talents`, `.racials`, `careerDataMap[career].talents`) carry their `source: {}` at the top level of the parent entry, not per nested item. The absence of a `source` field at the layer being edited is not an exemption. When the change comes as a direct ruling from the rules author rather than a document, use the ruling date (`X.YYMMDD` with the major version unchanged).
+- **DataMaps are the source of truth.** Do not patch values directly into HTML option lists, roll formulas, or sheet worker logic without updating the DataMap first.
+- **Ancestry talent tags** must use snake_case (e.g. `"observation"`, not `"Observation"`). Normalization of legacy entries is part of the tracked type/tag audit; do not add new mis-cased tags.
+- **DataMap `skill` field must hold the skillDataMap key**, not the sheet attribute name.
 
 ### translation.json
-- **Every `data-i18n` attribute in HTML needs a matching key in `translation.json`.** Missing keys silently show the key string instead of translated text in Roll20.
-- **Every new feature needs its translation keys added first**, before the HTML is written, to avoid forgetting them.
-- **No duplicate keys.** Roll20 may silently use whichever duplicate it encounters first, leading to subtle display bugs.
-- **Multi-key insertions must sort the whole affected range**, not append after an anchor. Use Python to extract the range, merge, sort, and write back.
-- **Never round-trip `translation.json` values through `json.loads` + manual write.** `json.loads` decodes `\n` escape sequences into literal newline characters. A manual write loop that only re-escapes `\` and `"` will silently corrupt all multi-line values (rule text, talent descriptions, etc.), producing invalid JSON. The only safe pattern for inserting new keys is to work on the **raw string**: find the correct alphabetical insertion point by scanning raw key lines with regex, then splice the new raw JSON line in directly. Never deserialize values — only deserialize keys for position lookup.
+- **Every `data-i18n` attribute in HTML needs a matching key.** Missing keys silently show the key string instead of translated text in Roll20.
+- **Every new feature needs its translation keys added first**, before the HTML is written.
+- **No duplicate keys.** Roll20 may silently use whichever duplicate it encounters first.
+- **Multi-key insertions must sort the whole affected range**, not append after an anchor.
+- **Never round-trip `translation.json` values through `json.loads` + manual write.** `json.loads` decodes `\n` escape sequences into literal newline characters, and a manual write loop that only re-escapes `\` and `"` silently corrupts all multi-line values. Work on the **raw string**: find the alphabetical insertion point by scanning raw key lines with regex, then splice the new raw JSON line in directly. Never deserialize values — only deserialize keys for position lookup.
 
 ### HTML / Sheet Workers
 - **Manual section watcher functions must be `const` arrow functions, not IIFEs.**
-- **Repeating section attribute keys inside `<fieldset>` do NOT get the `attr_` prefix** — Roll20 adds `repeating_sectionname_id_` automatically. But the `name` attribute still needs `attr_` inside the fieldset — be precise.
-- **CSS classes must have the `sheet-` prefix.** Roll20 sandboxes the sheet CSS and strips classes without this prefix in some contexts.
-- **Do not hard-code theme colors.** Always use CSS variables. Hard-coded colors break when the theme switches.
+- **Repeating section attribute keys inside `<fieldset>` do NOT get the `attr_` prefix** — Roll20 adds `repeating_sectionname_id_` automatically. But the `name` attribute still needs `attr_` inside the fieldset.
+- **CSS classes must have the `sheet-` prefix.**
+- **Do not hard-code theme colors.** Always use CSS variables.
 - **Checkbox values should be `value="1"`.**
-- **Never hardcode display strings in sheet workers.** Every user-visible string written via `setAttrs` must use `tr()` against a translation key. This includes condition labels, speed categories, mod categories, fallback strings like "Any", and any computed display value. If the key doesn't exist, add it to `translation.json` first.
-- **Never truncate text in JavaScript.** No `substring()` with hardcoded lengths, no appending `"…"`. CSS `text-overflow: ellipsis` handles all visual truncation. JS truncation hides the real value from the DOM and makes the problem invisible to debugging tools.
-- **Roll names must use display attrs, not raw select values.** `@{vweapon_preset}` resolves to the DataMap key (e.g. `apex_aa_scattercannon`), not the display name. Always write a `_name_display_mdr` attr via `tr(data.name_key)` in the apply function and reference that in roll formulas.
-- **`vweapon_effect_mdr` must hold effect/traits text, not the weapon name.** In `applyVehicleWeaponPreset`, `effectFull` should be built from traits/effect data, not from `tr(data.name_key)`.
-- **Init functions must preserve player state.** Never unconditionally overwrite current HP or other player-editable values on `sheet:opened`. Fetch existing values and use a `preserveState` flag.
-- **`@{attr}` in spans inside repeating fieldsets won't resolve top-level attrs.** If a repeating row needs to display a top-level character attribute (e.g. `gunnery_mdr`), write a per-row copy of that value as a hidden attr via the apply function and a sync watcher on `change:gunnery_mdr`.
-- **Prefer `select_sep_*` options over `<optgroup>` inside repeating fieldsets.** Roll20 drops the group *headers*, but the child `<option>` values still resolve and persist correctly — verified 2026-08-01: `talon_s10_apex` is stored in `weapon_preset_smg_mdr`, whose select uses `<optgroup>`, and it renders and reloads correctly. The consequence is cosmetic (no visual grouping), not functional. Use `<option value="" disabled data-i18n="select_sep_KEY-u">── Label ──</option>` separators for consistency, but **do not treat an existing `<optgroup>` as the cause of a data-loss bug** — an earlier version of this rule claimed options were stripped entirely and sent an investigation down a false path.
-- **All `<option>` elements in preset selects must have `data-i18n`.** This applies to both preset item options and separator options. The inline text is a fallback only — the displayed text comes from the i18n key. Follow the ancestry select pattern: `<option data-i18n="key-u" value="value">Fallback Text</option>`.
-- **All separator options use `select_sep_*` keys** with the `── Label ──` format. Do not reuse existing keys (e.g. `armor_group_underlayer-u`, `vehicle_arcbikes-u`) for separators — those keys resolve to plain label text without the `──` decoration. The canonical separator key prefix is `select_sep_` and all values follow the `── Label ──` pattern exactly.
-- **`tr` is function-scoped, not module-level.** Every top-level or standalone function that calls `tr()` must declare it locally: `const tr = (k) => (k && typeof getTranslationByKey === "function") ? (getTranslationByKey(k) || k) : (k || "");`. Functions declared as `function foo()` have no access to a `tr` defined in a sibling arrow function. The recurring failure mode is adding `tr()` calls inside an existing function without checking whether that function already has `tr` in scope. Always check before using it. The definitive long-term fix is to promote `tr` to a true module-level `const` at the top of the script block, above all DataMaps.
-- **Tracker strain deduction — `tr` ReferenceError silently kills all tracker rolls.** `handleTrackerStrainDeduction` is called by every tracker checkbox `change:` event. If `tr` is used inside it without being declared in its scope, every tracker item check throws `ReferenceError: tr is not defined` and the roll never fires — the checkbox checks, nothing appears in chat. Always declare `tr` at the top of `handleTrackerStrainDeduction` and any other top-level handler function.
-- **When building a new repeating section that parallels an existing one, audit every on() watcher that references the existing section and ask whether the new section needs the same.** For example, repeating_spellpreset was built as a parallel to repeating_spellsmdr, but the prepared-cost and XP-cost watchers were never cloned — they silently only counted manual rows. The rule: for every on("change:repeating_OLD_SECTION:...") watcher that computes a sheet-level aggregate (total_spellcost, spell_xp_spent, etc.), check whether the new section contributes to that same aggregate and if so expand the watcher to include both sections via nested getSectionIDs. This applies to any future parallel sections — medical gear, pharmaceuticals, cyberware, etc.
-- **`initXxxPresets()` must only restore computed/mirror attrs — never call `applyXxxPreset` from init.** The init function runs on every `sheet:opened`. Calling `applyXxxPreset` from init re-fetches skill values and overwrites all preset display attrs, resetting the skill value and any other player-visible state to whatever the DataMap says at open time. The correct pattern: init only writes attrs that cannot persist on their own (e.g. `school_mirror` for CSS visibility). All other attrs are already stored in the sheet from when the player selected the preset — leave them alone. Add a separate `change:SKILL_ATTR` watcher to keep `skill_val_mdr` current when the underlying skill changes.
-- **Tooltip preview and bubble serve different purposes and must hold different values.** The `_preview_mdr` attr holds the short terse summary (shown truncated inline). The `_mdr` bubble attr holds the full rich description (shown on hover). For gear sections backed by a DataMap with an `effect_summary_key`, write `tr(data.effect_summary_key)` to the bubble attr and the short constructed string to the preview attr. Never write the same value to both — the bubble text should be the full translated DataMap description.
-- **`buildXxxEffectStr` helper functions may return `""` for valid presets.** For example, `buildGrenadeEffectStr` returns an empty string for presets whose damage type is `"structural"` with no save condition. If this empty string is written to the bubble attr, the bubble appears but is invisible. Always use `tr(data.effect_summary_key)` for the bubble when the DataMap entry has one. The short helper output is appropriate only for the inline preview.
-- **Tooltip hover area collapses when preview text is empty.** If the preview span has no text content, the `display: inline-flex` tooltip wrapper collapses to zero height and there is nothing to hover over even though the `has-notes` class is present. Add `min-height: var(--cs_row_height)` to the scoped `.SECTION-effect .sheet-skill-tooltip` rule so the hover target always fills the row.
-- **Absolutely-positioned buttons fill their `position: relative` ancestor, not just the visible label.** When a wrapper div spans `grid-column: 1 / -1` (full grid width) and has `position: relative`, an `opacity: 0; position: absolute; width: 100%; height: 100%` button inside it makes the entire row clickable. Fix: add `width: fit-content` (and `margin: 0 auto` if centering is needed) to the wrapper so the absolute button only covers the label element.
-- **`@{attr}` in roll button `value=` strings inside repeating sections requires a `name="attr_X"` input in the same row.** Roll20 resolves `@{attr}` in roll formulas by looking for a named input within the repeating row's DOM scope. Attrs that only exist as `<span>` display elements or are only written via `setAttrs` without a corresponding `name="attr_X"` input will produce "No attribute found" errors at roll time. Every attr referenced in a `type="roll"` button `value=` string must have **exactly one** named element inside the same fieldset row `<div>`. If a visible input or `<select>` already declares the attr, do **not** add a hidden twin — the attr needs *initialising*, not a second declaration. See "Duplicate attr declarations" below.
-- **Duplicate attr declarations: hidden + visible with disagreeing defaults and no worker write is a distinct bug class.** All three conditions are required. Roll20 never commits the hidden input's default, so the attr does not exist and the visible twin renders blank; a repeating row's re-render can then propagate the hidden default, so the value appears — and vanishes on reload. In a non-repeating block (e.g. `weapon1`) there is no row re-render, so the same defect presents differently, which masks the shared cause. Two instances found 2026-08-01: `weaponstrain_mdr` (hidden `"0"` + visible text) and `grenade_preset_mdr` (hidden `""` + select); both fixed by deleting the hidden twin. Plain duplication is common (197 instances sheet-wide) and usually harmless because a watcher keeps both in sync — check `D1` in `validate_presets.py` flags only the dangerous combination.
-- **Roll20 does NOT initialise `type="hidden"` input `value=""` defaults into the attribute store.** The HTML `value="X"` on a hidden input is just a DOM default — Roll20 only persists attrs that have been explicitly written via `setAttrs`. If an attr has never been set, `getAttrs` returns `""` and the DOM attribute may be inconsistent. Always explicitly write initial values from `applyXxxPreset` or from `initXxxPresets` on `sheet:opened`. Never rely on HTML defaults for attrs that are read by roll formulas or CSS `[value=]` selectors.
-- **An attr used in both a dice formula and a display span must hold a valid dice expression, not a display string.** If the same attr feeds into `{{diceroll=[[@{attr}]]}}` AND is shown in a `<span name="attr_X">`, setting it to a human-readable string like `"—"` or a translation key will cause a Roll20 dice parse error (`Expected "(", "f" or [0-9]`). Split into two attrs: one holding the dice-safe value (e.g. `"1d6+3"` or `"0"`), another holding the display string. Use the dice attr in roll formulas and the display attr in the span.
-- **`setAttrs` with `""` (empty string) may not visually clear a `<span>` in Roll20.** The rest of this sheet consistently uses `" "` (a single space) when clearing display attrs, not `""`. Roll20 may not re-render a span when the attr is set to empty string vs a previous truthy value. Use `" "` for all display fields that should appear blank, matching the pattern used throughout the codebase.
-- **DataMap `daily_limit: null` must be handled explicitly in apply functions.** `String(null)` produces `"null"`, which would display literally. Always guard: `entry.daily_limit !== null ? String(entry.daily_limit) : " "`.
-
-- **`initXxxPresets` calling `applyXxxPreset` is correct for new sections that have no prior attr state.** The Claude.md rule about init not calling apply is specifically about not overwriting player-edited stateful values like current HP. For computed display attrs (name, rarity, roll type, effect text) that the player never edits directly, calling apply from init is correct and necessary — without it, rows created before the hidden input elements existed in HTML will have empty formula attrs on every reload.
-
-- **Cyberware bonus stats (STR, HP, unarmed damage) must use the base+bonus pattern, not write back to the raw stat.** Store the player's raw entered value in a separate `attr_X_base` hidden input. Cyberware writes `attr_X = X_base + bonus_total`. When the player manually edits X, a `change:X` watcher back-calculates `X_base = X - bonus_total`. This prevents runaway loops and correctly separates player intent from cyberware contribution. Never write bonus totals directly into the stat and expect the existing stat handler to sort it out — it creates circular watcher chains.
-
-- **`setAttrs` callbacks fire after writes are committed; `change:` watchers fire before.** When a recalc function needs to read attrs that were just written by `setAttrs`, it must be called in the `setAttrs` **callback**, not via a `change:` watcher on those attrs. Watchers fire before the write is readable by `getAttrs`, causing stale reads. This is especially critical for multi-row bonus aggregation (HP totals, STR totals, capacity used) — always use callbacks, never watch the computed output attrs.
-
-- **Double-fire from watcher + callback: remove one.** If an `applyXxxPreset` function both (a) writes an attr that triggers a `change:` watcher which calls `recalcXxx`, AND (b) calls `recalcXxx` explicitly in its `setAttrs` callback, the recalc fires twice. Choose one path only — callbacks are preferred because they guarantee committed values.
-
-- **Deselecting a preset must explicitly zero all computed bonus fields.** When the preset select returns to blank, the `change:preset` watcher must write `"0"` (or `" "` for display attrs) to every field the apply function would have set — including hidden bonus attrs like `int_str_bonus`, `int_hp_bonus`, `int_unarmed_bonus`, `limb_str`. If these are not zeroed, the old values persist in the attr store and `recalcXxx` reads stale data. The deselect `setAttrs` must also call `recalcXxx` in its callback.
-
-- **Mod slot checkboxes must gate both capacity and stat bonuses.** When a mod slot has a checkbox that marks it as "installed", the capacity recalc and any stat bonus recalc must both check that checkbox before counting the mod's contribution. Read `show_modN` alongside `modN_capreq` and `modN_limb_str` in the same `getAttrs` call, and only accumulate when checked. Add `change:show_modN` watchers that fire both the capacity recalc and the bonus recalc. On init, gate `applyLimbModPreset` on the checkbox and explicitly write `limb_str: "0"` for unchecked mods even when the preset is set.
-
+- **Never hardcode display strings in sheet workers.** Every user-visible string written via `setAttrs` must use `tr()` against a translation key.
+- **Never truncate text in JavaScript.** CSS `text-overflow: ellipsis` handles all visual truncation.
+- **Roll names must use display attrs, not raw select values.** `@{vweapon_preset}` resolves to the DataMap key, not the display name. Write a `_name_display_mdr` attr via `tr(data.name_key)` and reference that.
+- **`vweapon_effect_mdr` must hold effect/traits text, not the weapon name.**
+- **Init functions must preserve player state.** Never unconditionally overwrite current HP or other player-editable values on `sheet:opened`.
+- **`@{attr}` in spans inside repeating fieldsets won't resolve top-level attrs.** Write a per-row copy via the apply function and a sync watcher.
+- **Prefer `select_sep_*` options over `<optgroup>` inside repeating fieldsets.** Roll20 drops the group *headers*, but the child `<option>` values still resolve and persist correctly — verified 2026-08-01. The consequence is cosmetic, not functional. Do not treat an existing `<optgroup>` as the cause of a data-loss bug.
+- **All `<option>` elements in preset selects must have `data-i18n`.** The inline text is a fallback only.
+- **All separator options use `select_sep_*` keys** with the `── Label ──` format. Do not reuse existing label keys.
+- **`tr` is function-scoped, not module-level.** Every top-level or standalone function that calls `tr()` must declare it locally. Functions declared as `function foo()` have no access to a `tr` defined in a sibling arrow function. The definitive fix is to promote `tr` to a true module-level `const` above all DataMaps.
+- **Tracker strain deduction — `tr` ReferenceError silently kills all tracker rolls.** `handleTrackerStrainDeduction` is called by every tracker checkbox `change:`. Without a local `tr`, every check throws and the roll never fires.
+- **When building a new repeating section that parallels an existing one, audit every `on()` watcher that references the existing section.** `repeating_spellpreset` was built as a parallel to `repeating_spellsmdr` and the prepared-cost and XP-cost watchers were never cloned, so they silently only counted manual rows.
+- **`initXxxPresets()` must only restore computed/mirror attrs — never call `applyXxxPreset` from init** where the row holds player-edited stateful values. For purely computed display attrs (name, rarity, roll type, effect text) that the player never edits, calling apply from init is correct and necessary.
+- **Tooltip preview and bubble serve different purposes and must hold different values.** Preview = short terse summary; bubble = full rich description via `tr(data.effect_summary_key)`.
+- **`buildXxxEffectStr` helpers may return `""` for valid presets**, which makes the bubble invisible. Use `tr(data.effect_summary_key)` for the bubble.
+- **Tooltip hover area collapses when preview text is empty.** Add `min-height: var(--cs_row_height)`.
+- **Absolutely-positioned buttons fill their `position: relative` ancestor, not just the visible label.** Add `width: fit-content` to the wrapper.
+- **`@{attr}` in roll button `value=` strings inside repeating sections requires a `name="attr_X"` input in the same row** — **exactly one**. If a visible input already declares the attr, do not add a hidden twin.
+- **Duplicate attr declarations: hidden + visible with disagreeing defaults and no worker write is a distinct bug class.** All three conditions are required. Roll20 never commits the hidden input's default, so the attr does not exist and the visible twin renders blank; a repeating row's re-render can then propagate the hidden default, so the value appears — and vanishes on reload. Plain duplication is common (197 instances sheet-wide) and usually harmless. `D1` flags only the dangerous combination. **It does not cover visible+visible duplication** — see `otherskill11` under Bugs.
+- **Roll20 does NOT initialise `type="hidden"` input `value=""` defaults into the attribute store.** Always write initial values explicitly.
+- **An attr used in both a dice formula and a display span must hold a valid dice expression, not a display string.** Split into two attrs. The same applies to any formatted value: `lifestyle_monthly_total_mdr` goes through `lsFmtCr` and is a display string, so arithmetic against it needs the raw number.
+- **`setAttrs` with `""` may not visually clear a `<span>`.** Use `" "`.
+- **DataMap `daily_limit: null` must be handled explicitly.** `String(null)` produces `"null"`.
+- **Cyberware bonus stats must use the base+bonus pattern**, not write back to the raw stat. Store the player's raw value in `attr_X_base`; cyberware writes `attr_X = X_base + bonus_total`; a `change:X` watcher back-calculates `X_base`.
+- **`setAttrs` callbacks fire after writes are committed; `change:` watchers fire before.** Multi-row bonus aggregation must use callbacks.
+- **Double-fire from watcher + callback: remove one.** Callbacks are preferred.
+- **Deselecting a preset must explicitly zero all computed bonus fields**, including hidden bonus attrs, and call the recalc in its callback.
+- **Mod slot checkboxes must gate both capacity and stat bonuses.** Read `show_modN` alongside the values in the same `getAttrs`.
 - **Cyberware mod slot debugging: always verify the mod slot equipped checkbox is checked first.** `cyberoptics_show_modN` must equal `"1"` or the slot is invisible to all JS logic regardless of preset. Check this before any code investigation.
-
-- **Init with multiple async apply calls needs a barrier before the final recalc.** When `initXxxPresets` calls `applyXxxPreset` and `applyLimbModPreset` for multiple rows and slots in a loop, all those `setAttrs` calls are queued. The final `recalcCywerwareBonuses` must not fire until all writes are committed. Pattern: set `cwSuppressRecalc = true` before the loop, set it `false` after, then use a `getAttrs(barrier_keys, () => recalcXxx())` call — Roll20 processes `setAttrs` and `getAttrs` sequentially, so the `getAttrs` callback fires only after all prior `setAttrs` have committed.
-
-- **STR watcher loop: `registerStatHandler` must not write back to `attr_str`.** If `attr_str` is in the watched array and `registerStatHandler` also writes `update["str"]`, every write triggers the watcher again — infinite loop. The fix: write `attr_str` outside `registerStatHandler` entirely (from `recalcCywareBonuses` using `str_base + bonus`), and keep `attr_str` in the watched array only so `registerStatHandler` fires when the player edits it manually to update damage bonus thresholds. `registerStatHandler` reads `attr_str` but never writes it.
-
-- **`overflow: hidden` on an effect cell clips the absolutely-positioned tooltip bubble.** The bubble uses `position: absolute` and escapes its parent via stacking context, but `overflow: hidden` on any ancestor in the same stacking context clips it. Always use `overflow: visible` on the effect cell container — clip only the preview span itself. Match the pattern of the existing `cw-effect-cell` rule which explicitly sets `overflow: visible`.
-
-- **Mod rows in static sections (optics, audio) need the same checkbox-gated capacity recalc as repeating sections.** `recalcOpticsCapacityUsed` and `recalcAudioCapacityUsed` originally summed all 8 mod capreq values unconditionally. They must read `cyberoptics_show_modN` / `cyberaudio_show_modN` alongside capreq and only count checked mods. Add `change:cyberoptics_show_modN` and `change:cyberaudio_show_modN` watchers calling the respective recalc.
-
-- **Every new translation key referenced by `data-i18n` must exist in `translation.json` before the HTML is deployed.** A missing key silently renders the raw key string. When adding a column header like `cw_mod_equipped-u`, add the key to `translation.json` first in its correct alphabetical position. Do not assume a similar-sounding key (e.g. `armor_equipped-u`) can be reused — each section should have its own scoped key.
-
-- **Regex-based HTML stripping of named block types will leave orphaned closing tags.** When using regex to remove `<div class="cw-manual-row">...</div>` blocks, the regex matches the opening tag and content but may not correctly match the closing `</div>` if indentation or line endings vary. Always verify after removal that no orphaned `</div>` tags or stale comments remain. A stale `</div>` closes the wrong ancestor and collapses all subsequent content into a flat layout. After any bulk HTML removal, grep for the removal marker (e.g. the comment text) and manually inspect each remnant.
-
-- **CSS `~` sibling selector works for mod detail rows in both static and repeating section contexts.** In static sections (optics, audio), the pattern is `section-class input[name="attr_show_modN"]:checked ~ .detail-class`. In repeating sections (cyberlimbs), scope to the repcontainer: `.repcontainer[data-groupname="repeating_X"] input[name="attr_show_modN"]:checked ~ .detail-class`. The `~` resolves the input element anywhere in the subtree and finds subsequent siblings — the input does not need to be a direct sibling of the detail row.
-
-- **Effect preview text shows from the end instead of the start when the container has no hard width constraint.** `text-overflow: ellipsis` only clips from the right when the element has a definite width to overflow against. If the parent `flex` container can grow, the span has no wall to clip against and renders all text (effectively right-aligned). Fix: set `overflow: hidden` on the **preview span** (not the cell), and ensure the cell has `flex: 1 1 0; min-width: 0` so flex constrains it. Do not set `overflow: hidden` on the cell itself — that clips the bubble.
-
-- **Adding an Effect column to mod rows (optics, audio, cyberlimbs) follows the same pattern as the cyberlimb suite row.** Add a `cw-mod-effect-cell` flex cell after the Cost column in every mod row and the mod sub-header. Set `flex: 1 1 0` so it fills remaining space. Place the `sheet-skill-tooltip has-notes` inside it with preview and bubble spans. Scope CSS to `.cw-mod-effect-cell` — do not add tooltip markup inside the Name cell's select wrapper.
+- **Init with multiple async apply calls needs a barrier before the final recalc.** Set a suppress flag, then use a `getAttrs` callback as the barrier.
+- **STR watcher loop: `registerStatHandler` must not write back to `attr_str`.**
+- **`overflow: hidden` on an effect cell clips the absolutely-positioned tooltip bubble.** Use `overflow: visible` on the cell; clip only the preview span.
+- **Mod rows in static sections need the same checkbox-gated capacity recalc as repeating sections.**
+- **Regex-based HTML stripping of named block types will leave orphaned closing tags.** After any bulk HTML removal, grep for the removal marker and inspect each remnant. A stale `</div>` closes the wrong ancestor and collapses all subsequent content.
 
 ### Ancestry Talents & Session Tracker
 
-- **Renaming or removing a DataMap talent key that players may have checked requires an attr migration shipped in the same change.** The enable/lock system assumes states that are only reachable through the UI. Orphaned attrs can create a checked-dependent / unchecked-prereq combination that deadlocks **both** checkboxes with no UI escape: the dependent's `_enabled` goes `"0"` (prereq unsatisfied, so it can't be unchecked), and the new prereq's `_lockflag` goes `"1"` (`isLocked()` sees the checked dependent, so it can't be checked). Toggling any other talent cannot break the cycle. Use the Attr Migration Pattern (see Sheet Workers section); reference implementation: `migrateRetiredAncestryTalents`.
-- **`isLocked()` locks a prereq regardless of the prereq's own checked state.** It only asks whether a checked dependent relies on it. This is invisible in normal play (a checked dependent implies the prereq was checked) but is exactly what turns orphaned migration state into a deadlock. Any future attr write path (migration, API script, import) must never produce checked-dependent/unchecked-prereq states.
-- **The tracker row visibility is CSS-enumerated per talent** — `input[name="attr_show_{race}_{key}"][value="1"] ~ .sheet-{race}-{key}` in the per-race `/* Racial Talent Tracker */` blocks. The JS writing `show_{race}_{key} = "1"` is **not** evidence the tracker works; a console log can show the attr correctly set while the row silently never renders because no CSS rule exists for that attr name. Only `usage_limit: "session"` talents get tracker rows and CSS rules; at-will passives get neither.
-- **Never declare a file/layer out of scope based on the *kind* of change — grep every renamed or removed identifier across ALL project files.** "This is a data/HTML change, CSS isn't implicated" was exactly wrong for a talent rename: the tracker CSS enumerates attr names. The cheap safeguard after any rename/removal: `grep` for every old key, old attr name, and old CSS class (both snake_case and dash-case forms) across `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, and `translation.json`, and confirm zero residual occurrences.
-- **When a test console log shows no trace output from a newly added function, first check whether the log predates the build.** Trace logging (`debug_on_trace`) prints Start lines for every named function; a missing Start line with trace on means either the function isn't in the loaded sheet or the log is from an older sheet version. Compare the log export timestamp against the output file timestamp before debugging the code.
+- **Renaming or removing a DataMap talent key that players may have checked requires an attr migration shipped in the same change.** Orphaned attrs can create a checked-dependent / unchecked-prereq combination that deadlocks **both** checkboxes with no UI escape.
+- **`isLocked()` locks a prereq regardless of the prereq's own checked state.** Any future attr write path must never produce checked-dependent/unchecked-prereq states.
+- **The tracker row visibility is CSS-enumerated per talent.** The JS writing `show_{race}_{key} = "1"` is **not** evidence the tracker works; a console log can show the attr correctly set while the row silently never renders.
+- **Never declare a file/layer out of scope based on the *kind* of change — grep every renamed or removed identifier across ALL project files.** "This is a data/HTML change, CSS isn't implicated" was exactly wrong for a talent rename.
+- **When a test console log shows no trace output from a newly added function, first check whether the log predates the build.**
 
 ### CSS
-- **Respect section boundaries.** Always read the surrounding section start/end markers before inserting CSS. The Combat section fieldset reset block is Combat-only. Vehicle fieldset resets go in the Vehicle section. New gear sections get their own resets in the Gear section.
-- **Use `sheet-val-roll-static` for value+roll columns.** Never create a separate button column next to a value column — merge them using the existing `sheet-val-roll-static` pattern. The column cell needs `position: relative`.
-- **Tooltip bubble class is `sheet-tooltip-bubble`**, not `sheet-skill-tooltip-bubble`. The wrong class has no CSS hover rule.
-- **Never set `overflow: hidden` on the tooltip wrapper or effect cell container.** Only the preview div (and its inner span) gets overflow clipping. The bubble must be able to overflow its container.
-- **Tooltip preview width requires explicit flex rules.** The base `sheet-skill-tooltip` is `display: inline-flex` and sizes to content. Add `display: flex; width: 100%; min-width: 0` on the scoped tooltip rule, `flex: 1 1 0; min-width: 0` on the preview div, and `display: block; width: 100%` on the inner span. Scope all these rules to the specific effect cell class — do not apply globally.
-- **Tooltip bubble needs `white-space: normal` when content comes from translated DataMap text.** The base bubble rule does not set `white-space`. A long translated string from `effect_summary_key` may render as a single overflowing line. Add `white-space: normal` to the scoped `.SECTION-effect .sheet-tooltip-bubble` rule for any section whose bubble content is a full translated description.
-- **Add `min-height: var(--cs_row_height)` to tooltip wrappers for effect cells.** When the preview string is empty (e.g. a preset type whose `buildXxxEffectStr` returns `""`), the wrapper collapses to zero height and hover does not trigger. The `min-height` rule ensures a hover target always exists regardless of preview content.
-- **Duplicate `flex-row` rules in the same section are harmless but must be consolidated.** If two rules target the same selector (e.g. `.sheet-grenadeblock-grid-row > .flex-row` at two different line positions), the second wins for any conflicting properties. Before adding a new `flex-row` rule for a section, grep for existing rules targeting the same selector and merge rather than append.
-- **Roll20 CSS toggle buttons for repeating sections: use the exact impale/noimpale pattern.** The working pattern is: one `input[type="hidden"]` with a combined value (e.g. `"restore-self"`, `"restore-other"`, `"none-self"`, `"none-other"`), updated by `setAttrs` from both the apply function and the `other` checkbox watcher, with buttons as immediate DOM siblings. CSS uses `[value="X"] + button.class` adjacent sibling selectors. Do not use two separate toggle inputs — one combined input matching the impale pattern is the only approach confirmed to work.
-- **Roll toggle CSS hide rules must be placed AFTER the global `button[type="roll"].new-roll { display: flex }` rule and must include `button[type="roll"]` in the selector.** The global rule has specificity (0,5,1). Hide rules using only `.sheet-X-roll-Y` have specificity (0,4,0) and lose regardless of order. Hide rules using `button[type="roll"].sheet-X-roll-Y` have specificity (0,5,1) — a tie — and win only when declared later in the file. Show rules use `.sheet-X-roll-toggle[value="Z"] + button[type="roll"].sheet-X-roll-Y` at (0,6,1) and beat both. Always place the entire toggle block (hide + show rules) immediately after the `button[type="roll"]:hover.new-roll` rule, not near the top of the CSS file with the section column widths.
-- **All flex-cell columns in a repeating section must have explicit `flex: 0 0 Xpx` to prevent alignment drift.** `flex-cell` defaults to `flex: 0 1 auto` and `flex-cell-wrapper` defaults to `flex: 1 1 6%` — both can cause columns to grow or shrink unpredictably based on content. Setting `flex: 0 0 Xpx` on every column class (not just the val-roll-static wrapper) locks each column to its declared pixel width in both header and data rows. Without this, headers and rows appear misaligned even when pixel widths sum correctly.
-- **An insert anchored on a preceding rule must not repeat that rule's text.** Anchoring a CSS insert on `\twidth: 100%;\r\n}\r\n\r\n<selector>` and then beginning the replacement with the same prefix duplicates it, leaving a stray declaration and close brace after the new block. Count braces before and after every CSS edit — 1790/1791 is what caught this one — and re-read the neighbouring rule to confirm it is intact.
+- **Respect section boundaries.** Read the surrounding markers before inserting.
+- **Use `sheet-val-roll-static` for value+roll columns.**
+- **Tooltip bubble class is `sheet-tooltip-bubble`**, not `sheet-skill-tooltip-bubble`.
+- **Never set `overflow: hidden` on the tooltip wrapper or effect cell container.**
+- **Tooltip preview width requires explicit flex rules.**
+- **Tooltip bubble needs `white-space: normal`** when content comes from translated DataMap text.
+- **Add `min-height: var(--cs_row_height)` to tooltip wrappers for effect cells.**
+- **Duplicate `flex-row` rules in the same section are harmless but must be consolidated.**
+- **Roll20 CSS toggle buttons for repeating sections: use the exact impale/noimpale pattern** — one `input[type="hidden"]` with a combined value, buttons as immediate DOM siblings, `[value="X"] + button.class` adjacent sibling selectors. Two separate toggle inputs do not work.
+- **Roll toggle CSS hide rules must be placed AFTER the global `button[type="roll"].new-roll { display: flex }` rule and must include `button[type="roll"]` in the selector.** Specificity: global (0,5,1); hide rules with only the class (0,4,0) lose regardless of order; with the element (0,5,1) they tie and win only when declared later; show rules at (0,6,1) beat both.
+- **All flex-cell columns in a repeating section must have explicit `flex: 0 0 Xpx`** to prevent alignment drift.
+- **An insert anchored on a preceding rule must not repeat that rule's text.** Count braces before and after every CSS edit.
+- **Verify column pixel totals sum to 813px** (the sheet width minus borders) after any column change.
+
 ### Roll20 CSS: Per-Attribute Edit-Mode Rules Outrank State Colouring
 
 The eight core attributes each have their **own** edit-mode rule —
@@ -1379,14 +1577,11 @@ The eight core attributes each have their **own** edit-mode rule —
 
 So any state colouring on those inputs must be written **against that selector
 shape**, not in the usual controller-sibling form. The below-minimum flag first
-shipped as
-`.sheet-siz-wrapper input[name="attr_siz_below_min_css"][value="1"] ~ .sheet-siz-input`
-at (0,7,1) and never rendered, in any theme, at any file position.
+shipped at (0,7,1) and never rendered, in any theme, at any file position.
 
 `attr_bloodied_css ~ .sheet-hp-input` works only because `attr_hp` is **not**
 one of the eight and has no per-stat edit-mode rule. Copying its shape onto a
-stat input does not work, and the reason is invisible unless you go looking for
-the competing rule.
+stat input does not work.
 
 The working form adds the wrapper and the controller's two attribute selectors
 to the edit-mode shape, reaching (0,11,2):
@@ -1399,51 +1594,46 @@ to the edit-mode shape, reaching (0,11,2):
 
 **Three diagnostic lessons from getting this wrong twice:**
 
-- **A search that excludes the syntax you are looking for returns a confident zero.** The first hunt for competing rules used a pattern ending `[^{\[]*`, which excludes any selector containing `[` — that is, all twenty-two of them. "No competitors found" meant "broken search", and it was read as evidence.
-- **Recount specificity after every selector change.** Dropping an element+class compound to match a known-working rule took the below-min rule from (0,7,2) to (0,7,1) — the "fix" made it strictly worse.
-- **When a CSS change does not render, prove which layer is at fault before touching either.** A one-line `debug_on` log of the flag attr settled it in a single round: `siz=35/min45->1` showed the worker was correct and the fault was entirely in the cascade. Two speculative CSS rewrites preceded that log and both were wasted.
+- **A search that excludes the syntax you are looking for returns a confident zero.** The first hunt used a pattern ending `[^{\[]*`, which excludes any selector containing `[` — that is, all twenty-two of them. "No competitors found" meant "broken search", and it was read as evidence.
+- **Recount specificity after every selector change.** Dropping an element+class compound to match a known-working rule took the rule from (0,7,2) to (0,7,1) — the "fix" made it strictly worse.
+- **When a CSS change does not render, prove which layer is at fault before touching either.** A one-line `debug_on` log settled it in a single round; two speculative CSS rewrites preceded it and both were wasted.
 
-**Extend the guard test in the same commit as the fix it guards.** `test_ancestry_minimums.js` asserted SIZ and INT but not EDU, because it was written while EDU was still a deferred fix. When EDU was corrected the test was not extended, so a negative test that reverted `edu.base` to 15 passed. The hole was invisible on the real file — only breaking the thing the test was meant to guard exposed it. A fix and its assertion belong together.
+**Extend the guard test in the same commit as the fix it guards.** `test_ancestry_minimums.js` asserted SIZ and INT but not EDU, because it was written while EDU was still a deferred fix. When EDU was corrected the test was not extended, so a negative test that reverted `edu.base` to 15 passed.
 
-**Assert the relationship, not the existence.** `test_stat_minimums.js` computes
-the specificity of both the state rule and the competing edit-mode rule and
-fails if the former does not outrank the latter. A check that merely asserts a
-rule exists passes on a rule that never renders.
+**Assert the relationship, not the existence.** `test_stat_minimums.js` computes the specificity of both rules and fails if the state rule does not outrank the edit-mode rule. A check that merely asserts a rule exists passes on a rule that never renders.
 
-- **Inputs do not honour `text-overflow: ellipsis` — they clip silently.** A `readonly` input at a fixed width truncates with no visual cue that text is missing, which is worse than a visible ellipsis. When several inputs in one block hold very different content, a shared width is wrong in both directions: the grenade save row had SAVE (never more than three characters), PASS (one short phrase) and FAIL (able to hold a compound like `Burning + full dmg`) all fixed at 100px. Reallocate per cell — 56 / 132 / 100 here, a net −12px — rather than widening all three. Past roughly 22 characters, switch to the preview + `sheet-tooltip-bubble` pattern instead of a wider box. Per-cell overrides can key off `input[name=]` with no markup change; four classes plus an attribute plus an element beats a five-class base rule.
-- **Verify column pixel totals sum to 813px (the sheet width minus borders) after any column change.** A single column width drift (e.g. `strain-used` changing from 50px to 60px) shifts the entire row right by the excess, misaligning every column that follows. Always run a total check: `python3 -c "print(sum([185,24,75,55,50,36,40,24,324]))"` after any column width edit.
+- **Inputs do not honour `text-overflow: ellipsis` — they clip silently.** When several inputs in one block hold very different content, a shared width is wrong in both directions. Reallocate per cell rather than widening all. Past roughly 22 characters, switch to the preview + `sheet-tooltip-bubble` pattern. Per-cell overrides can key off `input[name=]` with no markup change.
 
 ### Roll20 API Scripts
-- **API scripts are server-side only.** They cannot reference sheet HTML elements directly, and sheet workers cannot call API script functions. Communication is only through attribute changes and chat messages.
-- **`on('ready', ...)` is required** as the entry point for all API scripts. Code outside this handler runs before the sandbox is initialized and will fail silently.
+- **API scripts are server-side only.** Communication is only through attribute changes and chat messages.
+- **`on('ready', ...)` is required** as the entry point. Code outside it runs before the sandbox is initialized and fails silently.
 
 ### General
-- **Suspect the change you just made, but verify before blaming it.** Three separate defects in the 2026-08-01 session were assumed to originate in the recent Combat commits (`216c9ae`, `a7c7d5f`, 2026-07-19) and none did: the half-cleared weapon row (the deselect path has always behaved this way), the strain duplicate (introduced `81e3534`, 2026-02-17), and the 19-parameter tag function (grew `0d5bcc2` 2026-04-05 through `25d0302` 2026-05-07). Recent work draws attention to an area; the inspection then surfaces older issues. Use `git log -S '<identifier>'` to date a construct before attributing it. The one genuine regression from the tranq reclassification was **ammo gating** — `category: "rifle"`/`"handgun"` newly enabled five special ammo types on tranq platforms, which the rules forbid.
-- **Check the Todo_list.md before starting any new section.** A feature may already be stubbed, partially implemented, or blocked on a dependency.
-- **Cross-reference PDFs (First_2_sections_GoA.pdf, Gear_and_Loadout.pdf) and .docx updates** before writing any new DataMap data. The docx files (especially `Weapons_2026-03-27.docx`) may contain more recent rule text than the PDF, and `source: {}` must reflect the actual document used.
-- **The sheet width is fixed at 840px** (`--cs_sheet_width`). Do not design sections that exceed this or assume a wider viewport.
-- **CRLF line endings.** `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, and `translation.json` use `\r\n`. For multi-line targeted edits, use Python byte-level replacement with `\r\n` normalization and an `assert count == 1` uniqueness check per replacement — the equivalent of `str_replace` but CRLF-safe.
+- **Suspect the change you just made, but verify before blaming it.** Three separate defects in the 2026-08-01 session were assumed to originate in recent Combat commits and none did. Recent work draws attention to an area; the inspection then surfaces older issues. Use `git log -S '<identifier>'` to date a construct before attributing it.
+- **Check the Todo_list.md before starting any new section.**
+- **Cross-reference PDFs and .docx updates** before writing any new DataMap data. `source: {}` must reflect the actual document used.
+- **The sheet width is fixed at 840px** (`--cs_sheet_width`).
+- **CRLF line endings.** `ghost_of_arcadia.html`, `ghost_of_arcadia.css`, and `translation.json` use `\r\n`; `Claude.md` and `Todo_list.md` use LF. For multi-line targeted edits, use Python byte-level replacement with an `assert count == 1` uniqueness check per replacement.
 
 ### Lifestyle DataMaps
-- **`districtDataMap` `tiers` array is index-ordered `[squatter, low, middle, high, luxury, enclave]`.** Value `0` = unavailable, `1` = available, `2` = restricted (GM adjudicates — do not block selection, show note text). Never reorder the array.
-- **`cost_mod` is an integer percentage point offset, not a multiplier.** Apply as `Math.floor(base_cost * (1 + cost_mod / 100))`. A `cost_mod` of `0` means Base (no change); `25` means +25%; `-30` means −30%.
-- **`lifestyleTierDataMap` `slots` and `cost` use `null` for unavailable size/tier combos** (e.g. studio at High+). Sheet workers must guard: if `tier.cost[size] === null`, reset size to `apartment` before computing cost.
-- **`lifestyleFeatureDataMap` covers both `"feature"` and `"amenity"` types.** Only `"feature"` entries contribute to the mechanical slots-used count for the DT modifier summary. Both types consume a slot from the residence's slot total.
-- **The zone → district cascading select pattern mirrors the weapon skill-class → preset pattern.** A hidden `input[type="hidden" name="attr_lifestyle_zone"]` is the CSS controller. `on("change:lifestyle_zone_select")` writes to it. Eight `input[value="ZONE"] ~ .district-zone-ZONE { display: block }` CSS rules then show the correct district `<select>`. Inside `repeating_safehouses`, scope with `.repcontainer[data-groupname="repeating_safehouses"] input[name="attr_safehouse_zone_ctrl"][value="ZONE"] ~ .district-zone-ZONE`.
-- **Safehouse split ÷ N:** `safehouse_cost_mdr = Math.floor(finalCost / split)`. Guard divide-by-zero — treat split ≤ 0 as 1.
-- **`districtDataMap` `note_key: ""` means no note** — the apply function must guard `data.note_key ? tr(data.note_key) : " "` and write `" "` (not `""`) to clear the display span.
-- **`applyDistrictPreset` must call `applyLifestyleTierPreset` (not `recalcLifestyleTotals`) for the primary residence.** `recalcLifestyleTotals` reads the already-computed `lifestyle_final_cost_mdr` to sum the monthly budget — it does not recompute the cost itself. When district changes, the district's `cost_mod` must be applied to tier+size cost, which only `applyLifestyleTierPreset` does. Calling `recalcLifestyleTotals` directly after a district change skips the cost recalculation entirely.
-- **Zone change must clear all district attrs before recomputing cost.** When zone changes, the zone watcher must write `""` to all eight zone-specific district selects, `""` to `lifestyle_district_mdr`, `" "` to the note display, and `0` to `lifestyle_dt_district_mdr` — all in a single `setAttrs` call. Only after that call's callback should `applyLifestyleTierPreset` run. Without this, the old district's `cost_mod` persists in the attr store and the cost doesn't reset.
+- **`districtDataMap` `tiers` array is index-ordered `[squatter, low, middle, high, luxury, enclave]`.** Never reorder it. `2` = restricted (GM adjudicates — do not block selection, show note text).
+- **`cost_mod` is an integer percentage point offset, not a multiplier.** Apply as `Math.floor(base_cost * (1 + cost_mod / 100))`.
+- **`lifestyleTierDataMap` `slots` and `cost` use `null` for unavailable size/tier combos.** Guard and reset size to `apartment`.
+- **`lifestyleFeatureDataMap` covers both `"feature"` and `"amenity"` types.** Only `"feature"` entries contribute to the mechanical slots-used count for the DT modifier summary; both consume a slot from the residence total.
+- **The zone → district cascading select pattern mirrors the weapon skill-class → preset pattern.** A hidden controller input plus eight `input[value="ZONE"] ~ .district-zone-ZONE` rules. Inside `repeating_safehouses`, scope with `.repcontainer[data-groupname="repeating_safehouses"]`.
+- **Safehouse split ÷ N:** guard divide-by-zero — treat split ≤ 0 as 1.
+- **`districtDataMap` `note_key: ""` means no note** — guard and write `" "` to clear.
+- **`applyDistrictPreset` must call `applyLifestyleTierPreset` (not `recalcLifestyleTotals`) for the primary residence.** `recalcLifestyleTotals` reads the already-computed final cost; only `applyLifestyleTierPreset` applies the district `cost_mod`.
+- **Zone change must clear all district attrs before recomputing cost** — all eight zone-specific selects, `lifestyle_district_mdr`, the note display and the DT modifier, in a single `setAttrs`, with `applyLifestyleTierPreset` in its callback.
 
 ### Roll20 CSS Sibling Selector Rules
-- **CSS `~` only selects siblings with the exact same parent.** The `~` selector cannot cross a parent boundary. If `input[name="attr_X"]` is inside `div.A` and the target element is inside `div.B`, the selector fails even if both divs share a grandparent. Before writing any `~` based CSS rule, confirm in the HTML that the controller input and the target container share the **same immediate parent element**.
-- **Roll20 renders `<fieldset class="repeating_X">` as `<div class="repcontainer" data-groupname="repeating_X">` in the live DOM.** Never use `.repeating_X` as a CSS class selector — it does not exist in the rendered DOM. Always use `.repcontainer[data-groupname="repeating_X"]` to target a repeating section container. Selectors using `.repeating_X` match nothing and silently fail.
-- **A CSS controller input that must reach multiple repeating sections must be placed as a sibling of all their parent wrappers, not inside any one of them.** If Features and Amenities are each in their own `sheet-section-body` (separate collapsible sections), a hidden input inside the Features `sheet-section-body` can never reach the Amenities repcontainer via `~`. Place the controller input at the level above both collapsibles so it is a true sibling of both `sheet-colrow` wrappers. The CSS can then use `input ~ .sheet-colrow .repcontainer[data-groupname="repeating_X"] .target-class` to reach into each section as a descendant.
-- **When a CSS controller hidden input is placed outside a repeating section, use `~ .sheet-colrow .repcontainer[data-groupname="X"]` (descendant) not `~ .repcontainer[data-groupname="X"]` (direct sibling).** The repcontainer is nested inside the collapsible wrapper div, so a direct `~` sibling selector won't find it. The full path must traverse the intermediate wrapper.
+- **CSS `~` only selects siblings with the exact same parent.** Confirm in the HTML that the controller input and the target container share the **same immediate parent element** before writing the rule.
+- **Roll20 renders `<fieldset class="repeating_X">` as `<div class="repcontainer" data-groupname="repeating_X">`.** Never use `.repeating_X` as a CSS selector — it matches nothing.
+- **A CSS controller input that must reach multiple repeating sections must be placed as a sibling of all their parent wrappers, not inside any one of them.** Then use `input ~ .sheet-colrow .repcontainer[data-groupname="repeating_X"] .target-class`.
 
 ### Roll20 Repeating Section Row Add Behavior
-- **Roll20 does NOT fire `change:` events reliably for all attrs on new row add.** Specifically: checkboxes (`value="1"`) initialise unchecked with no stored value — no change fires. Selects with an empty first option (`value=""`) fire `change:` with value `""` but a new row with no stored value is effectively a no-op change in some Roll20 versions. **Do not rely on any per-row watcher to initialise display state for a brand new row.**
-- **Roll20 attribute attr names are always lowercase.** Roll20 normalises all attribute names to lowercase in its attr store and when firing `change:` events. Using uppercase letters in attr names (e.g. `attr_lf_loc_R`) causes silent failures: `getAttrs(["lf_loc_R"])` returns `""` because the stored key is `"lf_loc_r"`. Always use fully lowercase attr names throughout HTML, CSS, and JS.
-- **Roll20 checkboxes must use `value="1"` for reliable change event firing.** Non-standard values (e.g. `value="R"`, `value="2"`) may not fire `change:` events consistently in repeating sections. If you need a checkbox that stores a location identifier, use `value="1"` with a unique attr name per location (e.g. `attr_lf_loc_r`, `attr_lf_loc_1`) and enforce exclusivity in JS. Never rely on same-name checkboxes with different values for radio-like behaviour — Roll20's handling of this pattern is unreliable.
-- **The most reliable add-row proxy for a repeating section is `change:SECTION:ATTR` where ATTR is a select that initialises to a non-empty value, OR using a completely CSS-driven approach that requires no per-row JS write at all.** The CSS-driven approach (single global attr + CSS `~` reaching into the repcontainer) is always preferable for display state that depends on a count or state outside the row itself, because it requires no JS at row-add time and cannot race with Roll20's row initialisation sequence.
-- **`getSectionIDs` called from a `change:` watcher that fires on row add may not include the new row's ID.** Roll20 fires `change:` before the new row's ID is fully registered in the section. Any code path that calls `getSectionIDs("repeating_X")` in response to a row-add event and iterates the result to write per-row attrs will silently miss the new row. The fix is either (a) write directly to the triggering row using its prefix extracted from `eventInfo.sourceAttribute`, or (b) eliminate the per-row write entirely using a global CSS controller.
+- **Roll20 does NOT fire `change:` events reliably for all attrs on new row add.** Checkboxes initialise unchecked with no stored value and no change fires. **Do not rely on any per-row watcher to initialise display state for a brand new row.**
+- **Roll20 attribute names are always lowercase.** Using uppercase in an attr name causes silent failures.
+- **Roll20 checkboxes must use `value="1"` for reliable change event firing.** Never rely on same-name checkboxes with different values for radio-like behaviour.
+- **The most reliable add-row proxy is a select that initialises to a non-empty value, OR a fully CSS-driven approach that requires no per-row JS write at all.** The CSS-driven approach cannot race with Roll20's row initialisation sequence and is always preferable for display state.
+- **`getSectionIDs` called from a `change:` watcher that fires on row add may not include the new row's ID.** Either write directly to the triggering row using its prefix from `eventInfo.sourceAttribute`, or eliminate the per-row write with a global CSS controller.

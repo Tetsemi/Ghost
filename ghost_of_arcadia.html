@@ -67220,7 +67220,6 @@ const barrelMap = {
 
 /* Helpers & guards - Start */
 
-let lastRaceHandled = null;
 let backgroundTalentWatchersRegistered = false;
 let talentWatchersRegistered = false;
 let careerWatcherInitialized = false;
@@ -73358,28 +73357,6 @@ function traitsDisplayStr(traits) {
 	return (traits || []).map(t => traitLabelMap[t] || t).join(", ");
 }
 
-function getAllTalentSkills(race) {
-  if (debug_on_trace) console.log("[getAllTalentSkills] Start");
-
-  const skills = new Set();
-  const raceTalents = ancestryDataMap[race]?.talents || {};
-
-  Object.values(raceTalents).forEach(talent => {
-    const s = talent && talent.skills;
-    if (!s) return;
-
-    if (Array.isArray(s)) {
-      s.forEach(k => k && skills.add(k));
-    } else if (typeof s === "object") {
-      Object.keys(s).forEach(k => k && skills.add(k));
-    }
-  });
-
-  const result = Array.from(skills);
-  if (debug_on) console.log("[getAllTalentSkills]", race, result);
-  return result;
-}
-
 function resetAllMDRToBase(race, callback, options) {
   if (debug_on_trace) console.log ("[resetAllMDRToBase] Start");
 
@@ -73404,17 +73381,6 @@ function resetAllMDRToBase(race, callback, options) {
     if (hasOptions) setAttrs(updates, options, callback);
     else setAttrs(updates, callback);
   });
-}
-
-function applyAllSkillBonuses(race) {
-	if (debug_on_trace) console.log ("[applyAllSkillBonuses] Start");
-
-  const talentSkills = getAllTalentSkills(race);
-
-  const updates = setDefaultTalentBonuses(race, { apply: false });
-
-  if (debug_on) console.log("[applyAllSkillBonuses]", updates);
-  setAttrs(updates);
 }
 
 function initializeRaceState(race) {
@@ -73845,29 +73811,6 @@ function applyRacialBaseStats(race, callback, options) {
       callback();
     }
   });
-}
-
-function handleRaceChange(race) {
-  if (debug_on_trace) console.log("[handleRaceChange] Start", { race });
-
-  // ignore placeholder / unknown
-  if (!ancestryDataMap || !ancestryDataMap[race] || race === "cr" || race === "unknown" || race === "0") return;
-
-  // optional: keep your duplicate guard
-  if (race === lastRaceHandled) {
-    if (debug_on) console.log(`[handleRaceChange] Skipped duplicate init for race: ${race}`);
-    return;
-  }
-  lastRaceHandled = race;
-
-  // Register race-scoped watchers once (idempotent elsewhere)
-  ensureRaceWatchers(race);
-
-  // Pure state apply (no registrations inside)
-  initializeRaceState(race);
-
-  // Re-evaluate enables/locks once
-  if (typeof updateTalentEnables === "function") updateTalentEnables(race);
 }
 
 function ensureRaceWatchers(race) {
@@ -74636,57 +74579,6 @@ function applyExhaustedStatus(charName, cb) {
   });
 }
 
-// Remove Exhausted from whichever status slot holds it
-function removeExhaustedStatus(statusValues) {
-  const updates = {};
-  for (let i = 1; i <= 4; i++) {
-    const key = `status${i}`;
-    if (statusValues[key] && statusValues[key].trim() === getConditionLabel("exhausted")) {
-      updates[key] = "";
-    }
-  }
-  if (Object.keys(updates).length > 0) setAttrs(updates);
-}
-
-// Write Tired to first empty status slot; cb(true) if placed, cb(false) if all full
-function applyTiredStatus(cb) {
-  getAttrs(["status1", "status2", "status3", "status4"], (statusVals) => {
-    // Don't double-apply
-    const label = getConditionLabel("tired");
-    for (let i = 1; i <= 4; i++) {
-      if ((statusVals[`status${i}`] || "").trim() === label) { cb(true); return; }
-    }
-    const updates = {};
-    let placed = false;
-    for (let i = 1; i <= 4; i++) {
-      const key = `status${i}`;
-      if (!statusVals[key] || statusVals[key].trim() === "") {
-        updates[key] = label;
-        placed = true;
-        break;
-      }
-    }
-    if (placed) {
-      setAttrs(updates, {}, () => { cb(true); });
-    } else {
-      cb(false);
-    }
-  });
-}
-
-// Remove Tired from whichever status slot holds it (uses pre-fetched statusValues)
-function removeTiredStatus(statusValues) {
-  const label = getConditionLabel("tired");
-  const updates = {};
-  for (let i = 1; i <= 4; i++) {
-    const key = `status${i}`;
-    if ((statusValues[key] || "").trim() === label) {
-      updates[key] = "";
-    }
-  }
-  if (Object.keys(updates).length > 0) setAttrs(updates);
-}
-
 // Resolve a dice expression string to a numeric result using Math.random()
 // Handles: "1d6", "2d6", "1d4+1", "1d6+1d4", "1d4+1d6", "1d6+2" etc.
 function resolveDiceExpr(expr) {
@@ -74972,23 +74864,6 @@ function buildTagsStr(optics, sl, barrel, irs, qst, qls, biocoded, mode, range, 
   if (effectiveCover === "full") return "⚠ WARNING: Target in Full Cover";
 
   return tags.join("  •  ");
-}
-
-/* ── AP total helper ────────────────────────────────────────────────
-   Returns the numeric AP total for a weapon, combining:
-   - Native AP from weapon traits (e.g. ap_3 → 3)
-   - AP Rounds ammo bonus (+2) when active
-   traits: array of trait key strings from weaponDataMap
-   traitApFlag: the stored "1"/"" boolean attr (used when traits array not available)
-   ammoType: current ammo type string
-   ammoActive: "1" or "0"/"" */
-function computeWeaponAPTotal(traitApFlag, ammoType, ammoActive, traits) {
-	let nativeAP = 0;
-	if (traits && Array.isArray(traits)) {
-		nativeAP = entry.ap || 0;
-	}
-	const ammoAP = ammoEffects(ammoType, ammoActive).ap;
-	return nativeAP + ammoAP;
 }
 
 /* Builds the roll ammo label string used in the {{ammo=}} field.

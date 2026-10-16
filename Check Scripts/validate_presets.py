@@ -302,10 +302,24 @@ def main():
                 or bool(re.search(r'\b%s\s*:' % re.escape(a), js_all))
                 or bool(re.search(r'%s`\]' % re.escape(a), js_all)))
 
-    dup_scopes = {m.group(1): m.group(2) for m in
-                  re.finditer(r'<fieldset class="(repeating_\w+)">(.*?)</fieldset>', html_only, re.S)}
-    dup_scopes["(top-level)"] = re.sub(r'<fieldset class="repeating_\w+">.*?</fieldset>', "",
-                                       html_only, flags=re.S)
+    # Scopes are walked by fieldset depth. D1 once matched class="repeating_\w+",
+    # which cannot match a hyphenated section (repeating_inventory-item), so those
+    # inputs were filed under the top level and never checked as their own scope.
+    def walk_scopes(markup):
+        scopes, stack = {"(top-level)": []}, []
+        for tok in re.split(r'(<fieldset\b[^>]*>|</fieldset>)', markup):
+            if tok.startswith("<fieldset"):
+                c = re.search(r'class="([^"]+)"', tok)
+                stack.append(c.group(1) if c else "(fieldset)")
+                scopes.setdefault(stack[-1], [])
+            elif tok == "</fieldset>":
+                if stack:
+                    stack.pop()
+            else:
+                scopes[stack[-1] if stack else "(top-level)"].append(tok)
+        return {k: "".join(v) for k, v in scopes.items()}
+
+    dup_scopes = walk_scopes(html_only)
 
     for scope_name, seg in dup_scopes.items():
         els = {}
@@ -335,7 +349,7 @@ def main():
     # other. D1 cannot see this (it needs a hidden twin). Found 2026-10-15:
     # `otherskill11` declared in two skill groups.
     #
-    # Scopes are walked by fieldset depth, not by regex on class="repeating_\w+":
+    # Scopes come from walk_scopes() (shared with D1), by fieldset depth, not by regex on class="repeating_\w+":
     # hyphenated sections (repeating_inventory-item) defeat \w+ and would be
     # misread as top-level. Checkboxes and radios are exempt UNLESS they repeat
     # the same value too: families sharing one name with distinct values are the
@@ -371,22 +385,8 @@ def main():
                            "CSS controller mirror plus the visible toggle"}
     d2_multi_seen = set()
 
-    d2_scopes = {"(top-level)": []}
-    d2_stack = []
-    for tok in re.split(r'(<fieldset\b[^>]*>|</fieldset>)', html_only):
-        if tok.startswith("<fieldset"):
-            c = re.search(r'class="([^"]+)"', tok)
-            d2_stack.append(c.group(1) if c else "(fieldset)")
-            d2_scopes.setdefault(d2_stack[-1], [])
-        elif tok == "</fieldset>":
-            if d2_stack:
-                d2_stack.pop()
-        else:
-            d2_scopes[d2_stack[-1] if d2_stack else "(top-level)"].append(tok)
-
     d2_seen = set()
-    for scope_name, parts in d2_scopes.items():
-        seg = "".join(parts)
+    for scope_name, seg in dup_scopes.items():
         vis, multi = {}, {}
         for m in re.finditer(r'<(input|select|textarea)\b([^>]*)name="attr_([a-z0-9_]+)"([^>]*)>', seg):
             a, ta = m.group(3), m.group(2) + m.group(4)

@@ -22,6 +22,9 @@ Checks
     T1  every <option> carries data-i18n
     T2  every data-i18n key exists in translation.json
     T3  separator options use the select_sep_ prefix
+  Duplicates
+    D1  hidden+visible twin with disagreeing defaults, never written
+    D2  same attr on more than one visible input in one scope (self-clearing allow-list)
 
 Usage:  python3 validate_presets.py [html] [translation.json]
 Exit:   0 = all invariants hold, 1 = at least one violation
@@ -325,6 +328,103 @@ def main():
                 continue
             fail("D1", f"{scope_name}: '{a}' declared hidden+visible with differing "
                        f"defaults {lst} and never written by a sheet worker")
+
+    # D2: the same attr name on more than one visible text/number/select/textarea
+    # inside ONE scope (the top level, or a single repeating fieldset). Both
+    # render and both edit the same stored value, so typing in one changes the
+    # other. D1 cannot see this (it needs a hidden twin). Found 2026-10-15:
+    # `otherskill11` declared in two skill groups.
+    #
+    # Scopes are walked by fieldset depth, not by regex on class="repeating_\w+":
+    # hyphenated sections (repeating_inventory-item) defeat \w+ and would be
+    # misread as top-level. Checkboxes and radios are exempt UNLESS they repeat
+    # the same value too: families sharing one name with distinct values are the
+    # house pattern for multi-select (bg_*_mdr_checkbox, background_contact_choice).
+    #
+    # D2_EXCEPTIONS is self-clearing: an entry that no longer duplicates fails,
+    # so the list cannot rot. "mirror" = deliberate display mirror of one value
+    # on two tabs; "DEFECT" = a real bug awaiting a fix, kept visible and bounded.
+    D2_MIRROR = {
+        "ac": "display mirror on two tabs",
+        "dex": "display mirror on two tabs",
+        "dodge_mdr": "display mirror on two tabs",
+        "primary_career_skill_points": "readonly on Careers, editable base on Ledger until the 3.0 rules redo (ruled 2026-10-15)",
+        "primary_career_spell_xp_total": "display mirror on two tabs",
+        "strain": "editable in both places, same value (deliberate)",
+        "strain_max": "display mirror on two tabs",
+        "total_skill_points_spent": "display mirror on two tabs",
+        "unarmed_mdr": "display mirror on two tabs",
+        "vitality_max": "display mirror on two tabs",
+        "xpledger_skill_point_gain": "display mirror on two tabs",
+        "xpledger_spells_cost": "display mirror on two tabs",
+    }
+    D2_EXCEPTIONS = {("(top-level)", a): "mirror: " + why for a, why in D2_MIRROR.items()}
+    D2_EXCEPTIONS[("repeating_skillsmdr", "skill_mdr")] = \
+        "editable input plus its readonly roll-cell twin in one row, same value"
+    for q in ("arcanesupply", "bots", "bypass", "clothing", "comms", "disguise", "drones",
+              "entertainment", "omnidevice", "survival", "surveillance", "utility"):
+        D2_EXCEPTIONS[("(top-level)", q + "_qty")] = \
+            "DEFECT: the two static preset rows share one quantity attr; needs per-row names"
+
+    # Same-value checkbox repeats that are deliberate. bg_*_mdr_checkbox: one skill
+    # offered by several background panels shares one stored choice (only one panel
+    # shows at a time). char_creation_lock: the hidden CSS controller at the top of
+    # the sheet and the visible toggle are one attr by design.
+    D2_MULTI_PATTERN = re.compile(r"^bg_[a-z0-9_]+_mdr_checkbox$")
+    D2_MULTI_EXCEPTIONS = {("(top-level)", "char_creation_lock"):
+                           "CSS controller mirror plus the visible toggle"}
+    d2_multi_seen = set()
+
+    d2_scopes = {"(top-level)": []}
+    d2_stack = []
+    for tok in re.split(r'(<fieldset\b[^>]*>|</fieldset>)', html_only):
+        if tok.startswith("<fieldset"):
+            c = re.search(r'class="([^"]+)"', tok)
+            d2_stack.append(c.group(1) if c else "(fieldset)")
+            d2_scopes.setdefault(d2_stack[-1], [])
+        elif tok == "</fieldset>":
+            if d2_stack:
+                d2_stack.pop()
+        else:
+            d2_scopes[d2_stack[-1] if d2_stack else "(top-level)"].append(tok)
+
+    d2_seen = set()
+    for scope_name, parts in d2_scopes.items():
+        seg = "".join(parts)
+        vis, multi = {}, {}
+        for m in re.finditer(r'<(input|select|textarea)\b([^>]*)name="attr_([a-z0-9_]+)"([^>]*)>', seg):
+            a, ta = m.group(3), m.group(2) + m.group(4)
+            t = re.search(r'type="(\w+)"', ta)
+            kind = t.group(1) if t else m.group(1)
+            if kind == "hidden":
+                continue
+            if kind in ("checkbox", "radio"):
+                v = re.search(r'value="([^"]*)"', ta)
+                multi.setdefault((a, v.group(1) if v else None), []).append(kind)
+            else:
+                vis.setdefault(a, []).append(kind)
+        for a, lst in vis.items():
+            if len(lst) < 2:
+                continue
+            d2_seen.add((scope_name, a))
+            if (scope_name, a) not in D2_EXCEPTIONS:
+                fail("D2", f"{scope_name}: '{a}' is declared on {len(lst)} visible inputs "
+                           f"{lst}; editing one changes the others")
+        for (a, v), lst in multi.items():
+            if len(lst) > 1:
+                if (scope_name, a) in D2_MULTI_EXCEPTIONS:
+                    d2_multi_seen.add((scope_name, a))
+                    continue
+                if scope_name == "(top-level)" and D2_MULTI_PATTERN.match(a):
+                    continue
+                fail("D2", f"{scope_name}: '{a}' value={v!r} declared on {len(lst)} "
+                           f"{lst[0]} inputs; they cannot be told apart")
+    for key, why in D2_MULTI_EXCEPTIONS.items():
+        if key not in d2_multi_seen:
+            fail("D2", f"exception {key} ({why}) no longer repeats; remove it from D2_MULTI_EXCEPTIONS")
+    for key, why in D2_EXCEPTIONS.items():
+        if key not in d2_seen:
+            fail("D2", f"exception {key} ({why}) no longer duplicates; remove it from D2_EXCEPTIONS")
 
     # ---------------- tag layer ----------------
     # T4/T5: weaponTagInputs must stay in lockstep with what buildTagsStr reads.

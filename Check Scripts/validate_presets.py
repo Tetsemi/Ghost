@@ -361,10 +361,6 @@ def main():
     D2_EXCEPTIONS = {("(top-level)", a): "mirror: " + why for a, why in D2_MIRROR.items()}
     D2_EXCEPTIONS[("repeating_skillsmdr", "skill_mdr")] = \
         "editable input plus its readonly roll-cell twin in one row, same value"
-    for q in ("arcanesupply", "bots", "bypass", "clothing", "comms", "disguise", "drones",
-              "entertainment", "omnidevice", "survival", "surveillance", "utility"):
-        D2_EXCEPTIONS[("(top-level)", q + "_qty")] = \
-            "DEFECT: the two static preset rows share one quantity attr; needs per-row names"
 
     # Same-value checkbox repeats that are deliberate. bg_*_mdr_checkbox: one skill
     # offered by several background panels shares one stored choice (only one panel

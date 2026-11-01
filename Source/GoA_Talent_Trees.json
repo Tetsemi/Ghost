@@ -1,10 +1,11 @@
 {
-  "format_version": "1.0.0",
+  "format_version": "1.0.1",
   "system": "Ghost of Arcadia",
   "export_date": "2026-11-01",
   "content_type": "talent_trees",
   "purchase_rules": {
     "previous_tier_purchase_required": true,
+    "named_prerequisites_must_be_in_immediately_previous_tier": true,
     "prerequisites_must_be_owned_in_same_career": true,
     "maximum_capstones_per_career": 1,
     "talents_purchased_individually": true
@@ -13,20 +14,20 @@
     {
       "category": "core",
       "source_filename": "Core_Careers_Editorial_Working_Copy_v0_1.md",
-      "source_version": 6,
-      "sha256": "2a4a29ca4a5de4a0d1d35dba4f5ebc6484aef1dbfc647a06f763d128880d3c53"
+      "source_version": 7,
+      "sha256": "a621b9992679abb4b2b5765cc1de8e75322290848e4082c2293b29e90aec5dc5"
     },
     {
       "category": "arcane",
       "source_filename": "Arcane_Careers_Editorial_Working_Copy_v0_1.md",
-      "source_version": 4,
-      "sha256": "8a4090d48c690c149eae7304204771c541c7de4373a41cf6f9b784cf9e5811c1"
+      "source_version": 5,
+      "sha256": "7efec1808ca66e70155ba19ac6c5299996b44233cd61d3e56051dc4c8db04d11"
     },
     {
       "category": "specialist",
       "source_filename": "Specialist_Careers_Editorial_Working_Copy_v0_1.md",
-      "source_version": 5,
-      "sha256": "78a4b2dec978173198854b50969b3db31788cdd4adba025d036c137a3f654fd7"
+      "source_version": 6,
+      "sha256": "fc0eb5946616ba8b8e4d3b811e0fb2df4d39cd09753eea80fcac87d9e5a41268"
     }
   ],
   "careers": [
@@ -1210,7 +1211,7 @@
               "description_markdown": "**Trigger:** You or an ally within **Engaged range** takes damage, spends or loses Strain, or gains a condition. After the triggering event resolves, immediately administer one injector or stim that can address the resulting need. Resolve the item normally, including any Skilled StimPax Administration check. The item is consumed, and all patient limits, dosage limits, overdose rules, and **Healing Saturation** rules apply.",
               "tables": [],
               "prerequisites": {
-                "text": "Injector Harness or Painkiller Protocol (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Painkiller Protocol (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -1221,14 +1222,7 @@
                       }
                     },
                     {
-                      "any": [
-                        {
-                          "talent_id": "core.combat_medic.injector_harness"
-                        },
-                        {
-                          "talent_id": "core.combat_medic.painkiller_protocol"
-                        }
-                      ]
+                      "talent_id": "core.combat_medic.painkiller_protocol"
                     }
                   ]
                 }
@@ -1279,7 +1273,7 @@
               "description_markdown": "Make a **Medicine** check on an ally within **Engaged range** who gained Veil Corruption during this Scene. On a success, reduce their Corruption by one step. You also gain **+1 Bonus Die** on **Medicine** checks to treat Veil-related afflictions **for the rest of the Scene**. This treatment restores no HP and does not increase **Healing Saturation**.",
               "tables": [],
               "prerequisites": {
-                "text": "Pressure Seal or Vital Scan Overlay (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Pressure Seal (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -1290,14 +1284,7 @@
                       }
                     },
                     {
-                      "any": [
-                        {
-                          "talent_id": "core.combat_medic.pressure_seal"
-                        },
-                        {
-                          "talent_id": "core.combat_medic.vital_scan_overlay"
-                        }
-                      ]
+                      "talent_id": "core.combat_medic.pressure_seal"
                     }
                   ]
                 }
@@ -2827,7 +2814,7 @@
               "description_markdown": "Establish a named public or performance persona with a recognizable manner, appearance, or theme. Gain **+10%** to **Perform**, **Charm**, or **Persuade** rolls when that persona directly supports your presentation. You may develop additional personas during Downtime without purchasing this Talent again, but benefit from only one persona at a time. Adopting a different persona requires whatever changes in appearance and behavior are appropriate; naming a persona alone does not grant the bonus.",
               "tables": [],
               "prerequisites": {
-                "text": "Emotional Contagion (purchased in this career).",
+                "text": "Emotional Contagion and Stagecraft (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -2839,6 +2826,9 @@
                     },
                     {
                       "talent_id": "core.icon.emotional_contagion"
+                    },
+                    {
+                      "talent_id": "core.icon.stagecraft"
                     }
                   ]
                 }
@@ -2864,7 +2854,7 @@
               "description_markdown": "Your **Stagecraft** bonus increases to **+20%**. Once per Session, you may also secure an introduction, meeting, or opportunity to perform through your professional standing, provided a relevant performer, venue, media outlet, or community recognizes your work. This establishes an opportunity to be heard; payment, cooperation, permissions, and security access are resolved normally.",
               "tables": [],
               "prerequisites": {
-                "text": "Resonant Persona and Stagecraft (purchased in this career).",
+                "text": "Resonant Persona (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -2876,9 +2866,6 @@
                     },
                     {
                       "talent_id": "core.icon.resonant_persona"
-                    },
-                    {
-                      "talent_id": "core.icon.stagecraft"
                     }
                   ]
                 }
@@ -3473,7 +3460,7 @@
               "description_markdown": "Examine a location, object, or records and roll **Investigation**. On a success, ask one specific question about a significant event represented by the evidence. The Guide reveals a supported action, sequence, method, or connection. Older events qualify while sufficient evidence survives.",
               "tables": [],
               "prerequisites": {
-                "text": "Initial Read or Deliberate Follow-Up (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Resonance Trace or Deliberate Follow-Up (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -3486,7 +3473,7 @@
                     {
                       "any": [
                         {
-                          "talent_id": "core.investigator.initial_read"
+                          "talent_id": "core.investigator.resonance_trace"
                         },
                         {
                           "talent_id": "core.investigator.deliberate_follow_up"
@@ -3672,7 +3659,7 @@
               "description_markdown": "Use **Insight** or **Arcana** to scrutinize a perceived phenomenon for magical deception, applying its normal difficulty or opposition. On a success, identify one inconsistency or trace of manipulation and gain **+20%** to your next roll analyzing or countering that deception this Scene.",
               "tables": [],
               "prerequisites": {
-                "text": "Resonance Trace (purchased in this career). Also requires one Tier 3 talent purchased in this career.",
+                "text": "Reconstructive Pass (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -3683,7 +3670,7 @@
                       }
                     },
                     {
-                      "talent_id": "core.investigator.resonance_trace"
+                      "talent_id": "core.investigator.reconstructive_pass"
                     }
                   ]
                 }
@@ -3871,7 +3858,7 @@
               "description_markdown": "Immediately after successfully uncovering an opponent’s vulnerability, choose up to three characters within **Short range**, including yourself. Each gains **1 Bonus Die** on their next Action roll exploiting it; the opponent takes **1 Penalty Die** on one roll opposing each Action. Benefits expire at each recipient’s next turn’s end, or Scene end outside turn order. May activate outside your turn.",
               "tables": [],
               "prerequisites": {
-                "text": "Crack the Mask and Casefile Momentum (purchased in this career).",
+                "text": "Casefile Momentum (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -3880,9 +3867,6 @@
                         "tier": 4,
                         "count": 1
                       }
-                    },
-                    {
-                      "talent_id": "core.investigator.crack_the_mask"
                     },
                     {
                       "talent_id": "core.investigator.casefile_momentum"
@@ -4511,7 +4495,7 @@
               "description_markdown": "When a ranged attack hits you, make one precision shot at **−20%** against its attacker before their damage resolves. You must have a legal shot at them. Your return fire does not cancel the hit already scored against you. This uses your shared talent follow-up: at most one between the starts of your turns across all careers, with no further follow-up triggered by it.",
               "tables": [],
               "prerequisites": {
-                "text": "Counter-Sniper Drill (purchased in this career). Also requires one Tier 3 talent purchased in this career.",
+                "text": "Advanced Spotter Doctrine or Glint Trap (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -4522,7 +4506,14 @@
                       }
                     },
                     {
-                      "talent_id": "core.marksman.counter_sniper_drill"
+                      "any": [
+                        {
+                          "talent_id": "core.marksman.advanced_spotter_doctrine"
+                        },
+                        {
+                          "talent_id": "core.marksman.glint_trap"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -5758,7 +5749,7 @@
               "description_markdown": "Increase your **maximum HP** by +2. Reduce Strain lost to environmental exposure by 1, minimum 0, each time the hazard applies that loss. This does not reduce Talent costs or Strain damage from attacks.",
               "tables": [],
               "prerequisites": {
-                "text": "Strain Buffer (purchased in this career).",
+                "text": "Strain Buffer and Sure Footing (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -5770,6 +5761,9 @@
                     },
                     {
                       "talent_id": "core.pathfinder.strain_buffer"
+                    },
+                    {
+                      "talent_id": "core.pathfinder.sure_footing"
                     }
                   ]
                 }
@@ -6080,7 +6074,7 @@
               "description_markdown": "Choose up to three allies within **Short range**. For the Scene, they benefit from **Sure Footing** and **Trail Hardened**’s environmental Strain reduction while remaining within **Short range** and following your guidance. They do not gain additional HP.",
               "tables": [],
               "prerequisites": {
-                "text": "Hostile Ground and Sure Footing (purchased in this career).",
+                "text": "Hostile Ground (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -6092,9 +6086,6 @@
                     },
                     {
                       "talent_id": "core.pathfinder.hostile_ground"
-                    },
-                    {
-                      "talent_id": "core.pathfinder.sure_footing"
                     }
                   ]
                 }
@@ -7768,7 +7759,7 @@
               "description_markdown": "Make one additional thrown-weapon attack within **Medium range**, overriding the weapon’s normal reach. You must know the target’s location and have a physically open trajectory. Ignore Partial Cover and the penalty for lacking direct sight. Solid barriers still block the attack; normal distance modifiers and defenses apply. This uses your shared talent follow-up: at most one between the starts of your turns across all careers, with no further follow-up triggered by it.",
               "tables": [],
               "prerequisites": {
-                "text": "Draw and Cut and Strong Arm Form (purchased in this career). Also requires one Tier 4 talent purchased in this career.",
+                "text": "Phantom Reversal (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -7779,10 +7770,7 @@
                       }
                     },
                     {
-                      "talent_id": "core.shadowblade.draw_and_cut"
-                    },
-                    {
-                      "talent_id": "core.shadowblade.strong_arm_form"
+                      "talent_id": "core.shadowblade.phantom_reversal"
                     }
                   ]
                 }
@@ -8147,7 +8135,7 @@
               "description_markdown": "After spending your Action on Deep Scan, immediately perform one Action’s progress toward an Active Action against the scanned asset. A task requiring only 1 Round completes immediately.",
               "tables": [],
               "prerequisites": {
-                "text": "System Sniffer (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Aggressive Handshake or Null Pulse Routine (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -8158,7 +8146,14 @@
                       }
                     },
                     {
-                      "talent_id": "core.slicer.system_sniffer"
+                      "any": [
+                        {
+                          "talent_id": "core.slicer.aggressive_handshake"
+                        },
+                        {
+                          "talent_id": "core.slicer.null_pulse_routine"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -8178,7 +8173,7 @@
               "description_markdown": "Before interacting with a scanned asset, choose one trap or safeguard revealed by Deep Scan. It cannot trigger from that interaction, regardless of its duration. Protection ends when the interaction completes or is abandoned. Escalation and System Overrun proceed normally.",
               "tables": [],
               "prerequisites": {
-                "text": "False Readout (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Trace Evasion Protocol (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -8189,7 +8184,7 @@
                       }
                     },
                     {
-                      "talent_id": "core.slicer.false_readout"
+                      "talent_id": "core.slicer.trace_evasion_protocol"
                     }
                   ]
                 }
@@ -8308,7 +8303,7 @@
               "description_markdown": "During System Overrun, reduce the time required for one unfinished Active Action by 2 Rounds, minimum 1 Round. If sufficient progress is already complete, the task finishes immediately.",
               "tables": [],
               "prerequisites": {
-                "text": "Aggressive Handshake (purchased in this career). Also requires one Tier 3 talent purchased in this career.",
+                "text": "Predictive Override (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -8319,7 +8314,7 @@
                       }
                     },
                     {
-                      "talent_id": "core.slicer.aggressive_handshake"
+                      "talent_id": "core.slicer.predictive_override"
                     }
                   ]
                 }
@@ -8969,7 +8964,7 @@
               "description_markdown": "Until the end of your turn, ignore additional Maneuver costs from difficult terrain. After voluntarily moving at least one range band, gain **1 Bonus Die** on your next melee attack that turn. Other movement restrictions and hazards remain.",
               "tables": [],
               "prerequisites": {
-                "text": "Urban Footwork (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Slip the Gap (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -8980,7 +8975,7 @@
                       }
                     },
                     {
-                      "talent_id": "core.street_ronin.urban_footwork"
+                      "talent_id": "core.street_ronin.slip_the_gap"
                     }
                   ]
                 }
@@ -9260,7 +9255,7 @@
               "description_markdown": "Choose one enemy you can perceive within **Short range**. Gain **1 Bonus Die** on melee attacks against them and **Dodge** rolls against their melee attacks. This lasts until the Scene ends or either of you reaches **0 HP**. The target cannot be changed.",
               "tables": [],
               "prerequisites": {
-                "text": "Hold the Line (purchased in this career). Also requires one Tier 4 talent purchased in this career.",
+                "text": "Steel Calm (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -9271,7 +9266,7 @@
                       }
                     },
                     {
-                      "talent_id": "core.street_ronin.hold_the_line"
+                      "talent_id": "core.street_ronin.steel_calm"
                     }
                   ]
                 }
@@ -9636,7 +9631,7 @@
               "description_markdown": "After resolving an attack on your turn, prepare for the response. Reduce damage from the next attack that hits you before the start of your next turn by 2 before Soak, minimum 0. This works after ranged or melee attacks.",
               "tables": [],
               "prerequisites": {
-                "text": "Weapon Transition (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Covering Fire (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -9647,7 +9642,7 @@
                       }
                     },
                     {
-                      "talent_id": "core.vanguard.weapon_transition"
+                      "talent_id": "core.vanguard.covering_fire"
                     }
                   ]
                 }
@@ -9760,7 +9755,7 @@
               "description_markdown": "Perform one Maneuver’s worth of reloading with a held weapon, or attempt its normal malfunction-clearing roll without spending an Action. This does not bypass required supplies, weapon-specific procedures, or the limit on malfunction-clearing attempts.",
               "tables": [],
               "prerequisites": {
-                "text": "Weapon Transition (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Covering Fire (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -9771,7 +9766,7 @@
                       }
                     },
                     {
-                      "talent_id": "core.vanguard.weapon_transition"
+                      "talent_id": "core.vanguard.covering_fire"
                     }
                   ]
                 }
@@ -12318,7 +12313,7 @@
               "description_markdown": "Mark one visible living creature within **Medium range**. Roll **Magic (Necromancy)** opposed by its **CON**. On failed resistance, the first attack made against it each round gains **one Bonus Die** **for the Scene**. The target may spend its Action to repeat resistance against your original casting result, ending the mark on success. Only one of your Deathmarks may be active at a time.",
               "tables": [],
               "prerequisites": {
-                "text": "Lingering Weakness (purchased in this career). Also requires one Tier 3 talent purchased in this career.",
+                "text": "Deep Siphon (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -12329,7 +12324,7 @@
                       }
                     },
                     {
-                      "talent_id": "arcane.gravesinger.lingering_weakness"
+                      "talent_id": "arcane.gravesinger.deep_siphon"
                     }
                   ]
                 }
@@ -13128,7 +13123,7 @@
               "description_markdown": "When you or one ally within **Medium range** fails resistance against a magical mental effect or is about to perform an action compelled by one, roll **Magic (Enchantment)** before the consequences resolve. Your roll must succeed and match or exceed the effect’s original casting **Success Tier**. If the effect required no casting roll, any successful roll is sufficient. On success, that effect ends on the recipient, who chooses how to use any unspent Actions or Maneuvers. This does not undo events already resolved.",
               "tables": [],
               "prerequisites": {
-                "text": "Mental Ward and Interrupt Intention (purchased in this career).",
+                "text": "Interrupt Intention (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -13137,9 +13132,6 @@
                         "tier": 3,
                         "count": 1
                       }
-                    },
-                    {
-                      "talent_id": "arcane.mindbender.mental_ward"
                     },
                     {
                       "talent_id": "arcane.mindbender.interrupt_intention"
@@ -19257,7 +19249,7 @@
               "description_markdown": "For the rest of the Scene, your **Bound Focus** can hover under your control within **Short range** of you. Once on each of your turns, move it along an unobstructed route to a point you can see within that range, or return it to your empty hand, without spending a Maneuver. You may spend your Action to make one attack from its position using **Melee Weapons**, normal weapon damage, and **Damage Bonus**. You must perceive the target, which may **Dodge** normally and may **Fight Back** only if it can reach you. You may Infuse the attack, but cannot apply a Form or perform a Combat Technique through it. The weapon grants no engagement, independent actions, or remote defenses. It falls when the effect ends unless held or supported.",
               "tables": [],
               "prerequisites": {
-                "text": "Folded Assault and Weapon Recall (purchased in this career).",
+                "text": "Folded Assault (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -19269,9 +19261,6 @@
                     },
                     {
                       "talent_id": "specialist.bladeweaver.folded_assault"
-                    },
-                    {
-                      "talent_id": "specialist.bladeweaver.weapon_recall"
                     }
                   ]
                 }
@@ -19557,7 +19546,7 @@
               "description_markdown": "Your **Workshop Wisp** can deliver **Resonant Patch**, **Wake the Mechanism**, or **Emergency Restart** if you have purchased that talent by touching the target while within **Medium range** of you. You spend the talent’s Action, pay its costs, and make any required roll. This also uses the Wisp’s Action for the Round, but requires no command Maneuver. The Wisp must reach the target through its normal movement.",
               "tables": [],
               "prerequisites": {
-                "text": "Workshop Wisp (purchased in this career).",
+                "text": "Workshop Wisp and Resonant Patch (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -19569,6 +19558,9 @@
                     },
                     {
                       "talent_id": "specialist.soul_forger.workshop_wisp"
+                    },
+                    {
+                      "talent_id": "specialist.soul_forger.resonant_patch"
                     }
                   ]
                 }
@@ -19797,7 +19789,7 @@
               "description_markdown": "When you use **Resonant Patch**, extend it to a second eligible target you perceive within **Short range** of the first. Make one **Archanotech** or **Mechanics** roll for both targets and roll the HP restored separately. This expends **Resonant Patch**’s Scene use for each target. You must touch the first target normally or through **Borrowed Hands**.",
               "tables": [],
               "prerequisites": {
-                "text": "Resonant Patch, plus either Borrowed Hands or Emergency Restart (purchased in this career).",
+                "text": "Borrowed Hands (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -19808,17 +19800,7 @@
                       }
                     },
                     {
-                      "talent_id": "specialist.soul_forger.resonant_patch"
-                    },
-                    {
-                      "any": [
-                        {
-                          "talent_id": "specialist.soul_forger.borrowed_hands"
-                        },
-                        {
-                          "talent_id": "specialist.soul_forger.emergency_restart"
-                        }
-                      ]
+                      "talent_id": "specialist.soul_forger.borrowed_hands"
                     }
                   ]
                 }
@@ -19869,7 +19851,7 @@
               "description_markdown": "Before an attack you perceive is rolled against an ally Engaged with your personal construct, have the construct intercept it. Both must be within **Short range** of you, and the construct must be a legal target able to physically interpose. Resolve the attack against the construct, using its normal defenses and Soak. This does not grant movement or intercept area attacks.",
               "tables": [],
               "prerequisites": {
-                "text": "Brace the Frame and Bonded Construct (purchased in this career). Also requires one Tier 2 talent purchased in this career.",
+                "text": "Resonant Armament (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -19880,10 +19862,7 @@
                       }
                     },
                     {
-                      "talent_id": "specialist.soul_forger.brace_the_frame"
-                    },
-                    {
-                      "talent_id": "specialist.soul_forger.bonded_construct"
+                      "talent_id": "specialist.soul_forger.resonant_armament"
                     }
                   ]
                 }
@@ -19940,7 +19919,7 @@
               "description_markdown": "Gather nearby loose machinery and debris around your personal construct within **Short range**, enlarging it **for the rest of the Scene**. Its **STR** becomes 90, its Build increases by 2, and it reduces Physical damage by 2 after Soak. It gains Smash 60, an Engaged attack dealing **2d6** Physical damage, **AP 2**, with no **Damage Bonus**. Once on each of its turns, when Smash deals at least **1 HP** of damage, it may also push a target of its Build or smaller up to **Short range** directly away. Obstacles stop the movement; falls and other hazards resolve normally. The transformation roughly doubles its height and width and requires sufficient space and loose material. It retains its normal command and Action limits.",
               "tables": [],
               "prerequisites": {
-                "text": "Battlefield Reclamation and Bonded Construct (purchased in this career).",
+                "text": "Instinctive Partnership (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -19951,10 +19930,7 @@
                       }
                     },
                     {
-                      "talent_id": "specialist.soul_forger.battlefield_reclamation"
-                    },
-                    {
-                      "talent_id": "specialist.soul_forger.bonded_construct"
+                      "talent_id": "specialist.soul_forger.instinctive_partnership"
                     }
                   ]
                 }
@@ -19974,7 +19950,7 @@
               "description_markdown": "For the rest of the Scene, once on your turn you may spend a Maneuver to work through your **Workshop Wisp** within **Medium range**. Perform one nonattack **Archanotech**, **Electronics**, or **Mechanics** task that normally requires an Action, or use **Resonant Patch**, on something the Wisp can touch. Use your Skill and pay the task or talent’s normal costs and uses. This consumes the Wisp’s Action without a separate command Maneuver. Normal tools, materials, access, and opposed rolls still apply; longer tasks retain their normal duration.",
               "tables": [],
               "prerequisites": {
-                "text": "Linked Restoration and Workshop Wisp (purchased in this career).",
+                "text": "Linked Restoration (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -19986,9 +19962,6 @@
                     },
                     {
                       "talent_id": "specialist.soul_forger.linked_restoration"
-                    },
-                    {
-                      "talent_id": "specialist.soul_forger.workshop_wisp"
                     }
                   ]
                 }
@@ -20046,7 +20019,7 @@
               "description_markdown": "Immediately after your personal construct or **Workshop Wisp** within **Medium range** takes damage you perceive, restore it to full HP. If HP loss was the only reason it was **Disabled**, it also restarts. Resolve this before any check for catastrophic destruction; it can prevent destruction even from overkill, provided the spirit’s core remains intact. This grants no additional Action and does not replace lost equipment, end hostile control, or remove other conditions.",
               "tables": [],
               "prerequisites": {
-                "text": "Emergency Restart and Linked Restoration, plus either Bonded Construct or Workshop Wisp (purchased in this career).",
+                "text": "Instinctive Partnership or Linked Restoration (purchased in this career).",
                 "requirements": {
                   "all": [
                     {
@@ -20057,18 +20030,12 @@
                       }
                     },
                     {
-                      "talent_id": "specialist.soul_forger.emergency_restart"
-                    },
-                    {
-                      "talent_id": "specialist.soul_forger.linked_restoration"
-                    },
-                    {
                       "any": [
                         {
-                          "talent_id": "specialist.soul_forger.bonded_construct"
+                          "talent_id": "specialist.soul_forger.instinctive_partnership"
                         },
                         {
-                          "talent_id": "specialist.soul_forger.workshop_wisp"
+                          "talent_id": "specialist.soul_forger.linked_restoration"
                         }
                       ]
                     }

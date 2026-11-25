@@ -91,6 +91,7 @@ mod.careerDataMap[C] = { name: "Test", talents: {
   t2_all: T(2, { prerequisiteAll: ["t1_a", "t1_b"] }),
   t2_mix: T(2, { prerequisite: ["t1_a", "t1_b"], prerequisiteAll: ["t1_c"] }),
   t2_tier: T(2, { prerequisiteAny: { tier: 1, count: 2 } }),
+  t2_tier1: T(2, { prerequisiteAny: { tier: 1, count: 1 } }),
   t2_tier_named: T(2, { prerequisite: "t1_a", prerequisiteAny: { tier: 1, count: 1 } }),
   t2_tier_all: T(2, { prerequisiteAll: ["t1_a", "t1_b"], prerequisiteAny: { tier: 1, count: 1 } }),
   t2_none: T(2),
@@ -198,6 +199,17 @@ const eq = (name, got, want) => check(name, got === want, `got ${JSON.stringify(
   eq("T2 named talents excluded from sources", r.src("t2_tier_all"), `${C}_t1_c`);
 }
 {
+  /* Tier count 1: a source is locked only while it is the sole ticked talent of the tier. */
+  let r = run(["t1_a", "t2_tier1"]);
+  eq("T4 sole source locked", r.lock("t1_a"), "1");
+  r = run(["t1_a", "t1_b", "t2_tier1"]);
+  eq("T4 first source free once a second talent of the tier is ticked", r.lock("t1_a"), "0");
+  eq("T4 second source free too", r.lock("t1_b"), "0");
+  eq("T4 dependent stays enabled", r.en("t2_tier1"), "1");
+  r = run(["t1_b", "t2_tier1"]);
+  eq("T4 remaining source locks again after the other is unticked", r.lock("t1_b"), "1");
+}
+{
   const r = run(["t1_a", "t1_b"]);
   eq("T3 untouched dependent locks no sources", r.lock("t1_a"), "0");
 }
@@ -215,7 +227,25 @@ if (against) {
     });
     LOG = [];
     m.updateCareerTalentEnables(career);
-    return LOG.join("\n");
+    return Object.assign({}, STORE);
+  };
+  /* The one intended divergence (ruling 2026-11-25): a tier-count source is
+     un-locked when more talents of that tier are ticked than the count needs.
+     A difference is accepted only if it is a lock flag going 1 -> 0 on a talent
+     of a tier that a ticked prerequisiteAny dependent counts, with that tier
+     over-ticked. Anything else fails. */
+  let intended = 0;
+  const explained = (career, s, key, was, now) => {
+    const m = key.match(new RegExp(`^${career}_(.+)_(lockflag_prereq|lockflag)$`));
+    if (!m || was !== "1" || now !== "0") return false;
+    const talents = mod.careerDataMap[career].talents;
+    const tier = talents[m[1]]?.tier;
+    return Object.keys(talents).some((d) => {
+      const rule = talents[d].prerequisiteAny;
+      if (!rule || rule.tier !== tier || !s.has(d)) return false;
+      const n = Object.keys(talents).filter((k) => talents[k].tier === tier && s.has(k)).length;
+      return n > rule.count;
+    });
   };
   for (const career of Object.keys(mod.careerDataMap)) {
     if (career === C) continue;
@@ -229,18 +259,18 @@ if (against) {
       let a, b;
       try { a = drive(old, career, s); b = drive(mod, career, s); }
       catch (e) { fails.push(`R threw in ${career}: ${e.message}`); continue; }
-      if (a !== b) {
+      const bad = Object.keys(Object.assign({}, a, b)).filter((k) => a[k] !== b[k]);
+      if (!bad.length) continue;
+      const unexplained = bad.filter((k) => !explained(career, s, k, a[k], b[k]));
+      if (unexplained.length) {
         diffs++;
-        if (diffs <= 3) {
-          const ja = JSON.parse(a.split("\n")[0]), jb = JSON.parse(b.split("\n")[0]);
-          const bad = Object.keys(Object.assign({}, ja, jb)).filter((k) => ja[k] !== jb[k]);
-          fails.push(`R writes differ for ${career} with ${s.size} ticked: ${bad.slice(0, 4).map((k) => `${k} old=${ja[k]} new=${jb[k]}`).join("; ")}`);
-        }
-      }
+        if (diffs <= 3) fails.push(`R unexplained difference for ${career} with ${s.size} ticked: ${unexplained.slice(0, 4).map((k) => `${k} old=${a[k]} new=${b[k]}`).join("; ")}`);
+      } else intended++;
     }
   }
-  check("R real careers behave identically to the pristine worker", diffs === 0, `${diffs} of ${cases} states differ`);
-  say(`regression: ${cases} seeded states across the real careers, ${diffs} differ`);
+  check("R real careers behave identically to the pristine worker, apart from the over-ticked tier unlock", diffs === 0, `${diffs} of ${cases} states differ unexpectedly`);
+  say(`intended over-ticked tier unlocks: ${intended} states`);
+  say(`regression: ${cases} seeded states across the real careers, ${diffs} differ unexpectedly`);
 } else {
   say("regression: skipped (pass --against <pristine.html> to run it)");
 }

@@ -68917,18 +68917,20 @@ const updateCareerTalentEnables = (career) => {
 			const allMet = allList.every(pr => selected.has(pr));
 			let tierSources = [];
 			let tierMet = true;
+			let tierTight = false; // true when un-ticking any source would drop below the required count
 			if (tierRule) {
 				const { tier, count } = data.prerequisiteAny;
 				const named = new Set([...orList, ...allList]);
 				const tierChecked = allTalentKeys.filter(k => careerTalents[k].tier === tier && !named.has(k) && stillChecked(k));
 				tierMet = tierChecked.length >= count;
 				tierSources = tierChecked.slice(0, count);
+				tierTight = tierChecked.length <= count;
 			}
 			const unlocked = orMet && allMet && tierMet;
 			updates[`${career}_${key}_enabled`] = unlocked ? "1" : "0";
 			if (tierRule) {
 				updates[`${career}_${key}_sources`] = tierSources.map(k => `${career}_${k}`).join(",");
-				if (stillChecked(key) && unlocked) tierSources.forEach(src => lockFromPrereqAny.add(src));
+				if (stillChecked(key) && unlocked && tierTight) tierSources.forEach(src => lockFromPrereqAny.add(src));
 			}
 		}
 

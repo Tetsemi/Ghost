@@ -68857,85 +68857,80 @@ const updateCareerTalentEnables = (career) => {
                 .map(([k]) => k.replace(`${career}_`, ""))
         );
 
-        const updates = {};
-        const reverseMap = {};
+		const updates = {};
+		const reverseMap = {};
 
-        for (let [key, data] of Object.entries(careerTalents)) {
-            const prereqs = [];
-            if (Array.isArray(data.prerequisite)) prereqs.push(...data.prerequisite);
-            else if (typeof data.prerequisite === "string" && data.prerequisite !== "") prereqs.push(data.prerequisite);
-            (prereqs || []).forEach(pr => {
-                if (!reverseMap[pr]) reverseMap[pr] = new Set();
-                reverseMap[pr].add(key);
-            });
-        }
+		// A talent's prerequisites are three independent fields, and EVERY field it carries must be satisfied:
+		//   prerequisite     one talent, or an OR list of talents
+		//   prerequisiteAll  an AND list of talents
+		//   prerequisiteAny  { tier, count }: that many OTHER ticked talents from the tier. The talents the same
+		//                    entry names in prerequisite / prerequisiteAll are never part of that count.
+		const asList = (v) => Array.isArray(v) ? v.filter(Boolean) : ((typeof v === "string" && v !== "") ? [v] : []);
+		const orListOf = (d) => asList(d?.prerequisite);
+		const allListOf = (d) => asList(d?.prerequisiteAll);
+		const hasTierRule = (d) => d?.prerequisiteAny?.tier != null && d?.prerequisiteAny?.count != null;
 
-        // === Track any talent used to satisfy prerequisiteAny ===
-        const lockFromPrereqAny = new Set();
+		// reverseMap: prerequisite talent -> the talents that name it in prerequisite or prerequisiteAll
+		for (let [key, data] of Object.entries(careerTalents)) {
+			[...orListOf(data), ...allListOf(data)].forEach(pr => {
+				if (!reverseMap[pr]) reverseMap[pr] = new Set();
+				reverseMap[pr].add(key);
+			});
+		}
 
-        const stillChecked = (k) => values[`${career}_${k}`] === "1";
+		// === Track any talent used to satisfy prerequisiteAny ===
+		const lockFromPrereqAny = new Set();
 
-        const isLocked = (target) => {
-            const visited = new Set();
-            const stack = [...(reverseMap[target] || [])];
-            while (stack.length) {
-                const current = stack.pop();
-                if (visited.has(current)) continue;
-                visited.add(current);
-                const selectedCurrent = stillChecked(current);
-                const prereqs = [];
-                const raw = careerTalents[current]?.prerequisite;
-                if (Array.isArray(raw)) prereqs.push(...raw);
-                else if (typeof raw === "string" && raw !== "") prereqs.push(raw);
-                const onlyThis = selectedCurrent &&
-                    prereqs.includes(target) &&
-                    !prereqs.some(p => p !== target && stillChecked(p));
-                if (onlyThis) return true;
-                if (reverseMap[current]) reverseMap[current].forEach(t => stack.push(t));
-            }
-            return false;
-        };
+		const stillChecked = (k) => values[`${career}_${k}`] === "1";
 
-        // === Enable flags (prerequisite)
-        for (let [key, data] of Object.entries(careerTalents)) {
-            if ((Array.isArray(data.prerequisite) && data.prerequisite.length > 0) || (typeof data.prerequisite === "string" && data.prerequisite !== "")) {
-                const prereqList = Array.isArray(data.prerequisite) ? data.prerequisite : [data.prerequisite];
-                const unlocked = prereqList.some(pr => selected.has(pr));
-                updates[`${career}_${key}_enabled`] = unlocked ? "1" : "0";
-            } else {
-                updates[`${career}_${key}_enabled`] = data.tier === 1 ? "1" : "0"; // Disable T2+ by default
-            }
-        }
+		const isLocked = (target) => {
+			const visited = new Set();
+			const stack = [...(reverseMap[target] || [])];
+			while (stack.length) {
+				const current = stack.pop();
+				if (visited.has(current)) continue;
+				visited.add(current);
+				const orPrereqs = orListOf(careerTalents[current]);
+				const allPrereqs = allListOf(careerTalents[current]);
+				// An AND prerequisite is always needed by a ticked dependent. An OR prerequisite is needed
+				// only while no other alternative is ticked.
+				const neededByCurrent = stillChecked(current) && (
+					allPrereqs.includes(target) ||
+					(orPrereqs.includes(target) && !orPrereqs.some(p => p !== target && stillChecked(p)))
+				);
+				if (neededByCurrent) return true;
+				if (reverseMap[current]) reverseMap[current].forEach(t => stack.push(t));
+			}
+			return false;
+		};
 
-        // === prerequisiteAll logic
-        for (let [key, data] of Object.entries(careerTalents)) {
-            if (Array.isArray(data.prerequisiteAll)) {
-                const allMet = data.prerequisiteAll.every(pr => selected.has(pr));
-                updates[`${career}_${key}_enabled`] = allMet ? "1" : "0";
-            }
-        }
-
-        // === prerequisiteAny logic
-        for (let [key, data] of Object.entries(careerTalents)) {
-            if (data?.prerequisiteAny?.tier != null && data?.prerequisiteAny?.count != null) {
-                const tier = data.prerequisiteAny.tier;
-                const count = data.prerequisiteAny.count;
-                const staticReqs = Array.isArray(data.prerequisite) ? data.prerequisite : (typeof data.prerequisite === "string" && data.prerequisite !== "") ? [data.prerequisite] : [];
-                const sameTierKeys = allTalentKeys.filter(k => careerTalents[k].tier === tier && !staticReqs.includes(k));
-                const checked = sameTierKeys.filter(k => values[`${career}_${k}`] === "1");
-                const staticReqMet = staticReqs.length === 0 || staticReqs.some(p => values[`${career}_${p}`] === "1");
-                const anyReqMet = checked.length >= count;
-
-                updates[`${career}_${key}_enabled`] = staticReqMet && anyReqMet ? "1" : "0";
-                updates[`${career}_${key}_sources`] = checked.slice(0, count).map(k => `${career}_${k}`).join(",");
-
-                if (stillChecked(key) && staticReqMet && anyReqMet) {
-                    for (let src of checked.slice(0, count)) {
-                        lockFromPrereqAny.add(src);
-                    }
-                }
-            }
-        }
+		// === Enable flags: each field a talent carries is checked on its own, then combined with AND
+		for (let [key, data] of Object.entries(careerTalents)) {
+			const orList = orListOf(data);
+			const allList = allListOf(data);
+			const tierRule = hasTierRule(data);
+			if (!orList.length && !allList.length && !tierRule) {
+				updates[`${career}_${key}_enabled`] = data.tier === 1 ? "1" : "0"; // Disable T2+ by default
+				continue;
+			}
+			const orMet = orList.length === 0 || orList.some(pr => selected.has(pr));
+			const allMet = allList.every(pr => selected.has(pr));
+			let tierSources = [];
+			let tierMet = true;
+			if (tierRule) {
+				const { tier, count } = data.prerequisiteAny;
+				const named = new Set([...orList, ...allList]);
+				const tierChecked = allTalentKeys.filter(k => careerTalents[k].tier === tier && !named.has(k) && stillChecked(k));
+				tierMet = tierChecked.length >= count;
+				tierSources = tierChecked.slice(0, count);
+			}
+			const unlocked = orMet && allMet && tierMet;
+			updates[`${career}_${key}_enabled`] = unlocked ? "1" : "0";
+			if (tierRule) {
+				updates[`${career}_${key}_sources`] = tierSources.map(k => `${career}_${k}`).join(",");
+				if (stillChecked(key) && unlocked) tierSources.forEach(src => lockFromPrereqAny.add(src));
+			}
+		}
 
         // === Capstone locks
         const capstoneSelected = capstoneCheckboxes.filter(k => values[k] === "1");

@@ -79274,16 +79274,24 @@ const changeLogDescribeToggle = (attr) => {
 	} : null;
 };
 
+/* Background tab: label helpers. Skill checkboxes are named bg_<skillKey>_mdr_checkbox, and starting-kit and
+   contact keys are unique across backgrounds, so an item key identifies the background that owns it. */
+const changeLogSkillLabel = (skill) => changeLogLabel(skillDataMap[skill]?.label, skill);
+
+const changeLogBackgroundItem = (kind, key) => {
+	for (const [bg, d] of Object.entries(backgroundDataMap)) {
+		const e = d[kind]?.[key];
+		if (e) return { label: changeLogLabel(e.name, key), bg };
+	}
+	return { label: key, bg: "" };
+};
+
 /* Resolve a selection attr to its area and a value-to-label function, or null when it is not logged. */
 const changeLogDescribeSelection = (attr) => {
 	if (attr === "showracials") return { area: "ancestry", label: changeLogAncestryLabel };
-	if (attr === "background_choice") return { area: "background", label: changeLogBackgroundLabel };
+	if (attr === "background_locked_choice") return { area: "background", label: changeLogBackgroundLabel };
 	if (attr === "primary_career" || /^repeating_secondarycareer_[^_]+_secondary_career$/.test(attr)) {
 		return { area: "career", label: changeLogCareerLabel };
-	}
-	const m = attr.match(/^bg_([^_]+)_talent$/);
-	if (m && ancestryDataMap[m[1]]) {
-		return { area: "background", label: (v) => changeLogLabel(ancestryDataMap[m[1]].talents?.[v]?.name_key, v) };
 	}
 	return null;
 };
@@ -79310,13 +79318,12 @@ const registerChangeLogWatchers = () => {
 		logChange([{ by: byOf(eventInfo), area: d.area, change, subject: d.subject, detail: d.detail }]);
 	});
 
-	/* Selections: ancestry, background, primary and secondary career, background talent. */
+	/* Selections: ancestry, background (the locked choice, not the tab-browsing selector), primary and secondary career. */
 	const selectionEvents = [
 		"change:showracials",
-		"change:background_choice",
+		"change:background_locked_choice",
 		"change:primary_career",
-		"change:repeating_secondarycareer:secondary_career",
-		...Object.keys(ancestryDataMap).map(r => `change:bg_${r}_talent`)
+		"change:repeating_secondarycareer:secondary_career"
 	].join(" ");
 	on(selectionEvents, (eventInfo) => {
 		const prev = eventInfo.previousValue || "";
@@ -79327,6 +79334,38 @@ const registerChangeLogWatchers = () => {
 		const change = !prev ? "added" : (!next ? "removed" : "changed");
 		const shown = (v) => v ? d.label(v) : "-";
 		logChange([{ by: byOf(eventInfo), area: d.area, change, subject: d.label(next || prev), detail: `${shown(prev)} -> ${shown(next)}` }]);
+	});
+
+	/* Background tab, trained skills: ticking or unticking any bg_<skill>_mdr_checkbox. The background is read at
+	   log time, preferring the locked choice. A tab click writes only background_choice, which is not watched. */
+	const bgSkillEvents = Object.keys(skillDataMap).map(s => `change:bg_${s}_mdr_checkbox`).join(" ");
+	on(bgSkillEvents, (eventInfo) => {
+		const prev = eventInfo.previousValue;
+		const next = eventInfo.newValue;
+		const change = (next === "1" && prev !== "1") ? "added" : ((prev === "1" && next !== "1") ? "removed" : "");
+		if (!change) return;
+		const skill = (eventInfo.sourceAttribute || "").match(/^bg_(.+)_mdr_checkbox$/)?.[1];
+		if (!skill || !skillDataMap[skill]) return;
+		const by = byOf(eventInfo);
+		getAttrs(["background_locked_choice", "background_choice"], (v) => {
+			const bg = v.background_locked_choice || v.background_choice || "";
+			const bgText = bg ? changeLogBackgroundLabel(bg) : "-";
+			logChange([{ by, area: "background", change, subject: changeLogSkillLabel(skill), detail: `${tr("changelog_background_skill-u")} - ${bgText}` }]);
+		});
+	});
+
+	/* Background tab, starting item and contact: single attrs holding the chosen key, so a tick, an untick and a
+	   switch to another box are one event each. */
+	const bgPickKinds = { background_starting_item_choice: ["starting_kit", "changelog_background_item-u"], background_contact_choice: ["contacts", "changelog_background_contact-u"] };
+	on("change:background_starting_item_choice change:background_contact_choice", (eventInfo) => {
+		const prev = eventInfo.previousValue || "";
+		const next = eventInfo.newValue || "";
+		if (prev === next) return;
+		const kind = bgPickKinds[eventInfo.sourceAttribute || ""];
+		if (!kind) return;
+		const label = (k) => k ? changeLogBackgroundItem(kind[0], k).label : "-";
+		const change = !prev ? "added" : (!next ? "removed" : "changed");
+		logChange([{ by: byOf(eventInfo), area: "background", change, subject: label(next || prev), detail: `${tr(kind[1])}: ${label(prev)} -> ${label(next)}` }]);
 	});
 
 	/* A secondary career row deleted by the player. */

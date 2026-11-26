@@ -9,8 +9,10 @@
  *   T  toggles       acquired / removed rows for career and ancestry talents, perks and flaws, with the
  *                    right area, display name, detail and "By"; no row for no-op or initialisation events;
  *                    every talent attr has a registered event, exactly once
- *   S  selections    ancestry, background, primary and secondary career, background talent; secondary
- *                    career removal reads removedInfo
+ *   S  selections    ancestry, background (the locked choice, never the tab selector), primary and secondary
+ *                    career; secondary career removal reads removedInfo
+ *   B  background    every control on the Background tab (63 trained-skill checkboxes, starting item,
+ *                    contact, locked choice) has exactly one event and logs Added / Changed / Removed
  *   C  cleanup       Clear Inactive Careers writes one summary row per career that had ticked talents,
  *                    leaves active careers alone, and logs nothing the second time
  *   P  pruning       oldest rows by stored timestamp (not by row order) are removed past the cap
@@ -76,7 +78,7 @@ let W;
 try {
   W = new Function(worker + `
 return { logChange, pruneChangeLog, registerChangeLogWatchers, changeLogDescribeToggle, cleanupInactiveCareers,
-  careerDataMap, ancestryDataMap, perkDataMap, flawDataMap, backgroundDataMap, tabList, CHANGELOG_MAX_ROWS, careerTalentEvents };`)();
+  careerDataMap, ancestryDataMap, perkDataMap, flawDataMap, backgroundDataMap, skillDataMap, tabList, CHANGELOG_MAX_ROWS, careerTalentEvents };`)();
 } catch (e) {
   say(`FAIL — worker threw at load: ${e.message}`);
   process.exit(1);
@@ -190,7 +192,7 @@ const missing = want.filter((t) => !tokens[t]);
 const dup = Object.keys(tokens).filter((t) => tokens[t] > 1);
 check("T9 every career, ancestry, perk and flaw talent has a registered event", missing.length === 0, `${missing.length} missing, e.g. ${missing.slice(0, 3)}`);
 check("T9 no event token is registered twice", dup.length === 0, dup.slice(0, 3).join(", "));
-eq("T9 the registrar makes exactly 3 on() registrations", HANDLERS.length, 3);
+eq("T9 the registrar makes exactly 5 on() registrations", HANDLERS.length, 5);
 
 /* ── S. Selections ───────────────────────────────────────────────────── */
 const sel = (attr, prev, next, sourceType) => fire(`change:${attr.startsWith("repeating_secondarycareer_") ? "repeating_secondarycareer:secondary_career" : attr}`,
@@ -210,7 +212,7 @@ sel("showracials", races[0], races[0]);
 eq("S3 an unchanged selection logs nothing", rowsOf().length, 0);
 const bgs = Object.keys(W.backgroundDataMap);
 reset(LOCKED);
-sel("background_choice", bgs[0], bgs[1]);
+sel("background_locked_choice", bgs[0], bgs[1]);
 r = rowsOf()[0] || {};
 eq("S4 background area", r.log_area, tr("changelog_area_background-u"));
 eq("S4 background subject is the new background's name", r.log_subject, tr(W.backgroundDataMap[bgs[1]].name));
@@ -229,13 +231,83 @@ eq("S7 secondary removal logs Removed", r.log_change, tr("changelog_change_remov
 reset(LOCKED);
 fire("remove:repeating_secondarycareer", { sourceAttribute: "repeating_secondarycareer_-abc", sourceType: "player", removedInfo: {} });
 eq("S8 a removal with no career value logs nothing", rowsOf().length, 0);
-const bgRace = races.find((x) => Object.keys(W.ancestryDataMap[x].talents || {}).length);
-const bgTalent = Object.keys(W.ancestryDataMap[bgRace].talents)[0];
+const tokensAll = HANDLERS.flatMap((h) => h.events);
+check("S9 background_choice (the tab-browsing selector) has no handler", !tokensAll.includes("change:background_choice"));
+check("S9 no handler listens for the nonexistent bg_<race>_talent attr", !tokensAll.some((t) => /^change:bg_[a-z0-9]+_talent$/.test(t)));
 reset(LOCKED);
-sel(`bg_${bgRace}_talent`, "", bgTalent);
-r = rowsOf()[0] || {};
-eq("S9 background talent area", r.log_area, tr("changelog_area_background-u"));
-eq("S9 background talent subject", r.log_subject, tr(W.ancestryDataMap[bgRace].talents[bgTalent].name_key));
+sel("background_choice", bgs[0], bgs[1]);
+eq("S9 a tab click on a background logs nothing", rowsOf().length, 0);
+
+/* ── B. Background tab: every control is logged ──────────────────────── */
+const bgSkillAttrs = [...new Set([...html.matchAll(/name="attr_(bg_[a-z0-9_]+_mdr_checkbox)"/g)].map((m) => m[1]))];
+const bgItemVals = [...html.matchAll(/name="attr_background_starting_item_choice"[^>]*value="([^"]+)"/g)].map((m) => m[1]);
+const bgContactVals = [...html.matchAll(/name="attr_background_contact_choice"[^>]*value="([^"]+)"/g)].map((m) => m[1]);
+check("B0 the markup scan found the controls", bgSkillAttrs.length === 63 && bgItemVals.length === 39 && bgContactVals.length === 39,
+  `${bgSkillAttrs.length}/${bgItemVals.length}/${bgContactVals.length}`);
+const regCount = (tok) => tokensAll.filter((t) => t === tok).length;
+const bgAttrs = [...bgSkillAttrs, "background_starting_item_choice", "background_contact_choice", "background_locked_choice"];
+const badReg = bgAttrs.filter((a) => regCount(`change:${a}`) !== 1);
+check("B1 every Background tab attr has exactly one registered event", badReg.length === 0, badReg.slice(0, 4).join(", "));
+const skillLabel = (a) => tr(W.skillDataMap[a.replace(/^bg_|_mdr_checkbox$/g, "")].label);
+let badSkill = [];
+bgSkillAttrs.forEach((a) => {
+  reset(Object.assign({ background_locked_choice: bgs[0] }, LOCKED));
+  tick(a, "0", "1");
+  const x = rowsOf()[0] || {};
+  if (rowsOf().length !== 1 || x.log_area !== tr("changelog_area_background-u") || x.log_change !== tr("changelog_change_added-u") ||
+      x.log_subject !== skillLabel(a) || !String(x.log_detail).includes(tr("changelog_background_skill-u")) ||
+      !String(x.log_detail).includes(tr(W.backgroundDataMap[bgs[0]].name))) badSkill.push(a);
+});
+check("B2 ticking each trained skill logs Added with the skill and the chosen background", badSkill.length === 0, badSkill.slice(0, 4).join(", "));
+reset(LOCKED);
+tick(bgSkillAttrs[0], "1", "0");
+eq("B3 unticking logs Removed", (rowsOf()[0] || {}).log_change, tr("changelog_change_removed-u"));
+reset(LOCKED);
+tick(bgSkillAttrs[0], "1", "0", "sheetworker");
+eq("B3 a sheet-driven untick is recorded By Sheet", (rowsOf()[0] || {}).log_by, tr("changelog_by_sheet-u"));
+reset(LOCKED);
+tick(bgSkillAttrs[0], "1", "1");
+tick(bgSkillAttrs[0], "0", "0");
+tick(bgSkillAttrs[0], undefined, "0");
+eq("B4 a no-op skill event logs nothing", rowsOf().length, 0);
+reset(Object.assign({ background_choice: bgs[1] }, LOCKED));
+tick(bgSkillAttrs[0], "0", "1");
+check("B5 with no locked choice the detail names the browsed background", String((rowsOf()[0] || {}).log_detail).includes(tr(W.backgroundDataMap[bgs[1]].name)));
+reset(LOCKED);
+tick(bgSkillAttrs[0], "0", "1");
+check("B5 with neither choice the detail still logs", rowsOf().length === 1 && /- -$/.test(String(rowsOf()[0].log_detail)), (rowsOf()[0] || {}).log_detail);
+const itemLabel = (kind, k) => { for (const d of Object.values(W.backgroundDataMap)) if (d[kind] && d[kind][k]) return tr(d[kind][k].name); return null; };
+[["background_starting_item_choice", "starting_kit", bgItemVals, "changelog_background_item-u"],
+ ["background_contact_choice", "contacts", bgContactVals, "changelog_background_contact-u"]].forEach(([attr, kind, vals, head]) => {
+  const unresolved = vals.filter((v) => !itemLabel(kind, v));
+  check(`B6 every ${attr} value resolves to a DataMap entry`, unresolved.length === 0, unresolved.slice(0, 3).join(", "));
+  reset(LOCKED);
+  sel(attr, "", vals[0]);
+  let x = rowsOf()[0] || {};
+  eq(`B6 ${attr} tick logs Added`, x.log_change, tr("changelog_change_added-u"));
+  eq(`B6 ${attr} subject is the item name`, x.log_subject, itemLabel(kind, vals[0]));
+  check(`B6 ${attr} detail names the kind`, String(x.log_detail).startsWith(tr(head)), x.log_detail);
+  reset(LOCKED);
+  sel(attr, vals[0], vals[1]);
+  x = rowsOf()[0] || {};
+  eq(`B6 ${attr} switching logs Changed`, x.log_change, tr("changelog_change_changed-u"));
+  check(`B6 ${attr} switching reads old -> new`, String(x.log_detail).includes(`${itemLabel(kind, vals[0])} -> ${itemLabel(kind, vals[1])}`), x.log_detail);
+  reset(LOCKED);
+  sel(attr, vals[0], "");
+  x = rowsOf()[0] || {};
+  eq(`B6 ${attr} untick logs Removed`, x.log_change, tr("changelog_change_removed-u"));
+  eq(`B6 ${attr} untick keeps the item as subject`, x.log_subject, itemLabel(kind, vals[0]));
+  reset(LOCKED);
+  sel(attr, vals[0], vals[0]);
+  eq(`B6 ${attr} an unchanged value logs nothing`, rowsOf().length, 0);
+  reset(LOCKED);
+  sel(attr, "", "not_a_real_key");
+  check(`B6 ${attr} an unknown key logs without throwing`, rowsOf().length === 1);
+});
+reset(LOCKED);
+sel("background_starting_item_choice", "", bgItemVals[0]);
+sel("background_contact_choice", "", bgContactVals[0]);
+eq("B7 the two single-attr groups log independently", rowsOf().length, 2);
 
 /* ── C. Clear Inactive Careers ───────────────────────────────────────── */
 const cs = Object.keys(W.careerDataMap).filter((c) => Object.keys(W.careerDataMap[c].talents || {}).length >= 3);
@@ -312,7 +384,8 @@ const used = new Set([...tabBlock.matchAll(/data-i18n="([^"]+)"/g)].map((m) => m
 used.add("changelog-u"); // the tab button
 ["ancestry", "background", "career", "flaw", "perk"].forEach((a) => used.add(`changelog_area_${a}-u`));
 ["acquired", "added", "changed", "cleared", "removed"].forEach((c) => used.add(`changelog_change_${c}-u`));
-["changelog_by_player-u", "changelog_by_sheet-u", "changelog_xp-u", "changelog_tier-u", "changelog_detail_talents-u"].forEach((k) => used.add(k));
+["changelog_by_player-u", "changelog_by_sheet-u", "changelog_xp-u", "changelog_tier-u", "changelog_detail_talents-u",
+  "changelog_background_contact-u", "changelog_background_item-u", "changelog_background_skill-u"].forEach((k) => used.add(k));
 const absent = [...used].filter((k) => !TRANS[k]);
 check("W9 every translation key the tab and the writer use exists", absent.length === 0, absent.join(", "));
 

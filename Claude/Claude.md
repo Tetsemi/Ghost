@@ -8,13 +8,13 @@
 
 Paths are relative to the repository root (GitHub `Tetsemi/Ghost`, branch `Claude`). They were reorganised on 2026-10-15; `Claude.md` moved from `Documentation/` to `Claude/`.
 
-**The three sheet files are not synced to the Claude Project** (excluded 2026-10-15 to stay inside the knowledge-size limit). They live in git, but must be uploaded at the start of every session. Everything else below is synced.
+**`ghost_of_arcadia.html` is the only file not synced to the Claude Project** (too large for the knowledge-size limit). It lives in git, but must be uploaded at the start of every session. `ghost_of_arcadia.css` and `translation.json` were excluded with it on 2026-10-15 and have been in the sync filter since 2026-11-25. Everything else below is synced.
 
 | Path | Purpose |
 |---|---|
 | `ghost_of_arcadia.html` | Sheet HTML + all embedded `<script>` sheet workers + all DataMaps + roll templates. **Upload each session** |
-| `ghost_of_arcadia.css` | All styling, themes (Dark / Light / Cyberpunk / Ancestry), CSS variables. **Upload each session** |
-| `translation.json` | All i18n string keys used by `data-i18n` attributes. **Upload each session** |
+| `ghost_of_arcadia.css` | All styling, themes (Dark / Light / Cyberpunk / Ancestry), CSS variables. Synced to the project |
+| `translation.json` | All i18n string keys used by `data-i18n` attributes. Synced to the project |
 | `sheet.json` | Roll20 sheet manifest: html/css names, authors, preview image, the `theme_mode` user option |
 | `README.md` | Public description of the sheet |
 | `Ghost_Logo.png`, `GoA_Preview.png` | Repository imagery (the preview is referenced from `sheet.json`) |
@@ -42,7 +42,7 @@ Paths are relative to the repository root (GitHub `Tetsemi/Ghost`, branch `Claud
 ## Workflow Rules
 
 ### File Handling
-- **Always copy from uploaded files** (`/mnt/user-data/uploads/`) at the start of every session. Never copy from `/mnt/project/` — that path may be stale and not reflect the user's latest edits. `ghost_of_arcadia.html`, `ghost_of_arcadia.css` and `translation.json` are not in the project at all (see *Files*), so a session without those three uploads has no sheet to work on. Say so rather than reconstructing them from search snippets.
+- **Always copy from uploaded files** (`/mnt/user-data/uploads/`) at the start of every session. Never copy from `/mnt/project/` — that path may be stale and not reflect the user's latest edits. `ghost_of_arcadia.html` is not in the project at all (see *Files*), so a session without that upload has no sheet to work on. Say so rather than reconstructing it from search snippets. `ghost_of_arcadia.css` and `translation.json` are synced, but the synced copy may be stale and is indexed as search chunks, not as a working file, so upload them whenever a change touches them.
 - **Never overwrite mid-session.** Once working files are copied at session start, do not re-copy from uploads or project again during the same session. Files uploaded *later* in a session that were not previously present (validation scripts, reference docs) are additions, not overwrites, and may be copied in freely.
 - **Deliver changes as outputs** from the working copies. The user merges outputs back into the project.
 - **Use `str_replace` for targeted edits** — never use large Python block replacements that reproduce entire file sections verbatim. Large replacements require matching the exact current file content and silently overwrite any user edits in that block if the match is stale.

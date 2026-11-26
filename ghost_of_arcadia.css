@@ -2991,6 +2991,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="backstory"] ~ .sheet-backstory,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="lifestyle"] ~ .sheet-lifestyle,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="npcs"] ~ .sheet-npcs,
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[value="changelog"] ~ .sheet-changelog,
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="vehicles"] ~ .sheet-vehicles {
 	display: block;
 }
@@ -3039,6 +3040,7 @@ select[name="attr_damage_bonus"] {
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="backstory"] ~ .sheet-tab-buttons button[name="act_backstory"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="lifestyle"] ~ .sheet-tab-buttons button[name="act_lifestyle"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="npcs"] ~ .sheet-tab-buttons button[name="act_npcs"],
+.ui-dialog .tab-content .charsheet .sheet-tab-controller[value="changelog"] ~ .sheet-tab-buttons button[name="act_changelog"],
 .ui-dialog .tab-content .charsheet .sheet-tab-controller[value="vehicles"] ~ .sheet-tab-buttons button[name="act_vehicles"] {
 	background-color: var(--cs_btn_active_bg);
 	color: var(--cs_btn_active_text);
@@ -13069,6 +13071,118 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 }
 
 /* --------------------------- NPC - End ------------------------------------------------------------*/
+
+/* ------------------------------------ Change Log - Start ------------------------------------ */
+/* Column widths sum to 813px: 125 + 60 + 90 + 150 + 200 + 188 */
+.ui-dialog .tab-content .charsheet .sheet-changelog {
+	background-color: var(--cs_bg_color);
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog .sheet-section {
+	background-color: var(--cs_ui_element_bg);
+	border-color: var(--cs_input_border);
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog-note {
+	padding: 4px 0;
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog-option {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 0 8px;
+	color: var(--cs_txt_primary);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog-header {
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text);
+	font-weight: bold;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog-header .flex-cell {
+	background-color: var(--cs_btn_inactive_bg);
+	color: var(--cs_btn_inactive_text);
+	text-align: center;
+}
+
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_changelog"] {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+/* The log is written by the sheet only, so rows are not added by hand. Delete stays available through Modify. */
+.ui-dialog .tab-content .charsheet .repcontainer[data-groupname="repeating_changelog"] ~ .repcontrol .repcontrol_add {
+	display: none;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-repeating-changelog-row {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: var(--cs_row_height);
+	padding: 0;
+	margin: 0;
+	gap: 0;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-when    { flex: 0 0 125px; }
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-by      { flex: 0 0 60px; }
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-area    { flex: 0 0 90px; }
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-change  { flex: 0 0 150px; }
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-subject { flex: 0 0 200px; }
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-detail  { flex: 0 0 188px; position: relative; overflow: visible; }
+
+.ui-dialog .tab-content .charsheet .sheet-changelog .flex-cell input[type="text"] {
+	width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
+}
+
+/* Detail cell: truncated preview, full text in the tooltip bubble */
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-detail .sheet-skill-tooltip {
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	align-items: stretch;
+	min-height: var(--cs_row_height);
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-detail .sheet-skill-tooltip-preview {
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding: 0 4px;
+	color: var(--cs_txt_primary);
+	cursor: help;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-detail .sheet-skill-tooltip-preview span {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.ui-dialog .tab-content .charsheet .sheet-changelog .changelog-detail .sheet-tooltip-bubble {
+	min-width: 280px;
+	max-width: 380px;
+	left: auto;
+	right: 0;
+	white-space: normal;
+	color: var(--cs_txt_primary);
+}
+/* ------------------------------------ Change Log - End ------------------------------------ */
 
 /* --------------------------- Vehicles - Start -------------------------------------------------------------*/
 

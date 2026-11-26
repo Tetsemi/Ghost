@@ -441,6 +441,7 @@
 			<button type="action" name="act_perks" data-i18n="perks-u">Perks</button>
 			<button type="action" name="act_flaws" data-i18n="flaws-u">Flaws</button>
 			<button type="action" name="act_npcs" data-i18n="npcs-u">NPCs</button>
+			<button type="action" name="act_changelog" data-i18n="changelog-u">Change Log</button>
 		</div>
 
 		<!-- -------------------------- SKILLS -------------------- -->
@@ -35147,6 +35148,44 @@
 			</div>
 		</div>
 
+		<!-- -------------------------- Change Log ------------------------- -->
+		<div class="sheet-tab-content sheet-changelog">
+			<h4 class="sheet-section-head" data-i18n="changelog-u">Change Log</h4>
+			<div class="sheet-section sheet-changelog-section">
+				<div class="sheet-changelog-note" data-i18n="changelog_note-u">Records ancestry, background, career, perk and flaw changes made after Character Creation is locked.</div>
+				<label class="sheet-changelog-option">
+					<input type="checkbox" name="attr_changelog_log_creation" value="1"/>
+					<span data-i18n="changelog_log_creation-u">Also log changes made during character creation</span>
+				</label>
+				<div class="sheet-changelog-header">
+					<div class="sheet-repeating-changelog-row">
+						<div class="flex-cell changelog-when" data-i18n="changelog_when-u">When (UTC)</div>
+						<div class="flex-cell changelog-by" data-i18n="changelog_by-u">By</div>
+						<div class="flex-cell changelog-area" data-i18n="changelog_area-u">Area</div>
+						<div class="flex-cell changelog-change" data-i18n="changelog_change-u">Change</div>
+						<div class="flex-cell changelog-subject" data-i18n="changelog_subject-u">Subject</div>
+						<div class="flex-cell changelog-detail" data-i18n="changelog_detail-u">Detail</div>
+					</div>
+				</div>
+				<fieldset class="repeating_changelog">
+					<input type="hidden" name="attr_log_time" value="0"/>
+					<div class="sheet-repeating-changelog-row">
+						<div class="flex-cell changelog-when"><input class="sheet-readonly" type="text" name="attr_log_when" readonly/></div>
+						<div class="flex-cell changelog-by"><input class="sheet-readonly" type="text" name="attr_log_by" readonly/></div>
+						<div class="flex-cell changelog-area"><input class="sheet-readonly" type="text" name="attr_log_area" readonly/></div>
+						<div class="flex-cell changelog-change"><input class="sheet-readonly" type="text" name="attr_log_change" readonly/></div>
+						<div class="flex-cell changelog-subject"><input class="sheet-readonly" type="text" name="attr_log_subject" readonly/></div>
+						<div class="flex-cell changelog-detail">
+							<div class="sheet-skill-tooltip has-notes">
+								<div class="sheet-skill-tooltip-preview"><span name="attr_log_detail_preview"></span></div>
+								<div class="sheet-tooltip-bubble"><span name="attr_log_detail"></span></div>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+
 	</div>
 
 </div>
@@ -67233,7 +67272,7 @@ let MIRROR_SKILL_INDEX = null;
 
 /* Initialization Section - Start  */
 
-const tabList = ["skills", "ancestry", "background", "careers", "summary_text", "summary_type", "tracker", "ledger", "combat", "spells", "cybertech", "gear", "inventory", "backstory", "lifestyle", "vehicles", "npcs","perks", "flaws" ];
+const tabList = ["skills", "ancestry", "background", "careers", "summary_text", "summary_type", "tracker", "ledger", "combat", "spells", "cybertech", "gear", "inventory", "backstory", "lifestyle", "vehicles", "npcs","perks", "flaws", "changelog" ];
 
 const registeredRaces = new Set();
 const registeredSkillHandlers = new Set();
@@ -69683,9 +69722,12 @@ const cleanupInactiveCareers = () => {
   if (debug_on_trace) console.log("[cleanupInactiveCareers] Start");
 
   const readyKeys = Object.keys(careerDataMap).map(c => `${c}_ready`);
+	// The talent checkboxes are read too, so the Change Log can record which ticked talents the clear removes
+	const talentKeys = Object.keys(careerDataMap).flatMap(c => Object.keys(careerDataMap[c].talents || {}).map(t => `${c}_${t}`));
 
-  getAttrs(readyKeys, values => {
+  getAttrs([...readyKeys, ...talentKeys], values => {
     const updates = {};
+	const clearedLog = [];
 
     Object.keys(careerDataMap).forEach(career => {
       const isReady = values[`${career}_ready`] === "1";
@@ -69703,6 +69745,17 @@ const cleanupInactiveCareers = () => {
 
       // --- Clear talents + their trackers (reveal + used) and gates ---
       const talents = careerDataMap[career].talents || {};
+		// One summary row per career, only when the clear actually removes ticked talents (idempotent: a second clear finds none)
+		const tickedTalents = Object.keys(talents).filter(t => values[`${career}_${t}`] === "1");
+		if (tickedTalents.length) {
+			clearedLog.push({
+				by: "player",
+				area: "career",
+				change: "cleared",
+				subject: changeLogCareerLabel(career),
+				detail: `${tickedTalents.length} ${tr("changelog_detail_talents-u")}: ${tickedTalents.map(t => changeLogLabel(talents[t].name_key, t)).join(", ")}`
+			});
+		}
       Object.entries(talents).forEach(([talentKey, meta = {}]) => {
         // Uncheck the talent itself
         updates[`${career}_${talentKey}`] = "0";
@@ -69728,6 +69781,7 @@ const cleanupInactiveCareers = () => {
     });
 
     if (debug_on) console.log("[Career Cleanup] Inactive careers cleared:", updates);
+	logChange(clearedLog);
 
     // Silent batch — fire recalc tick only after attrs have landed
     setAttrs(updates, { silent: true }, () => {
@@ -70443,6 +70497,7 @@ const bootstrapGlobalWatchersOnce = () => {
   registerBackgroundTabWatchers();
   registerPerkSummaryWatcher();
   registerFlawSummaryWatcher();
+  registerChangeLogWatchers();
 
   registerCareerTalentSummaryWatcher();
   registerMirrorSkillWatcher();
@@ -79121,6 +79176,168 @@ on("remove:repeating_safehouses", () => {
 	recalcLifestyleTotals();
 });
 
+
+
+/* ============================================================
+	CHANGE LOG
+	A player-visible record of ancestry, background, career, perk and flaw changes.
+	Rows live in repeating_changelog and are written only by logChange.
+	Logged once Character Creation is locked, or always when the player ticks
+	changelog_log_creation; opts.always bypasses both (migrations and reconcilers).
+	Display text is resolved through tr() when the row is written, so a later
+	rename or language change never rewrites history. All writes are silent: no
+	watcher reads this section.
+	============================================================ */
+const CHANGELOG_MAX_ROWS = 300;
+
+const changeLogLabel = (key, fallback) => {
+	const t = tr(key);
+	return (t && t !== key) ? t : (fallback || key || "");
+};
+
+const changeLogCareerLabel = (career) => changeLogLabel(`${career}-u`, careerDataMap[career]?.name || career);
+
+const changeLogAncestryLabel = (race) => changeLogLabel(`${race}-u`, ancestryDataMap[race]?.label || race);
+
+const changeLogBackgroundLabel = (bg) => changeLogLabel(backgroundDataMap[bg]?.name, bg);
+
+const changeLogCostText = (cost) => (cost === undefined || cost === null || cost === "") ? "" : ` - ${cost} ${tr("changelog_xp-u")}`;
+
+/* Remove the oldest rows past the cap. Age comes from the stored timestamp, not from row order. */
+const pruneChangeLog = () => {
+	getSectionIDs("repeating_changelog", (ids) => {
+		if (ids.length <= CHANGELOG_MAX_ROWS) return;
+		const keys = ids.map(id => `repeating_changelog_${id}_log_time`);
+		getAttrs(keys, (v) => {
+			const age = (id) => parseInt(v[`repeating_changelog_${id}_log_time`], 10) || 0;
+			ids.slice().sort((a, b) => age(a) - age(b))
+				.slice(0, ids.length - CHANGELOG_MAX_ROWS)
+				.forEach(id => removeRepeatingRow(`repeating_changelog_${id}`));
+		});
+	});
+};
+
+/* entries: [{ by: "player" | "sheet", area, change, subject, detail }] where area and change are the
+	suffixes of the changelog_area_* / changelog_change_* translation keys. */
+const logChange = (entries, opts = {}) => {
+	if (!entries || !entries.length) return;
+	getAttrs(["char_creation_lock", "changelog_log_creation"], (v) => {
+		const enabled = opts.always === true || v.char_creation_lock === "1" || v.changelog_log_creation === "1";
+		if (!enabled) return;
+		const now = new Date();
+		const iso = now.toISOString();
+		const when = `${iso.slice(0, 10)} ${iso.slice(11, 16)}`;
+		const attrs = {};
+		entries.forEach((e, i) => {
+			const p = `repeating_changelog_${generateRowID()}_`;
+			const detail = e.detail || "";
+			attrs[p + "log_time"] = String(now.getTime() + i);
+			attrs[p + "log_when"] = when;
+			attrs[p + "log_by"] = tr(e.by === "player" ? "changelog_by_player-u" : "changelog_by_sheet-u");
+			attrs[p + "log_area"] = tr(`changelog_area_${e.area}-u`);
+			attrs[p + "log_change"] = tr(`changelog_change_${e.change}-u`);
+			attrs[p + "log_subject"] = e.subject || "";
+			attrs[p + "log_detail"] = detail;
+			attrs[p + "log_detail_preview"] = detail;
+		});
+		setAttrs(attrs, { silent: true }, () => pruneChangeLog());
+	});
+};
+
+/* Resolve a ticked attr to its area, display name and detail, or null when it is not a logged talent. */
+const changeLogDescribeToggle = (attr) => {
+	if (attr.startsWith("perk_")) {
+		const key = attr.slice(5);
+		const d = perkDataMap[key];
+		return d ? { area: "perk", subject: changeLogLabel(d.name, key), detail: changeLogCostText(d.cost).slice(3) } : null;
+	}
+	if (attr.startsWith("flaw_")) {
+		const key = attr.slice(5);
+		const d = flawDataMap[key];
+		return d ? { area: "flaw", subject: changeLogLabel(d.name, key), detail: changeLogCostText(d.cost).slice(3) } : null;
+	}
+	const career = getCareerKeyFromSourceAttr(attr);
+	if (career) {
+		const t = careerDataMap[career].talents?.[attr.slice(career.length + 1)];
+		return t ? {
+			area: "career",
+			subject: changeLogLabel(t.name_key, attr),
+			detail: `${changeLogCareerLabel(career)} - ${tr("changelog_tier-u")} ${t.tier}${changeLogCostText(t.cost)}`
+		} : null;
+	}
+	const race = attr.split("_")[0];
+	const rt = ancestryDataMap[race]?.talents?.[attr.slice(race.length + 1)];
+	return rt ? {
+		area: "ancestry",
+		subject: changeLogLabel(rt.name_key, attr),
+		detail: `${changeLogAncestryLabel(race)} - ${tr("changelog_tier-u")} ${rt.tier}${changeLogCostText(rt.cost)}`
+	} : null;
+};
+
+/* Resolve a selection attr to its area and a value-to-label function, or null when it is not logged. */
+const changeLogDescribeSelection = (attr) => {
+	if (attr === "showracials") return { area: "ancestry", label: changeLogAncestryLabel };
+	if (attr === "background_choice") return { area: "background", label: changeLogBackgroundLabel };
+	if (attr === "primary_career" || /^repeating_secondarycareer_[^_]+_secondary_career$/.test(attr)) {
+		return { area: "career", label: changeLogCareerLabel };
+	}
+	const m = attr.match(/^bg_([^_]+)_talent$/);
+	if (m && ancestryDataMap[m[1]]) {
+		return { area: "background", label: (v) => changeLogLabel(ancestryDataMap[m[1]].talents?.[v]?.name_key, v) };
+	}
+	return null;
+};
+
+const registerChangeLogWatchers = () => {
+	if (debug_on_trace) console.log("[registerChangeLogWatchers] Start");
+	const byOf = (eventInfo) => eventInfo?.sourceType === "player" ? "player" : "sheet";
+
+	/* Ticks and unticks: career and ancestry talents, perks and flaws. The only inputs are the event
+	   fields, so this handler has no ordering dependency on the handlers that recompute enables and locks. */
+	const toggleEvents = [
+		careerTalentEvents,
+		...Object.entries(ancestryDataMap).flatMap(([race, d]) => Object.keys(d.talents || {}).map(t => `change:${race}_${t}`)),
+		...Object.keys(perkDataMap).map(k => `change:perk_${k}`),
+		...Object.keys(flawDataMap).map(k => `change:flaw_${k}`)
+	].join(" ");
+	on(toggleEvents, (eventInfo) => {
+		const prev = eventInfo.previousValue;
+		const next = eventInfo.newValue;
+		const change = (next === "1" && prev !== "1") ? "acquired" : ((prev === "1" && next !== "1") ? "removed" : "");
+		if (!change) return;
+		const d = changeLogDescribeToggle(eventInfo.sourceAttribute || "");
+		if (!d) return;
+		logChange([{ by: byOf(eventInfo), area: d.area, change, subject: d.subject, detail: d.detail }]);
+	});
+
+	/* Selections: ancestry, background, primary and secondary career, background talent. */
+	const selectionEvents = [
+		"change:showracials",
+		"change:background_choice",
+		"change:primary_career",
+		"change:repeating_secondarycareer:secondary_career",
+		...Object.keys(ancestryDataMap).map(r => `change:bg_${r}_talent`)
+	].join(" ");
+	on(selectionEvents, (eventInfo) => {
+		const prev = eventInfo.previousValue || "";
+		const next = eventInfo.newValue || "";
+		if (prev === next) return;
+		const d = changeLogDescribeSelection(eventInfo.sourceAttribute || "");
+		if (!d) return;
+		const change = !prev ? "added" : (!next ? "removed" : "changed");
+		const shown = (v) => v ? d.label(v) : "-";
+		logChange([{ by: byOf(eventInfo), area: d.area, change, subject: d.label(next || prev), detail: `${shown(prev)} -> ${shown(next)}` }]);
+	});
+
+	/* A secondary career row deleted by the player. */
+	on("remove:repeating_secondarycareer", (eventInfo) => {
+		const info = eventInfo?.removedInfo || {};
+		const attr = Object.keys(info).find(k => /_secondary_career$/.test(k));
+		const career = attr ? (info[attr] || "") : "";
+		if (!career) return;
+		logChange([{ by: byOf(eventInfo), area: "career", change: "removed", subject: changeLogCareerLabel(career), detail: changeLogCareerLabel(career) }]);
+	});
+};
 
 /*	Watchers Section - End */
 </script>

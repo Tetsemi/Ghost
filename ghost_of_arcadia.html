@@ -25980,6 +25980,7 @@
 							<!-- - career_arcane_gunslinger_bound_reload (10 XP, scene) -->
 							<!-- - career_arcane_gunslinger_break_contact (30 XP, scene) -->
 							<!-- - career_arcane_gunslinger_chain_shot (30 XP, scene) -->
+							<!-- - career_arcane_gunslinger_disruptive_round (20 XP, scene, counter) -->
 							<!-- - career_arcane_gunslinger_flicker_ward (20 XP, scene) -->
 							<!-- - career_arcane_gunslinger_rangefold_step (20 XP, scene) -->
 							<!-- - career_arcane_gunslinger_short_fold (30 XP, scene) -->
@@ -26004,6 +26005,13 @@
 							<div class="sheet-tracker-item sheet-tracker-scene sheet-arcane_gunslinger-chain-shot">
 								<input type="checkbox" name="attr_used_scene_arcane_gunslinger_chain_shot" class="sheet-tracker-checkbox"/>
 								<span class="sheet-tracker-label" data-i18n="career_arcane_gunslinger_chain_shot-u"></span>
+							</div>
+
+							<!-- Tracker Career Talent: Disruptive Round | key: disruptive_round | cost: 20 XP | cadence: scene | tracker: counter | attrs: attr_show_arcane_gunslinger_disruptive_round, attr_used_scene_arcane_gunslinger_disruptive_round | i18n: career_arcane_gunslinger_disruptive_round-u -->
+							<input type="hidden" name="attr_show_arcane_gunslinger_disruptive_round"/>
+							<div class="sheet-tracker-item sheet-tracker-scene sheet-arcane_gunslinger-disruptive-round">
+								<span class="sheet-tracker-label" data-i18n="career_arcane_gunslinger_disruptive_round-u"></span>
+								<input type="number" name="attr_used_scene_arcane_gunslinger_disruptive_round" class="sheet-tracker-counter" value="0" min="0" step="1"/>
 							</div>
 
 							<!-- Tracker Career Talent: Flicker Ward | key: flicker_ward | cost: 20 XP | cadence: scene | attrs: attr_show_arcane_gunslinger_flicker_ward, attr_used_scene_arcane_gunslinger_flicker_ward | i18n: career_arcane_gunslinger_flicker_ward-u -->
@@ -52374,7 +52382,8 @@ const careerDataMap = {
 				rule_text_key: "career_arcane_gunslinger_disruptive_round_rules-u",
 				type: { economy: "maneuver", tag: "infuse" },
 				strain: "1d4",
-				usage_limit: "",
+				usage_limit: "scene",
+				usage_tracker: "counter",
 				affected_skill: [],
 				prerequisite: "arcane_cartridge"
 			},
@@ -69959,6 +69968,35 @@ const getUsageLimitedTalentNames = (limitType) => {
   return names;
 };
 
+/* Shared-use groups. Talents under one owner (a career, or an ancestry's talents or traits) that carry the same
+   usage_group share a single use per cadence: ticking one marks the others used. Built from the DataMaps, so it
+   cannot fall behind them. Maps each tracked attr to the attrs of its siblings; a group of one has no siblings
+   and is treated as ungrouped. Declared after getUsageLimitedTalentNames and its DataMaps, before the tracker
+   handler that reads it. */
+const usageGroupSiblings = (() => {
+  const index = {};
+  const collect = (owner, talents) => {
+    const byGroup = {};
+    Object.entries(talents || {}).forEach(([key, t]) => {
+      const g = t?.usage_group;
+      if (!g) return;
+      if (!byGroup[g]) byGroup[g] = [];
+      byGroup[g].push(key);
+    });
+    Object.values(byGroup).forEach((keys) => {
+      ["long_rest", "scene", "session"].forEach((cadence) => {
+        const attrs = keys
+          .filter((k) => hasLimit(talents[k]?.usage_limit ?? "", cadence))
+          .map((k) => `used_${cadence}_${owner}_${k}`);
+        attrs.forEach((a) => { index[a] = attrs.filter((b) => b !== a); });
+      });
+    });
+  };
+  Object.entries(careerDataMap).forEach(([career, d]) => collect(career, d?.talents));
+  Object.entries(ancestryDataMap).forEach(([race, d]) => { collect(race, d?.talents); collect(race, d?.traits); });
+  return index;
+})();
+
 const recalcArmorTotals = () => {
   const staticKeys = [
     "showracials",
@@ -74780,8 +74818,12 @@ function resolveDiceExpr(expr) {
 }
 
 // Main tracker strain handler
-function handleTrackerStrainDeduction(attrName) {
+function handleTrackerStrainDeduction(attrName, opts) {
   if (debug_on) console.log("[handleTrackerStrainDeduction] Start:", attrName);
+  // A checkbox is one use and resets to "0" if blocked; a counter passes the uses added and the count to restore
+  const uses     = Math.max(1, parseInt(opts?.uses, 10) || 1);
+  const restore  = opts?.restore ?? "0";
+  const useLabel = uses > 1 ? ` ×${uses}` : "";
 																												 
   // Guard: skip if clear is in progress
   getAttrs(["clearing_tracker"], (flagVals) => {
@@ -74821,19 +74863,19 @@ function handleTrackerStrainDeduction(attrName) {
       if (curStrain <= 0) {
         const blockedMsg = `&{template:coc-dice-roll} {{name=${tr("perk_roll_cannot_activate-u")}\n${charName} is ${getConditionLabel("exhausted")}\n${tr("strain-u")}: (${strainStr || 0})}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${displayName} ${tr("perk_roll_not_activated-u")}}}`;
         startRoll(blockedMsg, (r) => { finishRoll(r.rollId); });
-        setAttrs({ [attrName]: "0" });
+        setAttrs({ [attrName]: restore });
         return;
       }
 
       if (parsed.isFixed) {
         // Fixed cost — no roll needed
-        const cost      = parsed.fixedVal;
+        const cost      = parsed.fixedVal * uses;
         const rawNew    = curStrain - cost;
         const newStrain = Math.max(rawNew, 0);
 
         setAttrs({ strain: newStrain });
         startRoll(
-          `&{template:coc-dice-roll} {{name=${charName} ${tr("perk_roll_uses-u")} ${displayName}\n(${typeLabel})\n${tr("strain-u")}: (${cost})}} {{modifier=[[0]]}} {{diceroll=[[${cost}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
+          `&{template:coc-dice-roll} {{name=${charName} ${tr("perk_roll_uses-u")} ${displayName}${useLabel}\n(${typeLabel})\n${tr("strain-u")}: (${cost})}} {{modifier=[[0]]}} {{diceroll=[[${cost}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
           (r) => { finishRoll(r.rollId); }
         );
 
@@ -74850,13 +74892,14 @@ function handleTrackerStrainDeduction(attrName) {
       } else {
         // Dice expression — resolve with Math.random(), single clean message
         const rollExpr = parsed.diceExpr;
-        const rolled    = resolveDiceExpr(rollExpr);
+        const exprLabel = uses > 1 ? `${uses} × ${rollExpr}` : rollExpr;
+        const rolled    = Array.from({ length: uses }, () => resolveDiceExpr(rollExpr)).reduce((a, b) => a + b, 0);
         const rawNew    = curStrain - rolled;
         const newStrain = Math.max(rawNew, 0);
 
         setAttrs({ strain: newStrain });
         startRoll(
-          `&{template:coc-dice-roll} {{name=${charName} ${tr("perk_roll_uses-u")} ${displayName}\n(${typeLabel})\n${tr("strain-u")}: (${rollExpr})}} {{modifier=[[0]]}} {{diceroll=[[${rolled}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
+          `&{template:coc-dice-roll} {{name=${charName} ${tr("perk_roll_uses-u")} ${displayName}${useLabel}\n(${typeLabel})\n${tr("strain-u")}: (${exprLabel})}} {{modifier=[[0]]}} {{diceroll=[[${rolled}]]}} {{remaining_strain=[[${newStrain}]]}} {{remaining_strain_max=[[${maxStrain}]]}}`,
           (r) => { finishRoll(r.rollId); }
         );
 
@@ -77101,14 +77144,44 @@ on(trackerChangeEvent, (eventInfo) => {
   if (debug_on) console.log("[trackerStrainWorker] Event fired:", source, "newValue:", eventInfo?.newValue);
   if (!source) return;
 
-  // Only fire on check (0→1), not uncheck — use newValue directly, no getAttrs needed
-  const newVal = eventInfo?.newValue ?? eventInfo?.newValue;
-  if (newVal !== "1" && newVal !== 1 && newVal !== "on") {
-    if (debug_on) console.log("[trackerStrainWorker] Skipping — uncheck or non-active value:", newVal);
+  const newVal = eventInfo?.newValue;
+
+  // Counter talents (usage_tracker: "counter"): every step up is one use, charged once per step.
+  // A step down or a clear costs nothing and refunds nothing, as unticking a checkbox does.
+  if (lookupTalentData(source)?.talent?.usage_tracker === "counter") {
+    const next = parseInt(newVal, 10) || 0;
+    const prev = parseInt(eventInfo?.previousValue, 10) || 0;
+    if (next <= prev) {
+      if (debug_on) console.log("[trackerStrainWorker] Counter did not increase:", prev, "->", next);
+      return;
+    }
+    handleTrackerStrainDeduction(source, { uses: next - prev, restore: String(prev) });
     return;
   }
 
-  handleTrackerStrainDeduction(source);
+  // Checkbox talents: fire on check (0→1), not uncheck — use newValue directly, no getAttrs needed
+  const ticked = newVal === "1" || newVal === 1 || newVal === "on";
+  const siblings = usageGroupSiblings[source] || [];
+  if (!siblings.length) {
+    if (!ticked) {
+      if (debug_on) console.log("[trackerStrainWorker] Skipping — uncheck or non-active value:", newVal);
+      return;
+    }
+    handleTrackerStrainDeduction(source);
+    return;
+  }
+
+  // Shared-use group: one use serves every member. Ticking one marks the others used and unticking any clears
+  // them all. The propagated writes are silent so they post no chat line and charge no Strain; only the talent
+  // the player ticked pays. Skipped while a Clear is running, which is already resetting every box.
+  getAttrs(["clearing_tracker"], (g) => {
+    if (g.clearing_tracker === "1") return;
+    const updates = {};
+    siblings.forEach((a) => { updates[a] = ticked ? "1" : "0"; });
+    setAttrs(updates, { silent: true }, () => {
+      if (ticked) handleTrackerStrainDeduction(source);
+    });
+  });
 });
 
 // Watch strain for Exhausted/Tired application and removal

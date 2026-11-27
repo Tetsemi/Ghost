@@ -26010,8 +26010,9 @@
 							<!-- Tracker Career Talent: Disruptive Round | key: disruptive_round | cost: 20 XP | cadence: scene | tracker: counter | attrs: attr_show_arcane_gunslinger_disruptive_round, attr_used_scene_arcane_gunslinger_disruptive_round | i18n: career_arcane_gunslinger_disruptive_round-u -->
 							<input type="hidden" name="attr_show_arcane_gunslinger_disruptive_round"/>
 							<div class="sheet-tracker-item sheet-tracker-scene sheet-arcane_gunslinger-disruptive-round">
+								<input type="checkbox" name="attr_used_scene_arcane_gunslinger_disruptive_round" class="sheet-tracker-checkbox"/>
 								<span class="sheet-tracker-label" data-i18n="career_arcane_gunslinger_disruptive_round-u"></span>
-								<input type="number" name="attr_used_scene_arcane_gunslinger_disruptive_round" class="sheet-tracker-counter" value="0" min="0" step="1"/>
+								<input type="number" name="attr_used_scene_arcane_gunslinger_disruptive_round_uses" class="sheet-tracker-counter" value="0" min="1" step="1"/>
 							</div>
 
 							<!-- Tracker Career Talent: Flicker Ward | key: flicker_ward | cost: 20 XP | cadence: scene | attrs: attr_show_arcane_gunslinger_flicker_ward, attr_used_scene_arcane_gunslinger_flicker_ward | i18n: career_arcane_gunslinger_flicker_ward-u -->
@@ -69883,6 +69884,11 @@ const cleanupInactiveCareers = () => {
           updates[`used_scene_${career}_${talentKey}`] = "0";
         }
 
+        // A counted talent keeps its use count beside the box; this batch is silent, so zero it here
+        if (meta?.usage_tracker === "counter") {
+          ["session", "scene"].forEach((c) => { if (hasLimit(lim, c)) updates[`used_${c}_${career}_${talentKey}_uses`] = "0"; });
+        }
+
         // Reset gates so nothing remains visually enabled/locked for an inactive career
         updates[`${career}_${talentKey}_enabled`] = "0";
         updates[`${career}_${talentKey}_lockflag`] = "0";
@@ -71202,7 +71208,9 @@ const allTrackerAttrs = [
   ...getUsageLimitedTalentNames("session")
 ];
 
-const trackerChangeEvent = allTrackerAttrs
+const trackerCounterAttrs = allTrackerAttrs.filter(a => lookupTalentData(a)?.talent?.usage_tracker === "counter");
+
+const trackerChangeEvent = [...allTrackerAttrs, ...trackerCounterAttrs.map(a => `${a}_uses`)]
   .map(a => `change:${a}`)
   .join(" ");
 
@@ -74820,9 +74828,10 @@ function resolveDiceExpr(expr) {
 // Main tracker strain handler
 function handleTrackerStrainDeduction(attrName, opts) {
   if (debug_on) console.log("[handleTrackerStrainDeduction] Start:", attrName);
-  // A checkbox is one use and resets to "0" if blocked; a counter passes the uses added and the count to restore
+  // A checkbox is one use and resets to "0" if blocked; a counter passes the uses added, the count to restore and the attr holding it
   const uses     = Math.max(1, parseInt(opts?.uses, 10) || 1);
   const restore  = opts?.restore ?? "0";
+  const restoreAttr = opts?.restoreAttr ?? attrName;
   const useLabel = uses > 1 ? ` ×${uses}` : "";
 																												 
   // Guard: skip if clear is in progress
@@ -74863,7 +74872,7 @@ function handleTrackerStrainDeduction(attrName, opts) {
       if (curStrain <= 0) {
         const blockedMsg = `&{template:coc-dice-roll} {{name=${tr("perk_roll_cannot_activate-u")}\n${charName} is ${getConditionLabel("exhausted")}\n${tr("strain-u")}: (${strainStr || 0})}} {{modifier=[[0]]}} {{diceroll=[[0]]}} {{result=${displayName} ${tr("perk_roll_not_activated-u")}}}`;
         startRoll(blockedMsg, (r) => { finishRoll(r.rollId); });
-        setAttrs({ [attrName]: restore });
+        setAttrs({ [restoreAttr]: restore });
         return;
       }
 
@@ -77146,21 +77155,35 @@ on(trackerChangeEvent, (eventInfo) => {
 
   const newVal = eventInfo?.newValue;
 
-  // Counter talents (usage_tracker: "counter"): every step up is one use, charged once per step.
-  // A step down or a clear costs nothing and refunds nothing, as unticking a checkbox does.
-  if (lookupTalentData(source)?.talent?.usage_tracker === "counter") {
+  // Counter talents (usage_tracker: "counter") keep a checkbox plus a number, `<box attr>_uses`.
+  // The number moves only once the box is ticked, so a step up from n to m is (m - n) further uses,
+  // charged once each. A step down or a clear costs nothing and refunds nothing, as unticking a checkbox does.
+  if (source.endsWith("_uses")) {
+    const box = source.slice(0, -"_uses".length);
+    if (lookupTalentData(box)?.talent?.usage_tracker !== "counter") return;
     const next = parseInt(newVal, 10) || 0;
     const prev = parseInt(eventInfo?.previousValue, 10) || 0;
     if (next <= prev) {
       if (debug_on) console.log("[trackerStrainWorker] Counter did not increase:", prev, "->", next);
       return;
     }
-    handleTrackerStrainDeduction(source, { uses: next - prev, restore: String(prev) });
+    handleTrackerStrainDeduction(box, { uses: next - prev, restore: String(prev), restoreAttr: source });
     return;
   }
 
   // Checkbox talents: fire on check (0→1), not uncheck — use newValue directly, no getAttrs needed
   const ticked = newVal === "1" || newVal === 1 || newVal === "on";
+
+  // Ticking a counter talent's box is its first use: the count becomes 1 (silently, so the count's own handler
+  // does not charge it a second time) and the box pays once. Unticking, or a Clear, zeroes the count with no refund.
+  // A blocked use resets the box to "0", which comes back through here and zeroes the count.
+  if (lookupTalentData(source)?.talent?.usage_tracker === "counter") {
+    setAttrs({ [`${source}_uses`]: ticked ? "1" : "0" }, { silent: true }, () => {
+      if (ticked) handleTrackerStrainDeduction(source);
+    });
+    return;
+  }
+
   const siblings = usageGroupSiblings[source] || [];
   if (!siblings.length) {
     if (!ticked) {

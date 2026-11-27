@@ -9299,12 +9299,17 @@ input[name="attr_weapon1_mdr_cap_display"][value="e15"] ~ .weapon-cap-cell .cap-
 /* sheet-tracker-campaign — campaign-duration modifier on sheet-tracker-item */
 .ui-dialog .tab-content .charsheet .sheet-tracker-campaign { }
 
-/* sheet-tracker-counter — number input that replaces the checkbox on a counted talent (usage_tracker: "counter") */
+/* sheet-tracker-counter — use count that follows a counted talent's checkbox (usage_tracker: "counter");
+   it appears once the box is ticked, and the box and count are siblings, so :checked can reach it */
 .ui-dialog .tab-content .charsheet .sheet-tracker-item input.sheet-tracker-counter {
+	display: none;
 	flex: 0 0 auto;
 	width: 42px;
 	min-width: 0;
 	text-align: center;
+}
+.ui-dialog .tab-content .charsheet .sheet-tracker-item input.sheet-tracker-checkbox:checked ~ input.sheet-tracker-counter {
+	display: block;
 }
 
 /* Flaws Tracker - Scene */
